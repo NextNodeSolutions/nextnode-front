@@ -1,8 +1,12 @@
 {
 	"name": "@nextnode/nextnode-front",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"description": "Nextnode company homepage developed with Astro",
-	"keywords": ["astro", "frontend", "webapp"],
+	"keywords": [
+		"astro",
+		"frontend",
+		"webapp"
+	],
 	"license": "MIT",
 	"author": "Nextnode",
 	"scripts": {
