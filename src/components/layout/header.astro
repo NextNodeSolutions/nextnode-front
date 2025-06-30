@@ -1,0 +1,47 @@
+---
+import { cn } from '@/lib/utils'
+import Navigation from './header/navigation.astro'
+import Controls from './header/controls.astro'
+import Logo from './header/logo.astro'
+import MobileButton from './header/mobile-button.astro'
+import MobileMenu from './header/mobile-menu.astro'
+import { navigationLinks } from '@/lib/constants'
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-300" id="header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-12 transition-all duration-300">
+      <Logo />
+
+      <div class="hidden md:flex items-center space-x-6">
+        <Controls />
+        <Navigation links={navigationLinks} />
+      </div>
+
+      <MobileButton action="open" />
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <MobileMenu links={navigationLinks} />
+</header>
+
+<script>
+  // Mobile menu toggle functionality
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      const isVisible = mobileMenu.classList.contains('opacity-100');
+      
+      if (isVisible) {
+        mobileMenu.classList.add('opacity-0', 'invisible');
+        mobileMenu.classList.remove('opacity-100', 'visible');
+      } else {
+        mobileMenu.classList.remove('opacity-0', 'invisible');
+        mobileMenu.classList.add('opacity-100', 'visible');
+      }
+    });
+  }
+</script> 
