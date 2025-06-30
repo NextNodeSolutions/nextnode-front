@@ -4,7 +4,7 @@ export default defineConfig({
 	test: {
 		environment: 'jsdom',
 		coverage: {
-			provider: 'istanbul',
+			provider: 'v8',
 			reporter: [
 				[
 					'json',

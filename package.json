@@ -55,7 +55,6 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
-    "@vitest/coverage-istanbul": "^3.2.4",
     "@vitest/coverage-v8": "^3.1.4",
     "better-sort-package-json": "^1.1.1",
     "eslint": "^9.27.0",
