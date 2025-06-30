@@ -1,139 +1,146 @@
-# "@nextnode/nextnode-front"
+# Nextnode Front - Creative Agency Website
 
-"Official landing page and portfolio for Nextnode, built with Astro JS to showcase our company, services, and projects."
+Official website and portfolio for Nextnode, built with Astro JS to showcase our company, services, and projects.
 
-## Installation
+## 🚀 About
 
+Nextnode is a creative agency specialized in custom web development and ultra-fast deployment on private cloud. Our website showcases our custom web development services and digital innovation expertise.
+
+## 🛠️ Technologies Used
+
+- **[Astro](https://astro.build)** - Modern web framework for performant static sites
+- **[React](https://react.dev)** - For interactive components
+- **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework
+- **[TypeScript](https://www.typescriptlang.org)** - Static typing
+- **[Radix UI](https://www.radix-ui.com)** - Accessible UI components
+- **[Lucide React](https://lucide.dev)** - Modern icons
+- **[Vitest](https://vitest.dev)** - Testing framework
+- **[Biome](https://biomejs.dev)** - Code linter and formatter
+
+## 📋 Prerequisites
+
+- Node.js >= 20.0.0
+- pnpm >= 10.11.0
+
+## 🚀 Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd nextnode-front
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+## 🎯 Available Scripts
+
+### Development
 ```bash
-npm install "@nextnode/nextnode-front"
+# Start development server
+pnpm dev
+
+# Type check with TypeScript
+pnpm type-check
 ```
 
-Or with pnpm:
-
+### Build and deployment
 ```bash
-pnpm add "@nextnode/nextnode-front"
+# Build project for production
+pnpm build
+
+# Preview production build
+pnpm preview
 ```
 
-## Usage
-
-### Basic Setup
-
-```typescript
-import { NextnodeClient } from '"@nextnode/nextnode-front"';
-
-// Initialize the client
-const client = new NextnodeClient({
-  apiKey: 'your-api-key',
-  baseUrl: 'https://api.nextnode.com', // optional, defaults to this
-  timeout: 30000 // optional, defaults to 30 seconds
-});
-```
-
-### Execute a Function
-
-```typescript
-// Execute a function
-const result = await client.executeFunction({
-  functionName: 'my-function',
-  payload: {
-    key: 'value',
-    data: [1, 2, 3]
-  },
-  headers: {
-    'Custom-Header': 'value'
-  }
-});
-
-if (result.success) {
-  console.log('Function result:', result.data);
-} else {
-  console.error('Function error:', result.error);
-}
-```
-
-### Configuration Management
-
-```typescript
-// Update configuration
-client.updateConfig({
-  apiKey: 'new-api-key',
-  timeout: 60000
-});
-
-// Get current configuration
-const config = client.getConfig();
-console.log('Current config:', config);
-```
-
-## API Reference
-
-### NextnodeClient
-
-#### Constructor
-
-```typescript
-new NextnodeClient(config?: NextnodeConfig)
-```
-
-#### Methods
-
-- `executeFunction<T>(request: FunctionRequest): Promise<FunctionResponse<T>>` - Execute a function
-- `updateConfig(newConfig: Partial<NextnodeConfig>): void` - Update client configuration
-- `getConfig(): NextnodeConfig` - Get current configuration
-
-### Types
-
-#### NextnodeConfig
-
-```typescript
-interface NextnodeConfig {
-  apiKey?: string;
-  baseUrl?: string;
-  timeout?: number;
-}
-```
-
-#### FunctionRequest
-
-```typescript
-interface FunctionRequest {
-  functionName: string;
-  payload?: Record<string, any>;
-  headers?: Record<string, string>;
-}
-```
-
-#### FunctionResponse
-
-```typescript
-interface FunctionResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  statusCode: number;
-}
-```
-
-## Development
-
-### Building
-
+### Code quality
 ```bash
-npm run build
+# Lint code
+pnpm lint
+
+# Fix linting errors automatically
+pnpm lint:fix
+
+# Format code with Biome
+pnpm format
 ```
 
-### Development Mode
-
+### Testing
 ```bash
-npm run dev
+# Run tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Run tests with coverage
+pnpm test:coverage
+
+# UI for tests
+pnpm test:ui
 ```
 
-### Publishing
-
+### Version management
 ```bash
-npm publish
+# Create a changeset
+pnpm changeset
+
+# Version packages
+pnpm changeset:version
+
+# Publish packages
+pnpm changeset:publish
 ```
 
-## License
+## 📁 Project Structure
 
-ISC
+```
+src/
+├── components/          # Reusable components
+│   ├── common/         # Common components
+│   ├── layout/         # Layout components
+│   ├── marketing/      # Marketing components
+│   └── ui/             # Base UI components
+├── layouts/            # Astro layouts
+├── lib/                # Utilities and constants
+├── pages/              # Site pages
+└── styles/             # Global styles
+```
+
+## 🌐 Configuration
+
+The project uses the following environment variables:
+
+- `HOST` - Server host (default: `0.0.0.0`)
+- `PORT` - Server port (default: `4321`)
+- `URL` - Site URL
+
+## 🧪 Testing
+
+The project uses Vitest for unit and component testing. Tests are configured to work with React Testing Library and jsdom.
+
+## 📦 Deployment
+
+The project is configured with Astro's Node.js adapter for standalone deployment.
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+## 👥 Team
+
+- **Nextnode** - Creative agency specialized in web development
+
+---
+
+Built with ❤️ by the Nextnode team
