@@ -1,0 +1,26 @@
+---
+import { cn } from '@/lib/utils'
+
+interface Props {
+	links: { href: string; label: string }[]
+	variant?: 'desktop' | 'mobile'
+}
+
+const { links, variant = 'desktop' } = Astro.props
+---
+
+<nav class={cn(
+  variant === 'desktop' ? 'hidden md:flex items-center space-x-6' : 'flex-1 p-4 space-y-4'
+)}>
+  {links.map((link) => (
+    <a
+      href={link.href}
+      class={cn(
+        "text-gray-600 hover:text-gray-900 transition-all duration-300",
+        variant === 'desktop' ? "relative px-1.5 py-0.5 rounded-md text-sm hover:bg-gray-100" : "block hover:translate-x-2"
+      )}
+    >
+      {link.label}
+    </a>
+  ))}
+</nav> 

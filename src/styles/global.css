@@ -1,83 +1,120 @@
 @import "tailwindcss";
 
 @theme {
-  --color-nextnode-50: #f0f9ff;
-  --color-nextnode-100: #e0f2fe;
-  --color-nextnode-200: #bae6fd;
-  --color-nextnode-300: #7dd3fc;
-  --color-nextnode-400: #38bdf8;
-  --color-nextnode-500: #0ea5e9;
-  --color-nextnode-600: #0284c7;
-  --color-nextnode-700: #0369a1;
-  --color-nextnode-800: #075985;
-  --color-nextnode-900: #0c4a6e;
+	--color-nextnode-50: #f0f9ff;
+	--color-nextnode-100: #e0f2fe;
+	--color-nextnode-200: #bae6fd;
+	--color-nextnode-300: #7dd3fc;
+	--color-nextnode-400: #38bdf8;
+	--color-nextnode-500: #0ea5e9;
+	--color-nextnode-600: #0284c7;
+	--color-nextnode-700: #0369a1;
+	--color-nextnode-800: #075985;
+	--color-nextnode-900: #0c4a6e;
 
-  --color-accent-50: #fef7ff;
-  --color-accent-100: #fdeeff;
-  --color-accent-200: #fbdcff;
-  --color-accent-300: #f8bfff;
-  --color-accent-400: #f391ff;
-  --color-accent-500: #ec4899;
-  --color-accent-600: #db2777;
-  --color-accent-700: #be185d;
-  --color-accent-800: #9d174d;
-  --color-accent-900: #831843;
+	--color-accent-50: #fef7ff;
+	--color-accent-100: #fdeeff;
+	--color-accent-200: #fbdcff;
+	--color-accent-300: #f8bfff;
+	--color-accent-400: #f391ff;
+	--color-accent-500: #ec4899;
+	--color-accent-600: #db2777;
+	--color-accent-700: #be185d;
+	--color-accent-800: #9d174d;
+	--color-accent-900: #831843;
 
-  --font-family-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-family-mono: 'JetBrains Mono', ui-monospace, monospace;
+	--font-family-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+	--font-family-mono: "JetBrains Mono", ui-monospace, monospace;
+
+	/* Shadcn/ui variables */
+	--background: 255 255 255;
+	--foreground: 15 23 42;
+	--primary: 15 23 42;
+	--primary-foreground: 248 250 252;
+	--secondary: 241 245 249;
+	--secondary-foreground: 15 23 42;
+	--muted: 241 245 249;
+	--muted-foreground: 100 116 139;
+	--accent: 241 245 249;
+	--accent-foreground: 15 23 42;
+	--destructive: 239 68 68;
+	--destructive-foreground: 248 250 252;
+	--border: 226 232 240;
+	--input: 226 232 240;
+	--ring: 15 23 42;
 }
 
-/* Styles de base personnalisés */
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    font-family: var(--font-family-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+/* Base styles */
+html {
+	scroll-behavior: smooth;
 }
 
-/* Composants personnalisés */
-@layer components {
-  .btn-primary {
-    @apply bg-gradient-to-r from-nextnode-600 to-accent-600 text-white px-6 py-3 rounded-lg font-medium hover:from-nextnode-700 hover:to-accent-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
-  }
-
-  .btn-secondary {
-    @apply border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium hover:border-nextnode-300 hover:text-nextnode-700 transition-all duration-200;
-  }
-
-  .gradient-text {
-    @apply bg-gradient-to-r from-nextnode-600 via-accent-600 to-nextnode-800 bg-clip-text text-transparent;
-  }
-
-  .card {
-    @apply bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow duration-200;
-  }
-
-  .container-padding {
-    @apply px-4 sm:px-6 lg:px-8;
-  }
-
-  .section-padding {
-    @apply py-16 md:py-24;
-  }
+body {
+	font-family: var(--font-family-sans);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-/* Utilitaires personnalisés */
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Custom animations */
+@keyframes pulse-slow {
+	0%,
+	100% {
+		opacity: 0.5;
+	}
+	50% {
+		opacity: 0.8;
+	}
+}
 
-  .animation-delay-1000 {
-    animation-delay: 1s;
-  }
+@keyframes liquid {
+	0% {
+		transform: scale(1) translate(0px, 0px);
+		border-radius: 50%;
+	}
+	33% {
+		transform: scale(var(--scale-1))
+			translate(var(--translate-x-1), var(--translate-y-1));
+		border-radius: var(--border-radius-1);
+	}
+	66% {
+		transform: scale(var(--scale-2))
+			translate(var(--translate-x-2), var(--translate-y-2));
+		border-radius: var(--border-radius-2);
+	}
+	100% {
+		transform: scale(1) translate(0px, 0px);
+		border-radius: 50%;
+	}
+}
 
-  .animation-delay-2000 {
-    animation-delay: 2s;
-  }
-} 
+.animate-pulse-slow {
+	animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.animate-liquid {
+	animation: liquid var(--duration) ease-in-out infinite;
+}
+
+.small-circle {
+	--scale-1: 1.05;
+	--scale-2: 0.8;
+	--translate-x-1: 30px;
+	--translate-y-1: 30px;
+	--translate-x-2: -30px;
+	--translate-y-2: 15px;
+	--border-radius-1: 40% 60% 70% 30% / 40% 50% 50% 60%;
+	--border-radius-2: 70% 30% 50% 50% / 30% 30% 70% 70%;
+	--duration: 13s;
+}
+
+.large-circle {
+	--scale-1: 1.15;
+	--scale-2: 0.75;
+	--translate-x-1: 35px;
+	--translate-y-1: -20px;
+	--translate-x-2: -30px;
+	--translate-y-2: 30px;
+	--border-radius-1: 60% 40% 30% 70% / 60% 30% 70% 40%;
+	--border-radius-2: 40% 60% 70% 30% / 60% 40% 60% 40%;
+	--duration: 18s;
+}
