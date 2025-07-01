@@ -38,18 +38,18 @@ export const StartProjectModal = (): React.ReactElement => (
 				</span>
 			</Button>
 		</DialogTrigger>
-		<DialogContent className="sm:max-w-[600px]">
-			<DialogHeader>
-				<DialogTitle className="text-3xl font-bold text-center mb-2">
+		<DialogContent className="sm:max-w-[600px] overflow-y-auto">
+			<DialogHeader className="pb-2">
+				<DialogTitle className="text-2xl sm:text-3xl font-bold text-center mb-2">
 					Start Your Project With Us
 				</DialogTitle>
-				<DialogDescription className="text-center text-lg">
+				<DialogDescription className="text-center text-base sm:text-lg">
 					Let&lsquo;s create something amazing together. Fill out the
 					form below and we&lsquo;ll get back to you within 24 hours.
 				</DialogDescription>
 			</DialogHeader>
-			<form className="space-y-6 py-4">
-				<div className="grid grid-cols-2 gap-4">
+			<form className="space-y-4 sm:space-y-6 pb-4 sm:pb-0">
+				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 					<div className="space-y-2">
 						<label htmlFor="name" className="text-sm font-medium">
 							Name
@@ -89,12 +89,12 @@ export const StartProjectModal = (): React.ReactElement => (
 					<Textarea
 						id="message"
 						placeholder="Tell us more about your project..."
-						className="min-h-[120px]"
+						className="min-h-[100px] sm:min-h-[120px]"
 					/>
 				</div>
 				<Button
 					type="submit"
-					className="w-full bg-primary hover:bg-primary/90"
+					className="w-full bg-primary hover:bg-primary/90 sticky bottom-0 sm:static"
 				>
 					Submit Project Request
 				</Button>
