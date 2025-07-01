@@ -13,23 +13,25 @@ const { links } = Astro.props
 ---
 
 <div 
-  class="md:hidden fixed inset-0 z-50 bg-white/95 backdrop-blur-sm opacity-0 invisible transition-all duration-300"
+  class="md:hidden fixed inset-0 z-50 bg-black/20 backdrop-blur-sm opacity-0 invisible transition-all duration-300"
   id="mobile-menu"
 >
-  <div class="flex flex-col h-full">
-    <div class="border-b border-gray-200">
-      <div class="px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-12">
-          <Logo variant="mobile" />
-          <MobileButton action="close" />
+  <div class="absolute inset-y-0 left-0 w-full max-w-sm bg-white shadow-xl transform -translate-x-full transition-transform duration-300 ease-out" id="mobile-menu-panel">
+    <div class="flex flex-col h-full">
+      <div class="border-b border-gray-200">
+        <div class="px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-12">
+            <Logo variant="mobile" />
+            <MobileButton action="close" />
+          </div>
         </div>
       </div>
-    </div>
-    
-    <Navigation links={links} variant="mobile" />
-    
-    <div class="mt-auto px-4 sm:px-6 lg:px-8 py-4">
-      <Controls variant="mobile" />
+      
+      <Navigation links={links} variant="mobile" />
+      
+      <div class="mt-auto px-4 sm:px-6 lg:px-8 py-4">
+        <Controls variant="mobile" />
+      </div>
     </div>
   </div>
 </div> 
