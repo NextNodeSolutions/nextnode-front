@@ -1,19 +1,19 @@
 ---
-import "../styles/global.css"
+import '../styles/global.css'
 
 export interface Props {
-  title: string;
-  description?: string;
-  image?: string;
+	title: string
+	description?: string
+	image?: string
 }
 
-const { 
-  title, 
-  description = "Template moderne et performant créé avec Astro et Nextnode",
-  image = "/og-image.png"
-} = Astro.props;
+const {
+	title,
+	description = 'Template moderne et performant créé avec Astro et Nextnode',
+	image = '/og-image.png',
+} = Astro.props
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 ---
 
 <!doctype html>

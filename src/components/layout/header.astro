@@ -87,4 +87,29 @@ import { navigationLinks } from '@/lib/constants'
       closeMobileMenu();
     }
   });
-</script> 
+  
+  // Header scroll effect
+  const header = document.getElementById('header');
+  
+  function updateHeader() {
+    if (!header) return;
+    
+    const currentScrollY = window.scrollY;
+    
+    if (currentScrollY > 50) {
+      // Scrolled down - make header solid
+      header.classList.remove('bg-transparent');
+      header.classList.add('bg-white/95', 'backdrop-blur-sm', 'border-b', 'border-gray-100');
+    } else {
+      // At top - make header transparent
+      header.classList.add('bg-transparent');
+      header.classList.remove('bg-white/95', 'backdrop-blur-sm', 'border-b', 'border-gray-100');
+    }
+  }
+  
+  // Listen for scroll events
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  
+  // Initial call
+  updateHeader();
+</script>
