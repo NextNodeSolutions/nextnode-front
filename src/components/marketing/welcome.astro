@@ -6,7 +6,7 @@ import { StartProjectModal } from './start-project-modal'
 
 <!-- Hero Section -->
 <div class={cn(
-  "relative max-w-6xl mx-auto",
+  "max-w-6xl mx-auto",
   "min-h-[calc(100vh-5rem)] flex flex-col justify-center",
   "md:min-h-[70vh] md:flex-row md:items-center"
 )}>
@@ -19,15 +19,16 @@ import { StartProjectModal } from './start-project-modal'
   )}>
     <div class="space-y-6 sm:space-y-8 md:space-y-10">
       <div class={cn(
-        "text-xs tracking-wider text-gray-700 max-w-md mx-auto opacity-0 animate-fade-in-up",
-        "md:text-sm md:max-w-lg md:mx-0"
+        "text-sm tracking-wider text-gray-700 max-w-xs mx-auto opacity-0 animate-fade-in-up font-medium px-4",
+        "sm:text-base sm:max-w-md",
+        "md:text-sm md:max-w-lg md:mx-0 md:font-normal md:px-0"
       )}>
         We don't just build websites. We create digital experiences that sell.
       </div>
       <h1 class={cn(
-        "text-xl font-light leading-tight max-w-3xl mx-auto opacity-0 animate-fade-in-up animation-delay-300",
-        "sm:text-3xl",
-        "md:text-5xl md:mx-0 md:leading-tight",
+        "text-2xl font-light leading-tight max-w-xs mx-auto opacity-0 animate-fade-in-up animation-delay-300 px-2",
+        "sm:text-3xl sm:max-w-md sm:leading-tight",
+        "md:text-5xl md:mx-0 md:leading-tight md:max-w-3xl md:px-0",
         "lg:text-6xl"
       )}>
         <span class="text-blue-600 font-bold tracking-wide">NEXTNODE</span><br />
@@ -37,8 +38,9 @@ import { StartProjectModal } from './start-project-modal'
       </h1>
       
       <div class={cn(
-        "text-base text-gray-600 max-w-lg mx-auto opacity-0 animate-fade-in-up animation-delay-600",
-        "md:text-lg md:mx-0 md:leading-relaxed",
+        "text-base text-gray-600 max-w-xs mx-auto opacity-0 animate-fade-in-up animation-delay-600 leading-relaxed px-4",
+        "sm:text-lg sm:max-w-md sm:leading-relaxed",
+        "md:text-lg md:mx-0 md:leading-relaxed md:max-w-lg md:px-0",
         "lg:text-xl"
       )}>
         Turn visitors into customers with websites that convert. Custom-built, lightning-fast, and designed to grow your business.
@@ -46,32 +48,35 @@ import { StartProjectModal } from './start-project-modal'
     </div>
     
     <div class={cn(
-      "flex flex-col gap-5 max-w-sm mx-auto opacity-0 animate-fade-in-up animation-delay-900",
-      "sm:max-w-md sm:gap-6",
-      "md:max-w-none md:mx-0 md:gap-5"
+      "flex flex-col gap-5 max-w-sm mx-auto opacity-0 animate-fade-in-up animation-delay-900 px-4",
+      "sm:max-w-sm sm:gap-6",
+      "md:max-w-none md:mx-0 md:gap-5 md:px-0"
     )}>
-      <div class="space-y-4">
+            <div>
         <StartProjectModal client:load />
         <div class={cn(
-          "text-xs text-gray-500 text-center md:text-left opacity-0 animate-slide-in-gentle animation-delay-1500",
-          "transform translate-y-2"
+          "text-xs px-2 pt-1 text-muted-foreground text-center  opacity-0 animate-slide-in-gentle animation-delay-1500 font-medium",
+          "sm:text-sm",
+          "md:px-0 md:text-left"
         )}>
           ✨ This is where the magic happens — let's build something amazing together
         </div>
-      </div>
-      <Button variant="outline" className={cn(
-        "py-4 group transition-all duration-300 cursor-pointer border-gray-300 text-gray-600",
-        "md:px-6 hover:border-gray-400"
-      )}>
-        <span class={cn(
-          "inline-block transition-transform duration-300",
-          "group-hover:-translate-x-2 uppercase text-sm"
-        )}>View Our Work</span> 
-        <span class={cn(
-          "inline-block opacity-0 transition-all duration-300",
-          "group-hover:translate-x-2 group-hover:opacity-100"
-        )}>→</span>
-      </Button>
+            </div>
+          <Button variant="outline" className={cn(
+            "py-5 group transition-all duration-300 cursor-pointer border-gray-300 text-gray-600 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50/50",
+            "sm:py-6 sm:text-base",
+            "md:px-6 md:py-4 hover:border-gray-400 md:hover:border-blue-400 md:hover:text-blue-600 md:hover:bg-blue-50/50"
+          )}>
+            <span class={cn(
+              "transition-transform duration-300",
+              "group-hover:-translate-x-2 uppercase text-sm font-semibold tracking-wide",
+              "sm:text-base"
+            )}>View Our Work</span> 
+            <span class={cn(
+              "opacity-0 transition-all duration-300 ml-2",
+              "group-hover:translate-x-2 group-hover:opacity-100"
+            )}>→</span>
+          </Button>
     </div>
   </div>
 
