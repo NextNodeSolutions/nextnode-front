@@ -20,7 +20,7 @@ const DialogOverlay = React.forwardRef<
 	<DialogPrimitive.Overlay
 		ref={ref}
 		className={cn(
-			'fixed inset-0 z-50 bg-black/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+			'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80 backdrop-blur-sm',
 			className,
 		)}
 		{...props}
@@ -37,9 +37,9 @@ const DialogContent = React.forwardRef<
 		<DialogPrimitive.Content
 			ref={ref}
 			className={cn(
-				'fixed z-50 grid w-full gap-4 border bg-background p-6 shadow-lg duration-300',
-				'bottom-0 left-0 right-0 max-h-[90vh] rounded-t-xl',
-				'sm:left-[50%] sm:top-[50%] sm:bottom-auto sm:right-auto sm:max-w-lg sm:max-h-none sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg',
+				'bg-background fixed z-50 grid w-full gap-4 border p-6 shadow-lg duration-300',
+				'right-0 bottom-0 left-0 max-h-[90vh] rounded-t-xl',
+				'sm:top-[50%] sm:right-auto sm:bottom-auto sm:left-[50%] sm:max-h-none sm:max-w-lg sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-lg',
 				'mobile-dialog',
 				'sm:data-[state=open]:animate-in sm:data-[state=closed]:animate-out sm:data-[state=closed]:fade-out-0 sm:data-[state=closed]:zoom-out-95 sm:data-[state=closed]:slide-out-to-left-1/2 sm:data-[state=closed]:slide-out-to-top-[48%] sm:data-[state=open]:fade-in-0 sm:data-[state=open]:zoom-in-95 sm:data-[state=open]:slide-in-from-left-1/2 sm:data-[state=open]:slide-in-from-top-[48%]',
 				className,
@@ -47,8 +47,8 @@ const DialogContent = React.forwardRef<
 			{...props}
 		>
 			{children}
-			<DialogPrimitive.Close className="absolute right-4 top-4 p-1.5 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-				<X className="w-5 h-5" />
+			<DialogPrimitive.Close className="focus:ring-ring absolute top-4 right-4 rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-offset-2 focus:outline-none">
+				<X className="h-5 w-5" />
 				<span className="sr-only">Close</span>
 			</DialogPrimitive.Close>
 		</DialogPrimitive.Content>
@@ -91,7 +91,7 @@ const DialogTitle = React.forwardRef<
 	<DialogPrimitive.Title
 		ref={ref}
 		className={cn(
-			'text-lg font-semibold leading-none tracking-tight',
+			'text-lg leading-none font-semibold tracking-tight',
 			className,
 		)}
 		{...props}
@@ -105,7 +105,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<DialogPrimitive.Description
 		ref={ref}
-		className={cn('text-sm text-muted-foreground', className)}
+		className={cn('text-muted-foreground text-sm', className)}
 		{...props}
 	/>
 ))

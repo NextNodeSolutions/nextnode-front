@@ -17,19 +17,19 @@ export const StartProjectModal = (): React.ReactElement => (
 			<Button
 				variant="default"
 				className={cn(
-					'py-6 px-4 group transition-all duration-500 cursor-pointer w-full',
+					'group w-full cursor-pointer px-4 py-6 transition-all duration-500',
 					'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700',
-					'shadow-lg hover:shadow-xl transform hover:scale-[1.02]',
-					'text-white font-bold text-base tracking-wide',
-					'sm:py-6 sm:px-6 sm:text-lg',
-					'md:py-6 md:text-lg md:px-8',
+					'transform shadow-lg hover:scale-[1.02] hover:shadow-xl',
+					'text-base font-bold tracking-wide text-white',
+					'sm:px-6 sm:py-6 sm:text-lg',
+					'md:px-8 md:py-6 md:text-lg',
 					'flex items-center justify-center gap-2',
 				)}
 			>
 				<span
 					className={cn(
 						'transition-all duration-300',
-						'group-hover:-translate-x-1 uppercase',
+						'uppercase group-hover:-translate-x-1',
 					)}
 				>
 					🚀 Start your project with us
@@ -44,9 +44,9 @@ export const StartProjectModal = (): React.ReactElement => (
 				</span>
 			</Button>
 		</DialogTrigger>
-		<DialogContent className="sm:max-w-[600px] overflow-y-auto">
+		<DialogContent className="overflow-y-auto sm:max-w-[600px]">
 			<DialogHeader className="pb-2">
-				<DialogTitle className="text-2xl sm:text-3xl font-bold text-center mb-2">
+				<DialogTitle className="mb-2 text-center text-2xl font-bold sm:text-3xl">
 					Start Your Project With Us
 				</DialogTitle>
 				<DialogDescription className="text-center text-base sm:text-lg">
@@ -54,8 +54,8 @@ export const StartProjectModal = (): React.ReactElement => (
 					form below and we&lsquo;ll get back to you within 24 hours.
 				</DialogDescription>
 			</DialogHeader>
-			<form className="space-y-4 sm:space-y-6 pb-4 sm:pb-0">
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+			<form className="space-y-4 pb-4 sm:space-y-6 sm:pb-0">
+				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 					<div className="space-y-2">
 						<label htmlFor="name" className="text-sm font-medium">
 							Name
@@ -100,7 +100,7 @@ export const StartProjectModal = (): React.ReactElement => (
 				</div>
 				<Button
 					type="submit"
-					className="w-full bg-primary hover:bg-primary/90 sticky bottom-0 sm:static"
+					className="bg-primary hover:bg-primary/90 sticky bottom-0 w-full sm:static"
 				>
 					Submit Project Request
 				</Button>
