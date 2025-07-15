@@ -1,112 +1,21 @@
 ---
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { StartProjectModal } from './start-project-modal'
+import HeroContent from './hero-content.astro'
+import ScrollIndicator from './scroll-indicator.astro'
+import MobileSidePanel from './mobile-side-panel.astro'
+import SidePanel from './side-panel.astro'
 ---
 
 <!-- Hero Section -->
 <div
 	class={cn(
-		'max-w-6xl mx-auto',
-		'min-h-[calc(100vh-5rem)] flex flex-col justify-center',
-		'md:min-h-[70vh] md:flex-row md:items-center',
+		'mx-auto mt-12 px-0',
+		'min-h-[calc(100vh-3rem)] flex flex-col justify-center',
+		'sm:mt-0 sm:px-4',
+		'md:min-h-[70vh] md:flex-row md:items-center md:px-6 md:max-w-6xl',
 	)}
 >
-	<!-- Main Content -->
-	<div
-		class={cn(
-			'text-center space-y-8 flex-1 flex flex-col justify-center',
-			'sm:space-y-10',
-			'md:text-left md:w-3/5 md:space-y-12 md:pr-16 md:flex-none',
-			'lg:space-y-14',
-		)}
-	>
-		<div class="space-y-6 sm:space-y-8 md:space-y-10">
-			<div
-				class={cn(
-					'text-sm tracking-wider text-gray-700 max-w-xs mx-auto opacity-0 animate-fade-in-up font-medium px-4',
-					'sm:text-base sm:max-w-md',
-					'md:text-sm md:max-w-lg md:mx-0 md:font-normal md:px-0',
-				)}
-			>
-				We don't just build websites. We create digital experiences that
-				sell.
-			</div>
-			<h1
-				class={cn(
-					'text-2xl font-light leading-tight max-w-xs mx-auto opacity-0 animate-fade-in-up animation-delay-300 px-2',
-					'sm:text-3xl sm:max-w-md sm:leading-tight',
-					'md:text-5xl md:mx-0 md:leading-tight md:max-w-3xl md:px-0',
-					'lg:text-6xl',
-				)}
-			>
-				<span class="font-bold tracking-wide text-blue-600"
-					>NEXTNODE</span
-				><br />
-				YOUR NEXT<br />
-				<span class="font-medium text-blue-600">BREAKTHROUGH</span><br
-				/>
-				STARTS HERE
-			</h1>
-
-			<div
-				class={cn(
-					'text-base text-gray-600 max-w-xs mx-auto opacity-0 animate-fade-in-up animation-delay-600 leading-relaxed px-4',
-					'sm:text-lg sm:max-w-md sm:leading-relaxed',
-					'md:text-lg md:mx-0 md:leading-relaxed md:max-w-lg md:px-0',
-					'lg:text-xl',
-				)}
-			>
-				Turn visitors into customers with websites that convert.
-				Custom-built, lightning-fast, and designed to grow your
-				business.
-			</div>
-		</div>
-
-		<div
-			class={cn(
-				'flex flex-col gap-5 max-w-sm mx-auto opacity-0 animate-fade-in-up animation-delay-900 px-4',
-				'sm:max-w-sm sm:gap-6',
-				'md:max-w-none md:mx-0 md:gap-5 md:px-0',
-			)}
-		>
-			<div>
-				<StartProjectModal client:load />
-				<div
-					class={cn(
-						'text-xs px-2 pt-1 text-muted-foreground text-center  opacity-0 animate-slide-in-gentle animation-delay-1500 font-medium',
-						'sm:text-sm',
-						'md:px-0 md:text-left',
-					)}
-				>
-					✨ This is where the magic happens — let's build something
-					amazing together
-				</div>
-			</div>
-			<Button
-				variant="outline"
-				className={cn(
-					'group cursor-pointer border-gray-300 py-5 text-gray-600 transition-all duration-300 hover:border-blue-400 hover:bg-blue-50/50 hover:text-blue-600',
-					'sm:py-6 sm:text-base',
-					'hover:border-gray-400 md:px-6 md:py-4 md:hover:border-blue-400 md:hover:bg-blue-50/50 md:hover:text-blue-600',
-				)}
-			>
-				<span
-					class={cn(
-						'transition-transform duration-300',
-						'group-hover:-translate-x-2 uppercase text-sm font-semibold tracking-wide',
-						'sm:text-base',
-					)}>View Our Work</span
-				>
-				<span
-					class={cn(
-						'opacity-0 transition-all duration-300 ml-2',
-						'group-hover:translate-x-2 group-hover:opacity-100',
-					)}>→</span
-				>
-			</Button>
-		</div>
-	</div>
+	<HeroContent />
 
 	<!-- Side Panel -->
 	<div
@@ -115,155 +24,10 @@ import { StartProjectModal } from './start-project-modal'
 			'md:block md:w-2/5 md:pl-8 opacity-0 animate-fade-in-up animation-delay-1200',
 		)}
 	>
-		<!-- Who We Are -->
-		<div
-			class={cn(
-				'bg-gray-50 rounded-lg p-6 space-y-6',
-				'sm:p-7 sm:space-y-7',
-				'md:p-8 md:space-y-6',
-			)}
-		>
-			<div
-				class="text-sm font-medium tracking-wide text-gray-800 uppercase"
-			>
-				Who We Are
-			</div>
-
-			<div class="space-y-4 text-sm leading-relaxed text-gray-600">
-				<p>
-					We're a digital studio that specializes in creating
-					high-performance websites for ambitious businesses. From
-					startups to established companies, we turn your vision into
-					reality.
-				</p>
-
-				<div class="space-y-3">
-					<div class="flex items-start gap-3">
-						<span class="mt-0.5 font-medium text-blue-600">✓</span>
-						<span>Custom development tailored to your needs</span>
-					</div>
-					<div class="flex items-start gap-3">
-						<span class="mt-0.5 font-medium text-blue-600">✓</span>
-						<span>Lightning-fast deployment & ongoing support</span>
-					</div>
-					<div class="flex items-start gap-3">
-						<span class="mt-0.5 font-medium text-blue-600">✓</span>
-						<span
-							>Websites that convert visitors into customers</span
-						>
-					</div>
-				</div>
-
-				<div class="border-t border-gray-200 pt-4">
-					<div class="text-xs text-gray-500 italic">
-						"Great websites don't just look good — they convert
-						visitors into customers and drive real business growth."
-					</div>
-					<div class="mt-2 text-xs text-gray-400">
-						— Digital Marketing Best Practices
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- CTA Section -->
-		<div
-			class={cn(
-				'mt-6 text-center p-5 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100',
-				'sm:mt-8 sm:p-6',
-				'md:text-left md:mt-8 md:p-5',
-			)}
-		>
-			<div class="mb-2 text-sm font-medium text-gray-800">
-				Ready to transform your business?
-			</div>
-			<div class="mb-3 text-xs text-gray-600">
-				Click "Start your project" to begin your digital transformation
-				journey.
-			</div>
-			<div class="text-xs font-medium text-blue-600">
-				💡 Free consultation included
-			</div>
-		</div>
+		<SidePanel />
 	</div>
 </div>
 
-<!-- Mobile Side Panel - Appears after scroll -->
-<div
-	class={cn(
-		'px-6 pb-8 opacity-0 animate-fade-in-up animation-delay-300',
-		'sm:px-8 sm:pb-12',
-		'md:hidden',
-	)}
->
-	<div class="mx-auto max-w-sm sm:max-w-md">
-		<!-- Who We Are -->
-		<div
-			class={cn(
-				'bg-gray-50 rounded-lg p-6 space-y-6',
-				'sm:p-7 sm:space-y-7',
-			)}
-		>
-			<div
-				class="text-sm font-medium tracking-wide text-gray-800 uppercase"
-			>
-				Who We Are
-			</div>
+<ScrollIndicator />
 
-			<div class="space-y-4 text-sm leading-relaxed text-gray-600">
-				<p>
-					We're a digital studio that specializes in creating
-					high-performance websites for ambitious businesses. From
-					startups to established companies, we turn your vision into
-					reality.
-				</p>
-
-				<div class="space-y-3">
-					<div class="flex items-start gap-3">
-						<span class="mt-0.5 font-medium text-blue-600">✓</span>
-						<span>Custom development tailored to your needs</span>
-					</div>
-					<div class="flex items-start gap-3">
-						<span class="mt-0.5 font-medium text-blue-600">✓</span>
-						<span>Lightning-fast deployment & ongoing support</span>
-					</div>
-					<div class="flex items-start gap-3">
-						<span class="mt-0.5 font-medium text-blue-600">✓</span>
-						<span
-							>Websites that convert visitors into customers</span
-						>
-					</div>
-				</div>
-
-				<div class="border-t border-gray-200 pt-4">
-					<div class="text-xs text-gray-500 italic">
-						"Great websites don't just look good — they convert
-						visitors into customers and drive real business growth."
-					</div>
-					<div class="mt-2 text-xs text-gray-400">
-						— Digital Marketing Best Practices
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- CTA Section -->
-		<div
-			class={cn(
-				'mt-6 text-center p-5 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100',
-				'sm:mt-8 sm:p-6',
-			)}
-		>
-			<div class="mb-2 text-sm font-medium text-gray-800">
-				Ready to transform your business?
-			</div>
-			<div class="mb-3 text-xs text-gray-600">
-				Click "Start your project" to begin your digital transformation
-				journey.
-			</div>
-			<div class="text-xs font-medium text-blue-600">
-				💡 Free consultation included
-			</div>
-		</div>
-	</div>
-</div>
+<MobileSidePanel />

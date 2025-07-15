@@ -38,3 +38,74 @@ const { links } = Astro.props
 		</div>
 	</div>
 </div>
+
+<script>
+	// Mobile menu toggle functionality
+	const mobileMenuOpenButton = document.getElementById(
+		'mobile-menu-open-button',
+	)
+	const mobileMenuCloseButton = document.getElementById(
+		'mobile-menu-close-button',
+	)
+	const mobileMenu = document.getElementById('mobile-menu')
+	const mobileMenuPanel = document.getElementById('mobile-menu-panel')
+
+	function openMobileMenu() {
+		if (mobileMenu && mobileMenuPanel) {
+			mobileMenu.classList.remove('opacity-0', 'invisible')
+			mobileMenu.classList.add('opacity-100', 'visible')
+			// Délai pour permettre au fond de s'afficher avant de faire glisser le panneau
+			setTimeout(() => {
+				mobileMenuPanel.classList.remove('-translate-x-full')
+				mobileMenuPanel.classList.add('translate-x-0')
+			}, 50)
+			// Prevent body scrolling when menu is open
+			document.body.style.overflow = 'hidden'
+		}
+	}
+
+	function closeMobileMenu() {
+		if (mobileMenu && mobileMenuPanel) {
+			mobileMenuPanel.classList.add('-translate-x-full')
+			mobileMenuPanel.classList.remove('translate-x-0')
+			// Attendre la fin de l'animation de slide avant de cacher le fond
+			setTimeout(() => {
+				mobileMenu.classList.add('opacity-0', 'invisible')
+				mobileMenu.classList.remove('opacity-100', 'visible')
+			}, 300)
+			// Restore body scrolling when menu is closed
+			document.body.style.overflow = ''
+		}
+	}
+
+	// Open button event listener
+	if (mobileMenuOpenButton) {
+		mobileMenuOpenButton.addEventListener('click', openMobileMenu)
+	}
+
+	// Close button event listener
+	if (mobileMenuCloseButton) {
+		mobileMenuCloseButton.addEventListener('click', closeMobileMenu)
+	}
+
+	// Close menu when clicking on overlay
+	if (mobileMenu) {
+		mobileMenu.addEventListener('click', e => {
+			// Only close if clicking on the overlay itself, not on menu content
+			if (e.target === mobileMenu) {
+				closeMobileMenu()
+			}
+		})
+	}
+
+	// Close menu with Escape key
+	document.addEventListener('keydown', e => {
+		if (
+			e.key === 'Escape' &&
+			mobileMenu &&
+			mobileMenu.classList.contains('opacity-100')
+		) {
+			closeMobileMenu()
+		}
+	})
+</script>
