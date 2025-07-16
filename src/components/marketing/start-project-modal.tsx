@@ -17,19 +17,20 @@ export const StartProjectModal = (): React.ReactElement => (
 			<Button
 				variant="default"
 				className={cn(
-					'group w-full cursor-pointer px-4 py-6 transition-all duration-500',
+					'group w-full cursor-pointer px-4 py-6 transition-all duration-300',
 					'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700',
-					'transform shadow-lg hover:scale-[1.02] hover:shadow-xl',
+					'transform shadow-lg hover:scale-[1.05] hover:shadow-2xl',
 					'text-base font-bold tracking-wide text-white',
 					'sm:px-6 sm:py-6 sm:text-lg',
 					'md:px-8 md:py-6 md:text-lg',
 					'flex items-center justify-center gap-2',
+					'hover:animate-pulse-dark',
 				)}
 			>
 				<span
 					className={cn(
-						'transition-all duration-300',
-						'uppercase group-hover:-translate-x-1',
+						'transition-transform duration-300',
+						'uppercase group-hover:-translate-x-2',
 					)}
 				>
 					🚀 Start your project with us
@@ -37,7 +38,7 @@ export const StartProjectModal = (): React.ReactElement => (
 				<span
 					className={cn(
 						'opacity-0 transition-all duration-300',
-						'group-hover:translate-x-1 group-hover:opacity-100',
+						'group-hover:translate-x-2 group-hover:opacity-100',
 					)}
 				>
 					→

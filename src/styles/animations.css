@@ -1,0 +1,130 @@
+@keyframes pulse-slow {
+	0%,
+	100% {
+		opacity: 0.5;
+	}
+	50% {
+		opacity: 0.8;
+	}
+}
+
+@keyframes pulse-dark {
+	0%,
+	100% {
+		opacity: 0.85;
+	}
+	50% {
+		opacity: 0.95;
+	}
+}
+
+@keyframes liquid {
+	0% {
+		transform: scale(1) translate(0px, 0px);
+		border-radius: 50%;
+	}
+	33% {
+		transform: scale(var(--scale-1))
+			translate(var(--translate-x-1), var(--translate-y-1));
+		border-radius: var(--border-radius-1);
+	}
+	66% {
+		transform: scale(var(--scale-2))
+			translate(var(--translate-x-2), var(--translate-y-2));
+		border-radius: var(--border-radius-2);
+	}
+	100% {
+		transform: scale(1) translate(0px, 0px);
+		border-radius: 50%;
+	}
+}
+
+@keyframes slide-in-from-bottom {
+	0% {
+		transform: translateY(100%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+
+@keyframes slide-out-to-bottom {
+	0% {
+		transform: translateY(0%);
+	}
+	100% {
+		transform: translateY(100%);
+	}
+}
+
+@keyframes fade-in-up {
+	0% {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slide-in-gentle {
+	0% {
+		opacity: 0;
+		transform: translateY(10px) scale(0.95);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.animate-pulse-slow {
+	animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.animate-pulse-dark {
+	animation: pulse-dark 2s ease-in-out infinite;
+}
+
+.animate-liquid {
+	animation: liquid var(--duration) ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+	animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-in-gentle {
+	animation: slide-in-gentle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animation-delay-300 {
+	animation-delay: 0.3s;
+}
+
+.animation-delay-600 {
+	animation-delay: 0.6s;
+}
+
+.animation-delay-900 {
+	animation-delay: 0.9s;
+}
+
+.animation-delay-1200 {
+	animation-delay: 1.2s;
+}
+
+.animation-delay-1500 {
+	animation-delay: 1.5s;
+}
+
+@media (max-width: 639px) {
+	.mobile-dialog[data-state='open'] {
+		animation: slide-in-from-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.mobile-dialog[data-state='closed'] {
+		animation: slide-out-to-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+}
