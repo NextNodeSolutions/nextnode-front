@@ -64,14 +64,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 					'(prefers-color-scheme: dark)',
 				).matches
 
-				if (
-					savedTheme === 'dark' ||
-					(!savedTheme && systemPrefersDark)
-				) {
+				const isDark =
+					savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
+
+				if (isDark) {
 					document.documentElement.classList.add('dark')
 				} else {
 					document.documentElement.classList.remove('dark')
 				}
+
+				// Store theme state globally for components to access
+				window.initialTheme = isDark ? 'dark' : 'light'
 			})()
 		</script>
 	</head>

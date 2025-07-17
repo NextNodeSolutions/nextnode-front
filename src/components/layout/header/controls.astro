@@ -34,6 +34,32 @@ const { variant = 'desktop' } = Astro.props
 			<Moon id={`moon-icon-${variant}`} className="hidden h-4 w-4" />
 		</button>
 
+		<!-- Initialize icons with correct state -->
+		<script is:inline define:vars={{ variant }}>
+			// Immediately set correct icon state
+			;(function () {
+				const savedTheme = localStorage.getItem('theme')
+				const systemPrefersDark = window.matchMedia(
+					'(prefers-color-scheme: dark)',
+				).matches
+				const isDark =
+					savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
+
+				const sunIcon = document.getElementById(`sun-icon-${variant}`)
+				const moonIcon = document.getElementById(`moon-icon-${variant}`)
+
+				if (sunIcon && moonIcon) {
+					if (isDark) {
+						sunIcon.classList.add('hidden')
+						moonIcon.classList.remove('hidden')
+					} else {
+						sunIcon.classList.remove('hidden')
+						moonIcon.classList.add('hidden')
+					}
+				}
+			})()
+		</script>
+
 		<!-- Language Selector -->
 		<div class="group relative">
 			<button
