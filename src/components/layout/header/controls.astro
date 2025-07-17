@@ -26,12 +26,12 @@ const { variant = 'desktop' } = Astro.props
 	>
 		<!-- Theme Toggle -->
 		<button
-			id="theme-toggle"
+			id={`theme-toggle-${variant}`}
 			class="rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
 			aria-label="Toggle theme"
 		>
-			<Sun id="sun-icon" className="h-4 w-4" />
-			<Moon id="moon-icon" className="hidden h-4 w-4" />
+			<Sun id={`sun-icon-${variant}`} className="h-4 w-4" />
+			<Moon id={`moon-icon-${variant}`} className="hidden h-4 w-4" />
 		</button>
 
 		<!-- Language Selector -->

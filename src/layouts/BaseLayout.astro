@@ -102,19 +102,27 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 						document.documentElement.classList.remove('dark')
 					}
 
-					// Update theme toggle icons
-					const sunIcon = document.getElementById('sun-icon')
-					const moonIcon = document.getElementById('moon-icon')
+					// Update all theme toggle icons (both desktop and mobile)
+					const sunIcons =
+						document.querySelectorAll('[id^="sun-icon"]')
+					const moonIcons =
+						document.querySelectorAll('[id^="moon-icon"]')
 
-					if (sunIcon && moonIcon) {
+					sunIcons.forEach(sunIcon => {
 						if (theme === 'dark') {
 							sunIcon.classList.add('hidden')
-							moonIcon.classList.remove('hidden')
 						} else {
 							sunIcon.classList.remove('hidden')
+						}
+					})
+
+					moonIcons.forEach(moonIcon => {
+						if (theme === 'dark') {
+							moonIcon.classList.remove('hidden')
+						} else {
 							moonIcon.classList.add('hidden')
 						}
-					}
+					})
 				},
 
 				toggleTheme() {
@@ -146,13 +154,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 						}
 					})
 
-					// Set up theme toggle button
-					const themeToggle = document.getElementById('theme-toggle')
-					if (themeToggle) {
-						themeToggle.addEventListener('click', () =>
+					// Set up all theme toggle buttons (both desktop and mobile)
+					const themeToggleButtons = document.querySelectorAll(
+						'[id^="theme-toggle"]',
+					)
+					themeToggleButtons.forEach(button => {
+						button.addEventListener('click', () =>
 							this.toggleTheme(),
 						)
-					}
+					})
 				},
 			}
 
