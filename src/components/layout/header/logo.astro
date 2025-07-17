@@ -12,7 +12,8 @@ const { variant = 'desktop' } = Astro.props
 	<span
 		class={cn(
 			'text-xl font-medium tracking-wider text-gray-800 hover:text-gray-900 transition-colors duration-300 uppercase',
-			variant === 'mobile' ? 'text-gray-800' : '',
+			'dark:text-gray-200 dark:hover:text-gray-100',
+			variant === 'mobile' ? 'text-gray-800 dark:text-gray-200' : '',
 		)}
 	>
 		Nextnode

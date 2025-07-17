@@ -54,8 +54,116 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
 			rel="stylesheet"
 		/>
+
+		<!-- Theme initialization script (must run before body render) -->
+		<script is:inline>
+			// Initialize theme immediately to prevent flash
+			;(function () {
+				const savedTheme = localStorage.getItem('theme')
+				const systemPrefersDark = window.matchMedia(
+					'(prefers-color-scheme: dark)',
+				).matches
+
+				if (
+					savedTheme === 'dark' ||
+					(!savedTheme && systemPrefersDark)
+				) {
+					document.documentElement.classList.add('dark')
+				} else {
+					document.documentElement.classList.remove('dark')
+				}
+			})()
+		</script>
 	</head>
-	<body class="bg-white font-sans text-gray-900 antialiased">
+	<body
+		class="bg-white font-sans text-gray-900 antialiased dark:bg-gray-900 dark:text-gray-100"
+	>
 		<slot />
+
+		<!-- Global theme management script -->
+		<script>
+			// Global theme management
+			window.themeManager = {
+				getCurrentTheme() {
+					const savedTheme = localStorage.getItem('theme')
+					const systemPrefersDark = window.matchMedia(
+						'(prefers-color-scheme: dark)',
+					).matches
+					return savedTheme === 'dark' ||
+						(!savedTheme && systemPrefersDark)
+						? 'dark'
+						: 'light'
+				},
+
+				applyTheme(theme) {
+					if (theme === 'dark') {
+						document.documentElement.classList.add('dark')
+					} else {
+						document.documentElement.classList.remove('dark')
+					}
+
+					// Update theme toggle icons
+					const sunIcon = document.getElementById('sun-icon')
+					const moonIcon = document.getElementById('moon-icon')
+
+					if (sunIcon && moonIcon) {
+						if (theme === 'dark') {
+							sunIcon.classList.add('hidden')
+							moonIcon.classList.remove('hidden')
+						} else {
+							sunIcon.classList.remove('hidden')
+							moonIcon.classList.add('hidden')
+						}
+					}
+				},
+
+				toggleTheme() {
+					const currentTheme = this.getCurrentTheme()
+					const newTheme = currentTheme === 'light' ? 'dark' : 'light'
+
+					localStorage.setItem('theme', newTheme)
+					this.applyTheme(newTheme)
+
+					// Trigger custom event for other components
+					window.dispatchEvent(
+						new CustomEvent('theme-changed', {
+							detail: { theme: newTheme },
+						}),
+					)
+				},
+
+				init() {
+					// Set initial theme
+					this.applyTheme(this.getCurrentTheme())
+
+					// Listen for system theme changes
+					const mediaQuery = window.matchMedia(
+						'(prefers-color-scheme: dark)',
+					)
+					mediaQuery.addEventListener('change', e => {
+						if (!localStorage.getItem('theme')) {
+							this.applyTheme(e.matches ? 'dark' : 'light')
+						}
+					})
+
+					// Set up theme toggle button
+					const themeToggle = document.getElementById('theme-toggle')
+					if (themeToggle) {
+						themeToggle.addEventListener('click', () =>
+							this.toggleTheme(),
+						)
+					}
+				},
+			}
+
+			// Initialize theme management when DOM is ready
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', () =>
+					window.themeManager.init(),
+				)
+			} else {
+				window.themeManager.init()
+			}
+		</script>
 	</body>
 </html>

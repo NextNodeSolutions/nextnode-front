@@ -22,7 +22,7 @@ const { links, variant = 'desktop' } = Astro.props
 			links.map(link => (
 				<a
 					href={link.href}
-					class="relative rounded-md px-1.5 py-0.5 text-sm text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-gray-900"
+					class="relative rounded-md px-1.5 py-0.5 text-sm text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
 				>
 					{link.label}
 				</a>
@@ -32,13 +32,13 @@ const { links, variant = 'desktop' } = Astro.props
 				{links.map((link, index) => (
 					<a
 						href={link.href}
-						class="group flex items-center justify-between border-b border-gray-100 px-2 py-4 text-gray-700 transition-all duration-300 last:border-b-0 hover:translate-x-2 hover:text-gray-900"
+						class="group flex items-center justify-between border-b border-gray-100/50 px-2 py-4 text-gray-700 transition-all duration-300 last:border-b-0 hover:translate-x-2 hover:text-gray-900 dark:border-gray-600/30 dark:text-gray-100 dark:hover:text-white"
 						style={`animation-delay: ${index * 100}ms`}
 					>
 						<span class="text-xl font-medium transition-all duration-300 group-hover:font-semibold">
 							{link.label}
 						</span>
-						<ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-300" />
+						<ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-300 dark:text-gray-300 dark:group-hover:text-gray-200" />
 					</a>
 				))}
 			</div>

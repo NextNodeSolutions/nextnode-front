@@ -1,7 +1,7 @@
 ---
 import { cn } from '@/lib/utils'
 import { languages } from '@/lib/constants'
-import { Sun, ChevronDown } from 'lucide-react'
+import { ChevronDown, Sun, Moon } from 'lucide-react'
 
 interface Props {
 	variant?: 'desktop' | 'mobile'
@@ -14,7 +14,7 @@ const { variant = 'desktop' } = Astro.props
 	class={cn(
 		variant === 'desktop'
 			? 'flex items-center space-x-6'
-			: 'pt-4 border-t border-gray-200',
+			: 'pt-4 border-t border-gray-200 dark:border-gray-700',
 	)}
 >
 	<div
@@ -26,16 +26,18 @@ const { variant = 'desktop' } = Astro.props
 	>
 		<!-- Theme Toggle -->
 		<button
-			class="rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900"
+			id="theme-toggle"
+			class="rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
 			aria-label="Toggle theme"
 		>
-			<Sun className="h-4 w-4" />
+			<Sun id="sun-icon" className="h-4 w-4" />
+			<Moon id="moon-icon" className="hidden h-4 w-4" />
 		</button>
 
 		<!-- Language Selector -->
 		<div class="group relative">
 			<button
-				class="flex items-center space-x-1.5 text-gray-600 transition-all duration-300 hover:scale-105 hover:text-gray-900"
+				class="flex items-center space-x-1.5 text-gray-600 transition-all duration-300 hover:scale-105 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
 				aria-label="Select language"
 			>
 				<span class="text-base">🇬🇧</span>
@@ -45,13 +47,13 @@ const { variant = 'desktop' } = Astro.props
 				/>
 			</button>
 			<div
-				class="invisible absolute right-0 mt-2 w-40 translate-y-2 transform rounded-lg border border-gray-200 bg-white/95 opacity-0 shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100"
+				class="invisible absolute right-0 mt-2 w-40 translate-y-2 transform rounded-lg border border-white/20 bg-white/80 opacity-0 shadow-lg backdrop-blur-md transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 dark:border-gray-600/20 dark:bg-gray-800/80 dark:backdrop-blur-md"
 			>
 				{
 					languages.map(lang => (
 						<a
 							href={`?lang=${lang.code}`}
-							class="flex items-center space-x-2 px-4 py-2 text-gray-600 transition-all duration-300 hover:translate-x-1 hover:bg-gray-50 hover:text-gray-900"
+							class="flex items-center space-x-2 px-4 py-2 text-gray-600 transition-all duration-300 hover:translate-x-1 hover:bg-white/60 hover:text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700/60 dark:hover:text-white"
 						>
 							<span class="text-lg">{lang.flag}</span>
 							<span>{lang.label}</span>
