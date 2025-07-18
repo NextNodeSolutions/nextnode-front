@@ -39,7 +39,9 @@
 		"selectLanguage": "Choisir la langue",
 		"openMenu": "Ouvrir le menu",
 		"closeMenu": "Fermer le menu",
-		"scrollToDiscover": "Faites défiler pour découvrir plus"
+		"scrollToDiscover": "Faites défiler pour découvrir plus",
+		"theme": "Thème",
+		"language": "Langue"
 	},
 	"modal": {
 		"title": "Démarrez votre projet avec nous",

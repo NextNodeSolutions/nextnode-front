@@ -18,79 +18,105 @@ const { variant = 'desktop' } = Astro.props
 			: 'pt-4 border-t border-gray-200 dark:border-gray-700',
 	)}
 >
-	<div
-		class={cn(
-			variant === 'desktop'
-				? 'flex items-center space-x-6'
-				: 'flex items-center justify-between',
-		)}
-	>
-		<!-- Theme Toggle -->
-		<button
-			id={`theme-toggle-${variant}`}
-			class="rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
-			aria-label={t('ui.toggleTheme')}
-		>
-			<Sun id={`sun-icon-${variant}`} className="h-4 w-4" />
-			<Moon id={`moon-icon-${variant}`} className="hidden h-4 w-4" />
-		</button>
+	{
+		variant === 'desktop' ? (
+			<div class="flex items-center space-x-6">
+				<button
+					id={`theme-toggle-${variant}`}
+					class="rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+					aria-label={t('ui.toggleTheme')}
+				>
+					<Sun id={`sun-icon-${variant}`} className="h-4 w-4" />
+					<Moon
+						id={`moon-icon-${variant}`}
+						className="hidden h-4 w-4"
+					/>
+				</button>
 
-		<!-- Initialize icons with correct state -->
-		<script is:inline define:vars={{ variant }}>
-			// Immediately set correct icon state
-			;(function () {
-				const savedTheme = localStorage.getItem('theme')
-				const systemPrefersDark = window.matchMedia(
-					'(prefers-color-scheme: dark)',
-				).matches
-				const isDark =
-					savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
-
-				const sunIcon = document.getElementById(`sun-icon-${variant}`)
-				const moonIcon = document.getElementById(`moon-icon-${variant}`)
-
-				if (sunIcon && moonIcon) {
-					if (isDark) {
-						sunIcon.classList.add('hidden')
-						moonIcon.classList.remove('hidden')
-					} else {
-						sunIcon.classList.remove('hidden')
-						moonIcon.classList.add('hidden')
-					}
-				}
-			})()
-		</script>
-
-		<!-- Language Selector -->
-		<div class="group relative">
-			<button
-				class="flex items-center space-x-1.5 text-gray-600 transition-all duration-300 hover:scale-105 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-				aria-label={t('ui.selectLanguage')}
-				id={`current-language-${variant}`}
-			>
-				<span class="text-base" id={`current-flag-${variant}`}>🇬🇧</span>
-				<span class="text-xs" id={`current-lang-${variant}`}>EN</span>
-				<ChevronDown
-					className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180"
-				/>
-			</button>
-			<div
-				class="invisible absolute right-0 mt-2 w-40 translate-y-2 transform rounded-lg border border-white/20 bg-white/80 opacity-0 shadow-lg backdrop-blur-md transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 dark:border-gray-600/20 dark:bg-gray-800/80 dark:backdrop-blur-md"
-			>
-				{
-					languages.map(lang => (
+				<div class="group relative">
+					<button
+						class="flex items-center space-x-1.5 text-gray-600 transition-all duration-300 hover:scale-105 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+						aria-label={t('ui.selectLanguage')}
+						id={`current-language-${variant}`}
+					>
+						<span class="text-base" id={`current-flag-${variant}`}>
+							🇬🇧
+						</span>
+						<span class="text-xs" id={`current-lang-${variant}`}>
+							EN
+						</span>
+						<ChevronDown className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180" />
+					</button>
+					<div class="invisible absolute right-0 mt-2 w-40 translate-y-2 transform rounded-lg border border-white/20 bg-white/80 opacity-0 shadow-lg backdrop-blur-md transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 dark:border-gray-600/20 dark:bg-gray-800/80 dark:backdrop-blur-md">
+						{languages.map(lang => (
+							<button
+								data-lang={lang.code}
+								class="flex w-full items-center space-x-2 px-4 py-2 text-gray-600 transition-all duration-300 hover:translate-x-1 hover:bg-white/60 hover:text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700/60 dark:hover:text-white"
+							>
+								<span class="text-lg">{lang.flag}</span>
+								<span>{lang.label}</span>
+							</button>
+						))}
+					</div>
+				</div>
+			</div>
+		) : (
+			<div class="flex items-center justify-between">
+				<div class="flex space-x-3">
+					{languages.map(lang => (
 						<button
 							data-lang={lang.code}
-							class="flex w-full items-center space-x-2 px-4 py-2 text-gray-600 transition-all duration-300 hover:translate-x-1 hover:bg-white/60 hover:text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700/60 dark:hover:text-white"
+							class="flex flex-col items-center space-y-1 rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-600 transition-all duration-300 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-blue-500 dark:hover:bg-blue-900/20 dark:hover:text-blue-400"
+							id={`lang-button-${lang.code}-${variant}`}
 						>
-							<span class="text-lg">{lang.flag}</span>
-							<span>{lang.label}</span>
+							<span class="text-xl">{lang.flag}</span>
+							<span class="text-xs font-medium">
+								{lang.label}
+							</span>
 						</button>
-					))
-				}
+					))}
+				</div>
+
+				<button
+					id={`theme-toggle-${variant}`}
+					class="rounded-full p-2 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+					aria-label={t('ui.toggleTheme')}
+				>
+					<Sun id={`sun-icon-${variant}`} className="h-5 w-5" />
+					<Moon
+						id={`moon-icon-${variant}`}
+						className="hidden h-5 w-5"
+					/>
+				</button>
 			</div>
-		</div>
-	</div>
+		)
+	}
+
+	<!-- Initialize icons with correct state -->
+	<script is:inline define:vars={{ variant }}>
+		// Immediately set correct icon state
+		;(function () {
+			const savedTheme = localStorage.getItem('theme')
+			const systemPrefersDark = window.matchMedia(
+				'(prefers-color-scheme: dark)',
+			).matches
+			const isDark =
+				savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
+
+			const sunIcon = document.getElementById(`sun-icon-${variant}`)
+			const moonIcon = document.getElementById(`moon-icon-${variant}`)
+
+			if (sunIcon && moonIcon) {
+				if (isDark) {
+					sunIcon.classList.add('hidden')
+					moonIcon.classList.remove('hidden')
+				} else {
+					sunIcon.classList.remove('hidden')
+					moonIcon.classList.add('hidden')
+				}
+			}
+		})()
+	</script>
 </div>
 
 <!-- Initialize language selector with correct state -->
@@ -108,16 +134,105 @@ const { variant = 'desktop' } = Astro.props
 			currentLang = browserLang
 		}
 
-		const flagElement = document.getElementById(`current-flag-${variant}`)
-		const langElement = document.getElementById(`current-lang-${variant}`)
+		if (variant === 'desktop') {
+			// Desktop version - update dropdown display
+			const flagElement = document.getElementById(
+				`current-flag-${variant}`,
+			)
+			const langElement = document.getElementById(
+				`current-lang-${variant}`,
+			)
 
-		if (flagElement && langElement) {
-			if (currentLang === 'fr') {
-				flagElement.textContent = '🇫🇷'
-				langElement.textContent = 'FR'
-			} else {
-				flagElement.textContent = '🇬🇧'
-				langElement.textContent = 'EN'
+			if (flagElement && langElement) {
+				if (currentLang === 'fr') {
+					flagElement.textContent = '🇫🇷'
+					langElement.textContent = 'FR'
+				} else {
+					flagElement.textContent = '🇬🇧'
+					langElement.textContent = 'EN'
+				}
+			}
+		} else {
+			// Mobile version - update button states
+			const enButton = document.getElementById(
+				`lang-button-en-${variant}`,
+			)
+			const frButton = document.getElementById(
+				`lang-button-fr-${variant}`,
+			)
+
+			if (enButton && frButton) {
+				// Reset all buttons to inactive state
+				enButton.classList.remove(
+					'border-blue-300',
+					'bg-blue-50',
+					'text-blue-600',
+					'dark:border-blue-500',
+					'dark:bg-blue-900/20',
+					'dark:text-blue-400',
+				)
+				frButton.classList.remove(
+					'border-blue-300',
+					'bg-blue-50',
+					'text-blue-600',
+					'dark:border-blue-500',
+					'dark:bg-blue-900/20',
+					'dark:text-blue-400',
+				)
+
+				enButton.classList.add(
+					'border-gray-200',
+					'bg-white',
+					'text-gray-600',
+					'dark:border-gray-600',
+					'dark:bg-gray-800',
+					'dark:text-gray-100',
+				)
+				frButton.classList.add(
+					'border-gray-200',
+					'bg-white',
+					'text-gray-600',
+					'dark:border-gray-600',
+					'dark:bg-gray-800',
+					'dark:text-gray-100',
+				)
+
+				// Activate current language button
+				if (currentLang === 'fr') {
+					frButton.classList.remove(
+						'border-gray-200',
+						'bg-white',
+						'text-gray-600',
+						'dark:border-gray-600',
+						'dark:bg-gray-800',
+						'dark:text-gray-100',
+					)
+					frButton.classList.add(
+						'border-blue-300',
+						'bg-blue-50',
+						'text-blue-600',
+						'dark:border-blue-500',
+						'dark:bg-blue-900/20',
+						'dark:text-blue-400',
+					)
+				} else {
+					enButton.classList.remove(
+						'border-gray-200',
+						'bg-white',
+						'text-gray-600',
+						'dark:border-gray-600',
+						'dark:bg-gray-800',
+						'dark:text-gray-100',
+					)
+					enButton.classList.add(
+						'border-blue-300',
+						'bg-blue-50',
+						'text-blue-600',
+						'dark:border-blue-500',
+						'dark:bg-blue-900/20',
+						'dark:text-blue-400',
+					)
+				}
 			}
 		}
 	})()
