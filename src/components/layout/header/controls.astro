@@ -2,6 +2,7 @@
 import { cn } from '@/lib/utils'
 import { languages } from '@/lib/constants'
 import { ChevronDown, Sun, Moon } from 'lucide-react'
+import { t } from '@/lib/astro-i18n'
 
 interface Props {
 	variant?: 'desktop' | 'mobile'
@@ -28,7 +29,7 @@ const { variant = 'desktop' } = Astro.props
 		<button
 			id={`theme-toggle-${variant}`}
 			class="rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
-			aria-label="Toggle theme"
+			aria-label={t('ui.toggleTheme')}
 		>
 			<Sun id={`sun-icon-${variant}`} className="h-4 w-4" />
 			<Moon id={`moon-icon-${variant}`} className="hidden h-4 w-4" />
@@ -64,10 +65,11 @@ const { variant = 'desktop' } = Astro.props
 		<div class="group relative">
 			<button
 				class="flex items-center space-x-1.5 text-gray-600 transition-all duration-300 hover:scale-105 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-				aria-label="Select language"
+				aria-label={t('ui.selectLanguage')}
+				id={`current-language-${variant}`}
 			>
-				<span class="text-base">🇬🇧</span>
-				<span class="text-xs">EN</span>
+				<span class="text-base" id={`current-flag-${variant}`}>🇬🇧</span>
+				<span class="text-xs" id={`current-lang-${variant}`}>EN</span>
 				<ChevronDown
 					className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180"
 				/>
@@ -77,16 +79,46 @@ const { variant = 'desktop' } = Astro.props
 			>
 				{
 					languages.map(lang => (
-						<a
-							href={`?lang=${lang.code}`}
-							class="flex items-center space-x-2 px-4 py-2 text-gray-600 transition-all duration-300 hover:translate-x-1 hover:bg-white/60 hover:text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700/60 dark:hover:text-white"
+						<button
+							data-lang={lang.code}
+							class="flex w-full items-center space-x-2 px-4 py-2 text-gray-600 transition-all duration-300 hover:translate-x-1 hover:bg-white/60 hover:text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700/60 dark:hover:text-white"
 						>
 							<span class="text-lg">{lang.flag}</span>
 							<span>{lang.label}</span>
-						</a>
+						</button>
 					))
 				}
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- Initialize language selector with correct state -->
+<script is:inline define:vars={{ variant }}>
+	// Immediately set correct language state
+	;(function () {
+		const savedLang = localStorage.getItem('language')
+		const browserLang = navigator.language.split('-')[0]
+		const supportedLangs = ['en', 'fr']
+
+		let currentLang = 'en'
+		if (savedLang && supportedLangs.includes(savedLang)) {
+			currentLang = savedLang
+		} else if (supportedLangs.includes(browserLang)) {
+			currentLang = browserLang
+		}
+
+		const flagElement = document.getElementById(`current-flag-${variant}`)
+		const langElement = document.getElementById(`current-lang-${variant}`)
+
+		if (flagElement && langElement) {
+			if (currentLang === 'fr') {
+				flagElement.textContent = '🇫🇷'
+				langElement.textContent = 'FR'
+			} else {
+				flagElement.textContent = '🇬🇧'
+				langElement.textContent = 'EN'
+			}
+		}
+	})()
+</script>

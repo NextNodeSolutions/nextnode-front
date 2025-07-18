@@ -1,6 +1,6 @@
 ---
-import { cn } from '@/lib/utils'
 import { Menu, X } from 'lucide-react'
+import { t } from '@/lib/astro-i18n'
 
 interface Props {
 	action: 'open' | 'close'
@@ -11,7 +11,7 @@ const { action } = Astro.props
 
 <button
 	class="rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 md:hidden dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
-	aria-label={`${action === 'open' ? 'Open' : 'Close'} menu`}
+	aria-label={action === 'open' ? t('ui.openMenu') : t('ui.closeMenu')}
 	id={`mobile-menu-${action}-button`}
 >
 	{

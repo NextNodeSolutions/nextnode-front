@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { StartProjectModal } from './start-project-modal'
+import { t } from '@/lib/astro-i18n'
 ---
 
 <!-- Main Content -->
@@ -22,8 +23,7 @@ import { StartProjectModal } from './start-project-modal'
 				'md:text-sm md:max-w-lg md:mx-0 md:font-normal md:leading-normal',
 			)}
 		>
-			We don't just build websites. We create digital experiences that
-			sell.
+			{t('hero.subtitle')}
 		</div>
 		<h1
 			class={cn(
@@ -34,11 +34,11 @@ import { StartProjectModal } from './start-project-modal'
 				'lg:text-6xl',
 			)}
 		>
-			YOUR NEXT<br />
+			{t('hero.title')}<br />
 			<span class="font-medium text-blue-600 dark:text-blue-400"
-				>BREAKTHROUGH</span
+				>{t('hero.titleHighlight')}</span
 			><br />
-			STARTS HERE
+			{t('hero.titleEnd')}
 		</h1>
 
 		<div
@@ -50,8 +50,7 @@ import { StartProjectModal } from './start-project-modal'
 				'lg:text-xl',
 			)}
 		>
-			Turn visitors into customers with websites that convert.
-			Custom-built, lightning-fast, and designed to grow your business.
+			{t('hero.description')}
 		</div>
 	</div>
 
@@ -72,8 +71,7 @@ import { StartProjectModal } from './start-project-modal'
 					'md:px-0 md:text-left',
 				)}
 			>
-				✨ This is where the magic happens — let's build something
-				amazing together
+				{t('hero.magicText')}
 			</div>
 		</div>
 		<Button
@@ -90,7 +88,7 @@ import { StartProjectModal } from './start-project-modal'
 					'transition-transform duration-300',
 					'group-hover:-translate-x-2 uppercase text-sm font-semibold tracking-wide',
 					'sm:text-base',
-				)}>View Our Work</span
+				)}>{t('hero.viewWorkButton')}</span
 			>
 			<span
 				class={cn(

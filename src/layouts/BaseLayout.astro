@@ -3,6 +3,61 @@ import '../styles/global.css'
 import '../styles/base.css'
 import '../styles/animations.css'
 import '../styles/liquid-effects.css'
+import i18next, { t } from 'i18next'
+
+// Force la réinitialisation d'i18next
+
+// Chargement des traductions
+const en = await import('../../public/locales/en/common.json')
+const fr = await import('../../public/locales/fr/common.json')
+
+// Détecter la langue du navigateur
+const detectLanguage = (): string => {
+	// Essayer de récupérer depuis les cookies
+	const cookieHeader = Astro.request.headers.get('cookie')
+	if (cookieHeader) {
+		const cookies = Object.fromEntries(
+			cookieHeader.split('; ').map(cookie => {
+				const [key, value] = cookie.split('=')
+				return [key, decodeURIComponent(value || '')]
+			}),
+		)
+
+		const langFromCookie = cookies.language
+		if (langFromCookie && ['en', 'fr'].includes(langFromCookie)) {
+			return langFromCookie
+		}
+	}
+
+	// Sinon utiliser Accept-Language header
+	const acceptLanguage = Astro.request.headers.get('accept-language')
+	if (acceptLanguage) {
+		const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
+		if (preferredLang && ['en', 'fr'].includes(preferredLang)) {
+			return preferredLang
+		}
+	}
+
+	return 'en' // fallback
+}
+
+const currentLang = detectLanguage()
+
+await i18next.init({
+	lng: currentLang,
+	fallbackLng: 'en',
+	resources: {
+		en: { common: en.default },
+		fr: { common: fr.default },
+	},
+	defaultNS: 'common',
+	ns: ['common'],
+})
+
+// Créer une fonction de traduction custom qui marche
+const customT = (key: string): string => {
+	return i18next.getResource(i18next.language, 'common', key) || key
+}
 
 export interface Props {
 	title: string
@@ -20,7 +75,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 ---
 
 <!doctype html>
-<html lang="fr" class="scroll-smooth">
+<html lang={i18next.language} class="scroll-smooth">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -32,6 +87,23 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
 		<!-- Canonical URL -->
 		<link rel="canonical" href={canonicalURL} />
+
+		<!-- Language links -->
+		<link
+			rel="alternate"
+			hreflang="en"
+			href={Astro.url.origin + Astro.url.pathname}
+		/>
+		<link
+			rel="alternate"
+			hreflang="fr"
+			href={Astro.url.origin + '/fr' + Astro.url.pathname}
+		/>
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={Astro.url.origin + Astro.url.pathname}
+		/>
 
 		<!-- Open Graph -->
 		<meta property="og:type" content="website" />
@@ -55,8 +127,40 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 			rel="stylesheet"
 		/>
 
-		<!-- Theme initialization script (must run before body render) -->
+		<!-- Language and Theme initialization script (must run before body render) -->
 		<script is:inline>
+			// Initialize language immediately to prevent flash
+			;(function () {
+				const savedLang = localStorage.getItem('language')
+				const browserLang = navigator.language?.split('-')[0]
+				const supportedLangs = ['en', 'fr']
+
+				let currentLang = 'en' // default
+
+				if (savedLang && supportedLangs.includes(savedLang)) {
+					currentLang = savedLang
+				} else if (
+					browserLang &&
+					supportedLangs.includes(browserLang)
+				) {
+					currentLang = browserLang
+				}
+
+				// Store language globally for components to access
+				window.initialLanguage = currentLang
+				window.currentLanguage = currentLang
+				document.documentElement.setAttribute('lang', currentLang)
+				document.documentElement.setAttribute(
+					'data-language',
+					currentLang,
+				)
+
+				// Set cookie for server-side detection if not already set
+				if (!savedLang) {
+					document.cookie = `language=${currentLang}; path=/; max-age=31536000` // 1 year
+				}
+			})()
+
 			// Initialize theme immediately to prevent flash
 			;(function () {
 				const savedTheme = localStorage.getItem('theme')
@@ -83,8 +187,55 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 	>
 		<slot />
 
-		<!-- Global theme management script -->
+		<!-- Global theme and language management script -->
 		<script>
+			// Global language management
+			window.languageManager = {
+				getCurrentLanguage() {
+					const savedLang = localStorage.getItem('language')
+					const browserLang = navigator.language?.split('-')[0]
+					const supportedLangs = ['en', 'fr']
+
+					if (savedLang && supportedLangs.includes(savedLang)) {
+						return savedLang
+					} else if (
+						browserLang &&
+						supportedLangs.includes(browserLang)
+					) {
+						return browserLang
+					}
+					return 'en'
+				},
+
+				changeLanguage(newLang) {
+					localStorage.setItem('language', newLang)
+					// Set cookie for server-side detection
+					document.cookie = `language=${newLang}; path=/; max-age=31536000` // 1 year
+					document.documentElement.setAttribute('lang', newLang)
+					// Reload page to apply language change
+					window.location.reload()
+				},
+
+				init() {
+					// Set initial language
+					const currentLang = this.getCurrentLanguage()
+					document.documentElement.setAttribute('lang', currentLang)
+
+					// Set up language selector buttons
+					const languageButtons =
+						document.querySelectorAll('[data-lang]')
+					languageButtons.forEach(button => {
+						button.addEventListener('click', e => {
+							e.preventDefault()
+							const lang = button.getAttribute('data-lang')
+							if (lang) {
+								this.changeLanguage(lang)
+							}
+						})
+					})
+				},
+			}
+
 			// Global theme management
 			window.themeManager = {
 				getCurrentTheme() {
@@ -169,12 +320,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 				},
 			}
 
-			// Initialize theme management when DOM is ready
+			// Initialize language and theme management when DOM is ready
 			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', () =>
-					window.themeManager.init(),
-				)
+				document.addEventListener('DOMContentLoaded', () => {
+					window.languageManager.init()
+					window.themeManager.init()
+				})
 			} else {
+				window.languageManager.init()
 				window.themeManager.init()
 			}
 		</script>

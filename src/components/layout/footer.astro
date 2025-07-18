@@ -1,5 +1,6 @@
 ---
 import { cn } from '@/lib/utils'
+import { t } from '@/lib/astro-i18n'
 ---
 
 <footer
@@ -13,18 +14,23 @@ import { cn } from '@/lib/utils'
 			class="flex flex-col items-center justify-between gap-4 text-xs md:flex-row"
 		>
 			<div class="text-gray-600 dark:text-gray-200">
-				© {new Date().getFullYear()} Nextnode. All rights reserved.
+				{
+					t('footer.copyright').replace(
+						'{year}',
+						new Date().getFullYear().toString(),
+					)
+				}
 			</div>
 			<div class="flex gap-6">
 				<a
 					href="/privacy"
 					class="text-gray-600 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
-					>Privacy</a
+					>{t('footer.privacy')}</a
 				>
 				<a
 					href="/terms"
 					class="text-gray-600 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
-					>Terms</a
+					>{t('footer.terms')}</a
 				>
 			</div>
 		</div>

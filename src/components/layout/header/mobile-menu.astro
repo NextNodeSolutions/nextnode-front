@@ -1,12 +1,11 @@
 ---
-import { cn } from '@/lib/utils'
 import Navigation from './navigation.astro'
 import Controls from './controls.astro'
 import Logo from './logo.astro'
 import MobileButton from './mobile-button.astro'
 
 interface Props {
-	links: { href: string; label: string }[]
+	links: { href: string; labelKey: string }[]
 }
 
 const { links } = Astro.props
