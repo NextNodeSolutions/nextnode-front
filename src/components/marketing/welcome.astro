@@ -1,46 +1,33 @@
 ---
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { StartProjectModal } from './start-project-modal'
+import HeroContent from './hero-content.astro'
+import ScrollIndicator from './scroll-indicator.astro'
+import MobileSidePanel from './mobile-side-panel.astro'
+import SidePanel from './side-panel.astro'
 ---
 
-<div class="text-center md:text-left">
-  <div class={cn(
-    "text-xs tracking-wider text-gray-700 max-w-md mt-3",
-    "md:text-sm md:mt-4"
-  )}>
-    Crafting exceptional web experiences that drive business growth and digital success 
-  </div>
-  <h1 class={cn(
-    "text-2xl font-light leading-tight max-w-3xl mt-8",
-    "sm:text-5xl sm:mt-8",
-    "md:text-7xl md:mt-12"
-  )}>
-    DIGITAL INNOVATION<br />
-    & EXCELLENCE
-  </h1>
+<!-- Hero Section -->
+<div
+	class={cn(
+		'mx-auto mt-12 px-0',
+		'min-h-[calc(100vh-3rem)] flex flex-col justify-center',
+		'sm:mt-0 sm:px-4',
+		'md:min-h-[70vh] md:flex-row md:items-center md:px-6 md:max-w-6xl',
+	)}
+>
+	<HeroContent />
+
+	<!-- Side Panel -->
+	<div
+		class={cn(
+			'hidden',
+			'md:block md:w-2/5 md:pl-8 opacity-0 animate-fade-in-up animation-delay-600',
+		)}
+	>
+		<SidePanel />
+	</div>
 </div>
-<div>
-  <div class={cn("mt-8 flex flex-col gap-4 max-w-xl", "sm:mt-14", "md:mt-20")}>
-    <StartProjectModal client:load />
-    <Button variant="outline" className={cn(
-      "py-5 group transition-all duration-300 cursor-pointer",
-    )}>
-      <span class={cn(
-        "inline-block transition-transform duration-300",
-        "group-hover:-translate-x-2 uppercase"
-      )}>See our work</span> 
-      <span class={cn(
-        "inline-block opacity-0 transition-all duration-300",
-        "group-hover:translate-x-2 group-hover:opacity-100"
-      )}>→</span>
-    </Button>
-  </div>
-</div>
-<div class={cn(
-  "text-xs tracking-wide text-gray-600 uppercase mt-6",
-  "md:mt-12"
-)}>
-  Custom web development & ultra-fast deployment on private cloud. <br />
-  TAILORED TO YOUR VISION
-</div> 
+
+<ScrollIndicator />
+
+<MobileSidePanel />

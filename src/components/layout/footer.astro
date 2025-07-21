@@ -1,20 +1,38 @@
 ---
 import { cn } from '@/lib/utils'
+import { t } from '@/lib/astro-i18n'
 ---
 
-<footer class={cn(
-  "px-8 py-3 border-t border-gray-200",
-  "md:px-12"
-)}>
-  <div class="max-w-5xl mx-auto">    
-    <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
-      <div class="text-gray-600">
-        © {new Date().getFullYear()} Nextnode. All rights reserved.
-      </div>
-      <div class="flex gap-6">
-        <a href="/privacy" class="text-gray-600 hover:text-gray-900">Privacy</a>
-        <a href="/terms" class="text-gray-600 hover:text-gray-900">Terms</a>
-      </div>
-    </div>
-  </div>
-</footer> 
+<footer
+	class={cn(
+		'px-8 py-3 border-t border-gray-200 dark:border-gray-700/30',
+		'md:px-12',
+	)}
+>
+	<div class="mx-auto max-w-5xl">
+		<div
+			class="flex flex-col items-center justify-between gap-4 text-xs md:flex-row"
+		>
+			<div class="text-gray-600 dark:text-gray-200">
+				{
+					t('footer.copyright').replace(
+						'{year}',
+						new Date().getFullYear().toString(),
+					)
+				}
+			</div>
+			<div class="flex gap-6">
+				<a
+					href="/privacy"
+					class="text-gray-600 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
+					>{t('footer.privacy')}</a
+				>
+				<a
+					href="/terms"
+					class="text-gray-600 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white"
+					>{t('footer.terms')}</a
+				>
+			</div>
+		</div>
+	</div>
+</footer>
