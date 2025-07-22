@@ -1,0 +1,38 @@
+services:
+  astro-app:
+    image: nextnode-astro:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+      args:
+        NODE_VERSION: ${NODE_VERSION:-22}
+        PNPM_VERSION: ${PNPM_VERSION:-10.12.4}
+        APP_PORT: ${APP_PORT:-4321}
+    container_name: ${CONTAINER_NAME:-nextnode-astro}
+    ports:
+      - "${HOST_PORT:-4321}:${APP_PORT:-4321}"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - HOST=0.0.0.0
+      - PORT=${APP_PORT:-4321}
+      - ASTRO_TELEMETRY_DISABLED=1
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4321"]
+      interval: 30s
+      timeout: 10s
+      start_period: 5s
+      retries: 3
+    # Basic resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+    # Logging configuration
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
