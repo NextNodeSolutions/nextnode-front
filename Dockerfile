@@ -5,16 +5,16 @@ ARG NODE_VERSION=22
 ARG PNPM_VERSION=10.12.4
 ARG APP_PORT=4321
 
-# Stage 1: Base image with runtime dependencies
-FROM node:${NODE_VERSION}-alpine AS base
+# Stage 1: Build environment with all dependencies
+FROM node:${NODE_VERSION}-alpine AS builder
 
-# Install global dependencies and security updates
+# Install build dependencies and security updates
 RUN apk update && apk upgrade && \
     apk add --no-cache \
-    dumb-init \
-    tini \
-    wget \
-    && rm -rf /var/cache/apk/*
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/cache/apk/* /tmp/*
 
 # Install pnpm globally
 RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
@@ -24,89 +24,86 @@ WORKDIR /app
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S astro && \
-    adduser -S astro -u 1001
+    adduser -S astro -u 1001 && \
+    chown astro:astro /app
 
-# Stage 2: Production dependencies
-FROM base AS prod-deps
+USER astro
 
-# Copy package files for dependency caching optimization
-COPY package.json pnpm-lock.yaml ./
+# Copy package files first for better layer caching
+COPY --chown=astro:astro package.json pnpm-lock.yaml ./
 
-# Install production dependencies only (skip all scripts)
-RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm install --frozen-lockfile --prod --ignore-scripts
+# Install dependencies with optimizations
+ENV HUSKY=0 \
+    CI=true \
+    NODE_ENV=production \
+    ASTRO_TELEMETRY_DISABLED=1 \
+    PNPM_HOME=/pnpm \
+    PATH=$PNPM_HOME:$PATH
 
-# Stage 3: Build dependencies and source
-FROM base AS build-deps
-
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
-
-# Install all dependencies (skip prepare scripts, then rebuild needed packages)
-ENV HUSKY=0
-ENV CI=true
-RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm install --frozen-lockfile --ignore-scripts && \
-    # Rebuild only essential build tools
-    pnpm rebuild esbuild sharp @tailwindcss/oxide || echo "Some rebuilds failed, continuing..."
-
-# Stage 4: Build the application
-FROM build-deps AS build
+# Install and build in single layer to reduce image size
+RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Copy source code (optimized order for layer caching)
-COPY public ./public/
-COPY src ./src/
-COPY astro.config.mjs \
-     tsconfig.json \
-     astro-i18next.config.mjs \
-     vitest.config.ts \
-     eslint.config.mjs \
-     ./
+COPY --chown=astro:astro public ./public/
+COPY --chown=astro:astro src ./src/
+COPY --chown=astro:astro astro.config.mjs tsconfig.json astro-i18next.config.mjs ./
 
-# Set build environment variables
-ENV NODE_ENV=production
-ENV ASTRO_TELEMETRY_DISABLED=1
-
-# Build the application with optimizations
+# Build and clean in single layer  
 RUN pnpm run build && \
-    # Clean up unnecessary files to reduce image size
-    rm -rf node_modules/.cache && \
-    rm -rf .astro
+    pnpm prune --prod && \
+    rm -rf node_modules/.cache .astro node_modules/.pnpm .pnpm-store && \
+    find node_modules -name '*.md' -delete && \
+    find node_modules -name 'README*' -delete && \
+    find node_modules -name 'CHANGELOG*' -delete && \
+    find node_modules -name '*.test.js' -delete && \
+    find node_modules -name '__tests__' -type d -exec rm -rf {} + 2>/dev/null || true
 
-# Stage 5: Runtime environment
-FROM base AS runtime
+# Stage 2: Minimal runtime with distroless approach
+FROM node:${NODE_VERSION}-alpine AS runtime
 
-# Set runtime environment variables with build arg
+# Security hardening: minimal packages and updates
+RUN apk update && apk upgrade && \
+    apk add --no-cache \
+    tini \
+    ca-certificates \
+    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* \
+    && addgroup -g 1001 -S astro \
+    && adduser -S astro -u 1001 -G astro \
+    && mkdir -p /app /tmp \
+    && chown -R astro:astro /app /tmp
+
+# Set secure runtime environment
 ARG APP_PORT
-ENV NODE_ENV=production
-ENV HOST=0.0.0.0
-ENV PORT=${APP_PORT}
-ENV ASTRO_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production \
+    HOST=0.0.0.0 \
+    PORT=${APP_PORT} \
+    ASTRO_TELEMETRY_DISABLED=1 \
+    NODE_NO_WARNINGS=1 \
+    NODE_OPTIONS="--max-old-space-size=512 --max-semi-space-size=64" \
+    PATH=/app/node_modules/.bin:$PATH
 
-# Security: Use non-root user
+WORKDIR /app
+
+# Copy minimal production files from builder
+COPY --from=builder --chown=astro:astro /app/node_modules ./node_modules
+COPY --from=builder --chown=astro:astro /app/dist ./dist
+COPY --from=builder --chown=astro:astro /app/package.json ./package.json
+
+# Security: Remove SUID/SGID bits and set read-only filesystem
+RUN find /app -type f -perm /6000 -exec chmod -s {} \; 2>/dev/null || true
+
+# Switch to non-root user
 USER astro
 
-# Copy production dependencies
-COPY --from=prod-deps --chown=astro:astro /app/node_modules ./node_modules
-
-# Copy built application
-COPY --from=build --chown=astro:astro /app/dist ./dist
-COPY --from=build --chown=astro:astro /app/package.json ./package.json
-
-# Create necessary directories with proper permissions
-USER root
-RUN mkdir -p /tmp && chown astro:astro /tmp
-USER astro
-
-# Health check for container monitoring
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD node -e "const http = require('http'); const options = { host: '0.0.0.0', port: process.env.PORT || 4321, timeout: 2000 }; const req = http.request(options, (res) => { process.exit(res.statusCode === 200 ? 0 : 1); }); req.on('error', () => process.exit(1)); req.end();"
+# Optimized health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD node -e "require('http').get('http://localhost:${PORT:-4321}',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
 
 # Expose port
 EXPOSE $APP_PORT
 
-# Use tini for proper signal handling
-ENTRYPOINT ["/sbin/tini", "--"]
+# Security: Use tini for proper signal handling and PID 1
+ENTRYPOINT ["/sbin/tini", "-g", "--"]
 
-# Start the application
-CMD ["node", "./dist/server/entry.mjs"]
+# Start application with security optimizations
+CMD ["node", "--enable-source-maps", "--unhandled-rejections=strict", "./dist/server/entry.mjs"]

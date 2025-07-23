@@ -1,6 +1,5 @@
 services:
-  astro-app:
-    image: nextnode-astro:latest
+  nextnode-front:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,7 +8,15 @@ services:
         NODE_VERSION: ${NODE_VERSION:-22}
         PNPM_VERSION: ${PNPM_VERSION:-10.12.4}
         APP_PORT: ${APP_PORT:-4321}
-    container_name: ${CONTAINER_NAME:-nextnode-astro}
+      x-bake:
+        output:
+          - type=docker
+        cache-from:
+          - type=inline
+        platforms:
+          - linux/amd64
+    image: nextnode-front:latest
+    container_name: ${CONTAINER_NAME:-nextnode-front}
     ports:
       - "${HOST_PORT:-4321}:${APP_PORT:-4321}"
     environment:
@@ -18,10 +25,10 @@ services:
       - PORT=${APP_PORT:-4321}
       - ASTRO_TELEMETRY_DISABLED=1
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4321"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:4321',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"]
       interval: 30s
       timeout: 10s
-      start_period: 5s
+      start_period: 10s
       retries: 3
     # Basic resource limits
     deploy:
@@ -35,4 +42,3 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-

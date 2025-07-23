@@ -108,19 +108,40 @@ README.md
 
 # Docker
 Dockerfile*
+!Dockerfile
 .dockerignore
 docker-compose*.yml
+docker-bake.hcl
+build-clean.sh
 
 # Testing
 .jest/
 coverage/
 .nyc_output/
+test/
+tests/
+__tests__/
+*.test.*
+*.spec.*
+jest.config.*
+vitest.config.*
 
 # Linting and formatting
 .eslintrc*
+eslint.config.*
 .prettierrc*
+prettier.config.*
 .stylelintrc*
 .editorconfig
+.commitlintrc*
+
+# Development tools
+.husky/
+.changeset/
+CHANGELOG.md
+fly.toml
+Makefile
+scripts/
 
 # Package manager files (keep lock files for reproducible builds)
 # Note: We want to keep pnpm-lock.yaml for consistent builds
