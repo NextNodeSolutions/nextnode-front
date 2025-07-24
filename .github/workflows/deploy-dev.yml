@@ -61,14 +61,19 @@ jobs:
 
       - name: Initialize Fly.io App
         run: |
-          # Allocate IP addresses if app has none
-          if ! flyctl ips list --app ${{ env.FLY_APP_NAME }} 2>/dev/null | grep -q "v4\|v6"; then
-            echo "🔧 Allocating IP addresses for first deployment..."
+          # Ensure IPv4 is allocated (always needed)
+          if ! flyctl ips list --app ${{ env.FLY_APP_NAME }} 2>/dev/null | grep -q "v4"; then
+            echo "🔧 Allocating IPv4 address..."
             flyctl ips allocate-v4 --app ${{ env.FLY_APP_NAME }}
-            flyctl ips allocate-v6 --app ${{ env.FLY_APP_NAME }}
-          else
-            echo "✅ IP addresses already allocated"
           fi
+          
+          # Ensure IPv6 is allocated (required for Cloudflare proxy)
+          if ! flyctl ips list --app ${{ env.FLY_APP_NAME }} 2>/dev/null | grep -q "v6"; then
+            echo "🔧 Allocating IPv6 address for Cloudflare proxy compatibility..."
+            flyctl ips allocate-v6 --app ${{ env.FLY_APP_NAME }}
+          fi
+          
+          echo "✅ IP addresses ready for deployment"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -159,112 +164,98 @@ jobs:
       - name: Configure Cloudflare DNS for Custom Domain
         id: dns_check
         run: |
-          FLY_IP="${{ steps.get_ips.outputs.ipv4 }}"
+          FLY_IPV4="${{ steps.get_ips.outputs.ipv4 }}"
+          FLY_IPV6="${{ steps.get_ips.outputs.ipv6 }}"
           CURRENT_IP="${{ steps.check_dns.outputs.current_ip }}"
           CUSTOM_DOMAIN="${{ env.DOMAIN_DEV }}"
           
           echo "🌍 Configuring DNS for custom domain: $CUSTOM_DOMAIN"
-          echo "Target IP: $FLY_IP (from Fly.io app: ${{ env.FLY_APP_NAME }})"
+          echo "Available IPs from Fly.io app ${{ env.FLY_APP_NAME }}:"
+          echo "  IPv4: $FLY_IPV4"
+          echo "  IPv6: $FLY_IPV6"
           
-          if [[ "$FLY_IP" != "$CURRENT_IP" || -z "$CURRENT_IP" ]]; then
-            echo "🔄 DNS update needed: $CURRENT_IP -> $FLY_IP"
+          # Prefer IPv6 for Cloudflare proxy, fallback to IPv4
+          if [[ -n "$FLY_IPV6" ]]; then
+            TARGET_IP="$FLY_IPV6"
+            RECORD_TYPE="AAAA"
+            echo "🔧 Using IPv6 (recommended for Cloudflare proxy): $TARGET_IP"
+          else
+            TARGET_IP="$FLY_IPV4"
+            RECORD_TYPE="A"
+            echo "🔧 Fallback to IPv4: $TARGET_IP"
+          fi
+          
+          if [[ "$TARGET_IP" != "$CURRENT_IP" || -z "$CURRENT_IP" ]]; then
+            echo "🔄 DNS update needed: $CURRENT_IP -> $TARGET_IP ($RECORD_TYPE record)"
             
-            # Check if record exists for the custom domain
-            RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$CUSTOM_DOMAIN&type=A" \
+            # Check if record exists for the custom domain (check both A and AAAA)
+            RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$CUSTOM_DOMAIN&type=$RECORD_TYPE" \
               -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
               -H "Content-Type: application/json")
             
             RECORD_ID=$(echo "$RECORD_DATA" | jq -r '.result[0].id // ""')
             
             if [[ -n "$RECORD_ID" && "$RECORD_ID" != "null" ]]; then
-              # Update existing A record
-              echo "🔄 Updating existing A record for $CUSTOM_DOMAIN..."
+              # Update existing record
+              echo "🔄 Updating existing $RECORD_TYPE record for $CUSTOM_DOMAIN..."
               RESPONSE=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records/$RECORD_ID" \
                 -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
                 -H "Content-Type: application/json" \
                 --data "{
-                  \"type\": \"A\",
+                  \"type\": \"$RECORD_TYPE\",
                   \"name\": \"dev\",
-                  \"content\": \"$FLY_IP\",
+                  \"content\": \"$TARGET_IP\",
                   \"ttl\": 1,
                   \"proxied\": true,
                   \"comment\": \"NextNode Frontend Development -> Fly.io (${{ env.FLY_APP_NAME }}) - Updated $(date)\"
                 }")
               
               if echo "$RESPONSE" | jq -r '.success' | grep -q true; then
-                echo "✅ A record updated successfully"
+                echo "✅ $RECORD_TYPE record updated successfully"
               else
-                echo "❌ Failed to update A record: $(echo "$RESPONSE" | jq -r '.errors[0].message')"
+                echo "❌ Failed to update $RECORD_TYPE record: $(echo "$RESPONSE" | jq -r '.errors[0].message')"
               fi
             else
-              # Create new A record
-              echo "➕ Creating new A record for $CUSTOM_DOMAIN..."
+              # Create new record
+              echo "➕ Creating new $RECORD_TYPE record for $CUSTOM_DOMAIN..."
               RESPONSE=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records" \
                 -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
                 -H "Content-Type: application/json" \
                 --data "{
-                  \"type\": \"A\",
+                  \"type\": \"$RECORD_TYPE\",
                   \"name\": \"dev\",
-                  \"content\": \"$FLY_IP\",
+                  \"content\": \"$TARGET_IP\",
                   \"ttl\": 1,
                   \"proxied\": true,
                   \"comment\": \"NextNode Frontend Development -> Fly.io (${{ env.FLY_APP_NAME }}) - Created $(date)\"
                 }")
               
               if echo "$RESPONSE" | jq -r '.success' | grep -q true; then
-                echo "✅ A record created successfully"
+                echo "✅ $RECORD_TYPE record created successfully"
               else
-                echo "❌ Failed to create A record: $(echo "$RESPONSE" | jq -r '.errors[0].message')"
+                echo "❌ Failed to create $RECORD_TYPE record: $(echo "$RESPONSE" | jq -r '.errors[0].message')"
               fi
             fi
             
-            # Handle IPv6 if available
-            IPV6="${{ steps.get_ips.outputs.ipv6 }}"
-            if [[ -n "$IPV6" ]]; then
-              echo "🔄 Configuring IPv6 (AAAA) record for $CUSTOM_DOMAIN..."
-              AAAA_RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$CUSTOM_DOMAIN&type=AAAA" \
+            # Clean up old record type if we switched (A <-> AAAA)
+            if [[ "$RECORD_TYPE" == "AAAA" ]]; then
+              # Remove old A record if exists
+              OLD_RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$CUSTOM_DOMAIN&type=A" \
                 -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
                 -H "Content-Type: application/json")
-              
-              AAAA_RECORD_ID=$(echo "$AAAA_RECORD_DATA" | jq -r '.result[0].id // ""')
-              
-              if [[ -n "$AAAA_RECORD_ID" && "$AAAA_RECORD_ID" != "null" ]]; then
-                # Update existing AAAA record
-                curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records/$AAAA_RECORD_ID" \
-                  -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-                  -H "Content-Type: application/json" \
-                  --data "{
-                    \"type\": \"AAAA\",
-                    \"name\": \"dev\",
-                    \"content\": \"$IPV6\",
-                    \"ttl\": 1,
-                    \"proxied\": true,
-                    \"comment\": \"NextNode Frontend Development IPv6 -> Fly.io (${{ env.FLY_APP_NAME }}) - Updated $(date)\"
-                  }" > /dev/null
-                echo "✅ AAAA record updated"
-              else
-                # Create new AAAA record
-                curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records" \
-                  -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
-                  -H "Content-Type: application/json" \
-                  --data "{
-                    \"type\": \"AAAA\",
-                    \"name\": \"dev\",
-                    \"content\": \"$IPV6\",
-                    \"ttl\": 1,
-                    \"proxied\": true,
-                    \"comment\": \"NextNode Frontend Development IPv6 -> Fly.io (${{ env.FLY_APP_NAME }}) - Created $(date)\"
-                  }" > /dev/null
-                echo "✅ AAAA record created"
+              OLD_RECORD_ID=$(echo "$OLD_RECORD_DATA" | jq -r '.result[0].id // ""')
+              if [[ -n "$OLD_RECORD_ID" && "$OLD_RECORD_ID" != "null" ]]; then
+                echo "🗑️  Removing old A record (replaced by AAAA)..."
+                curl -s -X DELETE "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records/$OLD_RECORD_ID" \
+                  -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" > /dev/null
               fi
-            else
-              echo "⚠️  No IPv6 available, skipping AAAA record"
             fi
             
+            
             echo "updated=true" >> $GITHUB_OUTPUT
-            echo "✅ Custom domain $CUSTOM_DOMAIN now points to Fly.io app ${{ env.FLY_APP_NAME }}"
+            echo "✅ Custom domain $CUSTOM_DOMAIN now points to Fly.io app ${{ env.FLY_APP_NAME }} ($RECORD_TYPE: $TARGET_IP)"
           else
-            echo "✅ DNS records are already up to date (IP: $FLY_IP)"
+            echo "✅ DNS records are already up to date ($RECORD_TYPE: $TARGET_IP)"
             echo "updated=false" >> $GITHUB_OUTPUT
           fi
           
