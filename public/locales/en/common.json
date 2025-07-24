@@ -1,0 +1,72 @@
+{
+	"hero": {
+		"subtitle": "We don't just build websites. We create digital experiences that sell.",
+		"title": "YOUR NEXT",
+		"titleHighlight": "BREAKTHROUGH",
+		"titleEnd": "STARTS HERE",
+		"description": "Turn visitors into customers with websites that convert. Custom-built, lightning-fast, and designed to grow your business.",
+		"magicText": "✨ This is where the magic happens — let's build something amazing together",
+		"viewWorkButton": "View Our Work",
+		"startProjectButton": "🚀 Start your project with us"
+	},
+	"sidePanel": {
+		"whoWeAre": "Who We Are",
+		"description": "We're a digital studio that specializes in creating high-performance websites for ambitious businesses. From startups to established companies, we turn your vision into reality.",
+		"features": {
+			"custom": "Custom development tailored to your needs",
+			"fast": "Lightning-fast deployment & ongoing support",
+			"convert": "Websites that convert visitors into customers"
+		},
+		"quote": "Great websites don't just look good — they convert visitors into customers and drive real business growth.",
+		"quoteAuthor": "— Digital Marketing Best Practices",
+		"cta": {
+			"title": "Ready to transform your business?",
+			"description": "Click \"Start your project\" to begin your digital transformation journey.",
+			"highlight": "💡 Free consultation included"
+		}
+	},
+	"navigation": {
+		"home": "Home",
+		"about": "About",
+		"services": "Services",
+		"portfolio": "Portfolio",
+		"contact": "Contact",
+		"howWeWork": "How we work",
+		"pricing": "Pricing"
+	},
+	"ui": {
+		"toggleTheme": "Toggle theme",
+		"selectLanguage": "Select language",
+		"openMenu": "Open menu",
+		"closeMenu": "Close menu",
+		"scrollToDiscover": "Scroll to discover more",
+		"theme": "Theme",
+		"language": "Language"
+	},
+	"modal": {
+		"title": "Start Your Project With Us",
+		"description": "Let's create something amazing together. Fill out the form below and we'll get back to you within 24 hours.",
+		"form": {
+			"name": "Name",
+			"namePlaceholder": "Your name",
+			"email": "Email",
+			"emailPlaceholder": "your@email.com",
+			"projectType": "Project Type",
+			"projectTypePlaceholder": "What kind of project are you looking for?",
+			"budget": "Budget Range",
+			"budgetPlaceholder": "Your budget range",
+			"details": "Project Details",
+			"detailsPlaceholder": "Tell us more about your project...",
+			"submit": "Submit Project Request"
+		}
+	},
+	"footer": {
+		"copyright": "© {year} Nextnode. All rights reserved.",
+		"privacy": "Privacy",
+		"terms": "Terms"
+	},
+	"languages": {
+		"en": "EN",
+		"fr": "FR"
+	}
+}

@@ -9,10 +9,13 @@ const { variant = 'desktop' } = Astro.props
 ---
 
 <a href="/" class="flex items-center">
-  <span class={cn(
-    "text-xl font-medium tracking-wider text-gray-800 hover:text-gray-900 transition-colors duration-300 uppercase",
-    variant === 'mobile' ? "text-gray-800" : ""
-  )}>
-    Nextnode
-  </span>
-</a> 
+	<span
+		class={cn(
+			'text-xl font-medium tracking-wider text-gray-800 hover:text-gray-900 transition-colors duration-300 uppercase',
+			'dark:text-gray-200 dark:hover:text-gray-100',
+			variant === 'mobile' ? 'text-gray-800 dark:text-gray-200' : '',
+		)}
+	>
+		Nextnode
+	</span>
+</a>
