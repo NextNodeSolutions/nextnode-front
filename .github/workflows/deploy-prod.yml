@@ -79,6 +79,19 @@ jobs:
       - name: Setup Fly CLI
         uses: superfly/flyctl-actions/setup-flyctl@master
 
+      - name: Initialize Fly.io App
+        run: |
+          # Allocate IP addresses if app has none
+          if ! flyctl ips list --app ${{ env.FLY_APP_NAME }} | grep -q "v4\|v6"; then
+            echo "🔧 Allocating IP addresses for first deployment..."
+            flyctl ips allocate-v4 --app ${{ env.FLY_APP_NAME }}
+            flyctl ips allocate-v6 --app ${{ env.FLY_APP_NAME }}
+          else
+            echo "✅ IP addresses already allocated"
+          fi
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
       - name: Deploy to Fly.io with Zero Downtime
         run: |
           # Copy fly.toml and update app name for production
