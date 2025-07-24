@@ -25,7 +25,7 @@
 		"test:coverage": "vitest run --coverage",
 		"test:ui": "vitest --ui",
 		"test:watch": "vitest",
-		"type-check": "tsc --noEmit",
+		"type-check": "astro sync && tsc --noEmit",
 		"preview": "astro preview"
 	},
 	"dependencies": {
