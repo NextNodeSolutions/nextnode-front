@@ -79,10 +79,28 @@ jobs:
       - name: Setup Fly CLI
         uses: superfly/flyctl-actions/setup-flyctl@master
 
+      - name: Deploy to Fly.io with Zero Downtime
+        run: |
+          # Copy fly.toml and update app name for production
+          cp fly.toml fly.prod.toml
+          sed -i 's/app = "nextnode-front"/app = "nextnode-front-prod"/' fly.prod.toml
+          
+          # Production optimizations
+          sed -i 's/min_machines_running = 1/min_machines_running = 2/' fly.prod.toml
+          sed -i 's/memory_mb = 512/memory_mb = 1024/' fly.prod.toml
+          
+          # Deploy with production configuration and zero downtime
+          flyctl deploy --config fly.prod.toml --app ${{ env.FLY_APP_NAME }} --wait-timeout=15m --strategy=bluegreen
+          
+          # Clean up temporary config
+          rm fly.prod.toml
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
       - name: Get Fly.io IP addresses
         id: fly-ips
         run: |
-          # Get IPv4 and IPv6 addresses for the app
+          # Get IPv4 and IPv6 addresses for the app after deployment
           IPV4=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.type == "v4") | .address' | head -1)
           IPV6=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.type == "v6") | .address' | head -1)
           
@@ -117,24 +135,6 @@ jobs:
         env:
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-
-      - name: Deploy to Fly.io with Zero Downtime
-        run: |
-          # Copy fly.toml and update app name for production
-          cp fly.toml fly.prod.toml
-          sed -i 's/app = "nextnode-front"/app = "nextnode-front-prod"/' fly.prod.toml
-          
-          # Production optimizations
-          sed -i 's/min_machines_running = 1/min_machines_running = 2/' fly.prod.toml
-          sed -i 's/memory_mb = 512/memory_mb = 1024/' fly.prod.toml
-          
-          # Deploy with production configuration and zero downtime
-          flyctl deploy --config fly.prod.toml --app ${{ env.FLY_APP_NAME }} --wait-timeout=15m --strategy=bluegreen
-          
-          # Clean up temporary config
-          rm fly.prod.toml
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: Setup SSL Certificate
         run: |
