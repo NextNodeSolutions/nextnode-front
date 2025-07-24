@@ -1,0 +1,180 @@
+name: Deploy to Development
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+
+env:
+  FLY_APP_NAME: nextnode-front-dev
+  CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+  DOMAIN_DEV: dev.nextnode.fr  # Replace with your actual domain
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.12.4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linting
+        run: pnpm lint
+
+      - name: Run type checking
+        run: pnpm type-check
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build application
+        run: pnpm build
+
+  deploy:
+    name: Deploy to Fly.io Dev
+    runs-on: ubuntu-latest
+    needs: test
+    environment: development
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Get Fly.io IP addresses
+        id: fly-ips
+        run: |
+          # Get IPv4 and IPv6 addresses for the app
+          IPV4=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.type == "v4") | .address' | head -1)
+          IPV6=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.type == "v6") | .address' | head -1)
+          
+          echo "ipv4=$IPV4" >> $GITHUB_OUTPUT
+          echo "ipv6=$IPV6" >> $GITHUB_OUTPUT
+          
+          echo "📍 Fly.io IPv4: $IPV4"
+          echo "📍 Fly.io IPv6: $IPV6"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Update Cloudflare DNS Records
+        uses: rez0n/create-dns-record@v2.1
+        with:
+          type: "A"
+          name: "dev"
+          content: ${{ steps.fly-ips.outputs.ipv4 }}
+          ttl: 1  # Auto TTL
+          proxied: true
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+
+      - name: Update Cloudflare AAAA Record
+        uses: rez0n/create-dns-record@v2.1
+        with:
+          type: "AAAA"
+          name: "dev"
+          content: ${{ steps.fly-ips.outputs.ipv6 }}
+          ttl: 1  # Auto TTL
+          proxied: true
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+
+      - name: Deploy to Fly.io
+        run: |
+          # Copy fly.toml and update app name for dev environment
+          cp fly.toml fly.dev.toml
+          sed -i 's/app = "nextnode-front"/app = "nextnode-front-dev"/' fly.dev.toml
+          
+          # Deploy with development configuration
+          flyctl deploy --config fly.dev.toml --app ${{ env.FLY_APP_NAME }} --wait-timeout=10m
+          
+          # Clean up temporary config
+          rm fly.dev.toml
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Setup SSL Certificate
+        run: |
+          # Create SSL certificate for custom domain
+          flyctl certs create ${{ env.DOMAIN_DEV }} --app ${{ env.FLY_APP_NAME }} || true
+          
+          # Check certificate status
+          flyctl certs list --app ${{ env.FLY_APP_NAME }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Health Check
+        run: |
+          echo "🏥 Performing health check..."
+          
+          # Wait for deployment to be ready
+          sleep 30
+          
+          # Check Fly.io app health
+          FLY_URL="https://${{ env.FLY_APP_NAME }}.fly.dev"
+          
+          if curl -f -s --max-time 30 "$FLY_URL" > /dev/null; then
+            echo "✅ Fly.io deployment is healthy: $FLY_URL"
+          else
+            echo "❌ Fly.io deployment health check failed"
+            exit 1
+          fi
+          
+          # Check custom domain (if configured)
+          CUSTOM_URL="https://${{ env.DOMAIN_DEV }}"
+          
+          if curl -f -s --max-time 30 "$CUSTOM_URL" > /dev/null; then
+            echo "✅ Custom domain is healthy: $CUSTOM_URL"
+          else
+            echo "⚠️  Custom domain not yet available (DNS propagation may take time): $CUSTOM_URL"
+          fi
+
+      - name: Deployment Summary
+        run: |
+          echo "🚀 Development deployment completed successfully!"
+          echo ""
+          echo "🔗 Application URLs:"
+          echo "  Fly.io: https://${{ env.FLY_APP_NAME }}.fly.dev"
+          echo "  Custom: https://${{ env.DOMAIN_DEV }}"
+          echo ""
+          echo "📊 Monitoring:"
+          echo "  Metrics: https://fly-metrics.net"
+          echo "  Logs: flyctl logs --app ${{ env.FLY_APP_NAME }}"
+          echo ""
+          echo "⚙️  Environment: Development"
+          echo "🌍 Region: cdg (Paris)"
+          echo "📝 Branch: develop"
+          echo "🔄 Commit: ${{ github.sha }}"
+
+  notify:
+    name: Notify Deployment
+    runs-on: ubuntu-latest
+    needs: [test, deploy]
+    if: always()
+
+    steps:
+      - name: Deployment Status
+        run: |
+          if [[ "${{ needs.deploy.result }}" == "success" ]]; then
+            echo "✅ Development deployment successful"
+            echo "🔗 App URL: https://${{ env.FLY_APP_NAME }}.fly.dev"
+          else
+            echo "❌ Development deployment failed"
+            exit 1
+          fi

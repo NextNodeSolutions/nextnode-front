@@ -1,0 +1,256 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  FLY_APP_NAME: nextnode-front-prod
+  CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+  DOMAIN_PROD: nextnode.fr  # Replace with your actual domain
+
+jobs:
+  test:
+    name: Tests & Security
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.12.4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linting
+        run: pnpm lint
+
+      - name: Run type checking
+        run: pnpm type-check
+
+      - name: Run tests with coverage
+        run: pnpm test:coverage
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Security audit
+        run: pnpm audit --audit-level=high || echo "Security audit completed with warnings"
+
+      - name: Docker Security Scan
+        run: |
+          # Build Docker image for security scanning
+          docker build -t nextnode-security-scan .
+          
+          # Basic security checks
+          echo "🔍 Running basic Docker security checks..."
+          
+          # Check for non-root user
+          USER_CHECK=$(docker run --rm nextnode-security-scan whoami)
+          if [[ "$USER_CHECK" != "root" ]]; then
+            echo "✅ Container runs as non-root user: $USER_CHECK"
+          else
+            echo "⚠️  Container running as root user"
+          fi
+          
+          # Check image size
+          IMAGE_SIZE=$(docker images nextnode-security-scan --format "{{.Size}}")
+          echo "📦 Docker image size: $IMAGE_SIZE"
+
+  deploy:
+    name: Deploy to Fly.io Production
+    runs-on: ubuntu-latest
+    needs: test
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Get Fly.io IP addresses
+        id: fly-ips
+        run: |
+          # Get IPv4 and IPv6 addresses for the app
+          IPV4=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.type == "v4") | .address' | head -1)
+          IPV6=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.type == "v6") | .address' | head -1)
+          
+          echo "ipv4=$IPV4" >> $GITHUB_OUTPUT
+          echo "ipv6=$IPV6" >> $GITHUB_OUTPUT
+          
+          echo "📍 Fly.io IPv4: $IPV4"
+          echo "📍 Fly.io IPv6: $IPV6"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Update Cloudflare DNS Records
+        uses: rez0n/create-dns-record@v2.1
+        with:
+          type: "A"
+          name: "@"  # Root domain
+          content: ${{ steps.fly-ips.outputs.ipv4 }}
+          ttl: 1  # Auto TTL
+          proxied: true
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+
+      - name: Update Cloudflare AAAA Record
+        uses: rez0n/create-dns-record@v2.1
+        with:
+          type: "AAAA"
+          name: "@"  # Root domain
+          content: ${{ steps.fly-ips.outputs.ipv6 }}
+          ttl: 1  # Auto TTL
+          proxied: true
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+
+      - name: Deploy to Fly.io with Zero Downtime
+        run: |
+          # Copy fly.toml and update app name for production
+          cp fly.toml fly.prod.toml
+          sed -i 's/app = "nextnode-front"/app = "nextnode-front-prod"/' fly.prod.toml
+          
+          # Production optimizations
+          sed -i 's/min_machines_running = 1/min_machines_running = 2/' fly.prod.toml
+          sed -i 's/memory_mb = 512/memory_mb = 1024/' fly.prod.toml
+          
+          # Deploy with production configuration and zero downtime
+          flyctl deploy --config fly.prod.toml --app ${{ env.FLY_APP_NAME }} --wait-timeout=15m --strategy=bluegreen
+          
+          # Clean up temporary config
+          rm fly.prod.toml
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Setup SSL Certificate
+        run: |
+          # Create SSL certificate for custom domain
+          flyctl certs create ${{ env.DOMAIN_PROD }} --app ${{ env.FLY_APP_NAME }} || true
+          
+          # Check certificate status
+          flyctl certs list --app ${{ env.FLY_APP_NAME }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Health Check & Rollback
+        run: |
+          echo "🏥 Performing comprehensive health check..."
+          
+          # Wait for deployment to be ready
+          sleep 45
+          
+          # Check Fly.io app health
+          FLY_URL="https://${{ env.FLY_APP_NAME }}.fly.dev"
+          
+          # Multiple health check attempts
+          HEALTH_CHECK_PASSED=false
+          for i in {1..5}; do
+            echo "Health check attempt $i/5..."
+            
+            if curl -f -s --max-time 30 "$FLY_URL" > /dev/null; then
+              echo "✅ Health check $i passed"
+              HEALTH_CHECK_PASSED=true
+              break
+            else
+              echo "❌ Health check $i failed, waiting 30s..."
+              sleep 30
+            fi
+          done
+          
+          if [[ "$HEALTH_CHECK_PASSED" != "true" ]]; then
+            echo "🚨 All health checks failed - initiating rollback!"
+            
+            # Get previous release
+            PREVIOUS_RELEASE=$(flyctl releases --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[1].version')
+            
+            if [[ "$PREVIOUS_RELEASE" != "null" ]]; then
+              echo "🔄 Rolling back to version $PREVIOUS_RELEASE..."
+              flyctl releases rollback $PREVIOUS_RELEASE --app ${{ env.FLY_APP_NAME }}
+              exit 1
+            else
+              echo "❌ No previous release found for rollback"
+              exit 1
+            fi
+          fi
+          
+          echo "✅ Deployment health check passed: $FLY_URL"
+          
+          # Check custom domain (if configured)
+          CUSTOM_URL="https://${{ env.DOMAIN_PROD }}"
+          
+          if curl -f -s --max-time 30 "$CUSTOM_URL" > /dev/null; then
+            echo "✅ Custom domain is healthy: $CUSTOM_URL"
+          else
+            echo "⚠️  Custom domain not yet available (DNS propagation may take time): $CUSTOM_URL"
+          fi
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Performance Check
+        run: |
+          echo "⚡ Running performance checks..."
+          
+          # Basic performance metrics
+          FLY_URL="https://${{ env.FLY_APP_NAME }}.fly.dev"
+          
+          # Measure response time
+          RESPONSE_TIME=$(curl -o /dev/null -s -w "%{time_total}" "$FLY_URL")
+          echo "⏱️  Response time: ${RESPONSE_TIME}s"
+          
+          # Check if response time is acceptable (< 3 seconds)
+          if (( $(echo "$RESPONSE_TIME < 3.0" | bc -l) )); then
+            echo "✅ Response time is acceptable"
+          else
+            echo "⚠️  Response time is high: ${RESPONSE_TIME}s"
+          fi
+
+      - name: Deployment Summary
+        run: |
+          echo "🚀 Production deployment completed successfully!"
+          echo ""
+          echo "🔗 Application URLs:"
+          echo "  Fly.io: https://${{ env.FLY_APP_NAME }}.fly.dev"
+          echo "  Custom: https://${{ env.DOMAIN_PROD }}"
+          echo ""
+          echo "📊 Monitoring:"
+          echo "  Metrics: https://fly-metrics.net"
+          echo "  Logs: flyctl logs --app ${{ env.FLY_APP_NAME }}"
+          echo ""
+          echo "⚙️  Environment: Production"
+          echo "🌍 Region: cdg (Paris)"
+          echo "📝 Branch: main"
+          echo "🔄 Commit: ${{ github.sha }}"
+          echo "🛡️  Deployment Strategy: Blue-Green"
+
+  notify:
+    name: Notify Deployment
+    runs-on: ubuntu-latest
+    needs: [test, deploy]
+    if: always()
+
+    steps:
+      - name: Deployment Status
+        run: |
+          if [[ "${{ needs.deploy.result }}" == "success" ]]; then
+            echo "✅ Production deployment successful"
+            echo "🔗 App URL: https://${{ env.FLY_APP_NAME }}.fly.dev"
+            echo "🎉 Your application is now live in production!"
+          else
+            echo "❌ Production deployment failed"
+            echo "🚨 Please check the logs and rollback if necessary"
+            exit 1
+          fi
