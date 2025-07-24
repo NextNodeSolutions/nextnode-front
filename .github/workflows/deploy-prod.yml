@@ -72,6 +72,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     environment: production
+    outputs:
+      fly_url: ${{ steps.deploy_info.outputs.fly_url }}
+      deployed: ${{ steps.deploy_info.outputs.deployed }}
 
     steps:
       - uses: actions/checkout@v4
@@ -79,44 +82,23 @@ jobs:
       - name: Setup Fly CLI
         uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - name: Get Fly.io IP addresses
-        id: fly-ips
+      - name: Initialize Fly.io App
         run: |
-          # Get IPv4 and IPv6 addresses for the app
-          IPV4=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.type == "v4") | .address' | head -1)
-          IPV6=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.type == "v6") | .address' | head -1)
+          # Ensure IPv4 is allocated (always needed)
+          if ! flyctl ips list --app ${{ env.FLY_APP_NAME }} 2>/dev/null | grep -q "v4"; then
+            echo "🔧 Allocating IPv4 address..."
+            flyctl ips allocate-v4 --app ${{ env.FLY_APP_NAME }}
+          fi
           
-          echo "ipv4=$IPV4" >> $GITHUB_OUTPUT
-          echo "ipv6=$IPV6" >> $GITHUB_OUTPUT
+          # Ensure IPv6 is allocated (required for Cloudflare proxy)
+          if ! flyctl ips list --app ${{ env.FLY_APP_NAME }} 2>/dev/null | grep -q "v6"; then
+            echo "🔧 Allocating IPv6 address for Cloudflare proxy compatibility..."
+            flyctl ips allocate-v6 --app ${{ env.FLY_APP_NAME }}
+          fi
           
-          echo "📍 Fly.io IPv4: $IPV4"
-          echo "📍 Fly.io IPv6: $IPV6"
+          echo "✅ IP addresses ready for production deployment"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
-      - name: Update Cloudflare DNS Records
-        uses: rez0n/create-dns-record@v2.1
-        with:
-          type: "A"
-          name: "@"  # Root domain
-          content: ${{ steps.fly-ips.outputs.ipv4 }}
-          ttl: 1  # Auto TTL
-          proxied: true
-        env:
-          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
-
-      - name: Update Cloudflare AAAA Record
-        uses: rez0n/create-dns-record@v2.1
-        with:
-          type: "AAAA"
-          name: "@"  # Root domain
-          content: ${{ steps.fly-ips.outputs.ipv6 }}
-          ttl: 1  # Auto TTL
-          proxied: true
-        env:
-          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
 
       - name: Deploy to Fly.io with Zero Downtime
         run: |
@@ -136,15 +118,7 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
-      - name: Setup SSL Certificate
-        run: |
-          # Create SSL certificate for custom domain
-          flyctl certs create ${{ env.DOMAIN_PROD }} --app ${{ env.FLY_APP_NAME }} || true
-          
-          # Check certificate status
-          flyctl certs list --app ${{ env.FLY_APP_NAME }}
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
 
       - name: Health Check & Rollback
         run: |
@@ -189,14 +163,6 @@ jobs:
           
           echo "✅ Deployment health check passed: $FLY_URL"
           
-          # Check custom domain (if configured)
-          CUSTOM_URL="https://${{ env.DOMAIN_PROD }}"
-          
-          if curl -f -s --max-time 30 "$CUSTOM_URL" > /dev/null; then
-            echo "✅ Custom domain is healthy: $CUSTOM_URL"
-          else
-            echo "⚠️  Custom domain not yet available (DNS propagation may take time): $CUSTOM_URL"
-          fi
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -218,39 +184,246 @@ jobs:
             echo "⚠️  Response time is high: ${RESPONSE_TIME}s"
           fi
 
-      - name: Deployment Summary
+      - name: Set Deploy Info
+        id: deploy_info
         run: |
-          echo "🚀 Production deployment completed successfully!"
-          echo ""
-          echo "🔗 Application URLs:"
-          echo "  Fly.io: https://${{ env.FLY_APP_NAME }}.fly.dev"
-          echo "  Custom: https://${{ env.DOMAIN_PROD }}"
-          echo ""
-          echo "📊 Monitoring:"
-          echo "  Metrics: https://fly-metrics.net"
-          echo "  Logs: flyctl logs --app ${{ env.FLY_APP_NAME }}"
-          echo ""
-          echo "⚙️  Environment: Production"
-          echo "🌍 Region: cdg (Paris)"
-          echo "📝 Branch: main"
-          echo "🔄 Commit: ${{ github.sha }}"
-          echo "🛡️  Deployment Strategy: Blue-Green"
+          echo "fly_url=https://${{ env.FLY_APP_NAME }}.fly.dev" >> $GITHUB_OUTPUT
+          echo "deployed=true" >> $GITHUB_OUTPUT
+
+  dns:
+    name: Configure DNS
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: needs.deploy.result == 'success'
+    outputs:
+      dns_updated: ${{ steps.dns_check.outputs.updated }}
+      custom_url: ${{ steps.dns_check.outputs.custom_url }}
+
+    steps:
+      - name: Setup Fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Get Current Fly.io IPs
+        id: get_ips
+        run: |
+          # Get IPv4 and IPv6 addresses
+          IPV4=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.Type == "v4") | .Address' | head -1)
+          IPV6=$(flyctl ips list --app ${{ env.FLY_APP_NAME }} --json | jq -r '.[] | select(.Type == "v6") | .Address' | head -1)
+          
+          # Handle empty IPv6
+          if [[ -z "$IPV6" || "$IPV6" == "null" ]]; then
+            IPV6=""
+          fi
+          
+          echo "ipv4=$IPV4" >> $GITHUB_OUTPUT
+          echo "ipv6=$IPV6" >> $GITHUB_OUTPUT
+          
+          echo "📍 Current Fly.io IPs:"
+          echo "  IPv4: $IPV4"
+          echo "  IPv6: $IPV6"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Check Current DNS Records
+        id: check_dns
+        run: |
+          # Get current DNS A record for root domain
+          CURRENT_IP=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=${{ env.DOMAIN_PROD }}&type=A" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json" | jq -r '.result[0].content // ""')
+          
+          echo "current_ip=$CURRENT_IP" >> $GITHUB_OUTPUT
+          echo "📍 Current DNS A record: $CURRENT_IP"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Configure Cloudflare DNS for Custom Domain
+        id: dns_check
+        run: |
+          FLY_IPV4="${{ steps.get_ips.outputs.ipv4 }}"
+          FLY_IPV6="${{ steps.get_ips.outputs.ipv6 }}"
+          CURRENT_IP="${{ steps.check_dns.outputs.current_ip }}"
+          CUSTOM_DOMAIN="${{ env.DOMAIN_PROD }}"
+          
+          echo "🌍 Configuring DNS for custom domain: $CUSTOM_DOMAIN"
+          echo "Available IPs from Fly.io app ${{ env.FLY_APP_NAME }}:"
+          echo "  IPv4: $FLY_IPV4"
+          echo "  IPv6: $FLY_IPV6"
+          
+          # Prefer IPv6 for Cloudflare proxy, fallback to IPv4
+          if [[ -n "$FLY_IPV6" ]]; then
+            TARGET_IP="$FLY_IPV6"
+            RECORD_TYPE="AAAA"
+            echo "🔧 Using IPv6 (recommended for Cloudflare proxy): $TARGET_IP"
+          else
+            TARGET_IP="$FLY_IPV4"
+            RECORD_TYPE="A"
+            echo "🔧 Fallback to IPv4: $TARGET_IP"
+          fi
+          
+          if [[ "$TARGET_IP" != "$CURRENT_IP" || -z "$CURRENT_IP" ]]; then
+            echo "🔄 DNS update needed: $CURRENT_IP -> $TARGET_IP ($RECORD_TYPE record)"
+            
+            # Check if record exists for the custom domain (check both A and AAAA)
+            RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$CUSTOM_DOMAIN&type=$RECORD_TYPE" \
+              -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+              -H "Content-Type: application/json")
+            
+            RECORD_ID=$(echo "$RECORD_DATA" | jq -r '.result[0].id // ""')
+            
+            if [[ -n "$RECORD_ID" && "$RECORD_ID" != "null" ]]; then
+              # Update existing record
+              echo "🔄 Updating existing $RECORD_TYPE record for $CUSTOM_DOMAIN..."
+              RESPONSE=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records/$RECORD_ID" \
+                -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+                -H "Content-Type: application/json" \
+                --data "{
+                  \"type\": \"$RECORD_TYPE\",
+                  \"name\": \"@\",
+                  \"content\": \"$TARGET_IP\",
+                  \"ttl\": 1,
+                  \"proxied\": true,
+                  \"comment\": \"NextNode Frontend Production -> Fly.io (${{ env.FLY_APP_NAME }}) - Updated $(date)\"
+                }")
+              
+              if echo "$RESPONSE" | jq -r '.success' | grep -q true; then
+                echo "✅ $RECORD_TYPE record updated successfully"
+              else
+                echo "❌ Failed to update $RECORD_TYPE record: $(echo "$RESPONSE" | jq -r '.errors[0].message')"
+              fi
+            else
+              # Create new record
+              echo "➕ Creating new $RECORD_TYPE record for $CUSTOM_DOMAIN..."
+              RESPONSE=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records" \
+                -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+                -H "Content-Type: application/json" \
+                --data "{
+                  \"type\": \"$RECORD_TYPE\",
+                  \"name\": \"@\",
+                  \"content\": \"$TARGET_IP\",
+                  \"ttl\": 1,
+                  \"proxied\": true,
+                  \"comment\": \"NextNode Frontend Production -> Fly.io (${{ env.FLY_APP_NAME }) - Created $(date)\"
+                }")
+              
+              if echo "$RESPONSE" | jq -r '.success' | grep -q true; then
+                echo "✅ $RECORD_TYPE record created successfully"
+              else
+                echo "❌ Failed to create $RECORD_TYPE record: $(echo "$RESPONSE" | jq -r '.errors[0].message')"
+              fi
+            fi
+            
+            # Clean up old record type if we switched (A <-> AAAA)
+            if [[ "$RECORD_TYPE" == "AAAA" ]]; then
+              # Remove old A record if exists
+              OLD_RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$CUSTOM_DOMAIN&type=A" \
+                -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+                -H "Content-Type: application/json")
+              OLD_RECORD_ID=$(echo "$OLD_RECORD_DATA" | jq -r '.result[0].id // ""')
+              if [[ -n "$OLD_RECORD_ID" && "$OLD_RECORD_ID" != "null" ]]; then
+                echo "🗑️  Removing old A record (replaced by AAAA)..."
+                curl -s -X DELETE "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records/$OLD_RECORD_ID" \
+                  -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" > /dev/null
+              fi
+            fi
+            
+            
+            echo "updated=true" >> $GITHUB_OUTPUT
+            echo "✅ Custom domain $CUSTOM_DOMAIN now points to Fly.io app ${{ env.FLY_APP_NAME }} ($RECORD_TYPE: $TARGET_IP)"
+          else
+            echo "✅ DNS records are already up to date ($RECORD_TYPE: $TARGET_IP)"
+            echo "updated=false" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "custom_url=https://$CUSTOM_DOMAIN" >> $GITHUB_OUTPUT
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  ssl:
+    name: Setup SSL Certificates
+    runs-on: ubuntu-latest
+    needs: dns
+    if: needs.dns.result == 'success'
+
+    steps:
+      - name: Setup Fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Setup SSL Certificate
+        run: |
+          # Check if certificate already exists
+          if flyctl certs list --app ${{ env.FLY_APP_NAME }} | grep -q "${{ env.DOMAIN_PROD }}"; then
+            echo "✅ SSL certificate already exists for ${{ env.DOMAIN_PROD }}"
+          else
+            echo "🔒 Creating SSL certificate for ${{ env.DOMAIN_PROD }}..."
+            flyctl certs create ${{ env.DOMAIN_PROD }} --app ${{ env.FLY_APP_NAME }}
+          fi
+          
+          # Show certificate status
+          flyctl certs list --app ${{ env.FLY_APP_NAME }}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   notify:
-    name: Notify Deployment
+    name: Production Summary
     runs-on: ubuntu-latest
-    needs: [test, deploy]
+    needs: [test, deploy, dns, ssl]
     if: always()
 
     steps:
-      - name: Deployment Status
+      - name: Final Summary
         run: |
+          echo "🚀 Production Deployment Summary"
+          echo "================================"
+          echo ""
+          echo "📋 Status Overview:"
+          echo "  Tests: ${{ needs.test.result }}"
+          echo "  Deploy: ${{ needs.deploy.result }}"
+          echo "  DNS: ${{ needs.dns.result }}"
+          echo "  SSL: ${{ needs.ssl.result }}"
+          echo ""
+          
           if [[ "${{ needs.deploy.result }}" == "success" ]]; then
-            echo "✅ Production deployment successful"
-            echo "🔗 App URL: https://${{ env.FLY_APP_NAME }}.fly.dev"
+            echo "✅ Production deployment successful!"
+            echo ""
+            echo "🔗 Application URLs:"
+            echo "  Fly.io: ${{ needs.deploy.outputs.fly_url }}"
+            if [[ "${{ needs.dns.result }}" == "success" ]]; then
+              echo "  Custom: ${{ needs.dns.outputs.custom_url }}"
+              if [[ "${{ needs.dns.outputs.dns_updated }}" == "true" ]]; then
+                echo "  🔄 DNS was updated during this deployment"
+              else
+                echo "  ✅ DNS was already up to date"
+              fi
+              
+              if [[ "${{ needs.ssl.result }}" == "success" ]]; then
+                echo "  🔒 SSL certificates are configured"
+              else
+                echo "  ⚠️  SSL certificate setup failed"
+              fi
+            else
+              echo "  Custom: ${{ env.DOMAIN_PROD }} (⚠️  DNS configuration failed)"
+            fi
+            echo ""
+            echo "📊 Monitoring:"
+            echo "  Metrics: https://fly-metrics.net"
+            echo "  Logs: flyctl logs --app ${{ env.FLY_APP_NAME }}"
+            echo ""
+            echo "⚙️  Environment: Production"
+            echo "🌍 Region: cdg (Paris)"
+            echo "📝 Branch: main"
+            echo "🔄 Commit: ${{ github.sha }}"
+            echo "🛡️  Deployment Strategy: Blue-Green"
+            echo ""
             echo "🎉 Your application is now live in production!"
           else
             echo "❌ Production deployment failed"
+            if [[ "${{ needs.test.result }}" != "success" ]]; then
+              echo "  ❌ Tests failed"
+            fi
+            if [[ "${{ needs.deploy.result }}" != "success" ]]; then
+              echo "  ❌ Fly.io deployment failed"
+            fi
             echo "🚨 Please check the logs and rollback if necessary"
             exit 1
           fi
