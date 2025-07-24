@@ -13,17 +13,14 @@ import { cn } from '@/lib/utils'
 ---
 
 <BaseLayout title="Nextnode - Creative Agency">
-	<div class="relative min-h-screen flex flex-col">
+	<div class="relative flex min-h-screen flex-col">
 		<Header />
-		<main class={cn(
-			"pr-8 pl-8 flex-1 flex flex-col justify-center gap-12",
-			"md:pr-0 md:pl-20"
-		)}>
+		<main class={cn('flex flex-col flex-1 justify-center')}>
 			<Welcome />
 		</main>
 
-      <GradientCircle />
-      <NextPageLink />
-      <Footer />
+		<GradientCircle />
+		<NextPageLink />
+		<Footer />
 	</div>
 </BaseLayout>

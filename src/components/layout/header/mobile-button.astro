@@ -1,5 +1,6 @@
 ---
-import { cn } from '@/lib/utils'
+import { Menu, X } from 'lucide-react'
+import { t } from '@/lib/astro-i18n'
 
 interface Props {
 	action: 'open' | 'close'
@@ -9,30 +10,15 @@ const { action } = Astro.props
 ---
 
 <button
-  class="md:hidden p-1.5 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-300 hover:scale-110"
-  aria-label={`${action === 'open' ? 'Open' : 'Close'} menu`}
-  id="mobile-menu-button"
+	class="rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 md:hidden dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+	aria-label={action === 'open' ? t('ui.openMenu') : t('ui.closeMenu')}
+	id={`mobile-menu-${action}-button`}
 >
-  <svg
-    class="w-5 h-5"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    {action === 'open' ? (
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M4 6h16M4 12h16M4 18h16"
-      />
-    ) : (
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M6 18L18 6M6 6l12 12"
-      />
-    )}
-  </svg>
-</button> 
+	{
+		action === 'open' ? (
+			<Menu className="w-5 h-5" />
+		) : (
+			<X className="w-5 h-5" />
+		)
+	}
+</button>

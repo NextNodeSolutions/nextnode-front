@@ -1,55 +1,335 @@
 ---
-import "../styles/global.css"
+import '../styles/global.css'
+import '../styles/base.css'
+import '../styles/animations.css'
+import '../styles/liquid-effects.css'
+import i18next, { t } from 'i18next'
 
-export interface Props {
-  title: string;
-  description?: string;
-  image?: string;
+// Force la réinitialisation d'i18next
+
+// Chargement des traductions
+const en = await import('../../public/locales/en/common.json')
+const fr = await import('../../public/locales/fr/common.json')
+
+// Détecter la langue du navigateur
+const detectLanguage = (): string => {
+	// Essayer de récupérer depuis les cookies
+	const cookieHeader = Astro.request.headers.get('cookie')
+	if (cookieHeader) {
+		const cookies = Object.fromEntries(
+			cookieHeader.split('; ').map(cookie => {
+				const [key, value] = cookie.split('=')
+				return [key, decodeURIComponent(value || '')]
+			}),
+		)
+
+		const langFromCookie = cookies.language
+		if (langFromCookie && ['en', 'fr'].includes(langFromCookie)) {
+			return langFromCookie
+		}
+	}
+
+	// Sinon utiliser Accept-Language header
+	const acceptLanguage = Astro.request.headers.get('accept-language')
+	if (acceptLanguage) {
+		const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
+		if (preferredLang && ['en', 'fr'].includes(preferredLang)) {
+			return preferredLang
+		}
+	}
+
+	return 'en' // fallback
 }
 
-const { 
-  title, 
-  description = "Template moderne et performant créé avec Astro et Nextnode",
-  image = "/og-image.png"
-} = Astro.props;
+const currentLang = detectLanguage()
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+await i18next.init({
+	lng: currentLang,
+	fallbackLng: 'en',
+	resources: {
+		en: { common: en.default },
+		fr: { common: fr.default },
+	},
+	defaultNS: 'common',
+	ns: ['common'],
+})
+
+// Créer une fonction de traduction custom qui marche
+const customT = (key: string): string => {
+	return i18next.getResource(i18next.language, 'common', key) || key
+}
+
+export interface Props {
+	title: string
+	description?: string
+	image?: string
+}
+
+const {
+	title,
+	description = 'Template moderne et performant créé avec Astro et Nextnode',
+	image = '/og-image.png',
+} = Astro.props
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 ---
 
 <!doctype html>
-<html lang="fr" class="scroll-smooth">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href={canonicalURL} />
-    
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.url)} />
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={Astro.url} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url)} />
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  </head>
-  <body class="bg-white text-gray-900 font-sans antialiased">
-    <slot />
-  </body>
-</html> 
+<html lang={i18next.language} class="scroll-smooth">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+
+		<!-- Favicon -->
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+		<!-- Canonical URL -->
+		<link rel="canonical" href={canonicalURL} />
+
+		<!-- Language links -->
+		<link
+			rel="alternate"
+			hreflang="en"
+			href={Astro.url.origin + Astro.url.pathname}
+		/>
+		<link
+			rel="alternate"
+			hreflang="fr"
+			href={Astro.url.origin + '/fr' + Astro.url.pathname}
+		/>
+		<link
+			rel="alternate"
+			hreflang="x-default"
+			href={Astro.url.origin + Astro.url.pathname}
+		/>
+
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL(image, Astro.url)} />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- Language and Theme initialization script (must run before body render) -->
+		<script is:inline>
+			// Initialize language immediately to prevent flash
+			;(function () {
+				const savedLang = localStorage.getItem('language')
+				const browserLang = navigator.language?.split('-')[0]
+				const supportedLangs = ['en', 'fr']
+
+				let currentLang = 'en' // default
+
+				if (savedLang && supportedLangs.includes(savedLang)) {
+					currentLang = savedLang
+				} else if (
+					browserLang &&
+					supportedLangs.includes(browserLang)
+				) {
+					currentLang = browserLang
+				}
+
+				// Store language globally for components to access
+				window.initialLanguage = currentLang
+				window.currentLanguage = currentLang
+				document.documentElement.setAttribute('lang', currentLang)
+				document.documentElement.setAttribute(
+					'data-language',
+					currentLang,
+				)
+
+				// Set cookie for server-side detection if not already set
+				if (!savedLang) {
+					document.cookie = `language=${currentLang}; path=/; max-age=31536000` // 1 year
+				}
+			})()
+
+			// Initialize theme immediately to prevent flash
+			;(function () {
+				const savedTheme = localStorage.getItem('theme')
+				const systemPrefersDark = window.matchMedia(
+					'(prefers-color-scheme: dark)',
+				).matches
+
+				const isDark =
+					savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
+
+				if (isDark) {
+					document.documentElement.classList.add('dark')
+				} else {
+					document.documentElement.classList.remove('dark')
+				}
+
+				// Store theme state globally for components to access
+				window.initialTheme = isDark ? 'dark' : 'light'
+			})()
+		</script>
+	</head>
+	<body
+		class="bg-white font-sans text-gray-900 antialiased dark:bg-gray-900 dark:text-gray-100"
+	>
+		<slot />
+
+		<!-- Global theme and language management script -->
+		<script>
+			// Global language management
+			window.languageManager = {
+				getCurrentLanguage() {
+					const savedLang = localStorage.getItem('language')
+					const browserLang = navigator.language?.split('-')[0]
+					const supportedLangs = ['en', 'fr']
+
+					if (savedLang && supportedLangs.includes(savedLang)) {
+						return savedLang
+					} else if (
+						browserLang &&
+						supportedLangs.includes(browserLang)
+					) {
+						return browserLang
+					}
+					return 'en'
+				},
+
+				changeLanguage(newLang) {
+					localStorage.setItem('language', newLang)
+					// Set cookie for server-side detection
+					document.cookie = `language=${newLang}; path=/; max-age=31536000` // 1 year
+					document.documentElement.setAttribute('lang', newLang)
+					// Reload page to apply language change
+					window.location.reload()
+				},
+
+				init() {
+					// Set initial language
+					const currentLang = this.getCurrentLanguage()
+					document.documentElement.setAttribute('lang', currentLang)
+
+					// Set up language selector buttons
+					const languageButtons =
+						document.querySelectorAll('[data-lang]')
+					languageButtons.forEach(button => {
+						button.addEventListener('click', e => {
+							e.preventDefault()
+							const lang = button.getAttribute('data-lang')
+							if (lang) {
+								this.changeLanguage(lang)
+							}
+						})
+					})
+				},
+			}
+
+			// Global theme management
+			window.themeManager = {
+				getCurrentTheme() {
+					const savedTheme = localStorage.getItem('theme')
+					const systemPrefersDark = window.matchMedia(
+						'(prefers-color-scheme: dark)',
+					).matches
+					return savedTheme === 'dark' ||
+						(!savedTheme && systemPrefersDark)
+						? 'dark'
+						: 'light'
+				},
+
+				applyTheme(theme) {
+					if (theme === 'dark') {
+						document.documentElement.classList.add('dark')
+					} else {
+						document.documentElement.classList.remove('dark')
+					}
+
+					// Update all theme toggle icons (both desktop and mobile)
+					const sunIcons =
+						document.querySelectorAll('[id^="sun-icon"]')
+					const moonIcons =
+						document.querySelectorAll('[id^="moon-icon"]')
+
+					sunIcons.forEach(sunIcon => {
+						if (theme === 'dark') {
+							sunIcon.classList.add('hidden')
+						} else {
+							sunIcon.classList.remove('hidden')
+						}
+					})
+
+					moonIcons.forEach(moonIcon => {
+						if (theme === 'dark') {
+							moonIcon.classList.remove('hidden')
+						} else {
+							moonIcon.classList.add('hidden')
+						}
+					})
+				},
+
+				toggleTheme() {
+					const currentTheme = this.getCurrentTheme()
+					const newTheme = currentTheme === 'light' ? 'dark' : 'light'
+
+					localStorage.setItem('theme', newTheme)
+					this.applyTheme(newTheme)
+
+					// Trigger custom event for other components
+					window.dispatchEvent(
+						new CustomEvent('theme-changed', {
+							detail: { theme: newTheme },
+						}),
+					)
+				},
+
+				init() {
+					// Set initial theme
+					this.applyTheme(this.getCurrentTheme())
+
+					// Listen for system theme changes
+					const mediaQuery = window.matchMedia(
+						'(prefers-color-scheme: dark)',
+					)
+					mediaQuery.addEventListener('change', e => {
+						if (!localStorage.getItem('theme')) {
+							this.applyTheme(e.matches ? 'dark' : 'light')
+						}
+					})
+
+					// Set up all theme toggle buttons (both desktop and mobile)
+					const themeToggleButtons = document.querySelectorAll(
+						'[id^="theme-toggle"]',
+					)
+					themeToggleButtons.forEach(button => {
+						button.addEventListener('click', () =>
+							this.toggleTheme(),
+						)
+					})
+				},
+			}
+
+			// Initialize language and theme management when DOM is ready
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', () => {
+					window.languageManager.init()
+					window.themeManager.init()
+				})
+			} else {
+				window.languageManager.init()
+				window.themeManager.init()
+			}
+		</script>
+	</body>
+</html>

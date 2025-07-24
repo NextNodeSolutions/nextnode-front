@@ -25,19 +25,21 @@ Nextnode is a creative agency specialized in custom web development and ultra-fa
 ## 🚀 Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd nextnode-front
-   ```
+
+    ```bash
+    git clone <repository-url>
+    cd nextnode-front
+    ```
 
 2. **Install dependencies**
-   ```bash
-   pnpm install
-   ```
+    ```bash
+    pnpm install
+    ```
 
 ## 🎯 Available Scripts
 
 ### Development
+
 ```bash
 # Start development server
 pnpm dev
@@ -47,6 +49,7 @@ pnpm type-check
 ```
 
 ### Build and deployment
+
 ```bash
 # Build project for production
 pnpm build
@@ -56,6 +59,7 @@ pnpm preview
 ```
 
 ### Code quality
+
 ```bash
 # Lint code
 pnpm lint
@@ -68,6 +72,7 @@ pnpm format
 ```
 
 ### Testing
+
 ```bash
 # Run tests
 pnpm test
@@ -83,6 +88,7 @@ pnpm test:ui
 ```
 
 ### Version management
+
 ```bash
 # Create a changeset
 pnpm changeset

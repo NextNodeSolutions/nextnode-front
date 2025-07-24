@@ -1,0 +1,72 @@
+{
+	"hero": {
+		"subtitle": "Nous ne construisons pas seulement des sites web. Nous créons des expériences digitales qui vendent.",
+		"title": "VOTRE PROCHAIN",
+		"titleHighlight": "SUCCÈS",
+		"titleEnd": "COMMENCE ICI",
+		"description": "Transformez vos visiteurs en clients avec des sites web qui convertissent. Sur-mesure, ultra-rapides et conçus pour développer votre business.",
+		"magicText": "✨ C'est ici que la magie opère — construisons quelque chose d'exceptionnel ensemble",
+		"viewWorkButton": "Voir nos réalisations",
+		"startProjectButton": "🚀 Démarrer votre projet"
+	},
+	"sidePanel": {
+		"whoWeAre": "Qui sommes-nous",
+		"description": "Nous sommes un studio digital spécialisé dans la création de sites web haute performance pour des entreprises ambitieuses. Des startups aux entreprises établies, nous concrétisons votre vision.",
+		"features": {
+			"custom": "Développement sur-mesure adapté à vos besoins",
+			"fast": "Déploiement ultra-rapide et support continu",
+			"convert": "Des sites qui transforment les visiteurs en clients"
+		},
+		"quote": "Les excellents sites web ne font pas que bien paraître — ils convertissent les visiteurs en clients et stimulent une croissance business réelle.",
+		"quoteAuthor": "— Meilleures pratiques du Marketing Digital",
+		"cta": {
+			"title": "Prêt à transformer votre business ?",
+			"description": "Cliquez sur \"Démarrer votre projet\" pour commencer votre transformation digitale.",
+			"highlight": "💡 Consultation gratuite incluse"
+		}
+	},
+	"navigation": {
+		"home": "Accueil",
+		"about": "À propos",
+		"services": "Services",
+		"portfolio": "Portfolio",
+		"contact": "Contact",
+		"howWeWork": "Comment nous travaillons",
+		"pricing": "Tarifs"
+	},
+	"ui": {
+		"toggleTheme": "Changer le thème",
+		"selectLanguage": "Choisir la langue",
+		"openMenu": "Ouvrir le menu",
+		"closeMenu": "Fermer le menu",
+		"scrollToDiscover": "Faites défiler pour découvrir plus",
+		"theme": "Thème",
+		"language": "Langue"
+	},
+	"modal": {
+		"title": "Démarrez votre projet avec nous",
+		"description": "Créons quelque chose d'exceptionnel ensemble. Remplissez le formulaire ci-dessous et nous vous recontacterons sous 24h.",
+		"form": {
+			"name": "Nom",
+			"namePlaceholder": "Votre nom",
+			"email": "Email",
+			"emailPlaceholder": "votre@email.com",
+			"projectType": "Type de projet",
+			"projectTypePlaceholder": "Quel type de projet recherchez-vous ?",
+			"budget": "Budget",
+			"budgetPlaceholder": "Votre budget",
+			"details": "Détails du projet",
+			"detailsPlaceholder": "Parlez-nous de votre projet...",
+			"submit": "Envoyer la demande"
+		}
+	},
+	"footer": {
+		"copyright": "© {year} Nextnode. Tous droits réservés.",
+		"privacy": "Confidentialité",
+		"terms": "Conditions"
+	},
+	"languages": {
+		"en": "EN",
+		"fr": "FR"
+	}
+}
