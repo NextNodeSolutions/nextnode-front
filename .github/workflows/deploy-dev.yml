@@ -156,27 +156,30 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-      - name: Update DNS if Needed
+      - name: Configure Cloudflare DNS for Custom Domain
         id: dns_check
         run: |
           FLY_IP="${{ steps.get_ips.outputs.ipv4 }}"
           CURRENT_IP="${{ steps.check_dns.outputs.current_ip }}"
-          DOMAIN="${{ env.DOMAIN_DEV }}"
+          CUSTOM_DOMAIN="${{ env.DOMAIN_DEV }}"
+          
+          echo "🌍 Configuring DNS for custom domain: $CUSTOM_DOMAIN"
+          echo "Target IP: $FLY_IP (from Fly.io app: ${{ env.FLY_APP_NAME }})"
           
           if [[ "$FLY_IP" != "$CURRENT_IP" || -z "$CURRENT_IP" ]]; then
             echo "🔄 DNS update needed: $CURRENT_IP -> $FLY_IP"
             
-            # Check if record exists
-            RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$DOMAIN&type=A" \
+            # Check if record exists for the custom domain
+            RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$CUSTOM_DOMAIN&type=A" \
               -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
               -H "Content-Type: application/json")
             
             RECORD_ID=$(echo "$RECORD_DATA" | jq -r '.result[0].id // ""')
             
             if [[ -n "$RECORD_ID" && "$RECORD_ID" != "null" ]]; then
-              # Update existing record
-              echo "🔄 Updating existing A record..."
-              curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records/$RECORD_ID" \
+              # Update existing A record
+              echo "🔄 Updating existing A record for $CUSTOM_DOMAIN..."
+              RESPONSE=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records/$RECORD_ID" \
                 -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
                 -H "Content-Type: application/json" \
                 --data "{
@@ -185,12 +188,18 @@ jobs:
                   \"content\": \"$FLY_IP\",
                   \"ttl\": 1,
                   \"proxied\": true,
-                  \"comment\": \"NextNode Frontend Development - Updated via GitHub Actions\"
-                }"
+                  \"comment\": \"NextNode Frontend Development -> Fly.io (${{ env.FLY_APP_NAME }}) - Updated $(date)\"
+                }")
+              
+              if echo "$RESPONSE" | jq -r '.success' | grep -q true; then
+                echo "✅ A record updated successfully"
+              else
+                echo "❌ Failed to update A record: $(echo "$RESPONSE" | jq -r '.errors[0].message')"
+              fi
             else
-              # Create new record
-              echo "➕ Creating new A record..."
-              curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records" \
+              # Create new A record
+              echo "➕ Creating new A record for $CUSTOM_DOMAIN..."
+              RESPONSE=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records" \
                 -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
                 -H "Content-Type: application/json" \
                 --data "{
@@ -199,15 +208,21 @@ jobs:
                   \"content\": \"$FLY_IP\",
                   \"ttl\": 1,
                   \"proxied\": true,
-                  \"comment\": \"NextNode Frontend Development - Created via GitHub Actions\"
-                }"
+                  \"comment\": \"NextNode Frontend Development -> Fly.io (${{ env.FLY_APP_NAME }}) - Created $(date)\"
+                }")
+              
+              if echo "$RESPONSE" | jq -r '.success' | grep -q true; then
+                echo "✅ A record created successfully"
+              else
+                echo "❌ Failed to create A record: $(echo "$RESPONSE" | jq -r '.errors[0].message')"
+              fi
             fi
             
             # Handle IPv6 if available
             IPV6="${{ steps.get_ips.outputs.ipv6 }}"
             if [[ -n "$IPV6" ]]; then
-              echo "🔄 Updating AAAA record..."
-              AAAA_RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$DOMAIN&type=AAAA" \
+              echo "🔄 Configuring IPv6 (AAAA) record for $CUSTOM_DOMAIN..."
+              AAAA_RECORD_DATA=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records?name=$CUSTOM_DOMAIN&type=AAAA" \
                 -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
                 -H "Content-Type: application/json")
               
@@ -224,8 +239,9 @@ jobs:
                     \"content\": \"$IPV6\",
                     \"ttl\": 1,
                     \"proxied\": true,
-                    \"comment\": \"NextNode Frontend Development IPv6 - Updated via GitHub Actions\"
-                  }"
+                    \"comment\": \"NextNode Frontend Development IPv6 -> Fly.io (${{ env.FLY_APP_NAME }}) - Updated $(date)\"
+                  }" > /dev/null
+                echo "✅ AAAA record updated"
               else
                 # Create new AAAA record
                 curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ env.CLOUDFLARE_ZONE_ID }}/dns_records" \
@@ -237,19 +253,22 @@ jobs:
                     \"content\": \"$IPV6\",
                     \"ttl\": 1,
                     \"proxied\": true,
-                    \"comment\": \"NextNode Frontend Development IPv6 - Created via GitHub Actions\"
-                  }"
+                    \"comment\": \"NextNode Frontend Development IPv6 -> Fly.io (${{ env.FLY_APP_NAME }}) - Created $(date)\"
+                  }" > /dev/null
+                echo "✅ AAAA record created"
               fi
+            else
+              echo "⚠️  No IPv6 available, skipping AAAA record"
             fi
             
             echo "updated=true" >> $GITHUB_OUTPUT
-            echo "✅ DNS records updated successfully"
+            echo "✅ Custom domain $CUSTOM_DOMAIN now points to Fly.io app ${{ env.FLY_APP_NAME }}"
           else
-            echo "✅ DNS records are up to date (IP: $FLY_IP)"
+            echo "✅ DNS records are already up to date (IP: $FLY_IP)"
             echo "updated=false" >> $GITHUB_OUTPUT
           fi
           
-          echo "custom_url=https://$DOMAIN" >> $GITHUB_OUTPUT
+          echo "custom_url=https://$CUSTOM_DOMAIN" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
