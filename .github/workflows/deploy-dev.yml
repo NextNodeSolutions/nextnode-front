@@ -61,8 +61,8 @@ jobs:
           # Allocate IP addresses if app has none
           if ! flyctl ips list --app ${{ env.FLY_APP_NAME }} 2>/dev/null | grep -q "v4\|v6"; then
             echo "🔧 Allocating IP addresses for first deployment..."
-            flyctl ips allocate-v4 --app ${{ env.FLY_APP_NAME }} --yes
-            flyctl ips allocate-v6 --app ${{ env.FLY_APP_NAME }} --yes
+            flyctl ips allocate-v4 --app ${{ env.FLY_APP_NAME }}
+            flyctl ips allocate-v6 --app ${{ env.FLY_APP_NAME }}
           else
             echo "✅ IP addresses already allocated"
           fi
