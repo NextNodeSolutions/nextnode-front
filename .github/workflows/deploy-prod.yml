@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: Deploy to Production
-    uses: NextNodeSolutions/github-actions/workflows/packs/deploy-prod.yml@main
+    uses: NextNodeSolutions/github-actions/.github/workflows/packs/deploy-prod.yml@main
     with:
       app-name: 'nextnode-front-prod'
       fly-org: 'nextnodeio'
