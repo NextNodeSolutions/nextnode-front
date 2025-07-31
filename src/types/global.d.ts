@@ -1,5 +1,3 @@
-/// <reference types="astro/client" />
-
 declare global {
 	interface Window {
 		languageManager: {
@@ -15,13 +13,6 @@ declare global {
 		}
 		initialLanguage?: string
 		initialTheme?: string
-	}
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-declare namespace App {
-	interface Locals {
-		lang: string
 	}
 }
 
