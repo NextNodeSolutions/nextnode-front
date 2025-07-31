@@ -79,12 +79,7 @@ export const t = (key: string): string => {
 
 	// Fonction récursive pour naviguer dans l'objet
 	function getValue(obj: unknown, keyPath: string[]): unknown {
-		if (
-			!obj ||
-			typeof obj !== 'object' ||
-			Array.isArray(obj) ||
-			keyPath.length === 0
-		) {
+		if (!obj || typeof obj !== 'object' || keyPath.length === 0) {
 			return obj
 		}
 
@@ -94,10 +89,21 @@ export const t = (key: string): string => {
 			return undefined
 		}
 
-		const typedObj = obj as Record<string, unknown>
+		// Gérer les indices numériques pour les tableaux
+		if (/^\d+$/.test(currentKey) && Array.isArray(obj)) {
+			const index = parseInt(currentKey, 10)
+			if (index < obj.length) {
+				return getValue(obj[index], remainingKeys)
+			}
+			return undefined
+		}
 
-		if (currentKey in typedObj) {
-			return getValue(typedObj[currentKey], remainingKeys)
+		// Gérer les objets normaux
+		if (!Array.isArray(obj)) {
+			const typedObj = obj as Record<string, unknown>
+			if (currentKey in typedObj) {
+				return getValue(typedObj[currentKey], remainingKeys)
+			}
 		}
 
 		return undefined
