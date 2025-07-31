@@ -1,5 +1,4 @@
 ---
-import { t } from '@/lib/i18n-server'
 import {
 	STEP_COLORS,
 	WORKFLOW_POSITIONS,
@@ -17,18 +16,6 @@ const gradientStops = generateGradientStops(STEP_COLORS)
 
 <div class="workflow-journey w-full py-8 md:py-12 lg:py-16">
 	<div class="container mx-auto px-4">
-		<div class="mb-12 text-center">
-			<h2
-				class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl dark:text-white"
-			>
-				{t('howWeWork.journey.title')}
-			</h2>
-			<p
-				class="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300"
-			>
-				{t('howWeWork.journey.subtitle')}
-			</p>
-		</div>
 		<svg
 			class="h-[500px] w-full md:h-[600px] lg:h-[700px]"
 			viewBox="0 0 1000 500"
@@ -53,6 +40,34 @@ const gradientStops = generateGradientStops(STEP_COLORS)
 					}
 				</linearGradient>
 
+				{/* Gradient avec fade à la fin */}
+				<linearGradient
+					id="pathGradientWithFade"
+					x1="0%"
+					y1="0%"
+					x2="100%"
+					y2="0%"
+				>
+					{
+						gradientStops
+							.slice(0, -1)
+							.map((stop: GradientStop) => (
+								<stop
+									offset={stop.offset}
+									style={`stop-color:${stop.color};stop-opacity:${stop.opacity}`}
+								/>
+							))
+					}
+					<stop
+						offset="85%"
+						style={`stop-color:${gradientStops[gradientStops.length - 1]?.color};stop-opacity:0.8`}
+					></stop>
+					<stop
+						offset="100%"
+						style={`stop-color:${gradientStops[gradientStops.length - 1]?.color};stop-opacity:0`}
+					></stop>
+				</linearGradient>
+
 				<filter
 					id="dropShadow"
 					x="-50%"
@@ -68,10 +83,10 @@ const gradientStops = generateGradientStops(STEP_COLORS)
 				</filter>
 			</defs>
 
-			{/* Chemin principal animé */}
+			{/* Chemin principal animé avec fade */}
 			<path
-				d="M 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385"
-				stroke="url(#pathGradient)"
+				d="M 40 56 L 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385 L 950 389"
+				stroke="url(#pathGradientWithFade)"
 				stroke-width="4"
 				fill="none"
 				stroke-dasharray="12,6"
@@ -86,7 +101,7 @@ const gradientStops = generateGradientStops(STEP_COLORS)
 
 			{/* Chemin de fond */}
 			<path
-				d="M 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385"
+				d="M 40 56 L 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385 L 950 389"
 				stroke="#f1f5f9"
 				stroke-width="8"
 				fill="none"
@@ -181,34 +196,41 @@ const gradientStops = generateGradientStops(STEP_COLORS)
 									x="30"
 									y="35"
 									text-anchor="middle"
-									class="fill-white text-lg font-bold"
+									font-size="16"
+									font-weight="bold"
 									dominant-baseline="middle"
+									fill="white"
+									style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3))"
 								>
 									{step.icon}
 								</text>
 
-								{/* Badge numéro */}
-								<circle
-									cx="50"
-									cy="10"
-									r="8"
-									fill="rgba(255,255,255,0.9)"
-								/>
+								{/* Numéro créatif en haut à droite */}
 								<text
-									x="50"
-									y="10"
+									x="48"
+									y="18"
 									text-anchor="middle"
-									class="fill-gray-800 text-xs font-black"
+									font-family="'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+									font-size="32"
+									font-weight="700"
 									dominant-baseline="middle"
-									dy="1"
+									fill="white"
+									opacity="0.95"
+									style="filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));"
 								>
-									{step.number}
+									{index + 1}
 								</text>
 
-								{/* Titre */}
+								{/* Titre - position adaptée selon l'étape */}
 								<text
 									x="30"
-									y="75"
+									y={
+										index === 0 ||
+										index === 1 ||
+										index === 5
+											? '-10'
+											: '75'
+									}
 									text-anchor="middle"
 									class="fill-gray-800 text-xs font-semibold dark:fill-white"
 									dominant-baseline="middle"

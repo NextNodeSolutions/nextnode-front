@@ -61,7 +61,7 @@ export const STEP_COLORS: string[] = Object.values(STEP_CONFIG).map(
 // Positions des cards et lignes pour le workflow journey
 export const WORKFLOW_POSITIONS: Position[] = [
 	{ x: 80, y: 60, cardX: 50, cardY: -30, lineEndX: 80, lineEndY: 30 },
-	{ x: 220, y: 67, cardX: 190, cardY: -23, lineEndX: 220, lineEndY: 37 },
+	{ x: 350, y: 75, cardX: 320, cardY: -15, lineEndX: 350, lineEndY: 45 },
 	{ x: 510, y: 140, cardX: 540, cardY: 110, lineEndX: 540, lineEndY: 140 },
 	{ x: 205, y: 220, cardX: 105, cardY: 190, lineEndX: 165, lineEndY: 220 },
 	{ x: 590, y: 300, cardX: 500, cardY: 270, lineEndX: 560, lineEndY: 300 },
