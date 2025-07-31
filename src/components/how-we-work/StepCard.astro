@@ -1,5 +1,5 @@
 ---
-import { t } from '@/lib/i18n-server'
+import { tStep } from '@/lib/i18n-server'
 
 export interface Props {
 	stepKey: string
@@ -9,7 +9,7 @@ export interface Props {
 const { stepKey, index } = Astro.props
 
 // Récupérer les données de l'étape depuis les traductions
-const step = t(`howWeWork.steps.${stepKey}`)
+const step = tStep(stepKey)
 const number = step.number
 const title = step.title
 const description = step.description
@@ -67,6 +67,9 @@ const stepDesigns = [
 ]
 
 const design = stepDesigns[index] || stepDesigns[0]
+if (!design) {
+	throw new Error(`Design not found for index: ${index}`)
+}
 ---
 
 <div

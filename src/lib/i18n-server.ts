@@ -72,54 +72,101 @@ export const initI18n = async (request: Request): Promise<string> => {
 	return currentLang
 }
 
-// Fonction de traduction qui utilise la langue globale
-export const t = (key: string): string => {
-	const langData = translations[currentLanguage as keyof typeof translations]
-	const keys = key.split('.')
+// Types pour les traductions spécifiques
+interface StepTranslation {
+	title: string
+	number: string
+	description: string
+	details: string[]
+	deliverables: string
+	duration: string
+}
 
-	// Fonction récursive pour naviguer dans l'objet
-	function getValue(obj: unknown, keyPath: string[]): unknown {
-		if (!obj || typeof obj !== 'object' || keyPath.length === 0) {
-			return obj
-		}
+// Fonction de traduction générique qui peut retourner différents types
+function getValue(obj: unknown, keyPath: string[]): unknown {
+	if (!obj || typeof obj !== 'object' || keyPath.length === 0) {
+		return obj
+	}
 
-		const [currentKey, ...remainingKeys] = keyPath
+	const [currentKey, ...remainingKeys] = keyPath
 
-		if (!currentKey) {
-			return undefined
-		}
-
-		// Gérer les indices numériques pour les tableaux
-		if (/^\d+$/.test(currentKey) && Array.isArray(obj)) {
-			const index = parseInt(currentKey, 10)
-			if (index < obj.length) {
-				return getValue(obj[index], remainingKeys)
-			}
-			return undefined
-		}
-
-		// Gérer les objets normaux
-		if (!Array.isArray(obj)) {
-			const typedObj = obj as Record<string, unknown>
-			if (currentKey in typedObj) {
-				return getValue(typedObj[currentKey], remainingKeys)
-			}
-		}
-
+	if (!currentKey) {
 		return undefined
 	}
 
+	// Gérer les indices numériques pour les tableaux
+	if (/^\d+$/.test(currentKey) && Array.isArray(obj)) {
+		const index = parseInt(currentKey, 10)
+		if (index < obj.length) {
+			return getValue(obj[index], remainingKeys)
+		}
+		return undefined
+	}
+
+	// Gérer les objets normaux
+	if (!Array.isArray(obj)) {
+		const typedObj = obj as Record<string, unknown>
+		if (currentKey in typedObj) {
+			return getValue(typedObj[currentKey], remainingKeys)
+		}
+	}
+
+	return undefined
+}
+
+// Surcharge de la fonction t pour supporter différents types de retour
+export function t(key: string): string
+export function t<T = unknown>(key: string): T
+export function t(key: string): unknown {
+	const langData = translations[currentLanguage as keyof typeof translations]
+	const keys = key.split('.')
 	const result = getValue(langData, keys)
 
-	// Toujours retourner un string
+	// Si c'est une string, la retourner directement
 	if (typeof result === 'string') {
 		return result
-	} else if (
+	}
+
+	// Si c'est un array de strings, le joindre
+	if (
 		Array.isArray(result) &&
 		result.every(item => typeof item === 'string')
 	) {
-		return result.join(', ') // Joindre les arrays de strings
-	} else {
-		return key // Fallback si pas trouvé ou type incorrect
+		return result.join(', ')
+	}
+
+	// Si c'est un objet, le retourner tel quel (pour les cas comme steps.discovery)
+	if (result && typeof result === 'object') {
+		return result
+	}
+
+	// Fallback
+	return key
+}
+
+// Fonction spécifique pour les steps (pour une meilleure sécurité de type)
+export const tStep = (stepKey: string): StepTranslation => {
+	const result = t<StepTranslation>(`howWeWork.steps.${stepKey}`)
+
+	// Validation de type runtime pour s'assurer qu'on a la bonne structure
+	if (
+		result &&
+		typeof result === 'object' &&
+		'title' in result &&
+		'number' in result &&
+		typeof result.title === 'string' &&
+		typeof result.number === 'string'
+	) {
+		return result as StepTranslation
+	}
+
+	// Fallback avec valeurs par défaut
+	return {
+		title: stepKey,
+		number: '00',
+		description: '',
+		details: [],
+		deliverables: '',
+		duration: '',
 	}
 }

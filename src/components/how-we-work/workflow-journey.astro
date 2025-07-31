@@ -1,28 +1,66 @@
 ---
-import { t } from '@/lib/i18n-server'
+import { t, tStep } from '@/lib/i18n-server'
+
+// Types TypeScript
+interface StepConfig {
+	icon: string
+	color: string
+}
+
+interface Position {
+	x: number
+	y: number
+	cardX: number
+	cardY: number
+	lineEndX: number
+	lineEndY: number
+}
+
+interface GradientStop {
+	offset: string
+	color: string
+	opacity: string
+}
+
+interface Step {
+	key: string
+	title: string
+	number: string
+	icon: string
+}
 
 // Configuration des étapes
-const STEP_CONFIG = {
+const STEP_CONFIG: Record<string, StepConfig> = {
 	discovery: { icon: '🔍', color: '#6366f1' },
 	design: { icon: '🎨', color: '#8b5cf6' },
 	development: { icon: '⚡', color: '#10b981' },
 	testing: { icon: '🧪', color: '#f59e0b' },
 	deployment: { icon: '🚀', color: '#ef4444' },
 	support: { icon: '🛠️', color: '#6b7280' },
-}
+} as const
 
-const stepKeys = Object.keys(STEP_CONFIG)
-const colors = Object.values(STEP_CONFIG).map(config => config.color)
+const stepKeys = Object.keys(STEP_CONFIG) as (keyof typeof STEP_CONFIG)[]
+const colors: string[] = Object.values(STEP_CONFIG).map(
+	(config: StepConfig) => config.color,
+)
 
 // Données des étapes avec traductions
-const steps = stepKeys.map(key => ({
-	key,
-	...t(`howWeWork.steps.${key}`),
-	icon: STEP_CONFIG[key].icon,
-}))
+const steps: Step[] = stepKeys.map((key: string) => {
+	const stepData = tStep(key)
+	const config = STEP_CONFIG[key]
+	if (!config) {
+		throw new Error(`Step config not found for key: ${key}`)
+	}
+	return {
+		key,
+		title: stepData.title,
+		number: stepData.number,
+		icon: config.icon,
+	}
+})
 
 // Positions des cards et lignes
-const getStepPositions = () => [
+const getStepPositions = (): Position[] => [
 	{ x: 80, y: 60, cardX: 50, cardY: -30, lineEndX: 80, lineEndY: 30 },
 	{ x: 220, y: 67, cardX: 190, cardY: -23, lineEndX: 220, lineEndY: 37 },
 	{ x: 510, y: 140, cardX: 540, cardY: 110, lineEndX: 540, lineEndY: 140 },
@@ -32,8 +70,8 @@ const getStepPositions = () => [
 ]
 
 // Génération des stops de gradient
-const generateGradientStops = colors =>
-	colors.map((color, i) => ({
+const generateGradientStops = (colors: string[]): GradientStop[] =>
+	colors.map((color: string, i: number) => ({
 		offset: `${i * 20}%`,
 		color,
 		opacity: '0.8',
@@ -72,7 +110,7 @@ const gradientStops = generateGradientStops(colors)
 					y2="100%"
 				>
 					{
-						gradientStops.map(stop => (
+						gradientStops.map((stop: GradientStop) => (
 							<stop
 								offset={stop.offset}
 								style={`stop-color:${stop.color};stop-opacity:${stop.opacity}`}
@@ -120,9 +158,13 @@ const gradientStops = generateGradientStops(colors)
 				fill="none"
 				opacity="0.3"></path>
 			{
-				steps.map((step, index) => {
+				steps.map((step: Step, index: number) => {
 					const pos = positions[index]
 					const color = colors[index]
+
+					if (!pos || !color) {
+						return null
+					}
 
 					return (
 						<g class="step-card-group">

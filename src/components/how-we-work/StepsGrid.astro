@@ -11,6 +11,10 @@ const stepKeys = [
 	'deployment',
 	'support',
 ]
+
+// Récupérer les features comme array
+const featuresResult = t('howWeWork.cta.features')
+const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 ---
 
 <section
@@ -179,7 +183,7 @@ const stepKeys = [
 			<!-- Features list -->
 			<div class="mt-8 flex flex-wrap justify-center gap-6">
 				{
-					t('howWeWork.cta.features').map((feature: string) => (
+					features.map((feature: string) => (
 						<div class="flex items-center gap-2 rounded-full border border-gray-200/50 bg-white/60 px-4 py-2 backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-800/60">
 							<span class="text-sm font-medium text-gray-700 dark:text-gray-300">
 								{feature}
