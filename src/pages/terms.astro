@@ -4,60 +4,10 @@ import Header from '@/components/layout/header.astro'
 import Footer from '@/components/layout/footer.astro'
 import LegalContent from '@/components/legal/legal-content.astro'
 import Section from '@/components/legal/section.astro'
-import i18next from 'i18next'
+import { initI18n, t } from '@/lib/i18n-server'
 
-// Force la réinitialisation d'i18next
-// Chargement des traductions
-const en = await import('../../public/locales/en/common.json')
-const fr = await import('../../public/locales/fr/common.json')
-
-// Détecter la langue du navigateur
-const detectLanguage = (): string => {
-	// Essayer de récupérer depuis les cookies
-	const cookieHeader = Astro.request.headers.get('cookie')
-	if (cookieHeader) {
-		const cookies = Object.fromEntries(
-			cookieHeader.split('; ').map(cookie => {
-				const [key, value] = cookie.split('=')
-				return [key, decodeURIComponent(value || '')]
-			}),
-		)
-
-		const langFromCookie = cookies.language
-		if (langFromCookie && ['en', 'fr'].includes(langFromCookie)) {
-			return langFromCookie
-		}
-	}
-
-	// Sinon utiliser Accept-Language header
-	const acceptLanguage = Astro.request.headers.get('accept-language')
-	if (acceptLanguage) {
-		const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
-		if (preferredLang && ['en', 'fr'].includes(preferredLang)) {
-			return preferredLang
-		}
-	}
-
-	return 'en' // fallback
-}
-
-const currentLang = detectLanguage()
-
-await i18next.init({
-	lng: currentLang,
-	fallbackLng: 'en',
-	resources: {
-		en: { common: en.default },
-		fr: { common: fr.default },
-	},
-	defaultNS: 'common',
-	ns: ['common'],
-})
-
-// Créer une fonction de traduction custom qui marche
-const t = (key: string): string => {
-	return i18next.getResource(i18next.language, 'common', key) || key
-}
+// Initialiser i18n pour cette page aussi
+await initI18n(Astro.request)
 
 const pageTitle = t('terms.title')
 const pageDescription = t('terms.description')
@@ -206,7 +156,8 @@ const pageDescription = t('terms.description')
 						{t('terms.contact.email')}: <a
 							href="mailto:contact@nextnode.fr"
 							class="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
-							>contact@nextnode.fr</a>
+							>contact@nextnode.fr</a
+						>
 					</p>
 					<p>{t('terms.contact.address')}</p>
 				</div>

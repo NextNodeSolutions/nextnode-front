@@ -1,5 +1,2 @@
-import i18next from 'i18next'
-
-// Fonction de traduction qui marche avec i18next
-export const t = (key: string): string =>
-	i18next.getResource(i18next.language, 'common', key) || key
+// Re-export de la fonction de traduction depuis i18n-server
+export { t } from './i18n-server'
