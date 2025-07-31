@@ -1,8 +1,20 @@
 import i18next, { changeLanguage, init } from 'i18next'
 
+// Type pour les traductions imbriquées
+type TranslationValue = string | { [key: string]: TranslationValue }
+
 // Chargement des traductions
 const en = await import('../../public/locales/en/common.json')
 const fr = await import('../../public/locales/fr/common.json')
+
+// Store global des traductions pour accès direct
+const translations = {
+	en: en.default,
+	fr: fr.default,
+}
+
+// Variable globale pour stocker la langue courante
+let currentLanguage: string = 'en'
 
 // Détecter la langue depuis la requête Astro
 export const detectLanguage = (request: Request): string => {
@@ -54,12 +66,30 @@ export const initI18n = async (request: Request): Promise<string> => {
 		})
 	}
 
+	// Mettre à jour la langue globale pour la fonction t()
+	currentLanguage = currentLang
+
 	return currentLang
 }
 
-// Fonction de traduction qui utilise directement les ressources pour éviter les problèmes de cache
+// Fonction de traduction qui utilise la langue globale
 export const t = (key: string): string => {
-	const currentLang = i18next.language || 'en'
-	const resource = i18next.getResource(currentLang, 'common', key)
-	return resource || key
+	const langData = translations[currentLanguage as keyof typeof translations]
+	const keys = key.split('.')
+	let value: TranslationValue = langData
+
+	for (const k of keys) {
+		if (value && typeof value === 'object' && k in value) {
+			const nextValue: TranslationValue | undefined = value[k]
+			if (nextValue !== undefined) {
+				value = nextValue
+			} else {
+				return key // Return key if translation not found
+			}
+		} else {
+			return key // Return key if translation not found
+		}
+	}
+
+	return typeof value === 'string' ? value : key
 }

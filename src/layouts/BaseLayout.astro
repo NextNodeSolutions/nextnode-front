@@ -5,9 +5,6 @@ import '../styles/animations.css'
 import '../styles/liquid-effects.css'
 import i18next from 'i18next'
 
-// La langue est déjà initialisée par le middleware
-const currentLang = Astro.locals.lang || i18next.language || 'en'
-
 export interface Props {
 	title: string
 	description?: string
