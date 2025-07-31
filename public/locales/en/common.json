@@ -240,6 +240,27 @@
 			]
 		}
 	},
+	"workflow": {
+		"mainTasks": "Main Tasks",
+		"deliverables": "Deliverables",
+		"estimatedDuration": "Estimated Duration"
+	},
+	"faqCategories": {
+		"all": "All",
+		"performance": "Performance",
+		"architecture": "Architecture",
+		"security": "Security",
+		"integration": "Integration",
+		"quality": "Quality",
+		"seo": "SEO"
+	},
+	"techStats": {
+		"mastery": "mastery",
+		"expertiseLevel": "Expertise Level",
+		"masteriedTechnologies": "Mastered Technologies",
+		"averageLevel": "Average Level",
+		"expertTechnologies": "Expert Technologies (90%+)"
+	},
 	"ui": {
 		"toggleTheme": "Toggle theme",
 		"selectLanguage": "Select language",

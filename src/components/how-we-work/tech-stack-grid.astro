@@ -254,7 +254,8 @@ const colorClasses = {
 													<div
 														class={`text-sm ${colors.text} font-medium`}
 													>
-														{tech.level}% maîtrise
+														{tech.level}%{' '}
+														{t('techStats.mastery')}
 													</div>
 												</div>
 											</div>
@@ -268,7 +269,9 @@ const colorClasses = {
 										<div class="relative">
 											<div class="mb-2 flex items-center justify-between">
 												<span class="text-xs font-medium text-gray-500 dark:text-gray-400">
-													Niveau d'expertise
+													{t(
+														'techStats.expertiseLevel',
+													)}
 												</span>
 												<span
 													class={`text-xs font-bold ${colors.text}`}
@@ -306,7 +309,7 @@ const colorClasses = {
 										{category.technologies.length}
 									</div>
 									<div class="text-sm text-gray-600 dark:text-gray-400">
-										Technologies maîtrisées
+										{t('techStats.masteriedTechnologies')}
 									</div>
 								</div>
 								<div>
@@ -322,7 +325,7 @@ const colorClasses = {
 										%
 									</div>
 									<div class="text-sm text-gray-600 dark:text-gray-400">
-										Niveau moyen
+										{t('techStats.averageLevel')}
 									</div>
 								</div>
 								<div>
@@ -336,7 +339,7 @@ const colorClasses = {
 										}
 									</div>
 									<div class="text-sm text-gray-600 dark:text-gray-400">
-										Technologies expertes (90%+)
+										{t('techStats.expertTechnologies')}
 									</div>
 								</div>
 							</div>
