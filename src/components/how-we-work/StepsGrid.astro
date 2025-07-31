@@ -1,16 +1,7 @@
 ---
 import { t } from '@/lib/i18n-server'
+import { STEP_KEYS } from '@/lib/workflow-constants'
 import StepCard from './StepCard.astro'
-
-// Les étapes dans l'ordre
-const stepKeys = [
-	'discovery',
-	'design',
-	'development',
-	'testing',
-	'deployment',
-	'support',
-]
 
 // Récupérer les features comme array
 const featuresResult = t('howWeWork.cta.features')
@@ -102,7 +93,7 @@ const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 				class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
 			>
 				{
-					stepKeys.map((stepKey, index) => (
+					STEP_KEYS.map((stepKey, index) => (
 						<div
 							class="animate-slide-in-up translate-y-8 transform opacity-0"
 							style={`animation-delay: ${index * 150}ms; animation-fill-mode: forwards;`}

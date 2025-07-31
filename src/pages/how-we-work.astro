@@ -9,104 +9,21 @@ import TechStackGrid from '@/components/how-we-work/tech-stack-grid.astro'
 import TechnicalFaq from '@/components/how-we-work/technical-faq.astro'
 import { StartProjectModal } from '@/components/marketing/start-project-modal'
 import { t } from '@/lib/i18n-server'
+import { generateDetailedSteps } from '@/lib/workflow-utils'
+import { generatePageTitle, getCTAFeatures } from '@/lib/page-utils'
 
-const pageTitle =
-	t('howWeWork.hero.title') + ' ' + t('howWeWork.hero.titleHighlight')
+// Données de la page
+const pageTitle = generatePageTitle(
+	'howWeWork.hero.title',
+	'howWeWork.hero.titleHighlight',
+)
 const pageDescription = t('howWeWork.hero.description')
 
-// Étapes du workflow
-const steps = [
-	{
-		id: 'discovery',
-		title: t('howWeWork.steps.discovery.title'),
-		number: t('howWeWork.steps.discovery.number'),
-		description: t('howWeWork.steps.discovery.description'),
-		details: [
-			t('howWeWork.steps.discovery.details.0'),
-			t('howWeWork.steps.discovery.details.1'),
-			t('howWeWork.steps.discovery.details.2'),
-			t('howWeWork.steps.discovery.details.3'),
-		],
-		deliverables: t('howWeWork.steps.discovery.deliverables'),
-		duration: t('howWeWork.steps.discovery.duration'),
-		icon: '🔍',
-	},
-	{
-		id: 'design',
-		title: t('howWeWork.steps.design.title'),
-		number: t('howWeWork.steps.design.number'),
-		description: t('howWeWork.steps.design.description'),
-		details: [
-			t('howWeWork.steps.design.details.0'),
-			t('howWeWork.steps.design.details.1'),
-			t('howWeWork.steps.design.details.2'),
-			t('howWeWork.steps.design.details.3'),
-		],
-		deliverables: t('howWeWork.steps.design.deliverables'),
-		duration: t('howWeWork.steps.design.duration'),
-		icon: '🎨',
-	},
-	{
-		id: 'development',
-		title: t('howWeWork.steps.development.title'),
-		number: t('howWeWork.steps.development.number'),
-		description: t('howWeWork.steps.development.description'),
-		details: [
-			t('howWeWork.steps.development.details.0'),
-			t('howWeWork.steps.development.details.1'),
-			t('howWeWork.steps.development.details.2'),
-			t('howWeWork.steps.development.details.3'),
-		],
-		deliverables: t('howWeWork.steps.development.deliverables'),
-		duration: t('howWeWork.steps.development.duration'),
-		icon: '⚡',
-	},
-	{
-		id: 'testing',
-		title: t('howWeWork.steps.testing.title'),
-		number: t('howWeWork.steps.testing.number'),
-		description: t('howWeWork.steps.testing.description'),
-		details: [
-			t('howWeWork.steps.testing.details.0'),
-			t('howWeWork.steps.testing.details.1'),
-			t('howWeWork.steps.testing.details.2'),
-			t('howWeWork.steps.testing.details.3'),
-		],
-		deliverables: t('howWeWork.steps.testing.deliverables'),
-		duration: t('howWeWork.steps.testing.duration'),
-		icon: '🧪',
-	},
-	{
-		id: 'deployment',
-		title: t('howWeWork.steps.deployment.title'),
-		number: t('howWeWork.steps.deployment.number'),
-		description: t('howWeWork.steps.deployment.description'),
-		details: [
-			t('howWeWork.steps.deployment.details.0'),
-			t('howWeWork.steps.deployment.details.1'),
-			t('howWeWork.steps.deployment.details.2'),
-			t('howWeWork.steps.deployment.details.3'),
-		],
-		deliverables: t('howWeWork.steps.deployment.deliverables'),
-		duration: t('howWeWork.steps.deployment.duration'),
-		icon: '🚀',
-	},
-	{
-		id: 'support',
-		title: t('howWeWork.steps.support.title'),
-		number: t('howWeWork.steps.support.number'),
-		description: t('howWeWork.steps.support.description'),
-		details: [
-			t('howWeWork.steps.support.details.0'),
-			t('howWeWork.steps.support.details.1'),
-			t('howWeWork.steps.support.details.2'),
-			t('howWeWork.steps.support.details.3'),
-		],
-		deliverables: t('howWeWork.steps.support.deliverables'),
-		duration: t('howWeWork.steps.support.duration'),
-		icon: '🔧',
-	},
-]
+// Étapes du workflow avec toutes les données
+const steps = generateDetailedSteps()
+
+// Features CTA
+const ctaFeatures = getCTAFeatures()
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -252,13 +169,9 @@ const steps = [
 					<!-- Features List -->
 					<div class="mt-8 space-y-3">
 						{
-							t('howWeWork.cta.features')
-								.split(',')
-								.map((feature: string) => (
-									<p class="text-blue-100">
-										{feature.trim()}
-									</p>
-								))
+							ctaFeatures.map((feature: string) => (
+								<p class="text-blue-100">{feature}</p>
+							))
 						}
 					</div>
 

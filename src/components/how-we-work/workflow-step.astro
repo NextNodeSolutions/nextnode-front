@@ -1,17 +1,9 @@
 ---
 import { t } from '@/lib/i18n-server'
+import type { DetailedStep } from '@/lib/workflow-constants'
 
 export interface Props {
-	step: {
-		id: string
-		title: string
-		number: string
-		description: string
-		details: string[]
-		deliverables: string
-		duration: string
-		icon: string
-	}
+	step: DetailedStep
 	index: number
 	isReversed?: boolean
 }
