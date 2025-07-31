@@ -1,493 +1,355 @@
 ---
-export interface Props {
-	steps: Array<{
-		id: string
-		title: string
-		number: string
-		description: string
-		details: string[]
-		deliverables: string
-		duration: string
-		icon: string
-	}>
-}
+import { t } from '@/lib/i18n-server'
 
-const { steps } = Astro.props
+// Les étapes avec leurs données depuis les traductions
+const stepKeys = [
+	'discovery',
+	'design',
+	'development',
+	'testing',
+	'deployment',
+	'support',
+]
+const steps = stepKeys.map(key => ({
+	key,
+	...t(`howWeWork.steps.${key}`),
+	icon: {
+		discovery: '🔍',
+		design: '🎨',
+		development: '⚡',
+		testing: '🧪',
+		deployment: '🚀',
+		support: '🛠️',
+	}[key],
+}))
+
+// Couleurs pour chaque étape
+const colors = [
+	'#6366f1',
+	'#8b5cf6',
+	'#10b981',
+	'#f59e0b',
+	'#ef4444',
+	'#6b7280',
+]
 ---
 
-<div class="relative mx-auto w-full max-w-6xl overflow-hidden">
-	<!-- SVG Journey Path -->
-	<svg
-		viewBox="0 0 1200 800"
-		class="h-auto min-h-[500px] w-full md:min-h-[600px] lg:min-h-[700px]"
-		xmlns="http://www.w3.org/2000/svg"
-	>
-		<!-- Définitions pour les gradients et filtres -->
-		<defs>
-			<!-- Gradient pour le chemin principal -->
-			<linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-				<stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1"
-				></stop>
-				<stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1"
-				></stop>
-				<stop offset="100%" style="stop-color:#EC4899;stop-opacity:1"
-				></stop>
-			</linearGradient>
-
-			<!-- Gradient pour les cercles d'étapes -->
-			<radialGradient id="stepGradient" cx="50%" cy="50%" r="50%">
-				<stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"
-				></stop>
-				<stop offset="70%" style="stop-color:#f8fafc;stop-opacity:1"
-				></stop>
-				<stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1"
-				></stop>
-			</radialGradient>
-
-			<!-- Filtre pour l'ombre -->
-			<filter
-				id="dropShadow"
-				x="-50%"
-				y="-50%"
-				width="200%"
-				height="200%"
+<div class="workflow-journey w-full py-8 md:py-12 lg:py-16">
+	<div class="container mx-auto px-4">
+		<div class="mb-12 text-center">
+			<h2
+				class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl dark:text-white"
 			>
-				<feDropShadow
-					dx="0"
-					dy="4"
-					stdDeviation="8"
-					flood-color="#000000"
-					flood-opacity="0.1"></feDropShadow>
-			</filter>
+				{t('howWeWork.journey.title')}
+			</h2>
+			<p
+				class="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300"
+			>
+				{t('howWeWork.journey.subtitle')}
+			</p>
+		</div>
+		<svg
+			class="h-[500px] w-full md:h-[600px] lg:h-[700px]"
+			viewBox="0 0 1000 500"
+			style="overflow: visible;"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<defs>
+				<linearGradient
+					id="pathGradient"
+					x1="0%"
+					y1="0%"
+					x2="100%"
+					y2="100%"
+				>
+					<stop
+						offset="0%"
+						style={`stop-color:${colors[0]};stop-opacity:0.8`}
+					></stop>
+					<stop
+						offset="20%"
+						style={`stop-color:${colors[1]};stop-opacity:0.8`}
+					></stop>
+					<stop
+						offset="40%"
+						style={`stop-color:${colors[2]};stop-opacity:0.8`}
+					></stop>
+					<stop
+						offset="60%"
+						style={`stop-color:${colors[3]};stop-opacity:0.8`}
+					></stop>
+					<stop
+						offset="80%"
+						style={`stop-color:${colors[4]};stop-opacity:0.8`}
+					></stop>
+					<stop
+						offset="100%"
+						style={`stop-color:${colors[5]};stop-opacity:0.8`}
+					></stop>
+				</linearGradient>
 
-			<!-- Filtre pour le glow effect -->
-			<filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-				<feGaussianBlur stdDeviation="3" result="coloredBlur"
-				></feGaussianBlur>
-				<feMerge>
-					<feMergeNode in="coloredBlur"></feMergeNode>
-					<feMergeNode in="SourceGraphic"></feMergeNode>
-				</feMerge>
-			</filter>
-		</defs>
+				<filter
+					id="dropShadow"
+					x="-50%"
+					y="-50%"
+					width="200%"
+					height="200%"
+				>
+					<feDropShadow
+						dx="0"
+						dy="4"
+						stdDeviation="8"
+						flood-opacity="0.1"></feDropShadow>
+				</filter>
+			</defs>
 
-		<!-- Chemin de fond (plus large et plus subtil) -->
-		<path
-			d="M 100 400 Q 300 200, 500 400 T 900 300 Q 1000 250, 1100 400"
-			stroke="url(#pathGradient)"
-			stroke-width="8"
-			fill="none"
-			opacity="0.3"
-			class="path-background"></path>
+			<path
+				d="M 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385"
+				stroke="url(#pathGradient)"
+				stroke-width="4"
+				fill="none"
+				stroke-dasharray="12,6"
+				opacity="0.7"
+			>
+				<animate
+					attributeName="stroke-dashoffset"
+					values="18;0"
+					dur="2s"
+					repeatCount="indefinite"></animate>
+			</path>
 
-		<!-- Chemin principal animé -->
-		<path
-			id="mainPath"
-			d="M 100 400 Q 300 200, 500 400 T 900 300 Q 1000 250, 1100 400"
-			stroke="url(#pathGradient)"
-			stroke-width="4"
-			fill="none"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			filter="url(#glow)"
-			class="main-path"></path>
-
-		<!-- Points de connexion entre étapes -->
-		<g class="connection-points">
-			{
-				steps.map((_, index) => {
-					const x = 100 + index * 200
-					const y =
-						index % 2 === 0
-							? 400
-							: index === 1
-								? 200
-								: index === 3
-									? 400
-									: 300
-					return (
-						<circle
-							cx={x}
-							cy={y}
-							r="4"
-							fill="url(#pathGradient)"
-							opacity="0.6"
-							class="connection-point"
-						/>
-					)
-				})
-			}
-		</g>
-
-		<!-- Étapes interactives -->
-		<g class="workflow-steps">
+			<path
+				d="M 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385"
+				stroke="#f1f5f9"
+				stroke-width="8"
+				fill="none"
+				opacity="0.3"></path>
 			{
 				steps.map((step, index) => {
-					const x = 100 + index * 200
-					const y =
-						index % 2 === 0
-							? 400
-							: index === 1
-								? 200
-								: index === 3
-									? 400
-									: 300
-					const isEven = index % 2 === 0
+					const positions = [
+						{
+							x: 80,
+							y: 60,
+							cardX: 50,
+							cardY: -30,
+							lineX: 80,
+							lineY: 30,
+							lineEndX: 80,
+							lineEndY: 30,
+							direction: 'top',
+						},
+						{
+							x: 220,
+							y: 67,
+							cardX: 190,
+							cardY: -23,
+							lineX: 220,
+							lineY: 37,
+							lineEndX: 220,
+							lineEndY: 37,
+							direction: 'top',
+						},
+						{
+							x: 510,
+							y: 140,
+							cardX: 540,
+							cardY: 110,
+							lineX: 540,
+							lineY: 140,
+							lineEndX: 540,
+							lineEndY: 140,
+							direction: 'right',
+						},
+						{
+							x: 205,
+							y: 220,
+							cardX: 105,
+							cardY: 190,
+							lineX: 175,
+							lineY: 220,
+							lineEndX: 165,
+							lineEndY: 220,
+							direction: 'left',
+						},
+						{
+							x: 590,
+							y: 300,
+							cardX: 500,
+							cardY: 270,
+							lineX: 560,
+							lineY: 300,
+							lineEndX: 560,
+							lineEndY: 300,
+							direction: 'left',
+						},
+						{
+							x: 880,
+							y: 385,
+							cardX: 850,
+							cardY: 295,
+							lineX: 880,
+							lineY: 355,
+							lineEndX: 880,
+							lineEndY: 355,
+							direction: 'top',
+						},
+					]
+
+					const pos = positions[index]
+					const color = colors[index]
 
 					return (
-						<g class="step-group" data-step={step.id}>
-							{/* Zone clickable invisible */}
-							<circle
-								cx={x}
-								cy={y}
-								r="60"
-								fill="transparent"
-								class="step-click-area cursor-pointer"
-								data-step-id={step.id}
-							/>
-
-							{/* Cercle principal de l'étape */}
-							<circle
-								cx={x}
-								cy={y}
-								r="35"
-								fill="url(#stepGradient)"
-								stroke="url(#pathGradient)"
+						<g class="step-card-group">
+							{/* Ligne de connexion élégante */}
+							<line
+								x1={pos.x}
+								y1={pos.y}
+								x2={pos.lineEndX}
+								y2={pos.lineEndY}
+								stroke={color}
 								stroke-width="3"
-								filter="url(#dropShadow)"
-								class="step-circle cursor-pointer transition-transform duration-300 hover:scale-110"
-								data-step-id={step.id}
+								opacity="1"
 							/>
 
-							{/* Icône de l'étape */}
-							<text
-								x={x}
-								y={y + 8}
-								text-anchor="middle"
-								class="step-icon pointer-events-none text-2xl select-none"
-								fill="#3B82F6"
+							{/* Card carrée moderne */}
+							<g
+								transform={`translate(${pos.cardX}, ${pos.cardY})`}
 							>
-								{step.icon}
-							</text>
+								<rect
+									x="2"
+									y="2"
+									width="60"
+									height="60"
+									rx="12"
+									fill="rgba(0,0,0,0.1)"
+									opacity="0.3"
+								/>
 
-							{/* Numéro de l'étape */}
+								{/* Background gradient */}
+								<defs>
+									<linearGradient
+										id={`cardGradient${index}`}
+										x1="0%"
+										y1="0%"
+										x2="100%"
+										y2="100%"
+									>
+										<stop
+											offset="0%"
+											style={`stop-color:${color};stop-opacity:1`}
+										/>
+										<stop
+											offset="100%"
+											style={`stop-color:${color};stop-opacity:0.8`}
+										/>
+									</linearGradient>
+								</defs>
+
+								<rect
+									x="0"
+									y="0"
+									width="60"
+									height="60"
+									rx="12"
+									fill={`url(#cardGradient${index})`}
+									filter="url(#dropShadow)"
+								/>
+
+								<g opacity="0.2">
+									<circle
+										cx="15"
+										cy="15"
+										r="2"
+										fill="white"
+									/>
+									<circle
+										cx="45"
+										cy="15"
+										r="1.5"
+										fill="white"
+									/>
+									<circle
+										cx="15"
+										cy="45"
+										r="1.5"
+										fill="white"
+									/>
+									<circle
+										cx="45"
+										cy="45"
+										r="2"
+										fill="white"
+									/>
+								</g>
+
+								<text
+									x="30"
+									y="35"
+									text-anchor="middle"
+									class="fill-white text-lg font-bold"
+									dominant-baseline="middle"
+								>
+									{step.icon}
+								</text>
+
+								<circle
+									cx="50"
+									cy="10"
+									r="8"
+									fill="rgba(255,255,255,0.9)"
+								/>
+								<text
+									x="50"
+									y="10"
+									text-anchor="middle"
+									class="fill-gray-800 text-xs font-black"
+									dominant-baseline="middle"
+									dy="1"
+								>
+									{step.number}
+								</text>
+
+								<text
+									x="30"
+									y="75"
+									text-anchor="middle"
+									class="fill-gray-800 text-xs font-semibold dark:fill-white"
+									dominant-baseline="middle"
+								>
+									{step.title}
+								</text>
+							</g>
+
 							<circle
-								cx={x + 25}
-								cy={y - 25}
-								r="15"
-								fill="#3B82F6"
-								class="step-number-bg"
+								cx={pos.x}
+								cy={pos.y}
+								r="6"
+								fill={color}
+								stroke="white"
+								stroke-width="3"
 							/>
-							<text
-								x={x + 25}
-								y={y - 20}
-								text-anchor="middle"
-								class="step-number pointer-events-none fill-white text-xs font-bold select-none"
-							>
-								{step.number}
-							</text>
-
-							{/* Titre de l'étape */}
-							<text
-								x={x}
-								y={isEven ? y + 70 : y - 55}
-								text-anchor="middle"
-								class="step-title pointer-events-none max-w-32 fill-gray-800 text-sm font-semibold select-none dark:fill-gray-200"
-							>
-								{step.title
-									.split(' ')
-									.map((word, wordIndex) => (
-										<tspan
-											x={x}
-											dy={wordIndex === 0 ? 0 : 16}
-											class="text-xs sm:text-sm"
-										>
-											{word}
-										</tspan>
-									))}
-							</text>
 						</g>
 					)
 				})
 			}
-		</g>
-
-		<!-- Particules animées qui suivent le chemin -->
-		<g class="particles">
-			{
-				[...Array(3)].map((_, index) => (
-					<circle
-						r="3"
-						fill="url(#pathGradient)"
-						opacity="0.7"
-						class="particle"
-						style={`animation-delay: ${index * 2}s`}
-					>
-						<animateMotion
-							dur="6s"
-							repeatCount="indefinite"
-							path="M 100 400 Q 300 200, 500 400 T 900 300 Q 1000 250, 1100 400"
-						/>
-					</circle>
-				))
-			}
-		</g>
-	</svg>
-
-	<!-- Cards d'information qui apparaissent au hover/click -->
-	{
-		steps.map(step => (
-			<div
-				id={`step-card-${step.id}`}
-				class="step-info-card absolute z-10 hidden max-w-sm rounded-xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-700 dark:bg-gray-800"
-				style="transform: translate(-50%, -50%)"
-			>
-				<div class="mb-4 flex items-center gap-3">
-					<div class="text-3xl">{step.icon}</div>
-					<div>
-						<div class="text-xs font-medium text-blue-600 dark:text-blue-400">
-							{step.number}
-						</div>
-						<h3 class="text-lg font-bold text-gray-900 dark:text-white">
-							{step.title}
-						</h3>
-					</div>
-				</div>
-
-				<p class="mb-4 text-sm text-gray-600 dark:text-gray-300">
-					{step.description}
-				</p>
-
-				<div class="space-y-3">
-					<div>
-						<h4 class="mb-2 text-xs font-semibold tracking-wide text-gray-900 uppercase dark:text-white">
-							Livrables
-						</h4>
-						<p class="text-xs text-gray-600 dark:text-gray-400">
-							{step.deliverables}
-						</p>
-					</div>
-
-					<div>
-						<h4 class="mb-2 text-xs font-semibold tracking-wide text-gray-900 uppercase dark:text-white">
-							Durée
-						</h4>
-						<p class="text-xs font-medium text-blue-600 dark:text-blue-400">
-							{step.duration}
-						</p>
-					</div>
-				</div>
-
-				{/* Flèche pointant vers l'étape */}
-				<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 transform">
-					<div class="h-4 w-4 rotate-45 transform border-r border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800" />
-				</div>
-			</div>
-		))
-	}
+		</svg>
+	</div>
 </div>
 
 <style>
-	/* Animation du tracé du chemin */
-	.main-path {
-		stroke-dasharray: 2000;
-		stroke-dashoffset: 2000;
-		animation: drawPath 3s ease-in-out forwards;
+	/* Styles simples et propres pour le workflow journey */
+	.workflow-journey {
+		user-select: none;
 	}
 
-	@keyframes drawPath {
-		to {
-			stroke-dashoffset: 0;
-		}
-	}
-
-	/* Animation des particules */
-	.particle {
-		filter: url(#glow);
-	}
-
-	/* Hover effects pour les étapes */
-	.step-group:hover .step-circle {
-		transform: scale(1.1);
-	}
-
-	.step-group:hover .step-title {
-		fill: #3b82f6;
+	.step-card-group {
+		opacity: 1;
 	}
 
 	/* Responsive adjustments */
 	@media (max-width: 768px) {
-		.step-title {
-			font-size: 10px;
-		}
-
-		.step-icon {
-			font-size: 18px;
-		}
-
-		.step-number {
-			font-size: 10px;
-		}
-	}
-
-	/* Animation pour les cards d'information */
-	.step-info-card {
-		animation: fadeInScale 0.3s ease-out;
-	}
-
-	@keyframes fadeInScale {
-		from {
-			opacity: 0;
-			transform: translate(-50%, -50%) scale(0.9);
-		}
-		to {
-			opacity: 1;
-			transform: translate(-50%, -50%) scale(1);
-		}
-	}
-
-	/* Pulse effect pour les points de connexion */
-	.connection-point {
-		animation: pulse 2s infinite;
-	}
-
-	@keyframes pulse {
-		0%,
-		100% {
-			opacity: 0.6;
-		}
-		50% {
-			opacity: 1;
-			transform: scale(1.2);
+		.workflow-journey svg {
+			height: 400px;
 		}
 	}
 </style>
-
-<script>
-	document.addEventListener('DOMContentLoaded', () => {
-		const stepGroups = document.querySelectorAll('.step-group')
-		const stepCards = document.querySelectorAll('.step-info-card')
-		let activeCard: HTMLElement | null = null
-		let hideTimeout: NodeJS.Timeout | null = null
-
-		// Fonction pour positionner une card
-		function positionCard(card: HTMLElement, stepElement: SVGElement) {
-			const svg = stepElement.closest('svg')
-			const container = svg?.parentElement
-			if (!svg || !container) return
-
-			const svgRect = svg.getBoundingClientRect()
-			const containerRect = container.getBoundingClientRect()
-			const stepRect = stepElement.getBoundingClientRect()
-
-			// Position relative au container
-			const x = stepRect.left - containerRect.left + stepRect.width / 2
-			const y = stepRect.top - containerRect.top + stepRect.height / 2
-
-			card.style.left = `${x}px`
-			card.style.top = `${y - 120}px` // Décaler vers le haut
-		}
-
-		// Fonction pour afficher une card
-		function showCard(stepId: string, stepElement: SVGElement) {
-			// Cacher l'ancienne card
-			if (activeCard) {
-				activeCard.classList.add('hidden')
-			}
-
-			// Annuler le timeout de masquage
-			if (hideTimeout) {
-				clearTimeout(hideTimeout)
-				hideTimeout = null
-			}
-
-			// Afficher la nouvelle card
-			const card = document.getElementById(`step-card-${stepId}`)
-			if (card) {
-				positionCard(card, stepElement)
-				card.classList.remove('hidden')
-				activeCard = card
-			}
-		}
-
-		// Fonction pour cacher la card active
-		function hideCard() {
-			if (activeCard) {
-				activeCard.classList.add('hidden')
-				activeCard = null
-			}
-		}
-
-		// Gestionnaires d'événements pour chaque étape
-		stepGroups.forEach(group => {
-			const stepId = group.getAttribute('data-step')
-			if (!stepId) return
-
-			// Hover sur desktop
-			group.addEventListener('mouseenter', e => {
-				const target = e.currentTarget as SVGElement
-				showCard(stepId, target)
-			})
-
-			group.addEventListener('mouseleave', () => {
-				// Délai avant de cacher pour permettre de passer sur la card
-				hideTimeout = setTimeout(() => {
-					hideCard()
-				}, 300)
-			})
-
-			// Click sur mobile
-			group.addEventListener('click', e => {
-				e.preventDefault()
-				const target = e.currentTarget as SVGElement
-
-				if (activeCard && activeCard.id === `step-card-${stepId}`) {
-					hideCard()
-				} else {
-					showCard(stepId, target)
-				}
-			})
-		})
-
-		// Empêcher la fermeture quand on survole les cards
-		stepCards.forEach(card => {
-			card.addEventListener('mouseenter', () => {
-				if (hideTimeout) {
-					clearTimeout(hideTimeout)
-					hideTimeout = null
-				}
-			})
-
-			card.addEventListener('mouseleave', () => {
-				hideTimeout = setTimeout(() => {
-					hideCard()
-				}, 300)
-			})
-		})
-
-		// Fermer les cards en cliquant à l'extérieur
-		document.addEventListener('click', e => {
-			const target = e.target as HTMLElement
-			const isStepElement =
-				target.closest('.step-group') ||
-				target.closest('.step-info-card')
-
-			if (!isStepElement && activeCard) {
-				hideCard()
-			}
-		})
-
-		// Repositionner les cards lors du redimensionnement
-		window.addEventListener('resize', () => {
-			if (activeCard) {
-				const stepId = activeCard.id.replace('step-card-', '')
-				const stepGroup = document.querySelector(
-					`[data-step="${stepId}"]`,
-				) as SVGElement
-				if (stepGroup) {
-					positionCard(activeCard, stepGroup)
-				}
-			}
-		})
-	})
-</script>
