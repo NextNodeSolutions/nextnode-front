@@ -1,37 +1,46 @@
 ---
 import { t } from '@/lib/i18n-server'
 
-// Les étapes avec leurs données depuis les traductions
-const stepKeys = [
-	'discovery',
-	'design',
-	'development',
-	'testing',
-	'deployment',
-	'support',
-]
+// Configuration des étapes
+const STEP_CONFIG = {
+	discovery: { icon: '🔍', color: '#6366f1' },
+	design: { icon: '🎨', color: '#8b5cf6' },
+	development: { icon: '⚡', color: '#10b981' },
+	testing: { icon: '🧪', color: '#f59e0b' },
+	deployment: { icon: '🚀', color: '#ef4444' },
+	support: { icon: '🛠️', color: '#6b7280' },
+}
+
+const stepKeys = Object.keys(STEP_CONFIG)
+const colors = Object.values(STEP_CONFIG).map(config => config.color)
+
+// Données des étapes avec traductions
 const steps = stepKeys.map(key => ({
 	key,
 	...t(`howWeWork.steps.${key}`),
-	icon: {
-		discovery: '🔍',
-		design: '🎨',
-		development: '⚡',
-		testing: '🧪',
-		deployment: '🚀',
-		support: '🛠️',
-	}[key],
+	icon: STEP_CONFIG[key].icon,
 }))
 
-// Couleurs pour chaque étape
-const colors = [
-	'#6366f1',
-	'#8b5cf6',
-	'#10b981',
-	'#f59e0b',
-	'#ef4444',
-	'#6b7280',
+// Positions des cards et lignes
+const getStepPositions = () => [
+	{ x: 80, y: 60, cardX: 50, cardY: -30, lineEndX: 80, lineEndY: 30 },
+	{ x: 220, y: 67, cardX: 190, cardY: -23, lineEndX: 220, lineEndY: 37 },
+	{ x: 510, y: 140, cardX: 540, cardY: 110, lineEndX: 540, lineEndY: 140 },
+	{ x: 205, y: 220, cardX: 105, cardY: 190, lineEndX: 165, lineEndY: 220 },
+	{ x: 590, y: 300, cardX: 500, cardY: 270, lineEndX: 560, lineEndY: 300 },
+	{ x: 880, y: 385, cardX: 850, cardY: 295, lineEndX: 880, lineEndY: 355 },
 ]
+
+// Génération des stops de gradient
+const generateGradientStops = colors =>
+	colors.map((color, i) => ({
+		offset: `${i * 20}%`,
+		color,
+		opacity: '0.8',
+	}))
+
+const positions = getStepPositions()
+const gradientStops = generateGradientStops(colors)
 ---
 
 <div class="workflow-journey w-full py-8 md:py-12 lg:py-16">
@@ -62,30 +71,14 @@ const colors = [
 					x2="100%"
 					y2="100%"
 				>
-					<stop
-						offset="0%"
-						style={`stop-color:${colors[0]};stop-opacity:0.8`}
-					></stop>
-					<stop
-						offset="20%"
-						style={`stop-color:${colors[1]};stop-opacity:0.8`}
-					></stop>
-					<stop
-						offset="40%"
-						style={`stop-color:${colors[2]};stop-opacity:0.8`}
-					></stop>
-					<stop
-						offset="60%"
-						style={`stop-color:${colors[3]};stop-opacity:0.8`}
-					></stop>
-					<stop
-						offset="80%"
-						style={`stop-color:${colors[4]};stop-opacity:0.8`}
-					></stop>
-					<stop
-						offset="100%"
-						style={`stop-color:${colors[5]};stop-opacity:0.8`}
-					></stop>
+					{
+						gradientStops.map(stop => (
+							<stop
+								offset={stop.offset}
+								style={`stop-color:${stop.color};stop-opacity:${stop.opacity}`}
+							/>
+						))
+					}
 				</linearGradient>
 
 				<filter
@@ -103,6 +96,7 @@ const colors = [
 				</filter>
 			</defs>
 
+			{/* Chemin principal animé */}
 			<path
 				d="M 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385"
 				stroke="url(#pathGradient)"
@@ -118,6 +112,7 @@ const colors = [
 					repeatCount="indefinite"></animate>
 			</path>
 
+			{/* Chemin de fond */}
 			<path
 				d="M 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385"
 				stroke="#f1f5f9"
@@ -126,81 +121,12 @@ const colors = [
 				opacity="0.3"></path>
 			{
 				steps.map((step, index) => {
-					const positions = [
-						{
-							x: 80,
-							y: 60,
-							cardX: 50,
-							cardY: -30,
-							lineX: 80,
-							lineY: 30,
-							lineEndX: 80,
-							lineEndY: 30,
-							direction: 'top',
-						},
-						{
-							x: 220,
-							y: 67,
-							cardX: 190,
-							cardY: -23,
-							lineX: 220,
-							lineY: 37,
-							lineEndX: 220,
-							lineEndY: 37,
-							direction: 'top',
-						},
-						{
-							x: 510,
-							y: 140,
-							cardX: 540,
-							cardY: 110,
-							lineX: 540,
-							lineY: 140,
-							lineEndX: 540,
-							lineEndY: 140,
-							direction: 'right',
-						},
-						{
-							x: 205,
-							y: 220,
-							cardX: 105,
-							cardY: 190,
-							lineX: 175,
-							lineY: 220,
-							lineEndX: 165,
-							lineEndY: 220,
-							direction: 'left',
-						},
-						{
-							x: 590,
-							y: 300,
-							cardX: 500,
-							cardY: 270,
-							lineX: 560,
-							lineY: 300,
-							lineEndX: 560,
-							lineEndY: 300,
-							direction: 'left',
-						},
-						{
-							x: 880,
-							y: 385,
-							cardX: 850,
-							cardY: 295,
-							lineX: 880,
-							lineY: 355,
-							lineEndX: 880,
-							lineEndY: 355,
-							direction: 'top',
-						},
-					]
-
 					const pos = positions[index]
 					const color = colors[index]
 
 					return (
 						<g class="step-card-group">
-							{/* Ligne de connexion élégante */}
+							{/* Ligne de connexion */}
 							<line
 								x1={pos.x}
 								y1={pos.y}
@@ -211,10 +137,11 @@ const colors = [
 								opacity="1"
 							/>
 
-							{/* Card carrée moderne */}
+							{/* Card */}
 							<g
 								transform={`translate(${pos.cardX}, ${pos.cardY})`}
 							>
+								{/* Ombre */}
 								<rect
 									x="2"
 									y="2"
@@ -225,7 +152,7 @@ const colors = [
 									opacity="0.3"
 								/>
 
-								{/* Background gradient */}
+								{/* Gradient de fond */}
 								<defs>
 									<linearGradient
 										id={`cardGradient${index}`}
@@ -245,6 +172,7 @@ const colors = [
 									</linearGradient>
 								</defs>
 
+								{/* Fond de la card */}
 								<rect
 									x="0"
 									y="0"
@@ -255,33 +183,24 @@ const colors = [
 									filter="url(#dropShadow)"
 								/>
 
+								{/* Pattern décoratif */}
 								<g opacity="0.2">
-									<circle
-										cx="15"
-										cy="15"
-										r="2"
-										fill="white"
-									/>
-									<circle
-										cx="45"
-										cy="15"
-										r="1.5"
-										fill="white"
-									/>
-									<circle
-										cx="15"
-										cy="45"
-										r="1.5"
-										fill="white"
-									/>
-									<circle
-										cx="45"
-										cy="45"
-										r="2"
-										fill="white"
-									/>
+									{[
+										[15, 15, 2],
+										[45, 15, 1.5],
+										[15, 45, 1.5],
+										[45, 45, 2],
+									].map(([cx, cy, r]) => (
+										<circle
+											cx={cx}
+											cy={cy}
+											r={r}
+											fill="white"
+										/>
+									))}
 								</g>
 
+								{/* Icône centrale */}
 								<text
 									x="30"
 									y="35"
@@ -292,6 +211,7 @@ const colors = [
 									{step.icon}
 								</text>
 
+								{/* Badge numéro */}
 								<circle
 									cx="50"
 									cy="10"
@@ -309,6 +229,7 @@ const colors = [
 									{step.number}
 								</text>
 
+								{/* Titre */}
 								<text
 									x="30"
 									y="75"
@@ -320,6 +241,7 @@ const colors = [
 								</text>
 							</g>
 
+							{/* Point de connexion sur le chemin */}
 							<circle
 								cx={pos.x}
 								cy={pos.y}
