@@ -1,0 +1,493 @@
+---
+export interface Props {
+	steps: Array<{
+		id: string
+		title: string
+		number: string
+		description: string
+		details: string[]
+		deliverables: string
+		duration: string
+		icon: string
+	}>
+}
+
+const { steps } = Astro.props
+---
+
+<div class="relative mx-auto w-full max-w-6xl overflow-hidden">
+	<!-- SVG Journey Path -->
+	<svg
+		viewBox="0 0 1200 800"
+		class="h-auto min-h-[500px] w-full md:min-h-[600px] lg:min-h-[700px]"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<!-- Définitions pour les gradients et filtres -->
+		<defs>
+			<!-- Gradient pour le chemin principal -->
+			<linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+				<stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1"
+				></stop>
+				<stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1"
+				></stop>
+				<stop offset="100%" style="stop-color:#EC4899;stop-opacity:1"
+				></stop>
+			</linearGradient>
+
+			<!-- Gradient pour les cercles d'étapes -->
+			<radialGradient id="stepGradient" cx="50%" cy="50%" r="50%">
+				<stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"
+				></stop>
+				<stop offset="70%" style="stop-color:#f8fafc;stop-opacity:1"
+				></stop>
+				<stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1"
+				></stop>
+			</radialGradient>
+
+			<!-- Filtre pour l'ombre -->
+			<filter
+				id="dropShadow"
+				x="-50%"
+				y="-50%"
+				width="200%"
+				height="200%"
+			>
+				<feDropShadow
+					dx="0"
+					dy="4"
+					stdDeviation="8"
+					flood-color="#000000"
+					flood-opacity="0.1"></feDropShadow>
+			</filter>
+
+			<!-- Filtre pour le glow effect -->
+			<filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+				<feGaussianBlur stdDeviation="3" result="coloredBlur"
+				></feGaussianBlur>
+				<feMerge>
+					<feMergeNode in="coloredBlur"></feMergeNode>
+					<feMergeNode in="SourceGraphic"></feMergeNode>
+				</feMerge>
+			</filter>
+		</defs>
+
+		<!-- Chemin de fond (plus large et plus subtil) -->
+		<path
+			d="M 100 400 Q 300 200, 500 400 T 900 300 Q 1000 250, 1100 400"
+			stroke="url(#pathGradient)"
+			stroke-width="8"
+			fill="none"
+			opacity="0.3"
+			class="path-background"></path>
+
+		<!-- Chemin principal animé -->
+		<path
+			id="mainPath"
+			d="M 100 400 Q 300 200, 500 400 T 900 300 Q 1000 250, 1100 400"
+			stroke="url(#pathGradient)"
+			stroke-width="4"
+			fill="none"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			filter="url(#glow)"
+			class="main-path"></path>
+
+		<!-- Points de connexion entre étapes -->
+		<g class="connection-points">
+			{
+				steps.map((_, index) => {
+					const x = 100 + index * 200
+					const y =
+						index % 2 === 0
+							? 400
+							: index === 1
+								? 200
+								: index === 3
+									? 400
+									: 300
+					return (
+						<circle
+							cx={x}
+							cy={y}
+							r="4"
+							fill="url(#pathGradient)"
+							opacity="0.6"
+							class="connection-point"
+						/>
+					)
+				})
+			}
+		</g>
+
+		<!-- Étapes interactives -->
+		<g class="workflow-steps">
+			{
+				steps.map((step, index) => {
+					const x = 100 + index * 200
+					const y =
+						index % 2 === 0
+							? 400
+							: index === 1
+								? 200
+								: index === 3
+									? 400
+									: 300
+					const isEven = index % 2 === 0
+
+					return (
+						<g class="step-group" data-step={step.id}>
+							{/* Zone clickable invisible */}
+							<circle
+								cx={x}
+								cy={y}
+								r="60"
+								fill="transparent"
+								class="step-click-area cursor-pointer"
+								data-step-id={step.id}
+							/>
+
+							{/* Cercle principal de l'étape */}
+							<circle
+								cx={x}
+								cy={y}
+								r="35"
+								fill="url(#stepGradient)"
+								stroke="url(#pathGradient)"
+								stroke-width="3"
+								filter="url(#dropShadow)"
+								class="step-circle cursor-pointer transition-transform duration-300 hover:scale-110"
+								data-step-id={step.id}
+							/>
+
+							{/* Icône de l'étape */}
+							<text
+								x={x}
+								y={y + 8}
+								text-anchor="middle"
+								class="step-icon pointer-events-none text-2xl select-none"
+								fill="#3B82F6"
+							>
+								{step.icon}
+							</text>
+
+							{/* Numéro de l'étape */}
+							<circle
+								cx={x + 25}
+								cy={y - 25}
+								r="15"
+								fill="#3B82F6"
+								class="step-number-bg"
+							/>
+							<text
+								x={x + 25}
+								y={y - 20}
+								text-anchor="middle"
+								class="step-number pointer-events-none fill-white text-xs font-bold select-none"
+							>
+								{step.number}
+							</text>
+
+							{/* Titre de l'étape */}
+							<text
+								x={x}
+								y={isEven ? y + 70 : y - 55}
+								text-anchor="middle"
+								class="step-title pointer-events-none max-w-32 fill-gray-800 text-sm font-semibold select-none dark:fill-gray-200"
+							>
+								{step.title
+									.split(' ')
+									.map((word, wordIndex) => (
+										<tspan
+											x={x}
+											dy={wordIndex === 0 ? 0 : 16}
+											class="text-xs sm:text-sm"
+										>
+											{word}
+										</tspan>
+									))}
+							</text>
+						</g>
+					)
+				})
+			}
+		</g>
+
+		<!-- Particules animées qui suivent le chemin -->
+		<g class="particles">
+			{
+				[...Array(3)].map((_, index) => (
+					<circle
+						r="3"
+						fill="url(#pathGradient)"
+						opacity="0.7"
+						class="particle"
+						style={`animation-delay: ${index * 2}s`}
+					>
+						<animateMotion
+							dur="6s"
+							repeatCount="indefinite"
+							path="M 100 400 Q 300 200, 500 400 T 900 300 Q 1000 250, 1100 400"
+						/>
+					</circle>
+				))
+			}
+		</g>
+	</svg>
+
+	<!-- Cards d'information qui apparaissent au hover/click -->
+	{
+		steps.map(step => (
+			<div
+				id={`step-card-${step.id}`}
+				class="step-info-card absolute z-10 hidden max-w-sm rounded-xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-700 dark:bg-gray-800"
+				style="transform: translate(-50%, -50%)"
+			>
+				<div class="mb-4 flex items-center gap-3">
+					<div class="text-3xl">{step.icon}</div>
+					<div>
+						<div class="text-xs font-medium text-blue-600 dark:text-blue-400">
+							{step.number}
+						</div>
+						<h3 class="text-lg font-bold text-gray-900 dark:text-white">
+							{step.title}
+						</h3>
+					</div>
+				</div>
+
+				<p class="mb-4 text-sm text-gray-600 dark:text-gray-300">
+					{step.description}
+				</p>
+
+				<div class="space-y-3">
+					<div>
+						<h4 class="mb-2 text-xs font-semibold tracking-wide text-gray-900 uppercase dark:text-white">
+							Livrables
+						</h4>
+						<p class="text-xs text-gray-600 dark:text-gray-400">
+							{step.deliverables}
+						</p>
+					</div>
+
+					<div>
+						<h4 class="mb-2 text-xs font-semibold tracking-wide text-gray-900 uppercase dark:text-white">
+							Durée
+						</h4>
+						<p class="text-xs font-medium text-blue-600 dark:text-blue-400">
+							{step.duration}
+						</p>
+					</div>
+				</div>
+
+				{/* Flèche pointant vers l'étape */}
+				<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 transform">
+					<div class="h-4 w-4 rotate-45 transform border-r border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800" />
+				</div>
+			</div>
+		))
+	}
+</div>
+
+<style>
+	/* Animation du tracé du chemin */
+	.main-path {
+		stroke-dasharray: 2000;
+		stroke-dashoffset: 2000;
+		animation: drawPath 3s ease-in-out forwards;
+	}
+
+	@keyframes drawPath {
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+
+	/* Animation des particules */
+	.particle {
+		filter: url(#glow);
+	}
+
+	/* Hover effects pour les étapes */
+	.step-group:hover .step-circle {
+		transform: scale(1.1);
+	}
+
+	.step-group:hover .step-title {
+		fill: #3b82f6;
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		.step-title {
+			font-size: 10px;
+		}
+
+		.step-icon {
+			font-size: 18px;
+		}
+
+		.step-number {
+			font-size: 10px;
+		}
+	}
+
+	/* Animation pour les cards d'information */
+	.step-info-card {
+		animation: fadeInScale 0.3s ease-out;
+	}
+
+	@keyframes fadeInScale {
+		from {
+			opacity: 0;
+			transform: translate(-50%, -50%) scale(0.9);
+		}
+		to {
+			opacity: 1;
+			transform: translate(-50%, -50%) scale(1);
+		}
+	}
+
+	/* Pulse effect pour les points de connexion */
+	.connection-point {
+		animation: pulse 2s infinite;
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 0.6;
+		}
+		50% {
+			opacity: 1;
+			transform: scale(1.2);
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const stepGroups = document.querySelectorAll('.step-group')
+		const stepCards = document.querySelectorAll('.step-info-card')
+		let activeCard: HTMLElement | null = null
+		let hideTimeout: NodeJS.Timeout | null = null
+
+		// Fonction pour positionner une card
+		function positionCard(card: HTMLElement, stepElement: SVGElement) {
+			const svg = stepElement.closest('svg')
+			const container = svg?.parentElement
+			if (!svg || !container) return
+
+			const svgRect = svg.getBoundingClientRect()
+			const containerRect = container.getBoundingClientRect()
+			const stepRect = stepElement.getBoundingClientRect()
+
+			// Position relative au container
+			const x = stepRect.left - containerRect.left + stepRect.width / 2
+			const y = stepRect.top - containerRect.top + stepRect.height / 2
+
+			card.style.left = `${x}px`
+			card.style.top = `${y - 120}px` // Décaler vers le haut
+		}
+
+		// Fonction pour afficher une card
+		function showCard(stepId: string, stepElement: SVGElement) {
+			// Cacher l'ancienne card
+			if (activeCard) {
+				activeCard.classList.add('hidden')
+			}
+
+			// Annuler le timeout de masquage
+			if (hideTimeout) {
+				clearTimeout(hideTimeout)
+				hideTimeout = null
+			}
+
+			// Afficher la nouvelle card
+			const card = document.getElementById(`step-card-${stepId}`)
+			if (card) {
+				positionCard(card, stepElement)
+				card.classList.remove('hidden')
+				activeCard = card
+			}
+		}
+
+		// Fonction pour cacher la card active
+		function hideCard() {
+			if (activeCard) {
+				activeCard.classList.add('hidden')
+				activeCard = null
+			}
+		}
+
+		// Gestionnaires d'événements pour chaque étape
+		stepGroups.forEach(group => {
+			const stepId = group.getAttribute('data-step')
+			if (!stepId) return
+
+			// Hover sur desktop
+			group.addEventListener('mouseenter', e => {
+				const target = e.currentTarget as SVGElement
+				showCard(stepId, target)
+			})
+
+			group.addEventListener('mouseleave', () => {
+				// Délai avant de cacher pour permettre de passer sur la card
+				hideTimeout = setTimeout(() => {
+					hideCard()
+				}, 300)
+			})
+
+			// Click sur mobile
+			group.addEventListener('click', e => {
+				e.preventDefault()
+				const target = e.currentTarget as SVGElement
+
+				if (activeCard && activeCard.id === `step-card-${stepId}`) {
+					hideCard()
+				} else {
+					showCard(stepId, target)
+				}
+			})
+		})
+
+		// Empêcher la fermeture quand on survole les cards
+		stepCards.forEach(card => {
+			card.addEventListener('mouseenter', () => {
+				if (hideTimeout) {
+					clearTimeout(hideTimeout)
+					hideTimeout = null
+				}
+			})
+
+			card.addEventListener('mouseleave', () => {
+				hideTimeout = setTimeout(() => {
+					hideCard()
+				}, 300)
+			})
+		})
+
+		// Fermer les cards en cliquant à l'extérieur
+		document.addEventListener('click', e => {
+			const target = e.target as HTMLElement
+			const isStepElement =
+				target.closest('.step-group') ||
+				target.closest('.step-info-card')
+
+			if (!isStepElement && activeCard) {
+				hideCard()
+			}
+		})
+
+		// Repositionner les cards lors du redimensionnement
+		window.addEventListener('resize', () => {
+			if (activeCard) {
+				const stepId = activeCard.id.replace('step-card-', '')
+				const stepGroup = document.querySelector(
+					`[data-step="${stepId}"]`,
+				) as SVGElement
+				if (stepGroup) {
+					positionCard(activeCard, stepGroup)
+				}
+			}
+		})
+	})
+</script>

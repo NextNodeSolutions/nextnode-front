@@ -1,16 +1,16 @@
 import i18next, { changeLanguage, init } from 'i18next'
 
-// Type pour les traductions imbriquées
-type TranslationValue = string | { [key: string]: TranslationValue }
+// Type générique pour les traductions
+type TranslationData = Record<string, unknown>
 
 // Chargement des traductions
 const en = await import('../../public/locales/en/common.json')
 const fr = await import('../../public/locales/fr/common.json')
 
 // Store global des traductions pour accès direct
-const translations = {
-	en: en.default,
-	fr: fr.default,
+const translations: Record<string, TranslationData> = {
+	en: en.default as TranslationData,
+	fr: fr.default as TranslationData,
 }
 
 // Variable globale pour stocker la langue courante
@@ -76,20 +76,44 @@ export const initI18n = async (request: Request): Promise<string> => {
 export const t = (key: string): string => {
 	const langData = translations[currentLanguage as keyof typeof translations]
 	const keys = key.split('.')
-	let value: TranslationValue = langData
 
-	for (const k of keys) {
-		if (value && typeof value === 'object' && k in value) {
-			const nextValue: TranslationValue | undefined = value[k]
-			if (nextValue !== undefined) {
-				value = nextValue
-			} else {
-				return key // Return key if translation not found
-			}
-		} else {
-			return key // Return key if translation not found
+	// Fonction récursive pour naviguer dans l'objet
+	function getValue(obj: unknown, keyPath: string[]): unknown {
+		if (
+			!obj ||
+			typeof obj !== 'object' ||
+			Array.isArray(obj) ||
+			keyPath.length === 0
+		) {
+			return obj
 		}
+
+		const [currentKey, ...remainingKeys] = keyPath
+
+		if (!currentKey) {
+			return undefined
+		}
+
+		const typedObj = obj as Record<string, unknown>
+
+		if (currentKey in typedObj) {
+			return getValue(typedObj[currentKey], remainingKeys)
+		}
+
+		return undefined
 	}
 
-	return typeof value === 'string' ? value : key
+	const result = getValue(langData, keys)
+
+	// Toujours retourner un string
+	if (typeof result === 'string') {
+		return result
+	} else if (
+		Array.isArray(result) &&
+		result.every(item => typeof item === 'string')
+	) {
+		return result.join(', ') // Joindre les arrays de strings
+	} else {
+		return key // Fallback si pas trouvé ou type incorrect
+	}
 }
