@@ -1,0 +1,28 @@
+---
+// Composant pour le chemin principal du workflow
+// Gère l'animation et les styles du tracé
+---
+
+<!-- Chemin principal animé avec fade -->
+<path
+	d="M 40 56 L 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385 L 950 389"
+	stroke="url(#pathGradientWithFade)"
+	stroke-width="4"
+	fill="none"
+	stroke-dasharray="12,6"
+	opacity="0.7"
+>
+	<animate
+		attributeName="stroke-dashoffset"
+		values="18;0"
+		dur="2s"
+		repeatCount="indefinite"></animate>
+</path>
+
+<!-- Chemin de fond -->
+<path
+	d="M 40 56 L 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385 L 950 389"
+	stroke="#f1f5f9"
+	stroke-width="8"
+	fill="none"
+	opacity="0.3"></path>
