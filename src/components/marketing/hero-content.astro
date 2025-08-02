@@ -1,8 +1,8 @@
 ---
-import { Button } from '@/components/ui/button'
+import { ButtonWithLink } from '@/components/ui/button-with-link'
 import { cn } from '@/lib/utils'
 import { StartProjectModal } from './start-project-modal'
-import { t } from '@/lib/astro-i18n'
+import { t } from '@/lib/i18n-server'
 ---
 
 <!-- Main Content -->
@@ -74,7 +74,8 @@ import { t } from '@/lib/astro-i18n'
 				{t('hero.magicText')}
 			</div>
 		</div>
-		<Button
+		<ButtonWithLink
+			href="/how-we-work"
 			variant="outline"
 			className={cn(
 				'group cursor-pointer border-gray-300 py-6 text-gray-600 transition-all duration-300 hover:border-blue-400 hover:bg-blue-50/50 hover:text-blue-600',
@@ -96,6 +97,6 @@ import { t } from '@/lib/astro-i18n'
 					'group-hover:translate-x-2 group-hover:opacity-100',
 				)}>→</span
 			>
-		</Button>
+		</ButtonWithLink>
 	</div>
 </div>
