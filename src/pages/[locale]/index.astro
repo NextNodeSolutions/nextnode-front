@@ -12,8 +12,8 @@ import { cn } from '@/lib/utils'
 import { initI18n } from '@/lib/i18n-server'
 
 // Get language from route parameter
-const { lang } = Astro.params
-await initI18n(Astro.request, lang)
+const { locale } = Astro.params
+await initI18n(Astro.request, locale)
 ---
 
 <BaseLayout title="Nextnode - Creative Agency">

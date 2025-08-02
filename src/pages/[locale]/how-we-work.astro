@@ -12,8 +12,8 @@ import { generateDetailedSteps } from '@/lib/workflow-utils'
 import { generatePageTitle, getCTAFeatures } from '@/lib/page-utils'
 
 // Get language from route parameter
-const { lang } = Astro.params
-await initI18n(Astro.request, lang)
+const { locale } = Astro.params
+await initI18n(Astro.request, locale)
 
 // Données de la page
 const pageTitle = generatePageTitle(
