@@ -1,16 +1,18 @@
 import React from 'react'
 
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import { createModalGlassmorphism } from '@/lib/glassmorphism'
 import { DEFAULT_MODAL_CONFIG } from '@/lib/modal-utils'
 
 import GlassmorphicOverlay from './glassmorphic-overlay'
+import VisuallyHidden from './visually-hidden'
 
 interface ModalContainerProps {
 	isOpen: boolean
 	onClose: () => void
 	color: string
 	children: React.ReactNode
+	title?: string
 	maxWidth?: string
 	width?: string
 	className?: string
@@ -31,6 +33,7 @@ export default function ModalContainer({
 	onClose,
 	color,
 	children,
+	title,
 	maxWidth = DEFAULT_MODAL_CONFIG.maxWidth,
 	width = DEFAULT_MODAL_CONFIG.width,
 	className = '',
@@ -48,6 +51,15 @@ export default function ModalContainer({
 					maxWidth,
 				}}
 			>
+				{/* Titre requis pour l'accessibilité - caché visuellement si non fourni */}
+				{title ? (
+					<DialogTitle className="sr-only">{title}</DialogTitle>
+				) : (
+					<VisuallyHidden>
+						<DialogTitle>Modal</DialogTitle>
+					</VisuallyHidden>
+				)}
+
 				<GlassmorphicOverlay
 					color={color}
 					colorOpacity={glassmorphismOptions.colorOpacity}

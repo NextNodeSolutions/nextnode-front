@@ -21,6 +21,7 @@ export default function StepModal({
 			isOpen={isOpen}
 			onClose={onClose}
 			color={color}
+			title={detailedStep.title}
 			width="900px"
 			maxWidth="95vw"
 			className="sm:max-w-[900px]"
