@@ -1,17 +1,17 @@
 name: Deploy to Development
 
 on:
-  push:
-    branches: [develop]
-  workflow_dispatch:
+    push:
+        branches: [develop]
+    workflow_dispatch:
 
 jobs:
-  deploy:
-    name: Deploy to Development
-    uses: NextNodeSolutions/github-actions/.github/workflows/pack-deploy-dev.yml@main
-    with:
-      app-name: 'nextnode-front-dev'
-      fly-org: 'nextnodeio'
-      domain: 'nextnode.fr'
-      pnpm-version: '10.12.4'
-    secrets: inherit
+    deploy:
+        name: Deploy to Development
+        uses: NextNodeSolutions/github-actions/.github/workflows/pack-deploy-dev.yml@main
+        with:
+            app-name: 'nextnode-front-dev'
+            fly-org: 'nextnodeio'
+            domain: 'nextnode.fr'
+            pnpm-version: '10.12.4'
+        secrets: inherit
