@@ -1,87 +1,56 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+
+import { useWorkflowModal, useWorkflowInteraction } from '@/hooks'
 
 import StepModal from './StepModal'
 
-interface Step {
-	icon: string
-	title: string
-}
-
-interface DetailedStep {
-	title: string
-	description: string
-	details: string[]
-	deliverables: string
-	duration: string
-}
-
-interface WorkflowJourneyInteractiveProps {
-	steps: Step[]
-	detailedSteps: DetailedStep[]
-	colors: string[]
-}
+import type { WorkflowJourneyInteractiveProps } from '@/types/workflow'
 
 export default function WorkflowJourneyInteractive({
 	steps,
 	detailedSteps,
 	colors,
 }: WorkflowJourneyInteractiveProps): React.ReactElement {
-	const [openModalIndex, setOpenModalIndex] = useState<number | null>(null)
-
-	const handleCloseModal = (): void => {
-		setOpenModalIndex(null)
-	}
+	const { openModalIndex, openModal, closeModal } = useWorkflowModal()
+	const { initializeCardListeners, cleanup } =
+		useWorkflowInteraction(openModal)
 
 	useEffect(() => {
-		const handleOpenModal = (event: CustomEvent): void => {
-			setOpenModalIndex(event.detail.index)
-		}
+		// Initialise les event listeners après que le DOM soit prêt
+		const timer = setTimeout(() => {
+			initializeCardListeners()
+		}, 100)
 
-		const initCardListeners = (): void => {
-			const interactiveCards =
-				document.querySelectorAll('.interactive-card')
-
-			interactiveCards.forEach((card, index) => {
-				card.addEventListener('click', (): void => {
-					setOpenModalIndex(index)
-				})
-			})
-		}
-
-		// Attendre que le DOM soit prêt
-		if (document.readyState === 'loading') {
-			document.addEventListener('DOMContentLoaded', initCardListeners)
-		} else {
-			initCardListeners()
-		}
-
-		window.addEventListener(
-			'openStepModal',
-			handleOpenModal as EventListener,
-		)
-
+		// Nettoie à la fois le timer et les listeners
 		return (): void => {
-			window.removeEventListener(
-				'openStepModal',
-				handleOpenModal as EventListener,
-			)
+			clearTimeout(timer)
+			cleanup()
 		}
 	}, [])
 
 	return (
 		<>
 			{/* Modales */}
-			{steps.map((step, index) => (
-				<StepModal
-					key={index}
-					isOpen={openModalIndex === index}
-					onClose={handleCloseModal}
-					step={step}
-					detailedStep={detailedSteps[index]}
-					stepIndex={index}
-					color={colors[index]}
-				/>
-			))}
+			{steps.map((step, index) => {
+				const detailedStep = detailedSteps[index]
+				const color = colors[index]
+
+				if (!detailedStep || !color) {
+					return null
+				}
+
+				return (
+					<StepModal
+						key={index}
+						isOpen={openModalIndex === index}
+						onClose={closeModal}
+						step={step}
+						detailedStep={detailedStep}
+						stepIndex={index}
+						color={color}
+					/>
+				)
+			})}
 		</>
 	)
 }

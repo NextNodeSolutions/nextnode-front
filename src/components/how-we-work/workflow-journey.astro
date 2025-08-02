@@ -3,11 +3,14 @@ import {
 	STEP_COLORS,
 	WORKFLOW_POSITIONS,
 	generateGradientStops,
-	type GradientStop,
 	type Step,
 } from '@/lib/workflow-constants'
 import { generateSteps, generateDetailedSteps } from '@/lib/workflow-utils'
+
 import WorkflowJourneyInteractive from './WorkflowJourneyInteractive'
+import WorkflowGradients from './WorkflowGradients.astro'
+import WorkflowPath from './WorkflowPath.astro'
+import WorkflowStepCard from './WorkflowStepCard.astro'
 
 // Données des étapes avec traductions
 const steps: Step[] = generateSteps()
@@ -24,262 +27,24 @@ const gradientStops = generateGradientStops(STEP_COLORS)
 			style="overflow: visible;"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<defs>
-				<linearGradient
-					id="pathGradient"
-					x1="0%"
-					y1="0%"
-					x2="100%"
-					y2="100%"
-				>
-					{
-						gradientStops.map((stop: GradientStop) => (
-							<stop
-								offset={stop.offset}
-								style={`stop-color:${stop.color};stop-opacity:${stop.opacity}`}
-							/>
-						))
-					}
-				</linearGradient>
-
-				{/* Gradient avec fade à la fin */}
-				<linearGradient
-					id="pathGradientWithFade"
-					x1="0%"
-					y1="0%"
-					x2="100%"
-					y2="0%"
-				>
-					{
-						gradientStops
-							.slice(0, -1)
-							.map((stop: GradientStop) => (
-								<stop
-									offset={stop.offset}
-									style={`stop-color:${stop.color};stop-opacity:${stop.opacity}`}
-								/>
-							))
-					}
-					<stop
-						offset="85%"
-						style={`stop-color:${gradientStops[gradientStops.length - 1]?.color};stop-opacity:0.8`}
-					></stop>
-					<stop
-						offset="100%"
-						style={`stop-color:${gradientStops[gradientStops.length - 1]?.color};stop-opacity:0`}
-					></stop>
-				</linearGradient>
-
-				<filter
-					id="dropShadow"
-					x="-50%"
-					y="-50%"
-					width="200%"
-					height="200%"
-				>
-					<feDropShadow
-						dx="0"
-						dy="4"
-						stdDeviation="8"
-						flood-opacity="0.1"></feDropShadow>
-				</filter>
-			</defs>
-
-			{/* Chemin principal animé avec fade */}
-			<path
-				d="M 40 56 L 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385 L 950 389"
-				stroke="url(#pathGradientWithFade)"
-				stroke-width="4"
-				fill="none"
-				stroke-dasharray="12,6"
-				opacity="0.7"
-			>
-				<animate
-					attributeName="stroke-dashoffset"
-					values="18;0"
-					dur="2s"
-					repeatCount="indefinite"></animate>
-			</path>
-
-			{/* Chemin de fond */}
-			<path
-				d="M 40 56 L 80 60 L 350 75 C 480 85 520 100 510 140 C 500 180 420 195 320 185 C 240 175 200 180 205 220 C 210 260 250 275 320 265 L 420 255 C 560 245 600 260 590 300 C 580 340 620 355 700 365 L 880 385 L 950 389"
-				stroke="#f1f5f9"
-				stroke-width="8"
-				fill="none"
-				opacity="0.3"></path>
+			<WorkflowGradients gradientStops={gradientStops} />
+			<WorkflowPath />
 			{
 				steps.map((step: Step, index: number) => {
-					const pos = positions[index]
+					const position = positions[index]
 					const color = STEP_COLORS[index]
 
-					// Constantes pour la petite carte
-					const SMALL_CARD_SIZE = 60
-					const SMALL_CARD_SHADOW_OFFSET = 2
-					const SMALL_CARD_CENTER = SMALL_CARD_SIZE / 2
-					const SMALL_CARD_BORDER_RADIUS = 12
-
-					if (!pos || !color) {
+					if (!position || !color) {
 						return null
 					}
 
-					const detailedStep = detailedSteps[index]
-
 					return (
-						<g class="step-card-group" data-step-index={index}>
-							{/* Ligne de connexion */}
-							<line
-								x1={pos.x}
-								y1={pos.y}
-								x2={pos.lineEndX}
-								y2={pos.lineEndY}
-								stroke={color}
-								stroke-width="3"
-								opacity="1"
-							/>
-
-							{/* Card interactive */}
-							<g
-								class="interactive-card"
-								transform={`translate(${pos.cardX}, ${pos.cardY})`}
-								data-step-index={index}
-							>
-								{/* Ombre */}
-								<rect
-									x={SMALL_CARD_SHADOW_OFFSET}
-									y={SMALL_CARD_SHADOW_OFFSET}
-									width={SMALL_CARD_SIZE}
-									height={SMALL_CARD_SIZE}
-									rx={SMALL_CARD_BORDER_RADIUS}
-									fill="rgba(0,0,0,0.1)"
-									opacity="0.3"
-								/>
-
-								{/* Gradient de fond */}
-								<defs>
-									<linearGradient
-										id={`cardGradient${index}`}
-										x1="0%"
-										y1="0%"
-										x2="100%"
-										y2="100%"
-									>
-										<stop
-											offset="0%"
-											style={`stop-color:${color};stop-opacity:1`}
-										/>
-										<stop
-											offset="100%"
-											style={`stop-color:${color};stop-opacity:0.8`}
-										/>
-									</linearGradient>
-								</defs>
-
-								{/* Fond de la card */}
-								<rect
-									x="0"
-									y="0"
-									width={SMALL_CARD_SIZE}
-									height={SMALL_CARD_SIZE}
-									rx={SMALL_CARD_BORDER_RADIUS}
-									fill={`url(#cardGradient${index})`}
-									filter="url(#dropShadow)"
-									class="card-background"
-								/>
-
-								{/* Pattern décoratif */}
-								<g opacity="0.2">
-									{[
-										[
-											SMALL_CARD_CENTER / 2,
-											SMALL_CARD_CENTER / 2,
-											2,
-										],
-										[
-											SMALL_CARD_CENTER * 1.5,
-											SMALL_CARD_CENTER / 2,
-											1.5,
-										],
-										[
-											SMALL_CARD_CENTER / 2,
-											SMALL_CARD_CENTER * 1.5,
-											1.5,
-										],
-										[
-											SMALL_CARD_CENTER * 1.5,
-											SMALL_CARD_CENTER * 1.5,
-											2,
-										],
-									].map(([cx, cy, r]) => (
-										<circle
-											cx={cx}
-											cy={cy}
-											r={r}
-											fill="white"
-										/>
-									))}
-								</g>
-
-								{/* Icône centrale */}
-								<text
-									x={SMALL_CARD_CENTER}
-									y={SMALL_CARD_CENTER + 5}
-									text-anchor="middle"
-									font-size="16"
-									font-weight="bold"
-									dominant-baseline="middle"
-									fill="white"
-									style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3))"
-									class="card-icon"
-								>
-									{step.icon}
-								</text>
-
-								{/* Numéro créatif en haut à droite */}
-								<text
-									x={SMALL_CARD_SIZE - 12}
-									y={18}
-									text-anchor="middle"
-									font-family="'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
-									font-size="32"
-									font-weight="700"
-									dominant-baseline="middle"
-									fill="white"
-									opacity="0.95"
-									style="filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));"
-									class="card-number"
-								>
-									{index + 1}
-								</text>
-
-								{/* Titre - position adaptée selon l'étape */}
-								<text
-									x={SMALL_CARD_CENTER}
-									y={
-										index === 0 ||
-										index === 1 ||
-										index === 5
-											? '-10'
-											: '75'
-									}
-									text-anchor="middle"
-									class={`card-title fill-gray-800 text-xs font-semibold transition-opacity duration-300 dark:fill-white`}
-									dominant-baseline="middle"
-								>
-									{step.title}
-								</text>
-							</g>
-
-							{/* Point de connexion sur le chemin */}
-							<circle
-								cx={pos.x}
-								cy={pos.y}
-								r="6"
-								fill={color}
-								stroke="white"
-								stroke-width="3"
-							/>
-						</g>
+						<WorkflowStepCard
+							step={step}
+							position={position}
+							color={color}
+							index={index}
+						/>
 					)
 				})
 			}
