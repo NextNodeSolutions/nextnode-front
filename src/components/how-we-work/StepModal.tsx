@@ -34,7 +34,10 @@ export default function StepModal({
 			{/* Layout principal avec aspect ratio optimisé - responsive sm+ */}
 			<div className="animate-in fade-in flex h-auto min-h-[450px] flex-col duration-300 sm:h-[520px] sm:min-h-[520px] sm:flex-row">
 				{/* Section gauche - Illustration (40% sur sm+, pleine largeur sur mobile) */}
-				<div className="animate-in slide-in-from-left flex w-full items-center justify-center p-4 duration-500 sm:w-2/5 sm:p-6">
+				<div
+					className="animate-in slide-in-from-left flex w-full items-center justify-center p-4 duration-500 sm:w-2/5 sm:p-6"
+					style={{ backgroundColor: `${color}15` }}
+				>
 					<StepIllustration
 						stepKey={stepKey}
 						color={color}

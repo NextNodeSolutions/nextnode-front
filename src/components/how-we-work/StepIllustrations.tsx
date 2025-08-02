@@ -194,7 +194,7 @@ export default function StepIllustration({
 	}
 
 	return (
-		<div className="flex h-full w-full items-center justify-center rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-800 dark:to-gray-900">
+		<div className="flex h-full w-full items-center justify-center p-8">
 			<div className="w-full max-w-full">{getIllustration()}</div>
 		</div>
 	)
