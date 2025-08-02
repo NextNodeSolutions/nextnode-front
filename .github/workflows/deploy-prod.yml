@@ -1,17 +1,17 @@
 name: Deploy to Production
 
 on:
-    push:
-        branches: [main]
-    workflow_dispatch:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-    deploy:
-        name: Deploy to Production
-        uses: NextNodeSolutions/github-actions/.github/workflows/pack-deploy-prod.yml@main
-        with:
-            app-name: 'nextnode-front-prod'
-            fly-org: 'nextnodeio'
-            domain: 'nextnode.fr'
-            pnpm-version: '10.12.4'
-        secrets: inherit
+  deploy:
+    name: Deploy to Production
+    uses: NextNodeSolutions/github-actions/.github/workflows/pack-deploy-prod.yml@main
+    with:
+      app-name: 'nextnode-front-prod'
+      fly-org: 'nextnodeio'
+      domain: 'nextnode.fr'
+      pnpm-version: '10.12.4'
+    secrets: inherit
