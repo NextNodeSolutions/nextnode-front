@@ -4,7 +4,6 @@ import Header from '@/components/layout/header.astro'
 import Footer from '@/components/layout/footer.astro'
 import GradientCircle from '@/components/common/gradient-circle.astro'
 import WorkflowJourney from '@/components/how-we-work/workflow-journey.astro'
-import WorkflowStep from '@/components/how-we-work/workflow-step.astro'
 import TechStackGrid from '@/components/how-we-work/tech-stack-grid.astro'
 import TechnicalFaq from '@/components/how-we-work/technical-faq.astro'
 import { StartProjectModal } from '@/components/marketing/start-project-modal'
@@ -82,23 +81,6 @@ const ctaFeatures = getCTAFeatures()
 
 				<!-- SVG Journey Path -->
 				<WorkflowJourney steps={steps} />
-			</div>
-		</section>
-
-		<!-- Detailed Steps Section -->
-		<section class="bg-gray-50 py-24 sm:py-32 dark:bg-gray-900/50">
-			<div class="mx-auto max-w-7xl px-6 lg:px-8">
-				<div class="grid gap-16 lg:gap-24">
-					{
-						steps.map((step, index) => (
-							<WorkflowStep
-								step={step}
-								index={index}
-								isReversed={index % 2 === 1}
-							/>
-						))
-					}
-				</div>
 			</div>
 		</section>
 

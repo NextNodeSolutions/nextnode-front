@@ -34,14 +34,12 @@ export default function StepModal({
 			{/* Layout principal avec aspect ratio optimisé - responsive sm+ */}
 			<div className="animate-in fade-in flex h-auto min-h-[450px] flex-col duration-300 sm:h-[520px] sm:min-h-[520px] sm:flex-row">
 				{/* Section gauche - Illustration (40% sur sm+, pleine largeur sur mobile) */}
-				<div className="animate-in slide-in-from-left flex w-full items-center justify-center p-6 duration-500 sm:w-2/5 sm:p-8">
-					<div className="aspect-square w-full max-w-[150px] transition-transform duration-300 hover:scale-105 sm:max-w-[200px]">
-						<StepIllustration
-							stepKey={stepKey}
-							color={color}
-							className="drop-shadow-lg"
-						/>
-					</div>
+				<div className="animate-in slide-in-from-left flex w-full items-center justify-center p-4 duration-500 sm:w-2/5 sm:p-6">
+					<StepIllustration
+						stepKey={stepKey}
+						color={color}
+						className="drop-shadow-lg"
+					/>
 				</div>
 
 				{/* Section droite - Contenu (60% sur sm+, pleine largeur sur mobile) */}
