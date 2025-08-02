@@ -5,7 +5,6 @@ import { createModalGlassmorphism } from '@/lib/glassmorphism'
 import { DEFAULT_MODAL_CONFIG } from '@/lib/modal-utils'
 
 import GlassmorphicOverlay from './glassmorphic-overlay'
-import VisuallyHidden from './visually-hidden'
 
 interface ModalContainerProps {
 	isOpen: boolean
@@ -52,13 +51,9 @@ export default function ModalContainer({
 				}}
 			>
 				{/* Titre requis pour l'accessibilité - caché visuellement si non fourni */}
-				{title ? (
-					<DialogTitle className="sr-only">{title}</DialogTitle>
-				) : (
-					<VisuallyHidden>
-						<DialogTitle>Modal</DialogTitle>
-					</VisuallyHidden>
-				)}
+				<DialogTitle className="sr-only">
+					{title || 'Modal Dialog'}
+				</DialogTitle>
 
 				<GlassmorphicOverlay
 					color={color}
