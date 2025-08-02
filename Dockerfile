@@ -37,19 +37,21 @@ ENV HUSKY=0 \
     CI=true \
     NODE_ENV=production \
     ASTRO_TELEMETRY_DISABLED=1 \
-    PNPM_HOME=/pnpm \
-    PATH=$PNPM_HOME:$PATH
+    PNPM_HOME=/pnpm
+
+ENV PATH=$PNPM_HOME:$PATH
 
 # Install and build in single layer to reduce image size
 RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # Copy source code (optimized order for layer caching)
+COPY --chown=astro:astro config ./config/
 COPY --chown=astro:astro public ./public/
 COPY --chown=astro:astro src ./src/
 COPY --chown=astro:astro astro.config.mjs tsconfig.json ./
 
 # Build and clean in single layer  
-RUN pnpm run build && \
+RUN pnpm run type-config && pnpm run build && \
     pnpm prune --prod && \
     rm -rf node_modules/.cache .astro node_modules/.pnpm .pnpm-store && \
     find node_modules -name '*.md' -delete && \

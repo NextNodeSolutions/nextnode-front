@@ -50,7 +50,7 @@ export interface UseI18nReturn {
  * }
  * ```
  */
-export function useI18n(): UseI18nReturn {
+export function useI18n(initialLocale?: Locale): UseI18nReturn {
 	const context = useContext(I18nContext)
 
 	// If context available (client-side), use it
@@ -71,12 +71,15 @@ export function useI18n(): UseI18nReturn {
 		}
 	}
 
-	// Fallback for SSR: URL-based detection
+	// Use provided initial locale or fallback to URL detection
 	const [locale, setLocaleState] = useState<Locale>(() => {
+		if (initialLocale) {
+			return initialLocale
+		}
+		// Fallback to URL-based detection for legacy components
 		if (typeof window !== 'undefined') {
 			return getLocaleFromPath(window.location.pathname)
 		}
-		// SSR fallback - try to get from URL or default to 'en'
 		return 'en'
 	})
 

@@ -6,12 +6,34 @@ on:
     workflow_dispatch:
 
 jobs:
+    quality-checks:
+        name: Quality Checks
+        uses: NextNodeSolutions/github-actions/.github/workflows/quality-checks.yml@main
+        with:
+            run-lint: true
+            run-typecheck: true
+            run-tests: true
+            run-build: true
+            node-version: '22'
+            pnpm-version: '10.12.4'
+        secrets: inherit
+
     deploy:
         name: Deploy to Production
-        uses: NextNodeSolutions/github-actions/.github/workflows/pack-deploy-prod.yml@main
+        needs: quality-checks
+        uses: NextNodeSolutions/github-actions/.github/workflows/deploy-prod.yml@main
         with:
-            app-name: 'nextnode-front-prod'
-            fly-org: 'nextnodeio'
+            app-name: 'nextnode-front'
             domain: 'nextnode.fr'
+            node-version: '22'
             pnpm-version: '10.12.4'
+        secrets: inherit
+
+    dns:
+        name: Update DNS
+        needs: deploy
+        uses: NextNodeSolutions/github-actions/.github/workflows/dns.yml@main
+        with:
+            domain: ${{ needs.deploy.outputs.custom-domain }}
+            target: ${{ needs.deploy.outputs.railway-url }}
         secrets: inherit
