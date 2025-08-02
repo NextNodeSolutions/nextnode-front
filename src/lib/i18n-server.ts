@@ -47,8 +47,12 @@ export const detectLanguage = (request: Request): string => {
 }
 
 // Initialiser i18next avec la langue détectée - FORCE la réinitialisation
-export const initI18n = async (request: Request): Promise<string> => {
-	const currentLang = detectLanguage(request)
+export const initI18n = async (
+	request: Request,
+	langParam?: string,
+): Promise<string> => {
+	// Utiliser le paramètre de langue s'il est fourni, sinon détecter
+	const currentLang = langParam || detectLanguage(request)
 
 	// Force la réinitialisation complète d'i18next
 	if (i18next.isInitialized) {

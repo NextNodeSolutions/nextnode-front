@@ -1,24 +1,4 @@
 ---
-// Welcome to Astro! Everything between these triple-dash code fences
-// is your "component frontmatter". It never runs in the browser.
-console.log('This runs in your terminal, not the browser!')
-
-import Welcome from '@/components/marketing/welcome.astro'
-import BaseLayout from '@/layouts/BaseLayout.astro'
-import GradientCircle from '@/components/common/gradient-circle.astro'
-import Header from '@/components/layout/header.astro'
-import Footer from '@/components/layout/footer.astro'
-import { cn } from '@/lib/utils'
+// Page requise par Astro i18n même avec redirectToDefaultLocale: true
+// Le middleware cookieMiddleware + Astro i18n s'occupent automatiquement de la redirection
 ---
-
-<BaseLayout title="Nextnode - Creative Agency">
-	<div class="relative flex min-h-screen flex-col">
-		<Header />
-		<main class={cn('flex flex-col flex-1 justify-center')}>
-			<Welcome />
-		</main>
-
-		<GradientCircle />
-		<Footer />
-	</div>
-</BaseLayout>

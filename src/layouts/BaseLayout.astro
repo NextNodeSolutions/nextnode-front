@@ -158,8 +158,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 					// Set cookie for server-side detection
 					document.cookie = `language=${newLang}; path=/; max-age=31536000` // 1 year
 					document.documentElement.setAttribute('lang', newLang)
-					// Reload page to apply language change
-					window.location.reload()
+
+					// Construire la nouvelle URL avec la bonne langue
+					const currentPath = window.location.pathname
+					const pathWithoutLang =
+						currentPath.replace(/^\/(en|fr)/, '') || '/'
+					const newPath = `/${newLang}${pathWithoutLang}`
+
+					// Naviguer vers la nouvelle URL au lieu de recharger
+					window.location.href = newPath
 				},
 
 				init() {

@@ -1,13 +1,49 @@
-import { defineMiddleware } from 'astro:middleware'
+import { defineMiddleware, sequence } from 'astro:middleware'
 
 import { ApplicationMetrics } from './lib/metrics'
 import { initI18n } from './lib/i18n-server'
 
-export const onRequest = defineMiddleware(async (context, next) => {
+// Middleware pour injecter les cookies dans Accept-Language
+const cookieMiddleware = defineMiddleware(async (context, next) => {
+	const request = context.request
+	const cookieHeader = request.headers.get('cookie')
+
+	if (cookieHeader) {
+		const cookies = Object.fromEntries(
+			cookieHeader.split('; ').map(cookie => {
+				const [key, value] = cookie.split('=')
+				return [key, decodeURIComponent(value || '')]
+			}),
+		)
+
+		// Si cookie language existe et est valide
+		if (cookies.language && ['en', 'fr'].includes(cookies.language)) {
+			// Modifier Accept-Language pour que Astro i18n le détecte
+			const newHeaders = new Headers(request.headers)
+			newHeaders.set('accept-language', `${cookies.language},en;q=0.5`)
+
+			// Créer nouvelle requête avec headers modifiés
+			const newRequest = new Request(request.url, {
+				method: request.method,
+				headers: newHeaders,
+				body: request.body,
+			})
+
+			// Remplacer la requête dans le context
+			context.request = newRequest
+		}
+	}
+
+	return next()
+})
+
+// Middleware pour les métriques et analytics
+const metricsMiddleware = defineMiddleware(async (context, next) => {
 	const { request } = context
 
-	// Initialize i18n once per request in middleware
-	const currentLang = await initI18n(request)
+	// Get language from Astro's i18n routing (already set by i18nMiddleware)
+	const currentLang = context.currentLocale || 'en'
+	await initI18n(request, currentLang)
 
 	// Store language in context for components to access
 	context.locals.lang = currentLang
@@ -61,3 +97,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
 	return response
 })
+
+// Combiner les middlewares : cookies puis metrics (Astro i18n s'active automatiquement)
+export const onRequest = sequence(
+	cookieMiddleware, // 1. Injection cookies → Accept-Language
+	metricsMiddleware, // 2. Métriques (Astro i18n automatique entre)
+)
