@@ -1,9 +1,16 @@
 import { defineMiddleware } from 'astro:middleware'
 
 import { ApplicationMetrics } from './lib/metrics'
+import { initI18n } from './lib/i18n-server'
 
 export const onRequest = defineMiddleware(async (context, next) => {
 	const { request } = context
+
+	// Initialize i18n once per request in middleware
+	const currentLang = await initI18n(request)
+
+	// Store language in context for components to access
+	context.locals.lang = currentLang
 	const startTime = Date.now()
 	const url = new URL(request.url)
 

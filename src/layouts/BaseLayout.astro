@@ -3,61 +3,7 @@ import '../styles/global.css'
 import '../styles/base.css'
 import '../styles/animations.css'
 import '../styles/liquid-effects.css'
-import i18next, { t } from 'i18next'
-
-// Force la réinitialisation d'i18next
-
-// Chargement des traductions
-const en = await import('../../public/locales/en/common.json')
-const fr = await import('../../public/locales/fr/common.json')
-
-// Détecter la langue du navigateur
-const detectLanguage = (): string => {
-	// Essayer de récupérer depuis les cookies
-	const cookieHeader = Astro.request.headers.get('cookie')
-	if (cookieHeader) {
-		const cookies = Object.fromEntries(
-			cookieHeader.split('; ').map(cookie => {
-				const [key, value] = cookie.split('=')
-				return [key, decodeURIComponent(value || '')]
-			}),
-		)
-
-		const langFromCookie = cookies.language
-		if (langFromCookie && ['en', 'fr'].includes(langFromCookie)) {
-			return langFromCookie
-		}
-	}
-
-	// Sinon utiliser Accept-Language header
-	const acceptLanguage = Astro.request.headers.get('accept-language')
-	if (acceptLanguage) {
-		const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
-		if (preferredLang && ['en', 'fr'].includes(preferredLang)) {
-			return preferredLang
-		}
-	}
-
-	return 'en' // fallback
-}
-
-const currentLang = detectLanguage()
-
-await i18next.init({
-	lng: currentLang,
-	fallbackLng: 'en',
-	resources: {
-		en: { common: en.default },
-		fr: { common: fr.default },
-	},
-	defaultNS: 'common',
-	ns: ['common'],
-})
-
-// Créer une fonction de traduction custom qui marche
-const customT = (key: string): string => {
-	return i18next.getResource(i18next.language, 'common', key) || key
-}
+import i18next from 'i18next'
 
 export interface Props {
 	title: string
