@@ -56,23 +56,8 @@ export type TranslationValue<K extends TranslationKey> = GetValueAtPath<
 	K
 >
 
-// Utility type for safe type checking
-export type IsValidLocale<T> = T extends Locale ? T : never
-
-// Type-safe locale validation
+// Type-safe locale validation function type
 export type LocaleGuard = (value: unknown) => value is Locale
-
-// Helper function type for getting typed nested values from translation objects
-export type TypedGetNestedValue = <K extends TranslationKey>(
-	obj: TranslationDict | EnglishDict,
-	path: K,
-) => TranslationValue<K>
-
-// Type-safe translation function
-export type TranslationFunction = <K extends TranslationKey>(
-	key: K,
-	params?: Record<string, string | number>,
-) => TranslationValue<K>
 
 // Navigation link type used across components
 export interface NavigationLink {
@@ -89,8 +74,8 @@ type StructureOf<T> = {
 		? string
 		: T[K] extends readonly string[]
 			? readonly string[]
-			: T[K] extends readonly (infer U)[]
-				? readonly StructureOf<U>[]
+			: T[K] extends readonly unknown[]
+				? readonly string[]
 				: T[K] extends object
 					? StructureOf<T[K]>
 					: T[K]
