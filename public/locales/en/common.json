@@ -521,11 +521,27 @@
 			"address": "Address: 79 rue des frères lumière, 93330 Neuilly Sur Marne, France"
 		}
 	},
+	"stepModal": {
+		"whatWeDo": "What we do:",
+		"deliverables": "Deliverables",
+		"duration": "Duration"
+	},
+	"technicalFaq": {
+		"cta": {
+			"title": "Have other technical questions?",
+			"description": "Feel free to contact us to discuss your specific technical challenges. We'd be happy to explain our approach in detail.",
+			"buttonText": "Discuss your project"
+		}
+	},
 	"error": {
+		"pageTitle": "Page Not Found - 404",
 		"pageNotFound": "Page Not Found",
 		"pageNotFoundDescription": "The page you're looking for doesn't exist or has been moved. Let's get you back on track.",
 		"backToHome": "Back to Home",
 		"or": "or",
 		"learnMoreAboutUs": "learn more about us"
+	},
+	"meta": {
+		"defaultDescription": "Modern and performant template built with Astro and Nextnode"
 	}
 }

@@ -3,28 +3,28 @@ import { useState, useCallback, useEffect } from 'react'
 import type { UseWorkflowModalReturn } from '@/types/workflow'
 
 /**
- * Hook personnalisé pour gérer l'état des modales du workflow
- * Gère l'ouverture/fermeture et l'état actuel de la modale
+ * Custom hook to manage workflow modal state
+ * Handles opening/closing and current modal state
  */
 export function useWorkflowModal(): UseWorkflowModalReturn {
 	const [openModalIndex, setOpenModalIndex] = useState<number | null>(null)
 
 	/**
-	 * Ouvre une modale à l'index spécifié
+	 * Opens a modal at the specified index
 	 */
 	const openModal = useCallback((index: number) => {
 		setOpenModalIndex(index)
 	}, [])
 
 	/**
-	 * Ferme la modale actuellement ouverte
+	 * Closes the currently open modal
 	 */
 	const closeModal = useCallback(() => {
 		setOpenModalIndex(null)
 	}, [])
 
 	/**
-	 * Gère la fermeture via ESC
+	 * Handles closing via ESC key
 	 */
 	useEffect(() => {
 		const handleEscape = (event: KeyboardEvent): void => {

@@ -521,11 +521,27 @@
 			"address": "Adresse : 79 rue des frères lumière, 93330 Neuilly Sur Marne, France"
 		}
 	},
+	"stepModal": {
+		"whatWeDo": "Ce que nous faisons :",
+		"deliverables": "Livrables",
+		"duration": "Durée"
+	},
+	"technicalFaq": {
+		"cta": {
+			"title": "Vous avez d'autres questions techniques ?",
+			"description": "N'hésitez pas à nous contacter pour discuter de vos défis techniques spécifiques. Nous serions ravis de vous expliquer notre approche en détail.",
+			"buttonText": "Discuter de votre projet"
+		}
+	},
 	"error": {
+		"pageTitle": "Page non trouvée - 404",
 		"pageNotFound": "Page introuvable",
 		"pageNotFoundDescription": "La page que vous recherchez n'existe pas ou a été déplacée. Retournons sur la bonne voie.",
 		"backToHome": "Retour à l'accueil",
 		"or": "ou",
 		"learnMoreAboutUs": "en savoir plus sur nous"
+	},
+	"meta": {
+		"defaultDescription": "Template moderne et performant créé avec Astro et Nextnode"
 	}
 }

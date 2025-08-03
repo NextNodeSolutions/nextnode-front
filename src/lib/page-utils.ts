@@ -1,6 +1,6 @@
 import { t } from './i18n-server'
 
-// Fonction utilitaire pour générer les features CTA en tant qu'array
+// Utility function to generate CTA features as an array
 export const getCTAFeatures = (): string[] => {
 	const featuresResult = t('howWeWork.cta.features')
 	if (Array.isArray(featuresResult)) {
@@ -12,7 +12,7 @@ export const getCTAFeatures = (): string[] => {
 	return []
 }
 
-// Fonction utilitaire pour générer les titres de page
+// Utility function to generate page titles
 export const generatePageTitle = (
 	titleKey: string,
 	highlightKey: string,

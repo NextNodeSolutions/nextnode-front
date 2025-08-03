@@ -20,7 +20,7 @@ const homeUrl = getRelativeLocaleUrl(currentLocale, '/')
 const howWeWorkUrl = getRelativeLocaleUrl(currentLocale, '/how-we-work')
 ---
 
-<BaseLayout title="Page non trouvée - 404">
+<BaseLayout title={t('error.pageTitle')}>
 	<div class="relative flex min-h-screen flex-col">
 		<Header />
 

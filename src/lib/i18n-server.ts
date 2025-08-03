@@ -1,24 +1,24 @@
 import i18next, { changeLanguage, init } from 'i18next'
 
-// Type générique pour les traductions
+// Generic type for translations
 type TranslationData = Record<string, unknown>
 
-// Chargement des traductions
+// Loading translations
 const en = await import('../../public/locales/en/common.json')
 const fr = await import('../../public/locales/fr/common.json')
 
-// Store global des traductions pour accès direct
+// Global store for translations for direct access
 const translations: Record<string, TranslationData> = {
 	en: en.default as TranslationData,
 	fr: fr.default as TranslationData,
 }
 
-// Variable globale pour stocker la langue courante
+// Global variable to store the current language
 let currentLanguage: string = 'en'
 
-// Détecter la langue depuis la requête Astro
+// Detect language from Astro request
 export const detectLanguage = (request: Request): string => {
-	// Essayer de récupérer depuis les cookies
+	// Try to retrieve from cookies
 	const cookieHeader = request.headers.get('cookie')
 	if (cookieHeader) {
 		const cookies = Object.fromEntries(
@@ -34,7 +34,7 @@ export const detectLanguage = (request: Request): string => {
 		}
 	}
 
-	// Sinon utiliser Accept-Language header
+	// Otherwise use Accept-Language header
 	const acceptLanguage = request.headers.get('accept-language')
 	if (acceptLanguage) {
 		const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
@@ -46,15 +46,15 @@ export const detectLanguage = (request: Request): string => {
 	return 'en' // fallback
 }
 
-// Initialiser i18next avec la langue détectée - FORCE la réinitialisation
+// Initialize i18next with detected language - FORCE reinitialization
 export const initI18n = async (
 	request: Request,
 	langParam?: string,
 ): Promise<string> => {
-	// Utiliser le paramètre de langue s'il est fourni, sinon détecter
+	// Use language parameter if provided, otherwise detect
 	const currentLang = langParam || detectLanguage(request)
 
-	// Force la réinitialisation complète d'i18next
+	// Force complete reinitialization of i18next
 	if (i18next.isInitialized) {
 		await changeLanguage(currentLang)
 	} else {
@@ -70,13 +70,13 @@ export const initI18n = async (
 		})
 	}
 
-	// Mettre à jour la langue globale pour la fonction t()
+	// Update global language for the t() function
 	currentLanguage = currentLang
 
 	return currentLang
 }
 
-// Types pour les traductions spécifiques
+// Types for specific translations
 interface StepTranslation {
 	title: string
 	number: string
@@ -86,7 +86,7 @@ interface StepTranslation {
 	duration: string
 }
 
-// Fonction de traduction générique qui peut retourner différents types
+// Generic translation function that can return different types
 function getValue(obj: unknown, keyPath: string[]): unknown {
 	if (!obj || typeof obj !== 'object' || keyPath.length === 0) {
 		return obj
@@ -98,7 +98,7 @@ function getValue(obj: unknown, keyPath: string[]): unknown {
 		return undefined
 	}
 
-	// Gérer les indices numériques pour les tableaux
+	// Handle numeric indices for arrays
 	if (/^\d+$/.test(currentKey) && Array.isArray(obj)) {
 		const index = parseInt(currentKey, 10)
 		if (index < obj.length) {
@@ -107,7 +107,7 @@ function getValue(obj: unknown, keyPath: string[]): unknown {
 		return undefined
 	}
 
-	// Gérer les objets normaux
+	// Handle normal objects
 	if (!Array.isArray(obj)) {
 		const typedObj = obj as Record<string, unknown>
 		if (currentKey in typedObj) {
@@ -118,7 +118,7 @@ function getValue(obj: unknown, keyPath: string[]): unknown {
 	return undefined
 }
 
-// Surcharge de la fonction t pour supporter différents types de retour
+// Overload of the t function to support different return types
 export function t(key: string): string
 export function t<T = unknown>(key: string): T
 export function t(key: string): unknown {
@@ -126,12 +126,12 @@ export function t(key: string): unknown {
 	const keys = key.split('.')
 	const result = getValue(langData, keys)
 
-	// Si c'est une string, la retourner directement
+	// If it's a string, return it directly
 	if (typeof result === 'string') {
 		return result
 	}
 
-	// Si c'est un array de strings, le joindre
+	// If it's an array of strings, join them
 	if (
 		Array.isArray(result) &&
 		result.every(item => typeof item === 'string')
@@ -139,7 +139,7 @@ export function t(key: string): unknown {
 		return result.join(', ')
 	}
 
-	// Si c'est un objet, le retourner tel quel (pour les cas comme steps.discovery)
+	// If it's an object, return it as is (for cases like steps.discovery)
 	if (result && typeof result === 'object') {
 		return result
 	}
@@ -148,11 +148,11 @@ export function t(key: string): unknown {
 	return key
 }
 
-// Fonction spécifique pour les steps (pour une meilleure sécurité de type)
+// Specific function for steps (for better type safety)
 export const tStep = (stepKey: string): StepTranslation => {
 	const result = t<StepTranslation>(`howWeWork.steps.${stepKey}`)
 
-	// Validation de type runtime pour s'assurer qu'on a la bonne structure
+	// Runtime type validation to ensure we have the correct structure
 	if (
 		result &&
 		typeof result === 'object' &&
@@ -164,7 +164,7 @@ export const tStep = (stepKey: string): StepTranslation => {
 		return result as StepTranslation
 	}
 
-	// Fallback avec valeurs par défaut
+	// Fallback with default values
 	return {
 		title: stepKey,
 		number: '00',

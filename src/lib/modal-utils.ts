@@ -1,15 +1,15 @@
 /**
- * Utilitaires pour la gestion des modales
+ * Utilities for modal management
  */
 
 /**
- * Gère l'état d'ouverture/fermeture des modales
+ * Manages modal open/close state
  */
 export class ModalManager {
 	private openModals = new Set<string>()
 
 	/**
-	 * Ouvre une modale
+	 * Opens a modal
 	 * @param id - Identifiant unique de la modale
 	 */
 	open(id: string): void {
@@ -18,7 +18,7 @@ export class ModalManager {
 	}
 
 	/**
-	 * Ferme une modale
+	 * Closes a modal
 	 * @param id - Identifiant unique de la modale
 	 */
 	close(id: string): void {
@@ -27,7 +27,7 @@ export class ModalManager {
 	}
 
 	/**
-	 * Ferme toutes les modales
+	 * Closes all modals
 	 */
 	closeAll(): void {
 		this.openModals.clear()
@@ -35,7 +35,7 @@ export class ModalManager {
 	}
 
 	/**
-	 * Vérifie si une modale est ouverte
+	 * Checks if a modal is open
 	 * @param id - Identifiant de la modale
 	 */
 	isOpen(id: string): boolean {
@@ -43,14 +43,14 @@ export class ModalManager {
 	}
 
 	/**
-	 * Vérifie si au moins une modale est ouverte
+	 * Checks if at least one modal is open
 	 */
 	hasOpenModals(): boolean {
 		return this.openModals.size > 0
 	}
 
 	/**
-	 * Met à jour le scroll du body selon l'état des modales
+	 * Updates body scroll based on modal state
 	 */
 	private updateBodyScroll(): void {
 		if (typeof document !== 'undefined') {
@@ -64,16 +64,16 @@ export class ModalManager {
 }
 
 /**
- * Instance globale du gestionnaire de modales
+ * Global instance of modal manager
  */
 export const modalManager = new ModalManager()
 
 /**
- * Utilitaires pour les interactions DOM
+ * Utilities for DOM interactions
  */
 export const domUtils = {
 	/**
-	 * Attend que le DOM soit prêt
+	 * Wait for DOM to be ready
 	 * @param callback - Fonction à exécuter quand le DOM est prêt
 	 */
 	onDOMReady(callback: () => void): void {
@@ -87,11 +87,11 @@ export const domUtils = {
 	},
 
 	/**
-	 * Ajoute des event listeners sur des éléments
+	 * Add event listeners to elements
 	 * @param selector - Sélecteur CSS
 	 * @param event - Type d'événement
 	 * @param handler - Gestionnaire d'événement
-	 * @returns Fonction de nettoyage
+	 * @returns Cleanup function
 	 */
 	addEventListeners(
 		selector: string,
@@ -110,7 +110,7 @@ export const domUtils = {
 			listeners.push({ element, handler: eventHandler })
 		})
 
-		// Fonction de nettoyage
+		// Cleanup function
 		return () => {
 			listeners.forEach(({ element, handler }) => {
 				element.removeEventListener(event, handler)
@@ -119,7 +119,7 @@ export const domUtils = {
 	},
 
 	/**
-	 * Crée un événement personnalisé
+	 * Create a custom event
 	 * @param name - Nom de l'événement
 	 * @param detail - Données à passer avec l'événement
 	 */
@@ -132,7 +132,7 @@ export const domUtils = {
 }
 
 /**
- * Configuration par défaut pour les modales
+ * Default configuration for modals
  */
 export const DEFAULT_MODAL_CONFIG = {
 	maxHeight: '85vh',
@@ -143,7 +143,7 @@ export const DEFAULT_MODAL_CONFIG = {
 } as const
 
 /**
- * Classes CSS utilitaires pour les modales
+ * Utility CSS classes for modals
  */
 export const MODAL_CLASSES = {
 	overlay: 'fixed inset-0 z-50 bg-black/10',

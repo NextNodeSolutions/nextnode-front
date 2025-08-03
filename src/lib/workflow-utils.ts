@@ -7,7 +7,7 @@ import {
 	type StepConfig,
 } from './workflow-constants'
 
-// Fonction utilitaire pour générer les données des étapes avec traductions
+// Utility function to generate step data with translations
 export const generateSteps = (): Step[] =>
 	STEP_KEYS.map((key: string) => {
 		const stepData = tStep(key)
@@ -23,7 +23,7 @@ export const generateSteps = (): Step[] =>
 		}
 	})
 
-// Fonction utilitaire pour générer les étapes détaillées pour how-we-work.astro
+// Utility function to generate detailed steps for how-we-work.astro
 export const generateDetailedSteps = (): DetailedStep[] =>
 	STEP_KEYS.map((key: string) => {
 		const stepData = tStep(key)
@@ -43,7 +43,7 @@ export const generateDetailedSteps = (): DetailedStep[] =>
 		}
 	})
 
-// Fonction utilitaire pour obtenir une configuration d'étape par clé
+// Utility function to get step configuration by key
 export const getStepConfig = (key: string): StepConfig => {
 	const config = STEP_CONFIG[key]
 	if (!config) {

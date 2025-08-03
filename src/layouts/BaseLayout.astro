@@ -3,6 +3,7 @@ import '../styles/global.css'
 import '../styles/base.css'
 import '../styles/animations.css'
 import '../styles/liquid-effects.css'
+import { t } from '@/lib/i18n-server'
 
 export interface Props {
 	title: string
@@ -12,7 +13,7 @@ export interface Props {
 
 const {
 	title,
-	description = 'Template moderne et performant créé avec Astro et Nextnode',
+	description = t('meta.defaultDescription'),
 	image = '/og-image.png',
 } = Astro.props
 
