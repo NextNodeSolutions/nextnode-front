@@ -8,6 +8,8 @@ import { modal } from './components/modal'
 import { footer } from './components/footer'
 import { faq } from './components/faq'
 
+import type { TranslationDict } from '../../types'
+
 export const fr = {
 	...common,
 	hero: home.hero,
@@ -19,8 +21,7 @@ export const fr = {
 	privacy,
 	terms,
 	error,
-	modal: modal.form,
-	stepModal: modal.stepModal,
+	modal,
 	footer,
 	technicalFaq: faq.technicalFaq,
-} as const
+} satisfies TranslationDict

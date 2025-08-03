@@ -3,21 +3,45 @@ import { useState, useEffect } from 'react'
 import { en } from '../i18n/locales/en'
 import { fr } from '../i18n/locales/fr'
 
-import type { Translations, Locale, TranslationFunction } from '../i18n/types'
+import type {
+	Locale,
+	TranslationDict,
+	TranslationKey,
+	TranslationValue,
+} from '../i18n/types'
 
 // Translation store
-const translationStore: Record<Locale, Translations> = {
+const translationStore: Record<Locale, TranslationDict> = {
 	en,
 	fr,
 }
 
+// Helper function to get nested value from object using dot notation
+function getNestedValue<T>(obj: T, path: string): unknown {
+	return path
+		.split('.')
+		.reduce(
+			(current: unknown, key: string) =>
+				current && typeof current === 'object' && key in current
+					? (current as Record<string, unknown>)[key]
+					: undefined,
+			obj,
+		)
+}
+
+// Type-safe translation function for client-side
+type ClientTranslationFunction = <K extends TranslationKey>(
+	key: K,
+	params?: Record<string, string | number>,
+) => TranslationValue<K>
+
 // React hook for i18n in client components
 export const useI18n = (): {
-	t: TranslationFunction
+	t: ClientTranslationFunction
 	language: Locale
 } => {
 	const [language, setLanguage] = useState<Locale>('en')
-	const [translations, setTranslations] = useState<Translations>(en)
+	const [translations, setTranslations] = useState<TranslationDict>(en)
 
 	useEffect(() => {
 		// Get current language from various sources
@@ -40,9 +64,9 @@ export const useI18n = (): {
 		}
 
 		const loadTranslations = (lang: Locale): void => {
-			const translations = translationStore[lang]
-			if (translations) {
-				setTranslations(translations)
+			const langTranslations = translationStore[lang]
+			if (langTranslations) {
+				setTranslations(langTranslations)
 			}
 		}
 
@@ -64,28 +88,26 @@ export const useI18n = (): {
 			window.removeEventListener('storage', handleLanguageChange)
 	}, [language])
 
-	const t = (key: string, params?: Record<string, unknown>): string => {
-		const keys = key.split('.')
-		let value: unknown = translations
+	const t = <K extends TranslationKey>(
+		key: K,
+		params?: Record<string, string | number>,
+	): TranslationValue<K> => {
+		const result = getNestedValue(translations, key)
 
-		for (const k of keys) {
-			if (value && typeof value === 'object' && k in value) {
-				value = (value as Record<string, unknown>)[k]
-			} else {
-				return key // Return key if translation not found
-			}
+		// Handle string interpolation if params are provided
+		if (typeof result === 'string' && params) {
+			return Object.entries(params).reduce(
+				(str, [paramKey, value]) =>
+					str.replace(
+						new RegExp(`{{${paramKey}}}`, 'g'),
+						String(value),
+					),
+				result,
+			) as TranslationValue<K>
 		}
 
-		let result = typeof value === 'string' ? value : key
-
-		// Replace parameters in the string
-		if (params) {
-			Object.entries(params).forEach(([paramKey, paramValue]) => {
-				result = result.replace(`{${paramKey}}`, String(paramValue))
-			})
-		}
-
-		return result
+		// Return the result with proper typing
+		return result as TranslationValue<K>
 	}
 
 	return { t, language }

@@ -3,10 +3,15 @@ import i18next, { changeLanguage, init } from 'i18next'
 import { en } from '../i18n/locales/en'
 import { fr } from '../i18n/locales/fr'
 
-import type { Translations, Locale } from '../i18n/types'
+import type {
+	TranslationDict,
+	Locale,
+	TranslationKey,
+	TranslationValue,
+} from '../i18n/types'
 
 // Global store for translations for direct access
-const translations: Record<Locale, Translations> = {
+const translations: Record<Locale, TranslationDict> = {
 	en,
 	fr,
 }
@@ -80,64 +85,36 @@ export const initI18n = async (
 	return currentLang
 }
 
-// Generic translation function that can return different types
-function getValue(obj: unknown, keyPath: string[]): unknown {
-	if (!obj || typeof obj !== 'object' || keyPath.length === 0) {
-		return obj
-	}
-
-	const [currentKey, ...remainingKeys] = keyPath
-
-	if (!currentKey) {
-		return undefined
-	}
-
-	// Handle numeric indices for arrays
-	if (/^\d+$/.test(currentKey) && Array.isArray(obj)) {
-		const index = parseInt(currentKey, 10)
-		if (index < obj.length) {
-			return getValue(obj[index], remainingKeys)
-		}
-		return undefined
-	}
-
-	// Handle normal objects
-	if (!Array.isArray(obj)) {
-		const typedObj = obj as Record<string, unknown>
-		if (currentKey in typedObj) {
-			return getValue(typedObj[currentKey], remainingKeys)
-		}
-	}
-
-	return undefined
+// Helper function to get nested value from object using dot notation
+function getNestedValue<T>(obj: T, path: string): unknown {
+	return path
+		.split('.')
+		.reduce(
+			(current: unknown, key: string) =>
+				current && typeof current === 'object' && key in current
+					? (current as Record<string, unknown>)[key]
+					: undefined,
+			obj,
+		)
 }
 
-// Overload of the t function to support different return types
-export function t(key: string): string
-export function t<T = unknown>(key: string): T
-export function t(key: string): unknown {
+// Type-safe translation function with automatic key validation and return type inference
+export function t<K extends TranslationKey>(
+	key: K,
+	params?: Record<string, string | number>,
+): TranslationValue<K> {
 	const langData = translations[currentLanguage]
-	const keys = key.split('.')
-	const result = getValue(langData, keys)
+	const result = getNestedValue(langData, key)
 
-	// If it's a string, return it directly
-	if (typeof result === 'string') {
-		return result
+	// Handle string interpolation if params are provided
+	if (typeof result === 'string' && params) {
+		return Object.entries(params).reduce(
+			(str, [paramKey, value]) =>
+				str.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(value)),
+			result,
+		) as TranslationValue<K>
 	}
 
-	// If it's an array of strings, join them
-	if (
-		Array.isArray(result) &&
-		result.every(item => typeof item === 'string')
-	) {
-		return result.join(', ')
-	}
-
-	// If it's an object, return it as is (for cases like steps.discovery)
-	if (result && typeof result === 'object') {
-		return result
-	}
-
-	// Fallback
-	return key
+	// Return the result with proper typing
+	return result as TranslationValue<K>
 }

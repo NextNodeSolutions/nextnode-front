@@ -7,24 +7,22 @@ import {
 	type StepConfig,
 } from './workflow-constants'
 
-import type { Translations } from '../i18n/types'
-
-// Type alias for step data
-type StepData =
-	Translations['howWeWork']['steps'][keyof Translations['howWeWork']['steps']]
+// No need for intermediate types - we'll use the translation system directly
 
 // Utility function to generate step data with translations
 export const generateSteps = (): Step[] =>
 	STEP_KEYS.map((key: string) => {
-		const stepData = t<StepData>(`howWeWork.steps.${key}`)
+		// Use the type-safe translation function with template literal keys
+		const title = t(`howWeWork.steps.${key}.title` as const)
+		const number = t(`howWeWork.steps.${key}.number` as const)
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
 		return {
 			key,
-			title: stepData.title,
-			number: stepData.number,
+			title,
+			number,
 			icon: config.icon,
 		}
 	})
@@ -32,19 +30,25 @@ export const generateSteps = (): Step[] =>
 // Utility function to generate detailed steps for how-we-work.astro
 export const generateDetailedSteps = (): DetailedStep[] =>
 	STEP_KEYS.map((key: string) => {
-		const stepData = t<StepData>(`howWeWork.steps.${key}`)
+		// Use individual translation calls for each property
+		const title = t(`howWeWork.steps.${key}.title` as const)
+		const number = t(`howWeWork.steps.${key}.number` as const)
+		const description = t(`howWeWork.steps.${key}.description` as const)
+		const details = t(`howWeWork.steps.${key}.details` as const)
+		const deliverables = t(`howWeWork.steps.${key}.deliverables` as const)
+		const duration = t(`howWeWork.steps.${key}.duration` as const)
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
 		return {
 			id: key,
-			title: stepData.title,
-			number: stepData.number,
-			description: stepData.description,
-			details: stepData.details,
-			deliverables: stepData.deliverables,
-			duration: stepData.duration,
+			title,
+			number,
+			description,
+			details,
+			deliverables,
+			duration,
 			icon: config.icon,
 		}
 	})

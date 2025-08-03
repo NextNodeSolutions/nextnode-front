@@ -1,71 +1,58 @@
 import type { en } from './locales/en'
 
-// Create a flexible type that matches the English structure but allows any string values
-type FlexibleTranslations<T> = {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	readonly [K in keyof T]: T[K] extends readonly any[]
-		? T[K] extends readonly string[]
-			? readonly string[]
-			: T[K] extends readonly {
-						readonly name: string
-						readonly description: string
-				  }[]
-				? readonly {
-						readonly name: string
-						readonly description: string
-					}[]
-				: T[K] extends readonly {
-							readonly question: string
-							readonly answer: string
-					  }[]
-					? readonly {
-							readonly question: string
-							readonly answer: string
-						}[]
-					: readonly string[]
-		: T[K] extends object
-			? FlexibleTranslations<T[K]>
-			: string
-}
-
-// Use the English structure as the canonical type
-export type Translations = FlexibleTranslations<typeof en>
-
-// Extract specific types for better type safety
-export type NavigationKeys = keyof Translations['navigation']
-export type UIKeys = keyof Translations['ui']
-export type LanguageKeys = keyof Translations['languages']
-
-// FAQ category type
-export type FaqCategoryKey = keyof Translations['faqCategories']
-
-// Tech category type
-export type TechCategoryKey =
-	keyof Translations['howWeWork']['techStack']['categories']
-
-// Generic function to get nested translation values with type safety
-export type TranslationKey = string
-export type TranslationValue<T extends string> = T extends keyof Translations
-	? Translations[T]
-	: T extends `${infer K}.${infer Rest}`
-		? K extends keyof Translations
-			? TranslationValue<Rest> extends string
-				? string
-				: unknown
-			: unknown
-		: unknown
+// Use the English dictionary as the source of truth
+export type EnglishDict = typeof en
 
 // Language locales
 export type Locale = 'en' | 'fr'
 
-// Translation function type
-export type TranslationFunction = (
-	key: TranslationKey,
-	params?: Record<string, unknown>,
-) => string
+// Smart approach: generate actual dot-notation keys from the English dictionary structure
 
-// Overloaded translation function type for specific return types
-export interface TypedTranslationFunction {
-	(key: string): string
-	<T = unknown>(key: string): T
-}
+// Recursive type to extract all paths (simplified but effective)
+type PathsToStringProps<T, Prefix extends string = ''> = T extends string
+	? Prefix extends ''
+		? never
+		: Prefix
+	: T extends readonly unknown[]
+		? Prefix extends ''
+			? never
+			: Prefix
+		: {
+				[K in keyof T]: K extends string
+					? T[K] extends object
+						? PathsToStringProps<
+								T[K],
+								Prefix extends '' ? K : `${Prefix}.${K}`
+							>
+						: Prefix extends ''
+							? K
+							: `${Prefix}.${K}`
+					: never
+			}[keyof T]
+
+// All possible translation keys (automatically generated!)
+export type TranslationKey = PathsToStringProps<EnglishDict>
+
+// Helper type to get the value at a specific path
+type GetValueAtPath<T, P extends string> = P extends `${infer K}.${infer Rest}`
+	? K extends keyof T
+		? GetValueAtPath<T[K], Rest>
+		: never
+	: P extends keyof T
+		? T[P]
+		: never
+
+// Get the exact type for a specific translation key
+export type TranslationValue<K extends TranslationKey> = GetValueAtPath<
+	EnglishDict,
+	K
+>
+
+// Type-safe translation function
+export type TranslationFunction = <K extends TranslationKey>(
+	key: K,
+	params?: Record<string, string | number>,
+) => TranslationValue<K>
+
+// Simple type for other language dictionaries - same structure as English
+export type TranslationDict = typeof en

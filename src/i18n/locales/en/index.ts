@@ -19,8 +19,7 @@ export const en = {
 	privacy,
 	terms,
 	error,
-	modal: modal.form,
-	stepModal: modal.stepModal,
+	modal,
 	footer,
 	technicalFaq: faq.technicalFaq,
 } as const
