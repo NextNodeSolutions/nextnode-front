@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { en } from '../i18n/locales/en'
 import { fr } from '../i18n/locales/fr'
+import { cachedInterpolateString, getCachedNestedValue } from './i18n-cache'
 
 import type {
 	Locale,
@@ -9,7 +10,6 @@ import type {
 	TranslationKey,
 	TranslationValue,
 	LocaleGuard,
-	TypedGetNestedValue,
 } from '../i18n/types'
 
 // Translation store
@@ -23,36 +23,12 @@ const isValidLocale: LocaleGuard = (value: unknown): value is Locale =>
 	typeof value === 'string' &&
 	(['en', 'fr'] as const).includes(value as Locale)
 
-// Type-safe helper function to get nested value from object using dot notation
-function getNestedValue<T>(obj: T, path: string): unknown {
-	return path
-		.split('.')
-		.reduce(
-			(current: unknown, key: string) =>
-				current && typeof current === 'object' && key in current
-					? (current as Record<string, unknown>)[key]
-					: undefined,
-			obj,
-		)
-}
-
-// Specialized typed function for getting translation values
-const getTypedNestedValue: TypedGetNestedValue = <K extends TranslationKey>(
+// Specialized typed function for getting translation values with cache
+const getTypedNestedValue = <K extends TranslationKey>(
 	obj: TranslationDict,
 	path: K,
-): TranslationValue<K> => getNestedValue(obj, path) as TranslationValue<K>
-
-// Helper function for string interpolation
-function interpolateString(
-	str: string,
-	params: Record<string, string | number>,
-): string {
-	return Object.entries(params).reduce(
-		(result, [paramKey, value]) =>
-			result.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(value)),
-		str,
-	)
-}
+	locale: Locale,
+): TranslationValue<K> => getCachedNestedValue(obj, locale, path)
 
 // Type-safe translation function for client-side
 type ClientTranslationFunction = <K extends TranslationKey>(
@@ -113,11 +89,11 @@ export const useI18n = (): {
 		key: K,
 		params?: Record<string, string | number>,
 	): TranslationValue<K> => {
-		const result = getTypedNestedValue(translations, key)
+		const result = getTypedNestedValue(translations, key, language)
 
 		// Handle string interpolation if params are provided
 		if (typeof result === 'string' && params) {
-			const interpolated = interpolateString(result, params)
+			const interpolated = cachedInterpolateString(result, params)
 			return interpolated as TranslationValue<K>
 		}
 

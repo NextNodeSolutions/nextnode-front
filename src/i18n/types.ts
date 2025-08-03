@@ -8,10 +8,7 @@ export type Locale = 'en' | 'fr'
 
 // Smart approach: generate actual dot-notation keys from the English dictionary structure
 
-// Helper type to generate array indices as string union (0 to 9 for reasonable array sizes)
-type ArrayIndices = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-
-// Recursive type to extract all paths, including array indices
+// Recursive type to extract all paths from nested objects
 type PathsToStringProps<T, Prefix extends string = ''> = T extends string
 	? Prefix extends ''
 		? never
@@ -19,7 +16,7 @@ type PathsToStringProps<T, Prefix extends string = ''> = T extends string
 	: T extends readonly (infer U)[]
 		? Prefix extends ''
 			? never
-			: Prefix | PathsToStringProps<U, `${Prefix}.${ArrayIndices}`>
+			: Prefix | PathsToStringProps<U, `${Prefix}.${number}`>
 		: {
 				[K in keyof T]: K extends string
 					? T[K] extends object

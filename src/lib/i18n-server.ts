@@ -2,6 +2,7 @@ import i18next, { changeLanguage, init } from 'i18next'
 
 import { en } from '../i18n/locales/en'
 import { fr } from '../i18n/locales/fr'
+import { getCachedNestedValue, cachedInterpolateString } from './i18n-cache'
 
 import type {
 	TranslationDict,
@@ -111,37 +112,30 @@ export function getNestedValue<T>(obj: T, path: string): unknown {
 		)
 }
 
-// Specialized typed function for getting translation values
+// Helper to get current translations object
+export function getCurrentTranslations(): TranslationDict {
+	return translations[getCurrentLanguage()]
+}
+
+// Specialized typed function for getting translation values with cache
 export const getTypedNestedValue: TypedGetNestedValue = <
 	K extends TranslationKey,
 >(
 	obj: TranslationDict,
 	path: K,
-): TranslationValue<K> => getNestedValue(obj, path) as TranslationValue<K>
-
-// Helper function for string interpolation
-function interpolateString(
-	str: string,
-	params: Record<string, string | number>,
-): string {
-	return Object.entries(params).reduce(
-		(result, [paramKey, value]) =>
-			result.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(value)),
-		str,
-	)
-}
+): TranslationValue<K> => getCachedNestedValue(obj, getCurrentLanguage(), path)
 
 // Type-safe translation function with automatic key validation and return type inference
 export function t<K extends TranslationKey>(
 	key: K,
 	params?: Record<string, string | number>,
 ): TranslationValue<K> {
-	const langData = translations[getCurrentLanguage()]
+	const langData = getCurrentTranslations()
 	const result = getTypedNestedValue(langData, key)
 
 	// Handle string interpolation if params are provided
 	if (typeof result === 'string' && params) {
-		const interpolated = interpolateString(result, params)
+		const interpolated = cachedInterpolateString(result, params)
 		return interpolated as TranslationValue<K>
 	}
 

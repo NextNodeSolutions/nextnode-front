@@ -1,4 +1,4 @@
-import { getNestedValue, translations, getCurrentLanguage } from './i18n-server'
+import { t } from './i18n-server'
 import {
 	STEP_CONFIG,
 	STEP_KEYS,
@@ -7,27 +7,21 @@ import {
 	type StepConfig,
 } from './workflow-constants'
 
-// Extract the type from STEP_KEYS for bidirectional validation
-type StepKey = (typeof STEP_KEYS)[number]
-
-// Type-safe function to get step data
-function getStepData(stepKey: StepKey): unknown {
-	const langData = translations[getCurrentLanguage()]
-	return getNestedValue(langData, `howWeWork.steps.${stepKey}`)
-}
+import type { TranslationKey } from '@/i18n/types'
 
 // Utility function to generate step data with translations
 export const generateSteps = (): Step[] =>
 	STEP_KEYS.map(key => {
-		const stepData = getStepData(key) as Record<string, unknown>
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
 		return {
 			key,
-			title: String(stepData.title),
-			number: String(stepData.number),
+			title: String(t(`howWeWork.steps.${key}.title` as TranslationKey)),
+			number: String(
+				t(`howWeWork.steps.${key}.number` as TranslationKey),
+			),
 			icon: config.icon,
 		}
 	})
@@ -35,19 +29,28 @@ export const generateSteps = (): Step[] =>
 // Utility function to generate detailed steps for how-we-work.astro
 export const generateDetailedSteps = (): DetailedStep[] =>
 	STEP_KEYS.map(key => {
-		const stepData = getStepData(key) as Record<string, unknown>
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
 		return {
 			id: key,
-			title: String(stepData.title),
-			number: String(stepData.number),
-			description: String(stepData.description),
-			details: stepData.details as readonly string[],
-			deliverables: String(stepData.deliverables),
-			duration: String(stepData.duration),
+			title: String(t(`howWeWork.steps.${key}.title` as TranslationKey)),
+			number: String(
+				t(`howWeWork.steps.${key}.number` as TranslationKey),
+			),
+			description: String(
+				t(`howWeWork.steps.${key}.description` as TranslationKey),
+			),
+			details: t(
+				`howWeWork.steps.${key}.details` as TranslationKey,
+			) as readonly string[],
+			deliverables: String(
+				t(`howWeWork.steps.${key}.deliverables` as TranslationKey),
+			),
+			duration: String(
+				t(`howWeWork.steps.${key}.duration` as TranslationKey),
+			),
 			icon: config.icon,
 		}
 	})

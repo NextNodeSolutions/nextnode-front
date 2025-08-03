@@ -1,13 +1,10 @@
-import { getNestedValue, translations, getCurrentLanguage } from './i18n-server'
+import { t } from './i18n-server'
 
 import type { TranslationKey } from '../i18n/types'
 
 // Utility function to generate CTA features as an array
 export const getCTAFeatures = (): string[] => {
-	const result = getNestedValue(
-		translations[getCurrentLanguage()],
-		'howWeWork.cta.features',
-	)
+	const result = t('howWeWork.cta.features')
 
 	// Type guards
 	if (Array.isArray(result)) {
@@ -15,7 +12,9 @@ export const getCTAFeatures = (): string[] => {
 	}
 
 	if (typeof result === 'string') {
-		return result.split(',').map((feature: string) => feature.trim())
+		return String(result)
+			.split(',')
+			.map((feature: string) => feature.trim())
 	}
 
 	return []
@@ -26,10 +25,7 @@ export const generatePageTitle = (
 	titleKey: TranslationKey,
 	highlightKey: TranslationKey,
 ): string => {
-	const title = getNestedValue(translations[getCurrentLanguage()], titleKey)
-	const highlight = getNestedValue(
-		translations[getCurrentLanguage()],
-		highlightKey,
-	)
+	const title = t(titleKey)
+	const highlight = t(highlightKey)
 	return String(title) + ' ' + String(highlight)
 }
