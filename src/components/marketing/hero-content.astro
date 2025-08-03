@@ -1,8 +1,12 @@
 ---
 import { ButtonWithLink } from '@/components/ui/button-with-link'
 import { cn } from '@/lib/utils'
+import { getRelativeLocaleUrl } from 'astro:i18n'
 import { StartProjectModal } from './start-project-modal'
 import { t } from '@/lib/i18n-server'
+
+const currentLocale = Astro.currentLocale || 'en'
+const howWeWorkUrl = getRelativeLocaleUrl(currentLocale, '/how-we-work')
 ---
 
 <!-- Main Content -->
@@ -75,7 +79,7 @@ import { t } from '@/lib/i18n-server'
 			</div>
 		</div>
 		<ButtonWithLink
-			href="/how-we-work"
+			href={howWeWorkUrl}
 			variant="outline"
 			className={cn(
 				'group cursor-pointer border-gray-300 py-6 text-gray-600 transition-all duration-300 hover:border-blue-400 hover:bg-blue-50/50 hover:text-blue-600',
