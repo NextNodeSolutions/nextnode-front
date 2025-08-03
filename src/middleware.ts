@@ -3,37 +3,26 @@ import { defineMiddleware, sequence } from 'astro:middleware'
 import { ApplicationMetrics } from './lib/metrics'
 import { initI18n } from './lib/i18n-server'
 
-// Middleware pour injecter les cookies dans Accept-Language
-const cookieMiddleware = defineMiddleware(async (context, next) => {
-	const request = context.request
-	const cookieHeader = request.headers.get('cookie')
+// Middleware pour mapper URLs invisiblement vers [locale]/ structure
+const urlMappingMiddleware = defineMiddleware(async (context, next) => {
+	const url = new URL(context.request.url)
+	const pathname = url.pathname
 
-	if (cookieHeader) {
-		const cookies = Object.fromEntries(
-			cookieHeader.split('; ').map(cookie => {
-				const [key, value] = cookie.split('=')
-				return [key, decodeURIComponent(value || '')]
-			}),
-		)
-
-		// Si cookie language existe et est valide
-		if (cookies.language && ['en', 'fr'].includes(cookies.language)) {
-			// Modifier Accept-Language pour que Astro i18n le détecte
-			const newHeaders = new Headers(request.headers)
-			newHeaders.set('accept-language', `${cookies.language},en;q=0.5`)
-
-			// Créer nouvelle requête avec headers modifiés
-			const newRequest = new Request(request.url, {
-				method: request.method,
-				headers: newHeaders,
-				body: request.body,
-			})
-
-			// Remplacer la requête dans le context
-			context.request = newRequest
-		}
+	// Skip for assets, API routes, and other system paths
+	if (pathname.startsWith('/_') || pathname.startsWith('/api/')) {
+		return next()
 	}
 
+	const mapping = {
+		isRoot: (): boolean => pathname === '/',
+		isFrench: (): boolean => pathname.startsWith('/fr/'),
+		needsEnPrefix: (): boolean => !pathname.startsWith('/en/'),
+	}
+
+	// Map URLs to internal [locale]/ structure
+	if (mapping.isFrench()) return next()
+	if (mapping.isRoot()) return context.rewrite('/en/')
+	if (mapping.needsEnPrefix()) return context.rewrite('/en' + pathname)
 	return next()
 })
 
@@ -41,14 +30,23 @@ const cookieMiddleware = defineMiddleware(async (context, next) => {
 const metricsMiddleware = defineMiddleware(async (context, next) => {
 	const { request } = context
 
-	// Get language from Astro's i18n routing (already set by i18nMiddleware)
-	const currentLang = context.currentLocale || 'en'
+	// Get language from URL path (manual routing)
+	const url = new URL(request.url)
+	const pathname = url.pathname
+	let currentLang = 'en' // default
+
+	if (pathname.startsWith('/fr/')) {
+		currentLang = 'fr'
+	} else if (pathname.startsWith('/en/')) {
+		currentLang = 'en'
+	}
+
+	// Initialize i18n with detected language
 	await initI18n(request, currentLang)
 
 	// Store language in context for components to access
 	context.locals.lang = currentLang
 	const startTime = Date.now()
-	const url = new URL(request.url)
 
 	// Log incoming requests for debugging
 	console.log(`${request.method} ${url.pathname}`)
@@ -98,8 +96,10 @@ const metricsMiddleware = defineMiddleware(async (context, next) => {
 	return response
 })
 
-// Combiner les middlewares : cookies puis metrics (Astro i18n s'active automatiquement)
+// Combiner les middlewares : URL mapping puis metrics
+// Routing manuel avec mapping intelligent vers structure [locale]/
+// Astro gère naturellement les 404 si la route n'existe pas
 export const onRequest = sequence(
-	cookieMiddleware, // 1. Injection cookies → Accept-Language
-	metricsMiddleware, // 2. Métriques (Astro i18n automatique entre)
+	urlMappingMiddleware, // 1. Map URLs → structure [locale]/ interne
+	metricsMiddleware, // 2. Métriques et analytics
 )

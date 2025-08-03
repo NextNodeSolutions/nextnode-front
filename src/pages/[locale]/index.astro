@@ -12,9 +12,8 @@ import { cn } from '@/lib/utils'
 import { initI18n } from '@/lib/i18n-server'
 
 // Get language from route parameter
-// For [...locale], the parameter can be undefined (for root path) or an array
-const localeParam = Astro.params.locale
-const locale = Array.isArray(localeParam) ? localeParam[0] : localeParam || 'en'
+// For [locale], the parameter is a single string
+const locale = Astro.params.locale || 'en'
 await initI18n(Astro.request, locale)
 ---
 

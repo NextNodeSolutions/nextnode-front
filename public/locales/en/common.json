@@ -520,5 +520,12 @@
 			"email": "Email",
 			"address": "Address: 79 rue des frères lumière, 93330 Neuilly Sur Marne, France"
 		}
+	},
+	"error": {
+		"pageNotFound": "Page Not Found",
+		"pageNotFoundDescription": "The page you're looking for doesn't exist or has been moved. Let's get you back on track.",
+		"backToHome": "Back to Home",
+		"or": "or",
+		"learnMoreAboutUs": "learn more about us"
 	}
 }
