@@ -1,23 +1,21 @@
 import i18next, { changeLanguage, init } from 'i18next'
 
-// Generic type for translations
-type TranslationData = Record<string, unknown>
+import { en } from '../i18n/locales/en'
+import { fr } from '../i18n/locales/fr'
 
-// Loading translations
-const en = await import('../../public/locales/en/common.json')
-const fr = await import('../../public/locales/fr/common.json')
+import type { Translations, Locale } from '../i18n/types'
 
 // Global store for translations for direct access
-const translations: Record<string, TranslationData> = {
-	en: en.default as TranslationData,
-	fr: fr.default as TranslationData,
+const translations: Record<Locale, Translations> = {
+	en,
+	fr,
 }
 
 // Global variable to store the current language
-let currentLanguage: string = 'en'
+let currentLanguage: Locale = 'en'
 
 // Detect language from Astro request
-export const detectLanguage = (request: Request): string => {
+export const detectLanguage = (request: Request): Locale => {
 	// Try to retrieve from cookies
 	const cookieHeader = request.headers.get('cookie')
 	if (cookieHeader) {
@@ -29,8 +27,11 @@ export const detectLanguage = (request: Request): string => {
 		)
 
 		const langFromCookie = cookies.language
-		if (langFromCookie && ['en', 'fr'].includes(langFromCookie)) {
-			return langFromCookie
+		if (
+			langFromCookie &&
+			(['en', 'fr'] as const).includes(langFromCookie as Locale)
+		) {
+			return langFromCookie as Locale
 		}
 	}
 
@@ -38,8 +39,11 @@ export const detectLanguage = (request: Request): string => {
 	const acceptLanguage = request.headers.get('accept-language')
 	if (acceptLanguage) {
 		const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
-		if (preferredLang && ['en', 'fr'].includes(preferredLang)) {
-			return preferredLang
+		if (
+			preferredLang &&
+			(['en', 'fr'] as const).includes(preferredLang as Locale)
+		) {
+			return preferredLang as Locale
 		}
 	}
 
@@ -50,9 +54,9 @@ export const detectLanguage = (request: Request): string => {
 export const initI18n = async (
 	request: Request,
 	langParam?: string,
-): Promise<string> => {
+): Promise<Locale> => {
 	// Use language parameter if provided, otherwise detect
-	const currentLang = langParam || detectLanguage(request)
+	const currentLang = (langParam as Locale) || detectLanguage(request)
 
 	// Force complete reinitialization of i18next
 	if (i18next.isInitialized) {
@@ -62,8 +66,8 @@ export const initI18n = async (
 			lng: currentLang,
 			fallbackLng: 'en',
 			resources: {
-				en: { common: en.default },
-				fr: { common: fr.default },
+				en: { common: en },
+				fr: { common: fr },
 			},
 			defaultNS: 'common',
 			ns: ['common'],
@@ -74,16 +78,6 @@ export const initI18n = async (
 	currentLanguage = currentLang
 
 	return currentLang
-}
-
-// Types for specific translations
-interface StepTranslation {
-	title: string
-	number: string
-	description: string
-	details: string[]
-	deliverables: string
-	duration: string
 }
 
 // Generic translation function that can return different types
@@ -122,7 +116,7 @@ function getValue(obj: unknown, keyPath: string[]): unknown {
 export function t(key: string): string
 export function t<T = unknown>(key: string): T
 export function t(key: string): unknown {
-	const langData = translations[currentLanguage as keyof typeof translations]
+	const langData = translations[currentLanguage]
 	const keys = key.split('.')
 	const result = getValue(langData, keys)
 
@@ -146,31 +140,4 @@ export function t(key: string): unknown {
 
 	// Fallback
 	return key
-}
-
-// Specific function for steps (for better type safety)
-export const tStep = (stepKey: string): StepTranslation => {
-	const result = t<StepTranslation>(`howWeWork.steps.${stepKey}`)
-
-	// Runtime type validation to ensure we have the correct structure
-	if (
-		result &&
-		typeof result === 'object' &&
-		'title' in result &&
-		'number' in result &&
-		typeof result.title === 'string' &&
-		typeof result.number === 'string'
-	) {
-		return result as StepTranslation
-	}
-
-	// Fallback with default values
-	return {
-		title: stepKey,
-		number: '00',
-		description: '',
-		details: [],
-		deliverables: '',
-		duration: '',
-	}
 }

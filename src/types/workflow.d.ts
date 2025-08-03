@@ -33,7 +33,7 @@ export interface DetailedStep {
 	title: string
 	number: string
 	description: string
-	details: string[]
+	details: readonly string[]
 	deliverables: string
 	duration: string
 	icon: string
@@ -51,7 +51,7 @@ export interface StepModalProps {
 		title: string
 		number: string
 		description: string
-		details: string[]
+		details: readonly string[]
 		deliverables: string
 		duration: string
 	}

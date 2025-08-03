@@ -1,4 +1,4 @@
-import { tStep } from './i18n-server'
+import { t } from './i18n-server'
 import {
 	STEP_CONFIG,
 	STEP_KEYS,
@@ -7,10 +7,16 @@ import {
 	type StepConfig,
 } from './workflow-constants'
 
+import type { Translations } from '../i18n/types'
+
+// Type alias for step data
+type StepData =
+	Translations['howWeWork']['steps'][keyof Translations['howWeWork']['steps']]
+
 // Utility function to generate step data with translations
 export const generateSteps = (): Step[] =>
 	STEP_KEYS.map((key: string) => {
-		const stepData = tStep(key)
+		const stepData = t<StepData>(`howWeWork.steps.${key}`)
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
@@ -26,7 +32,7 @@ export const generateSteps = (): Step[] =>
 // Utility function to generate detailed steps for how-we-work.astro
 export const generateDetailedSteps = (): DetailedStep[] =>
 	STEP_KEYS.map((key: string) => {
-		const stepData = tStep(key)
+		const stepData = t<StepData>(`howWeWork.steps.${key}`)
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
