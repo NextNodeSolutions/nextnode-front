@@ -5,6 +5,14 @@ import Logo from './header/logo.astro'
 import MobileButton from './header/mobile-button.astro'
 import MobileMenu from './header/mobile-menu.astro'
 import { navigationLinks } from '@/lib/constants'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+
+// Generate locale-aware navigation links
+const currentLocale = Astro.currentLocale || 'en'
+const localizedNavigationLinks = navigationLinks.map(link => ({
+	...link,
+	href: getRelativeLocaleUrl(currentLocale, link.href),
+}))
 ---
 
 <header
@@ -18,7 +26,7 @@ import { navigationLinks } from '@/lib/constants'
 			<Logo />
 
 			<div class="hidden items-center space-x-6 md:flex">
-				<Navigation links={navigationLinks} />
+				<Navigation links={localizedNavigationLinks} />
 				<Controls />
 			</div>
 
@@ -27,7 +35,7 @@ import { navigationLinks } from '@/lib/constants'
 	</div>
 
 	<!-- Mobile Menu -->
-	<MobileMenu links={navigationLinks} />
+	<MobileMenu links={localizedNavigationLinks} />
 </header>
 
 <script>
