@@ -3,9 +3,10 @@ import Navigation from './navigation.astro'
 import Controls from './controls.astro'
 import Logo from './logo.astro'
 import MobileButton from './mobile-button.astro'
+import type { NavigationLinks } from '@/i18n/types'
 
 interface Props {
-	links: { href: string; labelKey: string }[]
+	links: NavigationLinks
 }
 
 const { links } = Astro.props

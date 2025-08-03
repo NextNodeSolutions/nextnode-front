@@ -1,4 +1,4 @@
-import { t } from './i18n-server'
+import { getNestedValue, translations, getCurrentLanguage } from './i18n-server'
 import {
 	STEP_CONFIG,
 	STEP_KEYS,
@@ -7,48 +7,47 @@ import {
 	type StepConfig,
 } from './workflow-constants'
 
-// No need for intermediate types - we'll use the translation system directly
+// Extract the type from STEP_KEYS for bidirectional validation
+type StepKey = (typeof STEP_KEYS)[number]
+
+// Type-safe function to get step data
+function getStepData(stepKey: StepKey): unknown {
+	const langData = translations[getCurrentLanguage()]
+	return getNestedValue(langData, `howWeWork.steps.${stepKey}`)
+}
 
 // Utility function to generate step data with translations
 export const generateSteps = (): Step[] =>
-	STEP_KEYS.map((key: string) => {
-		// Use the type-safe translation function with template literal keys
-		const title = t(`howWeWork.steps.${key}.title` as const)
-		const number = t(`howWeWork.steps.${key}.number` as const)
+	STEP_KEYS.map(key => {
+		const stepData = getStepData(key) as Record<string, unknown>
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
 		return {
 			key,
-			title,
-			number,
+			title: String(stepData.title),
+			number: String(stepData.number),
 			icon: config.icon,
 		}
 	})
 
 // Utility function to generate detailed steps for how-we-work.astro
 export const generateDetailedSteps = (): DetailedStep[] =>
-	STEP_KEYS.map((key: string) => {
-		// Use individual translation calls for each property
-		const title = t(`howWeWork.steps.${key}.title` as const)
-		const number = t(`howWeWork.steps.${key}.number` as const)
-		const description = t(`howWeWork.steps.${key}.description` as const)
-		const details = t(`howWeWork.steps.${key}.details` as const)
-		const deliverables = t(`howWeWork.steps.${key}.deliverables` as const)
-		const duration = t(`howWeWork.steps.${key}.duration` as const)
+	STEP_KEYS.map(key => {
+		const stepData = getStepData(key) as Record<string, unknown>
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
 		return {
 			id: key,
-			title,
-			number,
-			description,
-			details,
-			deliverables,
-			duration,
+			title: String(stepData.title),
+			number: String(stepData.number),
+			description: String(stepData.description),
+			details: stepData.details as readonly string[],
+			deliverables: String(stepData.deliverables),
+			duration: String(stepData.duration),
 			icon: config.icon,
 		}
 	})

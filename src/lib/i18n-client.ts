@@ -8,6 +8,8 @@ import type {
 	TranslationDict,
 	TranslationKey,
 	TranslationValue,
+	LocaleGuard,
+	TypedGetNestedValue,
 } from '../i18n/types'
 
 // Translation store
@@ -16,7 +18,12 @@ const translationStore: Record<Locale, TranslationDict> = {
 	fr,
 }
 
-// Helper function to get nested value from object using dot notation
+// Type-safe locale validation function
+const isValidLocale: LocaleGuard = (value: unknown): value is Locale =>
+	typeof value === 'string' &&
+	(['en', 'fr'] as const).includes(value as Locale)
+
+// Type-safe helper function to get nested value from object using dot notation
 function getNestedValue<T>(obj: T, path: string): unknown {
 	return path
 		.split('.')
@@ -27,6 +34,24 @@ function getNestedValue<T>(obj: T, path: string): unknown {
 					: undefined,
 			obj,
 		)
+}
+
+// Specialized typed function for getting translation values
+const getTypedNestedValue: TypedGetNestedValue = <K extends TranslationKey>(
+	obj: TranslationDict,
+	path: K,
+): TranslationValue<K> => getNestedValue(obj, path) as TranslationValue<K>
+
+// Helper function for string interpolation
+function interpolateString(
+	str: string,
+	params: Record<string, string | number>,
+): string {
+	return Object.entries(params).reduce(
+		(result, [paramKey, value]) =>
+			result.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(value)),
+		str,
+	)
 }
 
 // Type-safe translation function for client-side
@@ -49,15 +74,11 @@ export const useI18n = (): {
 			if (typeof window !== 'undefined') {
 				const savedLang = localStorage.getItem('language')
 				const browserLang = navigator.language?.split('-')[0]
-				const supportedLangs: readonly Locale[] = ['en', 'fr'] as const
 
-				if (savedLang && supportedLangs.includes(savedLang as Locale)) {
-					return savedLang as Locale
-				} else if (
-					browserLang &&
-					supportedLangs.includes(browserLang as Locale)
-				) {
-					return browserLang as Locale
+				if (isValidLocale(savedLang)) {
+					return savedLang
+				} else if (isValidLocale(browserLang)) {
+					return browserLang
 				}
 			}
 			return 'en'
@@ -92,22 +113,16 @@ export const useI18n = (): {
 		key: K,
 		params?: Record<string, string | number>,
 	): TranslationValue<K> => {
-		const result = getNestedValue(translations, key)
+		const result = getTypedNestedValue(translations, key)
 
 		// Handle string interpolation if params are provided
 		if (typeof result === 'string' && params) {
-			return Object.entries(params).reduce(
-				(str, [paramKey, value]) =>
-					str.replace(
-						new RegExp(`{{${paramKey}}}`, 'g'),
-						String(value),
-					),
-				result,
-			) as TranslationValue<K>
+			const interpolated = interpolateString(result, params)
+			return interpolated as TranslationValue<K>
 		}
 
-		// Return the result with proper typing
-		return result as TranslationValue<K>
+		// Return the result with proper typing - no need for type assertion since getTypedNestedValue is already typed
+		return result
 	}
 
 	return { t, language }

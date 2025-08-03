@@ -8,16 +8,32 @@ import type {
 	Locale,
 	TranslationKey,
 	TranslationValue,
+	LocaleGuard,
+	TypedGetNestedValue,
 } from '../i18n/types'
 
 // Global store for translations for direct access
-const translations: Record<Locale, TranslationDict> = {
+export const translations: Record<Locale, TranslationDict> = {
 	en,
 	fr,
 }
 
-// Global variable to store the current language
-let currentLanguage: Locale = 'en'
+// Global variable to store the current language - use a getter for external access
+let internalCurrentLanguage: Locale = 'en'
+
+export const getCurrentLanguage = (): Locale => internalCurrentLanguage
+const setCurrentLanguage = (lang: Locale): void => {
+	internalCurrentLanguage = lang
+}
+
+// Type-safe locale validation function
+export const isValidLocale: LocaleGuard = (value: unknown): value is Locale =>
+	typeof value === 'string' &&
+	(['en', 'fr'] as const).includes(value as Locale)
+
+// Safe locale conversion with fallback
+export const toSafeLocale = (value: unknown): Locale =>
+	isValidLocale(value) ? value : 'en'
 
 // Detect language from Astro request
 export const detectLanguage = (request: Request): Locale => {
@@ -32,11 +48,8 @@ export const detectLanguage = (request: Request): Locale => {
 		)
 
 		const langFromCookie = cookies.language
-		if (
-			langFromCookie &&
-			(['en', 'fr'] as const).includes(langFromCookie as Locale)
-		) {
-			return langFromCookie as Locale
+		if (isValidLocale(langFromCookie)) {
+			return langFromCookie
 		}
 	}
 
@@ -44,11 +57,8 @@ export const detectLanguage = (request: Request): Locale => {
 	const acceptLanguage = request.headers.get('accept-language')
 	if (acceptLanguage) {
 		const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
-		if (
-			preferredLang &&
-			(['en', 'fr'] as const).includes(preferredLang as Locale)
-		) {
-			return preferredLang as Locale
+		if (isValidLocale(preferredLang)) {
+			return preferredLang
 		}
 	}
 
@@ -60,8 +70,11 @@ export const initI18n = async (
 	request: Request,
 	langParam?: string,
 ): Promise<Locale> => {
-	// Use language parameter if provided, otherwise detect
-	const currentLang = (langParam as Locale) || detectLanguage(request)
+	// Use language parameter if provided and valid, otherwise detect
+	const currentLang =
+		langParam && isValidLocale(langParam)
+			? langParam
+			: detectLanguage(request)
 
 	// Force complete reinitialization of i18next
 	if (i18next.isInitialized) {
@@ -80,13 +93,13 @@ export const initI18n = async (
 	}
 
 	// Update global language for the t() function
-	currentLanguage = currentLang
+	setCurrentLanguage(currentLang)
 
 	return currentLang
 }
 
-// Helper function to get nested value from object using dot notation
-function getNestedValue<T>(obj: T, path: string): unknown {
+// Type-safe helper function to get nested value from object using dot notation
+export function getNestedValue<T>(obj: T, path: string): unknown {
 	return path
 		.split('.')
 		.reduce(
@@ -98,23 +111,40 @@ function getNestedValue<T>(obj: T, path: string): unknown {
 		)
 }
 
+// Specialized typed function for getting translation values
+export const getTypedNestedValue: TypedGetNestedValue = <
+	K extends TranslationKey,
+>(
+	obj: TranslationDict,
+	path: K,
+): TranslationValue<K> => getNestedValue(obj, path) as TranslationValue<K>
+
+// Helper function for string interpolation
+function interpolateString(
+	str: string,
+	params: Record<string, string | number>,
+): string {
+	return Object.entries(params).reduce(
+		(result, [paramKey, value]) =>
+			result.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(value)),
+		str,
+	)
+}
+
 // Type-safe translation function with automatic key validation and return type inference
 export function t<K extends TranslationKey>(
 	key: K,
 	params?: Record<string, string | number>,
 ): TranslationValue<K> {
-	const langData = translations[currentLanguage]
-	const result = getNestedValue(langData, key)
+	const langData = translations[getCurrentLanguage()]
+	const result = getTypedNestedValue(langData, key)
 
 	// Handle string interpolation if params are provided
 	if (typeof result === 'string' && params) {
-		return Object.entries(params).reduce(
-			(str, [paramKey, value]) =>
-				str.replace(new RegExp(`{{${paramKey}}}`, 'g'), String(value)),
-			result,
-		) as TranslationValue<K>
+		const interpolated = interpolateString(result, params)
+		return interpolated as TranslationValue<K>
 	}
 
-	// Return the result with proper typing
-	return result as TranslationValue<K>
+	// Return the result with proper typing - no need for type assertion since getTypedNestedValue is already typed
+	return result
 }

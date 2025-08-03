@@ -12,16 +12,12 @@ import type { TranslationDict } from '../../types'
 
 export const fr = {
 	...common,
-	hero: home.hero,
-	sidePanel: home.sidePanel,
+	home,
 	howWeWork,
-	workflow: howWeWork.workflow,
-	faqCategories: howWeWork.faqCategories,
-	techStats: howWeWork.techStats,
 	privacy,
 	terms,
 	error,
 	modal,
 	footer,
-	technicalFaq: faq.technicalFaq,
+	faq,
 } satisfies TranslationDict

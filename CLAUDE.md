@@ -107,6 +107,61 @@ pnpm test:ui              # Open Vitest UI
 - Husky for pre-commit hooks
 - Lint-staged for staged file linting
 
+## TypeScript Coding Standards
+
+**CRITICAL**: Follow these strict TypeScript guidelines at all times:
+
+### 1. NEVER Use `any`
+
+- **FORBIDDEN**: `any` type is completely banned
+- **Use instead**: Proper types, `unknown`, or type assertions as absolute last resort
+- **Good**: `const props: ComponentProps<typeof Button> = ...`
+- **Bad**: `const props: any = ...`
+
+### 2. Restrict `as` Usage
+
+- **ALLOWED**: `as const` for literal types
+- **LAST RESORT ONLY**: `as SomeType` when it saves significant TypeScript boilerplate
+- **Good**: `const themes = ['light', 'dark'] as const`
+- **Acceptable (last resort)**: `const ref = useRef<HTMLDivElement>(null as unknown as HTMLDivElement)`
+- **Bad**: `const component = MyComponent as React.FC` (use proper typing instead)
+
+### 3. No Hardcoded Values
+
+- **Always retrieve values dynamically** when possible
+- **Use**: Environment variables, Astro config, constants files
+- **Good**: `const siteUrl = import.meta.env.SITE || Astro.site`
+- **Bad**: `const siteUrl = 'https://nextnode.com'`
+- **Good**: `const port = import.meta.env.PORT || 4321`
+- **Bad**: `const port = 4321`
+
+### React/Astro Specific Examples
+
+```typescript
+// ❌ BAD - Uses any, hardcoded values, improper as usage
+const MyComponent = ({ children }: any) => {
+  const apiUrl = 'https://api.nextnode.com';
+  const data = response as UserData;
+
+  return <div className="p-4">{children}</div>;
+};
+
+// ✅ GOOD - Proper types, dynamic values, proper const assertion
+interface MyComponentProps {
+  children: React.ReactNode;
+}
+
+const themes = ['light', 'dark'] as const;
+type Theme = typeof themes[number];
+
+const MyComponent = ({ children }: MyComponentProps) => {
+  const apiUrl = import.meta.env.PUBLIC_API_URL || config.api.baseUrl;
+  const data: UserData | null = validateUserData(response);
+
+  return <div className="p-4">{children}</div>;
+};
+```
+
 ## Template Synchronization
 
 **IMPORTANT**: When making fixes or improvements to this project, also update `project-templates/apps/astro/` to ensure new generated projects benefit from the same improvements.

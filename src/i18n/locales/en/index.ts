@@ -10,16 +10,12 @@ import { faq } from './components/faq'
 
 export const en = {
 	...common,
-	hero: home.hero,
-	sidePanel: home.sidePanel,
+	home,
 	howWeWork,
-	workflow: howWeWork.workflow,
-	faqCategories: howWeWork.faqCategories,
-	techStats: howWeWork.techStats,
 	privacy,
 	terms,
 	error,
 	modal,
 	footer,
-	technicalFaq: faq.technicalFaq,
+	faq,
 } as const

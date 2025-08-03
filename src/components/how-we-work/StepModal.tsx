@@ -73,7 +73,7 @@ export default function StepModal({
 						{/* Liste des détails */}
 						<div className="mb-6">
 							<h3 className="mb-3 text-sm font-semibold text-gray-900 sm:text-lg">
-								{t('stepModal.whatWeDo')}
+								{t('modal.stepModal.whatWeDo')}
 							</h3>
 							<ul className="space-y-2">
 								{detailedStep.details.map((detail, index) => (
@@ -108,7 +108,7 @@ export default function StepModal({
 									<polyline points="14,2 14,8 20,8" />
 								</svg>
 								<h4 className="text-xs font-semibold text-blue-900 sm:text-sm dark:text-blue-100">
-									{t('stepModal.deliverables')}
+									{t('modal.stepModal.deliverables')}
 								</h4>
 							</div>
 							<p className="text-xs leading-snug text-blue-800 sm:text-sm dark:text-blue-200">
@@ -128,7 +128,7 @@ export default function StepModal({
 									<polyline points="12,6 12,12 16,14" />
 								</svg>
 								<h4 className="text-xs font-semibold text-purple-900 sm:text-sm dark:text-purple-100">
-									{t('stepModal.duration')}
+									{t('modal.stepModal.duration')}
 								</h4>
 							</div>
 							<p className="text-xs leading-snug font-medium text-purple-800 sm:text-sm dark:text-purple-200">
