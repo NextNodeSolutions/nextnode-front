@@ -3,26 +3,51 @@ import { defineMiddleware, sequence } from 'astro:middleware'
 import { ApplicationMetrics } from './lib/metrics'
 import { initI18n } from './lib/i18n-server'
 
-// Middleware pour mapper URLs invisiblement vers [locale]/ structure
+// Middleware for intelligent URL mapping with locale handling
 const urlMappingMiddleware = defineMiddleware(async (context, next) => {
 	const url = new URL(context.request.url)
 	const pathname = url.pathname
 
 	// Skip for assets, API routes, and other system paths
-	if (pathname.startsWith('/_') || pathname.startsWith('/api/')) {
+	if (
+		pathname.startsWith('/_') ||
+		pathname.startsWith('/api/') ||
+		pathname.includes('.')
+	) {
 		return next()
 	}
 
-	const mapping = {
-		isRoot: (): boolean => pathname === '/',
-		isFrench: (): boolean => pathname.startsWith('/fr/'),
-		needsEnPrefix: (): boolean => !pathname.startsWith('/en/'),
+	// Check if request comes from internal navigation or manual URL entry
+	const referer = context.request.headers.get('referer')
+	const isInternalNavigation = referer && referer.includes(url.origin)
+
+	// Get user's language preference from cookie
+	const languageCookie = context.cookies.get('language')
+	const preferredLang = languageCookie?.value || 'en'
+
+	// Handle French URLs - always pass through
+	if (pathname.startsWith('/fr/')) {
+		return next()
 	}
 
-	// Map URLs to internal [locale]/ structure
-	if (mapping.isFrench()) return next()
-	if (mapping.isRoot()) return context.rewrite('/en/')
-	if (mapping.needsEnPrefix()) return context.rewrite('/en' + pathname)
+	// Handle root URL - always redirect to preferred language
+	if (pathname === '/') {
+		if (preferredLang === 'fr') {
+			return context.redirect('/fr/')
+		}
+		return context.rewrite('/en/')
+	}
+
+	// For any other path without locale prefix
+	if (!pathname.startsWith('/en/')) {
+		if (isInternalNavigation && preferredLang === 'fr') {
+			// Internal navigation + French preference = redirect to French
+			return context.redirect(`/fr${pathname}`)
+		}
+		// Manual navigation or English preference = rewrite to English
+		return context.rewrite(`/en${pathname}`)
+	}
+
 	return next()
 })
 
