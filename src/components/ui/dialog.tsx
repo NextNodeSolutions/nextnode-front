@@ -42,8 +42,10 @@ const DialogContent = React.forwardRef<
 				'sm:top-[50%] sm:right-auto sm:bottom-auto sm:left-[50%] sm:max-h-none sm:max-w-lg sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-3xl',
 				'mobile-dialog',
 				'data-[state=open]:animate-in data-[state=closed]:animate-out',
-				'data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-90 data-[state=closed]:duration-300 sm:data-[state=closed]:duration-300',
-				'data-[state=open]:fade-in-0 data-[state=open]:zoom-in-90 data-[state=open]:duration-500 sm:data-[state=open]:duration-500',
+				'data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-90 data-[state=closed]:duration-300',
+				'data-[state=open]:fade-in-0 data-[state=open]:zoom-in-90 data-[state=open]:duration-500',
+				// Custom modal sizing for ModalContainer
+				'[&[data-modal-size="custom"]]:sm:w-[var(--modal-width)] [&[data-modal-size="custom"]]:sm:max-w-[var(--modal-max-width)]',
 				className,
 			)}
 			{...props}

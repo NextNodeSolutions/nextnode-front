@@ -49,11 +49,17 @@ export default function ModalContainer({
 		<Dialog open={isOpen} onOpenChange={onClose}>
 			<DialogContent
 				className={`max-h-[85vh] overflow-y-auto border-0 p-0 ${className}`}
-				style={{
-					...glassmorphism.container,
-					width,
-					maxWidth,
-				}}
+				style={
+					{
+						...glassmorphism.container,
+						'--modal-width': width,
+						'--modal-max-width': maxWidth,
+					} as React.CSSProperties & {
+						'--modal-width': string
+						'--modal-max-width': string
+					}
+				}
+				data-modal-size="custom"
 			>
 				{/* Titre requis pour l'accessibilité - caché visuellement si non fourni */}
 				<DialogTitle className="sr-only">
