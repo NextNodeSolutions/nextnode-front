@@ -18,9 +18,9 @@ const detailedSteps = generateDetailedSteps()
 const positions = DESKTOP_WORKFLOW_POSITIONS
 const gradientStops = generateGradientStops(STEP_COLORS)
 
-// Taille estimée des StepCard compactes (pour positionnement)
-const COMPACT_CARD_WIDTH = 280
-const COMPACT_CARD_HEIGHT = 160
+// Taille estimée des StepCard mini (pour positionnement)
+const MINI_CARD_WIDTH = 220
+const MINI_CARD_HEIGHT = 120
 ---
 
 <div class="workflow-journey relative w-full py-8 md:py-12 lg:py-16">
@@ -81,21 +81,20 @@ const COMPACT_CARD_HEIGHT = 160
 
 					// Convertir les positions SVG en pourcentages CSS
 					const leftPercent =
-						((position.cardX - COMPACT_CARD_WIDTH / 2) / 1000) * 100
+						((position.cardX - MINI_CARD_WIDTH / 2) / 1000) * 100
 					const topPercent =
-						((position.cardY - COMPACT_CARD_HEIGHT / 2 + 50) /
-							500) *
+						((position.cardY - MINI_CARD_HEIGHT / 2 + 50) / 500) *
 						100
 
 					return (
 						<div
 							class="absolute"
-							style={`left: ${leftPercent}%; top: ${topPercent}%; width: ${COMPACT_CARD_WIDTH}px; height: ${COMPACT_CARD_HEIGHT}px;`}
+							style={`left: ${leftPercent}%; top: ${topPercent}%; width: ${MINI_CARD_WIDTH}px; height: ${MINI_CARD_HEIGHT}px;`}
 						>
 							<StepCardContainer
 								stepKey={step.id}
 								index={index}
-								variant="compact"
+								variant="mini"
 							/>
 						</div>
 					)

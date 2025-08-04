@@ -68,14 +68,14 @@ export const WORKFLOW_POSITIONS: Position[] = [
 	{ x: 880, y: 385, cardX: 850, cardY: 295, lineEndX: 880, lineEndY: 355 },
 ]
 
-// Desktop positions for StepCard (280x160px) with straight lines
+// Desktop positions for StepCard (220x120px) with straight lines
 export const DESKTOP_WORKFLOW_POSITIONS: Position[] = [
-	{ x: 80, y: 60, cardX: -60, cardY: -40, lineEndX: 20, lineEndY: 60 }, // Horizontal left
-	{ x: 350, y: 75, cardX: 450, cardY: -50, lineEndX: 350, lineEndY: 20 }, // Vertical up
-	{ x: 510, y: 140, cardX: 620, cardY: 80, lineEndX: 570, lineEndY: 140 }, // Horizontal right
-	{ x: 205, y: 220, cardX: -60, cardY: 180, lineEndX: 140, lineEndY: 220 }, // Horizontal left
-	{ x: 590, y: 300, cardX: 450, cardY: 260, lineEndX: 530, lineEndY: 300 }, // Horizontal left
-	{ x: 880, y: 385, cardX: 720, cardY: 280, lineEndX: 880, lineEndY: 320 }, // Vertical up
+	{ x: 80, y: 60, cardX: -30, cardY: 0, lineEndX: 20, lineEndY: 60 }, // Horizontal left
+	{ x: 350, y: 75, cardX: 400, cardY: -80, lineEndX: 350, lineEndY: 20 }, // Vertical up
+	{ x: 510, y: 140, cardX: 580, cardY: 80, lineEndX: 570, lineEndY: 140 }, // Horizontal right
+	{ x: 205, y: 220, cardX: -30, cardY: 160, lineEndX: 140, lineEndY: 220 }, // Horizontal left
+	{ x: 590, y: 300, cardX: 420, cardY: 240, lineEndX: 530, lineEndY: 300 }, // Horizontal left
+	{ x: 880, y: 385, cardX: 770, cardY: 260, lineEndX: 880, lineEndY: 320 }, // Vertical up
 ]
 
 // Utility function to generate gradient stops
