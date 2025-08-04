@@ -38,8 +38,10 @@ export default function StepModal({
 			<div className="animate-in fade-in flex h-auto min-h-[450px] flex-col duration-300 sm:h-[520px] sm:min-h-[520px] sm:flex-row">
 				{/* Section gauche - Illustration (40% sur sm+, pleine largeur sur mobile) */}
 				<div
-					className="animate-in slide-in-from-left flex w-full items-center justify-center p-4 duration-500 sm:w-2/5 sm:p-6"
-					style={{ backgroundColor: `${color}15` }}
+					className="animate-in slide-in-from-left relative flex w-full items-center justify-center border-r border-white/20 bg-white/10 p-4 shadow-inner backdrop-blur-md duration-500 sm:w-2/5 sm:p-6"
+					style={{
+						background: `linear-gradient(135deg, rgba(255,255,255,0.1) 0%, ${color}20 50%, rgba(255,255,255,0.05) 100%)`,
+					}}
 				>
 					<StepIllustration
 						stepKey={stepKey}
@@ -49,7 +51,7 @@ export default function StepModal({
 				</div>
 
 				{/* Section droite - Contenu (60% sur sm+, pleine largeur sur mobile) */}
-				<div className="animate-in slide-in-from-right flex w-full flex-col justify-between p-6 delay-100 duration-500 sm:w-3/5 sm:p-8">
+				<div className="animate-in slide-in-from-right flex w-full flex-col justify-between border-l border-white/10 bg-white/30 p-6 shadow-sm backdrop-blur-sm delay-100 duration-500 sm:w-3/5 sm:p-8">
 					{/* Partie supérieure - Description principale */}
 					<div className="min-h-0 flex-1">
 						{/* Titre avec numéro */}

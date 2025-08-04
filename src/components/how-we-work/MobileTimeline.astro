@@ -1,0 +1,58 @@
+---
+import { STEP_KEYS, STEP_COLORS } from '@/lib/workflow-constants'
+import { generateDetailedSteps } from '@/lib/workflow-utils'
+import TimelineNode from './TimelineNode.astro'
+import StepCardContainer from './StepCardContainer.astro'
+
+// Générer les données des étapes
+const detailedSteps = generateDetailedSteps()
+---
+
+<div class="mobile-timeline w-full py-12">
+	<div class="relative mx-auto max-w-3xl pr-6 pl-2">
+		{/* Steps container with timeline inside */}
+		<div class="relative space-y-12">
+			{/* Timeline connector line - now inside the steps container */}
+			<div
+				class="absolute top-0 left-4 h-full w-px bg-gradient-to-b from-indigo-500 via-amber-500 via-emerald-500 via-purple-500 via-red-500 to-gray-500 opacity-30"
+			>
+			</div>
+			{
+				detailedSteps.map((step, index) => {
+					const color = STEP_COLORS[index]
+					const isLast = index === detailedSteps.length - 1
+
+					return (
+						<div class="timeline-step relative ml-14">
+							{/* Timeline node with modular component */}
+							<TimelineNode color={color} index={index} />
+
+							{/* Step card with modular container */}
+							<StepCardContainer
+								stepKey={step.id}
+								index={index}
+							/>
+						</div>
+					)
+				})
+			}
+		</div>
+	</div>
+</div>
+
+<style>
+	/* Container styles only - animations moved to components */
+	.timeline-step {
+		will-change: transform;
+	}
+
+	/* Interactive effects */
+	.timeline-step:hover .timeline-node {
+		transform: scale(1.2);
+		box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+	}
+
+	.timeline-step:hover .timeline-card {
+		transform: translateX(4px);
+	}
+</style>

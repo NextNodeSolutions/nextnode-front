@@ -31,20 +31,20 @@ export default function GlassmorphicOverlay({
 		<div className={`relative ${className}`}>
 			{/* Overlay coloré pour l'effet */}
 			<div
-				className="absolute inset-0 rounded-3xl"
+				className="pointer-events-none absolute inset-0 -z-50 rounded-3xl"
 				style={coloredOverlayStyle}
 				aria-hidden="true"
 			/>
 
 			{/* Overlay blanc pour la lisibilité */}
 			<div
-				className="absolute inset-0 rounded-3xl"
+				className="pointer-events-none absolute inset-0 -z-40 rounded-3xl"
 				style={readabilityOverlayStyle}
 				aria-hidden="true"
 			/>
 
 			{/* Contenu */}
-			{children && <div className="relative z-10">{children}</div>}
+			{children && <div className="relative">{children}</div>}
 		</div>
 	)
 }
