@@ -63,7 +63,7 @@ export interface StepModalProps {
 export interface WorkflowJourneyInteractiveProps {
 	steps: Step[]
 	detailedSteps: DetailedStep[]
-	colors: string[]
+	colors: readonly string[]
 }
 
 // Types pour les utilitaires de style

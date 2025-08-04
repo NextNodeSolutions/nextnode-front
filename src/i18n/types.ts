@@ -74,12 +74,22 @@ type StructureOf<T> = {
 		? string
 		: T[K] extends readonly string[]
 			? readonly string[]
-			: T[K] extends readonly unknown[]
-				? readonly string[]
-				: T[K] extends object
-					? StructureOf<T[K]>
-					: T[K]
+			: T[K] extends readonly { name: string; description: string }[]
+				? readonly { name: string; description: string }[]
+				: T[K] extends readonly { question: string; answer: string }[]
+					? readonly { question: string; answer: string }[]
+					: T[K] extends readonly unknown[]
+						? readonly string[]
+						: T[K] extends object
+							? StructureOf<T[K]>
+							: T[K]
 }
 
 // Type for other language dictionaries - validates structure but allows different string values
 export type TranslationDict = StructureOf<typeof en>
+
+// Type for typed nested value getter function
+export type TypedGetNestedValue = <K extends TranslationKey>(
+	obj: TranslationDict,
+	path: K,
+) => TranslationValue<K>
