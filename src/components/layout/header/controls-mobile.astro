@@ -2,6 +2,9 @@
 import { languages } from '@/lib/constants'
 import { Sun, Moon } from 'lucide-react'
 import { t } from '@/lib/i18n-server'
+
+// Get current locale from server
+const currentLocale = Astro.currentLocale || 'en'
 ---
 
 <div class="border-t border-gray-200 pt-4 dark:border-gray-700">
@@ -9,16 +12,27 @@ import { t } from '@/lib/i18n-server'
 		<!-- Mobile Language Selector -->
 		<div class="flex space-x-3">
 			{
-				languages.map(lang => (
-					<button
-						data-lang={lang.code}
-						class="flex flex-col items-center space-y-1 rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-600 transition-all duration-300 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-blue-500 dark:hover:bg-blue-900/20 dark:hover:text-blue-400"
-						id={`lang-button-${lang.code}-mobile`}
-					>
-						<span class="text-xl">{lang.flag}</span>
-						<span class="text-xs font-medium">{lang.label}</span>
-					</button>
-				))
+				languages.map(lang => {
+					const isActive = lang.code === currentLocale
+					const baseClasses =
+						'flex flex-col items-center space-y-1 rounded-lg border px-4 py-3 transition-all duration-300'
+					const activeClasses = isActive
+						? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-500 dark:bg-blue-900/20 dark:text-blue-400'
+						: 'border-gray-200 bg-white text-gray-600 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-blue-500 dark:hover:bg-blue-900/20 dark:hover:text-blue-400'
+
+					return (
+						<button
+							data-lang={lang.code}
+							class={`${baseClasses} ${activeClasses}`}
+							id={`lang-button-${lang.code}-mobile`}
+						>
+							<span class="text-xl">{lang.flag}</span>
+							<span class="text-xs font-medium">
+								{lang.label}
+							</span>
+						</button>
+					)
+				})
 			}
 		</div>
 
@@ -60,97 +74,4 @@ import { t } from '@/lib/i18n-server'
 	})()
 </script>
 
-<!-- Initialize language selector with correct state -->
-<script is:inline>
-	// Immediately set correct language state
-	;(function () {
-		const savedLang = localStorage.getItem('language')
-		const browserLang = navigator.language.split('-')[0]
-		const supportedLangs = ['en', 'fr']
-
-		let currentLang = 'en'
-		if (savedLang && supportedLangs.includes(savedLang)) {
-			currentLang = savedLang
-		} else if (supportedLangs.includes(browserLang)) {
-			currentLang = browserLang
-		}
-
-		// Mobile version - update button states
-		const enButton = document.getElementById('lang-button-en-mobile')
-		const frButton = document.getElementById('lang-button-fr-mobile')
-
-		if (enButton && frButton) {
-			// Reset all buttons to inactive state
-			enButton.classList.remove(
-				'border-blue-300',
-				'bg-blue-50',
-				'text-blue-600',
-				'dark:border-blue-500',
-				'dark:bg-blue-900/20',
-				'dark:text-blue-400',
-			)
-			frButton.classList.remove(
-				'border-blue-300',
-				'bg-blue-50',
-				'text-blue-600',
-				'dark:border-blue-500',
-				'dark:bg-blue-900/20',
-				'dark:text-blue-400',
-			)
-
-			enButton.classList.add(
-				'border-gray-200',
-				'bg-white',
-				'text-gray-600',
-				'dark:border-gray-600',
-				'dark:bg-gray-800',
-				'dark:text-gray-100',
-			)
-			frButton.classList.add(
-				'border-gray-200',
-				'bg-white',
-				'text-gray-600',
-				'dark:border-gray-600',
-				'dark:bg-gray-800',
-				'dark:text-gray-100',
-			)
-
-			// Activate current language button
-			if (currentLang === 'fr') {
-				frButton.classList.remove(
-					'border-gray-200',
-					'bg-white',
-					'text-gray-600',
-					'dark:border-gray-600',
-					'dark:bg-gray-800',
-					'dark:text-gray-100',
-				)
-				frButton.classList.add(
-					'border-blue-300',
-					'bg-blue-50',
-					'text-blue-600',
-					'dark:border-blue-500',
-					'dark:bg-blue-900/20',
-					'dark:text-blue-400',
-				)
-			} else {
-				enButton.classList.remove(
-					'border-gray-200',
-					'bg-white',
-					'text-gray-600',
-					'dark:border-gray-600',
-					'dark:bg-gray-800',
-					'dark:text-gray-100',
-				)
-				enButton.classList.add(
-					'border-blue-300',
-					'bg-blue-50',
-					'text-blue-600',
-					'dark:border-blue-500',
-					'dark:bg-blue-900/20',
-					'dark:text-blue-400',
-				)
-			}
-		}
-	})()
-</script>
+<!-- No need for client-side initialization - server-side classes are already correct -->

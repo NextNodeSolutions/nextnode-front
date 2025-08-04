@@ -3,7 +3,7 @@ import '../styles/global.css'
 import '../styles/base.css'
 import '../styles/animations.css'
 import '../styles/liquid-effects.css'
-import i18next from 'i18next'
+import { t } from '@/lib/i18n-server'
 
 export interface Props {
 	title: string
@@ -13,15 +13,18 @@ export interface Props {
 
 const {
 	title,
-	description = 'Template moderne et performant créé avec Astro et Nextnode',
+	description = t('meta.defaultDescription'),
 	image = '/og-image.png',
 } = Astro.props
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+
+// Use Astro's built-in i18n instead of manual parsing
+const currentLocale = Astro.currentLocale || 'en'
 ---
 
 <!doctype html>
-<html lang={i18next.language} class="scroll-smooth">
+<html lang={currentLocale} class="scroll-smooth">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -73,40 +76,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 			rel="stylesheet"
 		/>
 
-		<!-- Language and Theme initialization script (must run before body render) -->
+		<!-- Language initialization from server -->
+		<script is:inline define:vars={{ currentLocale }}>
+			// Use server-provided locale instead of manual parsing
+			window.currentLanguage = currentLocale
+
+			// Ensure HTML lang attribute is consistent (should already be set)
+			document.documentElement.setAttribute('lang', currentLocale)
+		</script>
+
+		<!-- Theme initialization -->
 		<script is:inline>
-			// Initialize language immediately to prevent flash
-			;(function () {
-				const savedLang = localStorage.getItem('language')
-				const browserLang = navigator.language?.split('-')[0]
-				const supportedLangs = ['en', 'fr']
-
-				let currentLang = 'en' // default
-
-				if (savedLang && supportedLangs.includes(savedLang)) {
-					currentLang = savedLang
-				} else if (
-					browserLang &&
-					supportedLangs.includes(browserLang)
-				) {
-					currentLang = browserLang
-				}
-
-				// Store language globally for components to access
-				window.initialLanguage = currentLang
-				window.currentLanguage = currentLang
-				document.documentElement.setAttribute('lang', currentLang)
-				document.documentElement.setAttribute(
-					'data-language',
-					currentLang,
-				)
-
-				// Set cookie for server-side detection if not already set
-				if (!savedLang) {
-					document.cookie = `language=${currentLang}; path=/; max-age=31536000` // 1 year
-				}
-			})()
-
 			// Initialize theme immediately to prevent flash
 			;(function () {
 				const savedTheme = localStorage.getItem('theme')
@@ -135,31 +115,42 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
 		<!-- Global theme and language management script -->
 		<script>
+			// Declare global types
+			declare global {
+				interface Window {
+					currentLanguage?: string
+					languageManager: any
+					themeManager: any
+				}
+			}
+
 			// Global language management
 			window.languageManager = {
 				getCurrentLanguage() {
-					const savedLang = localStorage.getItem('language')
-					const browserLang = navigator.language?.split('-')[0]
-					const supportedLangs = ['en', 'fr']
-
-					if (savedLang && supportedLangs.includes(savedLang)) {
-						return savedLang
-					} else if (
-						browserLang &&
-						supportedLangs.includes(browserLang)
-					) {
-						return browserLang
-					}
-					return 'en'
+					// Use the language set by server (already available globally)
+					return window.currentLanguage || 'en'
 				},
 
-				changeLanguage(newLang) {
-					localStorage.setItem('language', newLang)
-					// Set cookie for server-side detection
+				changeLanguage(newLang: string) {
+					// Set cookie for preference
 					document.cookie = `language=${newLang}; path=/; max-age=31536000` // 1 year
-					document.documentElement.setAttribute('lang', newLang)
-					// Reload page to apply language change
-					window.location.reload()
+
+					// Build new URL using proper locale logic (mimicking getRelativeLocaleUrl)
+					const currentPath = window.location.pathname
+					const pathWithoutLang =
+						currentPath.replace(/^\/(en|fr)/, '') || '/'
+
+					let newPath
+					if (newLang === 'en') {
+						// English is default, no prefix needed
+						newPath = pathWithoutLang
+					} else {
+						// French needs /fr prefix
+						newPath = `/fr${pathWithoutLang}`
+					}
+
+					// Navigate to new URL
+					window.location.href = newPath
 				},
 
 				init() {
@@ -195,7 +186,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 						: 'light'
 				},
 
-				applyTheme(theme) {
+				applyTheme(theme: string) {
 					if (theme === 'dark') {
 						document.documentElement.classList.add('dark')
 					} else {

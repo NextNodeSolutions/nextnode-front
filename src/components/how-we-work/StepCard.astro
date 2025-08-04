@@ -1,6 +1,11 @@
 ---
-import { tStep } from '@/lib/i18n-server'
+import {
+	getNestedValue,
+	translations,
+	getCurrentLanguage,
+} from '@/lib/i18n-server'
 import { getStepDesign } from '@/lib/step-designs'
+import type { EnglishDict } from '@/i18n/types'
 
 export interface Props {
 	stepKey: string
@@ -9,8 +14,15 @@ export interface Props {
 
 const { stepKey, index } = Astro.props
 
+// Type alias for step data
+type StepData =
+	EnglishDict['howWeWork']['steps'][keyof EnglishDict['howWeWork']['steps']]
+
 // Récupérer les données de l'étape depuis les traductions
-const step = tStep(stepKey)
+const step = getNestedValue(
+	translations[getCurrentLanguage()],
+	`howWeWork.steps.${stepKey}`,
+) as StepData
 const number = step.number
 const title = step.title
 const description = step.description

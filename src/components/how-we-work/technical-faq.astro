@@ -49,13 +49,25 @@ const faqQuestions = [
 
 // Catégories pour le filtrage
 const categories = [
-	{ id: 'all', name: t('faqCategories.all'), icon: '📋' },
-	{ id: 'performance', name: t('faqCategories.performance'), icon: '⚡' },
-	{ id: 'architecture', name: t('faqCategories.architecture'), icon: '📈' },
-	{ id: 'security', name: t('faqCategories.security'), icon: '🔒' },
-	{ id: 'integration', name: t('faqCategories.integration'), icon: '🔗' },
-	{ id: 'quality', name: t('faqCategories.quality'), icon: '✅' },
-	{ id: 'seo', name: t('faqCategories.seo'), icon: '🎯' },
+	{ id: 'all', name: t('howWeWork.faqCategories.all'), icon: '📋' },
+	{
+		id: 'performance',
+		name: t('howWeWork.faqCategories.performance'),
+		icon: '⚡',
+	},
+	{
+		id: 'architecture',
+		name: t('howWeWork.faqCategories.architecture'),
+		icon: '📈',
+	},
+	{ id: 'security', name: t('howWeWork.faqCategories.security'), icon: '🔒' },
+	{
+		id: 'integration',
+		name: t('howWeWork.faqCategories.integration'),
+		icon: '🔗',
+	},
+	{ id: 'quality', name: t('howWeWork.faqCategories.quality'), icon: '✅' },
+	{ id: 'seo', name: t('howWeWork.faqCategories.seo'), icon: '🎯' },
 ]
 ---
 
@@ -219,12 +231,10 @@ const categories = [
 	>
 		<div class="mb-4 text-4xl">🤔</div>
 		<h3 class="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
-			Vous avez d'autres questions techniques ?
+			{t('faq.technicalFaq.cta.title')}
 		</h3>
 		<p class="mx-auto mb-6 max-w-2xl text-gray-600 dark:text-gray-300">
-			N'hésitez pas à nous contacter pour discuter de vos défis techniques
-			spécifiques. Nous serions ravis de vous expliquer notre approche en
-			détail.
+			{t('faq.technicalFaq.cta.description')}
 		</p>
 		<a
 			href="/contact"
@@ -243,7 +253,7 @@ const categories = [
 					d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
 				></path>
 			</svg>
-			Discuter de votre projet
+			{t('faq.technicalFaq.cta.buttonText')}
 		</a>
 	</div>
 </div>
