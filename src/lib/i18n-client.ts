@@ -36,41 +36,41 @@ type ClientTranslationFunction = <K extends TranslationKey>(
 	params?: Record<string, string | number>,
 ) => TranslationValue<K>
 
-// React hook for i18n in client components
+// Declare global window properties for TypeScript
+declare global {
+	interface Window {
+		currentLanguage?: string
+		languageManager?: {
+			getCurrentLanguage: () => string
+		}
+	}
+}
+
+// React hook for i18n in client components - simplified to use Astro as source of truth
 export const useI18n = (): {
 	t: ClientTranslationFunction
 	language: Locale
 } => {
-	const [language, setLanguage] = useState<Locale>('en')
-	const [translations, setTranslations] = useState<TranslationDict>(en)
+	// Get current language from Astro (single source of truth)
+	const getCurrentLanguage = (): Locale => {
+		if (typeof window !== 'undefined') {
+			// Use Astro-provided current language
+			const astroLang =
+				window.currentLanguage ||
+				window.languageManager?.getCurrentLanguage()
+			if (isValidLocale(astroLang)) {
+				return astroLang
+			}
+		}
+		return 'en' // fallback
+	}
+
+	const [language, setLanguage] = useState<Locale>(getCurrentLanguage)
+	const [translations, setTranslations] = useState<TranslationDict>(
+		() => translationStore[getCurrentLanguage()],
+	)
 
 	useEffect(() => {
-		// Get current language from various sources
-		const getCurrentLanguage = (): Locale => {
-			if (typeof window !== 'undefined') {
-				// First priority: detect language from URL path
-				const pathLang = window.location.pathname.startsWith('/fr')
-					? 'fr'
-					: 'en'
-				if (isValidLocale(pathLang)) {
-					return pathLang
-				}
-
-				// Second priority: saved language preference
-				const savedLang = localStorage.getItem('language')
-				if (isValidLocale(savedLang)) {
-					return savedLang
-				}
-
-				// Third priority: browser language
-				const browserLang = navigator.language?.split('-')[0]
-				if (isValidLocale(browserLang)) {
-					return browserLang
-				}
-			}
-			return 'en'
-		}
-
 		const loadTranslations = (lang: Locale): void => {
 			const langTranslations = translationStore[lang]
 			if (langTranslations) {
@@ -78,11 +78,7 @@ export const useI18n = (): {
 			}
 		}
 
-		const currentLang = getCurrentLanguage()
-		setLanguage(currentLang)
-		loadTranslations(currentLang)
-
-		// Listen for language changes
+		// Listen for language changes from Astro's language manager
 		const handleLanguageChange = (): void => {
 			const newLang = getCurrentLanguage()
 			if (newLang !== language) {
@@ -91,17 +87,26 @@ export const useI18n = (): {
 			}
 		}
 
-		// Listen for URL changes (for navigation)
-		const handlePopState = (): void => {
-			handleLanguageChange()
+		// Listen for custom language change events (fired by Astro's languageManager)
+		const handleCustomLanguageChange = (event: Event): void => {
+			const customEvent = event as CustomEvent
+			const newLang = customEvent.detail?.language || getCurrentLanguage()
+			if (isValidLocale(newLang) && newLang !== language) {
+				setLanguage(newLang)
+				loadTranslations(newLang)
+			}
 		}
 
-		window.addEventListener('storage', handleLanguageChange)
-		window.addEventListener('popstate', handlePopState)
+		// Set up event listeners
+		window.addEventListener('languagechange', handleCustomLanguageChange)
+		window.addEventListener('popstate', handleLanguageChange)
 
 		return (): void => {
-			window.removeEventListener('storage', handleLanguageChange)
-			window.removeEventListener('popstate', handlePopState)
+			window.removeEventListener(
+				'languagechange',
+				handleCustomLanguageChange,
+			)
+			window.removeEventListener('popstate', handleLanguageChange)
 		}
 	}, [language])
 
@@ -117,7 +122,6 @@ export const useI18n = (): {
 			return interpolated as TranslationValue<K>
 		}
 
-		// Return the result with proper typing - no need for type assertion since getTypedNestedValue is already typed
 		return result
 	}
 
