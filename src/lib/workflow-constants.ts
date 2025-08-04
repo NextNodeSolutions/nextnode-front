@@ -82,7 +82,7 @@ export const STEP_CONFIG: Record<string, StepConfig> = {
 // Those positions are perfect, do not move them
 export const DESKTOP_WORKFLOW_POSITIONS: Position[] = [
 	{ x: 80, y: 60, cardX: 0, cardY: -60, lineEndX: 80, lineEndY: 10 },
-	{ x: 350, y: 75, cardX: 320, cardY: -40, lineEndX: 350, lineEndY: 20 },
+	{ x: 350, y: 75, cardX: 320, cardY: -40, lineEndX: 350, lineEndY: 10 },
 	{ x: 510, y: 140, cardX: 680, cardY: 180, lineEndX: 560, lineEndY: 140 },
 	{ x: 205, y: 220, cardX: -10, cardY: 290, lineEndX: 160, lineEndY: 220 },
 	{ x: 480, y: 252, cardX: 480, cardY: 490, lineEndX: 480, lineEndY: 310 },
