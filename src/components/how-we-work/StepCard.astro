@@ -171,7 +171,7 @@ const design = getStepDesign(index)
 			{/* Title */}
 			<div class="space-y-2">
 				<h3
-					class="group-hover:{design.gradient} text-xl leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:text-transparent dark:text-white"
+					class="text-xl leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105 dark:text-white"
 				>
 					{title}
 				</h3>
@@ -232,12 +232,6 @@ const design = getStepDesign(index)
 					</svg>
 				</div>
 			</div>
-		</div>
-
-		{/* Subtle inner glow */}
-		<div
-			class="{design.ring} pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-1 transition-opacity duration-500 group-hover:opacity-100"
-		>
 		</div>
 	</div>
 </div>

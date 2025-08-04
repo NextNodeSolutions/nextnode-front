@@ -8,7 +8,7 @@ const detailedSteps = generateDetailedSteps()
 ---
 
 <div class="mobile-timeline w-full py-12">
-	<div class="relative mx-auto max-w-3xl px-4">
+	<div class="relative mx-auto max-w-3xl pr-6 pl-2">
 		{/* Steps container with timeline inside */}
 		<div class="relative space-y-12">
 			{/* Timeline connector line - now inside the steps container */}
@@ -23,13 +23,13 @@ const detailedSteps = generateDetailedSteps()
 
 					return (
 						<div
-							class="timeline-step relative ml-16"
+							class="timeline-step relative ml-14"
 							data-step-card
 							data-step-index={index}
 						>
 							{/* Timeline node */}
 							<div
-								class="absolute top-8 -left-14 z-10 flex h-4 w-4 items-center justify-center"
+								class="absolute top-8 -left-12 z-10 flex h-4 w-4 items-center justify-center"
 								style={`animation-delay: ${index * 200}ms`}
 							>
 								<div
@@ -40,7 +40,7 @@ const detailedSteps = generateDetailedSteps()
 
 							{/* Progress pulse effect */}
 							<div
-								class="absolute top-6 -left-16 z-0 h-8 w-8 animate-ping rounded-full opacity-20"
+								class="absolute top-6 -left-14 z-0 h-8 w-8 animate-ping rounded-full opacity-20"
 								style={`background: ${color}; animation-delay: ${index * 200 + 100}ms`}
 							/>
 
@@ -51,14 +51,6 @@ const detailedSteps = generateDetailedSteps()
 							>
 								<StepCard stepKey={step.id} index={index} />
 							</div>
-
-							{/* Connector animation */}
-							{!isLast && (
-								<div
-									class="animate-timeline-connect absolute -bottom-6 -left-12 h-12 w-px bg-gradient-to-b opacity-0"
-									style={`background: linear-gradient(to bottom, ${color}40, ${STEP_COLORS[index + 1]}40); animation-delay: ${index * 200 + 300}ms`}
-								/>
-							)}
 						</div>
 					)
 				})
@@ -67,16 +59,16 @@ const detailedSteps = generateDetailedSteps()
 
 		{/* Decorative elements */}
 		<div
-			class="absolute top-1/4 -left-2 h-2 w-2 animate-pulse rounded-full bg-indigo-500/20"
+			class="absolute top-1/4 -left-1 h-2 w-2 animate-pulse rounded-full bg-indigo-500/20"
 		>
 		</div>
 		<div
-			class="absolute top-1/2 -right-2 h-3 w-3 animate-pulse rounded-full bg-purple-500/20"
+			class="absolute top-1/2 -right-4 h-3 w-3 animate-pulse rounded-full bg-purple-500/20"
 			style="animation-delay: 1s;"
 		>
 		</div>
 		<div
-			class="absolute bottom-1/4 -left-1 h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500/20"
+			class="absolute bottom-1/4 left-0 h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500/20"
 			style="animation-delay: 2s;"
 		>
 		</div>
@@ -107,17 +99,6 @@ const detailedSteps = generateDetailedSteps()
 		}
 	}
 
-	@keyframes timeline-connect {
-		from {
-			opacity: 0;
-			height: 0;
-		}
-		to {
-			opacity: 0.6;
-			height: 3rem;
-		}
-	}
-
 	.timeline-card {
 		opacity: 0;
 		animation: fadeInUp 0.8s ease-out forwards;
@@ -127,10 +108,6 @@ const detailedSteps = generateDetailedSteps()
 		opacity: 0;
 		animation: scaleIn 0.6s ease-out forwards;
 		transform: scale(0);
-	}
-
-	.animate-timeline-connect {
-		animation: timeline-connect 0.6s ease-out forwards;
 	}
 
 	/* Interactive effects */
@@ -159,8 +136,7 @@ const detailedSteps = generateDetailedSteps()
 	/* Accessibility */
 	@media (prefers-reduced-motion: reduce) {
 		.timeline-card,
-		.timeline-node,
-		.animate-timeline-connect {
+		.timeline-node {
 			animation: none;
 			opacity: 1;
 			transform: none;
