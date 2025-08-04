@@ -3,6 +3,7 @@ import {
 	getNestedValue,
 	translations,
 	getCurrentLanguage,
+	t,
 } from '@/lib/i18n-server'
 import { getStepDesign } from '@/lib/step-designs'
 import type { EnglishDict } from '@/i18n/types'
@@ -20,16 +21,19 @@ const { stepKey, index, variant = 'default' } = Astro.props
 // Variant-specific classes using CVA
 const showHeader = variant !== 'mini' // Hide header in mini mode
 
-const containerVariants = cva('group relative transform transition-all', {
-	variants: {
-		variant: {
-			default: 'duration-700 hover:scale-[1.02]',
-			compact: 'duration-500 hover:scale-[1.01]',
-			mini: 'duration-300 hover:scale-[1.005]',
+const containerVariants = cva(
+	'group relative transform transition-all cursor-pointer',
+	{
+		variants: {
+			variant: {
+				default: 'duration-700 hover:scale-[1.02]',
+				compact: 'duration-500 hover:scale-[1.01]',
+				mini: 'duration-300 hover:scale-[1.005]',
+			},
 		},
+		defaultVariants: { variant: 'default' },
 	},
-	defaultVariants: { variant: 'default' },
-})
+)
 
 const headerVariants = cva('relative overflow-hidden bg-gradient-to-br', {
 	variants: {
@@ -325,35 +329,29 @@ const design = getStepDesign(index)
 			</p>
 
 			{/* Bottom accent */}
-			<div class="flex items-center justify-between pt-2">
-				<div class="flex items-center space-x-2">
-					<div
-						class="{design.accent} h-2 w-2 animate-pulse rounded-full"
-					>
-					</div>
+			<div class="pt-2">
+				{/* Étape X */}
+				<div class="mb-1">
 					<span
-						class="text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
+						class="text-xs font-medium tracking-wider whitespace-nowrap text-gray-500 uppercase dark:text-gray-400"
 					>
-						Étape {number}
+						{t('stepCard.step')}
+						{number}
 					</span>
 				</div>
 
-				{/* Hover arrow */}
-				<div
-					class="translate-x-2 transform opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
-				>
-					<svg
-						class="h-4 w-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
+				{/* Click to see more - aligné à gauche avec couleur */}
+				<div class="flex items-center">
+					<span
+						class="text-xs font-medium text-blue-600 dark:text-blue-400"
 					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 5l7 7-7 7"></path>
-					</svg>
+						{t('stepCard.clickToSeeMore')}
+					</span>
+					<span
+						class="ml-1 text-xs font-medium text-blue-600 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 dark:text-blue-400"
+					>
+						>
+					</span>
 				</div>
 			</div>
 		</div>

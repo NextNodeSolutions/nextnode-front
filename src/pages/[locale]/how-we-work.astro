@@ -5,13 +5,12 @@ import Footer from '@/components/layout/footer.astro'
 import GradientCircle from '@/components/common/gradient-circle.astro'
 import WorkflowJourney from '@/components/how-we-work/workflow-journey.astro'
 import MobileTimeline from '@/components/how-we-work/MobileTimeline.astro'
-import TechStackGrid from '@/components/how-we-work/tech-stack-grid.astro'
 import TechnicalFaq from '@/components/how-we-work/technical-faq.astro'
 import WorkflowJourneyInteractive from '@/components/how-we-work/WorkflowJourneyInteractive'
 import { StartProjectModal } from '@/components/marketing/start-project-modal'
 import { t, initI18n } from '@/lib/i18n-server'
 import { generateDetailedSteps, generateSteps } from '@/lib/workflow-utils'
-import { generatePageTitle, getCTAFeatures } from '@/lib/page-utils'
+import { generatePageTitle } from '@/lib/page-utils'
 import { STEP_COLORS } from '@/lib/workflow-constants'
 
 // Get language from route parameter
@@ -30,9 +29,6 @@ const pageDescription = t('howWeWork.hero.description')
 // Étapes du workflow avec toutes les données
 const steps = generateDetailedSteps()
 const simpleSteps = generateSteps()
-
-// Features CTA
-const ctaFeatures = getCTAFeatures()
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -93,29 +89,6 @@ const ctaFeatures = getCTAFeatures()
 			</div>
 		</section>
 
-		<!-- Tech Stack Section -->
-		<section class="py-24 sm:py-32">
-			<div class="mx-auto max-w-7xl px-6 lg:px-8">
-				<div class="mx-auto mb-16 max-w-2xl text-center">
-					<h2
-						class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl dark:text-white"
-					>
-						{t('howWeWork.techStack.title')}
-					</h2>
-					<p
-						class="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-300"
-					>
-						{t('howWeWork.techStack.subtitle')}
-					</p>
-					<p class="mt-6 text-base text-gray-600 dark:text-gray-400">
-						{t('howWeWork.techStack.description')}
-					</p>
-				</div>
-
-				<TechStackGrid />
-			</div>
-		</section>
-
 		<!-- FAQ Section -->
 		<section class="bg-gray-50 py-24 sm:py-32 dark:bg-gray-900/50">
 			<div class="mx-auto max-w-4xl px-6 lg:px-8">
@@ -133,50 +106,6 @@ const ctaFeatures = getCTAFeatures()
 				</div>
 
 				<TechnicalFaq />
-			</div>
-		</section>
-
-		<!-- Final CTA Section -->
-		<section
-			class="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600"
-		>
-			<GradientCircle
-				position="right"
-				size="medium"
-				blur="medium"
-				opacity="low"
-			/>
-			<div class="relative mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-				<div class="mx-auto max-w-2xl text-center">
-					<h2
-						class="text-3xl font-bold tracking-tight text-white sm:text-4xl"
-					>
-						{t('howWeWork.cta.title')}
-					</h2>
-					<p class="mt-6 text-lg leading-8 text-blue-100">
-						{t('howWeWork.cta.description')}
-					</p>
-
-					<!-- Features List -->
-					<div class="mt-8 space-y-3">
-						{
-							ctaFeatures.map((feature: string) => (
-								<p class="text-blue-100">{feature}</p>
-							))
-						}
-					</div>
-
-					<!-- CTA Buttons -->
-					<div class="mt-10 flex items-center justify-center gap-6">
-						<StartProjectModal client:load />
-						<a
-							href="/contact"
-							class="rounded-md border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm backdrop-blur-sm hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-						>
-							{t('howWeWork.cta.secondaryButton')}
-						</a>
-					</div>
-				</div>
 			</div>
 		</section>
 

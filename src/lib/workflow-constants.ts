@@ -81,12 +81,12 @@ export const STEP_CONFIG: Record<string, StepConfig> = {
 // Desktop positions for StepCard (220x120px) with straight lines
 // Those positions are perfect, do not move them
 export const DESKTOP_WORKFLOW_POSITIONS: Position[] = [
-	{ x: 80, y: 60, cardX: 0, cardY: -10, lineEndX: 80, lineEndY: 10 },
-	{ x: 350, y: 75, cardX: 320, cardY: 0, lineEndX: 350, lineEndY: 20 },
-	{ x: 510, y: 140, cardX: 680, cardY: 210, lineEndX: 560, lineEndY: 140 },
-	{ x: 205, y: 220, cardX: -10, cardY: 310, lineEndX: 160, lineEndY: 220 },
+	{ x: 80, y: 60, cardX: 0, cardY: -60, lineEndX: 80, lineEndY: 10 },
+	{ x: 350, y: 75, cardX: 320, cardY: -40, lineEndX: 350, lineEndY: 20 },
+	{ x: 510, y: 140, cardX: 680, cardY: 180, lineEndX: 560, lineEndY: 140 },
+	{ x: 205, y: 220, cardX: -10, cardY: 290, lineEndX: 160, lineEndY: 220 },
 	{ x: 480, y: 252, cardX: 480, cardY: 490, lineEndX: 480, lineEndY: 310 },
-	{ x: 880, y: 385, cardX: 960, cardY: 365, lineEndX: 880, lineEndY: 325 },
+	{ x: 880, y: 385, cardX: 960, cardY: 335, lineEndX: 880, lineEndY: 325 },
 ]
 
 // Utility function to generate gradient stops

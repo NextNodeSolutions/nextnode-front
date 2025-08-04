@@ -1,6 +1,11 @@
 import React from 'react'
 
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import {
+	Dialog,
+	DialogContent,
+	DialogTitle,
+	DialogDescription,
+} from '@/components/ui/dialog'
 import { createModalGlassmorphism } from '@/lib/glassmorphism'
 import { DEFAULT_MODAL_CONFIG } from '@/lib/modal-utils'
 
@@ -54,6 +59,9 @@ export default function ModalContainer({
 				<DialogTitle className="sr-only">
 					{title || 'Modal Dialog'}
 				</DialogTitle>
+				<DialogDescription className="sr-only">
+					Modal content
+				</DialogDescription>
 
 				<GlassmorphicOverlay
 					color={color}

@@ -38,12 +38,12 @@ const DialogContent = React.forwardRef<
 			ref={ref}
 			className={cn(
 				'fixed z-50 grid w-full gap-4 p-6 shadow-2xl duration-500',
-				'right-0 bottom-0 left-0 max-h-[90vh] rounded-t-3xl',
+				'inset-x-0 bottom-0 max-h-[90vh] rounded-t-3xl',
 				'sm:top-[50%] sm:right-auto sm:bottom-auto sm:left-[50%] sm:max-h-none sm:max-w-lg sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-3xl',
 				'mobile-dialog',
 				'data-[state=open]:animate-in data-[state=closed]:animate-out',
-				'data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-90 data-[state=closed]:duration-300',
-				'data-[state=open]:fade-in-0 data-[state=open]:zoom-in-90 data-[state=open]:duration-500',
+				'data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-90 data-[state=closed]:duration-300 sm:data-[state=closed]:duration-300',
+				'data-[state=open]:fade-in-0 data-[state=open]:zoom-in-90 data-[state=open]:duration-500 sm:data-[state=open]:duration-500',
 				className,
 			)}
 			{...props}
