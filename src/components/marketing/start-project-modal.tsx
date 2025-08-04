@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { cn } from '@/lib/utils'
 import { useI18n } from '@/lib/i18n-client'
+import { GLASSMORPHISM_PRESETS } from '@/lib/constants'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -61,12 +62,7 @@ export const StartProjectModal = (): React.ReactElement => {
 				width="600px"
 				maxWidth="95vw"
 				className="sm:max-w-[600px]"
-				glassmorphismOptions={{
-					baseOpacity: 0.05,
-					blur: 20,
-					colorOpacity: 35,
-					readabilityOpacity: 0.85,
-				}}
+				glassmorphismOptions={GLASSMORPHISM_PRESETS.modal}
 			>
 				<div className="animate-in fade-in p-6 duration-300 sm:p-8">
 					{/* Header */}

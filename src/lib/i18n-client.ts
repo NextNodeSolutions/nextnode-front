@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react'
 import { en } from '../i18n/locales/en'
 import { fr } from '../i18n/locales/fr'
 import { cachedInterpolateString, getCachedNestedValue } from './i18n-cache'
+import { SUPPORTED_LOCALES, type Locale } from './constants'
 
 import type {
-	Locale,
 	TranslationDict,
 	TranslationKey,
 	TranslationValue,
@@ -21,7 +21,7 @@ const translationStore: Record<Locale, TranslationDict> = {
 // Type-safe locale validation function
 const isValidLocale: LocaleGuard = (value: unknown): value is Locale =>
 	typeof value === 'string' &&
-	(['en', 'fr'] as const).includes(value as Locale)
+	(SUPPORTED_LOCALES as readonly string[]).includes(value)
 
 // Specialized typed function for getting translation values with cache
 const getTypedNestedValue = <K extends TranslationKey>(

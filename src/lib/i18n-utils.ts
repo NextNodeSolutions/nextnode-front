@@ -2,9 +2,9 @@
  * i18n utilities for URL handling
  */
 
-export const SUPPORTED_LOCALES = ['en', 'fr'] as const
-export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number]
-export const DEFAULT_LOCALE: SupportedLocale = 'en'
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE, type Locale } from './constants'
+
+export type SupportedLocale = Locale
 
 /**
  * Get the current locale from URL pathname
@@ -46,5 +46,5 @@ export function getSwitchLocaleUrl(
  * Check if a locale is supported
  */
 export function isSupportedLocale(locale: string): locale is SupportedLocale {
-	return SUPPORTED_LOCALES.includes(locale as SupportedLocale)
+	return (SUPPORTED_LOCALES as readonly string[]).includes(locale)
 }

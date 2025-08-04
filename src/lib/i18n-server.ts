@@ -3,10 +3,10 @@ import i18next, { changeLanguage, init } from 'i18next'
 import { en } from '../i18n/locales/en'
 import { fr } from '../i18n/locales/fr'
 import { getCachedNestedValue, cachedInterpolateString } from './i18n-cache'
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE, type Locale } from './constants'
 
 import type {
 	TranslationDict,
-	Locale,
 	TranslationKey,
 	TranslationValue,
 	LocaleGuard,
@@ -30,11 +30,11 @@ const setCurrentLanguage = (lang: Locale): void => {
 // Type-safe locale validation function
 export const isValidLocale: LocaleGuard = (value: unknown): value is Locale =>
 	typeof value === 'string' &&
-	(['en', 'fr'] as const).includes(value as Locale)
+	(SUPPORTED_LOCALES as readonly string[]).includes(value)
 
 // Safe locale conversion with fallback
 export const toSafeLocale = (value: unknown): Locale =>
-	isValidLocale(value) ? value : 'en'
+	isValidLocale(value) ? value : DEFAULT_LOCALE
 
 // Detect language from Astro request
 export const detectLanguage = (request: Request): Locale => {
