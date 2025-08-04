@@ -79,17 +79,12 @@ const MINI_CARD_HEIGHT = 120
 						return null
 					}
 
-					// Convertir les positions SVG en pourcentages CSS
-					const leftPercent =
-						((position.cardX - MINI_CARD_WIDTH / 2) / 1000) * 100
-					const topPercent =
-						((position.cardY - MINI_CARD_HEIGHT / 2 + 50) / 500) *
-						100
+					// Utiliser directement les coordonnées SVG (beaucoup plus simple)
 
 					return (
 						<div
 							class="absolute"
-							style={`left: ${leftPercent}%; top: ${topPercent}%; width: ${MINI_CARD_WIDTH}px; height: ${MINI_CARD_HEIGHT}px;`}
+							style={`left: ${position.cardX}px; top: ${position.cardY}px; width: ${MINI_CARD_WIDTH}px; height: ${MINI_CARD_HEIGHT}px;`}
 						>
 							<StepCardContainer
 								stepKey={step.id}
