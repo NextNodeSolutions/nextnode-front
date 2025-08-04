@@ -115,15 +115,6 @@ const currentLocale = Astro.currentLocale || 'en'
 
 		<!-- Global theme and language management script -->
 		<script>
-			// Declare global types
-			declare global {
-				interface Window {
-					currentLanguage?: string
-					languageManager: any
-					themeManager: any
-				}
-			}
-
 			// Global language management
 			window.languageManager = {
 				getCurrentLanguage() {

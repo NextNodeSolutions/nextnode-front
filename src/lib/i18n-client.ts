@@ -36,16 +36,6 @@ type ClientTranslationFunction = <K extends TranslationKey>(
 	params?: Record<string, string | number>,
 ) => TranslationValue<K>
 
-// Declare global window properties for TypeScript
-declare global {
-	interface Window {
-		currentLanguage?: string
-		languageManager?: {
-			getCurrentLanguage: () => string
-		}
-	}
-}
-
 // React hook for i18n in client components - simplified to use Astro as source of truth
 export const useI18n = (): {
 	t: ClientTranslationFunction
