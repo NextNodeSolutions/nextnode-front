@@ -32,10 +32,15 @@ const MINI_CARD_HEIGHT = 120
 			<WorkflowGradients gradientStops={gradientStops} />
 			<WorkflowPath />
 
-			{/* Lignes de connexion et points sur le chemin */}
+			{/* Lignes de connexion, points et cards - tout dans le SVG */}
 			{
 				positions.map((position, index) => {
 					const color = STEP_COLORS[index]
+					const step = detailedSteps[index]
+
+					if (!step || !color) {
+						return null
+					}
 
 					return (
 						<g>
@@ -64,40 +69,27 @@ const MINI_CARD_HEIGHT = 120
 								class="workflow-point"
 								style={`animation-delay: ${index * 150}ms`}
 							/>
+
+							{/* Card dans le SVG - scale automatiquement avec viewBox */}
+							<foreignObject
+								x={position.cardX}
+								y={position.cardY}
+								width={MINI_CARD_WIDTH}
+								height={MINI_CARD_HEIGHT}
+								class="svg-card"
+								style={`animation-delay: ${index * 150}ms`}
+							>
+								<StepCardContainer
+									stepKey={step.id}
+									index={index}
+									variant="mini"
+								/>
+							</foreignObject>
 						</g>
 					)
 				})
 			}
 		</svg>
-
-		<!-- StepCards positionnées en HTML au-dessus -->
-		<div class="absolute inset-0">
-			{
-				detailedSteps.map((step, index) => {
-					const position = positions[index]
-					const color = STEP_COLORS[index]
-
-					if (!position || !color) {
-						return null
-					}
-
-					// Utiliser directement les coordonnées SVG (beaucoup plus simple)
-
-					return (
-						<div
-							class="absolute"
-							style={`left: ${position.cardX}px; top: ${position.cardY}px; width: ${MINI_CARD_WIDTH}px; height: ${MINI_CARD_HEIGHT}px;`}
-						>
-							<StepCardContainer
-								stepKey={step.id}
-								index={index}
-								variant="mini"
-							/>
-						</div>
-					)
-				})
-			}
-		</div>
 	</div>
 </div>
 
@@ -114,6 +106,23 @@ const MINI_CARD_HEIGHT = 120
 	/* Interactive card hover effects */
 	.interactive-card {
 		cursor: pointer;
+	}
+
+	/* SVG Cards - scale automatiquement avec le viewBox */
+	.svg-card {
+		opacity: 0;
+		animation: fadeInCard 0.8s ease-out forwards;
+	}
+
+	@keyframes fadeInCard {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
 	/* Workflow lines and points animations - synchronized with cards */
