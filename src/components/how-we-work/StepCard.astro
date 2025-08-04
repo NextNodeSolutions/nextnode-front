@@ -3,6 +3,7 @@ import {
 	getNestedValue,
 	translations,
 	getCurrentLanguage,
+	t,
 } from '@/lib/i18n-server'
 import { getStepDesign } from '@/lib/step-designs'
 import type { EnglishDict } from '@/i18n/types'
@@ -10,9 +11,73 @@ import type { EnglishDict } from '@/i18n/types'
 export interface Props {
 	stepKey: string
 	index: number
+	variant?: 'default' | 'compact' | 'mini'
 }
 
-const { stepKey, index } = Astro.props
+import { cn } from '@/lib/utils'
+
+const { stepKey, index, variant = 'default' } = Astro.props
+
+// Consolidated variant constants - much cleaner than 9 separate CVAs
+const VARIANTS = {
+	container: {
+		default: 'duration-700 hover:scale-[1.02]',
+		compact: 'duration-500 hover:scale-[1.01]',
+		mini: 'duration-300 hover:scale-[1.005]',
+	},
+	header: {
+		default: 'h-32',
+		compact: 'h-20',
+		mini: 'h-16',
+	},
+	content: {
+		default: 'space-y-4 p-6',
+		compact: 'space-y-2 p-4',
+		mini: 'space-y-1 p-3',
+	},
+	title: {
+		default: 'text-xl',
+		compact: 'text-lg',
+		mini: 'text-base',
+	},
+	description: {
+		default: 'line-clamp-5 text-sm',
+		compact: 'line-clamp-4 text-xs',
+		mini: 'line-clamp-3 text-xs',
+	},
+	icon: {
+		default: 'h-16 w-16',
+		compact: 'h-12 w-12',
+		mini: 'h-8 w-8',
+	},
+	number: {
+		default: 'h-12 w-12',
+		compact: 'h-8 w-8',
+		mini: 'h-6 w-6',
+	},
+	iconText: {
+		default: 'text-3xl',
+		compact: 'text-xl',
+		mini: 'text-lg',
+	},
+	numberText: {
+		default: 'text-2xl',
+		compact: 'text-lg',
+		mini: 'text-sm',
+	},
+	position: {
+		default: 'top-4 right-4',
+		compact: 'top-2 right-2',
+		mini: 'top-1 right-1',
+	},
+	iconPosition: {
+		default: 'bottom-4 left-4',
+		compact: 'bottom-2 left-2',
+		mini: 'bottom-1 left-1',
+	},
+} as const
+
+const showHeader = variant !== 'mini' // Hide header in mini mode
 
 // Type alias for step data
 type StepData =
@@ -32,11 +97,14 @@ const design = getStepDesign(index)
 ---
 
 <div
-	class="group relative transform transition-all duration-700 hover:scale-[1.02]"
+	class={cn(
+		'group relative transform transition-all cursor-pointer',
+		VARIANTS.container[variant],
+	)}
 >
 	{/* Glow effect */}
 	<div
-		class="{design.gradient} absolute -inset-1 rounded-3xl bg-gradient-to-r opacity-0 blur transition-all duration-500 group-hover:opacity-20"
+		class="{design.gradient} absolute -inset-1 rounded-2xl bg-gradient-to-r opacity-0 blur transition-all duration-500 group-hover:opacity-20"
 	>
 	</div>
 
@@ -44,140 +112,162 @@ const design = getStepDesign(index)
 	<div
 		class="{design.glow} relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl transition-all duration-500 group-hover:shadow-2xl dark:border-gray-800 dark:bg-gray-900"
 	>
-		{/* Header section */}
-		<div
-			class="{design.gradient} relative h-32 overflow-hidden bg-gradient-to-br"
-		>
-			{/* Animated background pattern */}
-			<div
-				class="absolute inset-0 opacity-10 transition-opacity duration-500 group-hover:opacity-20"
-			>
-				{
-					design.pattern === 'dots' && (
-						<svg class="h-full w-full" viewBox="0 0 100 100">
-							<defs>
-								<pattern
-									id={`dots-${stepKey}`}
-									x="0"
-									y="0"
-									width="10"
-									height="10"
-									patternUnits="userSpaceOnUse"
-								>
-									<circle
-										cx="5"
-										cy="5"
-										r="1"
-										fill="currentColor"
-									/>
-								</pattern>
-							</defs>
-							<rect
-								width="100%"
-								height="100%"
-								fill={`url(#dots-${stepKey})`}
-							/>
-						</svg>
-					)
-				}
-
-				{
-					design.pattern === 'grid' && (
-						<svg class="h-full w-full" viewBox="0 0 100 100">
-							<defs>
-								<pattern
-									id={`grid-${stepKey}`}
-									x="0"
-									y="0"
-									width="10"
-									height="10"
-									patternUnits="userSpaceOnUse"
-								>
-									<path
-										d="M 10 0 L 0 0 0 10"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="0.5"
-									/>
-								</pattern>
-							</defs>
-							<rect
-								width="100%"
-								height="100%"
-								fill={`url(#grid-${stepKey})`}
-							/>
-						</svg>
-					)
-				}
-
-				{
-					design.pattern === 'waves' && (
-						<svg class="h-full w-full" viewBox="0 0 100 100">
-							<path
-								d="M0,50 Q25,30 50,50 T100,50 L100,100 L0,100 Z"
-								fill="currentColor"
-								opacity="0.1"
-							/>
-							<path
-								d="M0,60 Q25,40 50,60 T100,60 L100,100 L0,100 Z"
-								fill="currentColor"
-								opacity="0.05"
-							/>
-						</svg>
-					)
-				}
-			</div>
-
-			{/* Floating elements */}
-			<div
-				class="absolute top-4 right-4 transform transition-transform duration-500 group-hover:rotate-12"
-			>
+		{/* Header section - hidden in mini variant */}
+		{
+			showHeader && (
 				<div
-					class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 shadow-lg ring-1 ring-white/30 backdrop-blur-sm"
+					class={cn(
+						design.gradient,
+						'relative overflow-hidden bg-gradient-to-br',
+						VARIANTS.header[variant],
+					)}
 				>
-					<span class="text-2xl font-black text-white drop-shadow-sm"
-						>{number}</span
-					>
-				</div>
-			</div>
+					{/* Animated background pattern */}
+					<div class="absolute inset-0 opacity-10 transition-opacity duration-500 group-hover:opacity-20">
+						{design.pattern === 'dots' && (
+							<svg class="h-full w-full" viewBox="0 0 100 100">
+								<defs>
+									<pattern
+										id={`dots-${stepKey}`}
+										x="0"
+										y="0"
+										width="10"
+										height="10"
+										patternUnits="userSpaceOnUse"
+									>
+										<circle
+											cx="5"
+											cy="5"
+											r="1"
+											fill="currentColor"
+										/>
+									</pattern>
+								</defs>
+								<rect
+									width="100%"
+									height="100%"
+									fill={`url(#dots-${stepKey})`}
+								/>
+							</svg>
+						)}
 
-			{/* Icon with animation */}
-			<div
-				class="absolute bottom-4 left-4 transform transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6"
-			>
-				<div
-					class="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-md"
-				>
-					<span class="text-3xl drop-shadow-lg filter"
-						>{design.icon}</span
-					>
-				</div>
-			</div>
+						{design.pattern === 'grid' && (
+							<svg class="h-full w-full" viewBox="0 0 100 100">
+								<defs>
+									<pattern
+										id={`grid-${stepKey}`}
+										x="0"
+										y="0"
+										width="10"
+										height="10"
+										patternUnits="userSpaceOnUse"
+									>
+										<path
+											d="M 10 0 L 0 0 0 10"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="0.5"
+										/>
+									</pattern>
+								</defs>
+								<rect
+									width="100%"
+									height="100%"
+									fill={`url(#grid-${stepKey})`}
+									class="py-6"
+								/>
+							</svg>
+						)}
 
-			{/* Decorative orbs */}
-			<div
-				class="absolute top-2 left-2 h-4 w-4 animate-pulse rounded-full bg-white/20 blur-sm"
-			>
-			</div>
-			<div
-				class="absolute right-2 bottom-2 h-3 w-3 animate-pulse rounded-full bg-white/30 blur-sm"
-				style="animation-delay: 1s;"
-			>
-			</div>
-		</div>
+						{design.pattern === 'waves' && (
+							<svg class="h-full w-full" viewBox="0 0 100 100">
+								<path
+									d="M0,50 Q25,30 50,50 T100,50 L100,100 L0,100 Z"
+									fill="currentColor"
+									opacity="0.1"
+								/>
+								<path
+									d="M0,60 Q25,40 50,60 T100,60 L100,100 L0,100 Z"
+									fill="currentColor"
+									opacity="0.05"
+								/>
+							</svg>
+						)}
+					</div>
+
+					{/* Floating elements */}
+					<div
+						class={cn(
+							'absolute transform transition-transform duration-500 group-hover:rotate-12',
+							VARIANTS.position[variant],
+						)}
+					>
+						<div
+							class={cn(
+								'flex items-center justify-center rounded-2xl bg-white/20 shadow-lg ring-1 ring-white/30 backdrop-blur-sm',
+								VARIANTS.number[variant],
+							)}
+						>
+							<span
+								class={cn(
+									'font-black text-white drop-shadow-sm',
+									VARIANTS.numberText[variant],
+								)}
+							>
+								{number}
+							</span>
+						</div>
+					</div>
+
+					{/* Icon with animation */}
+					<div
+						class={cn(
+							'absolute transform transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6',
+							VARIANTS.iconPosition[variant],
+						)}
+					>
+						<div
+							class={cn(
+								'flex items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-md',
+								VARIANTS.icon[variant],
+							)}
+						>
+							<span
+								class={cn(
+									'drop-shadow-lg filter',
+									VARIANTS.iconText[variant],
+								)}
+							>
+								{design.icon}
+							</span>
+						</div>
+					</div>
+
+					{/* Decorative orbs */}
+					<div class="absolute top-2 left-2 h-4 w-4 animate-pulse rounded-full bg-white/20 blur-sm" />
+					<div
+						class="absolute right-2 bottom-2 h-3 w-3 animate-pulse rounded-full bg-white/30 blur-sm"
+						style="animation-delay: 1s;"
+					/>
+				</div>
+			)
+		}
 
 		{/* Content section */}
-		<div class="space-y-4 p-6">
+		<div class={cn(VARIANTS.content[variant])}>
 			{/* Title */}
 			<div class="space-y-2">
 				<h3
-					class="group-hover:{design.gradient} text-xl leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:text-transparent dark:text-white"
+					class={cn(
+						'leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105 dark:text-white',
+						VARIANTS.title[variant],
+					)}
 				>
 					{title}
 				</h3>
 
 				{/* Progress indicator */}
-				<div class="flex items-center space-x-1">
+				<div class="flex items-center space-x-1 py-2">
 					{
 						Array.from({ length: 6 }, (_, i) => (
 							<div
@@ -195,54 +285,52 @@ const design = getStepDesign(index)
 
 			{/* Description */}
 			<p
-				class="line-clamp-3 text-sm leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200"
+				class={cn(
+					'leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200',
+					VARIANTS.description[variant],
+				)}
 			>
 				{description}
 			</p>
 
 			{/* Bottom accent */}
-			<div class="flex items-center justify-between pt-2">
-				<div class="flex items-center space-x-2">
-					<div
-						class="{design.accent} h-2 w-2 animate-pulse rounded-full"
-					>
-					</div>
+			<div class="pt-2">
+				{/* Étape X */}
+				<div class="mb-1">
 					<span
-						class="text-xs font-medium tracking-wider text-gray-500 uppercase dark:text-gray-400"
+						class="text-xs font-medium tracking-wider whitespace-nowrap text-gray-500 uppercase dark:text-gray-400"
 					>
-						Étape {number}
+						{t('stepCard.step')}
+						{number}
 					</span>
 				</div>
 
-				{/* Hover arrow */}
-				<div
-					class="translate-x-2 transform opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
-				>
-					<svg
-						class="h-4 w-4 text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
+				{/* Click to see more - aligné à gauche avec couleur */}
+				<div class="flex items-center">
+					<span
+						class="text-xs font-medium text-blue-600 dark:text-blue-400"
 					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M9 5l7 7-7 7"></path>
-					</svg>
+						{t('stepCard.clickToSeeMore')}
+					</span>
+					<span
+						class="ml-1 text-xs font-medium text-blue-600 opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 dark:text-blue-400"
+					>
+						>
+					</span>
 				</div>
 			</div>
-		</div>
-
-		{/* Subtle inner glow */}
-		<div
-			class="{design.ring} pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-1 transition-opacity duration-500 group-hover:opacity-100"
-		>
 		</div>
 	</div>
 </div>
 
 <style>
+	.line-clamp-2 {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
 	.line-clamp-3 {
 		display: -webkit-box;
 		-webkit-line-clamp: 3;

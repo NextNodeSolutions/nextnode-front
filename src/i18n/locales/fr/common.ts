@@ -17,6 +17,10 @@ export const common = {
 		theme: 'Thème',
 		language: 'Langue',
 	},
+	stepCard: {
+		step: 'Étape',
+		clickToSeeMore: 'Cliquer pour voir plus',
+	},
 	languages: {
 		en: 'EN',
 		fr: 'FR',

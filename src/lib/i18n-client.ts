@@ -48,12 +48,23 @@ export const useI18n = (): {
 		// Get current language from various sources
 		const getCurrentLanguage = (): Locale => {
 			if (typeof window !== 'undefined') {
-				const savedLang = localStorage.getItem('language')
-				const browserLang = navigator.language?.split('-')[0]
+				// First priority: detect language from URL path
+				const pathLang = window.location.pathname.startsWith('/fr')
+					? 'fr'
+					: 'en'
+				if (isValidLocale(pathLang)) {
+					return pathLang
+				}
 
+				// Second priority: saved language preference
+				const savedLang = localStorage.getItem('language')
 				if (isValidLocale(savedLang)) {
 					return savedLang
-				} else if (isValidLocale(browserLang)) {
+				}
+
+				// Third priority: browser language
+				const browserLang = navigator.language?.split('-')[0]
+				if (isValidLocale(browserLang)) {
 					return browserLang
 				}
 			}
@@ -80,9 +91,18 @@ export const useI18n = (): {
 			}
 		}
 
+		// Listen for URL changes (for navigation)
+		const handlePopState = (): void => {
+			handleLanguageChange()
+		}
+
 		window.addEventListener('storage', handleLanguageChange)
-		return (): void =>
+		window.addEventListener('popstate', handlePopState)
+
+		return (): void => {
 			window.removeEventListener('storage', handleLanguageChange)
+			window.removeEventListener('popstate', handlePopState)
+		}
 	}, [language])
 
 	const t = <K extends TranslationKey>(

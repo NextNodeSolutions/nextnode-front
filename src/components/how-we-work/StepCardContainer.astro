@@ -1,0 +1,57 @@
+---
+import StepCard from './StepCard.astro'
+
+interface Props {
+	stepKey: string
+	index: number
+	className?: string
+	variant?: 'default' | 'compact'
+}
+
+const { stepKey, index, className = '', variant = 'default' } = Astro.props
+---
+
+<div
+	class={`timeline-card transform transition-all duration-700 ease-out ${className}`}
+	style={`animation-delay: ${index * 150}ms`}
+	data-step-card
+	data-step-index={index}
+>
+	<StepCard stepKey={stepKey} index={index} variant={variant} />
+</div>
+
+<style>
+	.timeline-card {
+		opacity: 0;
+		animation: fadeInUp 0.8s ease-out forwards;
+	}
+
+	.timeline-card:hover {
+		transform: translateX(4px);
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Smooth performance without clipping effects */
+	.timeline-card {
+		will-change: transform;
+	}
+
+	/* Accessibility */
+	@media (prefers-reduced-motion: reduce) {
+		.timeline-card {
+			animation: none;
+			opacity: 1;
+			transform: none;
+		}
+	}
+</style>

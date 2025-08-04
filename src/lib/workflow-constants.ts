@@ -38,34 +38,55 @@ export interface DetailedStep {
 	icon: string
 }
 
-// Workflow steps configuration
+// Step keys in order (pre-computed for performance)
+export const STEP_KEYS = [
+	'discovery',
+	'design',
+	'development',
+	'testing',
+	'deployment',
+	'support',
+] as const
+
+// Colors for each step (pre-computed for performance)
+export const STEP_COLORS = [
+	'#6366f1', // discovery
+	'#8b5cf6', // design
+	'#10b981', // development
+	'#f59e0b', // testing
+	'#ef4444', // deployment
+	'#6b7280', // support
+] as const
+
+// Icons for each step
+const STEP_ICONS = [
+	'🔍', // discovery
+	'🎨', // design
+	'⚡', // development
+	'🧪', // testing
+	'🚀', // deployment
+	'🛠️', // support
+] as const
+
+// Workflow steps configuration (built from arrays above - DRY principle)
 export const STEP_CONFIG: Record<string, StepConfig> = {
-	discovery: { icon: '🔍', color: '#6366f1' },
-	design: { icon: '🎨', color: '#8b5cf6' },
-	development: { icon: '⚡', color: '#10b981' },
-	testing: { icon: '🧪', color: '#f59e0b' },
-	deployment: { icon: '🚀', color: '#ef4444' },
-	support: { icon: '🛠️', color: '#6b7280' },
+	discovery: { icon: STEP_ICONS[0], color: STEP_COLORS[0] },
+	design: { icon: STEP_ICONS[1], color: STEP_COLORS[1] },
+	development: { icon: STEP_ICONS[2], color: STEP_COLORS[2] },
+	testing: { icon: STEP_ICONS[3], color: STEP_COLORS[3] },
+	deployment: { icon: STEP_ICONS[4], color: STEP_COLORS[4] },
+	support: { icon: STEP_ICONS[5], color: STEP_COLORS[5] },
 } as const
 
-// Step keys in order
-export const STEP_KEYS = Object.keys(
-	STEP_CONFIG,
-) as (keyof typeof STEP_CONFIG)[]
-
-// Colors extracted from configuration
-export const STEP_COLORS: string[] = Object.values(STEP_CONFIG).map(
-	(config: StepConfig) => config.color,
-)
-
-// Card and line positions for the workflow journey
-export const WORKFLOW_POSITIONS: Position[] = [
-	{ x: 80, y: 60, cardX: 50, cardY: -30, lineEndX: 80, lineEndY: 30 },
-	{ x: 350, y: 75, cardX: 320, cardY: -15, lineEndX: 350, lineEndY: 45 },
-	{ x: 510, y: 140, cardX: 540, cardY: 110, lineEndX: 540, lineEndY: 140 },
-	{ x: 205, y: 220, cardX: 105, cardY: 190, lineEndX: 165, lineEndY: 220 },
-	{ x: 590, y: 300, cardX: 500, cardY: 270, lineEndX: 560, lineEndY: 300 },
-	{ x: 880, y: 385, cardX: 850, cardY: 295, lineEndX: 880, lineEndY: 355 },
+// Desktop positions for StepCard (220x120px) with straight lines
+// Those positions are perfect, do not move them
+export const DESKTOP_WORKFLOW_POSITIONS: Position[] = [
+	{ x: 80, y: 60, cardX: 0, cardY: -60, lineEndX: 80, lineEndY: 10 },
+	{ x: 350, y: 75, cardX: 320, cardY: -40, lineEndX: 350, lineEndY: 20 },
+	{ x: 510, y: 140, cardX: 680, cardY: 180, lineEndX: 560, lineEndY: 140 },
+	{ x: 205, y: 220, cardX: -10, cardY: 290, lineEndX: 160, lineEndY: 220 },
+	{ x: 480, y: 252, cardX: 480, cardY: 490, lineEndX: 480, lineEndY: 310 },
+	{ x: 880, y: 385, cardX: 960, cardY: 335, lineEndX: 880, lineEndY: 325 },
 ]
 
 // Utility function to generate gradient stops
