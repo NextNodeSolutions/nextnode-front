@@ -3,17 +3,14 @@ import {
 	STEP_COLORS,
 	DESKTOP_WORKFLOW_POSITIONS,
 	generateGradientStops,
-	type Step,
 } from '@/lib/workflow-constants'
-import { generateSteps, generateDetailedSteps } from '@/lib/workflow-utils'
+import { generateDetailedSteps } from '@/lib/workflow-utils'
 
 import WorkflowGradients from './WorkflowGradients.astro'
 import WorkflowPath from './WorkflowPath.astro'
-import TimelineNode from './TimelineNode.astro'
 import StepCardContainer from './StepCardContainer.astro'
 
 // Données des étapes avec traductions
-const steps: Step[] = generateSteps()
 const detailedSteps = generateDetailedSteps()
 const positions = DESKTOP_WORKFLOW_POSITIONS
 const gradientStops = generateGradientStops(STEP_COLORS)
@@ -41,7 +38,7 @@ const MINI_CARD_HEIGHT = 120
 					const color = STEP_COLORS[index]
 
 					return (
-						<g key={index}>
+						<g>
 							{/* Ligne de connexion */}
 							<line
 								x1={position.x}
@@ -50,7 +47,9 @@ const MINI_CARD_HEIGHT = 120
 								y2={position.lineEndY}
 								stroke={color}
 								stroke-width="3"
-								opacity="1"
+								opacity="0"
+								class="workflow-line"
+								style={`animation-delay: ${index * 150}ms`}
 							/>
 
 							{/* Point sur le chemin */}
@@ -61,6 +60,9 @@ const MINI_CARD_HEIGHT = 120
 								fill={color}
 								stroke="white"
 								stroke-width="3"
+								opacity="0"
+								class="workflow-point"
+								style={`animation-delay: ${index * 150}ms`}
 							/>
 						</g>
 					)
@@ -112,6 +114,48 @@ const MINI_CARD_HEIGHT = 120
 	/* Interactive card hover effects */
 	.interactive-card {
 		cursor: pointer;
+	}
+
+	/* Workflow lines and points animations - synchronized with cards */
+	.workflow-line {
+		animation: fadeInLine 0.8s ease-out forwards;
+	}
+
+	.workflow-point {
+		animation: fadeInPoint 0.8s ease-out forwards;
+	}
+
+	@keyframes fadeInLine {
+		from {
+			opacity: 0;
+			stroke-dasharray: 1000;
+			stroke-dashoffset: 1000;
+		}
+		to {
+			opacity: 1;
+			stroke-dasharray: none;
+			stroke-dashoffset: 0;
+		}
+	}
+
+	@keyframes fadeInPoint {
+		from {
+			opacity: 0;
+			transform: scale(0);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	/* Accessibility - respect reduced motion preference */
+	@media (prefers-reduced-motion: reduce) {
+		.workflow-line,
+		.workflow-point {
+			animation: none;
+			opacity: 1;
+		}
 	}
 
 	/* Responsive adjustments */
