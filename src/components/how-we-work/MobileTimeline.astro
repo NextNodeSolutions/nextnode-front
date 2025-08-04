@@ -1,5 +1,5 @@
 ---
-import { STEP_KEYS, STEP_COLORS } from '@/lib/workflow-constants'
+import { STEP_COLORS } from '@/lib/workflow-constants'
 import { generateDetailedSteps } from '@/lib/workflow-utils'
 import TimelineNode from './TimelineNode.astro'
 import StepCardContainer from './StepCardContainer.astro'
@@ -20,7 +20,6 @@ const detailedSteps = generateDetailedSteps()
 			{
 				detailedSteps.map((step, index) => {
 					const color = STEP_COLORS[index] as string
-					const isLast = index === detailedSteps.length - 1
 
 					return (
 						<div class="timeline-step relative ml-14">

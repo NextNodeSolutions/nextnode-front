@@ -3,17 +3,14 @@ import {
 	STEP_COLORS,
 	DESKTOP_WORKFLOW_POSITIONS,
 	generateGradientStops,
-	type Step,
 } from '@/lib/workflow-constants'
-import { generateSteps, generateDetailedSteps } from '@/lib/workflow-utils'
+import { generateDetailedSteps } from '@/lib/workflow-utils'
 
 import WorkflowGradients from './WorkflowGradients.astro'
 import WorkflowPath from './WorkflowPath.astro'
-import TimelineNode from './TimelineNode.astro'
 import StepCardContainer from './StepCardContainer.astro'
 
 // Données des étapes avec traductions
-const steps: Step[] = generateSteps()
 const detailedSteps = generateDetailedSteps()
 const positions = DESKTOP_WORKFLOW_POSITIONS
 const gradientStops = generateGradientStops(STEP_COLORS)
