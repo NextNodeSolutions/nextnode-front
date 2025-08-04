@@ -4,12 +4,15 @@ import Header from '@/components/layout/header.astro'
 import Footer from '@/components/layout/footer.astro'
 import GradientCircle from '@/components/common/gradient-circle.astro'
 import WorkflowJourney from '@/components/how-we-work/workflow-journey.astro'
+import MobileTimeline from '@/components/how-we-work/MobileTimeline.astro'
 import TechStackGrid from '@/components/how-we-work/tech-stack-grid.astro'
 import TechnicalFaq from '@/components/how-we-work/technical-faq.astro'
+import WorkflowJourneyInteractive from '@/components/how-we-work/WorkflowJourneyInteractive'
 import { StartProjectModal } from '@/components/marketing/start-project-modal'
 import { t, initI18n } from '@/lib/i18n-server'
-import { generateDetailedSteps } from '@/lib/workflow-utils'
+import { generateDetailedSteps, generateSteps } from '@/lib/workflow-utils'
 import { generatePageTitle, getCTAFeatures } from '@/lib/page-utils'
+import { STEP_COLORS } from '@/lib/workflow-constants'
 
 // Get language from route parameter
 // For [...locale], the parameter can be undefined (for root path) or an array
@@ -26,6 +29,7 @@ const pageDescription = t('howWeWork.hero.description')
 
 // Étapes du workflow avec toutes les données
 const steps = generateDetailedSteps()
+const simpleSteps = generateSteps()
 
 // Features CTA
 const ctaFeatures = getCTAFeatures()
@@ -66,10 +70,26 @@ const ctaFeatures = getCTAFeatures()
 					</p>
 				</div>
 
-				<!-- SVG Journey Path intégré dans le Hero -->
+				<!-- Workflow Journey - Responsive Switch -->
 				<div class="mx-auto max-w-7xl">
-					<WorkflowJourney steps={steps} />
+					<!-- Desktop/Tablet SVG Version (md and up) -->
+					<div class="hidden md:block">
+						<WorkflowJourney steps={steps} />
+					</div>
+
+					<!-- Mobile Timeline Version (sm and down) -->
+					<div class="block md:hidden">
+						<MobileTimeline />
+					</div>
 				</div>
+
+				<!-- Interactive Modal System - Shared for both versions -->
+				<WorkflowJourneyInteractive
+					steps={simpleSteps}
+					detailedSteps={steps}
+					colors={STEP_COLORS}
+					client:load
+				/>
 			</div>
 		</section>
 
