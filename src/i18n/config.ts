@@ -4,7 +4,7 @@ import {
 	SUPPORTED_LOCALES,
 	DEFAULT_LOCALE,
 	type Locale,
-} from '../lib/constants'
+} from '../lib/i18n/i18n-constants'
 
 export const translations = {
 	en: { common: en },

@@ -1,0 +1,81 @@
+---
+import { cn } from '@/lib/core/utils'
+import { t } from '@/lib/i18n/i18n-server'
+---
+
+<!-- Who We Are -->
+<div
+	class={cn(
+		'bg-gray-50 rounded-lg p-6 space-y-6',
+		'dark:bg-gray-800/50 dark:backdrop-blur-sm',
+		'sm:p-7 sm:space-y-7',
+		'md:p-8 md:space-y-6',
+	)}
+>
+	<div
+		class="text-sm font-medium tracking-wide text-gray-800 uppercase dark:text-gray-200"
+	>
+		{t('home.sidePanel.whoWeAre')}
+	</div>
+
+	<div
+		class="space-y-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300"
+	>
+		<p>
+			{t('home.sidePanel.description')}
+		</p>
+
+		<div class="space-y-3">
+			<div class="flex items-start gap-3">
+				<span
+					class="mt-0.5 font-medium text-blue-600 dark:text-blue-400"
+					>✓</span
+				>
+				<span>{t('home.sidePanel.features.custom')}</span>
+			</div>
+			<div class="flex items-start gap-3">
+				<span
+					class="mt-0.5 font-medium text-blue-600 dark:text-blue-400"
+					>✓</span
+				>
+				<span>{t('home.sidePanel.features.fast')}</span>
+			</div>
+			<div class="flex items-start gap-3">
+				<span
+					class="mt-0.5 font-medium text-blue-600 dark:text-blue-400"
+					>✓</span
+				>
+				<span>{t('home.sidePanel.features.convert')}</span>
+			</div>
+		</div>
+
+		<div class="border-t border-gray-200 pt-4 dark:border-gray-600">
+			<div class="text-xs text-gray-500 italic dark:text-gray-400">
+				{t('home.sidePanel.quote')}
+			</div>
+			<div class="mt-2 text-xs text-gray-400 dark:text-gray-500">
+				{t('home.sidePanel.quoteAuthor')}
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- CTA Section -->
+<div
+	class={cn(
+		'mt-6 text-center p-5 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100',
+		'dark:from-blue-950/30 dark:to-purple-950/30 dark:border-blue-800/30 dark:backdrop-blur-sm',
+		'sm:mt-8 sm:p-6',
+		'md:text-left md:mt-8 md:p-5',
+	)}
+>
+	<div class="mb-2 text-sm font-medium text-gray-800 dark:text-gray-200">
+		{t('home.sidePanel.cta.title')}
+	</div>
+	<div class="mb-3 text-xs text-gray-600 dark:text-gray-300">
+		{t('home.sidePanel.cta.description')}
+	</div>
+	<div class="text-xs font-medium text-blue-600 dark:text-blue-400">
+		{t('home.sidePanel.cta.highlight')}
+	</div>
+</div>

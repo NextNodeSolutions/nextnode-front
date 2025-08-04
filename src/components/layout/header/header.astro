@@ -1,0 +1,94 @@
+---
+import Navigation from './navigation.astro'
+import Controls from './controls.astro'
+import Logo from './logo.astro'
+import MobileButton from './mobile/mobile-button.astro'
+import MobileMenu from './mobile/mobile-menu.astro'
+import { navigationLinks } from '@/lib/i18n/i18n-constants'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+
+// Generate locale-aware navigation links
+const currentLocale = Astro.currentLocale || 'en'
+const localizedNavigationLinks = navigationLinks.map(link => ({
+	...link,
+	href: getRelativeLocaleUrl(currentLocale, link.href),
+}))
+---
+
+<header
+	class="fixed top-0 right-0 left-0 z-50 bg-transparent transition-all duration-300"
+	id="header"
+>
+	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+		<div
+			class="flex h-12 items-center justify-between transition-all duration-300"
+		>
+			<Logo />
+
+			<div class="hidden items-center space-x-6 md:flex">
+				<Navigation links={localizedNavigationLinks} />
+				<Controls />
+			</div>
+
+			<MobileButton action="open" />
+		</div>
+	</div>
+
+	<!-- Mobile Menu -->
+	<MobileMenu links={localizedNavigationLinks} />
+</header>
+
+<script>
+	// Header scroll effect
+	const header = document.getElementById('header')
+
+	function updateHeader() {
+		if (!header) return
+
+		const currentScrollY = window.scrollY
+		const isDark = document.documentElement.classList.contains('dark')
+
+		if (currentScrollY > 50) {
+			// Scrolled down - make header solid
+			header.classList.remove('bg-transparent')
+			header.classList.add('backdrop-blur-sm', 'border-b')
+
+			if (isDark) {
+				header.classList.add('bg-gray-900/95', 'border-gray-700/50')
+				header.classList.remove('bg-white/95', 'border-gray-100')
+			} else {
+				header.classList.add('bg-white/95', 'border-gray-100')
+				header.classList.remove('bg-gray-900/95', 'border-gray-700/50')
+			}
+		} else {
+			// At top - make header transparent
+			header.classList.add('bg-transparent')
+			header.classList.remove(
+				'bg-white/95',
+				'bg-gray-900/95',
+				'backdrop-blur-sm',
+				'border-b',
+				'border-gray-100',
+				'border-gray-700/50',
+			)
+		}
+	}
+
+	// Listen for scroll events
+	window.addEventListener('scroll', updateHeader, { passive: true })
+
+	// Listen for theme changes
+	const observer = new MutationObserver(() => {
+		updateHeader()
+	})
+	observer.observe(document.documentElement, {
+		attributes: true,
+		attributeFilter: ['class'],
+	})
+
+	// Listen for custom theme change events
+	window.addEventListener('theme-changed', updateHeader)
+
+	// Initial call
+	updateHeader()
+</script>

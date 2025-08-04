@@ -1,7 +1,7 @@
 import { defineMiddleware, sequence } from 'astro:middleware'
 
-import { ApplicationMetrics } from './lib/metrics'
-import { initI18n } from './lib/i18n-server'
+import { ApplicationMetrics } from './lib/core/metrics'
+import { initI18n } from './lib/i18n/i18n-server'
 
 // Middleware for intelligent URL mapping with locale handling
 const urlMappingMiddleware = defineMiddleware(async (context, next) => {

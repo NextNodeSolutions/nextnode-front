@@ -1,0 +1,38 @@
+---
+import { t } from '@/lib/i18n/i18n-server'
+import GradientCircle from '@/components/common/gradient-circle.astro'
+
+export interface Props {
+	title: string
+	lastUpdated?: string
+}
+
+const { title, lastUpdated } = Astro.props
+---
+
+<section class="relative overflow-hidden">
+	<GradientCircle position="left" size="large" blur="high" opacity="low" />
+
+	<div class="relative mx-auto max-w-5xl px-6 py-16 sm:py-24 lg:px-8">
+		<div class="mb-12 text-center">
+			<h1
+				class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl dark:text-white"
+			>
+				{title}
+			</h1>
+			{
+				lastUpdated && (
+					<p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+						{t('legal.lastUpdated')}: {lastUpdated}
+					</p>
+				)
+			}
+		</div>
+
+		<div
+			class="prose prose-lg prose-headings:font-semibold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-primary-600 prose-a:underline hover:prose-a:text-primary-700 dark:prose-headings:text-white dark:prose-p:text-gray-300 dark:prose-a:text-primary-400 dark:hover:prose-a:text-primary-300 mx-auto max-w-none"
+		>
+			<slot />
+		</div>
+	</div>
+</section>

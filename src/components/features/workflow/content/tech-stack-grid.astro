@@ -1,0 +1,513 @@
+---
+import { t } from '@/lib/i18n/i18n-server'
+
+// Catégories de technologies avec leurs données
+const categories = [
+	{
+		id: 'frontend',
+		title: t('howWeWork.techStack.categories.frontend.title'),
+		description: t('howWeWork.techStack.categories.frontend.description'),
+		icon: '⚡',
+		color: 'blue',
+		technologies: [
+			{
+				name: 'React & Next.js',
+				description: t(
+					'howWeWork.techStack.categories.frontend.technologies.0.description',
+				),
+				icon: '⚛️',
+				level: 95,
+			},
+			{
+				name: 'Astro',
+				description: t(
+					'howWeWork.techStack.categories.frontend.technologies.1.description',
+				),
+				icon: '🚀',
+				level: 90,
+			},
+			{
+				name: 'TypeScript',
+				description: t(
+					'howWeWork.techStack.categories.frontend.technologies.2.description',
+				),
+				icon: '📘',
+				level: 98,
+			},
+			{
+				name: 'Tailwind CSS',
+				description: t(
+					'howWeWork.techStack.categories.frontend.technologies.3.description',
+				),
+				icon: '🎨',
+				level: 92,
+			},
+		],
+	},
+	{
+		id: 'backend',
+		title: t('howWeWork.techStack.categories.backend.title'),
+		description: t('howWeWork.techStack.categories.backend.description'),
+		icon: '🔧',
+		color: 'purple',
+		technologies: [
+			{
+				name: 'Node.js',
+				description: t(
+					'howWeWork.techStack.categories.backend.technologies.0.description',
+				),
+				icon: '🟢',
+				level: 96,
+			},
+			{
+				name: 'PostgreSQL & MongoDB',
+				description: t(
+					'howWeWork.techStack.categories.backend.technologies.1.description',
+				),
+				icon: '🗄️',
+				level: 88,
+			},
+			{
+				name: 'GraphQL & REST APIs',
+				description: t(
+					'howWeWork.techStack.categories.backend.technologies.2.description',
+				),
+				icon: '🔗',
+				level: 94,
+			},
+			{
+				name: 'Redis',
+				description: t(
+					'howWeWork.techStack.categories.backend.technologies.3.description',
+				),
+				icon: '⚡',
+				level: 85,
+			},
+		],
+	},
+	{
+		id: 'deployment',
+		title: t('howWeWork.techStack.categories.deployment.title'),
+		description: t('howWeWork.techStack.categories.deployment.description'),
+		icon: '☁️',
+		color: 'green',
+		technologies: [
+			{
+				name: 'AWS & Vercel',
+				description: t(
+					'howWeWork.techStack.categories.deployment.technologies.0.description',
+				),
+				icon: '☁️',
+				level: 91,
+			},
+			{
+				name: 'Docker',
+				description: t(
+					'howWeWork.techStack.categories.deployment.technologies.1.description',
+				),
+				icon: '🐳',
+				level: 87,
+			},
+			{
+				name: 'GitHub Actions',
+				description: t(
+					'howWeWork.techStack.categories.deployment.technologies.2.description',
+				),
+				icon: '⚙️',
+				level: 93,
+			},
+			{
+				name: 'Monitoring Tools',
+				description: t(
+					'howWeWork.techStack.categories.deployment.technologies.3.description',
+				),
+				icon: '📊',
+				level: 89,
+			},
+		],
+	},
+]
+
+// Couleurs pour chaque catégorie
+const colorClasses = {
+	blue: {
+		bg: 'from-blue-500 to-blue-600',
+		border: 'border-blue-200 dark:border-blue-800',
+		bgLight: 'bg-blue-50 dark:bg-blue-900/20',
+		text: 'text-blue-600 dark:text-blue-400',
+		textDark: 'text-blue-900 dark:text-blue-100',
+	},
+	purple: {
+		bg: 'from-purple-500 to-purple-600',
+		border: 'border-purple-200 dark:border-purple-800',
+		bgLight: 'bg-purple-50 dark:bg-purple-900/20',
+		text: 'text-purple-600 dark:text-purple-400',
+		textDark: 'text-purple-900 dark:text-purple-100',
+	},
+	green: {
+		bg: 'from-green-500 to-green-600',
+		border: 'border-green-200 dark:border-green-800',
+		bgLight: 'bg-green-50 dark:bg-green-900/20',
+		text: 'text-green-600 dark:text-green-400',
+		textDark: 'text-green-900 dark:text-green-100',
+	},
+}
+---
+
+<div class="tech-stack-grid">
+	<!-- Sélecteur de catégories -->
+	<div class="mb-12 flex flex-wrap justify-center gap-4">
+		{
+			categories.map((category, index) => {
+				const colors =
+					colorClasses[category.color as keyof typeof colorClasses]
+				return (
+					<button
+						class={`category-tab rounded-full px-6 py-3 font-semibold transition-all duration-300 ${colors.border} ${colors.bgLight} ${colors.text} hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none ${index === 0 ? 'active' : ''}`}
+						data-category={category.id}
+					>
+						<span class="mr-2 text-lg">{category.icon}</span>
+						{category.title}
+					</button>
+				)
+			})
+		}
+	</div>
+
+	<!-- Contenu des catégories -->
+	<div class="relative min-h-[600px]">
+		{
+			categories.map((category, categoryIndex) => {
+				const colors =
+					colorClasses[category.color as keyof typeof colorClasses]
+				return (
+					<div
+						id={`category-${category.id}`}
+						class={`category-content absolute inset-0 transition-all duration-500 ${categoryIndex === 0 ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'}`}
+					>
+						{/* En-tête de catégorie */}
+						<div class="mb-12 text-center">
+							<div
+								class={`inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${colors.bg} mb-4 text-2xl text-white shadow-lg`}
+							>
+								{category.icon}
+							</div>
+							<h3 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
+								{category.title}
+							</h3>
+							<p class="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
+								{category.description}
+							</p>
+						</div>
+
+						{/* Grille des technologies */}
+						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
+							{category.technologies.map((tech, techIndex) => (
+								<div
+									class={`tech-card group relative overflow-hidden rounded-2xl border ${colors.border} bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-800`}
+									style={`animation-delay: ${techIndex * 100}ms`}
+								>
+									{/* Background pattern */}
+									<div class="absolute top-0 right-0 h-32 w-32 opacity-5">
+										<svg
+											viewBox="0 0 100 100"
+											class="h-full w-full"
+										>
+											<defs>
+												<pattern
+													id={`tech-pattern-${category.id}-${techIndex}`}
+													x="0"
+													y="0"
+													width="10"
+													height="10"
+													patternUnits="userSpaceOnUse"
+												>
+													<circle
+														cx="5"
+														cy="5"
+														r="1"
+														fill="currentColor"
+													/>
+												</pattern>
+											</defs>
+											<rect
+												width="100"
+												height="100"
+												fill={`url(#tech-pattern-${category.id}-${techIndex})`}
+											/>
+										</svg>
+									</div>
+
+									{/* Contenu de la tech card */}
+									<div class="relative z-10">
+										<div class="mb-4 flex items-start justify-between">
+											<div class="flex items-center gap-3">
+												<div
+													class={`h-12 w-12 rounded-xl ${colors.bgLight} flex items-center justify-center text-2xl transition-transform duration-300 group-hover:scale-110`}
+												>
+													{tech.icon}
+												</div>
+												<div>
+													<h4 class="text-lg font-semibold text-gray-900 dark:text-white">
+														{tech.name}
+													</h4>
+													<div
+														class={`text-sm ${colors.text} font-medium`}
+													>
+														{tech.level}%{' '}
+														{t(
+															'howWeWork.techStats.mastery',
+														)}
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<p class="mb-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+											{tech.description}
+										</p>
+
+										{/* Barre de niveau */}
+										<div class="relative">
+											<div class="mb-2 flex items-center justify-between">
+												<span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+													{t(
+														'howWeWork.techStats.expertiseLevel',
+													)}
+												</span>
+												<span
+													class={`text-xs font-bold ${colors.text}`}
+												>
+													{tech.level}%
+												</span>
+											</div>
+											<div class="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+												<div
+													class={`h-2 rounded-full bg-gradient-to-r ${colors.bg} tech-progress transition-all duration-1000 ease-out`}
+													data-progress={tech.level}
+													style="width: 0%"
+												/>
+											</div>
+										</div>
+
+										{/* Hover indicator */}
+										<div
+											class={`absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r ${colors.bg} origin-left scale-x-0 transform transition-transform duration-300 group-hover:scale-x-100`}
+										/>
+									</div>
+								</div>
+							))}
+						</div>
+
+						{/* Stats générales de la catégorie */}
+						<div
+							class={`mt-12 rounded-2xl p-6 ${colors.bgLight} border ${colors.border}`}
+						>
+							<div class="grid grid-cols-1 gap-6 text-center md:grid-cols-3">
+								<div>
+									<div
+										class={`text-3xl font-bold ${colors.text} mb-1`}
+									>
+										{category.technologies.length}
+									</div>
+									<div class="text-sm text-gray-600 dark:text-gray-400">
+										{t(
+											'howWeWork.techStats.masteriedTechnologies',
+										)}
+									</div>
+								</div>
+								<div>
+									<div
+										class={`text-3xl font-bold ${colors.text} mb-1`}
+									>
+										{Math.round(
+											category.technologies.reduce(
+												(acc, tech) => acc + tech.level,
+												0,
+											) / category.technologies.length,
+										)}
+										%
+									</div>
+									<div class="text-sm text-gray-600 dark:text-gray-400">
+										{t('howWeWork.techStats.averageLevel')}
+									</div>
+								</div>
+								<div>
+									<div
+										class={`text-3xl font-bold ${colors.text} mb-1`}
+									>
+										{
+											category.technologies.filter(
+												tech => tech.level >= 90,
+											).length
+										}
+									</div>
+									<div class="text-sm text-gray-600 dark:text-gray-400">
+										{t(
+											'howWeWork.techStats.expertTechnologies',
+										)}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				)
+			})
+		}
+	</div>
+</div>
+
+<style>
+	/* Animation d'entrée pour les tech cards */
+	.tech-card {
+		opacity: 0;
+		transform: translateY(20px);
+		animation: slideInUp 0.6s ease-out forwards;
+	}
+
+	@keyframes slideInUp {
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Styles pour les onglets actifs */
+	.category-tab.active {
+		transform: scale(1.05);
+		box-shadow:
+			0 10px 25px -5px rgba(0, 0, 0, 0.1),
+			0 10px 10px -5px rgba(0, 0, 0, 0.04);
+	}
+
+	/* Animation des barres de progression */
+	.tech-progress {
+		transition: width 1.5s ease-out;
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		.category-tab {
+			font-size: 14px;
+			padding: 0.5rem 1rem;
+		}
+
+		.tech-card {
+			padding: 1rem;
+		}
+	}
+
+	/* Dark mode adjustments */
+	@media (prefers-color-scheme: dark) {
+		.tech-card {
+			border-color: rgba(75, 85, 99, 0.3);
+			background: rgba(31, 41, 55, 0.8);
+			backdrop-filter: blur(10px);
+		}
+	}
+</style>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const categoryTabs = document.querySelectorAll('.category-tab')
+		const categoryContents = document.querySelectorAll('.category-content')
+
+		// Fonction pour animer les barres de progression
+		function animateProgressBars(container: Element) {
+			const progressBars = container.querySelectorAll('.tech-progress')
+			progressBars.forEach((bar, index) => {
+				const progress = bar.getAttribute('data-progress')
+				setTimeout(() => {
+					;(bar as HTMLElement).style.width = `${progress}%`
+				}, index * 200)
+			})
+		}
+
+		// Fonction pour changer de catégorie
+		function switchCategory(targetId: string) {
+			// Masquer toutes les catégories
+			categoryContents.forEach(content => {
+				content.classList.remove('opacity-100', 'translate-y-0')
+				content.classList.add(
+					'opacity-0',
+					'translate-y-8',
+					'pointer-events-none',
+				)
+			})
+
+			// Retirer l'état actif de tous les onglets
+			categoryTabs.forEach(tab => {
+				tab.classList.remove('active')
+			})
+
+			// Afficher la catégorie cible avec un délai
+			setTimeout(() => {
+				const targetContent = document.getElementById(
+					`category-${targetId}`,
+				)
+				const targetTab = document.querySelector(
+					`[data-category="${targetId}"]`,
+				)
+
+				if (targetContent && targetTab) {
+					targetContent.classList.remove(
+						'opacity-0',
+						'translate-y-8',
+						'pointer-events-none',
+					)
+					targetContent.classList.add('opacity-100', 'translate-y-0')
+					targetTab.classList.add('active')
+
+					// Animer les barres de progression après un court délai
+					setTimeout(() => {
+						animateProgressBars(targetContent)
+					}, 300)
+				}
+			}, 200)
+		}
+
+		// Gestionnaires d'événements pour les onglets
+		categoryTabs.forEach(tab => {
+			tab.addEventListener('click', () => {
+				const categoryId = tab.getAttribute('data-category')
+				if (categoryId) {
+					switchCategory(categoryId)
+				}
+			})
+		})
+
+		// Animation initiale des barres de progression pour la première catégorie
+		const firstCategory = document.getElementById('category-frontend')
+		if (firstCategory) {
+			setTimeout(() => {
+				animateProgressBars(firstCategory)
+			}, 500)
+		}
+
+		// Intersection Observer pour animer les cards quand elles entrent dans la vue
+		const observer = new IntersectionObserver(
+			entries => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						const cards =
+							entry.target.querySelectorAll('.tech-card')
+						cards.forEach((card, index) => {
+							setTimeout(() => {
+								card.classList.add('animate-in')
+							}, index * 100)
+						})
+						observer.unobserve(entry.target)
+					}
+				})
+			},
+			{
+				threshold: 0.2,
+			},
+		)
+
+		// Observer toutes les catégories
+		categoryContents.forEach(content => {
+			observer.observe(content)
+		})
+	})
+</script>

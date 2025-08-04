@@ -3,7 +3,7 @@
  * Exposes application metrics in Prometheus format
  */
 
-import { metrics } from '../lib/metrics'
+import { metrics } from '../lib/core/metrics'
 
 import type { APIRoute } from 'astro'
 
