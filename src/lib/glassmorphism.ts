@@ -1,10 +1,10 @@
 import type { GlassmorphicStyle, ModalOverlayStyle } from '@/types/workflow'
 
 /**
- * Génère les styles glassmorphiques de base
- * @param opacity - Opacité du background (par défaut 0.05)
- * @param blur - Intensité du blur (par défaut 20px)
- * @returns Style glassmorphique
+ * Generates basic glassmorphic styles
+ * @param opacity - Background opacity (default 0.05)
+ * @param blur - Blur intensity (default 20px)
+ * @returns Glassmorphic style
  */
 export function createGlassmorphicStyle(
 	opacity = 0.05,
@@ -20,10 +20,10 @@ export function createGlassmorphicStyle(
 }
 
 /**
- * Génère l'overlay coloré avec gradient
- * @param color - Couleur principale (format hex ou rgb)
- * @param opacity - Opacité de la couleur (par défaut 40 pour 40%)
- * @returns Style d'overlay coloré
+ * Generates colored overlay with gradient
+ * @param color - Main color (hex or rgb format)
+ * @param opacity - Color opacity (default 40 for 40%)
+ * @returns Colored overlay style
  */
 export function createColoredOverlay(
 	color: string,
@@ -35,9 +35,9 @@ export function createColoredOverlay(
 }
 
 /**
- * Génère l'overlay blanc pour la lisibilité
- * @param opacity - Opacité de l'overlay blanc (par défaut 0.75)
- * @returns Style d'overlay blanc
+ * Generates white overlay for readability
+ * @param opacity - White overlay opacity (default 0.75)
+ * @returns White overlay style
  */
 export function createReadabilityOverlay(opacity = 0.75): ModalOverlayStyle {
 	return {
@@ -46,10 +46,10 @@ export function createReadabilityOverlay(opacity = 0.75): ModalOverlayStyle {
 }
 
 /**
- * Configuration complète de glassmorphisme pour les modales
- * @param color - Couleur principale
- * @param options - Options de configuration
- * @returns Objet avec tous les styles nécessaires
+ * Complete glassmorphism configuration for modals
+ * @param color - Main color
+ * @param options - Configuration options
+ * @returns Object with all necessary styles
  */
 export function createModalGlassmorphism(
 	color: string,
@@ -79,7 +79,7 @@ export function createModalGlassmorphism(
 }
 
 /**
- * Classes Tailwind pour glassmorphisme standard
+ * Standard glassmorphism Tailwind classes
  */
 export const GLASSMORPHIC_CLASSES = {
 	container:

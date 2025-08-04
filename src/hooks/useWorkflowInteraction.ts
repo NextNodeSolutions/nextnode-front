@@ -5,8 +5,8 @@ import { domUtils } from '@/lib/modal-utils'
 import type { UseWorkflowInteractionReturn } from '@/types/workflow'
 
 /**
- * Hook personnalisé pour gérer les interactions avec les cartes du workflow
- * Gère les event listeners et le nettoyage automatique
+ * Custom hook to handle interactions with workflow cards
+ * Handles event listeners and automatic cleanup
  */
 export function useWorkflowInteraction(
 	onCardClick: (index: number) => void,
@@ -14,20 +14,20 @@ export function useWorkflowInteraction(
 	const cleanupRef = useRef<(() => void) | null>(null)
 
 	/**
-	 * Initialise les event listeners sur les cartes
+	 * Initialize event listeners on cards
 	 */
 	const initializeCardListeners = useCallback(() => {
-		// Nettoie les anciens listeners s'ils existent
+		// Clean up old listeners if they exist
 		if (cleanupRef.current) {
 			cleanupRef.current()
 		}
 
-		// Ajoute les nouveaux listeners
+		// Add new listeners
 		cleanupRef.current = domUtils.addEventListeners(
 			'[data-step-card]',
 			'click',
 			(element, index) => {
-				// Récupère l'index depuis l'attribut data ou utilise l'index de l'élément
+				// Get index from data attribute or use element index
 				const stepIndex = element.getAttribute('data-step-index')
 				const cardIndex = stepIndex ? parseInt(stepIndex, 10) : index
 
@@ -39,7 +39,7 @@ export function useWorkflowInteraction(
 	}, [onCardClick])
 
 	/**
-	 * Nettoie les event listeners
+	 * Clean up event listeners
 	 */
 	const cleanup = useCallback(() => {
 		if (cleanupRef.current) {
@@ -49,7 +49,7 @@ export function useWorkflowInteraction(
 	}, [])
 
 	/**
-	 * Nettoie automatiquement lors du démontage
+	 * Automatically clean up on unmount
 	 */
 	useEffect(() => cleanup, [cleanup])
 

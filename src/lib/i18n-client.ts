@@ -1,44 +1,69 @@
 import { useState, useEffect } from 'react'
 
-type TranslationData = Record<string, unknown>
+import { en } from '../i18n/locales/en'
+import { fr } from '../i18n/locales/fr'
+import { cachedInterpolateString, getCachedNestedValue } from './i18n-cache'
+
+import type {
+	Locale,
+	TranslationDict,
+	TranslationKey,
+	TranslationValue,
+	LocaleGuard,
+} from '../i18n/types'
+
+// Translation store
+const translationStore: Record<Locale, TranslationDict> = {
+	en,
+	fr,
+}
+
+// Type-safe locale validation function
+const isValidLocale: LocaleGuard = (value: unknown): value is Locale =>
+	typeof value === 'string' &&
+	(['en', 'fr'] as const).includes(value as Locale)
+
+// Specialized typed function for getting translation values with cache
+const getTypedNestedValue = <K extends TranslationKey>(
+	obj: TranslationDict,
+	path: K,
+	locale: Locale,
+): TranslationValue<K> => getCachedNestedValue(obj, locale, path)
+
+// Type-safe translation function for client-side
+type ClientTranslationFunction = <K extends TranslationKey>(
+	key: K,
+	params?: Record<string, string | number>,
+) => TranslationValue<K>
 
 // React hook for i18n in client components
 export const useI18n = (): {
-	t: (key: string, params?: Record<string, unknown>) => string
-	language: string
+	t: ClientTranslationFunction
+	language: Locale
 } => {
-	const [language, setLanguage] = useState('en')
-	const [translations, setTranslations] = useState<TranslationData>({})
+	const [language, setLanguage] = useState<Locale>('en')
+	const [translations, setTranslations] = useState<TranslationDict>(en)
 
 	useEffect(() => {
 		// Get current language from various sources
-		const getCurrentLanguage = (): string => {
+		const getCurrentLanguage = (): Locale => {
 			if (typeof window !== 'undefined') {
 				const savedLang = localStorage.getItem('language')
 				const browserLang = navigator.language?.split('-')[0]
-				const supportedLangs = ['en', 'fr']
 
-				if (savedLang && supportedLangs.includes(savedLang)) {
+				if (isValidLocale(savedLang)) {
 					return savedLang
-				} else if (
-					browserLang &&
-					supportedLangs.includes(browserLang)
-				) {
+				} else if (isValidLocale(browserLang)) {
 					return browserLang
 				}
 			}
 			return 'en'
 		}
 
-		const loadTranslations = async (lang: string): Promise<void> => {
-			try {
-				const response = await fetch(`/locales/${lang}/common.json`)
-				if (response.ok) {
-					const data = await response.json()
-					setTranslations(data)
-				}
-			} catch (error) {
-				console.error('Failed to load translations:', error)
+		const loadTranslations = (lang: Locale): void => {
+			const langTranslations = translationStore[lang]
+			if (langTranslations) {
+				setTranslations(langTranslations)
 			}
 		}
 
@@ -60,27 +85,19 @@ export const useI18n = (): {
 			window.removeEventListener('storage', handleLanguageChange)
 	}, [language])
 
-	const t = (key: string, params?: Record<string, unknown>): string => {
-		const keys = key.split('.')
-		let value: unknown = translations
+	const t = <K extends TranslationKey>(
+		key: K,
+		params?: Record<string, string | number>,
+	): TranslationValue<K> => {
+		const result = getTypedNestedValue(translations, key, language)
 
-		for (const k of keys) {
-			if (value && typeof value === 'object' && k in value) {
-				value = (value as TranslationData)[k]
-			} else {
-				return key // Return key if translation not found
-			}
+		// Handle string interpolation if params are provided
+		if (typeof result === 'string' && params) {
+			const interpolated = cachedInterpolateString(result, params)
+			return interpolated as TranslationValue<K>
 		}
 
-		let result = typeof value === 'string' ? value : key
-
-		// Replace parameters in the string
-		if (params) {
-			Object.entries(params).forEach(([paramKey, paramValue]) => {
-				result = result.replace(`{${paramKey}}`, String(paramValue))
-			})
-		}
-
+		// Return the result with proper typing - no need for type assertion since getTypedNestedValue is already typed
 		return result
 	}
 

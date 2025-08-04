@@ -3,7 +3,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 import node from '@astrojs/node'
 import react from '@astrojs/react'
-import astroI18next from 'astro-i18next'
 
 const host = process.env.HOST ?? '0.0.0.0'
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4321
@@ -25,5 +24,10 @@ export default defineConfig({
 	adapter: node({
 		mode: 'standalone',
 	}),
-	integrations: [react(), astroI18next()],
+	integrations: [react()],
+	i18n: {
+		defaultLocale: 'en',
+		locales: ['en', 'fr'],
+		routing: 'manual'
+	},
 })

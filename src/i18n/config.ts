@@ -1,10 +1,12 @@
-import en from '../../public/locales/en/common.json' with { type: 'json' }
-import fr from '../../public/locales/fr/common.json' with { type: 'json' }
+import { en } from './locales/en'
+import { fr } from './locales/fr'
+
+import type { Locale } from './types'
 
 export const translations = {
 	en: { common: en },
 	fr: { common: fr },
 }
 
-export const locales = ['en', 'fr'] as const
-export const defaultLocale = 'en'
+export const locales: readonly Locale[] = ['en', 'fr'] as const
+export const defaultLocale: Locale = 'en'

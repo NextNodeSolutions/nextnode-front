@@ -1,4 +1,4 @@
-// Types pour le workflow
+// Types for the workflow
 export interface StepConfig {
 	icon: string
 	color: string
@@ -26,19 +26,19 @@ export interface Step {
 	icon: string
 }
 
-// Interface pour les étapes détaillées utilisées dans workflow-step.astro
+// Interface for detailed steps used in workflow-step.astro
 export interface DetailedStep {
 	id: string
 	title: string
 	number: string
 	description: string
-	details: string[]
+	details: readonly string[]
 	deliverables: string
 	duration: string
 	icon: string
 }
 
-// Configuration des étapes du workflow
+// Workflow steps configuration
 export const STEP_CONFIG: Record<string, StepConfig> = {
 	discovery: { icon: '🔍', color: '#6366f1' },
 	design: { icon: '🎨', color: '#8b5cf6' },
@@ -48,17 +48,17 @@ export const STEP_CONFIG: Record<string, StepConfig> = {
 	support: { icon: '🛠️', color: '#6b7280' },
 } as const
 
-// Clés des étapes dans l'ordre
+// Step keys in order
 export const STEP_KEYS = Object.keys(
 	STEP_CONFIG,
 ) as (keyof typeof STEP_CONFIG)[]
 
-// Couleurs extraites de la configuration
+// Colors extracted from configuration
 export const STEP_COLORS: string[] = Object.values(STEP_CONFIG).map(
 	(config: StepConfig) => config.color,
 )
 
-// Positions des cards et lignes pour le workflow journey
+// Card and line positions for the workflow journey
 export const WORKFLOW_POSITIONS: Position[] = [
 	{ x: 80, y: 60, cardX: 50, cardY: -30, lineEndX: 80, lineEndY: 30 },
 	{ x: 350, y: 75, cardX: 320, cardY: -15, lineEndX: 350, lineEndY: 45 },
@@ -68,7 +68,7 @@ export const WORKFLOW_POSITIONS: Position[] = [
 	{ x: 880, y: 385, cardX: 850, cardY: 295, lineEndX: 880, lineEndY: 355 },
 ]
 
-// Fonction utilitaire pour générer les stops de gradient
+// Utility function to generate gradient stops
 export const generateGradientStops = (colors: string[]): GradientStop[] =>
 	colors.map((color: string, i: number) => ({
 		offset: `${i * 20}%`,

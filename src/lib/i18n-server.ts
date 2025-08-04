@@ -1,24 +1,44 @@
 import i18next, { changeLanguage, init } from 'i18next'
 
-// Type générique pour les traductions
-type TranslationData = Record<string, unknown>
+import { en } from '../i18n/locales/en'
+import { fr } from '../i18n/locales/fr'
+import { getCachedNestedValue, cachedInterpolateString } from './i18n-cache'
 
-// Chargement des traductions
-const en = await import('../../public/locales/en/common.json')
-const fr = await import('../../public/locales/fr/common.json')
+import type {
+	TranslationDict,
+	Locale,
+	TranslationKey,
+	TranslationValue,
+	LocaleGuard,
+	TypedGetNestedValue,
+} from '../i18n/types'
 
-// Store global des traductions pour accès direct
-const translations: Record<string, TranslationData> = {
-	en: en.default as TranslationData,
-	fr: fr.default as TranslationData,
+// Global store for translations for direct access
+export const translations: Record<Locale, TranslationDict> = {
+	en,
+	fr,
 }
 
-// Variable globale pour stocker la langue courante
-let currentLanguage: string = 'en'
+// Global variable to store the current language - use a getter for external access
+let internalCurrentLanguage: Locale = 'en'
 
-// Détecter la langue depuis la requête Astro
-export const detectLanguage = (request: Request): string => {
-	// Essayer de récupérer depuis les cookies
+export const getCurrentLanguage = (): Locale => internalCurrentLanguage
+const setCurrentLanguage = (lang: Locale): void => {
+	internalCurrentLanguage = lang
+}
+
+// Type-safe locale validation function
+export const isValidLocale: LocaleGuard = (value: unknown): value is Locale =>
+	typeof value === 'string' &&
+	(['en', 'fr'] as const).includes(value as Locale)
+
+// Safe locale conversion with fallback
+export const toSafeLocale = (value: unknown): Locale =>
+	isValidLocale(value) ? value : 'en'
+
+// Detect language from Astro request
+export const detectLanguage = (request: Request): Locale => {
+	// Try to retrieve from cookies
 	const cookieHeader = request.headers.get('cookie')
 	if (cookieHeader) {
 		const cookies = Object.fromEntries(
@@ -29,16 +49,16 @@ export const detectLanguage = (request: Request): string => {
 		)
 
 		const langFromCookie = cookies.language
-		if (langFromCookie && ['en', 'fr'].includes(langFromCookie)) {
+		if (isValidLocale(langFromCookie)) {
 			return langFromCookie
 		}
 	}
 
-	// Sinon utiliser Accept-Language header
+	// Otherwise use Accept-Language header
 	const acceptLanguage = request.headers.get('accept-language')
 	if (acceptLanguage) {
 		const preferredLang = acceptLanguage.split(',')[0]?.split('-')[0]
-		if (preferredLang && ['en', 'fr'].includes(preferredLang)) {
+		if (isValidLocale(preferredLang)) {
 			return preferredLang
 		}
 	}
@@ -46,11 +66,18 @@ export const detectLanguage = (request: Request): string => {
 	return 'en' // fallback
 }
 
-// Initialiser i18next avec la langue détectée - FORCE la réinitialisation
-export const initI18n = async (request: Request): Promise<string> => {
-	const currentLang = detectLanguage(request)
+// Initialize i18next with detected language - FORCE reinitialization
+export const initI18n = async (
+	request: Request,
+	langParam?: string,
+): Promise<Locale> => {
+	// Use language parameter if provided and valid, otherwise detect
+	const currentLang =
+		langParam && isValidLocale(langParam)
+			? langParam
+			: detectLanguage(request)
 
-	// Force la réinitialisation complète d'i18next
+	// Force complete reinitialization of i18next
 	if (i18next.isInitialized) {
 		await changeLanguage(currentLang)
 	} else {
@@ -58,115 +85,60 @@ export const initI18n = async (request: Request): Promise<string> => {
 			lng: currentLang,
 			fallbackLng: 'en',
 			resources: {
-				en: { common: en.default },
-				fr: { common: fr.default },
+				en: { common: en },
+				fr: { common: fr },
 			},
 			defaultNS: 'common',
 			ns: ['common'],
 		})
 	}
 
-	// Mettre à jour la langue globale pour la fonction t()
-	currentLanguage = currentLang
+	// Update global language for the t() function
+	setCurrentLanguage(currentLang)
 
 	return currentLang
 }
 
-// Types pour les traductions spécifiques
-interface StepTranslation {
-	title: string
-	number: string
-	description: string
-	details: string[]
-	deliverables: string
-	duration: string
+// Type-safe helper function to get nested value from object using dot notation
+export function getNestedValue<T>(obj: T, path: string): unknown {
+	return path
+		.split('.')
+		.reduce(
+			(current: unknown, key: string) =>
+				current && typeof current === 'object' && key in current
+					? (current as Record<string, unknown>)[key]
+					: undefined,
+			obj,
+		)
 }
 
-// Fonction de traduction générique qui peut retourner différents types
-function getValue(obj: unknown, keyPath: string[]): unknown {
-	if (!obj || typeof obj !== 'object' || keyPath.length === 0) {
-		return obj
-	}
-
-	const [currentKey, ...remainingKeys] = keyPath
-
-	if (!currentKey) {
-		return undefined
-	}
-
-	// Gérer les indices numériques pour les tableaux
-	if (/^\d+$/.test(currentKey) && Array.isArray(obj)) {
-		const index = parseInt(currentKey, 10)
-		if (index < obj.length) {
-			return getValue(obj[index], remainingKeys)
-		}
-		return undefined
-	}
-
-	// Gérer les objets normaux
-	if (!Array.isArray(obj)) {
-		const typedObj = obj as Record<string, unknown>
-		if (currentKey in typedObj) {
-			return getValue(typedObj[currentKey], remainingKeys)
-		}
-	}
-
-	return undefined
+// Helper to get current translations object
+export function getCurrentTranslations(): TranslationDict {
+	return translations[getCurrentLanguage()]
 }
 
-// Surcharge de la fonction t pour supporter différents types de retour
-export function t(key: string): string
-export function t<T = unknown>(key: string): T
-export function t(key: string): unknown {
-	const langData = translations[currentLanguage as keyof typeof translations]
-	const keys = key.split('.')
-	const result = getValue(langData, keys)
+// Specialized typed function for getting translation values with cache
+export const getTypedNestedValue: TypedGetNestedValue = <
+	K extends TranslationKey,
+>(
+	obj: TranslationDict,
+	path: K,
+): TranslationValue<K> => getCachedNestedValue(obj, getCurrentLanguage(), path)
 
-	// Si c'est une string, la retourner directement
-	if (typeof result === 'string') {
-		return result
+// Type-safe translation function with automatic key validation and return type inference
+export function t<K extends TranslationKey>(
+	key: K,
+	params?: Record<string, string | number>,
+): TranslationValue<K> {
+	const langData = getCurrentTranslations()
+	const result = getTypedNestedValue(langData, key)
+
+	// Handle string interpolation if params are provided
+	if (typeof result === 'string' && params) {
+		const interpolated = cachedInterpolateString(result, params)
+		return interpolated as TranslationValue<K>
 	}
 
-	// Si c'est un array de strings, le joindre
-	if (
-		Array.isArray(result) &&
-		result.every(item => typeof item === 'string')
-	) {
-		return result.join(', ')
-	}
-
-	// Si c'est un objet, le retourner tel quel (pour les cas comme steps.discovery)
-	if (result && typeof result === 'object') {
-		return result
-	}
-
-	// Fallback
-	return key
-}
-
-// Fonction spécifique pour les steps (pour une meilleure sécurité de type)
-export const tStep = (stepKey: string): StepTranslation => {
-	const result = t<StepTranslation>(`howWeWork.steps.${stepKey}`)
-
-	// Validation de type runtime pour s'assurer qu'on a la bonne structure
-	if (
-		result &&
-		typeof result === 'object' &&
-		'title' in result &&
-		'number' in result &&
-		typeof result.title === 'string' &&
-		typeof result.number === 'string'
-	) {
-		return result as StepTranslation
-	}
-
-	// Fallback avec valeurs par défaut
-	return {
-		title: stepKey,
-		number: '00',
-		description: '',
-		details: [],
-		deliverables: '',
-		duration: '',
-	}
+	// Return the result with proper typing - no need for type assertion since getTypedNestedValue is already typed
+	return result
 }

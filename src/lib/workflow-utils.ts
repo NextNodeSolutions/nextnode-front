@@ -1,4 +1,4 @@
-import { tStep } from './i18n-server'
+import { t } from './i18n-server'
 import {
 	STEP_CONFIG,
 	STEP_KEYS,
@@ -7,43 +7,55 @@ import {
 	type StepConfig,
 } from './workflow-constants'
 
-// Fonction utilitaire pour générer les données des étapes avec traductions
+import type { TranslationKey } from '@/i18n/types'
+
+// Utility function to generate step data with translations
 export const generateSteps = (): Step[] =>
-	STEP_KEYS.map((key: string) => {
-		const stepData = tStep(key)
+	STEP_KEYS.map(key => {
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
 		return {
 			key,
-			title: stepData.title,
-			number: stepData.number,
+			title: String(t(`howWeWork.steps.${key}.title` as TranslationKey)),
+			number: String(
+				t(`howWeWork.steps.${key}.number` as TranslationKey),
+			),
 			icon: config.icon,
 		}
 	})
 
-// Fonction utilitaire pour générer les étapes détaillées pour how-we-work.astro
+// Utility function to generate detailed steps for how-we-work.astro
 export const generateDetailedSteps = (): DetailedStep[] =>
-	STEP_KEYS.map((key: string) => {
-		const stepData = tStep(key)
+	STEP_KEYS.map(key => {
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
 		return {
 			id: key,
-			title: stepData.title,
-			number: stepData.number,
-			description: stepData.description,
-			details: stepData.details,
-			deliverables: stepData.deliverables,
-			duration: stepData.duration,
+			title: String(t(`howWeWork.steps.${key}.title` as TranslationKey)),
+			number: String(
+				t(`howWeWork.steps.${key}.number` as TranslationKey),
+			),
+			description: String(
+				t(`howWeWork.steps.${key}.description` as TranslationKey),
+			),
+			details: t(
+				`howWeWork.steps.${key}.details` as TranslationKey,
+			) as readonly string[],
+			deliverables: String(
+				t(`howWeWork.steps.${key}.deliverables` as TranslationKey),
+			),
+			duration: String(
+				t(`howWeWork.steps.${key}.duration` as TranslationKey),
+			),
 			icon: config.icon,
 		}
 	})
 
-// Fonction utilitaire pour obtenir une configuration d'étape par clé
+// Utility function to get step configuration by key
 export const getStepConfig = (key: string): StepConfig => {
 	const config = STEP_CONFIG[key]
 	if (!config) {

@@ -36,7 +36,7 @@ export const StartProjectModal = (): React.ReactElement => {
 							'uppercase group-hover:-translate-x-2',
 						)}
 					>
-						{t('hero.startProjectButton')}
+						{t('home.hero.startProjectButton')}
 					</span>
 					<span
 						className={cn(

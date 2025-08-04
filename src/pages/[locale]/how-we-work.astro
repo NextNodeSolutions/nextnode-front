@@ -7,9 +7,15 @@ import WorkflowJourney from '@/components/how-we-work/workflow-journey.astro'
 import TechStackGrid from '@/components/how-we-work/tech-stack-grid.astro'
 import TechnicalFaq from '@/components/how-we-work/technical-faq.astro'
 import { StartProjectModal } from '@/components/marketing/start-project-modal'
-import { t } from '@/lib/i18n-server'
+import { t, initI18n } from '@/lib/i18n-server'
 import { generateDetailedSteps } from '@/lib/workflow-utils'
 import { generatePageTitle, getCTAFeatures } from '@/lib/page-utils'
+
+// Get language from route parameter
+// For [...locale], the parameter can be undefined (for root path) or an array
+const localeParam = Astro.params.locale
+const locale = Array.isArray(localeParam) ? localeParam[0] : localeParam || 'en'
+await initI18n(Astro.request, locale)
 
 // Données de la page
 const pageTitle = generatePageTitle(
