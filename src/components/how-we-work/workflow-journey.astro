@@ -41,7 +41,7 @@ const MINI_CARD_HEIGHT = 120
 					const color = STEP_COLORS[index]
 
 					return (
-						<g key={index}>
+						<g>
 							{/* Ligne de connexion */}
 							<line
 								x1={position.x}
@@ -89,7 +89,7 @@ const MINI_CARD_HEIGHT = 120
 							<StepCardContainer
 								stepKey={step.id}
 								index={index}
-								variant="mini"
+								variant="compact"
 							/>
 						</div>
 					)

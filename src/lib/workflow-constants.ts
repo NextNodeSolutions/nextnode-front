@@ -90,7 +90,9 @@ export const DESKTOP_WORKFLOW_POSITIONS: Position[] = [
 ]
 
 // Utility function to generate gradient stops
-export const generateGradientStops = (colors: string[]): GradientStop[] =>
+export const generateGradientStops = (
+	colors: readonly string[],
+): GradientStop[] =>
 	colors.map((color: string, i: number) => ({
 		offset: `${i * 20}%`,
 		color,

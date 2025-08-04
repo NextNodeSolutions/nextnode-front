@@ -19,7 +19,7 @@ const detailedSteps = generateDetailedSteps()
 			</div>
 			{
 				detailedSteps.map((step, index) => {
-					const color = STEP_COLORS[index]
+					const color = STEP_COLORS[index] as string
 					const isLast = index === detailedSteps.length - 1
 
 					return (
