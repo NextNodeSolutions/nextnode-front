@@ -1,24 +1,31 @@
 ---
 import {
 	STEP_COLORS,
-	WORKFLOW_POSITIONS,
+	DESKTOP_WORKFLOW_POSITIONS,
 	generateGradientStops,
 	type Step,
 } from '@/lib/workflow-constants'
-import { generateSteps } from '@/lib/workflow-utils'
+import { generateSteps, generateDetailedSteps } from '@/lib/workflow-utils'
 
 import WorkflowGradients from './WorkflowGradients.astro'
 import WorkflowPath from './WorkflowPath.astro'
-import WorkflowStepCard from './WorkflowStepCard.astro'
+import TimelineNode from './TimelineNode.astro'
+import StepCardContainer from './StepCardContainer.astro'
 
 // Données des étapes avec traductions
 const steps: Step[] = generateSteps()
-const positions = WORKFLOW_POSITIONS
+const detailedSteps = generateDetailedSteps()
+const positions = DESKTOP_WORKFLOW_POSITIONS
 const gradientStops = generateGradientStops(STEP_COLORS)
+
+// Taille estimée des StepCard compactes (pour positionnement)
+const COMPACT_CARD_WIDTH = 280
+const COMPACT_CARD_HEIGHT = 160
 ---
 
-<div class="workflow-journey w-full py-8 md:py-12 lg:py-16">
+<div class="workflow-journey relative w-full py-8 md:py-12 lg:py-16">
 	<div class="container mx-auto px-4">
+		<!-- SVG Background avec chemin et lignes -->
 		<svg
 			class="aspect-[2/1] w-full"
 			viewBox="0 -50 1000 500"
@@ -27,8 +34,44 @@ const gradientStops = generateGradientStops(STEP_COLORS)
 		>
 			<WorkflowGradients gradientStops={gradientStops} />
 			<WorkflowPath />
+
+			{/* Lignes de connexion et points sur le chemin */}
 			{
-				steps.map((step: Step, index: number) => {
+				positions.map((position, index) => {
+					const color = STEP_COLORS[index]
+
+					return (
+						<g key={index}>
+							{/* Ligne de connexion */}
+							<line
+								x1={position.x}
+								y1={position.y}
+								x2={position.lineEndX}
+								y2={position.lineEndY}
+								stroke={color}
+								stroke-width="3"
+								opacity="1"
+							/>
+
+							{/* Point sur le chemin */}
+							<circle
+								cx={position.x}
+								cy={position.y}
+								r="6"
+								fill={color}
+								stroke="white"
+								stroke-width="3"
+							/>
+						</g>
+					)
+				})
+			}
+		</svg>
+
+		<!-- StepCards positionnées en HTML au-dessus -->
+		<div class="absolute inset-0">
+			{
+				detailedSteps.map((step, index) => {
 					const position = positions[index]
 					const color = STEP_COLORS[index]
 
@@ -36,17 +79,29 @@ const gradientStops = generateGradientStops(STEP_COLORS)
 						return null
 					}
 
+					// Convertir les positions SVG en pourcentages CSS
+					const leftPercent =
+						((position.cardX - COMPACT_CARD_WIDTH / 2) / 1000) * 100
+					const topPercent =
+						((position.cardY - COMPACT_CARD_HEIGHT / 2 + 50) /
+							500) *
+						100
+
 					return (
-						<WorkflowStepCard
-							step={step}
-							position={position}
-							color={color}
-							index={index}
-						/>
+						<div
+							class="absolute"
+							style={`left: ${leftPercent}%; top: ${topPercent}%; width: ${COMPACT_CARD_WIDTH}px; height: ${COMPACT_CARD_HEIGHT}px;`}
+						>
+							<StepCardContainer
+								stepKey={step.id}
+								index={index}
+								variant="compact"
+							/>
+						</div>
 					)
 				})
 			}
-		</svg>
+		</div>
 	</div>
 </div>
 

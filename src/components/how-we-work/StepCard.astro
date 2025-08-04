@@ -10,9 +10,22 @@ import type { EnglishDict } from '@/i18n/types'
 export interface Props {
 	stepKey: string
 	index: number
+	variant?: 'default' | 'compact'
 }
 
-const { stepKey, index } = Astro.props
+const { stepKey, index, variant = 'default' } = Astro.props
+
+// Variant-specific classes
+const isCompact = variant === 'compact'
+const containerClasses = isCompact
+	? 'transform transition-all duration-500 hover:scale-[1.01]'
+	: 'transform transition-all duration-700 hover:scale-[1.02]'
+const headerHeight = isCompact ? 'h-20' : 'h-32'
+const contentPadding = isCompact ? 'p-4' : 'p-6'
+const titleSize = isCompact ? 'text-lg' : 'text-xl'
+const descriptionSize = isCompact ? 'text-xs' : 'text-sm'
+const iconSize = isCompact ? 'h-12 w-12' : 'h-16 w-16'
+const numberSize = isCompact ? 'h-8 w-8' : 'h-12 w-12'
 
 // Type alias for step data
 type StepData =
@@ -31,9 +44,7 @@ const description = step.description
 const design = getStepDesign(index)
 ---
 
-<div
-	class="group relative transform transition-all duration-700 hover:scale-[1.02]"
->
+<div class={`group relative ${containerClasses}`}>
 	{/* Glow effect */}
 	<div
 		class="{design.gradient} absolute -inset-1 rounded-2xl bg-gradient-to-r opacity-0 blur transition-all duration-500 group-hover:opacity-20"
@@ -46,7 +57,7 @@ const design = getStepDesign(index)
 	>
 		{/* Header section */}
 		<div
-			class="{design.gradient} relative h-32 overflow-hidden bg-gradient-to-br"
+			class={`${design.gradient} relative ${headerHeight} overflow-hidden bg-gradient-to-br`}
 		>
 			{/* Animated background pattern */}
 			<div
@@ -130,12 +141,13 @@ const design = getStepDesign(index)
 
 			{/* Floating elements */}
 			<div
-				class="absolute top-4 right-4 transform transition-transform duration-500 group-hover:rotate-12"
+				class={`absolute ${isCompact ? 'top-2 right-2' : 'top-4 right-4'} transform transition-transform duration-500 group-hover:rotate-12`}
 			>
 				<div
-					class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 shadow-lg ring-1 ring-white/30 backdrop-blur-sm"
+					class={`flex ${numberSize} items-center justify-center rounded-2xl bg-white/20 shadow-lg ring-1 ring-white/30 backdrop-blur-sm`}
 				>
-					<span class="text-2xl font-black text-white drop-shadow-sm"
+					<span
+						class={`${isCompact ? 'text-lg' : 'text-2xl'} font-black text-white drop-shadow-sm`}
 						>{number}</span
 					>
 				</div>
@@ -143,12 +155,13 @@ const design = getStepDesign(index)
 
 			{/* Icon with animation */}
 			<div
-				class="absolute bottom-4 left-4 transform transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6"
+				class={`absolute ${isCompact ? 'bottom-2 left-2' : 'bottom-4 left-4'} transform transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6`}
 			>
 				<div
-					class="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-md"
+					class={`flex ${iconSize} items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-md`}
 				>
-					<span class="text-3xl drop-shadow-lg filter"
+					<span
+						class={`${isCompact ? 'text-xl' : 'text-3xl'} drop-shadow-lg filter`}
 						>{design.icon}</span
 					>
 				</div>
@@ -167,11 +180,13 @@ const design = getStepDesign(index)
 		</div>
 
 		{/* Content section */}
-		<div class="space-y-4 p-6">
+		<div
+			class={`${isCompact ? 'space-y-2' : 'space-y-4'} ${contentPadding}`}
+		>
 			{/* Title */}
 			<div class="space-y-2">
 				<h3
-					class="text-xl leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105 dark:text-white"
+					class={`${titleSize} leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105 dark:text-white`}
 				>
 					{title}
 				</h3>
@@ -195,7 +210,7 @@ const design = getStepDesign(index)
 
 			{/* Description */}
 			<p
-				class="line-clamp-3 text-sm leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200"
+				class={`${isCompact ? 'line-clamp-2' : 'line-clamp-3'} ${descriptionSize} leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200`}
 			>
 				{description}
 			</p>
@@ -237,6 +252,13 @@ const design = getStepDesign(index)
 </div>
 
 <style>
+	.line-clamp-2 {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
 	.line-clamp-3 {
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
