@@ -14,154 +14,70 @@ export interface Props {
 	variant?: 'default' | 'compact' | 'mini'
 }
 
-import { cva } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
 
 const { stepKey, index, variant = 'default' } = Astro.props
 
-// Variant-specific classes using CVA
+// Consolidated variant constants - much cleaner than 9 separate CVAs
+const VARIANTS = {
+	container: {
+		default: 'duration-700 hover:scale-[1.02]',
+		compact: 'duration-500 hover:scale-[1.01]',
+		mini: 'duration-300 hover:scale-[1.005]',
+	},
+	header: {
+		default: 'h-32',
+		compact: 'h-20',
+		mini: 'h-16',
+	},
+	content: {
+		default: 'space-y-4 p-6',
+		compact: 'space-y-2 p-4',
+		mini: 'space-y-1 p-3',
+	},
+	title: {
+		default: 'text-xl',
+		compact: 'text-lg',
+		mini: 'text-base',
+	},
+	description: {
+		default: 'line-clamp-5 text-sm',
+		compact: 'line-clamp-4 text-xs',
+		mini: 'line-clamp-3 text-xs',
+	},
+	icon: {
+		default: 'h-16 w-16',
+		compact: 'h-12 w-12',
+		mini: 'h-8 w-8',
+	},
+	number: {
+		default: 'h-12 w-12',
+		compact: 'h-8 w-8',
+		mini: 'h-6 w-6',
+	},
+	iconText: {
+		default: 'text-3xl',
+		compact: 'text-xl',
+		mini: 'text-lg',
+	},
+	numberText: {
+		default: 'text-2xl',
+		compact: 'text-lg',
+		mini: 'text-sm',
+	},
+	position: {
+		default: 'top-4 right-4',
+		compact: 'top-2 right-2',
+		mini: 'top-1 right-1',
+	},
+	iconPosition: {
+		default: 'bottom-4 left-4',
+		compact: 'bottom-2 left-2',
+		mini: 'bottom-1 left-1',
+	},
+} as const
+
 const showHeader = variant !== 'mini' // Hide header in mini mode
-
-const containerVariants = cva(
-	'group relative transform transition-all cursor-pointer',
-	{
-		variants: {
-			variant: {
-				default: 'duration-700 hover:scale-[1.02]',
-				compact: 'duration-500 hover:scale-[1.01]',
-				mini: 'duration-300 hover:scale-[1.005]',
-			},
-		},
-		defaultVariants: { variant: 'default' },
-	},
-)
-
-const headerVariants = cva('relative overflow-hidden bg-gradient-to-br', {
-	variants: {
-		variant: {
-			default: 'h-32',
-			compact: 'h-20',
-			mini: 'h-16',
-		},
-	},
-	defaultVariants: { variant: 'default' },
-})
-
-const contentVariants = cva('', {
-	variants: {
-		variant: {
-			default: 'space-y-4 p-6',
-			compact: 'space-y-2 p-4',
-			mini: 'space-y-1 p-3',
-		},
-	},
-	defaultVariants: { variant: 'default' },
-})
-
-const titleVariants = cva(
-	'leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105 dark:text-white',
-	{
-		variants: {
-			variant: {
-				default: 'text-xl',
-				compact: 'text-lg',
-				mini: 'text-base',
-			},
-		},
-		defaultVariants: { variant: 'default' },
-	},
-)
-
-const descriptionVariants = cva(
-	'leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200',
-	{
-		variants: {
-			variant: {
-				default: 'line-clamp-5 text-sm',
-				compact: 'line-clamp-4 text-xs',
-				mini: 'line-clamp-3 text-xs',
-			},
-		},
-		defaultVariants: { variant: 'default' },
-	},
-)
-
-const iconVariants = cva(
-	'flex items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-md',
-	{
-		variants: {
-			variant: {
-				default: 'h-16 w-16',
-				compact: 'h-12 w-12',
-				mini: 'h-8 w-8',
-			},
-		},
-		defaultVariants: { variant: 'default' },
-	},
-)
-
-const numberVariants = cva(
-	'flex items-center justify-center rounded-2xl bg-white/20 shadow-lg ring-1 ring-white/30 backdrop-blur-sm',
-	{
-		variants: {
-			variant: {
-				default: 'h-12 w-12',
-				compact: 'h-8 w-8',
-				mini: 'h-6 w-6',
-			},
-		},
-		defaultVariants: { variant: 'default' },
-	},
-)
-
-const iconTextVariants = cva('drop-shadow-lg filter', {
-	variants: {
-		variant: {
-			default: 'text-3xl',
-			compact: 'text-xl',
-			mini: 'text-lg',
-		},
-	},
-	defaultVariants: { variant: 'default' },
-})
-
-const numberTextVariants = cva('font-black text-white drop-shadow-sm', {
-	variants: {
-		variant: {
-			default: 'text-2xl',
-			compact: 'text-lg',
-			mini: 'text-sm',
-		},
-	},
-	defaultVariants: { variant: 'default' },
-})
-
-const positionVariants = cva(
-	'absolute transform transition-transform duration-500 group-hover:rotate-12',
-	{
-		variants: {
-			variant: {
-				default: 'top-4 right-4',
-				compact: 'top-2 right-2',
-				mini: 'top-1 right-1',
-			},
-		},
-		defaultVariants: { variant: 'default' },
-	},
-)
-
-const iconPositionVariants = cva(
-	'absolute transform transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6',
-	{
-		variants: {
-			variant: {
-				default: 'bottom-4 left-4',
-				compact: 'bottom-2 left-2',
-				mini: 'bottom-1 left-1',
-			},
-		},
-		defaultVariants: { variant: 'default' },
-	},
-)
 
 // Type alias for step data
 type StepData =
@@ -180,7 +96,12 @@ const description = step.description
 const design = getStepDesign(index)
 ---
 
-<div class={containerVariants({ variant })}>
+<div
+	class={cn(
+		'group relative transform transition-all cursor-pointer',
+		VARIANTS.container[variant],
+	)}
+>
 	{/* Glow effect */}
 	<div
 		class="{design.gradient} absolute -inset-1 rounded-2xl bg-gradient-to-r opacity-0 blur transition-all duration-500 group-hover:opacity-20"
@@ -195,7 +116,11 @@ const design = getStepDesign(index)
 		{
 			showHeader && (
 				<div
-					class={`${design.gradient} ${headerVariants({ variant })}`}
+					class={cn(
+						design.gradient,
+						'relative overflow-hidden bg-gradient-to-br',
+						VARIANTS.header[variant],
+					)}
 				>
 					{/* Animated background pattern */}
 					<div class="absolute inset-0 opacity-10 transition-opacity duration-500 group-hover:opacity-20">
@@ -271,18 +196,48 @@ const design = getStepDesign(index)
 					</div>
 
 					{/* Floating elements */}
-					<div class={positionVariants({ variant })}>
-						<div class={numberVariants({ variant })}>
-							<span class={numberTextVariants({ variant })}>
+					<div
+						class={cn(
+							'absolute transform transition-transform duration-500 group-hover:rotate-12',
+							VARIANTS.position[variant],
+						)}
+					>
+						<div
+							class={cn(
+								'flex items-center justify-center rounded-2xl bg-white/20 shadow-lg ring-1 ring-white/30 backdrop-blur-sm',
+								VARIANTS.number[variant],
+							)}
+						>
+							<span
+								class={cn(
+									'font-black text-white drop-shadow-sm',
+									VARIANTS.numberText[variant],
+								)}
+							>
 								{number}
 							</span>
 						</div>
 					</div>
 
 					{/* Icon with animation */}
-					<div class={iconPositionVariants({ variant })}>
-						<div class={iconVariants({ variant })}>
-							<span class={iconTextVariants({ variant })}>
+					<div
+						class={cn(
+							'absolute transform transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6',
+							VARIANTS.iconPosition[variant],
+						)}
+					>
+						<div
+							class={cn(
+								'flex items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-md',
+								VARIANTS.icon[variant],
+							)}
+						>
+							<span
+								class={cn(
+									'drop-shadow-lg filter',
+									VARIANTS.iconText[variant],
+								)}
+							>
 								{design.icon}
 							</span>
 						</div>
@@ -299,10 +254,15 @@ const design = getStepDesign(index)
 		}
 
 		{/* Content section */}
-		<div class={contentVariants({ variant })}>
+		<div class={cn(VARIANTS.content[variant])}>
 			{/* Title */}
 			<div class="space-y-2">
-				<h3 class={titleVariants({ variant })}>
+				<h3
+					class={cn(
+						'leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105 dark:text-white',
+						VARIANTS.title[variant],
+					)}
+				>
 					{title}
 				</h3>
 
@@ -324,7 +284,12 @@ const design = getStepDesign(index)
 			</div>
 
 			{/* Description */}
-			<p class={descriptionVariants({ variant })}>
+			<p
+				class={cn(
+					'leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200',
+					VARIANTS.description[variant],
+				)}
+			>
 				{description}
 			</p>
 
