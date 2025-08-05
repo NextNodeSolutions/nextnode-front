@@ -11,73 +11,73 @@ import type { EnglishDict } from '@/i18n/types'
 export interface Props {
 	stepKey: string
 	index: number
-	variant?: 'default' | 'compact' | 'mini'
+	variant?: 'mobile' | 'compact' | 'mini'
 }
 
 import { cn } from '@/lib/core/utils'
 
-const { stepKey, index, variant = 'default' } = Astro.props
+const { stepKey, index, variant = 'mobile' } = Astro.props
 
 // Consolidated variant constants - much cleaner than 9 separate CVAs
 const VARIANTS = {
 	container: {
-		default: 'duration-700 hover:scale-[1.02]',
+		mobile: 'duration-700 hover:scale-[1.02]',
 		compact: 'duration-300 hover:scale-[1.005]',
 		mini: 'duration-200 hover:scale-[1.002]',
 	},
 	header: {
-		default: 'h-32',
+		mobile: 'h-32',
 		compact: 'h-16',
 		mini: 'h-12',
 	},
 	content: {
-		default: 'space-y-4 p-6',
+		mobile: 'space-y-4 p-6',
 		compact: 'space-y-1 p-3',
 		mini: 'p-2',
 	},
 	title: {
-		default: 'text-xl',
+		mobile: 'text-xl',
 		compact: 'text-base',
 		mini: 'text-sm',
 	},
 	description: {
-		default: 'line-clamp-5 text-sm',
+		mobile: 'line-clamp-5 text-sm',
 		compact: 'line-clamp-3 text-xs',
 		mini: 'hidden',
 	},
 	icon: {
-		default: 'h-16 w-16',
+		mobile: 'h-16 w-16',
 		compact: 'h-8 w-8',
 		mini: 'h-6 w-6',
 	},
 	number: {
-		default: 'h-12 w-12',
+		mobile: 'h-12 w-12',
 		compact: 'h-6 w-6',
 		mini: 'h-5 w-5',
 	},
 	iconText: {
-		default: 'text-3xl',
+		mobile: 'text-3xl',
 		compact: 'text-lg',
 		mini: 'text-base',
 	},
 	numberText: {
-		default: 'text-2xl',
+		mobile: 'text-2xl',
 		compact: 'text-sm',
 		mini: 'text-xs',
 	},
 	position: {
-		default: 'top-4 right-4',
+		mobile: 'top-4 right-4',
 		compact: 'top-1 right-1',
 		mini: 'top-1 right-1',
 	},
 	iconPosition: {
-		default: 'bottom-4 left-4',
+		mobile: 'bottom-4 left-4',
 		compact: 'bottom-1 left-1',
 		mini: 'bottom-1 left-1',
 	},
 } as const
 
-const showHeader = variant === 'default' // Only show header in default mode
+const showHeader = variant === 'mobile' // Show header in mobile mode only
 const showDescription = variant !== 'mini' // Hide description in mini mode
 const showStepLabel = variant !== 'mini' // Hide step label in mini mode
 

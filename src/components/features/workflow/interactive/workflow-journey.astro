@@ -3,15 +3,16 @@ import {
 	STEP_COLORS,
 	DESKTOP_WORKFLOW_POSITIONS,
 	generateGradientStops,
+	type Position,
 } from '../workflow-constants'
 import { generateDetailedSteps } from '../workflow-utils'
 
 import WorkflowGradients from '../visual/WorkflowGradients.astro'
 import WorkflowPath from '../visual/WorkflowPath.astro'
-import StepCardContainer from '../cards/StepCardContainer.astro'
+import StepCard from '../cards/StepCard.astro'
 
 export interface Props {
-	variant?: 'default' | 'compact' | 'mini'
+	variant?: 'mini' | 'compact' | 'large'
 }
 
 const { variant = 'mini' } = Astro.props
@@ -25,86 +26,194 @@ const gradientStops = generateGradientStops(STEP_COLORS)
 const VIEWBOX_WIDTH = 1000
 const VIEWBOX_HEIGHT = 500
 
-// Card dimensions in viewBox units
+// Card dimensions in viewBox units - aligned with actual Tailwind CSS dimensions
+// Based on Tailwind spacing system: h-12=48px, h-16=64px, h-32=128px + content padding
 const CARD_DIMENSIONS = {
-	compact: { width: 220, height: 120 },
-	mini: { width: 180, height: 100 },
+	compact: { width: 200, height: 215 }, // h-16 (64px) + content (48px) + padding
+	mini: { width: 190, height: 155 }, // h-12 (48px) + content (24px) + padding
+	large: { width: 190, height: 180 }, // h-20 (80px) + content (60px) + padding for xl screens
 }
 
 const cardWidth = CARD_DIMENSIONS[variant].width
 const cardHeight = CARD_DIMENSIONS[variant].height
+
+// Map workflow-journey variants to StepCard variants
+// Since StepCard only has 'mobile', 'mini', and 'compact', we map 'large' to 'compact'
+const stepCardVariant = variant === 'large' ? 'compact' : variant
+
+// Fonction pour calculer la position correcte du rectangle
+// basée sur la direction de la ligne et les dimensions du rectangle
+function calculateRectanglePosition(
+	position: Position,
+	width: number,
+	height: number,
+) {
+	const { x, y, lineEndX, lineEndY } = position
+
+	// Calculer la direction de la ligne
+	const deltaX = lineEndX - x
+	const deltaY = lineEndY - y
+
+	// Déterminer quelle direction est dominante
+	if (Math.abs(deltaX) > Math.abs(deltaY)) {
+		// Mouvement horizontal dominant
+		if (deltaX > 0) {
+			// Ligne va vers la droite → rectangle à droite, ligne touche le bord gauche
+			return {
+				x: lineEndX,
+				y: lineEndY - height / 2,
+			}
+		} else {
+			// Ligne va vers la gauche → rectangle à gauche, ligne touche le bord droit
+			return {
+				x: lineEndX - width,
+				y: lineEndY - height / 2,
+			}
+		}
+	} else {
+		// Mouvement vertical dominant
+		if (deltaY > 0) {
+			// Ligne va vers le bas → rectangle en bas, ligne touche le bord haut
+			return {
+				x: lineEndX - width / 2,
+				y: lineEndY,
+			}
+		} else {
+			// Ligne va vers le haut → rectangle en haut, ligne touche le bord bas
+			return {
+				x: lineEndX - width / 2,
+				y: lineEndY - height,
+			}
+		}
+	}
+}
 ---
 
 <div class="workflow-journey relative w-full py-8 md:py-12 lg:py-16">
 	<div class="container mx-auto px-4">
-		<!-- SVG Background avec chemin et lignes -->
-		<svg
-			class="aspect-[2/1] w-full"
-			viewBox="0 -50 1000 500"
-			style="overflow: visible;"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<WorkflowGradients gradientStops={gradientStops} />
-			<WorkflowPath />
+		<!-- Conteneur relatif pour la superposition -->
+		<div class="relative aspect-[2/1] w-full">
+			<!-- SVG Background avec chemin et lignes -->
+			<svg
+				class="absolute inset-0 h-full w-full"
+				viewBox="0 -50 1000 500"
+				style="overflow: visible; pointer-events: none;"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<WorkflowGradients gradientStops={gradientStops} />
+				<WorkflowPath />
 
-			{/* Lignes de connexion, points et cards - tout dans le SVG */}
-			{
-				positions.map((position, index) => {
-					const color = STEP_COLORS[index]
-					const step = detailedSteps[index]
+				{/* Lignes de connexion, points et cards - tout dans le SVG */}
+				{
+					positions.map((position, index) => {
+						const color = STEP_COLORS[index]
+						const step = detailedSteps[index]
 
-					if (!step || !color) {
-						return null
-					}
+						if (!step || !color) {
+							return null
+						}
 
-					return (
-						<g>
-							{/* Ligne de connexion */}
-							<line
-								x1={position.x}
-								y1={position.y}
-								x2={position.lineEndX}
-								y2={position.lineEndY}
-								stroke={color}
-								stroke-width="3"
-								opacity="0"
-								class="workflow-line"
-								style={`animation-delay: ${index * 150}ms`}
-							/>
+						// Calculer la position correcte du rectangle
+						const rectPos = calculateRectanglePosition(
+							position,
+							cardWidth,
+							cardHeight,
+						)
 
-							{/* Point sur le chemin */}
-							<circle
-								cx={position.x}
-								cy={position.y}
-								r="6"
-								fill={color}
-								stroke="white"
-								stroke-width="3"
-								opacity="0"
-								class="workflow-point"
-								style={`animation-delay: ${index * 150}ms`}
-							/>
-
-							{/* Card dans le SVG - scale automatiquement avec viewBox */}
-							<foreignObject
-								x={position.cardX}
-								y={position.cardY}
-								width={cardWidth}
-								height={cardHeight}
-								class="svg-card"
-								style={`animation-delay: ${index * 150}ms`}
-							>
-								<StepCardContainer
-									stepKey={step.id}
-									index={index}
-									variant={variant}
+						return (
+							<g>
+								{/* Ligne de connexion */}
+								<line
+									x1={position.x}
+									y1={position.y}
+									x2={position.lineEndX}
+									y2={position.lineEndY}
+									stroke={color}
+									stroke-width="3"
+									opacity="0"
+									class="workflow-line"
+									style={`animation-delay: ${index * 150}ms`}
 								/>
-							</foreignObject>
-						</g>
-					)
-				})
-			}
-		</svg>
+
+								{/* Point sur le chemin */}
+								<circle
+									cx={position.x}
+									cy={position.y}
+									r="6"
+									fill={color}
+									stroke="white"
+									stroke-width="3"
+									opacity="0"
+									class="workflow-point"
+									style={`animation-delay: ${index * 150}ms`}
+								/>
+
+								{/* Rectangle temporaire pour visualiser la position */}
+								<rect
+									x={rectPos.x}
+									y={rectPos.y}
+									width={cardWidth}
+									height={cardHeight}
+									fill="red"
+									fill-opacity="0.2"
+									stroke="red"
+									stroke-width="2"
+									rx="8"
+									ry="8"
+								/>
+							</g>
+						)
+					})
+				}
+			</svg>
+
+			{/* Conteneur HTML pour les StepCards */}
+			<div class="absolute inset-0">
+				{
+					positions.map((position, index) => {
+						const step = detailedSteps[index]
+						if (!step) return null
+
+						// Calculer la position du rectangle
+						const rectPos = calculateRectanglePosition(
+							position,
+							cardWidth,
+							cardHeight,
+						)
+
+						// Convertir les coordonnées SVG en pourcentages
+						// ViewBox est de "0 -50 1000 500" - hauteur totale de 550 unités (500 + 50 offset)
+						const leftPercent = (rectPos.x / VIEWBOX_WIDTH) * 100
+						const topPercent =
+							((rectPos.y + 50) / VIEWBOX_HEIGHT) * 100
+						const widthPercent = (cardWidth / VIEWBOX_WIDTH) * 100
+						const heightPercent =
+							(cardHeight / VIEWBOX_HEIGHT) * 100
+
+						return (
+							<div
+								class="workflow-card absolute overflow-hidden"
+								style={`
+									left: ${leftPercent}%;
+									top: ${topPercent}%;
+									width: ${widthPercent}%;
+									height: ${heightPercent}%;
+									animation-delay: ${index * 150}ms;
+								`}
+							>
+								<div class="step-card-wrapper h-full w-full">
+									<StepCard
+										stepKey={step.id}
+										index={index}
+										variant={stepCardVariant}
+									/>
+								</div>
+							</div>
+						)
+					})
+				}
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -149,6 +258,69 @@ const cardHeight = CARD_DIMENSIONS[variant].height
 		animation: fadeInPoint 0.8s ease-out forwards;
 	}
 
+	.workflow-rectangle {
+		animation: fadeInRectangle 0.8s ease-out forwards;
+	}
+
+	.workflow-card {
+		opacity: 0;
+		animation: fadeInCard 0.8s ease-out forwards;
+		pointer-events: auto;
+	}
+
+	/* Force StepCard to fit in container */
+	.step-card-wrapper {
+		display: flex;
+		align-items: stretch;
+		justify-content: stretch;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+	}
+
+	.step-card-wrapper > * {
+		width: 100% !important;
+		height: 100% !important;
+		max-width: none !important;
+		max-height: none !important;
+		min-width: 100% !important;
+		min-height: 100% !important;
+		flex-shrink: 0;
+		box-sizing: border-box;
+		transform: scale(1);
+	}
+
+	/* Override StepCard's internal styles to fill container */
+	.workflow-card :global(.group) {
+		width: 100% !important;
+		height: 100% !important;
+		max-width: none !important;
+		max-height: none !important;
+		min-width: 100% !important;
+		min-height: 100% !important;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Force the main card div to fill the group */
+	.workflow-card :global(.group > div) {
+		width: 100% !important;
+		height: 100% !important;
+		flex: 1;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Force content sections to distribute space properly */
+	.workflow-card :global(.group > div > div:last-child) {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
 	@keyframes fadeInLine {
 		from {
 			opacity: 0;
@@ -173,12 +345,39 @@ const cardHeight = CARD_DIMENSIONS[variant].height
 		}
 	}
 
+	@keyframes fadeInRectangle {
+		from {
+			opacity: 0;
+			transform: scale(0.8);
+		}
+		to {
+			opacity: 0.8;
+			transform: scale(1);
+		}
+	}
+
+	@keyframes fadeInCard {
+		from {
+			opacity: 0;
+			transform: scale(0.9);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
 	/* Accessibility - respect reduced motion preference */
 	@media (prefers-reduced-motion: reduce) {
 		.workflow-line,
-		.workflow-point {
+		.workflow-point,
+		.workflow-rectangle,
+		.workflow-card {
 			animation: none;
 			opacity: 1;
+		}
+		.workflow-rectangle {
+			opacity: 0.8;
 		}
 	}
 

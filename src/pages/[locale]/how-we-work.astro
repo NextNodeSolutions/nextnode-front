@@ -76,9 +76,14 @@ const simpleSteps = generateSteps()
 						<WorkflowJourney variant="mini" />
 					</div>
 
-					<!-- Large screens (lg and up) use compact variant -->
-					<div class="hidden lg:block">
+					<!-- Large screens (lg to xl) use compact variant -->
+					<div class="hidden lg:block xl:hidden">
 						<WorkflowJourney variant="compact" />
+					</div>
+
+					<!-- Extra large screens (xl and up) use large variant -->
+					<div class="hidden xl:block">
+						<WorkflowJourney variant="large" />
 					</div>
 
 					<!-- Mobile Timeline Version (sm and down) -->

@@ -5,10 +5,10 @@ interface Props {
 	stepKey: string
 	index: number
 	className?: string
-	variant?: 'default' | 'compact' | 'mini'
+	variant?: 'mobile' | 'compact' | 'mini'
 }
 
-const { stepKey, index, className = '', variant = 'default' } = Astro.props
+const { stepKey, index, className = '', variant = 'mobile' } = Astro.props
 ---
 
 <div
