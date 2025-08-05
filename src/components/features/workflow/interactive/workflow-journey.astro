@@ -10,14 +10,29 @@ import WorkflowGradients from '../visual/WorkflowGradients.astro'
 import WorkflowPath from '../visual/WorkflowPath.astro'
 import StepCardContainer from '../cards/StepCardContainer.astro'
 
+export interface Props {
+	variant?: 'default' | 'compact' | 'mini'
+}
+
+const { variant = 'mini' } = Astro.props
+
 // Données des étapes avec traductions
 const detailedSteps = generateDetailedSteps()
 const positions = DESKTOP_WORKFLOW_POSITIONS
 const gradientStops = generateGradientStops(STEP_COLORS)
 
-// Taille estimée des StepCard mini (pour positionnement)
-const MINI_CARD_WIDTH = 220
-const MINI_CARD_HEIGHT = 120
+// ViewBox dimensions - same as the working old version
+const VIEWBOX_WIDTH = 1000
+const VIEWBOX_HEIGHT = 500
+
+// Card dimensions in viewBox units
+const CARD_DIMENSIONS = {
+	compact: { width: 220, height: 120 },
+	mini: { width: 180, height: 100 },
+}
+
+const cardWidth = CARD_DIMENSIONS[variant].width
+const cardHeight = CARD_DIMENSIONS[variant].height
 ---
 
 <div class="workflow-journey relative w-full py-8 md:py-12 lg:py-16">
@@ -74,15 +89,15 @@ const MINI_CARD_HEIGHT = 120
 							<foreignObject
 								x={position.cardX}
 								y={position.cardY}
-								width={MINI_CARD_WIDTH}
-								height={MINI_CARD_HEIGHT}
+								width={cardWidth}
+								height={cardHeight}
 								class="svg-card"
 								style={`animation-delay: ${index * 150}ms`}
 							>
 								<StepCardContainer
 									stepKey={step.id}
 									index={index}
-									variant="mini"
+									variant={variant}
 								/>
 							</foreignObject>
 						</g>

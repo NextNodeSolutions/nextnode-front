@@ -71,8 +71,14 @@ const simpleSteps = generateSteps()
 				<!-- Workflow Journey - Responsive Switch -->
 				<div class="mx-auto max-w-7xl">
 					<!-- Desktop/Tablet SVG Version (md and up) -->
-					<div class="hidden md:block">
-						<WorkflowJourney steps={steps} />
+					<!-- Medium screens (md to lg) use mini variant -->
+					<div class="hidden md:block lg:hidden">
+						<WorkflowJourney variant="mini" />
+					</div>
+
+					<!-- Large screens (lg and up) use compact variant -->
+					<div class="hidden lg:block">
+						<WorkflowJourney variant="compact" />
 					</div>
 
 					<!-- Mobile Timeline Version (sm and down) -->

@@ -22,62 +22,64 @@ const { stepKey, index, variant = 'default' } = Astro.props
 const VARIANTS = {
 	container: {
 		default: 'duration-700 hover:scale-[1.02]',
-		compact: 'duration-500 hover:scale-[1.01]',
-		mini: 'duration-300 hover:scale-[1.005]',
+		compact: 'duration-300 hover:scale-[1.005]',
+		mini: 'duration-200 hover:scale-[1.002]',
 	},
 	header: {
 		default: 'h-32',
-		compact: 'h-20',
-		mini: 'h-16',
+		compact: 'h-16',
+		mini: 'h-12',
 	},
 	content: {
 		default: 'space-y-4 p-6',
-		compact: 'space-y-2 p-4',
-		mini: 'space-y-1 p-3',
+		compact: 'space-y-1 p-3',
+		mini: 'p-2',
 	},
 	title: {
 		default: 'text-xl',
-		compact: 'text-lg',
-		mini: 'text-base',
+		compact: 'text-base',
+		mini: 'text-sm',
 	},
 	description: {
 		default: 'line-clamp-5 text-sm',
-		compact: 'line-clamp-4 text-xs',
-		mini: 'line-clamp-3 text-xs',
+		compact: 'line-clamp-3 text-xs',
+		mini: 'hidden',
 	},
 	icon: {
 		default: 'h-16 w-16',
-		compact: 'h-12 w-12',
-		mini: 'h-8 w-8',
-	},
-	number: {
-		default: 'h-12 w-12',
 		compact: 'h-8 w-8',
 		mini: 'h-6 w-6',
 	},
+	number: {
+		default: 'h-12 w-12',
+		compact: 'h-6 w-6',
+		mini: 'h-5 w-5',
+	},
 	iconText: {
 		default: 'text-3xl',
-		compact: 'text-xl',
-		mini: 'text-lg',
+		compact: 'text-lg',
+		mini: 'text-base',
 	},
 	numberText: {
 		default: 'text-2xl',
-		compact: 'text-lg',
-		mini: 'text-sm',
+		compact: 'text-sm',
+		mini: 'text-xs',
 	},
 	position: {
 		default: 'top-4 right-4',
-		compact: 'top-2 right-2',
+		compact: 'top-1 right-1',
 		mini: 'top-1 right-1',
 	},
 	iconPosition: {
 		default: 'bottom-4 left-4',
-		compact: 'bottom-2 left-2',
+		compact: 'bottom-1 left-1',
 		mini: 'bottom-1 left-1',
 	},
 } as const
 
-const showHeader = variant !== 'mini' // Hide header in mini mode
+const showHeader = variant === 'default' // Only show header in default mode
+const showDescription = variant !== 'mini' // Hide description in mini mode
+const showStepLabel = variant !== 'mini' // Hide step label in mini mode
 
 // Type alias for step data
 type StepData =
@@ -267,11 +269,16 @@ const design = getStepDesign(index)
 				</h3>
 
 				{/* Progress indicator */}
-				<div class="flex items-center space-x-1 py-2">
+				<div
+					class={cn(
+						'flex items-center space-x-1',
+						variant === 'mini' ? 'py-1' : 'py-2',
+					)}
+				>
 					{
 						Array.from({ length: 6 }, (_, i) => (
 							<div
-								class={`h-1 flex-1 rounded-full transition-all duration-700 ${
+								class={`${variant === 'mini' ? 'h-0.5' : 'h-1'} flex-1 rounded-full transition-all duration-700 ${
 									i <= index
 										? `bg-gradient-to-r ${design.gradient} shadow-sm`
 										: 'bg-gray-200 dark:bg-gray-700'
@@ -284,26 +291,32 @@ const design = getStepDesign(index)
 			</div>
 
 			{/* Description */}
-			<p
-				class={cn(
-					'leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200',
-					VARIANTS.description[variant],
-				)}
-			>
-				{description}
-			</p>
+			{
+				showDescription && (
+					<p
+						class={cn(
+							'leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200',
+							VARIANTS.description[variant],
+						)}
+					>
+						{description}
+					</p>
+				)
+			}
 
 			{/* Bottom accent */}
 			<div class="pt-2">
 				{/* Étape X */}
-				<div class="mb-1">
-					<span
-						class="text-xs font-medium tracking-wider whitespace-nowrap text-gray-500 uppercase dark:text-gray-400"
-					>
-						{t('stepCard.step')}
-						{number}
-					</span>
-				</div>
+				{
+					showStepLabel && (
+						<div class="mb-1">
+							<span class="text-xs font-medium tracking-wider whitespace-nowrap text-gray-500 uppercase dark:text-gray-400">
+								{t('stepCard.step')}
+								{number}
+							</span>
+						</div>
+					)
+				}
 
 				{/* Click to see more - aligné à gauche avec couleur */}
 				<div class="flex items-center">
