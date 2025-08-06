@@ -147,20 +147,6 @@ function calculateRectanglePosition(
 									class="workflow-point"
 									style={`animation-delay: ${index * 150}ms`}
 								/>
-
-								{/* Rectangle temporaire pour visualiser la position */}
-								<rect
-									x={rectPos.x}
-									y={rectPos.y}
-									width={cardWidth}
-									height={cardHeight}
-									fill="red"
-									fill-opacity="0.2"
-									stroke="red"
-									stroke-width="2"
-									rx="8"
-									ry="8"
-								/>
 							</g>
 						)
 					})
@@ -192,7 +178,7 @@ function calculateRectanglePosition(
 
 						return (
 							<div
-								class="workflow-card absolute overflow-hidden"
+								class="workflow-card absolute"
 								style={`
 									left: ${leftPercent}%;
 									top: ${topPercent}%;
