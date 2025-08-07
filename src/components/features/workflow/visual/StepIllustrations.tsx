@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { cn } from '@/lib/core/utils'
+
 interface StepIllustrationProps {
 	stepKey: string
 }
@@ -79,14 +81,20 @@ export default function StepIllustration({
 							>
 								<div className="flex items-center gap-4">
 									<div
-										className={`h-6 w-6 rounded-full shadow-sm ${item.dotClass}`}
+										className={cn(
+											'h-6 w-6 rounded-full shadow-sm',
+											item.dotClass,
+										)}
 									/>
 									<span className="text-lg font-semibold text-gray-700 dark:text-gray-300">
 										{item.name}
 									</span>
 								</div>
 								<div
-									className={`mx-6 h-4 flex-1 rounded-full shadow-sm ${item.gradientClass}`}
+									className={cn(
+										'mx-6 h-4 flex-1 rounded-full shadow-sm',
+										item.gradientClass,
+									)}
 								/>
 								<span className="text-lg font-bold text-gray-600 dark:text-gray-400">
 									{item.progress}%
@@ -103,10 +111,16 @@ export default function StepIllustration({
 							DEVICE_STYLES[i] ? (
 								<div
 									key={device}
-									className={`flex aspect-square items-center justify-center rounded-2xl p-6 shadow-lg ${DEVICE_STYLES[i].bg}`}
+									className={cn(
+										'flex aspect-square items-center justify-center rounded-2xl p-6 shadow-lg',
+										DEVICE_STYLES[i].bg,
+									)}
 								>
 									<span
-										className={`text-lg font-bold ${DEVICE_STYLES[i].text}`}
+										className={cn(
+											'text-lg font-bold',
+											DEVICE_STYLES[i].text,
+										)}
 									>
 										{device}
 									</span>
@@ -125,7 +139,10 @@ export default function StepIllustration({
 								className="rounded-xl bg-gray-100 p-6 shadow-lg dark:bg-gray-700"
 							>
 								<div
-									className={`font-mono text-lg font-bold ${item.textClass}`}
+									className={cn(
+										'font-mono text-lg font-bold',
+										item.textClass,
+									)}
 								>
 									{item.label}
 								</div>
@@ -143,22 +160,24 @@ export default function StepIllustration({
 						{[...Array(9)].map((_, i) => (
 							<div
 								key={i}
-								className={`aspect-square rounded-xl shadow-lg ${
+								className={cn(
+									'flex aspect-square items-center justify-center rounded-xl p-2 shadow-lg',
 									i < 7
 										? 'bg-green-200 dark:bg-green-800'
 										: i < 8
 											? 'bg-yellow-200 dark:bg-yellow-800'
-											: 'bg-red-200 dark:bg-red-800'
-								} flex items-center justify-center p-2`}
+											: 'bg-red-200 dark:bg-red-800',
+								)}
 							>
 								<div
-									className={`h-5 w-5 rounded-full shadow-sm ${
+									className={cn(
+										'h-5 w-5 rounded-full shadow-sm',
 										i < 7
 											? 'bg-green-500'
 											: i < 8
 												? 'bg-yellow-500'
-												: 'bg-red-500'
-									}`}
+												: 'bg-red-500',
+									)}
 								/>
 							</div>
 						))}

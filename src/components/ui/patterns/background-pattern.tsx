@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { cn } from '@/lib/core/utils'
+
 interface BackgroundPatternProps {
 	className?: string
 	opacity?: number
@@ -84,7 +86,10 @@ export default function BackgroundPattern({
 
 	return (
 		<svg
-			className={`pointer-events-none absolute inset-0 h-full w-full ${className}`}
+			className={cn(
+				'pointer-events-none absolute inset-0 h-full w-full',
+				className,
+			)}
 			aria-hidden="true"
 		>
 			<defs>{renderPattern()}</defs>

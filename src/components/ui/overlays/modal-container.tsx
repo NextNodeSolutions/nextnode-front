@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/overlays/dialog'
 import { createModalGlassmorphism } from '@/lib/ui/glassmorphism'
 import { DEFAULT_MODAL_CONFIG } from '@/lib/ui/modal-utils'
+import { cn } from '@/lib/core/utils'
 
 import GlassmorphicOverlay from './glassmorphic-overlay'
 
@@ -44,7 +45,10 @@ export default function ModalContainer({
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
 			<DialogContent
-				className={`max-h-[85vh] overflow-y-auto border-0 p-0 ${className}`}
+				className={cn(
+					'max-h-[85vh] overflow-y-auto border-0 p-0',
+					className,
+				)}
 				style={
 					{
 						...glassmorphism.container,

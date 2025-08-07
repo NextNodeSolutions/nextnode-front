@@ -4,6 +4,7 @@ import {
 	createColoredOverlay,
 	createReadabilityOverlay,
 } from '@/lib/ui/glassmorphism'
+import { cn } from '@/lib/core/utils'
 
 interface GlassmorphicOverlayProps {
 	color: string
@@ -28,7 +29,7 @@ export default function GlassmorphicOverlay({
 	const readabilityOverlayStyle = createReadabilityOverlay(readabilityOpacity)
 
 	return (
-		<div className={`relative ${className}`}>
+		<div className={cn('relative', className)}>
 			{/* Overlay coloré pour l'effet */}
 			<div
 				className="pointer-events-none absolute inset-0 -z-50 rounded-3xl"
