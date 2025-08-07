@@ -2,6 +2,7 @@
 import { t } from '@/lib/i18n/i18n-server'
 import { STEP_KEYS } from '../workflow-constants'
 import StepCard from '../cards/StepCard.astro'
+import { AnimatedGrid } from '@/components/ui/animation/AnimatedList'
 
 const featuresResult = t('howWeWork.cta.features')
 const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
@@ -69,21 +70,19 @@ const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 			</p>
 		</div>
 
-		<div
-			class="mx-auto grid max-w-7xl grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
+		<AnimatedGrid
+			cols={{ default: 1, md: 2, lg: 3 }}
+			gap={8}
+			staggerDelay={150}
+			className="mx-auto max-w-7xl lg:gap-10"
+			client:load
 		>
 			{
 				STEP_KEYS.map((stepKey, index) => (
-					<div
-						class="animate-in slide-in-from-bottom-8 fade-in-0 fill-mode-forwards opacity-0 duration-700"
-						style={`animation-delay: ${index * 150}ms; animation-fill-mode: forwards;`}
-						data-aos-delay={index * 150}
-					>
-						<StepCard stepKey={stepKey} index={index} />
-					</div>
+					<StepCard stepKey={stepKey} index={index} />
 				))
 			}
-		</div>
+		</AnimatedGrid>
 
 		<div class="mt-20 space-y-8 text-center">
 			<div class="mx-auto max-w-3xl space-y-4">
