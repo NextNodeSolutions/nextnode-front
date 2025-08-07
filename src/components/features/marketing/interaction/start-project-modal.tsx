@@ -34,8 +34,7 @@ export const StartProjectModal = ({
 				variant="default"
 				onClick={handleOpen}
 				className={cn(
-					'group w-full cursor-pointer px-4 py-6 transition-all duration-300',
-					'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700',
+					'btn-gradient-primary group w-full cursor-pointer px-4 py-6',
 					'transform shadow-lg hover:scale-[1.05] hover:shadow-2xl',
 					'text-base font-bold tracking-wide text-white',
 					'sm:px-6 sm:py-6 sm:text-lg',
@@ -161,7 +160,7 @@ export const StartProjectModal = ({
 						</div>
 						<Button
 							type="submit"
-							className="w-full bg-gradient-to-r from-blue-600 to-purple-600 font-semibold text-white transition-all duration-300 hover:from-blue-700 hover:to-purple-700 hover:shadow-lg"
+							className="btn-gradient-primary w-full font-semibold text-white hover:shadow-lg"
 						>
 							{t('modal.form.submit')}
 						</Button>
