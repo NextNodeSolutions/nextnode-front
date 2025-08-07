@@ -1,0 +1,57 @@
+---
+import { AnimatedList } from '@/components/ui/animation/AnimatedList'
+import { getFAQQuestions, getFAQCategories } from './faq/data'
+import FAQCategoryFilter from './faq/FAQCategoryFilter.astro'
+import FAQItem from './faq/FAQItem.astro'
+import FAQInteractions from './faq/FAQInteractions'
+
+const faqQuestions = getFAQQuestions()
+const categories = getFAQCategories()
+---
+
+<div class="technical-faq">
+	<!-- Category Filters -->
+	<FAQCategoryFilter categories={categories} />
+
+	<!-- FAQ List -->
+	<AnimatedList className="space-y-4" staggerDelay={100} client:load>
+		{faqQuestions.map(faq => <FAQItem faq={faq} />)}
+	</AnimatedList>
+
+	<!-- Client-side interactions -->
+	<FAQInteractions client:load />
+</div>
+
+<style>
+	/* FAQ Animation styles */
+	.technical-faq .faq-item {
+		opacity: 1;
+		transform: translateY(0);
+		transition: all 0.3s ease-out;
+	}
+
+	.technical-faq .faq-content {
+		transition:
+			max-height 0.5s ease-out,
+			padding 0.3s ease-out;
+	}
+
+	.technical-faq .faq-header:focus {
+		outline: none;
+	}
+
+	.technical-faq .faq-filter.active {
+		transform: scale(1.05);
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>
