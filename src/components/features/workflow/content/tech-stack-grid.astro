@@ -1,157 +1,14 @@
 ---
 import { t } from '@/lib/i18n/i18n-server'
+import { TECH_CATEGORIES, getTechColorClasses } from '@/data/tech-stack'
+import TechCard from '@/components/ui/cards/TechCard.astro'
 
-// Technology categories with their data
-const categories = [
-	{
-		id: 'frontend',
-		title: t('howWeWork.techStack.categories.frontend.title'),
-		description: t('howWeWork.techStack.categories.frontend.description'),
-		icon: '⚡',
-		color: 'blue',
-		technologies: [
-			{
-				name: 'React & Next.js',
-				description: t(
-					'howWeWork.techStack.categories.frontend.technologies.0.description',
-				),
-				icon: '⚛️',
-				level: 95,
-			},
-			{
-				name: 'Astro',
-				description: t(
-					'howWeWork.techStack.categories.frontend.technologies.1.description',
-				),
-				icon: '🚀',
-				level: 90,
-			},
-			{
-				name: 'TypeScript',
-				description: t(
-					'howWeWork.techStack.categories.frontend.technologies.2.description',
-				),
-				icon: '📘',
-				level: 98,
-			},
-			{
-				name: 'Tailwind CSS',
-				description: t(
-					'howWeWork.techStack.categories.frontend.technologies.3.description',
-				),
-				icon: '🎨',
-				level: 92,
-			},
-		],
-	},
-	{
-		id: 'backend',
-		title: t('howWeWork.techStack.categories.backend.title'),
-		description: t('howWeWork.techStack.categories.backend.description'),
-		icon: '🔧',
-		color: 'purple',
-		technologies: [
-			{
-				name: 'Node.js',
-				description: t(
-					'howWeWork.techStack.categories.backend.technologies.0.description',
-				),
-				icon: '🟢',
-				level: 96,
-			},
-			{
-				name: 'PostgreSQL & MongoDB',
-				description: t(
-					'howWeWork.techStack.categories.backend.technologies.1.description',
-				),
-				icon: '🗄️',
-				level: 88,
-			},
-			{
-				name: 'GraphQL & REST APIs',
-				description: t(
-					'howWeWork.techStack.categories.backend.technologies.2.description',
-				),
-				icon: '🔗',
-				level: 94,
-			},
-			{
-				name: 'Redis',
-				description: t(
-					'howWeWork.techStack.categories.backend.technologies.3.description',
-				),
-				icon: '⚡',
-				level: 85,
-			},
-		],
-	},
-	{
-		id: 'deployment',
-		title: t('howWeWork.techStack.categories.deployment.title'),
-		description: t('howWeWork.techStack.categories.deployment.description'),
-		icon: '☁️',
-		color: 'green',
-		technologies: [
-			{
-				name: 'AWS & Vercel',
-				description: t(
-					'howWeWork.techStack.categories.deployment.technologies.0.description',
-				),
-				icon: '☁️',
-				level: 91,
-			},
-			{
-				name: 'Docker',
-				description: t(
-					'howWeWork.techStack.categories.deployment.technologies.1.description',
-				),
-				icon: '🐳',
-				level: 87,
-			},
-			{
-				name: 'GitHub Actions',
-				description: t(
-					'howWeWork.techStack.categories.deployment.technologies.2.description',
-				),
-				icon: '⚙️',
-				level: 93,
-			},
-			{
-				name: 'Monitoring Tools',
-				description: t(
-					'howWeWork.techStack.categories.deployment.technologies.3.description',
-				),
-				icon: '📊',
-				level: 89,
-			},
-		],
-	},
-]
-
-// Colors for each category
-const colorClasses = {
-	blue: {
-		bg: 'from-blue-500 to-blue-600',
-		border: 'border-blue-200 dark:border-blue-800',
-		bgLight: 'bg-blue-50 dark:bg-blue-900/20',
-		text: 'text-blue-600 dark:text-blue-400',
-		textDark: 'text-blue-900 dark:text-blue-100',
-	},
-	purple: {
-		bg: 'from-purple-500 to-purple-600',
-		border: 'border-purple-200 dark:border-purple-800',
-		bgLight: 'bg-purple-50 dark:bg-purple-900/20',
-		text: 'text-purple-600 dark:text-purple-400',
-		textDark: 'text-purple-900 dark:text-purple-100',
-	},
-	green: {
-		bg: 'from-green-500 to-green-600',
-		border: 'border-green-200 dark:border-green-800',
-		bgLight: 'bg-green-50 dark:bg-green-900/20',
-		text: 'text-green-600 dark:text-green-400',
-		textDark: 'text-green-900 dark:text-green-100',
-	},
-}
+// Generate categories with translated titles and descriptions
+const categories = TECH_CATEGORIES.map(category => ({
+	...category,
+	title: t(category.titleKey),
+	description: t(category.descriptionKey),
+}))
 ---
 
 <div class="tech-stack-grid">
@@ -159,8 +16,7 @@ const colorClasses = {
 	<div class="mb-12 flex flex-wrap justify-center gap-4">
 		{
 			categories.map((category, index) => {
-				const colors =
-					colorClasses[category.color as keyof typeof colorClasses]
+				const colors = getTechColorClasses(category.color)
 				return (
 					<button
 						class={`category-tab rounded-full px-6 py-3 font-semibold transition-all duration-300 ${colors.border} ${colors.bgLight} ${colors.text} hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none ${index === 0 ? 'active' : ''}`}
@@ -178,8 +34,7 @@ const colorClasses = {
 	<div class="relative min-h-[600px]">
 		{
 			categories.map((category, categoryIndex) => {
-				const colors =
-					colorClasses[category.color as keyof typeof colorClasses]
+				const colors = getTechColorClasses(category.color)
 				return (
 					<div
 						id={`category-${category.id}`}
@@ -203,99 +58,11 @@ const colorClasses = {
 						{/* Technology grid */}
 						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
 							{category.technologies.map((tech, techIndex) => (
-								<div
-									class={`tech-card group relative overflow-hidden rounded-2xl border ${colors.border} bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-800`}
-									style={`animation-delay: ${techIndex * 100}ms`}
-								>
-									{/* Background pattern */}
-									<div class="absolute top-0 right-0 h-32 w-32 opacity-5">
-										<svg
-											viewBox="0 0 100 100"
-											class="h-full w-full"
-										>
-											<defs>
-												<pattern
-													id={`tech-pattern-${category.id}-${techIndex}`}
-													x="0"
-													y="0"
-													width="10"
-													height="10"
-													patternUnits="userSpaceOnUse"
-												>
-													<circle
-														cx="5"
-														cy="5"
-														r="1"
-														fill="currentColor"
-													/>
-												</pattern>
-											</defs>
-											<rect
-												width="100"
-												height="100"
-												fill={`url(#tech-pattern-${category.id}-${techIndex})`}
-											/>
-										</svg>
-									</div>
-
-									{/* Tech card content */}
-									<div class="relative z-10">
-										<div class="mb-4 flex items-start justify-between">
-											<div class="flex items-center gap-3">
-												<div
-													class={`h-12 w-12 rounded-xl ${colors.bgLight} flex items-center justify-center text-2xl transition-transform duration-300 group-hover:scale-110`}
-												>
-													{tech.icon}
-												</div>
-												<div>
-													<h4 class="text-lg font-semibold text-gray-900 dark:text-white">
-														{tech.name}
-													</h4>
-													<div
-														class={`text-sm ${colors.text} font-medium`}
-													>
-														{tech.level}%{' '}
-														{t(
-															'howWeWork.techStats.mastery',
-														)}
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<p class="mb-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-											{tech.description}
-										</p>
-
-										{/* Skill level bar */}
-										<div class="relative">
-											<div class="mb-2 flex items-center justify-between">
-												<span class="text-xs font-medium text-gray-500 dark:text-gray-400">
-													{t(
-														'howWeWork.techStats.expertiseLevel',
-													)}
-												</span>
-												<span
-													class={`text-xs font-bold ${colors.text}`}
-												>
-													{tech.level}%
-												</span>
-											</div>
-											<div class="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
-												<div
-													class={`h-2 rounded-full bg-gradient-to-r ${colors.bg} tech-progress transition-all duration-1000 ease-out`}
-													data-progress={tech.level}
-													style="width: 0%"
-												/>
-											</div>
-										</div>
-
-										{/* Hover indicator */}
-										<div
-											class={`absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r ${colors.bg} origin-left scale-x-0 transform transition-transform duration-300 group-hover:scale-x-100`}
-										/>
-									</div>
-								</div>
+								<TechCard
+									technology={tech}
+									category={category}
+									animationIndex={techIndex}
+								/>
 							))}
 						</div>
 
@@ -358,20 +125,6 @@ const colorClasses = {
 </div>
 
 <style>
-	/* Entry animation for tech cards */
-	.tech-card {
-		opacity: 0;
-		transform: translateY(20px);
-		animation: slideInUp 0.6s ease-out forwards;
-	}
-
-	@keyframes slideInUp {
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
 	/* Styles for active tabs */
 	.category-tab.active {
 		transform: scale(1.05);
@@ -391,19 +144,6 @@ const colorClasses = {
 		.category-tab {
 			font-size: 14px;
 			padding: 0.5rem 1rem;
-		}
-
-		.tech-card {
-			padding: 1rem;
-		}
-	}
-
-	/* Dark mode adjustments */
-	@media (prefers-color-scheme: dark) {
-		.tech-card {
-			border-color: rgba(75, 85, 99, 0.3);
-			background: rgba(31, 41, 55, 0.8);
-			backdrop-filter: blur(10px);
 		}
 	}
 </style>
