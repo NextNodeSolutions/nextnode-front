@@ -4,18 +4,18 @@ import type {
 	TranslationValue,
 } from '@/i18n/types'
 
-// Cache pour les chemins de traduction déjà résolus
+// Cache for already resolved translation paths
 const translationCache = new Map<string, unknown>()
 
-// Cache pour les regex d'interpolation compilées
+// Cache for compiled interpolation regex patterns
 const regexCache = new Map<string, RegExp>()
 
-// Helper pour créer une clé de cache unique
+// Helper to create a unique cache key
 function createCacheKey(locale: string, path: TranslationKey): string {
 	return `${locale}.${path}`
 }
 
-// Fonction optimisée pour récupérer une valeur nested avec cache
+// Optimized function to retrieve nested value with cache
 export function getCachedNestedValue<K extends TranslationKey>(
 	obj: TranslationDict,
 	locale: string,
@@ -23,12 +23,12 @@ export function getCachedNestedValue<K extends TranslationKey>(
 ): TranslationValue<K> {
 	const cacheKey = createCacheKey(locale, path)
 
-	// Vérifier le cache d'abord
+	// Check cache first
 	if (translationCache.has(cacheKey)) {
 		return translationCache.get(cacheKey) as TranslationValue<K>
 	}
 
-	// Si pas en cache, calculer la valeur
+	// If not in cache, calculate the value
 	const result = path
 		.split('.')
 		.reduce(
@@ -39,19 +39,19 @@ export function getCachedNestedValue<K extends TranslationKey>(
 			obj,
 		) as TranslationValue<K>
 
-	// Mettre en cache pour la prochaine fois
+	// Cache for next time
 	translationCache.set(cacheKey, result)
 
 	return result
 }
 
-// Fonction optimisée pour l'interpolation de chaînes avec cache de regex
+// Optimized function for string interpolation with regex cache
 export function cachedInterpolateString(
 	str: string,
 	params: Record<string, string | number>,
 ): string {
 	return Object.entries(params).reduce((result, [paramKey, value]) => {
-		// Utiliser le cache de regex ou créer et cacher une nouvelle regex
+		// Use regex cache or create and cache new regex
 		let regex = regexCache.get(paramKey)
 		if (!regex) {
 			regex = new RegExp(`{{${paramKey}}}`, 'g')
@@ -62,12 +62,12 @@ export function cachedInterpolateString(
 	}, str)
 }
 
-// Fonction pour vider le cache (utile pour les tests ou changements de langue)
+// Function to clear cache (useful for tests or language changes)
 export function clearTranslationCache(): void {
 	translationCache.clear()
 }
 
-// Fonction pour obtenir les stats du cache (pour debugging)
+// Function to get cache stats (for debugging)
 export function getCacheStats(): {
 	translationCacheSize: number
 	regexCacheSize: number

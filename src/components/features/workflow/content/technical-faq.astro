@@ -1,7 +1,7 @@
 ---
 import { t } from '@/lib/i18n/i18n-server'
 
-// Questions FAQ à partir des traductions
+// FAQ questions from translations
 const faqQuestions = [
 	{
 		id: 'performance',
@@ -47,7 +47,7 @@ const faqQuestions = [
 	},
 ]
 
-// Catégories pour le filtrage
+// Categories for filtering
 const categories = [
 	{ id: 'all', name: t('howWeWork.faqCategories.all'), icon: '📋' },
 	{
@@ -103,13 +103,13 @@ const categories = [
 						aria-expanded="false"
 					>
 						<div class="flex items-start gap-4">
-							{/* Icône de catégorie */}
+							{/* Category icon */}
 							<div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-100 to-purple-100 text-lg dark:from-blue-900/30 dark:to-purple-900/30">
 								{faq.icon}
 							</div>
 
 							<div class="flex-1">
-								{/* Badge de catégorie */}
+								{/* Category badge */}
 								<div class="mb-2 inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
 									{faq.category}
 								</div>
@@ -121,7 +121,7 @@ const categories = [
 							</div>
 						</div>
 
-						{/* Icône d'expansion */}
+						{/* Expansion icon */}
 						<div class="ml-4 flex-shrink-0">
 							<svg
 								class="faq-chevron h-5 w-5 transform text-gray-500 transition-transform duration-200 dark:text-gray-400"
@@ -139,7 +139,7 @@ const categories = [
 						</div>
 					</button>
 
-					{/* Réponse (contenu collapsible) */}
+					{/* Answer (collapsible content) */}
 					<div
 						class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out"
 						data-faq-content={faq.id}
@@ -147,11 +147,11 @@ const categories = [
 						<div class="px-6 pb-6">
 							<div class="pl-14">
 								{' '}
-								{/* Offset pour aligner avec le contenu de la question */}
+								{/* Offset to align with question content */}
 								<div class="prose prose-sm max-w-none leading-relaxed text-gray-600 dark:text-gray-300">
 									<p>{faq.answer}</p>
 								</div>
-								{/* Tags techniques extraits de la réponse */}
+								{/* Technical tags extracted from answer */}
 								<div class="mt-4 flex flex-wrap gap-2">
 									{faq.id === 'performance' && (
 										<>
@@ -225,7 +225,7 @@ const categories = [
 		}
 	</div>
 
-	<!-- Call-to-action en bas -->
+	<!-- Call-to-action at bottom -->
 	<div
 		class="mt-12 rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50 p-8 text-center dark:border-blue-800 dark:from-blue-900/20 dark:to-purple-900/20"
 	>
@@ -259,7 +259,7 @@ const categories = [
 </div>
 
 <style>
-	/* Animation d'entrée pour les items FAQ */
+	/* Entry animation for FAQ items */
 	.faq-item {
 		animation: fadeInUp 0.6s ease-out forwards;
 	}
@@ -271,12 +271,12 @@ const categories = [
 		}
 	}
 
-	/* Rotation de l'icône chevron */
+	/* Chevron icon rotation */
 	.faq-header[aria-expanded='true'] .faq-chevron {
 		transform: rotate(180deg);
 	}
 
-	/* Styles pour les filtres actifs */
+	/* Styles for active filters */
 	.faq-filter.active {
 		background: linear-gradient(135deg, #3b82f6, #8b5cf6);
 		color: white;
@@ -289,14 +289,14 @@ const categories = [
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	}
 
-	/* Animation smooth pour le contenu */
+	/* Smooth animation for content */
 	.faq-content {
 		transition:
 			max-height 0.3s ease-in-out,
 			padding 0.3s ease-in-out;
 	}
 
-	/* Effet de brillance au hover */
+	/* Shine effect on hover */
 	.faq-item:hover {
 		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
 		transform: translateY(-2px);
@@ -325,7 +325,7 @@ const categories = [
 		const faqItems = document.querySelectorAll('.faq-item')
 		const faqHeaders = document.querySelectorAll('.faq-header')
 
-		// Fonction pour filtrer les FAQ par catégorie
+		// Function to filter FAQs by category
 		function filterFAQs(category: string) {
 			faqItems.forEach((item, index) => {
 				const itemCategory = item.getAttribute('data-category')
@@ -333,7 +333,7 @@ const categories = [
 					category === 'all' || itemCategory === category
 
 				if (shouldShow) {
-					// Réinitialiser l'animation
+					// Reset animation
 					;(item as HTMLElement).style.animationDelay =
 						`${index * 100}ms`
 					item.classList.remove(
@@ -348,7 +348,7 @@ const categories = [
 			})
 		}
 
-		// Fonction pour basculer l'état d'une FAQ
+		// Function to toggle FAQ state
 		function toggleFAQ(faqId: string) {
 			const header = document.querySelector(
 				`[data-faq="${faqId}"]`,
@@ -361,7 +361,7 @@ const categories = [
 
 			const isExpanded = header.getAttribute('aria-expanded') === 'true'
 
-			// Fermer toutes les autres FAQs (comportement accordéon)
+			// Close all other FAQs (accordion behavior)
 			faqHeaders.forEach(otherHeader => {
 				if (otherHeader !== header) {
 					const otherId = otherHeader.getAttribute('data-faq')
@@ -376,7 +376,7 @@ const categories = [
 				}
 			})
 
-			// Basculer l'état de la FAQ courante
+			// Toggle current FAQ state
 			if (isExpanded) {
 				header.setAttribute('aria-expanded', 'false')
 				content.style.maxHeight = '0px'
@@ -384,7 +384,7 @@ const categories = [
 				header.setAttribute('aria-expanded', 'true')
 				content.style.maxHeight = content.scrollHeight + 'px'
 
-				// Scroll smooth vers la question
+				// Smooth scroll to question
 				setTimeout(() => {
 					header.scrollIntoView({
 						behavior: 'smooth',
@@ -394,10 +394,10 @@ const categories = [
 			}
 		}
 
-		// Gestionnaires d'événements pour les filtres
+		// Event handlers for filters
 		filterButtons.forEach(button => {
 			button.addEventListener('click', () => {
-				// Retirer l'état actif de tous les boutons
+				// Remove active state from all buttons
 				filterButtons.forEach(btn => {
 					btn.classList.remove(
 						'active',
@@ -413,7 +413,7 @@ const categories = [
 					)
 				})
 
-				// Activer le bouton cliqué
+				// Activate clicked button
 				button.classList.add(
 					'active',
 					'bg-blue-500',
@@ -427,7 +427,7 @@ const categories = [
 					'dark:text-gray-300',
 				)
 
-				// Filtrer les FAQs
+				// Filter FAQs
 				const category = button.getAttribute('data-category')
 				if (category) {
 					filterFAQs(category)
@@ -435,7 +435,7 @@ const categories = [
 			})
 		})
 
-		// Gestionnaires d'événements pour les headers FAQ
+		// Event handlers for FAQ headers
 		faqHeaders.forEach(header => {
 			header.addEventListener('click', () => {
 				const faqId = header.getAttribute('data-faq')
@@ -445,7 +445,7 @@ const categories = [
 			})
 		})
 
-		// Animation initiale
+		// Initial animation
 		setTimeout(() => {
 			faqItems.forEach(item => {
 				item.classList.add('opacity-100', 'translate-y-0')
@@ -453,7 +453,7 @@ const categories = [
 			})
 		}, 200)
 
-		// Gestion du redimensionnement pour les contenus ouverts
+		// Handle resizing for open content
 		window.addEventListener('resize', () => {
 			faqHeaders.forEach(header => {
 				if (header.getAttribute('aria-expanded') === 'true') {

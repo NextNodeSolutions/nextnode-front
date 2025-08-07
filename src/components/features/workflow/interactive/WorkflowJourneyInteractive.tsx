@@ -16,12 +16,12 @@ export default function WorkflowJourneyInteractive({
 		useWorkflowInteraction(openModal)
 
 	useEffect(() => {
-		// Initialise les event listeners après que le DOM soit prêt
+		// Initialize event listeners after DOM is ready
 		const timer = setTimeout(() => {
 			initializeCardListeners()
 		}, 100)
 
-		// Nettoie à la fois le timer et les listeners
+		// Clean up both timer and listeners
 		return (): void => {
 			clearTimeout(timer)
 			cleanup()
@@ -30,7 +30,7 @@ export default function WorkflowJourneyInteractive({
 
 	return (
 		<>
-			{/* Modales */}
+			{/* Modals */}
 			{steps.map((step, index) => {
 				const detailedStep = detailedSteps[index]
 				const color = colors[index]

@@ -1,7 +1,7 @@
 ---
 import { t } from '@/lib/i18n/i18n-server'
 
-// Catégories de technologies avec leurs données
+// Technology categories with their data
 const categories = [
 	{
 		id: 'frontend',
@@ -128,7 +128,7 @@ const categories = [
 	},
 ]
 
-// Couleurs pour chaque catégorie
+// Colors for each category
 const colorClasses = {
 	blue: {
 		bg: 'from-blue-500 to-blue-600',
@@ -155,7 +155,7 @@ const colorClasses = {
 ---
 
 <div class="tech-stack-grid">
-	<!-- Sélecteur de catégories -->
+	<!-- Category selector -->
 	<div class="mb-12 flex flex-wrap justify-center gap-4">
 		{
 			categories.map((category, index) => {
@@ -174,7 +174,7 @@ const colorClasses = {
 		}
 	</div>
 
-	<!-- Contenu des catégories -->
+	<!-- Category content -->
 	<div class="relative min-h-[600px]">
 		{
 			categories.map((category, categoryIndex) => {
@@ -185,7 +185,7 @@ const colorClasses = {
 						id={`category-${category.id}`}
 						class={`category-content absolute inset-0 transition-all duration-500 ${categoryIndex === 0 ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'}`}
 					>
-						{/* En-tête de catégorie */}
+						{/* Category header */}
 						<div class="mb-12 text-center">
 							<div
 								class={`inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${colors.bg} mb-4 text-2xl text-white shadow-lg`}
@@ -200,7 +200,7 @@ const colorClasses = {
 							</p>
 						</div>
 
-						{/* Grille des technologies */}
+						{/* Technology grid */}
 						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
 							{category.technologies.map((tech, techIndex) => (
 								<div
@@ -238,7 +238,7 @@ const colorClasses = {
 										</svg>
 									</div>
 
-									{/* Contenu de la tech card */}
+									{/* Tech card content */}
 									<div class="relative z-10">
 										<div class="mb-4 flex items-start justify-between">
 											<div class="flex items-center gap-3">
@@ -267,7 +267,7 @@ const colorClasses = {
 											{tech.description}
 										</p>
 
-										{/* Barre de niveau */}
+										{/* Skill level bar */}
 										<div class="relative">
 											<div class="mb-2 flex items-center justify-between">
 												<span class="text-xs font-medium text-gray-500 dark:text-gray-400">
@@ -299,7 +299,7 @@ const colorClasses = {
 							))}
 						</div>
 
-						{/* Stats générales de la catégorie */}
+						{/* General category stats */}
 						<div
 							class={`mt-12 rounded-2xl p-6 ${colors.bgLight} border ${colors.border}`}
 						>
@@ -358,7 +358,7 @@ const colorClasses = {
 </div>
 
 <style>
-	/* Animation d'entrée pour les tech cards */
+	/* Entry animation for tech cards */
 	.tech-card {
 		opacity: 0;
 		transform: translateY(20px);
@@ -372,7 +372,7 @@ const colorClasses = {
 		}
 	}
 
-	/* Styles pour les onglets actifs */
+	/* Styles for active tabs */
 	.category-tab.active {
 		transform: scale(1.05);
 		box-shadow:
@@ -380,7 +380,7 @@ const colorClasses = {
 			0 10px 10px -5px rgba(0, 0, 0, 0.04);
 	}
 
-	/* Animation des barres de progression */
+	/* Progress bar animations */
 	.tech-progress {
 		transition: width 1.5s ease-out;
 	}
@@ -412,7 +412,7 @@ const colorClasses = {
 		const categoryTabs = document.querySelectorAll('.category-tab')
 		const categoryContents = document.querySelectorAll('.category-content')
 
-		// Fonction pour animer les barres de progression
+		// Function to animate progress bars
 		function animateProgressBars(container: Element) {
 			const progressBars = container.querySelectorAll('.tech-progress')
 			progressBars.forEach((bar, index) => {
@@ -423,9 +423,9 @@ const colorClasses = {
 			})
 		}
 
-		// Fonction pour changer de catégorie
+		// Function to switch category
 		function switchCategory(targetId: string) {
-			// Masquer toutes les catégories
+			// Hide all categories
 			categoryContents.forEach(content => {
 				content.classList.remove('opacity-100', 'translate-y-0')
 				content.classList.add(
@@ -435,12 +435,12 @@ const colorClasses = {
 				)
 			})
 
-			// Retirer l'état actif de tous les onglets
+			// Remove active state from all tabs
 			categoryTabs.forEach(tab => {
 				tab.classList.remove('active')
 			})
 
-			// Afficher la catégorie cible avec un délai
+			// Show target category with delay
 			setTimeout(() => {
 				const targetContent = document.getElementById(
 					`category-${targetId}`,
@@ -458,7 +458,7 @@ const colorClasses = {
 					targetContent.classList.add('opacity-100', 'translate-y-0')
 					targetTab.classList.add('active')
 
-					// Animer les barres de progression après un court délai
+					// Animate progress bars after short delay
 					setTimeout(() => {
 						animateProgressBars(targetContent)
 					}, 300)
@@ -466,7 +466,7 @@ const colorClasses = {
 			}, 200)
 		}
 
-		// Gestionnaires d'événements pour les onglets
+		// Event handlers for tabs
 		categoryTabs.forEach(tab => {
 			tab.addEventListener('click', () => {
 				const categoryId = tab.getAttribute('data-category')
@@ -476,7 +476,7 @@ const colorClasses = {
 			})
 		})
 
-		// Animation initiale des barres de progression pour la première catégorie
+		// Initial progress bar animation for first category
 		const firstCategory = document.getElementById('category-frontend')
 		if (firstCategory) {
 			setTimeout(() => {
@@ -505,7 +505,7 @@ const colorClasses = {
 			},
 		)
 
-		// Observer toutes les catégories
+		// Observe all categories
 		categoryContents.forEach(content => {
 			observer.observe(content)
 		})

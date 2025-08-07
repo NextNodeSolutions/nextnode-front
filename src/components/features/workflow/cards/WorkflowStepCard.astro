@@ -10,7 +10,7 @@ interface Props {
 
 const { step, position, color, index } = Astro.props
 
-// Constantes pour la petite carte
+// Constants for the small card
 const SMALL_CARD_SIZE = 60
 const SMALL_CARD_SHADOW_OFFSET = 2
 const SMALL_CARD_CENTER = SMALL_CARD_SIZE / 2
@@ -18,7 +18,7 @@ const SMALL_CARD_BORDER_RADIUS = 12
 ---
 
 <g class="step-card-group" data-step-index={index}>
-	<!-- Ligne de connexion -->
+	<!-- Connection line -->
 	<line
 		x1={position.x}
 		y1={position.y}
@@ -28,14 +28,14 @@ const SMALL_CARD_BORDER_RADIUS = 12
 		stroke-width="3"
 		opacity="1"></line>
 
-	<!-- Card interactive -->
+	<!-- Interactive card -->
 	<g
 		class="interactive-card"
 		transform={`translate(${position.cardX}, ${position.cardY})`}
 		data-step-index={index}
 		data-step-card
 	>
-		<!-- Ombre -->
+		<!-- Shadow -->
 		<rect
 			x={SMALL_CARD_SHADOW_OFFSET}
 			y={SMALL_CARD_SHADOW_OFFSET}
@@ -45,7 +45,7 @@ const SMALL_CARD_BORDER_RADIUS = 12
 			fill="rgba(0,0,0,0.1)"
 			opacity="0.3"></rect>
 
-		<!-- Gradient de fond -->
+		<!-- Background gradient -->
 		<defs>
 			<linearGradient
 				id={`cardGradient${index}`}
@@ -62,7 +62,7 @@ const SMALL_CARD_BORDER_RADIUS = 12
 			</linearGradient>
 		</defs>
 
-		<!-- Fond de la card -->
+		<!-- Card background -->
 		<rect
 			x="0"
 			y="0"
@@ -73,7 +73,7 @@ const SMALL_CARD_BORDER_RADIUS = 12
 			filter="url(#dropShadow)"
 			class="card-background"></rect>
 
-		<!-- Icône centrale -->
+		<!-- Central icon -->
 		<text
 			x={SMALL_CARD_CENTER}
 			y={SMALL_CARD_CENTER + 5}
@@ -88,7 +88,7 @@ const SMALL_CARD_BORDER_RADIUS = 12
 			{step.icon}
 		</text>
 
-		<!-- Numéro créatif en haut à droite -->
+		<!-- Creative number in top right -->
 		<text
 			x={SMALL_CARD_SIZE - 12}
 			y={18}
@@ -105,7 +105,7 @@ const SMALL_CARD_BORDER_RADIUS = 12
 			{index + 1}
 		</text>
 
-		<!-- Titre - position adaptée selon l'étape -->
+		<!-- Title - position adapted according to step -->
 		<text
 			x={SMALL_CARD_CENTER}
 			y={index === 0 || index === 1 || index === 5 ? '-10' : '75'}
@@ -117,7 +117,7 @@ const SMALL_CARD_BORDER_RADIUS = 12
 		</text>
 	</g>
 
-	<!-- Point de connexion sur le chemin -->
+	<!-- Connection point on path -->
 	<circle
 		cx={position.x}
 		cy={position.y}

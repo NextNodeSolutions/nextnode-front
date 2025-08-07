@@ -1,4 +1,4 @@
-// Design system pour les step cards
+// Design system for step cards
 export interface StepDesign {
 	gradient: string
 	accent: string
@@ -8,7 +8,7 @@ export interface StepDesign {
 	pattern: string
 }
 
-// Designs sophistiqués avec couleurs et gradients pour les step cards
+// Sophisticated designs with colors and gradients for step cards
 export const STEP_DESIGNS: StepDesign[] = [
 	{
 		gradient: 'from-indigo-600 via-blue-600 to-cyan-500',

@@ -51,7 +51,7 @@ const urlMappingMiddleware = defineMiddleware(async (context, next) => {
 	return next()
 })
 
-// Middleware pour les métriques et analytics
+// Middleware for metrics and analytics
 const metricsMiddleware = defineMiddleware(async (context, next) => {
 	const { request } = context
 
@@ -122,6 +122,6 @@ const metricsMiddleware = defineMiddleware(async (context, next) => {
 })
 
 export const onRequest = sequence(
-	urlMappingMiddleware, // 1. Map URLs → structure [locale]/ interne
+	urlMappingMiddleware, // 1. Map URLs → internal [locale]/ structure
 	metricsMiddleware,
 )
