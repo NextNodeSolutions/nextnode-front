@@ -45,8 +45,6 @@ export default function StepModal({
 				>
 					<StepIllustration
 						stepKey={stepKey}
-						color={color}
-						className="drop-shadow-lg"
 					/>
 				</div>
 
