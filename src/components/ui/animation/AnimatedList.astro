@@ -41,7 +41,7 @@ const containerClass = grid ? cn('grid', cols, gap, className) : className
 	<slot />
 </Element>
 
-<script define:vars={{ staggerDelay, animationClass }}>
+<script is:inline define:vars={{ staggerDelay, animationClass }}>
 	// Apply staggered animations to children
 	document.addEventListener('DOMContentLoaded', () => {
 		const container = document.currentScript?.parentElement

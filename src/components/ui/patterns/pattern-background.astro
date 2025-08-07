@@ -27,7 +27,7 @@ const {
 
 // Generate unique ID if not provided
 const patternId =
-	uniqueId || `pattern-${pattern}-${Math.random().toString(36).substr(2, 9)}`
+	uniqueId || `pattern-${pattern}-${Math.random().toString(36).slice(2, 11)}`
 
 // Animation classes for patterns
 const animationClass = animated

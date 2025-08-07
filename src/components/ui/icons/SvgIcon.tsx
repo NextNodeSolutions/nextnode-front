@@ -22,9 +22,6 @@ import {
 	Target,
 	Clipboard,
 	TrendingUp,
-	Github,
-	Twitter,
-	Linkedin,
 	Mail,
 	type LucideIcon as LucideIconType,
 } from 'lucide-react'
@@ -48,9 +45,6 @@ export type IconName =
 	| 'target'
 	| 'clipboard'
 	| 'trending-up'
-	| 'github'
-	| 'twitter'
-	| 'linkedin'
 	| 'mail'
 
 export interface LucideIconProps {
@@ -89,9 +83,6 @@ const icons: Record<IconName, LucideIconType> = {
 	target: Target,
 	clipboard: Clipboard,
 	'trending-up': TrendingUp,
-	github: Github,
-	twitter: Twitter,
-	linkedin: Linkedin,
 	mail: Mail,
 }
 
