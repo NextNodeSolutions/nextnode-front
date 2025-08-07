@@ -23,10 +23,130 @@
 	--color-error: #ef4444; /* Red 500 */
 	--color-info: #3b82f6; /* Blue 600 */
 	
+	/* Extended Color Palette */
+	/* Indigo */
+	--color-indigo-500: #6366f1;
+	--color-indigo-600: #4f46e5;
+	--color-indigo-700: #4338ca;
+	--color-indigo-100: #e0e7ff;
+	--color-indigo-200: #c7d2fe;
+	--color-indigo-300: #a5b4fc;
+	--color-indigo-400: #818cf8;
+	--color-indigo-800: #3730a3;
+	--color-indigo-900: #312e81;
+	
+	/* Violet */
+	--color-violet-500: #8b5cf6;
+	--color-violet-600: #7c3aed;
+	--color-violet-700: #6d28d9;
+	
+	/* Purple */
+	--color-purple-300: #c084fc;
+	--color-purple-400: #a78bfa;
+	--color-purple-500: #8b5cf6;
+	--color-purple-600: #7c3aed;
+	--color-purple-700: #6d28d9;
+	--color-purple-100: #f3e8ff;
+	--color-purple-200: #e9d5ff;
+	--color-purple-800: #5b21b6;
+	--color-purple-900: #4c1d95;
+	
+	/* Pink */
+	--color-pink-300: #f9a8d4;
+	--color-pink-500: #ec4899;
+	--color-pink-700: #be185d;
+	--color-pink-100: #fce7f3;
+	--color-pink-200: #fbcfe8;
+	--color-pink-800: #9d174d;
+	--color-pink-900: #831843;
+	
+	/* Fuchsia */
+	--color-fuchsia-500: #d946ef;
+	
+	/* Rose */
+	--color-rose-500: #f43f5e;
+	
+	/* Blue variations */
+	--color-blue-100: #dbeafe;
+	--color-blue-200: #bfdbfe;
+	--color-blue-300: #93c5fd;
+	--color-blue-400: #60a5fa;
+	--color-blue-500: #3b82f6;
+	--color-blue-600: #2563eb;
+	--color-blue-700: #1d4ed8;
+	--color-blue-800: #1e40af;
+	--color-blue-900: #1e3a8a;
+	
+	/* Cyan */
+	--color-cyan-400: #22d3ee;
+	--color-cyan-500: #06b6d4;
+	
+	/* Emerald/Teal */
+	--color-emerald-500: #10b981;
+	--color-emerald-600: #059669;
+	--color-teal-600: #0d9488;
+	
+	/* Green */
+	--color-green-400: #4ade80;
+	--color-green-500: #22c55e;
+	--color-green-600: #16a34a;
+	--color-green-700: #15803d;
+	--color-green-100: #dcfce7;
+	--color-green-800: #166534;
+	--color-green-900: #14532d;
+	
+	/* Amber/Orange */
+	--color-amber-500: #f59e0b;
+	--color-orange-500: #f97316;
+	--color-orange-100: #fed7aa;
+	--color-orange-800: #9a3412;
+	
+	/* Red */
+	--color-red-500: #ef4444;
+	--color-red-100: #fee2e2;
+	--color-red-800: #991b1b;
+	--color-red-900: #7f1d1d;
+	
+	/* Yellow */
+	--color-yellow-100: #fef3c7;
+	--color-yellow-800: #92400e;
+	--color-yellow-900: #78350f;
+	
+	/* Slate/Gray */
+	--color-slate-500: #64748b;
+	--color-slate-600: #475569;
+	--color-gray-600: #4b5563;
+	--color-zinc-500: #71717a;
+	
 	/* Gradient Combinations */
 	--gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-secondary));
 	--gradient-accent: linear-gradient(135deg, var(--color-primary), var(--color-accent));
 	--gradient-vibrant: linear-gradient(to right, #6366f1, #8b5cf6, #ec4899); /* Indigo -> Purple -> Pink */
+	
+	/* Workflow Step Gradients */
+	--gradient-step-1: linear-gradient(to right, var(--color-indigo-600), var(--color-blue-600), var(--color-cyan-500));
+	--gradient-step-2: linear-gradient(to right, var(--color-violet-600), var(--color-purple-600), var(--color-fuchsia-500));
+	--gradient-step-3: linear-gradient(to right, var(--color-emerald-600), var(--color-teal-600), var(--color-cyan-500));
+	--gradient-step-4: linear-gradient(to right, var(--color-amber-500), var(--color-orange-500), var(--color-red-500));
+	--gradient-step-5: linear-gradient(to right, var(--color-rose-500), var(--color-pink-500), var(--color-fuchsia-500));
+	--gradient-step-6: linear-gradient(to right, var(--color-slate-600), var(--color-gray-600), var(--color-zinc-500));
+	
+	/* Discovery Phase Gradients */
+	--gradient-discovery-research: linear-gradient(to right, var(--color-blue-500), var(--color-blue-300));
+	--gradient-discovery-analysis: linear-gradient(to right, var(--color-purple-500), var(--color-purple-300));
+	--gradient-discovery-planning: linear-gradient(to right, var(--color-pink-500), var(--color-pink-300));
+	
+	/* Device Style Gradients */
+	--gradient-device-1: linear-gradient(135deg, var(--color-blue-100), var(--color-blue-200));
+	--gradient-device-2: linear-gradient(135deg, var(--color-purple-100), var(--color-purple-200));
+	--gradient-device-3: linear-gradient(135deg, var(--color-pink-100), var(--color-pink-200));
+	--gradient-device-4: linear-gradient(135deg, var(--color-indigo-100), var(--color-indigo-200));
+	
+	/* Dark mode device gradients */
+	--gradient-device-1-dark: linear-gradient(135deg, var(--color-blue-900), var(--color-blue-800));
+	--gradient-device-2-dark: linear-gradient(135deg, var(--color-purple-900), var(--color-purple-800));
+	--gradient-device-3-dark: linear-gradient(135deg, var(--color-pink-900), var(--color-pink-800));
+	--gradient-device-4-dark: linear-gradient(135deg, var(--color-indigo-900), var(--color-indigo-800));
 	
 	/* Alpha Colors for Glassmorphism */
 	--color-primary-alpha-10: rgba(59, 130, 246, 0.1);
@@ -38,6 +158,31 @@
 	--color-secondary-alpha-20: rgba(139, 92, 246, 0.2);
 	--color-secondary-alpha-30: rgba(139, 92, 246, 0.3);
 	--color-secondary-alpha-40: rgba(139, 92, 246, 0.4);
+	
+	/* Step Shadow Colors */
+	--shadow-indigo: rgba(99, 102, 241, 0.25);
+	--shadow-violet: rgba(139, 92, 246, 0.25);
+	--shadow-emerald: rgba(16, 185, 129, 0.25);
+	--shadow-amber: rgba(245, 158, 11, 0.25);
+	--shadow-rose: rgba(244, 63, 94, 0.25);
+	--shadow-slate: rgba(100, 116, 139, 0.25);
+	
+	/* Ring Colors */
+	--ring-indigo: rgba(99, 102, 241, 0.2);
+	--ring-violet: rgba(139, 92, 246, 0.2);
+	--ring-emerald: rgba(16, 185, 129, 0.2);
+	--ring-amber: rgba(245, 158, 11, 0.2);
+	--ring-rose: rgba(244, 63, 94, 0.2);
+	--ring-slate: rgba(100, 116, 139, 0.2);
+	
+	/* Glassmorphism Base */
+	--glass-white-30: rgba(255, 255, 255, 0.3);
+	--glass-white-50: rgba(255, 255, 255, 0.5);
+	--glass-white-75: rgba(255, 255, 255, 0.75);
+	--glass-white-10: rgba(255, 255, 255, 0.1);
+	--glass-white-20: rgba(255, 255, 255, 0.2);
+	--glass-gray-800-30: rgba(31, 41, 55, 0.3);
+	--glass-gray-800-20: rgba(31, 41, 55, 0.2);
 	
 	/* Shadow Colors */
 	--shadow-color-light: rgba(0, 0, 0, 0.1);
@@ -80,6 +225,42 @@
 	--shadow-color-light: rgba(0, 0, 0, 0.3);
 	--shadow-color-medium: rgba(0, 0, 0, 0.5);
 	--shadow-color-dark: rgba(0, 0, 0, 0.7);
+	
+	/* Override device gradients for dark mode */
+	--gradient-device-1: var(--gradient-device-1-dark);
+	--gradient-device-2: var(--gradient-device-2-dark);
+	--gradient-device-3: var(--gradient-device-3-dark);
+	--gradient-device-4: var(--gradient-device-4-dark);
+	
+	/* Override device text colors for dark mode */
+	.text-device-1 {
+		color: var(--color-blue-300);
+	}
+	
+	.text-device-2 {
+		color: var(--color-purple-300);
+	}
+	
+	.text-device-3 {
+		color: var(--color-pink-300);
+	}
+	
+	.text-device-4 {
+		color: var(--color-indigo-300);
+	}
+	
+	/* Dark mode stack text colors */
+	.text-green-stack {
+		color: var(--color-green-400);
+	}
+	
+	.text-blue-stack {
+		color: var(--color-blue-400);
+	}
+	
+	.text-purple-stack {
+		color: var(--color-purple-400);
+	}
 }
 
 /* Utility Classes using CSS Variables */
@@ -117,4 +298,163 @@
 
 .bg-gradient-vibrant {
 	background: var(--gradient-vibrant);
+}
+
+/* Workflow Step Classes */
+.bg-step-1 {
+	background: var(--gradient-step-1);
+}
+
+.bg-step-2 {
+	background: var(--gradient-step-2);
+}
+
+.bg-step-3 {
+	background: var(--gradient-step-3);
+}
+
+.bg-step-4 {
+	background: var(--gradient-step-4);
+}
+
+.bg-step-5 {
+	background: var(--gradient-step-5);
+}
+
+.bg-step-6 {
+	background: var(--gradient-step-6);
+}
+
+/* Discovery Phase Classes */
+.bg-discovery-research {
+	background: var(--gradient-discovery-research);
+}
+
+.bg-discovery-analysis {
+	background: var(--gradient-discovery-analysis);
+}
+
+.bg-discovery-planning {
+	background: var(--gradient-discovery-planning);
+}
+
+/* Step Accent Classes */
+.bg-indigo-accent {
+	background-color: var(--color-indigo-500);
+}
+
+.bg-violet-accent {
+	background-color: var(--color-violet-500);
+}
+
+.bg-emerald-accent {
+	background-color: var(--color-emerald-500);
+}
+
+.bg-amber-accent {
+	background-color: var(--color-amber-500);
+}
+
+.bg-rose-accent {
+	background-color: var(--color-rose-500);
+}
+
+.bg-slate-accent {
+	background-color: var(--color-slate-500);
+}
+
+/* Shadow Classes */
+.shadow-indigo {
+	box-shadow: 0 10px 15px -3px var(--shadow-indigo), 0 4px 6px -2px var(--shadow-indigo);
+}
+
+.shadow-violet {
+	box-shadow: 0 10px 15px -3px var(--shadow-violet), 0 4px 6px -2px var(--shadow-violet);
+}
+
+.shadow-emerald {
+	box-shadow: 0 10px 15px -3px var(--shadow-emerald), 0 4px 6px -2px var(--shadow-emerald);
+}
+
+.shadow-amber {
+	box-shadow: 0 10px 15px -3px var(--shadow-amber), 0 4px 6px -2px var(--shadow-amber);
+}
+
+.shadow-rose {
+	box-shadow: 0 10px 15px -3px var(--shadow-rose), 0 4px 6px -2px var(--shadow-rose);
+}
+
+.shadow-slate {
+	box-shadow: 0 10px 15px -3px var(--shadow-slate), 0 4px 6px -2px var(--shadow-slate);
+}
+
+/* Ring Classes */
+.ring-indigo {
+	box-shadow: 0 0 0 1px var(--ring-indigo);
+}
+
+.ring-violet {
+	box-shadow: 0 0 0 1px var(--ring-violet);
+}
+
+.ring-emerald {
+	box-shadow: 0 0 0 1px var(--ring-emerald);
+}
+
+.ring-amber {
+	box-shadow: 0 0 0 1px var(--ring-amber);
+}
+
+.ring-rose {
+	box-shadow: 0 0 0 1px var(--ring-rose);
+}
+
+.ring-slate {
+	box-shadow: 0 0 0 1px var(--ring-slate);
+}
+
+/* Text Color Classes */
+.text-green-stack {
+	color: var(--color-green-600);
+}
+
+.text-blue-stack {
+	color: var(--color-blue-600);
+}
+
+.text-purple-stack {
+	color: var(--color-purple-600);
+}
+
+/* Device Style Classes */
+.bg-device-1 {
+	background: var(--gradient-device-1);
+}
+
+.bg-device-2 {
+	background: var(--gradient-device-2);
+}
+
+.bg-device-3 {
+	background: var(--gradient-device-3);
+}
+
+.bg-device-4 {
+	background: var(--gradient-device-4);
+}
+
+.text-device-1 {
+	color: var(--color-blue-700);
+}
+
+.text-device-2 {
+	color: var(--color-purple-700);
+}
+
+.text-device-3 {
+	color: var(--color-pink-700);
+}
+
+.text-device-4 {
+	color: var(--color-indigo-700);
 }

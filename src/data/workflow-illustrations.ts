@@ -10,69 +10,69 @@ export const DEVICE_TYPES = ['Mobile', 'Desktop', 'Tablet', 'Watch'] as const
 export type DeviceType = (typeof DEVICE_TYPES)[number]
 
 /**
- * Discovery phase progress items with visual styling
+ * Discovery phase progress items with CSS variable styling
  */
 export const DISCOVERY_ITEMS = [
 	{
 		name: 'Research',
-		dotClass: 'bg-blue-500',
-		gradientClass: 'bg-gradient-to-r from-blue-500 to-blue-300',
+		dotClass: 'bg-primary',
+		gradientClass: 'bg-discovery-research',
 		progress: 100,
 	},
 	{
 		name: 'Analysis',
-		dotClass: 'bg-purple-500',
-		gradientClass: 'bg-gradient-to-r from-purple-500 to-purple-300',
+		dotClass: 'bg-secondary',
+		gradientClass: 'bg-discovery-analysis',
 		progress: 95,
 	},
 	{
 		name: 'Planning',
-		dotClass: 'bg-pink-500',
-		gradientClass: 'bg-gradient-to-r from-pink-500 to-pink-300',
+		dotClass: 'bg-rose-accent',
+		gradientClass: 'bg-discovery-planning',
 		progress: 90,
 	},
 ] as const
 
 /**
- * Device card styling variations for different platforms
+ * Device card styling variations using CSS variables
  */
 export const DEVICE_STYLES = [
 	{
-		bg: 'bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800',
-		text: 'text-blue-700 dark:text-blue-300',
+		bg: 'bg-device-1',
+		text: 'text-device-1',
 	},
 	{
-		bg: 'bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900 dark:to-purple-800',
-		text: 'text-purple-700 dark:text-purple-300',
+		bg: 'bg-device-2',
+		text: 'text-device-2',
 	},
 	{
-		bg: 'bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-900 dark:to-pink-800',
-		text: 'text-pink-700 dark:text-pink-300',
+		bg: 'bg-device-3',
+		text: 'text-device-3',
 	},
 	{
-		bg: 'bg-gradient-to-br from-indigo-100 to-indigo-200 dark:from-indigo-900 dark:to-indigo-800',
-		text: 'text-indigo-700 dark:text-indigo-300',
+		bg: 'bg-device-4',
+		text: 'text-device-4',
 	},
 ] as const
 
 /**
- * Technology stack items for development phase
+ * Technology stack items using CSS variables
  */
 export const STACK_ITEMS = [
 	{
 		label: 'Frontend',
 		tech: 'React, Next.js, Astro',
-		textClass: 'text-green-600 dark:text-green-400',
+		textClass: 'text-green-stack',
 	},
 	{
 		label: 'Backend',
 		tech: 'Node.js, APIs',
-		textClass: 'text-blue-600 dark:text-blue-400',
+		textClass: 'text-blue-stack',
 	},
 	{
 		label: 'Database',
 		tech: 'PostgreSQL, MongoDB',
-		textClass: 'text-purple-600 dark:text-purple-400',
+		textClass: 'text-purple-stack',
 	},
 ] as const
 
