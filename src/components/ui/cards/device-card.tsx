@@ -60,7 +60,7 @@ export const DeviceCard: React.FC<DeviceCardProps> = ({
 	return (
 		<div
 			className={cn(
-				'transition-smooth flex flex-col items-center rounded-xl shadow-sm hover:shadow-md',
+				'flex flex-col items-center rounded-xl shadow-sm transition-shadow hover:shadow-md',
 				style.bg,
 				sizeStyle.container,
 				className,

@@ -26,9 +26,52 @@ body {
 	@apply transition-all duration-300;
 }
 
+.transition-transform {
+	@apply transition-transform duration-300;
+}
+
+.transition-shadow {
+	@apply transition-shadow duration-300;
+}
+
 /* Container patterns */
 .card-container {
 	@apply rounded-2xl border border-gray-100 bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900;
+}
+
+.card-base {
+	@apply rounded-2xl bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl dark:bg-gray-800;
+}
+
+/* Layout utilities */
+.flex-center {
+	@apply flex items-center justify-center;
+}
+
+.flex-between {
+	@apply flex items-center justify-between;
+}
+
+/* Text utilities */
+.text-muted {
+	@apply text-gray-600 dark:text-gray-300;
+}
+
+.text-heading {
+	@apply text-gray-900 dark:text-white;
+}
+
+/* Hover effects */
+.hover-lift {
+	@apply transition-transform duration-300 hover:scale-[1.05];
+}
+
+.hover-lift-sm {
+	@apply transition-transform duration-300 hover:scale-[1.02];
+}
+
+.hover-lift-lg {
+	@apply transition-transform duration-300 hover:scale-[1.1];
 }
 
 /* Animation patterns */

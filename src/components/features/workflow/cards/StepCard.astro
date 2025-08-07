@@ -47,7 +47,7 @@ const design = getStepDesign(index)
 
 <div
 	class={cn(
-		'group relative transform transition-all cursor-pointer',
+		'group relative cursor-pointer transition-smooth hover-lift-sm',
 		getVariantClasses(variant, 'container'),
 	)}
 	data-step-card
@@ -58,7 +58,7 @@ const design = getStepDesign(index)
 	>
 	</div>
 	<div
-		class="{design.glow} relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl transition-all duration-500 group-hover:shadow-2xl dark:border-gray-800 dark:bg-gray-900"
+		class="{design.glow} card-base relative overflow-hidden border border-gray-100 dark:border-gray-800"
 	>
 		{
 			showHeader && (

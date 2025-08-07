@@ -35,17 +35,17 @@ export const StartProjectModal = ({
 				onClick={handleOpen}
 				className={cn(
 					'btn-gradient-primary group w-full cursor-pointer px-4 py-6',
-					'transform shadow-lg hover:scale-[1.05] hover:shadow-2xl',
+					'hover-lift shadow-lg transition-shadow hover:shadow-2xl',
 					'text-base font-bold tracking-wide text-white',
 					'sm:px-6 sm:py-6 sm:text-lg',
 					'md:px-8 md:py-6 md:text-lg',
-					'flex items-center justify-center gap-2',
+					'flex-center gap-2',
 					'hover:animate-pulse-dark',
 				)}
 			>
 				<span
 					className={cn(
-						'transition-transform duration-300',
+						'transition-transform',
 						'uppercase group-hover:-translate-x-2',
 					)}
 				>
