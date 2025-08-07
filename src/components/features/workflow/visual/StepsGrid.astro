@@ -3,7 +3,6 @@ import { t } from '@/lib/i18n/i18n-server'
 import { STEP_KEYS } from '../workflow-constants'
 import StepCard from '../cards/StepCard.astro'
 
-// Récupérer les features comme array
 const featuresResult = t('howWeWork.cta.features')
 const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 ---
@@ -11,25 +10,20 @@ const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 <section
 	class="relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 py-20 dark:from-gray-900 dark:via-blue-950/30 dark:to-indigo-950"
 >
-	<!-- Background decorations -->
 	<div class="absolute inset-0 overflow-hidden">
-		<!-- Floating orbs -->
 		<div
 			class="absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full bg-gradient-to-r from-blue-400/20 to-cyan-400/20 blur-3xl"
 		>
 		</div>
 		<div
-			class="absolute right-10 bottom-20 h-96 w-96 animate-pulse rounded-full bg-gradient-to-r from-violet-400/20 to-purple-400/20 blur-3xl"
-			style="animation-delay: 2s;"
+			class="absolute right-10 bottom-20 h-96 w-96 animate-pulse rounded-full bg-gradient-to-r from-violet-400/20 to-purple-400/20 blur-3xl [animation-delay:2s]"
 		>
 		</div>
 		<div
-			class="absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-gradient-to-r from-emerald-400/10 to-teal-400/10 blur-3xl"
-			style="animation-delay: 4s;"
+			class="absolute top-1/2 left-1/2 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-gradient-to-r from-emerald-400/10 to-teal-400/10 blur-3xl [animation-delay:4s]"
 		>
 		</div>
 
-		<!-- Grid pattern -->
 		<div class="absolute inset-0 opacity-5 dark:opacity-10">
 			<svg class="h-full w-full" viewBox="0 0 100 100">
 				<defs>
@@ -54,7 +48,6 @@ const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 	</div>
 
 	<div class="relative container mx-auto px-4">
-		<!-- Header de la section -->
 		<div class="mb-16 space-y-6 text-center">
 			<div
 				class="inline-flex items-center gap-2 rounded-full border border-gray-200/50 bg-white/80 px-4 py-2 shadow-lg backdrop-blur-sm dark:border-gray-700/50 dark:bg-gray-800/80"
@@ -86,16 +79,14 @@ const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 			</p>
 		</div>
 
-		<!-- Grid des cards avec layout masonry-like -->
 		<div class="mx-auto max-w-7xl">
-			<!-- Layout pour 3 colonnes sur desktop -->
 			<div
 				class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
 			>
 				{
 					STEP_KEYS.map((stepKey, index) => (
 						<div
-							class="animate-slide-in-up translate-y-8 transform opacity-0"
+							class="animate-in slide-in-from-bottom-8 fade-in-0 fill-mode-forwards opacity-0 duration-700"
 							style={`animation-delay: ${index * 150}ms; animation-fill-mode: forwards;`}
 							data-aos-delay={index * 150}
 						>
@@ -106,7 +97,6 @@ const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 			</div>
 		</div>
 
-		<!-- Enhanced CTA section -->
 		<div class="mt-20 space-y-8 text-center">
 			<div class="mx-auto max-w-3xl space-y-4">
 				<h3
@@ -121,7 +111,6 @@ const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 				</p>
 			</div>
 
-			<!-- CTA Buttons with enhanced design -->
 			<div
 				class="flex flex-col items-center justify-center gap-4 sm:flex-row"
 			>
@@ -171,7 +160,6 @@ const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 				</button>
 			</div>
 
-			<!-- Features list -->
 			<div class="mt-8 flex flex-wrap justify-center gap-6">
 				{
 					features.map((feature: string) => (
@@ -187,72 +175,4 @@ const features: string[] = Array.isArray(featuresResult) ? featuresResult : []
 	</div>
 </section>
 
-<style>
-	@keyframes slide-in-up {
-		from {
-			opacity: 0;
-			transform: translateY(40px) scale(0.95);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0) scale(1);
-		}
-	}
-
-	.animate-slide-in-up {
-		animation: slide-in-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-			forwards;
-	}
-
-	/* Enhanced responsive grid */
-	@media (max-width: 640px) {
-		.grid {
-			gap: 1.5rem;
-		}
-	}
-
-	@media (min-width: 641px) and (max-width: 1024px) {
-		.grid {
-			gap: 2rem;
-		}
-	}
-
-	@media (min-width: 1025px) {
-		.grid {
-			gap: 2.5rem;
-		}
-	}
-
-	/* Smooth scrolling and enhanced animations */
-	html {
-		scroll-behavior: smooth;
-	}
-
-	/* Custom backdrop blur fallback */
-	@supports not (backdrop-filter: blur(12px)) {
-		.backdrop-blur-sm {
-			background-color: rgba(255, 255, 255, 0.9);
-		}
-
-		.dark .backdrop-blur-sm {
-			background-color: rgba(31, 41, 55, 0.9);
-		}
-	}
-
-	/* Enhanced pulse animation */
-	@keyframes enhanced-pulse {
-		0%,
-		100% {
-			opacity: 0.8;
-			transform: scale(1);
-		}
-		50% {
-			opacity: 0.4;
-			transform: scale(1.05);
-		}
-	}
-
-	.animate-pulse {
-		animation: enhanced-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-	}
-</style>
+<style></style>
