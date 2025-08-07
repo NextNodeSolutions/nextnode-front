@@ -1,70 +1,19 @@
 import React from 'react'
 
 import { cn } from '@/lib/core/utils'
+import { DeviceCard } from '@/components/ui/cards/device-card'
+import { ProgressBar } from '@/components/ui/progress/progress-bar'
+import {
+	DEVICE_TYPES,
+	DISCOVERY_ITEMS,
+	STACK_ITEMS,
+	getDeviceStyle,
+	type DeviceType,
+} from '@/data/workflow-illustrations'
 
 interface StepIllustrationProps {
 	stepKey: string
 }
-
-const DEVICE_TYPES = ['Mobile', 'Desktop', 'Tablet', 'Watch'] as const
-
-const DISCOVERY_ITEMS = [
-	{
-		name: 'Research',
-		dotClass: 'bg-blue-500',
-		gradientClass: 'bg-gradient-to-r from-blue-500 to-blue-300',
-		progress: 100,
-	},
-	{
-		name: 'Analysis',
-		dotClass: 'bg-purple-500',
-		gradientClass: 'bg-gradient-to-r from-purple-500 to-purple-300',
-		progress: 95,
-	},
-	{
-		name: 'Planning',
-		dotClass: 'bg-pink-500',
-		gradientClass: 'bg-gradient-to-r from-pink-500 to-pink-300',
-		progress: 90,
-	},
-] as const
-
-const DEVICE_STYLES = [
-	{
-		bg: 'bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800',
-		text: 'text-blue-700 dark:text-blue-300',
-	},
-	{
-		bg: 'bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900 dark:to-purple-800',
-		text: 'text-purple-700 dark:text-purple-300',
-	},
-	{
-		bg: 'bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-900 dark:to-pink-800',
-		text: 'text-pink-700 dark:text-pink-300',
-	},
-	{
-		bg: 'bg-gradient-to-br from-indigo-100 to-indigo-200 dark:from-indigo-900 dark:to-indigo-800',
-		text: 'text-indigo-700 dark:text-indigo-300',
-	},
-] as const
-
-const STACK_ITEMS = [
-	{
-		label: 'Frontend',
-		tech: 'React, Next.js, Astro',
-		textClass: 'text-green-600 dark:text-green-400',
-	},
-	{
-		label: 'Backend',
-		tech: 'Node.js, APIs',
-		textClass: 'text-blue-600 dark:text-blue-400',
-	},
-	{
-		label: 'Database',
-		tech: 'PostgreSQL, MongoDB',
-		textClass: 'text-purple-600 dark:text-purple-400',
-	},
-] as const
 
 export default function StepIllustration({
 	stepKey,
@@ -75,31 +24,14 @@ export default function StepIllustration({
 				return (
 					<div className="w-full space-y-8">
 						{DISCOVERY_ITEMS.map(item => (
-							<div
+							<ProgressBar
 								key={item.name}
-								className="flex items-center justify-between"
-							>
-								<div className="flex items-center gap-4">
-									<div
-										className={cn(
-											'h-6 w-6 rounded-full shadow-sm',
-											item.dotClass,
-										)}
-									/>
-									<span className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-										{item.name}
-									</span>
-								</div>
-								<div
-									className={cn(
-										'mx-6 h-4 flex-1 rounded-full shadow-sm',
-										item.gradientClass,
-									)}
-								/>
-								<span className="text-lg font-bold text-gray-600 dark:text-gray-400">
-									{item.progress}%
-								</span>
-							</div>
+								label={item.name}
+								progress={item.progress}
+								dotClass={item.dotClass}
+								gradientClass={item.gradientClass}
+								size="lg"
+							/>
 						))}
 					</div>
 				)
@@ -107,26 +39,15 @@ export default function StepIllustration({
 			case 'design':
 				return (
 					<div className="grid w-full grid-cols-2 gap-6">
-						{DEVICE_TYPES.map((device, i) =>
-							DEVICE_STYLES[i] ? (
-								<div
-									key={device}
-									className={cn(
-										'flex aspect-square items-center justify-center rounded-2xl p-6 shadow-lg',
-										DEVICE_STYLES[i].bg,
-									)}
-								>
-									<span
-										className={cn(
-											'text-lg font-bold',
-											DEVICE_STYLES[i].text,
-										)}
-									>
-										{device}
-									</span>
-								</div>
-							) : null,
-						)}
+						{DEVICE_TYPES.map((device, i) => (
+							<DeviceCard
+								key={device}
+								deviceType={device as DeviceType}
+								style={getDeviceStyle(i)}
+								size="lg"
+								className="aspect-square"
+							/>
+						))}
 					</div>
 				)
 
