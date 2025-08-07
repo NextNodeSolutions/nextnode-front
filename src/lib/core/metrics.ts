@@ -115,32 +115,6 @@ export const ApplicationMetrics = {
 			metrics.setGauge('app_memory_external_bytes', mem.external)
 		}
 	},
-
-	// Active connections (for server-side)
-	setActiveConnections(count: number): void {
-		metrics.setGauge('app_active_connections', count)
-	},
-
-	// Feature usage tracking
-	recordFeatureUsage(feature: string): void {
-		metrics.incrementCounter(`app_feature_usage{feature="${feature}"}`)
-	},
-
-	// API endpoint metrics
-	recordApiCall(
-		endpoint: string,
-		method: string,
-		statusCode: number,
-		duration: number,
-	): void {
-		metrics.incrementCounter(
-			`app_api_requests_total{endpoint="${endpoint}",method="${method}",status="${statusCode}"}`,
-		)
-		metrics.recordHistogram(
-			`app_api_duration_seconds{endpoint="${endpoint}"}`,
-			duration / 1000,
-		)
-	},
 }
 
 // Types for middleware

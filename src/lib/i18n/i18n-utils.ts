@@ -2,11 +2,7 @@
  * i18n utilities for URL handling
  */
 
-import {
-	SUPPORTED_LOCALES,
-	DEFAULT_LOCALE,
-	type Locale,
-} from './i18n-constants'
+import { DEFAULT_LOCALE, type Locale } from './i18n-constants'
 
 export type SupportedLocale = Locale
 
@@ -34,21 +30,4 @@ export function getLocalizedUrl(path: string, locale: SupportedLocale): string {
 
 	// For non-default locales (French), add prefix
 	return `/${locale}${cleanPath}`
-}
-
-/**
- * Get the URL for switching to a different locale while preserving the current page
- */
-export function getSwitchLocaleUrl(
-	currentPath: string,
-	targetLocale: SupportedLocale,
-): string {
-	return getLocalizedUrl(currentPath, targetLocale)
-}
-
-/**
- * Check if a locale is supported
- */
-export function isSupportedLocale(locale: string): locale is SupportedLocale {
-	return (SUPPORTED_LOCALES as readonly string[]).includes(locale)
 }
