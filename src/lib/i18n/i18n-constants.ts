@@ -24,6 +24,6 @@ export const languages = [
 // =============================================================================
 
 export const navigationLinks: NavigationLinks = [
-	{ href: '/how-we-work', labelKey: 'navigation.howWeWork' },
-	{ href: '/pricing', labelKey: 'navigation.pricing' },
+	{ href: '/how-we-work', labelKey: 'common.navigation.howWeWork' },
+	{ href: '/pricing', labelKey: 'common.navigation.pricing' },
 ]

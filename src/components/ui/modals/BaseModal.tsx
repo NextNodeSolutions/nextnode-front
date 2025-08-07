@@ -5,7 +5,13 @@
 
 import React from 'react'
 
+import { cva } from 'class-variance-authority'
+
 import { cn } from '@/lib/core/utils'
+import {
+	createGlassmorphismClass,
+	GLASSMORPHISM_PRESETS,
+} from '@/lib/ui/glassmorphism'
 import ModalContainer from '@/components/ui/overlays/modal-container'
 
 export interface BaseModalProps {
@@ -51,44 +57,57 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 	leftPanel,
 	layout = 'single',
 }) => (
-		<ModalContainer
-			isOpen={isOpen}
-			onClose={onClose}
-			color={color}
-			title={title}
-			width={width}
-			maxWidth={maxWidth}
-			className={className}
-			glassmorphismOptions={glassmorphismOptions}
-		>
-			{layout === 'split' && leftPanel ? (
+	<ModalContainer
+		isOpen={isOpen}
+		onClose={onClose}
+		color={color}
+		title={title}
+		width={width}
+		maxWidth={maxWidth}
+		className={className}
+		glassmorphismOptions={glassmorphismOptions}
+	>
+		{layout === 'split' && leftPanel ? (
+			<div
+				className={cn(
+					'animate-in fade-in flex h-auto min-h-[450px] flex-col duration-300 sm:h-[520px] sm:min-h-[520px] sm:flex-row',
+				)}
+			>
+				{/* Left Panel */}
 				<div
 					className={cn(
-						'animate-in fade-in flex h-auto min-h-[450px] flex-col duration-300 sm:h-[520px] sm:min-h-[520px] sm:flex-row',
+						'animate-in slide-in-from-left relative flex w-full items-center justify-center p-4 shadow-inner duration-500 sm:w-2/5 sm:p-6',
+						createGlassmorphismClass({
+							intensity: 'light',
+							blur: 'md',
+							shape: 'rounded',
+							ring: 'medium',
+						}),
+					)}
+					style={{
+						background: `linear-gradient(135deg, rgba(255,255,255,0.1) 0%, ${color}20 50%, rgba(255,255,255,0.05) 100%)`,
+					}}
+				>
+					{leftPanel}
+				</div>
+
+				{/* Right Panel */}
+				<div
+					className={cn(
+						'animate-in slide-in-from-right flex w-full flex-col justify-between p-6 shadow-sm delay-100 duration-500 sm:w-3/5 sm:p-8',
+						createGlassmorphismClass(GLASSMORPHISM_PRESETS.modal),
 					)}
 				>
-					{/* Left Panel */}
-					<div
-						className="animate-in slide-in-from-left relative flex w-full items-center justify-center border-r border-white/20 bg-white/10 p-4 shadow-inner backdrop-blur-md duration-500 sm:w-2/5 sm:p-6"
-						style={{
-							background: `linear-gradient(135deg, rgba(255,255,255,0.1) 0%, ${color}20 50%, rgba(255,255,255,0.05) 100%)`,
-						}}
-					>
-						{leftPanel}
-					</div>
-
-					{/* Right Panel */}
-					<div className="animate-in slide-in-from-right flex w-full flex-col justify-between border-l border-white/10 bg-white/30 p-6 shadow-sm backdrop-blur-sm delay-100 duration-500 sm:w-3/5 sm:p-8">
-						{children}
-					</div>
-				</div>
-			) : (
-				<div className="animate-in fade-in p-6 duration-300 sm:p-8">
 					{children}
 				</div>
-			)}
-		</ModalContainer>
-	)
+			</div>
+		) : (
+			<div className="animate-in fade-in p-6 duration-300 sm:p-8">
+				{children}
+			</div>
+		)}
+	</ModalContainer>
+)
 
 /**
  * Modal section components for consistent styling
@@ -129,73 +148,67 @@ export const ModalHeader: React.FC<{
 	</div>
 )
 
+/**
+ * Modal Info Card variants using CVA
+ */
+const modalInfoCardVariants = cva(
+	'flex-1 rounded-xl border p-3 backdrop-blur-sm transition-all duration-200 hover:shadow-md sm:p-4',
+	{
+		variants: {
+			color: {
+				blue: 'border-blue-200 bg-blue-50 hover:bg-blue-100 dark:border-blue-800 dark:bg-blue-900/20 dark:hover:bg-blue-900/30',
+				purple: 'border-purple-200 bg-purple-50 hover:bg-purple-100 dark:border-purple-800 dark:bg-purple-900/20 dark:hover:bg-purple-900/30',
+				green: 'border-green-200 bg-green-50 hover:bg-green-100 dark:border-green-800 dark:bg-green-900/20 dark:hover:bg-green-900/30',
+			},
+		},
+		defaultVariants: {
+			color: 'blue',
+		},
+	},
+)
+
+const modalInfoIconVariants = cva('h-4 w-4 sm:h-5 sm:w-5', {
+	variants: {
+		color: {
+			blue: 'text-blue-600 dark:text-blue-400',
+			purple: 'text-purple-600 dark:text-purple-400',
+			green: 'text-green-600 dark:text-green-400',
+		},
+	},
+})
+
+const modalInfoTitleVariants = cva('text-xs font-semibold sm:text-sm', {
+	variants: {
+		color: {
+			blue: 'text-blue-900 dark:text-blue-100',
+			purple: 'text-purple-900 dark:text-purple-100',
+			green: 'text-green-900 dark:text-green-100',
+		},
+	},
+})
+
+const modalInfoContentVariants = cva('text-xs leading-snug sm:text-sm', {
+	variants: {
+		color: {
+			blue: 'text-blue-800 dark:text-blue-200',
+			purple: 'text-purple-800 dark:text-purple-200',
+			green: 'text-green-800 dark:text-green-200',
+		},
+	},
+})
+
 export const ModalInfoCard: React.FC<{
 	icon: React.ReactNode
 	title: string
 	content: string
 	color: 'blue' | 'purple' | 'green'
 	className?: string
-}> = ({ icon, title, content, color, className }) => {
-	const colorClasses = {
-		blue: {
-			border: 'border-blue-200 dark:border-blue-800',
-			bg: 'bg-blue-50 dark:bg-blue-900/20',
-			hoverBg: 'hover:bg-blue-100 dark:hover:bg-blue-900/30',
-			iconText: 'text-blue-600 dark:text-blue-400',
-			titleText: 'text-blue-900 dark:text-blue-100',
-			contentText: 'text-blue-800 dark:text-blue-200',
-		},
-		purple: {
-			border: 'border-purple-200 dark:border-purple-800',
-			bg: 'bg-purple-50 dark:bg-purple-900/20',
-			hoverBg: 'hover:bg-purple-100 dark:hover:bg-purple-900/30',
-			iconText: 'text-purple-600 dark:text-purple-400',
-			titleText: 'text-purple-900 dark:text-purple-100',
-			contentText: 'text-purple-800 dark:text-purple-200',
-		},
-		green: {
-			border: 'border-green-200 dark:border-green-800',
-			bg: 'bg-green-50 dark:bg-green-900/20',
-			hoverBg: 'hover:bg-green-100 dark:hover:bg-green-900/30',
-			iconText: 'text-green-600 dark:text-green-400',
-			titleText: 'text-green-900 dark:text-green-100',
-			contentText: 'text-green-800 dark:text-green-200',
-		},
-	}
-
-	const colors = colorClasses[color]
-
-	return (
-		<div
-			className={cn(
-				'flex-1 rounded-xl border p-3 backdrop-blur-sm transition-all duration-200 hover:shadow-md sm:p-4',
-				colors.border,
-				colors.bg,
-				colors.hoverBg,
-				className,
-			)}
-		>
-			<div className="mb-2 flex items-center gap-2">
-				<div className={cn('h-4 w-4 sm:h-5 sm:w-5', colors.iconText)}>
-					{icon}
-				</div>
-				<h4
-					className={cn(
-						'text-xs font-semibold sm:text-sm',
-						colors.titleText,
-					)}
-				>
-					{title}
-				</h4>
-			</div>
-			<p
-				className={cn(
-					'text-xs leading-snug sm:text-sm',
-					colors.contentText,
-				)}
-			>
-				{content}
-			</p>
+}> = ({ icon, title, content, color, className }) => (
+	<div className={cn(modalInfoCardVariants({ color }), className)}>
+		<div className="mb-2 flex items-center gap-2">
+			<div className={modalInfoIconVariants({ color })}>{icon}</div>
+			<h4 className={modalInfoTitleVariants({ color })}>{title}</h4>
 		</div>
-	)
-}
+		<p className={modalInfoContentVariants({ color })}>{content}</p>
+	</div>
+)
