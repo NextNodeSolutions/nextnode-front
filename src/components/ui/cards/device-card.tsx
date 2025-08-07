@@ -1,11 +1,11 @@
 /**
  * DeviceCard - Reusable device representation card
- * Extracted from StepIllustrations for consistent device display across workflow
+ * Refactored to use BaseCard for consistent styling patterns
  */
 
 import React from 'react'
 
-import { cn } from '@/lib/core/utils'
+import { BaseCard, type CardVariant } from './BaseCard'
 
 import type { DeviceType, DeviceStyle } from '@/data/workflow-illustrations'
 
@@ -22,29 +22,18 @@ export interface DeviceCardProps {
 	showIcon?: boolean
 }
 
-const sizeClasses = {
-	sm: {
-		container: 'p-3',
-		text: 'text-xs',
-		icon: 'text-lg',
-	},
-	md: {
-		container: 'p-4',
-		text: 'text-sm',
-		icon: 'text-xl',
-	},
-	lg: {
-		container: 'p-6',
-		text: 'text-base',
-		icon: 'text-2xl',
-	},
-} as const
-
 const deviceIcons: Record<DeviceType, string> = {
 	Mobile: '📱',
 	Desktop: '💻',
 	Tablet: '📱',
 	Watch: '⌚',
+}
+
+// Map device sizes to card variants
+const sizeToVariant: Record<'sm' | 'md' | 'lg', CardVariant> = {
+	sm: 'compact',
+	md: 'standard',
+	lg: 'large',
 }
 
 export const DeviceCard: React.FC<DeviceCardProps> = ({
@@ -54,24 +43,17 @@ export const DeviceCard: React.FC<DeviceCardProps> = ({
 	size = 'md',
 	showIcon = true,
 }) => {
-	const sizeStyle = sizeClasses[size]
 	const icon = deviceIcons[deviceType]
+	const variant = sizeToVariant[size]
 
 	return (
-		<div
-			className={cn(
-				'flex flex-col items-center rounded-xl shadow-sm transition-shadow hover:shadow-md',
-				style.bg,
-				sizeStyle.container,
-				className,
-			)}
-		>
-			{showIcon && (
-				<div className={cn('mb-2', sizeStyle.icon)}>{icon}</div>
-			)}
-			<span className={cn('font-semibold', style.text, sizeStyle.text)}>
-				{deviceType}
-			</span>
-		</div>
+		<BaseCard
+			variant={variant}
+			layout="simple"
+			hover="lift-sm"
+			title={deviceType}
+			icon={showIcon ? icon : undefined}
+			className={`${style.bg} ${style.text} ${className || ''}`}
+		/>
 	)
 }
