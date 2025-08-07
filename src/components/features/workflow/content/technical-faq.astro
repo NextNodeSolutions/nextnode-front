@@ -1,6 +1,7 @@
 ---
 import { t } from '@/lib/i18n/i18n-server'
 import { AnimatedList } from '@/components/ui/animation/AnimatedList'
+import { cn } from '@/lib/core/utils'
 
 // FAQ questions from translations
 const faqQuestions = [
@@ -78,7 +79,13 @@ const categories = [
 		{
 			categories.map((category, index) => (
 				<button
-					class={`faq-filter rounded-full border border-gray-200 px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 hover:border-blue-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:border-gray-700 dark:hover:border-blue-600 ${index === 0 ? 'active border-blue-500 bg-blue-500 text-white' : 'bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300'}`}
+					class={cn(
+						'faq-filter rounded-full border px-4 py-2 text-sm font-medium transition-all duration-300 hover:scale-105 hover:border-blue-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none',
+						'border-gray-200 dark:border-gray-700 dark:hover:border-blue-600',
+						index === 0
+							? 'active border-blue-500 bg-blue-500 text-white'
+							: 'bg-white text-gray-700 dark:bg-gray-800 dark:text-gray-300',
+					)}
 					data-category={category.id}
 				>
 					<span class="mr-2">{category.icon}</span>

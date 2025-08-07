@@ -7,6 +7,7 @@
 import { t } from '@/lib/i18n/i18n-server'
 import type { Technology, TechCategory } from '@/data/tech-stack'
 import { getTechColorClasses } from '@/data/tech-stack'
+import { cn } from '@/lib/core/utils'
 
 interface Props {
 	/** Technology data to display */
@@ -24,7 +25,11 @@ const colors = getTechColorClasses(category.color)
 ---
 
 <div
-	class={`tech-card group relative overflow-hidden rounded-2xl border ${colors.border} bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-800 ${className}`}
+	class={cn(
+		'tech-card group relative overflow-hidden rounded-2xl border bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-800',
+		colors.border,
+		className,
+	)}
 	style={`animation-delay: ${animationIndex * 100}ms`}
 >
 	<!-- Background pattern -->
@@ -55,7 +60,10 @@ const colors = getTechColorClasses(category.color)
 		<div class="mb-4 flex items-start justify-between">
 			<div class="flex items-center gap-3">
 				<div
-					class={`h-12 w-12 rounded-xl ${colors.bgLight} flex items-center justify-center text-2xl transition-transform duration-300 group-hover:scale-110`}
+					class={cn(
+						'h-12 w-12 rounded-xl flex items-center justify-center text-2xl transition-transform duration-300 group-hover:scale-110',
+						colors.bgLight,
+					)}
 				>
 					{technology.icon}
 				</div>
@@ -65,7 +73,7 @@ const colors = getTechColorClasses(category.color)
 					>
 						{technology.name}
 					</h4>
-					<div class={`text-sm ${colors.text} font-medium`}>
+					<div class={cn('text-sm font-medium', colors.text)}>
 						{technology.level}% {t('howWeWork.techStats.mastery')}
 					</div>
 				</div>
@@ -86,13 +94,16 @@ const colors = getTechColorClasses(category.color)
 				>
 					{t('howWeWork.techStats.expertiseLevel')}
 				</span>
-				<span class={`text-xs font-bold ${colors.text}`}>
+				<span class={cn('text-xs font-bold', colors.text)}>
 					{technology.level}%
 				</span>
 			</div>
 			<div class="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
 				<div
-					class={`h-2 rounded-full bg-gradient-to-r ${colors.bg} tech-progress transition-all duration-1000 ease-out`}
+					class={cn(
+						'h-2 rounded-full bg-gradient-to-r tech-progress transition-all duration-1000 ease-out',
+						colors.bg,
+					)}
 					data-progress={technology.level}
 					style="width: 0%"
 				>
@@ -102,7 +113,10 @@ const colors = getTechColorClasses(category.color)
 
 		<!-- Hover indicator -->
 		<div
-			class={`absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r ${colors.bg} origin-left scale-x-0 transform transition-transform duration-300 group-hover:scale-x-100`}
+			class={cn(
+				'absolute right-0 bottom-0 left-0 h-1 bg-gradient-to-r origin-left scale-x-0 transform transition-transform duration-300 group-hover:scale-x-100',
+				colors.bg,
+			)}
 		>
 		</div>
 	</div>

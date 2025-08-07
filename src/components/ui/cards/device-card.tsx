@@ -5,6 +5,8 @@
 
 import React from 'react'
 
+import { cn } from '@/lib/core/utils'
+
 import { BaseCard, type CardVariant } from './BaseCard'
 
 import type { DeviceType, DeviceStyle } from '@/data/workflow-illustrations'
@@ -53,7 +55,7 @@ export const DeviceCard: React.FC<DeviceCardProps> = ({
 			hover="lift-sm"
 			title={deviceType}
 			icon={showIcon ? icon : undefined}
-			className={`${style.bg} ${style.text} ${className || ''}`}
+			className={cn(style.bg, style.text, className)}
 		/>
 	)
 }

@@ -420,21 +420,21 @@
 	color: var(--color-purple-600);
 }
 
-/* Device Style Classes */
+/* Device Style Classes using CSS custom properties for card-base compatibility */
 .bg-device-1 {
-	background: var(--gradient-device-1);
+	--card-bg: var(--gradient-device-1);
 }
 
 .bg-device-2 {
-	background: var(--gradient-device-2);
+	--card-bg: var(--gradient-device-2);
 }
 
 .bg-device-3 {
-	background: var(--gradient-device-3);
+	--card-bg: var(--gradient-device-3);
 }
 
 .bg-device-4 {
-	background: var(--gradient-device-4);
+	--card-bg: var(--gradient-device-4);
 }
 
 .text-device-1 {

@@ -2,6 +2,7 @@
 import { t } from '@/lib/i18n/i18n-server'
 import { TECH_CATEGORIES, getTechColorClasses } from '@/data/tech-stack'
 import TechCard from '@/components/ui/cards/TechCard.astro'
+import { cn } from '@/lib/core/utils'
 
 // Generate categories with translated titles and descriptions
 const categories = TECH_CATEGORIES.map(category => ({
@@ -19,7 +20,13 @@ const categories = TECH_CATEGORIES.map(category => ({
 				const colors = getTechColorClasses(category.color)
 				return (
 					<button
-						class={`category-tab rounded-full px-6 py-3 font-semibold transition-all duration-300 ${colors.border} ${colors.bgLight} ${colors.text} hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none ${index === 0 ? 'active' : ''}`}
+						class={cn(
+							'category-tab rounded-full px-6 py-3 font-semibold transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none',
+							colors.border,
+							colors.bgLight,
+							colors.text,
+							index === 0 && 'active',
+						)}
 						data-category={category.id}
 					>
 						<span class="mr-2 text-lg">{category.icon}</span>
@@ -38,12 +45,20 @@ const categories = TECH_CATEGORIES.map(category => ({
 				return (
 					<div
 						id={`category-${category.id}`}
-						class={`category-content absolute inset-0 transition-all duration-500 ${categoryIndex === 0 ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-8 opacity-0'}`}
+						class={cn(
+							'category-content absolute inset-0 transition-all duration-500',
+							categoryIndex === 0
+								? 'translate-y-0 opacity-100'
+								: 'pointer-events-none translate-y-8 opacity-0',
+						)}
 					>
 						{/* Category header */}
 						<div class="mb-12 text-center">
 							<div
-								class={`inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${colors.bg} mb-4 text-2xl text-white shadow-lg`}
+								class={cn(
+									'mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br text-2xl text-white shadow-lg',
+									colors.bg,
+								)}
 							>
 								{category.icon}
 							</div>
@@ -68,12 +83,19 @@ const categories = TECH_CATEGORIES.map(category => ({
 
 						{/* General category stats */}
 						<div
-							class={`mt-12 rounded-2xl p-6 ${colors.bgLight} border ${colors.border}`}
+							class={cn(
+								'mt-12 rounded-2xl border p-6',
+								colors.bgLight,
+								colors.border,
+							)}
 						>
 							<div class="grid grid-cols-1 gap-6 text-center md:grid-cols-3">
 								<div>
 									<div
-										class={`text-3xl font-bold ${colors.text} mb-1`}
+										class={cn(
+											'mb-1 text-3xl font-bold',
+											colors.text,
+										)}
 									>
 										{category.technologies.length}
 									</div>
@@ -85,7 +107,10 @@ const categories = TECH_CATEGORIES.map(category => ({
 								</div>
 								<div>
 									<div
-										class={`text-3xl font-bold ${colors.text} mb-1`}
+										class={cn(
+											'mb-1 text-3xl font-bold',
+											colors.text,
+										)}
 									>
 										{Math.round(
 											category.technologies.reduce(
@@ -101,7 +126,10 @@ const categories = TECH_CATEGORIES.map(category => ({
 								</div>
 								<div>
 									<div
-										class={`text-3xl font-bold ${colors.text} mb-1`}
+										class={cn(
+											'mb-1 text-3xl font-bold',
+											colors.text,
+										)}
 									>
 										{
 											category.technologies.filter(

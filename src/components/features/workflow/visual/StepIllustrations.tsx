@@ -134,11 +134,12 @@ export default function StepIllustration({
 							{[...Array(5)].map((_, i) => (
 								<div
 									key={i}
-									className={`h-16 w-4 rounded-full shadow-lg ${
+									className={cn(
+										'h-16 w-4 rounded-full shadow-lg',
 										i < 4
 											? 'bg-gradient-to-t from-blue-500 to-purple-500'
-											: 'bg-gray-300 dark:bg-gray-600'
-									}`}
+											: 'bg-gray-300 dark:bg-gray-600',
+									)}
 								/>
 							))}
 						</div>

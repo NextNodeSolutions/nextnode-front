@@ -151,11 +151,16 @@ const design = getStepDesign(index)
 					{
 						Array.from({ length: 6 }, (_, i) => (
 							<div
-								class={`${variant === 'mini' ? 'h-0.5' : 'h-1'} flex-1 rounded-full transition-all duration-700 ${
+								class={cn(
+									'flex-1 rounded-full transition-all duration-700',
+									variant === 'mini' ? 'h-0.5' : 'h-1',
 									i <= index
-										? `bg-gradient-to-r ${design.gradient} shadow-sm`
-										: 'bg-gray-200 dark:bg-gray-700'
-								}`}
+										? cn(
+												'bg-gradient-to-r shadow-sm',
+												design.gradient,
+											)
+										: 'bg-gray-200 dark:bg-gray-700',
+								)}
 								style={`transition-delay: ${i * 50}ms`}
 							/>
 						))

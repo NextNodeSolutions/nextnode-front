@@ -1,5 +1,6 @@
 ---
 import StepCard from './StepCard.astro'
+import { cn } from '@/lib/core/utils'
 
 interface Props {
 	stepKey: string
@@ -12,7 +13,10 @@ const { stepKey, index, className = '', variant = 'mobile' } = Astro.props
 ---
 
 <div
-	class={`animate-in slide-in-from-bottom-8 fade-in-0 duration-700 fill-mode-forwards opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 hover:translate-x-1 transform transition-all ${className}`}
+	class={cn(
+		'animate-in slide-in-from-bottom-8 fade-in-0 duration-700 fill-mode-forwards opacity-0 motion-reduce:animate-none motion-reduce:opacity-100 hover:translate-x-1 transform transition-all',
+		className,
+	)}
 	style={`animation-delay: ${index * 150}ms`}
 	data-step-card
 	data-step-index={index}

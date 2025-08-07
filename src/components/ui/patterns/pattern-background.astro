@@ -5,6 +5,7 @@
  */
 
 import SVGPatternGenerator from './svg-pattern-generator.astro'
+import { cn } from '@/lib/core/utils'
 
 export interface Props {
 	pattern: 'dots' | 'grid' | 'waves' | 'circuit' | 'hexagon'
@@ -41,7 +42,7 @@ const animationClass = animated
 ---
 
 <div
-	class={`${className} ${animationClass} pointer-events-none`}
+	class={cn(className, animationClass, 'pointer-events-none')}
 	style={color !== 'currentColor' ? `color: ${color}` : undefined}
 >
 	<SVGPatternGenerator
