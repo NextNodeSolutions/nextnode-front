@@ -57,7 +57,7 @@ export default function StepIllustration({
 						{STACK_ITEMS.map(item => (
 							<div
 								key={item.label}
-								className="rounded-xl bg-gray-100 p-6 shadow-lg dark:bg-gray-700"
+								className="bg-stack-item rounded-xl p-6 shadow-lg"
 							>
 								<div
 									className={cn(
@@ -84,20 +84,20 @@ export default function StepIllustration({
 								className={cn(
 									'flex aspect-square items-center justify-center rounded-xl p-2 shadow-lg',
 									i < 7
-										? 'bg-green-200 dark:bg-green-800'
+										? 'bg-test-pass dark:bg-green-800'
 										: i < 8
-											? 'bg-yellow-200 dark:bg-yellow-800'
-											: 'bg-red-200 dark:bg-red-800',
+											? 'bg-test-warning dark:bg-yellow-800'
+											: 'bg-test-fail dark:bg-red-800',
 								)}
 							>
 								<div
 									className={cn(
 										'h-5 w-5 rounded-full shadow-sm',
 										i < 7
-											? 'bg-green-500'
+											? 'bg-test-pass-dot'
 											: i < 8
-												? 'bg-yellow-500'
-												: 'bg-red-500',
+												? 'bg-test-warning-dot'
+												: 'bg-test-fail-dot',
 									)}
 								/>
 							</div>

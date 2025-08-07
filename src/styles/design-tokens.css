@@ -1,27 +1,21 @@
 /**
- * Design Tokens - Centralized color and spacing values
- * Eliminates hardcoded colors throughout the codebase
+ * Design Tokens - Extensions to shadcn/ui color system
+ * Builds upon the base shadcn variables in global.css
  */
 
 :root {
-	/* Brand Colors */
-	--color-primary: #3b82f6; /* Blue 600 */
-	--color-primary-dark: #2563eb; /* Blue 700 */
-	--color-primary-light: #60a5fa; /* Blue 400 */
-	
-	--color-secondary: #8b5cf6; /* Purple 600 */
-	--color-secondary-dark: #7c3aed; /* Purple 700 */
-	--color-secondary-light: #a78bfa; /* Purple 400 */
-	
-	--color-accent: #06b6d4; /* Cyan 500 */
-	--color-accent-dark: #0891b2; /* Cyan 600 */
-	--color-accent-light: #22d3ee; /* Cyan 400 */
-	
-	/* Semantic Colors */
-	--color-success: #10b981; /* Green 500 */
-	--color-warning: #f59e0b; /* Amber 500 */
-	--color-error: #ef4444; /* Red 500 */
-	--color-info: #3b82f6; /* Blue 600 */
+	/* Shadcn-first approach: map our semantic colors to shadcn variables */
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-success: #10b981; /* Custom success color */
+	--color-warning: #f59e0b; /* Custom warning color */
+	--color-error: var(--destructive);
+	--color-error-foreground: var(--destructive-foreground);
+	--color-info: var(--primary);
 	
 	/* Extended Color Palette */
 	/* Indigo */
@@ -457,4 +451,35 @@
 
 .text-device-4 {
 	color: var(--color-indigo-700);
+}
+
+/* Testing Status Classes using shadcn approach */
+.bg-test-pass {
+	background-color: hsl(120 60% 90%);
+}
+
+.bg-test-warning {
+	background-color: hsl(45 100% 95%);
+}
+
+.bg-test-fail {
+	background-color: hsl(0 60% 95%);
+}
+
+.bg-test-pass-dot {
+	background-color: var(--color-success);
+}
+
+.bg-test-warning-dot {
+	background-color: var(--color-warning);
+}
+
+.bg-test-fail-dot {
+	background-color: hsl(var(--destructive));
+}
+
+/* Development Stack Background using shadcn variables */
+.bg-stack-item {
+	background-color: hsl(var(--muted));
+	border: 1px solid hsl(var(--border));
 }
