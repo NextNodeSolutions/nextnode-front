@@ -275,13 +275,13 @@ const patternId = `card-pattern-${pattern}-${Math.random().toString(36).slice(2)
 							: undefined
 					}
 				>
-					<span class={variantStyles.icon} set:html={icon} />
+					<span class={cn(variantStyles.icon)} set:html={icon} />
 				</div>
 			)
 		}
 
 		<!-- Content wrapper for with-icon layout -->
-		<div class={layout === 'with-icon' ? 'flex-1 min-w-0' : ''}>
+		<div class={cn(layout === 'with-icon' && 'flex-1 min-w-0')}>
 			<!-- Icon for simple layout -->
 			{
 				layout === 'simple' && icon && (

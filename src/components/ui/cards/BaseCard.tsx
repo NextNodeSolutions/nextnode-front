@@ -1,6 +1,6 @@
 /**
  * BaseCard - Consolidated card component with common patterns
- * Extracted from StepCard, TechCard, DeviceCard for consistent card styling
+ * Extracted from StepCard, TechCard for consistent card styling
  */
 
 import React from 'react'

@@ -54,11 +54,17 @@ const design = getStepDesign(index)
 	data-step-index={index}
 >
 	<div
-		class="{design.gradient} absolute -inset-1 rounded-2xl bg-gradient-to-r opacity-0 blur transition-all duration-500 group-hover:opacity-20"
+		class={cn(
+			'absolute -inset-1 rounded-2xl bg-gradient-to-r opacity-0 blur transition-all duration-500 group-hover:opacity-20',
+			design.gradient,
+		)}
 	>
 	</div>
 	<div
-		class="{design.glow} card-base relative overflow-hidden border border-gray-100 dark:border-gray-800"
+		class={cn(
+			'card-base relative overflow-hidden border border-gray-100 dark:border-gray-800',
+			design.glow,
+		)}
 	>
 		{
 			showHeader && (
