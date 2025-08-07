@@ -121,10 +121,7 @@ const metricsMiddleware = defineMiddleware(async (context, next) => {
 	return response
 })
 
-// Combiner les middlewares : URL mapping puis metrics
-// Routing manuel avec mapping intelligent vers structure [locale]/
-// Astro gère naturellement les 404 si la route n'existe pas
 export const onRequest = sequence(
 	urlMappingMiddleware, // 1. Map URLs → structure [locale]/ interne
-	metricsMiddleware, // 2. Métriques et analytics
+	metricsMiddleware,
 )

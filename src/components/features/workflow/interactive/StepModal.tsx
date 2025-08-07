@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { useI18n } from '@/lib/i18n/i18n-client'
+import { cn } from '@/lib/core/utils'
 import ModalContainer from '@/components/ui/overlays/modal-container'
 
 import { STEP_KEYS } from '../workflow-constants'
@@ -34,25 +35,22 @@ export default function StepModal({
 				readabilityOpacity: 0.75,
 			}}
 		>
-			{/* Layout principal avec aspect ratio optimisé - responsive sm+ */}
-			<div className="animate-in fade-in flex h-auto min-h-[450px] flex-col duration-300 sm:h-[520px] sm:min-h-[520px] sm:flex-row">
-				{/* Section gauche - Illustration (40% sur sm+, pleine largeur sur mobile) */}
+			<div
+				className={cn(
+					'animate-in fade-in flex h-auto min-h-[450px] flex-col duration-300 sm:h-[520px] sm:min-h-[520px] sm:flex-row',
+				)}
+			>
 				<div
 					className="animate-in slide-in-from-left relative flex w-full items-center justify-center border-r border-white/20 bg-white/10 p-4 shadow-inner backdrop-blur-md duration-500 sm:w-2/5 sm:p-6"
 					style={{
 						background: `linear-gradient(135deg, rgba(255,255,255,0.1) 0%, ${color}20 50%, rgba(255,255,255,0.05) 100%)`,
 					}}
 				>
-					<StepIllustration
-						stepKey={stepKey}
-					/>
+					<StepIllustration stepKey={stepKey} />
 				</div>
 
-				{/* Section droite - Contenu (60% sur sm+, pleine largeur sur mobile) */}
 				<div className="animate-in slide-in-from-right flex w-full flex-col justify-between border-l border-white/10 bg-white/30 p-6 shadow-sm backdrop-blur-sm delay-100 duration-500 sm:w-3/5 sm:p-8">
-					{/* Partie supérieure - Description principale */}
 					<div className="min-h-0 flex-1">
-						{/* Titre avec numéro */}
 						<div className="mb-4 sm:mb-6">
 							<div className="mb-3 flex items-center gap-3">
 								<span
@@ -70,7 +68,6 @@ export default function StepModal({
 							</p>
 						</div>
 
-						{/* Liste des détails */}
 						<div className="mb-6">
 							<h3 className="mb-3 text-sm font-semibold text-gray-900 sm:text-lg">
 								{t('modal.stepModal.whatWeDo')}
@@ -94,9 +91,7 @@ export default function StepModal({
 						</div>
 					</div>
 
-					{/* Partie inférieure - Cards livrables et durée */}
 					<div className="animate-in slide-in-from-bottom flex flex-col gap-3 delay-200 duration-500 sm:flex-row sm:gap-4">
-						{/* Card livrables */}
 						<div className="flex-1 rounded-xl border border-blue-200 bg-blue-50 p-3 backdrop-blur-sm transition-all duration-200 hover:bg-blue-100 hover:shadow-md sm:p-4 dark:border-blue-800 dark:bg-blue-900/20 dark:hover:bg-blue-900/30">
 							<div className="mb-2 flex items-center gap-2">
 								<svg
@@ -116,7 +111,6 @@ export default function StepModal({
 							</p>
 						</div>
 
-						{/* Card durée */}
 						<div className="flex-1 rounded-xl border border-purple-200 bg-purple-50 p-3 backdrop-blur-sm transition-all duration-200 hover:bg-purple-100 hover:shadow-md sm:p-4 dark:border-purple-800 dark:bg-purple-900/20 dark:hover:bg-purple-900/30">
 							<div className="mb-2 flex items-center gap-2">
 								<svg
