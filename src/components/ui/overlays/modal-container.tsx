@@ -28,10 +28,6 @@ interface ModalContainerProps {
 	}
 }
 
-/**
- * Container modal réutilisable avec glassmorphisme intégré
- * Gère la structure de base et les styles communs
- */
 export default function ModalContainer({
 	isOpen,
 	onClose,
@@ -61,7 +57,6 @@ export default function ModalContainer({
 				}
 				data-modal-size="custom"
 			>
-				{/* Titre requis pour l'accessibilité - caché visuellement si non fourni */}
 				<DialogTitle className="sr-only">
 					{title || 'Modal Dialog'}
 				</DialogTitle>
