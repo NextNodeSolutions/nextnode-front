@@ -5,7 +5,7 @@ export interface StepDesign {
 	glow: string
 	ring: string
 	icon: string
-	pattern: string
+	pattern: 'dots' | 'grid' | 'waves' | 'circuit' | 'hexagon'
 }
 
 // Sophisticated designs with CSS variables for step cards
@@ -40,7 +40,7 @@ export const STEP_DESIGNS: StepDesign[] = [
 		glow: 'shadow-amber',
 		ring: 'ring-amber',
 		icon: '🧪',
-		pattern: 'triangles',
+		pattern: 'circuit',
 	},
 	{
 		gradient: 'bg-step-5',
@@ -48,7 +48,7 @@ export const STEP_DESIGNS: StepDesign[] = [
 		glow: 'shadow-rose',
 		ring: 'ring-rose',
 		icon: '🚀',
-		pattern: 'circles',
+		pattern: 'dots',
 	},
 	{
 		gradient: 'bg-step-6',
@@ -56,7 +56,7 @@ export const STEP_DESIGNS: StepDesign[] = [
 		glow: 'shadow-slate',
 		ring: 'ring-slate',
 		icon: '🛠️',
-		pattern: 'hexagons',
+		pattern: 'hexagon',
 	},
 ]
 

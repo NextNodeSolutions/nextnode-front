@@ -14,11 +14,11 @@ body {
 
 /* Button patterns */
 .btn-icon {
-	@apply rounded-full p-1.5 text-gray-600 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white;
+	@apply rounded-full p-1.5 text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-accent hover:text-accent-foreground;
 }
 
 .btn-gradient-primary {
-	@apply bg-gradient-primary text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl;
+	@apply bg-primary text-primary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl;
 }
 
 /* Common transitions */
@@ -36,12 +36,12 @@ body {
 
 /* Container patterns */
 .card-container {
-	@apply rounded-2xl border border-gray-100 bg-white shadow-xl dark:border-gray-800 dark:bg-gray-900;
+	@apply rounded-2xl border border-border bg-card shadow-xl;
 }
 
 .card-base {
 	@apply rounded-2xl shadow-lg transition-shadow duration-300 hover:shadow-2xl;
-	@apply bg-white dark:bg-gray-800;
+	@apply bg-card text-card-foreground;
 }
 
 /* Layout utilities */
@@ -55,11 +55,11 @@ body {
 
 /* Text utilities */
 .text-muted {
-	@apply text-gray-600 dark:text-gray-300;
+	@apply text-muted-foreground;
 }
 
 .text-heading {
-	@apply text-gray-900 dark:text-white;
+	@apply text-foreground;
 }
 
 /* Hover effects */

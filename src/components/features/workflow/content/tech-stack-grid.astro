@@ -7,8 +7,8 @@ import { cn } from '@/lib/core/utils'
 // Generate categories with translated titles and descriptions
 const categories = TECH_CATEGORIES.map(category => ({
 	...category,
-	title: t(category.titleKey),
-	description: t(category.descriptionKey),
+	title: t(category.titleKey as any),
+	description: t(category.descriptionKey as any),
 }))
 ---
 
