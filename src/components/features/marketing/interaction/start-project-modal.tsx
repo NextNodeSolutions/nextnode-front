@@ -4,9 +4,8 @@ import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/i18n-client'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
 import { Button } from '@/components/ui/forms/button'
-import { Input } from '@/components/ui/forms/input'
-import { Textarea } from '@/components/ui/forms/textarea'
-import ModalContainer from '@/components/ui/overlays/modal-container'
+import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
+import { FormField, FormGrid } from '@/components/ui/forms/FormField'
 
 interface StartProjectModalProps {
 	className?: string
@@ -61,7 +60,7 @@ export const StartProjectModal = ({
 				</span>
 			</Button>
 
-			<ModalContainer
+			<BaseModal
 				isOpen={isOpen}
 				onClose={handleClose}
 				color="#3B82F6"
@@ -71,102 +70,61 @@ export const StartProjectModal = ({
 				className="sm:max-w-[600px]"
 				glassmorphismOptions={GLASSMORPHISM_PRESETS.modal}
 			>
-				<div className="animate-in fade-in p-6 duration-300 sm:p-8">
-					{/* Header */}
-					<div className="mb-6 text-center">
-						<h2 className="mb-3 text-2xl font-bold text-gray-900 sm:text-3xl">
-							{t('modal.title')}
-						</h2>
-						<p className="text-base text-gray-600 sm:text-lg">
-							{t('modal.description')}
-						</p>
-					</div>
-
-					{/* Form */}
-					<form className="space-y-4 sm:space-y-6">
-						<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-							<div className="space-y-2">
-								<label
-									htmlFor="name"
-									className="text-sm font-medium text-gray-700"
-								>
-									{t('modal.form.name')}
-								</label>
-								<Input
-									id="name"
-									placeholder={t(
-										'modal.form.namePlaceholder',
-									)}
-									className="bg-white/80 backdrop-blur-sm"
-								/>
-							</div>
-							<div className="space-y-2">
-								<label
-									htmlFor="email"
-									className="text-sm font-medium text-gray-700"
-								>
-									{t('modal.form.email')}
-								</label>
-								<Input
-									id="email"
-									type="email"
-									placeholder={t(
-										'modal.form.emailPlaceholder',
-									)}
-									className="bg-white/80 backdrop-blur-sm"
-								/>
-							</div>
-						</div>
-						<div className="space-y-2">
-							<label
-								htmlFor="project"
-								className="text-sm font-medium text-gray-700"
-							>
-								{t('modal.form.projectType')}
-							</label>
-							<Input
-								id="project"
-								placeholder={t(
-									'modal.form.projectTypePlaceholder',
-								)}
-								className="bg-white/80 backdrop-blur-sm"
-							/>
-						</div>
-						<div className="space-y-2">
-							<label
-								htmlFor="budget"
-								className="text-sm font-medium text-gray-700"
-							>
-								{t('modal.form.budget')}
-							</label>
-							<Input
-								id="budget"
-								placeholder={t('modal.form.budgetPlaceholder')}
-								className="bg-white/80 backdrop-blur-sm"
-							/>
-						</div>
-						<div className="space-y-2">
-							<label
-								htmlFor="message"
-								className="text-sm font-medium text-gray-700"
-							>
-								{t('modal.form.details')}
-							</label>
-							<Textarea
-								id="message"
-								placeholder={t('modal.form.detailsPlaceholder')}
-								className="min-h-[100px] bg-white/80 backdrop-blur-sm sm:min-h-[120px]"
-							/>
-						</div>
-						<Button
-							type="submit"
-							className="btn-gradient-primary w-full font-semibold text-white hover:shadow-lg"
-						>
-							{t('modal.form.submit')}
-						</Button>
-					</form>
+				{/* Header */}
+				<div className="mb-6 text-center">
+					<ModalHeader
+						title={t('modal.title')}
+						description={t('modal.description')}
+					/>
 				</div>
-			</ModalContainer>
+
+				{/* Form */}
+				<form className="space-y-4 sm:space-y-6">
+					<FormGrid columns={2}>
+						<FormField
+							id="name"
+							label={t('modal.form.name')}
+							placeholder={t('modal.form.namePlaceholder')}
+							required
+						/>
+						<FormField
+							id="email"
+							label={t('modal.form.email')}
+							type="email"
+							placeholder={t('modal.form.emailPlaceholder')}
+							required
+						/>
+					</FormGrid>
+
+					<FormField
+						id="project"
+						label={t('modal.form.projectType')}
+						placeholder={t('modal.form.projectTypePlaceholder')}
+						required
+					/>
+
+					<FormField
+						id="budget"
+						label={t('modal.form.budget')}
+						placeholder={t('modal.form.budgetPlaceholder')}
+					/>
+
+					<FormField
+						id="message"
+						label={t('modal.form.details')}
+						type="textarea"
+						placeholder={t('modal.form.detailsPlaceholder')}
+						inputClassName="min-h-[100px] sm:min-h-[120px]"
+					/>
+
+					<Button
+						type="submit"
+						className="btn-gradient-primary w-full font-semibold text-white hover:shadow-lg"
+					>
+						{t('modal.form.submit')}
+					</Button>
+				</form>
+			</BaseModal>
 		</div>
 	)
 }
