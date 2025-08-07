@@ -50,7 +50,7 @@ const currentLocale = Astro.currentLocale || 'en'
 
 <!-- Initialize icons with correct state -->
 <script is:inline>
-	// Immediately set correct icon state
+	// Consolidated theme toggle script from theme-utils.ts
 	;(function () {
 		const savedTheme = localStorage.getItem('theme')
 		const systemPrefersDark = window.matchMedia(
