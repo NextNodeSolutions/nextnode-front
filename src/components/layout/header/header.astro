@@ -33,10 +33,10 @@ const localizedNavigationLinks = navigationLinks.map(link => ({
 			<MobileButton action="open" />
 		</div>
 	</div>
-
-	<!-- Mobile Menu -->
-	<MobileMenu links={localizedNavigationLinks} />
 </header>
+
+<!-- Mobile Menu (outside header to avoid stacking context issues) -->
+<MobileMenu links={localizedNavigationLinks} />
 
 <script>
 	// Header scroll effect
