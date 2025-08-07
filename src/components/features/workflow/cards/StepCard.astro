@@ -6,79 +6,29 @@ import {
 	t,
 } from '@/lib/i18n/i18n-server'
 import { getStepDesign } from '../step-designs'
+import {
+	STEP_CARD_VARIANTS,
+	VARIANT_FEATURES,
+	getVariantClasses,
+} from './step-card-variants'
+import PatternBackground from '@/components/ui/patterns/pattern-background.astro'
 import type { EnglishDict } from '@/i18n/types'
+import type { StepCardVariant } from './step-card-variants'
 
 export interface Props {
 	stepKey: string
 	index: number
-	variant?: 'mobile' | 'compact' | 'mini'
+	variant?: StepCardVariant
 }
 
 import { cn } from '@/lib/core/utils'
 
 const { stepKey, index, variant = 'mobile' } = Astro.props
 
-const VARIANTS = {
-	container: {
-		mobile: 'duration-700 hover:scale-[1.05]',
-		compact: 'duration-300 hover:scale-[1.03]',
-		mini: 'duration-200 hover:scale-[1.02]',
-	},
-	header: {
-		mobile: 'h-32',
-		compact: 'h-16',
-		mini: 'h-12',
-	},
-	content: {
-		mobile: 'space-y-4 p-6',
-		compact: 'space-y-1 p-3',
-		mini: 'p-2',
-	},
-	title: {
-		mobile: 'text-xl',
-		compact: 'text-base',
-		mini: 'text-sm',
-	},
-	description: {
-		mobile: 'line-clamp-5 text-sm',
-		compact: 'line-clamp-3 text-xs',
-		mini: 'hidden',
-	},
-	icon: {
-		mobile: 'h-16 w-16',
-		compact: 'h-8 w-8',
-		mini: 'h-6 w-6',
-	},
-	number: {
-		mobile: 'h-12 w-12',
-		compact: 'h-6 w-6',
-		mini: 'h-5 w-5',
-	},
-	iconText: {
-		mobile: 'text-3xl',
-		compact: 'text-lg',
-		mini: 'text-base',
-	},
-	numberText: {
-		mobile: 'text-2xl',
-		compact: 'text-sm',
-		mini: 'text-xs',
-	},
-	position: {
-		mobile: 'top-4 right-4',
-		compact: 'top-1 right-1',
-		mini: 'top-1 right-1',
-	},
-	iconPosition: {
-		mobile: 'bottom-4 left-4',
-		compact: 'bottom-1 left-1',
-		mini: 'bottom-1 left-1',
-	},
-} as const
-
-const showHeader = variant === 'mobile'
-const showDescription = variant !== 'mini'
-const showStepLabel = variant !== 'mini'
+// Use centralized variant configuration
+const showHeader = VARIANT_FEATURES.showHeader(variant)
+const showDescription = VARIANT_FEATURES.showDescription(variant)
+const showStepLabel = VARIANT_FEATURES.showStepLabel(variant)
 
 // Type alias for step data
 type StepData =
@@ -98,7 +48,7 @@ const design = getStepDesign(index)
 <div
 	class={cn(
 		'group relative transform transition-all cursor-pointer',
-		VARIANTS.container[variant],
+		getVariantClasses(variant, 'container'),
 	)}
 	data-step-card
 	data-step-index={index}
@@ -116,97 +66,32 @@ const design = getStepDesign(index)
 					class={cn(
 						design.gradient,
 						'relative overflow-hidden bg-gradient-to-br',
-						VARIANTS.header[variant],
+						getVariantClasses(variant, 'header'),
 					)}
 				>
-					<div class="absolute inset-0 opacity-10 transition-opacity duration-500 group-hover:opacity-20">
-						{design.pattern === 'dots' && (
-							<svg class="h-full w-full" viewBox="0 0 100 100">
-								<defs>
-									<pattern
-										id={`dots-${stepKey}`}
-										x="0"
-										y="0"
-										width="10"
-										height="10"
-										patternUnits="userSpaceOnUse"
-									>
-										<circle
-											cx="5"
-											cy="5"
-											r="1"
-											fill="currentColor"
-										/>
-									</pattern>
-								</defs>
-								<rect
-									width="100%"
-									height="100%"
-									fill={`url(#dots-${stepKey})`}
-								/>
-							</svg>
-						)}
-
-						{design.pattern === 'grid' && (
-							<svg class="h-full w-full" viewBox="0 0 100 100">
-								<defs>
-									<pattern
-										id={`grid-${stepKey}`}
-										x="0"
-										y="0"
-										width="10"
-										height="10"
-										patternUnits="userSpaceOnUse"
-									>
-										<path
-											d="M 10 0 L 0 0 0 10"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="0.5"
-										/>
-									</pattern>
-								</defs>
-								<rect
-									width="100%"
-									height="100%"
-									fill={`url(#grid-${stepKey})`}
-									class="py-6"
-								/>
-							</svg>
-						)}
-
-						{design.pattern === 'waves' && (
-							<svg class="h-full w-full" viewBox="0 0 100 100">
-								<path
-									d="M0,50 Q25,30 50,50 T100,50 L100,100 L0,100 Z"
-									fill="currentColor"
-									opacity="0.1"
-								/>
-								<path
-									d="M0,60 Q25,40 50,60 T100,60 L100,100 L0,100 Z"
-									fill="currentColor"
-									opacity="0.05"
-								/>
-							</svg>
-						)}
-					</div>
+					<PatternBackground
+						pattern={design.pattern}
+						opacity={0.1}
+						uniqueId={`${stepKey}-${index}`}
+						className="absolute inset-0 transition-opacity duration-500 group-hover:opacity-20"
+					/>
 
 					<div
 						class={cn(
 							'absolute transform transition-transform duration-500 group-hover:rotate-12',
-							VARIANTS.position[variant],
+							getVariantClasses(variant, 'position'),
 						)}
 					>
 						<div
 							class={cn(
 								'flex items-center justify-center rounded-2xl bg-white/20 shadow-lg ring-1 ring-white/30 backdrop-blur-sm',
-								VARIANTS.number[variant],
+								getVariantClasses(variant, 'number'),
 							)}
 						>
 							<span
 								class={cn(
 									'font-black text-white drop-shadow-sm',
-									VARIANTS.numberText[variant],
+									getVariantClasses(variant, 'numberText'),
 								)}
 							>
 								{number}
@@ -217,19 +102,19 @@ const design = getStepDesign(index)
 					<div
 						class={cn(
 							'absolute transform transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6',
-							VARIANTS.iconPosition[variant],
+							getVariantClasses(variant, 'iconPosition'),
 						)}
 					>
 						<div
 							class={cn(
 								'flex items-center justify-center rounded-2xl border border-white/20 bg-white/10 shadow-lg backdrop-blur-md',
-								VARIANTS.icon[variant],
+								getVariantClasses(variant, 'icon'),
 							)}
 						>
 							<span
 								class={cn(
 									'drop-shadow-lg filter',
-									VARIANTS.iconText[variant],
+									getVariantClasses(variant, 'iconText'),
 								)}
 							>
 								{design.icon}
@@ -246,12 +131,12 @@ const design = getStepDesign(index)
 			)
 		}
 
-		<div class={cn(VARIANTS.content[variant])}>
+		<div class={cn(getVariantClasses(variant, 'content'))}>
 			<div class="space-y-2">
 				<h3
 					class={cn(
 						'leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105 dark:text-white',
-						VARIANTS.title[variant],
+						getVariantClasses(variant, 'title'),
 					)}
 				>
 					{title}
@@ -283,7 +168,7 @@ const design = getStepDesign(index)
 					<p
 						class={cn(
 							'leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200',
-							VARIANTS.description[variant],
+							getVariantClasses(variant, 'description'),
 						)}
 					>
 						{description}
