@@ -8,10 +8,6 @@ import React from 'react'
 import { cva } from 'class-variance-authority'
 
 import { cn } from '@/lib/core/utils'
-import {
-	createGlassmorphismClass,
-	GLASSMORPHISM_PRESETS,
-} from '@/lib/ui/glassmorphism'
 import ModalContainer from '@/components/ui/overlays/modal-container'
 
 export interface BaseModalProps {
@@ -77,12 +73,8 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 				<div
 					className={cn(
 						'animate-in slide-in-from-left relative flex w-full items-center justify-center p-4 shadow-inner duration-500 sm:w-2/5 sm:p-6',
-						createGlassmorphismClass({
-							intensity: 'light',
-							blur: 'md',
-							shape: 'rounded',
-							ring: 'medium',
-						}),
+						// Custom glassmorphism with left-only rounded corners
+						'rounded-l-xl border border-white/10 bg-white/10 shadow-lg ring-1 ring-white/20 backdrop-blur-md dark:bg-white/5',
 					)}
 					style={{
 						background: `linear-gradient(135deg, rgba(255,255,255,0.1) 0%, ${color}20 50%, rgba(255,255,255,0.05) 100%)`,
@@ -95,7 +87,8 @@ export const BaseModal: React.FC<BaseModalProps> = ({
 				<div
 					className={cn(
 						'animate-in slide-in-from-right flex w-full flex-col justify-between p-6 shadow-sm delay-100 duration-500 sm:w-3/5 sm:p-8',
-						createGlassmorphismClass(GLASSMORPHISM_PRESETS.modal),
+						// Custom glassmorphism with right-only rounded corners
+						'rounded-r-xl border border-white/10 bg-white/30 shadow-2xl ring-1 ring-white/30 backdrop-blur-lg dark:bg-white/15',
 					)}
 				>
 					{children}

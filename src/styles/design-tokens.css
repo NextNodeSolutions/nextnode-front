@@ -11,136 +11,44 @@
 	--color-secondary-foreground: var(--secondary-foreground);
 	--color-accent: var(--accent);
 	--color-accent-foreground: var(--accent-foreground);
-	--color-success: #10b981; /* Custom success color */
-	--color-warning: #f59e0b; /* Custom warning color */
+	--color-success: #10b981;
+	--color-warning: #f59e0b;
 	--color-error: var(--destructive);
 	--color-error-foreground: var(--destructive-foreground);
 	--color-info: var(--primary);
 	
-	/* Extended Color Palette */
-	/* Indigo */
+	/* Step-specific colors (used in workflow) */
 	--color-indigo-500: #6366f1;
 	--color-indigo-600: #4f46e5;
-	--color-indigo-700: #4338ca;
-	--color-indigo-100: #e0e7ff;
-	--color-indigo-200: #c7d2fe;
-	--color-indigo-300: #a5b4fc;
-	--color-indigo-400: #818cf8;
-	--color-indigo-800: #3730a3;
-	--color-indigo-900: #312e81;
-	
-	/* Violet */
 	--color-violet-500: #8b5cf6;
 	--color-violet-600: #7c3aed;
-	--color-violet-700: #6d28d9;
-	
-	/* Purple */
-	--color-purple-300: #c084fc;
-	--color-purple-400: #a78bfa;
-	--color-purple-500: #8b5cf6;
-	--color-purple-600: #7c3aed;
-	--color-purple-700: #6d28d9;
-	--color-purple-100: #f3e8ff;
-	--color-purple-200: #e9d5ff;
-	--color-purple-800: #5b21b6;
-	--color-purple-900: #4c1d95;
-	
-	/* Pink */
-	--color-pink-300: #f9a8d4;
-	--color-pink-500: #ec4899;
-	--color-pink-700: #be185d;
-	--color-pink-100: #fce7f3;
-	--color-pink-200: #fbcfe8;
-	--color-pink-800: #9d174d;
-	--color-pink-900: #831843;
-	
-	/* Fuchsia */
-	--color-fuchsia-500: #d946ef;
-	
-	/* Rose */
-	--color-rose-500: #f43f5e;
-	
-	/* Blue variations */
-	--color-blue-100: #dbeafe;
-	--color-blue-200: #bfdbfe;
-	--color-blue-300: #93c5fd;
-	--color-blue-400: #60a5fa;
-	--color-blue-500: #3b82f6;
-	--color-blue-600: #2563eb;
-	--color-blue-700: #1d4ed8;
-	--color-blue-800: #1e40af;
-	--color-blue-900: #1e3a8a;
-	
-	/* Cyan */
-	--color-cyan-400: #22d3ee;
-	--color-cyan-500: #06b6d4;
-	
-	/* Emerald/Teal */
 	--color-emerald-500: #10b981;
 	--color-emerald-600: #059669;
 	--color-teal-600: #0d9488;
-	
-	/* Green */
-	--color-green-400: #4ade80;
-	--color-green-500: #22c55e;
-	--color-green-600: #16a34a;
-	--color-green-700: #15803d;
-	--color-green-100: #dcfce7;
-	--color-green-800: #166534;
-	--color-green-900: #14532d;
-	
-	/* Amber/Orange */
 	--color-amber-500: #f59e0b;
-	--color-orange-500: #f97316;
-	--color-orange-100: #fed7aa;
-	--color-orange-800: #9a3412;
-	
-	/* Red */
-	--color-red-500: #ef4444;
-	--color-red-100: #fee2e2;
-	--color-red-800: #991b1b;
-	--color-red-900: #7f1d1d;
-	
-	/* Yellow */
-	--color-yellow-100: #fef3c7;
-	--color-yellow-800: #92400e;
-	--color-yellow-900: #78350f;
-	
-	/* Slate/Gray */
+	--color-rose-500: #f43f5e;
 	--color-slate-500: #64748b;
 	--color-slate-600: #475569;
-	--color-gray-600: #4b5563;
-	--color-zinc-500: #71717a;
+	--color-cyan-500: #06b6d4;
+	--color-fuchsia-500: #d946ef;
+	--color-orange-500: #f97316;
+	--color-red-500: #ef4444;
 	
 	/* Gradient Combinations */
 	--gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-secondary));
 	--gradient-accent: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-	--gradient-vibrant: linear-gradient(to right, #6366f1, #8b5cf6, #ec4899); /* Indigo -> Purple -> Pink */
 	
 	/* Workflow Step Gradients */
-	--gradient-step-1: linear-gradient(to right, var(--color-indigo-600), var(--color-blue-600), var(--color-cyan-500));
-	--gradient-step-2: linear-gradient(to right, var(--color-violet-600), var(--color-purple-600), var(--color-fuchsia-500));
+	--gradient-step-1: linear-gradient(to right, var(--color-indigo-600), #2563eb, var(--color-cyan-500));
+	--gradient-step-2: linear-gradient(to right, var(--color-violet-600), #7c3aed, var(--color-fuchsia-500));
 	--gradient-step-3: linear-gradient(to right, var(--color-emerald-600), var(--color-teal-600), var(--color-cyan-500));
 	--gradient-step-4: linear-gradient(to right, var(--color-amber-500), var(--color-orange-500), var(--color-red-500));
-	--gradient-step-5: linear-gradient(to right, var(--color-rose-500), var(--color-pink-500), var(--color-fuchsia-500));
-	--gradient-step-6: linear-gradient(to right, var(--color-slate-600), var(--color-gray-600), var(--color-zinc-500));
-	
-	/* Discovery Phase Gradients */
-	--gradient-discovery-research: linear-gradient(to right, var(--color-blue-500), var(--color-blue-300));
-	--gradient-discovery-analysis: linear-gradient(to right, var(--color-purple-500), var(--color-purple-300));
-	--gradient-discovery-planning: linear-gradient(to right, var(--color-pink-500), var(--color-pink-300));
+	--gradient-step-5: linear-gradient(to right, var(--color-rose-500), #ec4899, var(--color-fuchsia-500));
+	--gradient-step-6: linear-gradient(to right, var(--color-slate-600), #4b5563, #71717a);
 	
 	
-	/* Alpha Colors for Glassmorphism */
-	--color-primary-alpha-10: rgba(59, 130, 246, 0.1);
-	--color-primary-alpha-20: rgba(59, 130, 246, 0.2);
+	/* Alpha Colors */
 	--color-primary-alpha-30: rgba(59, 130, 246, 0.3);
-	--color-primary-alpha-40: rgba(59, 130, 246, 0.4);
-	
-	--color-secondary-alpha-10: rgba(139, 92, 246, 0.1);
-	--color-secondary-alpha-20: rgba(139, 92, 246, 0.2);
-	--color-secondary-alpha-30: rgba(139, 92, 246, 0.3);
-	--color-secondary-alpha-40: rgba(139, 92, 246, 0.4);
 	
 	/* Step Shadow Colors */
 	--shadow-indigo: rgba(99, 102, 241, 0.25);
@@ -157,16 +65,14 @@
 	--ring-amber: rgba(245, 158, 11, 0.2);
 	--ring-rose: rgba(244, 63, 94, 0.2);
 	--ring-slate: rgba(100, 116, 139, 0.2);
-	
+
 	/* Glassmorphism Base */
+	--glass-white-10: rgba(255, 255, 255, 0.1);
+	--glass-white-20: rgba(255, 255, 255, 0.2);
 	--glass-white-30: rgba(255, 255, 255, 0.3);
 	--glass-white-50: rgba(255, 255, 255, 0.5);
 	--glass-white-75: rgba(255, 255, 255, 0.75);
-	--glass-white-10: rgba(255, 255, 255, 0.1);
-	--glass-white-20: rgba(255, 255, 255, 0.2);
-	--glass-gray-800-30: rgba(31, 41, 55, 0.3);
-	--glass-gray-800-20: rgba(31, 41, 55, 0.2);
-	
+
 	/* Shadow Colors */
 	--shadow-color-light: rgba(0, 0, 0, 0.1);
 	--shadow-color-medium: rgba(0, 0, 0, 0.15);
@@ -194,34 +100,12 @@
 /* Dark Mode Overrides */
 :root.dark {
 	/* Adjust alpha values for dark mode */
-	--color-primary-alpha-10: rgba(96, 165, 250, 0.1);
-	--color-primary-alpha-20: rgba(96, 165, 250, 0.2);
 	--color-primary-alpha-30: rgba(96, 165, 250, 0.3);
-	--color-primary-alpha-40: rgba(96, 165, 250, 0.4);
-	
-	--color-secondary-alpha-10: rgba(167, 139, 250, 0.1);
-	--color-secondary-alpha-20: rgba(167, 139, 250, 0.2);
-	--color-secondary-alpha-30: rgba(167, 139, 250, 0.3);
-	--color-secondary-alpha-40: rgba(167, 139, 250, 0.4);
-	
+
 	/* Shadow colors for dark mode */
 	--shadow-color-light: rgba(0, 0, 0, 0.3);
 	--shadow-color-medium: rgba(0, 0, 0, 0.5);
 	--shadow-color-dark: rgba(0, 0, 0, 0.7);
-	
-	
-	/* Dark mode stack text colors */
-	.text-green-stack {
-		color: var(--color-green-400);
-	}
-	
-	.text-blue-stack {
-		color: var(--color-blue-400);
-	}
-	
-	.text-purple-stack {
-		color: var(--color-purple-400);
-	}
 }
 
 /* Utility Classes using CSS Variables */
@@ -257,10 +141,6 @@
 	background: var(--gradient-accent);
 }
 
-.bg-gradient-vibrant {
-	background: var(--gradient-vibrant);
-}
-
 /* Workflow Step Classes */
 .bg-step-1 {
 	background: var(--gradient-step-1);
@@ -284,19 +164,6 @@
 
 .bg-step-6 {
 	background: var(--gradient-step-6);
-}
-
-/* Discovery Phase Classes */
-.bg-discovery-research {
-	background: var(--gradient-discovery-research);
-}
-
-.bg-discovery-analysis {
-	background: var(--gradient-discovery-analysis);
-}
-
-.bg-discovery-planning {
-	background: var(--gradient-discovery-planning);
 }
 
 /* Step Accent Classes */
@@ -372,45 +239,6 @@
 
 .ring-slate {
 	box-shadow: 0 0 0 1px var(--ring-slate);
-}
-
-/* Text Color Classes */
-.text-green-stack {
-	color: var(--color-green-600);
-}
-
-.text-blue-stack {
-	color: var(--color-blue-600);
-}
-
-.text-purple-stack {
-	color: var(--color-purple-600);
-}
-
-
-/* Testing Status Classes using shadcn approach */
-.bg-test-pass {
-	background-color: hsl(120 60% 90%);
-}
-
-.bg-test-warning {
-	background-color: hsl(45 100% 95%);
-}
-
-.bg-test-fail {
-	background-color: hsl(0 60% 95%);
-}
-
-.bg-test-pass-dot {
-	background-color: var(--color-success);
-}
-
-.bg-test-warning-dot {
-	background-color: var(--color-warning);
-}
-
-.bg-test-fail-dot {
-	background-color: hsl(var(--destructive));
 }
 
 /* Development Stack Background using shadcn variables */
