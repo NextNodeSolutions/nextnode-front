@@ -37,12 +37,19 @@ type ClientTranslationFunction = <K extends TranslationKey>(
 ) => TranslationValue<K>
 
 // React hook for i18n in client components - simplified to use Astro as source of truth
-export const useI18n = (): {
+export const useI18n = (
+	initialLocale?: string,
+): {
 	t: ClientTranslationFunction
 	language: Locale
 } => {
 	// Get current language from Astro (single source of truth)
 	const getCurrentLanguage = (): Locale => {
+		// If we have an initial locale from server, use it first to prevent hydration mismatch
+		if (initialLocale && isValidLocale(initialLocale)) {
+			return initialLocale
+		}
+
 		if (typeof window !== 'undefined') {
 			// Use Astro-provided current language
 			const astroLang =

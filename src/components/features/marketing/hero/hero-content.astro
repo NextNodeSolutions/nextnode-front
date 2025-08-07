@@ -53,6 +53,7 @@ import { t } from '@/lib/i18n/i18n-server'
 
 	<StartProjectModal
 		client:load
+		locale={Astro.currentLocale || 'en'}
 		className={cn(
 			'animate-fade-in-up animation-delay-900 mx-auto max-w-sm opacity-0',
 			'sm:max-w-md',

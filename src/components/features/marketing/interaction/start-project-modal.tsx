@@ -8,8 +8,16 @@ import { Input } from '@/components/ui/forms/input'
 import { Textarea } from '@/components/ui/forms/textarea'
 import ModalContainer from '@/components/ui/overlays/modal-container'
 
-export const StartProjectModal = (): React.ReactElement => {
-	const { t } = useI18n()
+interface StartProjectModalProps {
+	className?: string
+	locale?: string
+}
+
+export const StartProjectModal = ({
+	className,
+	locale,
+}: StartProjectModalProps): React.ReactElement => {
+	const { t } = useI18n(locale)
 	const [isOpen, setIsOpen] = useState(false)
 
 	const handleClose = (): void => {
@@ -21,7 +29,7 @@ export const StartProjectModal = (): React.ReactElement => {
 	}
 
 	return (
-		<>
+		<div className={className}>
 			<Button
 				variant="default"
 				onClick={handleOpen}
@@ -160,6 +168,6 @@ export const StartProjectModal = (): React.ReactElement => {
 					</form>
 				</div>
 			</ModalContainer>
-		</>
+		</div>
 	)
 }
