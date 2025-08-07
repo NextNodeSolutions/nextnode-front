@@ -44,7 +44,7 @@ export function generateThemeToggleScript(
 	moonIconId: string,
 ): string {
 	return `
-		;(function () {
+		function initThemeIcons() {
 			const savedTheme = localStorage.getItem('theme')
 			const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 			const isDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
@@ -61,7 +61,8 @@ export function generateThemeToggleScript(
 					moonIcon.classList.add('hidden')
 				}
 			}
-		})()
+		}
+		initThemeIcons()
 	`.trim()
 }
 

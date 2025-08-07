@@ -88,7 +88,7 @@ const currentLocale = Astro.currentLocale || 'en'
 		<!-- Theme initialization -->
 		<script is:inline>
 			// Initialize theme immediately to prevent flash
-			;(function () {
+			function initTheme() {
 				const savedTheme = localStorage.getItem('theme')
 				const systemPrefersDark = window.matchMedia(
 					'(prefers-color-scheme: dark)',
@@ -105,7 +105,8 @@ const currentLocale = Astro.currentLocale || 'en'
 
 				// Store theme state globally for components to access
 				window.initialTheme = isDark ? 'dark' : 'light'
-			})()
+			}
+			initTheme()
 		</script>
 	</head>
 	<body

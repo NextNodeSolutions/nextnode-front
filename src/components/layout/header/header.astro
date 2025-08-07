@@ -5,14 +5,6 @@ import Logo from './logo.astro'
 import MobileButton from './mobile/mobile-button.astro'
 import MobileMenu from './mobile/mobile-menu.astro'
 import { navigationLinks } from '@/lib/i18n/i18n-constants'
-import { getRelativeLocaleUrl } from 'astro:i18n'
-
-// Generate locale-aware navigation links
-const currentLocale = Astro.currentLocale || 'en'
-const localizedNavigationLinks = navigationLinks.map(link => ({
-	...link,
-	href: getRelativeLocaleUrl(currentLocale, link.href),
-}))
 ---
 
 <header
@@ -24,7 +16,7 @@ const localizedNavigationLinks = navigationLinks.map(link => ({
 			<Logo />
 
 			<div class="hidden items-center space-x-6 md:flex">
-				<Navigation links={localizedNavigationLinks} />
+				<Navigation links={navigationLinks} />
 				<Controls />
 			</div>
 
@@ -34,7 +26,7 @@ const localizedNavigationLinks = navigationLinks.map(link => ({
 </header>
 
 <!-- Mobile Menu (outside header to avoid stacking context issues) -->
-<MobileMenu links={localizedNavigationLinks} />
+<MobileMenu links={navigationLinks} />
 
 <script>
 	// Header scroll effect

@@ -59,7 +59,7 @@ const currentLanguage =
 <!-- Initialize icons with correct state -->
 <script is:inline>
 	// Consolidated theme toggle script from theme-utils.ts
-	;(function () {
+	function initThemeIcons() {
 		const savedTheme = localStorage.getItem('theme')
 		const systemPrefersDark = window.matchMedia(
 			'(prefers-color-scheme: dark)',
@@ -79,7 +79,8 @@ const currentLanguage =
 				moonIcon.classList.add('hidden')
 			}
 		}
-	})()
+	}
+	initThemeIcons()
 </script>
 
 <!-- No need for client-side initialization - server-side values are already correct -->
