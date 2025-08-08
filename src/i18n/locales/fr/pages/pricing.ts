@@ -3,8 +3,10 @@ export const pricing = {
 		title: 'TARIFS',
 		titleHighlight: 'TRANSPARENTS',
 		titleEnd: 'POUR VOTRE SUCCÈS',
-		subtitle: 'Choisissez le plan parfait pour lancer et développer votre présence digitale',
-		description: 'Des pages d\'accueil aux applications web complexes, nous proposons une tarification transparente sans frais cachés. Chaque projet inclut notre forfait infrastructure et support à 30€/mois.',
+		subtitle:
+			'Choisissez le plan parfait pour lancer et développer votre présence digitale',
+		description:
+			"Des pages d'accueil aux applications web complexes, nous proposons une tarification transparente sans frais cachés. Chaque projet inclut notre forfait infrastructure et support à 30€/mois.",
 		badge: '💡 Consultation gratuite incluse',
 	},
 	plans: {
@@ -13,10 +15,11 @@ export const pricing = {
 			tagline: 'Parfait pour les petites entreprises',
 			price: '500€ - 800€',
 			recurring: '30€/mois',
-			badge: 'Le Plus Populaire',
-			description: 'Idéal pour les startups et petites entreprises ayant besoin d\'une présence en ligne professionnelle',
+			badge: 'Idéal pour débuter',
+			description:
+				"Idéal pour les startups et petites entreprises ayant besoin d'une présence en ligne professionnelle",
 			features: [
-				'Page d\'accueil unique',
+				"Page d'accueil unique",
 				'Design responsive mobile',
 				'Intégration formulaire de contact',
 				'Optimisation SEO',
@@ -28,7 +31,7 @@ export const pricing = {
 			cta: 'Démarrer Votre Projet',
 			examples: [
 				'Menu de restaurant & contact',
-				'Vitrine d\'entreprise de services',
+				"Vitrine d'entreprise de services",
 				'Présentation de portfolio',
 			],
 		},
@@ -37,8 +40,9 @@ export const pricing = {
 			tagline: 'Pour les entreprises en croissance',
 			price: '1 500€ - 3 500€',
 			recurring: '30€/mois',
-			badge: 'Meilleur Rapport Qualité-Prix',
-			description: 'Sites web complets avec fonctionnalités avancées pour les entreprises établies',
+			badge: 'Complet et évolutif',
+			description:
+				'Sites web complets avec fonctionnalités avancées pour les entreprises établies',
 			features: [
 				'Site multi-pages (5-15 pages)',
 				'Design et branding personnalisés',
@@ -48,11 +52,11 @@ export const pricing = {
 				'Intégrations tierces',
 				'Optimisation des performances',
 				'Support prioritaire',
-				'Revues d\'optimisation mensuelles',
+				"Revues d'optimisation mensuelles",
 			],
 			cta: 'Obtenir un Devis',
 			examples: [
-				'Site web d\'entreprise',
+				"Site web d'entreprise",
 				'Boutique e-commerce',
 				'Plateforme de réservation',
 			],
@@ -62,8 +66,9 @@ export const pricing = {
 			tagline: 'Solutions sur-mesure',
 			price: 'Devis Personnalisé',
 			recurring: '30€+/mois',
-			badge: 'Premium',
-			description: 'Solutions sur-mesure pour les grandes organisations avec des exigences spécifiques',
+			badge: 'Sur-mesure avancé',
+			description:
+				'Solutions sur-mesure pour les grandes organisations avec des exigences spécifiques',
 			features: [
 				'Applications web personnalisées',
 				'Intégrations complexes',
@@ -72,13 +77,13 @@ export const pricing = {
 				'Architecture évolutive',
 				'Chef de projet dédié',
 				'Garanties SLA',
-				'Solutions d\'hébergement personnalisées',
+				"Solutions d'hébergement personnalisées",
 				'Support prioritaire 24/7',
 			],
 			cta: 'Nous Contacter',
 			examples: [
 				'Applications SaaS',
-				'Portails d\'entreprise',
+				"Portails d'entreprise",
 				'Plateformes web complexes',
 			],
 		},
@@ -91,7 +96,8 @@ export const pricing = {
 		},
 		infrastructure: {
 			title: 'Infrastructure & Support',
-			description: '30€/mois pour l\'hébergement, le monitoring et la maintenance',
+			description:
+				"30€/mois pour l'hébergement, le monitoring et la maintenance",
 			features: [
 				'CDN & hébergement inclus',
 				'Certificats SSL',
@@ -107,7 +113,7 @@ export const pricing = {
 		questions: [
 			{
 				question: 'Que comprend les 30€/mois ?',
-				answer: 'Notre forfait mensuel couvre l\'hébergement professionnel, CDN, certificats SSL, sauvegardes quotidiennes, monitoring de sécurité, optimisation des performances et support technique. Cela assure le fonctionnement optimal de votre site 24h/24.',
+				answer: "Notre forfait mensuel couvre l'hébergement professionnel, CDN, certificats SSL, sauvegardes quotidiennes, monitoring de sécurité, optimisation des performances et support technique. Cela assure le fonctionnement optimal de votre site 24h/24.",
 			},
 			{
 				question: 'Comment déterminez-vous le coût de développement ?',
@@ -115,11 +121,11 @@ export const pricing = {
 			},
 			{
 				question: 'Proposez-vous des plans de paiement ?',
-				answer: 'Oui, nous offrons des options de paiement flexibles incluant des paiements par étapes pour le développement et une facturation mensuelle pour l\'infrastructure et le support.',
+				answer: "Oui, nous offrons des options de paiement flexibles incluant des paiements par étapes pour le développement et une facturation mensuelle pour l'infrastructure et le support.",
 			},
 			{
 				question: 'Que se passe-t-il si je veux annuler ?',
-				answer: 'Vous possédez votre site web et pouvez annuler à tout moment avec un préavis de 30 jours. Nous vous aiderons à migrer vers votre solution d\'hébergement préférée.',
+				answer: "Vous possédez votre site web et pouvez annuler à tout moment avec un préavis de 30 jours. Nous vous aiderons à migrer vers votre solution d'hébergement préférée.",
 			},
 			{
 				question: 'Fournissez-vous une maintenance continue ?',
@@ -129,7 +135,8 @@ export const pricing = {
 	},
 	cta: {
 		title: 'Prêt à démarrer votre projet ?',
-		description: 'Obtenez une consultation gratuite et un devis détaillé pour votre site web.',
+		description:
+			'Obtenez une consultation gratuite et un devis détaillé pour votre site web.',
 		button: 'Obtenir Votre Devis Gratuit',
 	},
 } as const

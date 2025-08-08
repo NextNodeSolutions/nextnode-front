@@ -3,8 +3,10 @@ export const pricing = {
 		title: 'TRANSPARENT',
 		titleHighlight: 'PRICING',
 		titleEnd: 'FOR YOUR SUCCESS',
-		subtitle: 'Choose the perfect plan to launch and grow your digital presence',
-		description: 'From landing pages to complex web applications, we offer transparent pricing with no hidden fees. Every project includes our €30/month infrastructure and support package.',
+		subtitle:
+			'Choose the perfect plan to launch and grow your digital presence',
+		description:
+			'From landing pages to complex web applications, we offer transparent pricing with no hidden fees. Every project includes our €30/month infrastructure and support package.',
 		badge: '💡 Free consultation included',
 	},
 	plans: {
@@ -13,8 +15,9 @@ export const pricing = {
 			tagline: 'Perfect for small businesses',
 			price: '€500 - €800',
 			recurring: '€30/month',
-			badge: 'Most Popular',
-			description: 'Ideal for startups and small businesses needing a professional online presence',
+			badge: 'Perfect to start',
+			description:
+				'Ideal for startups and small businesses needing a professional online presence',
 			features: [
 				'Single landing page',
 				'Mobile-responsive design',
@@ -37,8 +40,9 @@ export const pricing = {
 			tagline: 'For growing companies',
 			price: '€1,500 - €3,500',
 			recurring: '€30/month',
-			badge: 'Best Value',
-			description: 'Complete websites with advanced features for established businesses',
+			badge: 'Complete & scalable',
+			description:
+				'Complete websites with advanced features for established businesses',
 			features: [
 				'Multi-page website (5-15 pages)',
 				'Custom design & branding',
@@ -62,8 +66,9 @@ export const pricing = {
 			tagline: 'Custom solutions',
 			price: 'Custom Quote',
 			recurring: '€30+/month',
-			badge: 'Premium',
-			description: 'Tailored solutions for large organizations with specific requirements',
+			badge: 'Advanced custom',
+			description:
+				'Tailored solutions for large organizations with specific requirements',
 			features: [
 				'Custom web applications',
 				'Complex integrations',
@@ -84,7 +89,7 @@ export const pricing = {
 		},
 	},
 	pricing: {
-		title: 'What\'s Included',
+		title: "What's Included",
 		development: {
 			title: 'Development',
 			description: 'One-time fee based on project complexity',
@@ -119,7 +124,7 @@ export const pricing = {
 			},
 			{
 				question: 'What happens if I want to cancel?',
-				answer: 'You own your website and can cancel anytime with 30 days notice. We\'ll help you migrate to your preferred hosting solution.',
+				answer: "You own your website and can cancel anytime with 30 days notice. We'll help you migrate to your preferred hosting solution.",
 			},
 			{
 				question: 'Do you provide ongoing maintenance?',
@@ -129,7 +134,8 @@ export const pricing = {
 	},
 	cta: {
 		title: 'Ready to start your project?',
-		description: 'Get a free consultation and detailed quote for your website.',
+		description:
+			'Get a free consultation and detailed quote for your website.',
 		button: 'Get Your Free Quote',
 	},
 } as const
