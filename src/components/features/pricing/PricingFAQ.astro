@@ -6,14 +6,17 @@ import { ChevronDown } from 'lucide-react'
 // Get FAQ data from translations
 const faqData = {
 	title: t('pricing.faq.title'),
-	questions: t('pricing.faq.questions') as Array<{ question: string; answer: string }>,
+	questions: t('pricing.faq.questions') as readonly {
+		question: string
+		answer: string
+	}[],
 }
 ---
 
 <section class="py-16 lg:py-24">
 	<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
 		<!-- Section Header -->
-		<div class="text-center mb-16">
+		<div class="mb-16 text-center">
 			<h2
 				class={cn(
 					'text-3xl font-bold tracking-tight text-gray-900 dark:text-white',
@@ -35,16 +38,16 @@ const faqData = {
 							'bg-white/80 backdrop-blur-sm',
 							'dark:border-gray-700/50 dark:bg-gray-800/80',
 							'transition-all duration-300',
-							'hover:shadow-lg hover:border-gray-300/60',
+							'hover:border-gray-300/60 hover:shadow-lg',
 							'dark:hover:border-gray-600/60',
-							'opacity-0 animate-fade-in-up',
+							'animate-fade-in-up opacity-0',
 						)}
 						style={`animation-delay: ${(index + 1) * 100}ms`}
 					>
 						<button
 							class={cn(
 								'w-full px-6 py-6 text-left',
-								'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+								'focus:ring-2 focus:ring-indigo-500 focus:outline-none',
 								'focus:ring-offset-2 dark:focus:ring-offset-gray-800',
 								'rounded-2xl',
 								'faq-trigger',
@@ -54,7 +57,7 @@ const faqData = {
 							aria-expanded="false"
 						>
 							<div class="flex items-center justify-between">
-								<h3 class="text-lg font-semibold text-gray-900 dark:text-white pr-4">
+								<h3 class="pr-4 text-lg font-semibold text-gray-900 dark:text-white">
 									{faq.question}
 								</h3>
 								<ChevronDown
@@ -67,7 +70,7 @@ const faqData = {
 								/>
 							</div>
 						</button>
-						
+
 						<div
 							class={cn(
 								'overflow-hidden transition-all duration-300 ease-in-out',
@@ -77,7 +80,7 @@ const faqData = {
 							data-faq-content={index}
 						>
 							<div class="px-6 pb-6">
-								<p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+								<p class="leading-relaxed text-gray-600 dark:text-gray-300">
 									{faq.answer}
 								</p>
 							</div>
@@ -95,7 +98,7 @@ const faqData = {
 				'animation-delay-800',
 			)}
 		>
-			<p class="text-gray-600 dark:text-gray-300 mb-6">
+			<p class="mb-6 text-gray-600 dark:text-gray-300">
 				Vous avez d'autres questions ? N'hésitez pas à nous contacter.
 			</p>
 			<a
@@ -123,21 +126,28 @@ const faqData = {
 <script>
 	function initializeFAQ() {
 		const faqTriggers = document.querySelectorAll('.faq-trigger')
-		
-		faqTriggers.forEach((trigger) => {
+
+		faqTriggers.forEach(trigger => {
 			trigger.addEventListener('click', () => {
 				const faqId = trigger.getAttribute('data-faq-id')
-				const content = document.querySelector(`[data-faq-content="${faqId}"]`)
+				const content = document.querySelector(
+					`[data-faq-content="${faqId}"]`,
+				)
 				const icon = trigger.querySelector('.faq-icon')
-				const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
-				
+				const isExpanded =
+					trigger.getAttribute('aria-expanded') === 'true'
+
 				// Close all other FAQs
-				faqTriggers.forEach((otherTrigger) => {
+				faqTriggers.forEach(otherTrigger => {
 					if (otherTrigger !== trigger) {
 						const otherId = otherTrigger.getAttribute('data-faq-id')
-						const otherContent = document.querySelector(`[data-faq-content="${otherId}"]`)
-						const otherIcon = otherTrigger.querySelector('.faq-icon')
-						
+						const otherContent = document.querySelector(
+							`[data-faq-content="${otherId}"]`,
+						) as HTMLElement
+						const otherIcon = otherTrigger.querySelector(
+							'.faq-icon',
+						) as HTMLElement
+
 						otherTrigger.setAttribute('aria-expanded', 'false')
 						if (otherContent) {
 							otherContent.style.maxHeight = '0'
@@ -147,23 +157,25 @@ const faqData = {
 						}
 					}
 				})
-				
+
 				// Toggle current FAQ
 				if (!isExpanded) {
 					trigger.setAttribute('aria-expanded', 'true')
 					if (content) {
-						content.style.maxHeight = content.scrollHeight + 'px'
+						;(content as HTMLElement).style.maxHeight =
+							(content as HTMLElement).scrollHeight + 'px'
 					}
 					if (icon) {
-						icon.style.transform = 'rotate(180deg)'
+						;(icon as HTMLElement).style.transform =
+							'rotate(180deg)'
 					}
 				} else {
 					trigger.setAttribute('aria-expanded', 'false')
 					if (content) {
-						content.style.maxHeight = '0'
+						;(content as HTMLElement).style.maxHeight = '0'
 					}
 					if (icon) {
-						icon.style.transform = 'rotate(0deg)'
+						;(icon as HTMLElement).style.transform = 'rotate(0deg)'
 					}
 				}
 			})

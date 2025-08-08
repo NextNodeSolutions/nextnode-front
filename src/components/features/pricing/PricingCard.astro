@@ -19,9 +19,9 @@ const planData = {
 	recurring: t(`pricing.plans.${plan}.recurring`),
 	badge: t(`pricing.plans.${plan}.badge`),
 	description: t(`pricing.plans.${plan}.description`),
-	features: t(`pricing.plans.${plan}.features`) as string[],
+	features: t(`pricing.plans.${plan}.features`) as readonly string[],
 	cta: t(`pricing.plans.${plan}.cta`),
-	examples: t(`pricing.plans.${plan}.examples`) as string[],
+	examples: t(`pricing.plans.${plan}.examples`) as readonly string[],
 }
 
 // Define plan-specific styling
@@ -72,7 +72,9 @@ const currentStyle = planStyles[plan]
 		// Responsive
 		'p-6 lg:p-8',
 	)}
-	style={animationDelay > 0 ? `animation-delay: ${animationDelay}ms` : undefined}
+	style={animationDelay > 0
+		? `animation-delay: ${animationDelay}ms`
+		: undefined}
 >
 	<!-- Featured Badge -->
 	{
@@ -92,14 +94,14 @@ const currentStyle = planStyles[plan]
 	}
 
 	<!-- Plan Header -->
-	<div class="text-center mb-8">
-		<h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+	<div class="mb-8 text-center">
+		<h3 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
 			{planData.name}
 		</h3>
-		<p class="text-gray-600 dark:text-gray-400 mb-4">
+		<p class="mb-4 text-gray-600 dark:text-gray-400">
 			{planData.tagline}
 		</p>
-		
+
 		<!-- Pricing -->
 		<div class="mb-4">
 			<div
@@ -111,18 +113,18 @@ const currentStyle = planStyles[plan]
 			>
 				{planData.price}
 			</div>
-			<div class="text-gray-600 dark:text-gray-400 text-sm">
+			<div class="text-sm text-gray-600 dark:text-gray-400">
 				+ {planData.recurring}
 			</div>
 		</div>
 
-		<p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+		<p class="leading-relaxed text-gray-700 dark:text-gray-300">
 			{planData.description}
 		</p>
 	</div>
 
 	<!-- Features List -->
-	<div class="flex-1 mb-8">
+	<div class="mb-8 flex-1">
 		<ul class="space-y-3">
 			{
 				planData.features.map(feature => (
@@ -136,7 +138,7 @@ const currentStyle = planStyles[plan]
 						>
 							<Check className="h-3 w-3 text-white" />
 						</div>
-						<span class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+						<span class="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
 							{feature}
 						</span>
 					</li>
@@ -147,7 +149,7 @@ const currentStyle = planStyles[plan]
 
 	<!-- Examples Section -->
 	<div class="mb-8">
-		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+		<h4 class="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
 			Exemples d'usage :
 		</h4>
 		<ul class="space-y-2">
@@ -190,7 +192,8 @@ const currentStyle = planStyles[plan]
 			currentStyle.gradient,
 			'group-hover:opacity-5',
 		)}
-	/>
+	>
+	</div>
 </div>
 
 <style>
