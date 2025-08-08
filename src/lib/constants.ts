@@ -1,11 +1,9 @@
-import type { NavigationLinks } from '@/i18n/types'
+// =============================================================================
+// GLOBAL CONSTANTS - Only truly global application constants
+// =============================================================================
 
-export const languages = [
-	{ code: 'en', label: 'English', flag: '🇬🇧' },
-	{ code: 'fr', label: 'Français', flag: '🇫🇷' },
-]
-
-export const navigationLinks: NavigationLinks = [
-	{ href: '/how-we-work', labelKey: 'navigation.howWeWork' },
-	{ href: '/pricing', labelKey: 'navigation.pricing' },
-]
+// Add any truly global constants here that don't belong to specific domains
+// Domain-specific constants have been moved to their respective folders:
+// - I18n constants: src/lib/i18n/i18n-constants.ts
+// - UI constants: src/lib/ui/ui-constants.ts
+// - Workflow constants: src/components/features/workflow/workflow-constants.ts

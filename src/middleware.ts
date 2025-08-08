@@ -1,7 +1,7 @@
 import { defineMiddleware, sequence } from 'astro:middleware'
 
-import { ApplicationMetrics } from './lib/metrics'
-import { initI18n } from './lib/i18n-server'
+import { ApplicationMetrics } from './lib/core/metrics'
+import { initI18n } from './lib/i18n/i18n-server'
 
 // Middleware for intelligent URL mapping with locale handling
 const urlMappingMiddleware = defineMiddleware(async (context, next) => {
@@ -51,7 +51,7 @@ const urlMappingMiddleware = defineMiddleware(async (context, next) => {
 	return next()
 })
 
-// Middleware pour les métriques et analytics
+// Middleware for metrics and analytics
 const metricsMiddleware = defineMiddleware(async (context, next) => {
 	const { request } = context
 
@@ -121,10 +121,7 @@ const metricsMiddleware = defineMiddleware(async (context, next) => {
 	return response
 })
 
-// Combiner les middlewares : URL mapping puis metrics
-// Routing manuel avec mapping intelligent vers structure [locale]/
-// Astro gère naturellement les 404 si la route n'existe pas
 export const onRequest = sequence(
-	urlMappingMiddleware, // 1. Map URLs → structure [locale]/ interne
-	metricsMiddleware, // 2. Métriques et analytics
+	urlMappingMiddleware, // 1. Map URLs → internal [locale]/ structure
+	metricsMiddleware,
 )

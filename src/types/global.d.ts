@@ -1,5 +1,6 @@
 declare global {
 	interface Window {
+		currentLanguage?: string
 		languageManager: {
 			getCurrentLanguage(): string
 			changeLanguage(newLang: string): void

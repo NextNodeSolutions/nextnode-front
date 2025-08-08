@@ -1,0 +1,17 @@
+---
+import { cn } from '@/lib/core/utils'
+import SidePanel from './side-panel.astro'
+---
+
+<!-- Mobile Side Panel - Appears after scroll -->
+<div
+	class={cn(
+		'px-6 pb-10 pt-8 opacity-0 animate-fade-in-up animation-delay-300',
+		'sm:px-8 sm:pb-16 sm:pt-12',
+		'md:hidden',
+	)}
+>
+	<div class="mx-auto max-w-sm sm:max-w-md">
+		<SidePanel />
+	</div>
+</div>

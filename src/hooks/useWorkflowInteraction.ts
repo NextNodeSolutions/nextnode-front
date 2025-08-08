@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 
-import { domUtils } from '@/lib/modal-utils'
+import { domUtils } from '@/lib/ui/modal-utils'
 
 import type { UseWorkflowInteractionReturn } from '@/types/workflow'
 

@@ -1,5 +1,5 @@
-// Types centralisés pour le système de workflow
-// Fusionnés depuis workflow-constants.ts et composants divers
+// Centralized types for the workflow system
+// Merged from workflow-constants.ts and various components
 
 export interface StepConfig {
 	icon: string

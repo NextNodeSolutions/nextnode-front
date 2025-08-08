@@ -1,0 +1,157 @@
+import { useEffect } from 'react'
+
+/**
+ * Client-side interaction handler for FAQ components
+ * Handles filtering and accordion behavior
+ */
+export const FAQInteractions = (): null => {
+	useEffect(() => {
+		const filterButtons = document.querySelectorAll('.faq-filter')
+		const faqHeaders = document.querySelectorAll('.faq-header')
+		const faqItems = document.querySelectorAll('.faq-item')
+
+		// Filter function
+		const filterFAQs = (category: string): void => {
+			faqItems.forEach(item => {
+				const faqItem = item as HTMLElement
+				const itemCategory = faqItem.getAttribute('data-category')
+
+				if (category === 'all' || itemCategory === category) {
+					faqItem.style.display = 'block'
+					faqItem.style.animation = 'fadeIn 0.3s ease-out'
+				} else {
+					faqItem.style.display = 'none'
+				}
+			})
+		}
+
+		// Toggle FAQ accordion
+		const toggleFAQ = (faqId: string): void => {
+			const header = document.querySelector(
+				`[data-faq="${faqId}"]`,
+			) as HTMLElement
+			const content = document.querySelector(
+				`[data-content="${faqId}"]`,
+			) as HTMLElement
+			const chevron = header?.querySelector('.faq-chevron') as HTMLElement
+
+			if (!header || !content || !chevron) return
+
+			const isOpen = header.getAttribute('aria-expanded') === 'true'
+
+			if (isOpen) {
+				// Close
+				header.setAttribute('aria-expanded', 'false')
+				content.style.maxHeight = '0'
+				chevron.style.transform = 'rotate(0deg)'
+			} else {
+				// Close all other FAQs first (accordion behavior)
+				faqHeaders.forEach(otherHeader => {
+					if (otherHeader !== header) {
+						const otherFaqId = otherHeader.getAttribute('data-faq')
+						if (otherFaqId) {
+							const otherContent = document.querySelector(
+								`[data-content="${otherFaqId}"]`,
+							) as HTMLElement
+							const otherChevron = otherHeader.querySelector(
+								'.faq-chevron',
+							) as HTMLElement
+
+							if (otherContent && otherChevron) {
+								otherHeader.setAttribute(
+									'aria-expanded',
+									'false',
+								)
+								otherContent.style.maxHeight = '0'
+								otherChevron.style.transform = 'rotate(0deg)'
+							}
+						}
+					}
+				})
+
+				// Open current
+				header.setAttribute('aria-expanded', 'true')
+				content.style.maxHeight = content.scrollHeight + 'px'
+				chevron.style.transform = 'rotate(180deg)'
+			}
+		}
+
+		// Event handlers for filter buttons
+		filterButtons.forEach(button => {
+			button.addEventListener('click', () => {
+				// Remove active class from all buttons
+				filterButtons.forEach(btn => {
+					btn.classList.remove(
+						'active',
+						'bg-blue-500',
+						'text-white',
+						'border-blue-500',
+					)
+					btn.classList.add(
+						'bg-white',
+						'dark:bg-gray-800',
+						'text-gray-700',
+						'dark:text-gray-300',
+					)
+				})
+
+				// Activate clicked button
+				button.classList.add(
+					'active',
+					'bg-blue-500',
+					'text-white',
+					'border-blue-500',
+				)
+				button.classList.remove(
+					'bg-white',
+					'dark:bg-gray-800',
+					'text-gray-700',
+					'dark:text-gray-300',
+				)
+
+				// Filter FAQs
+				const category = button.getAttribute('data-category')
+				if (category) {
+					filterFAQs(category)
+				}
+			})
+		})
+
+		// Event handlers for FAQ headers
+		faqHeaders.forEach(header => {
+			header.addEventListener('click', () => {
+				const faqId = header.getAttribute('data-faq')
+				if (faqId) {
+					toggleFAQ(faqId)
+				}
+			})
+		})
+
+		// Handle resizing for open content
+		const handleResize = (): void => {
+			faqHeaders.forEach(header => {
+				if (header.getAttribute('aria-expanded') === 'true') {
+					const faqId = header.getAttribute('data-faq')
+					const content = document.querySelector(
+						`[data-content="${faqId}"]`,
+					) as HTMLElement
+					if (content) {
+						content.style.maxHeight = content.scrollHeight + 'px'
+					}
+				}
+			})
+		}
+
+		window.addEventListener('resize', handleResize)
+
+		// Cleanup
+		return (): void => {
+			window.removeEventListener('resize', handleResize)
+		}
+	}, [])
+
+	// This component doesn't render anything, it only manages interactions
+	return null
+}
+
+export default FAQInteractions

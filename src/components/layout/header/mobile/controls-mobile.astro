@@ -1,0 +1,79 @@
+---
+import { languages } from '@/lib/i18n/i18n-constants'
+import { Sun, Moon } from 'lucide-react'
+import { t } from '@/lib/i18n/i18n-server'
+import { cn } from '@/lib/core/utils'
+
+// Get current locale from server
+const currentLocale = Astro.currentLocale || 'en'
+---
+
+<div class="border-t border-gray-200 pt-4 dark:border-gray-700">
+	<div class="flex items-center justify-between">
+		<!-- Mobile Language Selector -->
+		<div class="flex space-x-3">
+			{
+				languages.map(lang => {
+					const isActive = lang.code === currentLocale
+					const baseClasses =
+						'flex flex-col items-center space-y-1 rounded-lg border px-4 py-3 transition-all duration-300'
+					const activeClasses = isActive
+						? 'border-blue-300 bg-blue-50 text-blue-600 dark:border-blue-500 dark:bg-blue-900/20 dark:text-blue-400'
+						: 'border-gray-200 bg-white text-gray-600 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-blue-500 dark:hover:bg-blue-900/20 dark:hover:text-blue-400'
+
+					return (
+						<button
+							data-lang={lang.code}
+							class={cn(baseClasses, activeClasses)}
+							id={`lang-button-${lang.code}-mobile`}
+						>
+							<span class="text-xl">{lang.flag}</span>
+							<span class="text-xs font-medium">
+								{lang.label}
+							</span>
+						</button>
+					)
+				})
+			}
+		</div>
+
+		<!-- Mobile Theme Toggle -->
+		<button
+			id="theme-toggle-mobile"
+			class="btn-icon"
+			aria-label={t('common.ui.toggleTheme')}
+		>
+			<Sun id="sun-icon-mobile" className="h-5 w-5" />
+			<Moon id="moon-icon-mobile" className="hidden h-5 w-5" />
+		</button>
+	</div>
+</div>
+
+<!-- Initialize icons with correct state -->
+<script is:inline>
+	// Consolidated theme toggle script from theme-utils.ts
+	function initThemeIcons() {
+		const savedTheme = localStorage.getItem('theme')
+		const systemPrefersDark = window.matchMedia(
+			'(prefers-color-scheme: dark)',
+		).matches
+		const isDark =
+			savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
+
+		const sunIcon = document.getElementById('sun-icon-mobile')
+		const moonIcon = document.getElementById('moon-icon-mobile')
+
+		if (sunIcon && moonIcon) {
+			if (isDark) {
+				sunIcon.classList.add('hidden')
+				moonIcon.classList.remove('hidden')
+			} else {
+				sunIcon.classList.remove('hidden')
+				moonIcon.classList.add('hidden')
+			}
+		}
+	}
+	initThemeIcons()
+</script>
+
+<!-- No need for client-side initialization - server-side classes are already correct -->
