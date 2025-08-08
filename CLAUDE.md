@@ -1,167 +1,194 @@
-# CLAUDE.md - Nextnode Front
+# CLAUDE.md
 
-This file provides guidance to Claude Code when working specifically with the Nextnode Front project.
-
-## MCP Context7 Configuration
-
-**IMPORTANT**: Always use MCP context7 server for documentation lookup in PRIORITY for the following technologies:
-
-### Priority Documentation Sources (MCP Context7)
-
-- **JavaScript/TypeScript**: Use MCP context7 docs for ES6+, TypeScript features, async/await patterns
-- **Astro**: Use MCP context7 docs for Astro framework, SSR, islands architecture, middleware
-- **React**: Use MCP context7 docs for React 19+, hooks, component patterns, testing
-- **Tailwind CSS**: Use MCP context7 docs for Tailwind v4, utilities, configuration, custom styles
-- **Node.js**: Use MCP context7 docs for Node.js APIs, modules, performance patterns
-- **Vite**: Use MCP context7 docs for build configuration, plugins, optimization
-- **Vitest**: Use MCP context7 docs for testing patterns, mocking, coverage
-- **ESLint/Prettier**: Use MCP context7 docs for configuration, rules, formatting
-
-When a user asks about any of these technologies, **ALWAYS query MCP context7 FIRST** before using general knowledge.
+This file provides guidance to Claude Code (claude.ai/code) when working with the **nextnode-front** project.
 
 ## Project Overview
 
-**Nextnode Front** is the company homepage built with modern web technologies for optimal performance and developer experience.
+Main Astro web application with React components, TypeScript, Tailwind CSS, and internationalization. Part of the NextNode multi-repository ecosystem.
 
-### Technology Stack
+## Context7 MCP - Documentation Priority
 
-- **Framework**: Astro 5+ (SSR mode with Node.js adapter)
-- **UI Library**: React 19+ for interactive components
-- **Styling**: Tailwind CSS v4 with @tailwindcss/vite
-- **Language**: TypeScript (strict configuration)
-- **Testing**: Vitest with jsdom environment + @testing-library/react
-- **Build**: Vite with Astro integration
-- **Internationalization**: i18next (English/French support)
+**CRITICAL**: Always prioritize Context7 MCP for accessing up-to-date official documentation when available.
 
-### Development Commands
+### Usage Protocol
+
+1. **Always start** development queries with: "use context7 for [technology]"
+2. **Prioritize official docs** through Context7 over general knowledge
+3. **Verify Context7 availability** for the technology before proceeding
+4. **If Context7 unavailable**, use general knowledge as fallback
+
+### Priority Technologies for Context7 (nextnode-front specific)
+
+- **Astro 5.x**: Framework features, SSR, islands architecture, middleware, i18n
+- **React 19.x**: Hooks, component patterns, testing, concurrent features
+- **TypeScript**: Latest features, strict configuration, generics, utility types
+- **Tailwind CSS 4.x**: Utilities, configuration, responsive design, plugins
+- **Vite**: Build configuration, plugins, optimization, rollup options
+- **Vitest**: Testing patterns, mocking, coverage, jsdom environment
+- **i18next**: Internationalization, server-side rendering, route handling
+- **Node.js**: Runtime APIs, performance optimization, server configuration
+- **ESLint/Prettier**: Configuration, rules, formatting, plugin development
+
+## Essential Commands
+
+**Package Manager**: pnpm
+
+### Development
 
 ```bash
-# Development
-pnpm dev                    # Start dev server on http://localhost:4321
-pnpm build                  # Build for production (runs type check first)
-pnpm preview               # Preview production build
-
-# Code Quality
-pnpm lint                  # Run ESLint with max warnings 0
-pnpm lint:fix              # Auto-fix ESLint issues
-pnpm format                # Format code with Prettier
-pnpm type-check           # TypeScript type checking (astro sync + tsc)
-
-# Testing
-pnpm test                  # Run tests once
-pnpm test:watch           # Run tests in watch mode
-pnpm test:coverage        # Run tests with coverage report
-pnpm test:ui              # Open Vitest UI
+pnpm dev          # Start development server
+pnpm build        # Type check and build
+pnpm preview      # Preview built application
 ```
 
-### Architecture
+### Testing
 
-**Component Structure:**
+```bash
+pnpm test                    # Run all tests
+pnpm test:watch             # Run tests in watch mode
+pnpm test:coverage          # Run tests with coverage
+pnpm vitest run path/to/test.test.ts  # Run single test file
+```
 
-- `/src/components/common/`: Reusable components
-- `/src/components/layout/`: Layout components (header, footer)
-- `/src/components/marketing/`: Marketing-specific components
-- `/src/components/ui/`: Base UI components (Radix UI based)
+### Code Quality (ALWAYS run before finishing work)
 
-**Key Files:**
+```bash
+pnpm lint         # ESLint with zero warnings tolerance
+pnpm type-check   # TypeScript type checking (REQUIRED)
+pnpm format       # Prettier formatting
+pnpm build        # Full build when necessary
+```
 
-- `astro.config.mjs`: Main Astro configuration
-- `src/middleware.ts`: Request handling, metrics, logging
-- `src/i18n/config.ts`: Internationalization setup
-- `src/lib/metrics.ts`: Application metrics tracking
+## TypeScript Standards (STRICTLY ENFORCED)
 
-**Important Patterns:**
+- **TypeScript is MANDATORY** - all code must be properly typed
+- **Use generics** when appropriate but keep them simple, concise, and descriptive
+- **NEVER use `any`** - absolutely forbidden
+- **NEVER use `as`** except for `as const`
+- **Use `unknown` only as last resort** when type is truly unknowable
+- Prefer explicit type annotations over inference for public APIs
+- Use proper generic constraints and conditional types when needed
 
-1. **File Extensions**: `.astro` for Astro components, `.tsx` for React components
-2. **Imports**: Use path aliases (`@/*`) for internal imports
-3. **TypeScript**: Strict mode with additional safety checks enabled
-4. **i18n**: Translation keys in `public/locales/{lang}/common.json`
-5. **SSR**: Server-side rendering configured for optimal performance
+## Architecture Overview
 
-### Environment Variables
+### Tech Stack
 
-- `HOST`: Server host (default: 0.0.0.0)
-- `PORT`: Server port (default: 4321)
-- `URL`: Site URL for production
+- **Framework**: Astro 5.x with server-side rendering
+- **UI**: React 19.x for interactive components
+- **Styling**: Tailwind CSS 4.x with custom utilities
+- **i18n**: Built-in Astro i18n with manual routing
+- **State**: React hooks only (no global state management)
+- **Testing**: Vitest with jsdom environment
 
-### Testing Strategy
+### Project Structure
 
-- Unit tests with Vitest and jsdom
-- Component testing with @testing-library/react
-- Coverage reports generated to `coverage.json`
-- Test files colocated with source files (`*.test.ts`)
+```
+src/
+├── components/          # React/Astro components
+│   ├── common/         # Shared utilities
+│   ├── features/       # Feature-specific components
+│   ├── layout/         # Site structure
+│   └── ui/            # Reusable UI components
+├── pages/             # File-based routing with i18n
+├── lib/               # Utilities and configurations
+├── hooks/             # Custom React hooks
+├── types/             # TypeScript type definitions
+└── styles/            # Global CSS and animations
+```
 
-### Deployment
+### Internationalization
 
-- Configured for Fly.io deployment
-- Docker support with multi-stage builds
-- Health check endpoint: `/health`
-- Metrics endpoint: `/metrics`
-- Monitoring setup with Grafana dashboard
+- **Framework**: Astro's built-in i18n with manual routing
+- **Languages**: English (default) and French
+- **URL Structure**: Automatic locale routing with middleware
+- **Server-side**: Translation handling in middleware
+- **Client-side**: Language switching with localStorage
 
-### Code Style
+### Component Architecture
 
-- ESLint with @nextnode/eslint-plugin
-- Prettier formatting with Astro plugin
-- Commitlint for conventional commit messages
-- Husky for pre-commit hooks
-- Lint-staged for staged file linting
+- **Hybrid approach**: Astro for static, React for interactivity
+- **Design system**: BaseCard variants using class-variance-authority
+- **Type-safe props**: All components fully typed with TypeScript
+- **Accessibility**: ARIA compliance throughout
 
-## TypeScript Coding Standards
+### Key Patterns
 
-**CRITICAL**: Follow these strict TypeScript guidelines at all times:
+#### Custom Hooks
 
-### 1. NEVER Use `any`
+- Always return properly typed objects/tuples
+- Use `useCallback` for function references
+- Example: `useWorkflowModal(): UseWorkflowModalReturn`
 
-- **FORBIDDEN**: `any` type is completely banned
-- **Use instead**: Proper types, `unknown`, or type assertions as absolute last resort
-- **Good**: `const props: ComponentProps<typeof Button> = ...`
-- **Bad**: `const props: any = ...`
-
-### 2. Restrict `as` Usage
-
-- **ALLOWED**: `as const` for literal types
-- **LAST RESORT ONLY**: `as SomeType` when it saves significant TypeScript boilerplate
-- **Good**: `const themes = ['light', 'dark'] as const`
-- **Acceptable (last resort)**: `const ref = useRef<HTMLDivElement>(null as unknown as HTMLDivElement)`
-- **Bad**: `const component = MyComponent as React.FC` (use proper typing instead)
-
-### 3. No Hardcoded Values
-
-- **Always retrieve values dynamically** when possible
-- **Use**: Environment variables, Astro config, constants files
-- **Good**: `const siteUrl = import.meta.env.SITE || Astro.site`
-- **Bad**: `const siteUrl = 'https://nextnode.com'`
-- **Good**: `const port = import.meta.env.PORT || 4321`
-- **Bad**: `const port = 4321`
-
-### React/Astro Specific Examples
+#### Component Props
 
 ```typescript
-// ❌ BAD - Uses any, hardcoded values, improper as usage
-const MyComponent = ({ children }: any) => {
-  const apiUrl = 'https://api.nextnode.com';
-  const data = response as UserData;
-
-  return <div className="p-4">{children}</div>;
-};
-
-// ✅ GOOD - Proper types, dynamic values, proper const assertion
-interface MyComponentProps {
-  children: React.ReactNode;
+interface ComponentProps {
+	title: string
+	variant?: 'primary' | 'secondary'
+	children: React.ReactNode
 }
-
-const themes = ['light', 'dark'] as const;
-type Theme = typeof themes[number];
-
-const MyComponent = ({ children }: MyComponentProps) => {
-  const apiUrl = import.meta.env.PUBLIC_API_URL || config.api.baseUrl;
-  const data: UserData | null = validateUserData(response);
-
-  return <div className="p-4">{children}</div>;
-};
 ```
 
-## Template Synchronization
+#### API Routes
 
-**IMPORTANT**: When making fixes or improvements to this project, also update `project-templates/apps/astro/` to ensure new generated projects benefit from the same improvements.
+- Located in `src/pages/` (health.ts, metrics.ts)
+- Type API responses with proper interfaces
+- Use `APIRoute` type from Astro
+
+### Performance & Monitoring
+
+- Custom metrics system with Prometheus endpoint at `/metrics`
+- Health checks at `/health`
+- Request/response timing in middleware
+- Memory and performance monitoring
+
+### Configuration Files
+
+- **astro.config.mjs**: SSR, integrations, i18n setup
+- **vitest.config.ts**: Test configuration with jsdom
+- **eslint.config.mjs**: Uses `@nextnode/eslint-plugin/base`
+- **tsconfig.json**: Strict TypeScript configuration
+
+## Development Guidelines
+
+### Before Finishing Any Work
+
+1. **Always run** `pnpm lint` - must pass with zero warnings
+2. **Always run** `pnpm type-check` - must pass completely
+3. **Run** `pnpm build` when making structural changes
+4. **Never use** `pnpm dev` for final testing
+
+### Adding New Features
+
+1. Create properly typed components in appropriate `src/components/` subdirectory
+2. Define TypeScript interfaces in `src/types/` if shared
+3. Add translations for both languages
+4. Write tests with full type coverage
+5. Follow existing component patterns and naming conventions
+
+### Code Quality Rules
+
+- **Prettier config**: Tabs (width: 4), no semicolons, single quotes
+- **ESLint**: Zero warnings tolerance - build will fail otherwise
+- **Git hooks**: Husky enforces linting and conventional commits
+- **Type safety**: Every function, component, and variable must be typed
+
+### Testing
+
+- Use Vitest with React Testing Library
+- Test files co-located with components or in `__tests__`
+- Mock external dependencies properly with TypeScript
+- Maintain test coverage above 80%
+
+## Deployment
+
+- **Platform**: Fly.io with Docker
+- **Environment**: Node.js standalone mode
+- **Region**: Paris (CDG)
+- **Health checks**: Built-in monitoring endpoints
+
+## Related Projects
+
+- See [../CLAUDE.md](../CLAUDE.md) for multi-repo overview
+- Templates available in [../project-templates/](../project-templates/)
+- CI/CD workflows in [../github-actions/](../github-actions/)
