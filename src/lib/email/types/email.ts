@@ -22,7 +22,7 @@ export interface EmailData {
 	from?: string
 	subject?: string
 	template: string
-	data: Record<string, unknown>
+	data: Record<string, unknown> | ProjectRequestData
 	provider?: EmailConfig['provider']
 }
 
