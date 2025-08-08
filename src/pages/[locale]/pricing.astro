@@ -78,57 +78,83 @@ const pageDescription = t('pricing.hero.subtitle')
 
 					<!-- What's Included Section -->
 					<div class="mt-24">
-						<div class="mb-12 text-center">
+						<div class="mb-16 text-center">
 							<h3
 								class={cn(
-									'text-2xl font-bold text-gray-900 dark:text-white mb-4',
+									'text-3xl font-bold text-gray-900 dark:text-white mb-4',
 									'opacity-0 animate-fade-in-up animation-delay-600',
 								)}
 							>
 								{t('pricing.pricing.title')}
 							</h3>
-						</div>
-
-						<div class="grid gap-8 md:grid-cols-2">
-							<!-- Development -->
-							<div
+							<p
 								class={cn(
-									'rounded-2xl border border-gray-200/50 p-6',
-									'bg-white/80 backdrop-blur-sm',
-									'dark:border-gray-700/50 dark:bg-gray-800/80',
+									'mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300',
 									'opacity-0 animate-fade-in-up animation-delay-700',
 								)}
 							>
-								<h4
-									class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
-								>
-									{t('pricing.pricing.development.title')}
-								</h4>
-								<p class="text-gray-600 dark:text-gray-300">
-									{
-										t(
-											'pricing.pricing.development.description',
-										)
-									}
-								</p>
-							</div>
+								{t('pricing.pricing.subtitle')}
+							</p>
+						</div>
 
-							<!-- Infrastructure & Support -->
+						<div class="grid gap-8 lg:grid-cols-3">
+							<!-- Development -->
 							<div
 								class={cn(
-									'rounded-2xl border border-gray-200/50 p-6',
+									'rounded-2xl border border-gray-200/50 p-8',
 									'bg-white/80 backdrop-blur-sm',
 									'dark:border-gray-700/50 dark:bg-gray-800/80',
 									'opacity-0 animate-fade-in-up animation-delay-800',
 								)}
 							>
 								<h4
-									class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
+									class="mb-4 text-xl font-semibold text-gray-900 dark:text-white"
+								>
+									{t('pricing.pricing.development.title')}
+								</h4>
+								<p
+									class="mb-6 text-gray-600 dark:text-gray-300"
+								>
+									{
+										t(
+											'pricing.pricing.development.description',
+										)
+									}
+								</p>
+								<ul class="space-y-3">
+									{
+										(
+											t(
+												'pricing.pricing.development.details',
+											) as readonly string[]
+										).map(detail => (
+											<li class="flex items-start gap-3">
+												<div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-indigo-500" />
+												<span class="text-sm text-gray-700 dark:text-gray-300">
+													{detail}
+												</span>
+											</li>
+										))
+									}
+								</ul>
+							</div>
+
+							<!-- Infrastructure & Support -->
+							<div
+								class={cn(
+									'rounded-2xl border border-gray-200/50 p-8',
+									'bg-white/80 backdrop-blur-sm',
+									'dark:border-gray-700/50 dark:bg-gray-800/80',
+									'opacity-0 animate-fade-in-up animation-delay-900',
+								)}
+							>
+								<h4
+									class="mb-4 text-xl font-semibold text-gray-900 dark:text-white"
 								>
 									{t('pricing.pricing.infrastructure.title')}
 								</h4>
 								<p
-									class="mb-4 text-gray-600 dark:text-gray-300"
+									class="mb-6 text-gray-600 dark:text-gray-300"
 								>
 									{
 										t(
@@ -136,17 +162,54 @@ const pageDescription = t('pricing.hero.subtitle')
 										)
 									}
 								</p>
-								<ul class="space-y-2">
+								<ul class="space-y-3">
 									{
 										(
 											t(
-												'pricing.pricing.infrastructure.features',
+												'pricing.pricing.infrastructure.details',
 											) as readonly string[]
-										).map(feature => (
-											<li class="flex items-center gap-2">
-												<div class="h-1.5 w-1.5 rounded-full bg-indigo-500" />
-												<span class="text-sm text-gray-600 dark:text-gray-400">
-													{feature}
+										).map(detail => (
+											<li class="flex items-start gap-3">
+												<div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
+												<span class="text-sm text-gray-700 dark:text-gray-300">
+													{detail}
+												</span>
+											</li>
+										))
+									}
+								</ul>
+							</div>
+
+							<!-- Guarantees -->
+							<div
+								class={cn(
+									'rounded-2xl border border-gray-200/50 p-8',
+									'bg-white/80 backdrop-blur-sm',
+									'dark:border-gray-700/50 dark:bg-gray-800/80',
+									'opacity-0 animate-fade-in-up animation-delay-1000',
+								)}
+							>
+								<h4
+									class="mb-4 text-xl font-semibold text-gray-900 dark:text-white"
+								>
+									{t('pricing.pricing.guarantee.title')}
+								</h4>
+								<p
+									class="mb-6 text-gray-600 dark:text-gray-300"
+								>
+									{t('pricing.pricing.guarantee.description')}
+								</p>
+								<ul class="space-y-3">
+									{
+										(
+											t(
+												'pricing.pricing.guarantee.points',
+											) as readonly string[]
+										).map(point => (
+											<li class="flex items-start gap-3">
+												<div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-violet-500" />
+												<span class="text-sm text-gray-700 dark:text-gray-300">
+													{point}
 												</span>
 											</li>
 										))
@@ -242,5 +305,13 @@ const pageDescription = t('pricing.hero.subtitle')
 
 	.animation-delay-800 {
 		animation-delay: 800ms;
+	}
+
+	.animation-delay-900 {
+		animation-delay: 900ms;
+	}
+
+	.animation-delay-1000 {
+		animation-delay: 1000ms;
 	}
 </style>

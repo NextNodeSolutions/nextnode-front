@@ -94,22 +94,49 @@ export const pricing = {
 		},
 	},
 	pricing: {
-		title: 'Ce Qui Est Inclus',
+		title: 'Ce Qui Est Inclus Dans Chaque Projet',
+		subtitle:
+			'Une solution complète qui vous donne tous les outils pour réussir',
 		development: {
-			title: 'Développement',
-			description: 'Frais uniques basés sur la complexité du projet',
+			title: 'Développement Sur-Mesure',
+			description:
+				'Code propriétaire développé spécifiquement pour vos besoins',
+			details: [
+				'Architecture moderne et évolutive (React, TypeScript, Node.js)',
+				'Code source entièrement à vous - aucune dépendance externe',
+				'Design responsive adapté à tous les appareils',
+				'Optimisations SEO avancées intégrées',
+				'Performances optimales et temps de chargement rapides',
+				'Sécurité renforcée avec les meilleures pratiques',
+				'Documentation technique complète',
+				'Formation pour la gestion de contenu',
+			],
 		},
 		infrastructure: {
-			title: 'Infrastructure & Support',
+			title: 'Infrastructure & Support Pro',
 			description:
-				"30€/mois pour l'hébergement, le monitoring et la maintenance",
-			features: [
-				'CDN & hébergement inclus',
-				'Certificats SSL',
-				'Sauvegardes quotidiennes',
-				'Monitoring de sécurité',
-				'Optimisation des performances',
-				'Support technique',
+				"Service d'hébergement et maintenance professionnel pour garantir performance et sécurité 24h/24",
+			details: [
+				'Hébergement haute performance avec CDN mondial',
+				'Certificats SSL automatiques et renouvellement',
+				'Sauvegardes automatisées quotidiennes avec rétention 30 jours',
+				'Monitoring proactif et alertes en temps réel',
+				'Mises à jour de sécurité automatiques',
+				'Support technique prioritaire par email',
+				'Rapports de performance mensuels détaillés',
+				'Protection anti-DDoS et firewall avancé',
+				'Optimisation continue des performances',
+			],
+		},
+		guarantee: {
+			title: 'Garanties & Engagement',
+			description: "Votre tranquillité d'esprit est notre priorité",
+			points: [
+				'Code source remis en fin de projet - vous êtes propriétaire',
+				'Garantie de fonctionnement 99.9% de disponibilité',
+				"Migration gratuite si vous souhaitez changer d'hébergeur",
+				'Aucun frais caché - tarification transparente',
+				'Consultations et devis toujours gratuits',
 			],
 		},
 	},
