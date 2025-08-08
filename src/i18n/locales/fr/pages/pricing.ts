@@ -4,9 +4,9 @@ export const pricing = {
 		titleHighlight: 'TRANSPARENTS',
 		titleEnd: 'POUR VOTRE SUCCÈS',
 		subtitle:
-			'Choisissez le plan parfait pour lancer et développer votre présence digitale',
+			'Développement sur-mesure de vrais sites web en code - Liberté maximale, fonctionnalités illimitées',
 		description:
-			"Des pages d'accueil aux applications web complexes, nous proposons une tarification transparente sans frais cachés. Chaque projet inclut notre forfait infrastructure et support à 30€/mois.",
+			'Contrairement aux solutions no-code limitantes, nous développons de vrais sites web en code qui vous appartiennent entièrement. Liberté totale de fonctionnalités, évolutivité garantie, performances optimales. Tarification transparente sans frais cachés.',
 		badge: '💡 Consultation gratuite incluse',
 		cta: {
 			button: 'Consultation Gratuite pour Cerner Votre Projet',
@@ -17,12 +17,12 @@ export const pricing = {
 	plans: {
 		starter: {
 			name: 'Starter',
-			tagline: 'Parfait pour les petites entreprises',
+			tagline: 'Site web en code, pas de limitations',
 			price: '500€ - 800€',
 			recurring: '30€/mois',
 			badge: 'Idéal pour débuter',
 			description:
-				"Idéal pour les startups et petites entreprises ayant besoin d'une présence en ligne professionnelle",
+				"Votre propre site web développé en code moderne. Contrairement aux plateformes no-code, vous disposez d'une liberté totale pour évoluer et ajouter toutes les fonctionnalités souhaitées.",
 			features: [
 				"Page d'accueil unique",
 				'Design responsive mobile',
@@ -42,12 +42,12 @@ export const pricing = {
 		},
 		business: {
 			name: 'Business',
-			tagline: 'Pour les entreprises en croissance',
+			tagline: 'Applications web complètes en code',
 			price: '1 500€ - 3 500€',
 			recurring: '30€/mois',
 			badge: 'Complet et évolutif',
 			description:
-				'Sites web complets avec fonctionnalités avancées pour les entreprises établies',
+				"Sites web complets développés en code avec toutes les fonctionnalités avancées possibles. Architecture évolutive permettant d'intégrer n'importe quelle solution ou API.",
 			features: [
 				'Site multi-pages (5-15 pages)',
 				'Design et branding personnalisés',
@@ -68,12 +68,12 @@ export const pricing = {
 		},
 		enterprise: {
 			name: 'Enterprise',
-			tagline: 'Solutions sur-mesure',
+			tagline: 'Développement sans limites techniques',
 			price: 'Devis Personnalisé',
 			recurring: '30€+/mois',
 			badge: 'Sur-mesure avancé',
 			description:
-				'Solutions sur-mesure pour les grandes organisations avec des exigences spécifiques',
+				'Applications web complexes entièrement développées en code. Aucune limite technique, intégrations avancées, performances maximales. Votre vision devient réalité sans compromis.',
 			features: [
 				'Applications web personnalisées',
 				'Intégrations complexes',

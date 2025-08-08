@@ -4,9 +4,9 @@ export const pricing = {
 		titleHighlight: 'PRICING',
 		titleEnd: 'FOR YOUR SUCCESS',
 		subtitle:
-			'Choose the perfect plan to launch and grow your digital presence',
+			'Custom development of real coded websites - Maximum freedom, unlimited functionality',
 		description:
-			'From landing pages to complex web applications, we offer transparent pricing with no hidden fees. Every project includes our €30/month infrastructure and support package.',
+			'Unlike limiting no-code solutions, we develop real coded websites that you fully own. Complete freedom of functionality, guaranteed scalability, optimal performance. Transparent pricing with no hidden fees.',
 		badge: '💡 Free consultation included',
 		cta: {
 			button: 'Free Consultation to Define Your Project',
@@ -17,12 +17,12 @@ export const pricing = {
 	plans: {
 		starter: {
 			name: 'Starter',
-			tagline: 'Perfect for small businesses',
+			tagline: 'Real coded website, no limitations',
 			price: '€500 - €800',
 			recurring: '€30/month',
 			badge: 'Perfect to start',
 			description:
-				'Ideal for startups and small businesses needing a professional online presence',
+				'Your own website developed in modern code. Unlike no-code platforms, you have complete freedom to evolve and add any desired functionality.',
 			features: [
 				'Single landing page',
 				'Mobile-responsive design',
@@ -42,12 +42,12 @@ export const pricing = {
 		},
 		business: {
 			name: 'Business',
-			tagline: 'For growing companies',
+			tagline: 'Complete coded web applications',
 			price: '€1,500 - €3,500',
 			recurring: '€30/month',
 			badge: 'Complete & scalable',
 			description:
-				'Complete websites with advanced features for established businesses',
+				'Complete websites developed in code with all possible advanced features. Scalable architecture allowing integration of any solution or API.',
 			features: [
 				'Multi-page website (5-15 pages)',
 				'Custom design & branding',
@@ -68,12 +68,12 @@ export const pricing = {
 		},
 		enterprise: {
 			name: 'Enterprise',
-			tagline: 'Custom solutions',
+			tagline: 'Development without technical limits',
 			price: 'Custom Quote',
 			recurring: '€30+/month',
 			badge: 'Advanced custom',
 			description:
-				'Tailored solutions for large organizations with specific requirements',
+				'Complex web applications entirely developed in code. No technical limitations, advanced integrations, maximum performance. Your vision becomes reality without compromise.',
 			features: [
 				'Custom web applications',
 				'Complex integrations',
