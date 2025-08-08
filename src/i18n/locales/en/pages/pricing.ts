@@ -8,6 +8,11 @@ export const pricing = {
 		description:
 			'From landing pages to complex web applications, we offer transparent pricing with no hidden fees. Every project includes our €30/month infrastructure and support package.',
 		badge: '💡 Free consultation included',
+		cta: {
+			button: 'Free Consultation to Define Your Project',
+			subtitle:
+				"Let's discuss your needs to determine the ideal solution and provide you with an accurate quote",
+		},
 	},
 	plans: {
 		starter: {

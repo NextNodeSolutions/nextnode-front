@@ -8,6 +8,11 @@ export const pricing = {
 		description:
 			"Des pages d'accueil aux applications web complexes, nous proposons une tarification transparente sans frais cachés. Chaque projet inclut notre forfait infrastructure et support à 30€/mois.",
 		badge: '💡 Consultation gratuite incluse',
+		cta: {
+			button: 'Consultation Gratuite pour Cerner Votre Projet',
+			subtitle:
+				'Échangeons sur vos besoins pour déterminer la solution idéale et vous fournir un devis précis',
+		},
 	},
 	plans: {
 		starter: {
