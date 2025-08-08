@@ -1,5 +1,15 @@
-import { render } from '@react-email/render'
 import type { ReactElement } from 'react'
+
+// Import render function with proper typing
+const { render } = require('@react-email/render') as {
+	render: (
+		component: ReactElement,
+		options?: {
+			pretty?: boolean
+			plainText?: boolean
+		},
+	) => Promise<string>
+}
 
 export async function renderEmailTemplate(
 	template: ReactElement,
