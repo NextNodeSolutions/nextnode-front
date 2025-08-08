@@ -78,11 +78,29 @@ type StructureOf<T> = {
 				? readonly { name: string; description: string }[]
 				: T[K] extends readonly { question: string; answer: string }[]
 					? readonly { question: string; answer: string }[]
-					: T[K] extends readonly unknown[]
-						? readonly string[]
-						: T[K] extends object
-							? StructureOf<T[K]>
-							: T[K]
+					: T[K] extends readonly {
+								name: string
+								price: string
+								responseTime: string
+								availability: string
+								description: string
+								features: readonly string[]
+								suitable: string
+						  }[]
+						? readonly {
+								name: string
+								price: string
+								responseTime: string
+								availability: string
+								description: string
+								features: readonly string[]
+								suitable: string
+							}[]
+						: T[K] extends readonly unknown[]
+							? readonly string[]
+							: T[K] extends object
+								? StructureOf<T[K]>
+								: T[K]
 }
 
 // Type for other language dictionaries - validates structure but allows different string values

@@ -1,4 +1,19 @@
 export const pricing = {
+	sections: {
+		plans: {
+			title: 'Choisissez Votre Plan',
+			subtitle:
+				'Des solutions adaptées à chaque étape de votre croissance',
+		},
+		included: {
+			title: 'Tout Ce Qui Est Inclus',
+			subtitle: 'Dans votre forfait mensuel à 25€',
+		},
+		idealFor: 'IDÉAL POUR',
+		alreadyIncluded: '🎯 Déjà dans votre forfait',
+		examplesTitle: '💡 Exemples concrets :',
+		discoverPlans: 'Découvrir nos plans',
+	},
 	hero: {
 		title: 'TARIFS',
 		titleHighlight: 'TRANSPARENTS',
@@ -19,7 +34,7 @@ export const pricing = {
 			name: 'Starter',
 			tagline: 'Site web en code, pas de limitations',
 			price: '500€ - 800€',
-			recurring: '30€/mois',
+			recurring: '25€/mois',
 			badge: 'Idéal pour débuter',
 			description:
 				"Votre propre site web développé en code moderne. Contrairement aux plateformes no-code, vous disposez d'une liberté totale pour évoluer et ajouter toutes les fonctionnalités souhaitées.",
@@ -35,16 +50,17 @@ export const pricing = {
 			],
 			cta: 'Démarrer Votre Projet',
 			examples: [
-				'Menu de restaurant & contact',
-				"Vitrine d'entreprise de services",
-				'Présentation de portfolio',
+				'Menu de restaurant avec horaires & contact',
+				"Vitrine d'entreprise de services (plombier, avocat...)",
+				'Portfolio créatif (photographe, designer...)',
+				"Page d'accueil artisan local",
 			],
 		},
 		business: {
 			name: 'Business',
 			tagline: 'Applications web complètes en code',
 			price: '1 500€ - 3 500€',
-			recurring: '30€/mois',
+			recurring: '25€/mois',
 			badge: 'Complet et évolutif',
 			description:
 				"Sites web complets développés en code avec toutes les fonctionnalités avancées possibles. Architecture évolutive permettant d'intégrer n'importe quelle solution ou API.",
@@ -61,16 +77,18 @@ export const pricing = {
 			],
 			cta: 'Obtenir un Devis',
 			examples: [
-				"Site web d'entreprise",
-				'Boutique e-commerce',
-				'Plateforme de réservation',
+				"Site web d'entreprise multi-pages avec blog",
+				'Boutique e-commerce (<100 produits)',
+				'Site de réservation (restaurant, coiffeur...)',
+				'Site immobilier avec recherche avancée',
+				'Plateforme associative avec membres',
 			],
 		},
 		enterprise: {
 			name: 'Enterprise',
 			tagline: 'Développement sans limites techniques',
 			price: 'Devis Personnalisé',
-			recurring: '30€+/mois',
+			recurring: '25€+/mois',
 			badge: 'Sur-mesure avancé',
 			description:
 				'Applications web complexes entièrement développées en code. Aucune limite technique, intégrations avancées, performances maximales. Votre vision devient réalité sans compromis.',
@@ -87,9 +105,11 @@ export const pricing = {
 			],
 			cta: 'Nous Contacter',
 			examples: [
-				'Applications SaaS',
-				"Portails d'entreprise",
-				'Plateformes web complexes',
+				'Applications SaaS personnalisées',
+				"Portails d'entreprise avec authentification",
+				'Plateformes e-learning avec vidéos',
+				'Marketplace multi-vendeurs',
+				'Systèmes de gestion sur-mesure',
 			],
 		},
 	},
@@ -117,12 +137,14 @@ export const pricing = {
 			description:
 				"Service d'hébergement et maintenance professionnel pour garantir performance et sécurité 24h/24",
 			details: [
-				'Hébergement haute performance avec CDN mondial',
+				'Hébergement haute performance avec CDN mondial (25€/mois)',
 				'Certificats SSL automatiques et renouvellement',
 				'Sauvegardes automatisées quotidiennes avec rétention 30 jours',
 				'Monitoring proactif et alertes en temps réel',
 				'Mises à jour de sécurité automatiques',
-				'Support technique prioritaire par email',
+				'Support technique standard (réponse sous 48h ouvrables)',
+				'Support prioritaire disponible (+75€/mois, réponse 24h)',
+				'Support urgent disponible (+200€/mois, réponse 4h)',
 				'Rapports de performance mensuels détaillés',
 				'Protection anti-DDoS et firewall avancé',
 				'Optimisation continue des performances',
@@ -140,12 +162,68 @@ export const pricing = {
 			],
 		},
 	},
+	support: {
+		title: 'Niveaux de Support Technique',
+		subtitle: 'Un support adapté à vos besoins et votre budget',
+		responseLabel: 'Réponse :',
+		levels: [
+			{
+				name: 'Support Standard',
+				price: 'Inclus',
+				responseTime: '48h ouvrées',
+				availability: 'Lun-Ven 9h-17h',
+				description:
+					'Support par email pour les questions techniques et maintenance courante',
+				features: [
+					'Support par email',
+					'Résolution de bugs',
+					'Questions techniques',
+					"Aide à l'utilisation",
+					'Rapports mensuels',
+				],
+				suitable: 'Sites vitrine, petites entreprises',
+			},
+			{
+				name: 'Support Prioritaire',
+				price: '+75€/mois',
+				responseTime: '24h ouvrées',
+				availability: 'Lun-Ven 8h-19h',
+				description:
+					'Support renforcé avec réponse rapide et suivi personnalisé',
+				features: [
+					'Tout du Support Standard',
+					'Réponse prioritaire',
+					'Suivi personnalisé',
+					'Hotline téléphonique',
+					"Conseils d'optimisation",
+				],
+				suitable: 'E-commerce, sites à fort trafic',
+			},
+			{
+				name: 'Support Urgent',
+				price: '+200€/mois',
+				responseTime: '4h maximum',
+				availability: 'Lun-Dim 8h-22h',
+				description:
+					'Support critique pour les applications métier importantes',
+				features: [
+					'Tout du Support Prioritaire',
+					'Intervention urgente',
+					'Support weekend',
+					'Hotline prioritaire',
+					'Monitoring proactif',
+				],
+				suitable: 'Applications critiques, entreprises',
+			},
+		],
+		note: 'Pour des besoins spécifiques (24/7, SLA personnalisés), nous proposons des accords sur-mesure selon vos exigences.',
+	},
 	faq: {
 		title: 'Questions Fréquemment Posées',
 		questions: [
 			{
-				question: 'Que comprend les 30€/mois ?',
-				answer: "Notre forfait mensuel couvre l'hébergement professionnel, CDN, certificats SSL, sauvegardes quotidiennes, monitoring de sécurité, optimisation des performances et support technique. Cela assure le fonctionnement optimal de votre site 24h/24.",
+				question: 'Que comprend les 25€/mois ?',
+				answer: "Notre forfait mensuel à 25€ couvre l'hébergement professionnel, CDN, certificats SSL, sauvegardes quotidiennes, monitoring de sécurité, mises à jour automatiques et support technique standard (48h). Cela assure le fonctionnement optimal de votre site 24h/24.",
 			},
 			{
 				question: 'Comment déterminez-vous le coût de développement ?',
@@ -161,7 +239,11 @@ export const pricing = {
 			},
 			{
 				question: 'Fournissez-vous une maintenance continue ?',
-				answer: 'Oui, notre forfait à 30€/mois inclut les mises à jour régulières, les correctifs de sécurité et la maintenance technique. Les travaux de développement supplémentaires sont devisés séparément.',
+				answer: 'Oui, notre forfait à 25€/mois inclut les mises à jour régulières, les correctifs de sécurité et la maintenance technique. Les travaux de développement supplémentaires sont devisés séparément.',
+			},
+			{
+				question: 'Quels sont les niveaux de support disponibles ?',
+				answer: 'Support standard inclus (48h), support prioritaire (+75€/mois, 24h), support urgent (+200€/mois, 4h). Pour des besoins spécifiques, nous proposons des SLA sur-mesure selon vos besoins.',
 			},
 		],
 	},

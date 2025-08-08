@@ -1,4 +1,18 @@
 export const pricing = {
+	sections: {
+		plans: {
+			title: 'Choose Your Plan',
+			subtitle: 'Solutions tailored to every stage of your growth',
+		},
+		included: {
+			title: 'Everything Included',
+			subtitle: 'In your €25 monthly plan',
+		},
+		idealFor: 'IDEAL FOR',
+		alreadyIncluded: '🎯 Already in your plan',
+		examplesTitle: '💡 Real examples:',
+		discoverPlans: 'Discover our plans',
+	},
 	hero: {
 		title: 'TRANSPARENT',
 		titleHighlight: 'PRICING',
@@ -19,7 +33,7 @@ export const pricing = {
 			name: 'Starter',
 			tagline: 'Real coded website, no limitations',
 			price: '€500 - €800',
-			recurring: '€30/month',
+			recurring: '€25/month',
 			badge: 'Perfect to start',
 			description:
 				'Your own website developed in modern code. Unlike no-code platforms, you have complete freedom to evolve and add any desired functionality.',
@@ -44,7 +58,7 @@ export const pricing = {
 			name: 'Business',
 			tagline: 'Complete coded web applications',
 			price: '€1,500 - €3,500',
-			recurring: '€30/month',
+			recurring: '€25/month',
 			badge: 'Complete & scalable',
 			description:
 				'Complete websites developed in code with all possible advanced features. Scalable architecture allowing integration of any solution or API.',
@@ -70,7 +84,7 @@ export const pricing = {
 			name: 'Enterprise',
 			tagline: 'Development without technical limits',
 			price: 'Custom Quote',
-			recurring: '€30+/month',
+			recurring: '€25+/month',
 			badge: 'Advanced custom',
 			description:
 				'Complex web applications entirely developed in code. No technical limitations, advanced integrations, maximum performance. Your vision becomes reality without compromise.',
@@ -139,12 +153,68 @@ export const pricing = {
 			],
 		},
 	},
+	support: {
+		title: 'Technical Support Levels',
+		subtitle: 'Support tailored to your needs and budget',
+		responseLabel: 'Response:',
+		levels: [
+			{
+				name: 'Standard Support',
+				price: 'Included',
+				responseTime: '48h business hours',
+				availability: 'Mon-Fri 9am-5pm',
+				description:
+					'Email support for technical questions and routine maintenance',
+				features: [
+					'Email support',
+					'Bug resolution',
+					'Technical questions',
+					'Usage help',
+					'Monthly reports',
+				],
+				suitable: 'Showcase sites, small businesses',
+			},
+			{
+				name: 'Priority Support',
+				price: '+€75/month',
+				responseTime: '24h business hours',
+				availability: 'Mon-Fri 8am-7pm',
+				description:
+					'Enhanced support with fast response and personalized follow-up',
+				features: [
+					'All Standard Support',
+					'Priority response',
+					'Personalized follow-up',
+					'Phone hotline',
+					'Optimization advice',
+				],
+				suitable: 'E-commerce, high-traffic sites',
+			},
+			{
+				name: 'Urgent Support',
+				price: '+€200/month',
+				responseTime: '4h maximum',
+				availability: 'Mon-Sun 8am-10pm',
+				description:
+					'Critical support for important business applications',
+				features: [
+					'All Priority Support',
+					'Emergency intervention',
+					'Weekend support',
+					'Priority hotline',
+					'Proactive monitoring',
+				],
+				suitable: 'Critical applications, enterprises',
+			},
+		],
+		note: 'For specific needs (24/7, custom SLA), we offer tailored agreements based on your requirements.',
+	},
 	faq: {
 		title: 'Frequently Asked Questions',
 		questions: [
 			{
-				question: 'What does the €30/month include?',
-				answer: 'Our monthly fee covers professional hosting, CDN, SSL certificates, daily backups, security monitoring, performance optimization, and technical support. This ensures your website runs smoothly 24/7.',
+				question: 'What does the €25/month include?',
+				answer: 'Our monthly fee of €25 covers professional hosting, CDN, SSL certificates, daily backups, security monitoring, automatic updates, and standard technical support (48h). This ensures your website runs smoothly 24/7.',
 			},
 			{
 				question: 'How do you determine the development cost?',
@@ -160,7 +230,11 @@ export const pricing = {
 			},
 			{
 				question: 'Do you provide ongoing maintenance?',
-				answer: 'Yes, our €30/month package includes regular updates, security patches, and technical maintenance. Additional development work is quoted separately.',
+				answer: 'Yes, our €25/month package includes regular updates, security patches, and technical maintenance. Additional development work is quoted separately.',
+			},
+			{
+				question: 'What are the available support levels?',
+				answer: 'Standard support included (48h), priority support (+€75/month, 24h), urgent support (+€200/month, 4h). For specific needs, we offer custom SLA agreements based on your requirements.',
 			},
 		],
 	},

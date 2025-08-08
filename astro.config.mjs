@@ -26,22 +26,29 @@ export default defineConfig({
 					manualChunks: {
 						// Vendor libraries
 						'vendor-react': ['react', 'react-dom'],
-						'vendor-radix': ['@radix-ui/react-dialog', '@radix-ui/react-slot'],
-						'vendor-utils': ['clsx', 'class-variance-authority', 'tailwind-merge'],
-						// Feature-based splitting
-						'workflow': [
-							'./src/components/features/workflow/interactive/WorkflowJourneyInteractive.tsx',
-							'./src/components/features/workflow/interactive/StepModal.tsx'
+						'vendor-radix': [
+							'@radix-ui/react-dialog',
+							'@radix-ui/react-slot',
 						],
-						'marketing': [
-							'./src/components/features/marketing/interaction/start-project-modal.tsx'
+						'vendor-utils': [
+							'clsx',
+							'class-variance-authority',
+							'tailwind-merge',
+						],
+						// Feature-based splitting
+						workflow: [
+							'./src/components/features/workflow/interactive/WorkflowJourneyInteractive.tsx',
+							'./src/components/features/workflow/interactive/StepModal.tsx',
+						],
+						marketing: [
+							'./src/components/features/marketing/interaction/start-project-modal.tsx',
 						],
 						// Icons can be separated
-						'icons': ['lucide-react']
-					}
-				}
-			}
-		}
+						icons: ['lucide-react'],
+					},
+				},
+			},
+		},
 	},
 	adapter: node({
 		mode: 'standalone',

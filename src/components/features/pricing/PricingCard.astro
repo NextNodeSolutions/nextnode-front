@@ -150,14 +150,19 @@ const currentStyle = planStyles[plan]
 	<!-- Examples Section -->
 	<div class="mb-8">
 		<h4 class="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
-			Exemples d'usage :
+			{t('pricing.sections.examplesTitle')}
 		</h4>
-		<ul class="space-y-2">
+		<ul class="space-y-2.5">
 			{
 				planData.examples.map(example => (
-					<li class="flex items-center gap-2">
-						<div class="h-1.5 w-1.5 rounded-full bg-gray-400" />
-						<span class="text-sm text-gray-600 dark:text-gray-400">
+					<li class="flex items-start gap-3">
+						<div
+							class={cn(
+								'mt-1.5 h-2 w-2 flex-shrink-0 rounded-full',
+								`bg-gradient-to-r ${currentStyle.gradient}`,
+							)}
+						/>
+						<span class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
 							{example}
 						</span>
 					</li>

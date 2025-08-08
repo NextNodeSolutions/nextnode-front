@@ -16,7 +16,7 @@
 	--color-error: var(--destructive);
 	--color-error-foreground: var(--destructive-foreground);
 	--color-info: var(--primary);
-	
+
 	/* Step-specific colors (used in workflow) */
 	--color-indigo-500: #6366f1;
 	--color-indigo-600: #4f46e5;
@@ -33,23 +33,60 @@
 	--color-fuchsia-500: #d946ef;
 	--color-orange-500: #f97316;
 	--color-red-500: #ef4444;
-	
+
 	/* Gradient Combinations */
-	--gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-secondary));
-	--gradient-accent: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-	
+	--gradient-primary: linear-gradient(
+		to right,
+		var(--color-primary),
+		var(--color-secondary)
+	);
+	--gradient-accent: linear-gradient(
+		135deg,
+		var(--color-primary),
+		var(--color-accent)
+	);
+
 	/* Workflow Step Gradients */
-	--gradient-step-1: linear-gradient(to right, var(--color-indigo-600), #2563eb, var(--color-cyan-500));
-	--gradient-step-2: linear-gradient(to right, var(--color-violet-600), #7c3aed, var(--color-fuchsia-500));
-	--gradient-step-3: linear-gradient(to right, var(--color-emerald-600), var(--color-teal-600), var(--color-cyan-500));
-	--gradient-step-4: linear-gradient(to right, var(--color-amber-500), var(--color-orange-500), var(--color-red-500));
-	--gradient-step-5: linear-gradient(to right, var(--color-rose-500), #ec4899, var(--color-fuchsia-500));
-	--gradient-step-6: linear-gradient(to right, var(--color-slate-600), #4b5563, #71717a);
-	
-	
+	--gradient-step-1: linear-gradient(
+		to right,
+		var(--color-indigo-600),
+		#2563eb,
+		var(--color-cyan-500)
+	);
+	--gradient-step-2: linear-gradient(
+		to right,
+		var(--color-violet-600),
+		#7c3aed,
+		var(--color-fuchsia-500)
+	);
+	--gradient-step-3: linear-gradient(
+		to right,
+		var(--color-emerald-600),
+		var(--color-teal-600),
+		var(--color-cyan-500)
+	);
+	--gradient-step-4: linear-gradient(
+		to right,
+		var(--color-amber-500),
+		var(--color-orange-500),
+		var(--color-red-500)
+	);
+	--gradient-step-5: linear-gradient(
+		to right,
+		var(--color-rose-500),
+		#ec4899,
+		var(--color-fuchsia-500)
+	);
+	--gradient-step-6: linear-gradient(
+		to right,
+		var(--color-slate-600),
+		#4b5563,
+		#71717a
+	);
+
 	/* Alpha Colors */
 	--color-primary-alpha-30: rgba(59, 130, 246, 0.3);
-	
+
 	/* Step Shadow Colors */
 	--shadow-indigo: rgba(99, 102, 241, 0.25);
 	--shadow-violet: rgba(139, 92, 246, 0.25);
@@ -57,7 +94,7 @@
 	--shadow-amber: rgba(245, 158, 11, 0.25);
 	--shadow-rose: rgba(244, 63, 94, 0.25);
 	--shadow-slate: rgba(100, 116, 139, 0.25);
-	
+
 	/* Ring Colors */
 	--ring-indigo: rgba(99, 102, 241, 0.2);
 	--ring-violet: rgba(139, 92, 246, 0.2);
@@ -77,17 +114,17 @@
 	--shadow-color-light: rgba(0, 0, 0, 0.1);
 	--shadow-color-medium: rgba(0, 0, 0, 0.15);
 	--shadow-color-dark: rgba(0, 0, 0, 0.3);
-	
+
 	/* Animation Durations */
 	--duration-fast: 200ms;
 	--duration-normal: 300ms;
 	--duration-slow: 500ms;
 	--duration-slower: 700ms;
-	
+
 	/* Transition Easings */
 	--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 	--ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-	
+
 	/* Z-index Scale */
 	--z-base: 1;
 	--z-dropdown: 10;
@@ -193,27 +230,39 @@
 
 /* Shadow Classes */
 .shadow-indigo {
-	box-shadow: 0 10px 15px -3px var(--shadow-indigo), 0 4px 6px -2px var(--shadow-indigo);
+	box-shadow:
+		0 10px 15px -3px var(--shadow-indigo),
+		0 4px 6px -2px var(--shadow-indigo);
 }
 
 .shadow-violet {
-	box-shadow: 0 10px 15px -3px var(--shadow-violet), 0 4px 6px -2px var(--shadow-violet);
+	box-shadow:
+		0 10px 15px -3px var(--shadow-violet),
+		0 4px 6px -2px var(--shadow-violet);
 }
 
 .shadow-emerald {
-	box-shadow: 0 10px 15px -3px var(--shadow-emerald), 0 4px 6px -2px var(--shadow-emerald);
+	box-shadow:
+		0 10px 15px -3px var(--shadow-emerald),
+		0 4px 6px -2px var(--shadow-emerald);
 }
 
 .shadow-amber {
-	box-shadow: 0 10px 15px -3px var(--shadow-amber), 0 4px 6px -2px var(--shadow-amber);
+	box-shadow:
+		0 10px 15px -3px var(--shadow-amber),
+		0 4px 6px -2px var(--shadow-amber);
 }
 
 .shadow-rose {
-	box-shadow: 0 10px 15px -3px var(--shadow-rose), 0 4px 6px -2px var(--shadow-rose);
+	box-shadow:
+		0 10px 15px -3px var(--shadow-rose),
+		0 4px 6px -2px var(--shadow-rose);
 }
 
 .shadow-slate {
-	box-shadow: 0 10px 15px -3px var(--shadow-slate), 0 4px 6px -2px var(--shadow-slate);
+	box-shadow:
+		0 10px 15px -3px var(--shadow-slate),
+		0 4px 6px -2px var(--shadow-slate);
 }
 
 /* Ring Classes */
