@@ -21,6 +21,8 @@ export interface FormFieldProps {
 	placeholder?: string
 	/** Required field */
 	required?: boolean
+	/** Disabled field */
+	disabled?: boolean
 	/** Additional className for container */
 	className?: string
 	/** Additional className for input */
@@ -37,6 +39,7 @@ export const FormField: React.FC<FormFieldProps> = ({
 	type = 'text',
 	placeholder,
 	required = false,
+	disabled = false,
 	className,
 	inputClassName,
 	value,
@@ -53,6 +56,7 @@ export const FormField: React.FC<FormFieldProps> = ({
 		name: id,
 		placeholder,
 		required,
+		disabled,
 		value,
 		onChange: handleChange,
 		className: cn('bg-white/80 backdrop-blur-sm', inputClassName),

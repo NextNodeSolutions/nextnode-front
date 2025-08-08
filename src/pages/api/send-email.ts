@@ -6,6 +6,7 @@
 import { EmailService } from '../../lib/email'
 import { ProjectRequest } from '../../lib/email/templates'
 import { validateProjectRequestData } from '../../lib/email/utils/validation'
+
 import type { APIRoute } from 'astro'
 import type { ProjectRequestData } from '../../lib/email/types/email'
 
@@ -81,7 +82,9 @@ export const POST: APIRoute = async ({ request }) => {
 		}
 
 		if (!fromEmail || !toEmail) {
-			console.error('FROM_EMAIL or TO_EMAIL environment variable is not set')
+			console.error(
+				'FROM_EMAIL or TO_EMAIL environment variable is not set',
+			)
 			return new Response(
 				JSON.stringify({
 					success: false,
@@ -161,7 +164,8 @@ export const POST: APIRoute = async ({ request }) => {
 			JSON.stringify({
 				success: false,
 				error: 'Internal server error',
-				details: error instanceof Error ? error.message : 'Unknown error',
+				details:
+					error instanceof Error ? error.message : 'Unknown error',
 			}),
 			{
 				status: 500,
@@ -172,8 +176,8 @@ export const POST: APIRoute = async ({ request }) => {
 }
 
 // Only allow POST requests
-export const GET: APIRoute = () => {
-	return new Response(
+export const GET: APIRoute = () =>
+	new Response(
 		JSON.stringify({
 			success: false,
 			error: 'Method not allowed. Use POST to send emails.',
@@ -186,4 +190,3 @@ export const GET: APIRoute = () => {
 			},
 		},
 	)
-}

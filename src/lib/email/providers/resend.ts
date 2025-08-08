@@ -1,4 +1,5 @@
 import { Resend } from 'resend'
+
 import type { EmailResponse } from '../types/email'
 
 export class ResendProvider {
@@ -41,7 +42,10 @@ export class ResendProvider {
 		} catch (error) {
 			return {
 				success: false,
-				error: error instanceof Error ? error.message : 'Unknown error occurred',
+				error:
+					error instanceof Error
+						? error.message
+						: 'Unknown error occurred',
 			}
 		}
 	}

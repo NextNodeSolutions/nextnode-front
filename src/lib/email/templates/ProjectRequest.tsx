@@ -1,3 +1,5 @@
+import React from 'react'
+
 import {
 	Html,
 	Head,
@@ -12,6 +14,7 @@ import {
 	Column,
 	Img,
 } from '@react-email/components'
+
 import type { ProjectRequestData } from '../types/email'
 
 interface ProjectRequestProps {
@@ -26,7 +29,7 @@ export function ProjectRequest({
 	companyName = 'NextNode',
 	companyLogo,
 	websiteUrl = 'https://nextnode.dev',
-}: ProjectRequestProps) {
+}: ProjectRequestProps): React.ReactElement {
 	const {
 		projectName,
 		userName,
@@ -48,9 +51,15 @@ export function ProjectRequest({
 					{/* Header */}
 					<Section style={header}>
 						{companyLogo ? (
-							<Img src={companyLogo} alt={companyName} style={logo} />
+							<Img
+								src={companyLogo}
+								alt={companyName}
+								style={logo}
+							/>
 						) : (
-							<Heading style={companyTitle}>{companyName}</Heading>
+							<Heading style={companyTitle}>
+								{companyName}
+							</Heading>
 						)}
 					</Section>
 
@@ -59,7 +68,8 @@ export function ProjectRequest({
 						<Heading style={h1}>Nouvelle demande de projet</Heading>
 
 						<Text style={text}>
-							Vous avez reçu une nouvelle demande de projet via votre site web.
+							Vous avez reçu une nouvelle demande de projet via
+							votre site web.
 						</Text>
 
 						{/* Project Information */}
@@ -81,7 +91,9 @@ export function ProjectRequest({
 										<Text style={label}>Description :</Text>
 									</Column>
 									<Column style={valueColumn}>
-										<Text style={value}>{projectDescription}</Text>
+										<Text style={value}>
+											{projectDescription}
+										</Text>
 									</Column>
 								</Row>
 							)}
@@ -113,7 +125,9 @@ export function ProjectRequest({
 
 						{/* Contact Information */}
 						<Section style={infoSection}>
-							<Heading style={h2}>Informations de contact</Heading>
+							<Heading style={h2}>
+								Informations de contact
+							</Heading>
 
 							<Row style={row}>
 								<Column style={labelColumn}>
@@ -129,7 +143,10 @@ export function ProjectRequest({
 									<Text style={label}>Email :</Text>
 								</Column>
 								<Column style={valueColumn}>
-									<Link href={`mailto:${userEmail}`} style={link}>
+									<Link
+										href={`mailto:${userEmail}`}
+										style={link}
+									>
 										{userEmail}
 									</Link>
 								</Column>
@@ -152,7 +169,10 @@ export function ProjectRequest({
 										<Text style={label}>Téléphone :</Text>
 									</Column>
 									<Column style={valueColumn}>
-										<Link href={`tel:${phoneNumber}`} style={link}>
+										<Link
+											href={`tel:${phoneNumber}`}
+											style={link}
+										>
 											{phoneNumber}
 										</Link>
 									</Column>
@@ -162,7 +182,9 @@ export function ProjectRequest({
 							{contactPreference && (
 								<Row style={row}>
 									<Column style={labelColumn}>
-										<Text style={label}>Contact préféré :</Text>
+										<Text style={label}>
+											Contact préféré :
+										</Text>
 									</Column>
 									<Column style={valueColumn}>
 										<Text style={value}>
@@ -181,7 +203,9 @@ export function ProjectRequest({
 							<>
 								<Hr style={hr} />
 								<Section style={infoSection}>
-									<Heading style={h2}>Informations supplémentaires</Heading>
+									<Heading style={h2}>
+										Informations supplémentaires
+									</Heading>
 									<Text style={value}>{additionalInfo}</Text>
 								</Section>
 							</>
@@ -190,8 +214,9 @@ export function ProjectRequest({
 						{/* Call to Action */}
 						<Section style={ctaSection}>
 							<Text style={text}>
-								Répondez directement à cet email ou contactez {userName} via les
-								informations fournies ci-dessus.
+								Répondez directement à cet email ou contactez{' '}
+								{userName} via les informations fournies
+								ci-dessus.
 							</Text>
 						</Section>
 					</Section>

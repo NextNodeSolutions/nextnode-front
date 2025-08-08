@@ -5,6 +5,7 @@ export * from './utils'
 import { ResendProvider } from './providers/resend'
 import { renderEmailTemplate, validateEmailAddresses } from './utils/render'
 import { validateEmailData } from './utils/validation'
+
 import type { EmailData, EmailResponse, EmailConfig } from './types/email'
 
 export class EmailService {
@@ -61,7 +62,10 @@ export class EmailService {
 		} catch (error) {
 			return {
 				success: false,
-				error: error instanceof Error ? error.message : 'Unknown error occurred',
+				error:
+					error instanceof Error
+						? error.message
+						: 'Unknown error occurred',
 			}
 		}
 	}

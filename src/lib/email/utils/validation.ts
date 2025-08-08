@@ -52,7 +52,10 @@ export function validateProjectRequestData(data: ProjectRequestData): string[] {
 		errors.push('Invalid phone number format')
 	}
 
-	if (data.contactPreference && !['email', 'phone', 'meeting'].includes(data.contactPreference)) {
+	if (
+		data.contactPreference &&
+		!['email', 'phone', 'meeting'].includes(data.contactPreference)
+	) {
 		errors.push('Contact preference must be email, phone, or meeting')
 	}
 
@@ -66,6 +69,6 @@ function isValidEmail(email: string): boolean {
 
 function isValidPhoneNumber(phone: string): boolean {
 	// Basic international phone number validation
-	const phoneRegex = /^[\+]?[\d\s\-\(\)]{8,20}$/
+	const phoneRegex = /^[+]?[\d\s\-()]{8,20}$/
 	return phoneRegex.test(phone.trim())
 }
