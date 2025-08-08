@@ -1,0 +1,218 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Header from '@/components/layout/header/header.astro'
+import Footer from '@/components/layout/footer/footer.astro'
+import GradientCircle from '@/components/common/gradient-circle.astro'
+import PricingHero from '@/components/features/pricing/PricingHero.astro'
+import PricingCard from '@/components/features/pricing/PricingCard.astro'
+import PricingFAQ from '@/components/features/pricing/PricingFAQ.astro'
+import { cn } from '@/lib/core/utils'
+import { initI18n, t } from '@/lib/i18n/i18n-server'
+
+// Get language from route parameter
+const locale = Astro.params.locale || 'en'
+await initI18n(Astro.request, locale)
+
+// Get pricing data for structured data
+const pageTitle = `${t('pricing.hero.titleHighlight')} - Nextnode`
+const pageDescription = t('pricing.hero.subtitle')
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+	<div class="relative flex min-h-screen flex-col">
+		<Header />
+		
+		<main class="flex-1">
+			<!-- Hero Section -->
+			<PricingHero />
+
+			<!-- Pricing Plans Section -->
+			<section id="plans" class="py-16 lg:py-24 bg-gray-50/50 dark:bg-gray-900/50">
+				<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<!-- Section Header -->
+					<div class="text-center mb-16">
+						<h2
+							class={cn(
+								'text-3xl font-bold tracking-tight text-gray-900 dark:text-white',
+								'sm:text-4xl mb-4',
+								'opacity-0 animate-fade-in-up',
+							)}
+						>
+							Choisissez Votre Plan
+						</h2>
+						<p
+							class={cn(
+								'mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300',
+								'opacity-0 animate-fade-in-up animation-delay-200',
+							)}
+						>
+							Des solutions adaptées à chaque étape de votre croissance
+						</p>
+					</div>
+
+					<!-- Pricing Cards Grid -->
+					<div
+						class={cn(
+							'grid gap-8 lg:gap-12',
+							'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+							'items-stretch',
+						)}
+					>
+						<!-- Starter Plan -->
+						<PricingCard plan="starter" animationDelay={300} />
+						
+						<!-- Business Plan (Featured) -->
+						<PricingCard plan="business" featured={true} animationDelay={400} />
+						
+						<!-- Enterprise Plan -->
+						<PricingCard plan="enterprise" animationDelay={500} />
+					</div>
+
+					<!-- What's Included Section -->
+					<div class="mt-24">
+						<div class="text-center mb-12">
+							<h3
+								class={cn(
+									'text-2xl font-bold text-gray-900 dark:text-white mb-4',
+									'opacity-0 animate-fade-in-up animation-delay-600',
+								)}
+							>
+								{t('pricing.pricing.title')}
+							</h3>
+						</div>
+
+						<div class="grid gap-8 md:grid-cols-2">
+							<!-- Development -->
+							<div
+								class={cn(
+									'rounded-2xl border border-gray-200/50 p-6',
+									'bg-white/80 backdrop-blur-sm',
+									'dark:border-gray-700/50 dark:bg-gray-800/80',
+									'opacity-0 animate-fade-in-up animation-delay-700',
+								)}
+							>
+								<h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+									{t('pricing.pricing.development.title')}
+								</h4>
+								<p class="text-gray-600 dark:text-gray-300">
+									{t('pricing.pricing.development.description')}
+								</p>
+							</div>
+
+							<!-- Infrastructure & Support -->
+							<div
+								class={cn(
+									'rounded-2xl border border-gray-200/50 p-6',
+									'bg-white/80 backdrop-blur-sm',
+									'dark:border-gray-700/50 dark:bg-gray-800/80',
+									'opacity-0 animate-fade-in-up animation-delay-800',
+								)}
+							>
+								<h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+									{t('pricing.pricing.infrastructure.title')}
+								</h4>
+								<p class="text-gray-600 dark:text-gray-300 mb-4">
+									{t('pricing.pricing.infrastructure.description')}
+								</p>
+								<ul class="space-y-2">
+									{
+										(t('pricing.pricing.infrastructure.features') as string[]).map(feature => (
+											<li class="flex items-center gap-2">
+												<div class="h-1.5 w-1.5 rounded-full bg-indigo-500" />
+												<span class="text-sm text-gray-600 dark:text-gray-400">
+													{feature}
+												</span>
+											</li>
+										))
+									}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- FAQ Section -->
+			<PricingFAQ />
+
+			<!-- Final CTA Section -->
+			<section class="py-16 lg:py-24 bg-gradient-to-br from-indigo-50 to-violet-50 dark:from-gray-900 dark:to-gray-800">
+				<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+					<h2
+						class={cn(
+							'text-3xl font-bold tracking-tight text-gray-900 dark:text-white',
+							'sm:text-4xl mb-6',
+							'opacity-0 animate-fade-in-up',
+						)}
+					>
+						{t('pricing.cta.title')}
+					</h2>
+					<p
+						class={cn(
+							'mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300 mb-10',
+							'opacity-0 animate-fade-in-up animation-delay-200',
+						)}
+					>
+						{t('pricing.cta.description')}
+					</p>
+					<a
+						href="/contact"
+						class={cn(
+							'inline-flex items-center rounded-md',
+							'bg-gradient-to-r from-indigo-600 to-violet-600',
+							'px-8 py-4 text-lg font-semibold text-white',
+							'shadow-lg transition-all duration-300',
+							'hover:from-indigo-700 hover:to-violet-700',
+							'hover:scale-105 hover:shadow-xl',
+							'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+							'dark:focus:ring-offset-gray-900',
+							'opacity-0 animate-fade-in-up animation-delay-400',
+						)}
+					>
+						{t('pricing.cta.button')}
+					</a>
+				</div>
+			</section>
+		</main>
+
+		<GradientCircle />
+		<Footer />
+	</div>
+</BaseLayout>
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+
+	.animation-delay-200 {
+		animation-delay: 200ms;
+	}
+
+	.animation-delay-400 {
+		animation-delay: 400ms;
+	}
+
+	.animation-delay-600 {
+		animation-delay: 600ms;
+	}
+
+	.animation-delay-700 {
+		animation-delay: 700ms;
+	}
+
+	.animation-delay-800 {
+		animation-delay: 800ms;
+	}
+</style>

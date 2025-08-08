@@ -1,0 +1,189 @@
+---
+import { cn } from '@/lib/core/utils'
+import { t } from '@/lib/i18n/i18n-server'
+import GradientCircle from '@/components/common/gradient-circle.astro'
+---
+
+<section class="relative overflow-hidden">
+	<!-- Background Effects -->
+	<GradientCircle />
+	
+	<!-- Hero Content -->
+	<div
+		class={cn(
+			'mx-auto max-w-6xl px-4 py-16',
+			'sm:px-6 sm:py-20',
+			'lg:px-8 lg:py-24',
+		)}
+	>
+		<div class="text-center">
+			<!-- Badge -->
+			<div class="mb-6 flex justify-center">
+				<div
+					class={cn(
+						'inline-flex items-center rounded-full',
+						'bg-gradient-to-r from-indigo-500/10 to-violet-500/10',
+						'px-4 py-2 text-sm font-medium',
+						'ring-1 ring-inset ring-indigo-500/20',
+						'backdrop-blur-sm',
+						'dark:from-indigo-400/10 dark:to-violet-400/10',
+						'dark:ring-indigo-400/20',
+					)}
+				>
+					<span class="text-indigo-600 dark:text-indigo-400">
+						{t('pricing.hero.badge')}
+					</span>
+				</div>
+			</div>
+
+			<!-- Main Title -->
+			<div class="space-y-4">
+				<h1
+					class={cn(
+						'text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl',
+						'opacity-0 animate-fade-in-up',
+					)}
+				>
+					<span class="text-gray-900 dark:text-gray-100">
+						{t('pricing.hero.title')}
+					</span>
+					<br />
+					<span
+						class={cn(
+							'bg-gradient-to-r from-indigo-600 to-violet-600',
+							'dark:from-indigo-400 dark:to-violet-400',
+							'bg-clip-text text-transparent',
+						)}
+					>
+						{t('pricing.hero.titleHighlight')}
+					</span>
+					<br />
+					<span class="text-gray-900 dark:text-gray-100">
+						{t('pricing.hero.titleEnd')}
+					</span>
+				</h1>
+
+				<!-- Subtitle -->
+				<p
+					class={cn(
+						'mx-auto max-w-2xl text-lg text-gray-600',
+						'dark:text-gray-300',
+						'opacity-0 animate-fade-in-up animation-delay-200',
+					)}
+				>
+					{t('pricing.hero.subtitle')}
+				</p>
+
+				<!-- Description -->
+				<p
+					class={cn(
+						'mx-auto max-w-3xl text-base text-gray-500',
+						'dark:text-gray-400',
+						'leading-relaxed',
+						'opacity-0 animate-fade-in-up animation-delay-400',
+					)}
+				>
+					{t('pricing.hero.description')}
+				</p>
+			</div>
+
+			<!-- CTA Section -->
+			<div
+				class={cn(
+					'mt-10 flex flex-col items-center gap-4',
+					'sm:flex-row sm:justify-center sm:gap-6',
+					'opacity-0 animate-fade-in-up animation-delay-600',
+				)}
+			>
+				<a
+					href="#plans"
+					class={cn(
+						'inline-flex items-center rounded-md',
+						'bg-gradient-to-r from-indigo-600 to-violet-600',
+						'px-6 py-3 text-base font-semibold text-white',
+						'shadow-lg transition-all duration-300',
+						'hover:from-indigo-700 hover:to-violet-700',
+						'hover:scale-105 hover:shadow-xl',
+						'focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+						'dark:focus:ring-offset-gray-900',
+					)}
+				>
+					Voir les Plans
+				</a>
+				
+				<a
+					href="#contact"
+					class={cn(
+						'inline-flex items-center rounded-md',
+						'border border-gray-300 dark:border-gray-600',
+						'bg-white/50 dark:bg-gray-800/50',
+						'px-6 py-3 text-base font-semibold',
+						'text-gray-700 dark:text-gray-200',
+						'backdrop-blur-sm transition-all duration-300',
+						'hover:bg-gray-50/70 dark:hover:bg-gray-700/70',
+						'hover:border-gray-400 dark:hover:border-gray-500',
+						'focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2',
+						'dark:focus:ring-offset-gray-900',
+					)}
+				>
+					Consultation Gratuite
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Scroll Indicator -->
+	<div
+		class={cn(
+			'absolute bottom-8 left-1/2 -translate-x-1/2',
+			'opacity-0 animate-fade-in-up animation-delay-800',
+		)}
+	>
+		<div class="flex flex-col items-center space-y-2">
+			<span class="text-sm text-gray-500 dark:text-gray-400">
+				Découvrir nos plans
+			</span>
+			<div
+				class={cn(
+					'h-6 w-1 rounded-full',
+					'bg-gradient-to-b from-indigo-500 to-violet-500',
+					'animate-bounce',
+				)}
+			/>
+		</div>
+	</div>
+</section>
+
+<style>
+	/* Ensure proper animation staggering */
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+
+	.animation-delay-200 {
+		animation-delay: 200ms;
+	}
+
+	.animation-delay-400 {
+		animation-delay: 400ms;
+	}
+
+	.animation-delay-600 {
+		animation-delay: 600ms;
+	}
+
+	.animation-delay-800 {
+		animation-delay: 800ms;
+	}
+</style>

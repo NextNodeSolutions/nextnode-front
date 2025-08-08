@@ -1,0 +1,207 @@
+---
+import { cn } from '@/lib/core/utils'
+import { t } from '@/lib/i18n/i18n-server'
+import { ChevronDown } from 'lucide-react'
+
+// Get FAQ data from translations
+const faqData = {
+	title: t('pricing.faq.title'),
+	questions: t('pricing.faq.questions') as Array<{ question: string; answer: string }>,
+}
+---
+
+<section class="py-16 lg:py-24">
+	<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+		<!-- Section Header -->
+		<div class="text-center mb-16">
+			<h2
+				class={cn(
+					'text-3xl font-bold tracking-tight text-gray-900 dark:text-white',
+					'sm:text-4xl',
+					'opacity-0 animate-fade-in-up',
+				)}
+			>
+				{faqData.title}
+			</h2>
+		</div>
+
+		<!-- FAQ Items -->
+		<div class="space-y-4">
+			{
+				faqData.questions.map((faq, index) => (
+					<div
+						class={cn(
+							'group rounded-2xl border border-gray-200/50',
+							'bg-white/80 backdrop-blur-sm',
+							'dark:border-gray-700/50 dark:bg-gray-800/80',
+							'transition-all duration-300',
+							'hover:shadow-lg hover:border-gray-300/60',
+							'dark:hover:border-gray-600/60',
+							'opacity-0 animate-fade-in-up',
+						)}
+						style={`animation-delay: ${(index + 1) * 100}ms`}
+					>
+						<button
+							class={cn(
+								'w-full px-6 py-6 text-left',
+								'focus:outline-none focus:ring-2 focus:ring-indigo-500',
+								'focus:ring-offset-2 dark:focus:ring-offset-gray-800',
+								'rounded-2xl',
+								'faq-trigger',
+							)}
+							data-faq-id={index}
+							type="button"
+							aria-expanded="false"
+						>
+							<div class="flex items-center justify-between">
+								<h3 class="text-lg font-semibold text-gray-900 dark:text-white pr-4">
+									{faq.question}
+								</h3>
+								<ChevronDown
+									className={cn(
+										'h-5 w-5 text-gray-500 dark:text-gray-400',
+										'transition-transform duration-300',
+										'group-hover:text-gray-700 dark:group-hover:text-gray-200',
+										'faq-icon',
+									)}
+								/>
+							</div>
+						</button>
+						
+						<div
+							class={cn(
+								'overflow-hidden transition-all duration-300 ease-in-out',
+								'faq-content',
+							)}
+							style="max-height: 0;"
+							data-faq-content={index}
+						>
+							<div class="px-6 pb-6">
+								<p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+									{faq.answer}
+								</p>
+							</div>
+						</div>
+					</div>
+				))
+			}
+		</div>
+
+		<!-- Additional CTA -->
+		<div
+			class={cn(
+				'mt-16 text-center',
+				'opacity-0 animate-fade-in-up',
+				'animation-delay-800',
+			)}
+		>
+			<p class="text-gray-600 dark:text-gray-300 mb-6">
+				Vous avez d'autres questions ? N'hésitez pas à nous contacter.
+			</p>
+			<a
+				href="/contact"
+				class={cn(
+					'inline-flex items-center rounded-md',
+					'border border-gray-300 dark:border-gray-600',
+					'bg-white/70 dark:bg-gray-800/70',
+					'px-6 py-3 text-base font-semibold',
+					'text-gray-700 dark:text-gray-200',
+					'backdrop-blur-sm transition-all duration-300',
+					'hover:bg-gray-50/80 dark:hover:bg-gray-700/80',
+					'hover:border-gray-400 dark:hover:border-gray-500',
+					'focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2',
+					'dark:focus:ring-offset-gray-900',
+				)}
+			>
+				Nous Contacter
+			</a>
+		</div>
+	</div>
+</section>
+
+<!-- FAQ Interactive Script -->
+<script>
+	function initializeFAQ() {
+		const faqTriggers = document.querySelectorAll('.faq-trigger')
+		
+		faqTriggers.forEach((trigger) => {
+			trigger.addEventListener('click', () => {
+				const faqId = trigger.getAttribute('data-faq-id')
+				const content = document.querySelector(`[data-faq-content="${faqId}"]`)
+				const icon = trigger.querySelector('.faq-icon')
+				const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
+				
+				// Close all other FAQs
+				faqTriggers.forEach((otherTrigger) => {
+					if (otherTrigger !== trigger) {
+						const otherId = otherTrigger.getAttribute('data-faq-id')
+						const otherContent = document.querySelector(`[data-faq-content="${otherId}"]`)
+						const otherIcon = otherTrigger.querySelector('.faq-icon')
+						
+						otherTrigger.setAttribute('aria-expanded', 'false')
+						if (otherContent) {
+							otherContent.style.maxHeight = '0'
+						}
+						if (otherIcon) {
+							otherIcon.style.transform = 'rotate(0deg)'
+						}
+					}
+				})
+				
+				// Toggle current FAQ
+				if (!isExpanded) {
+					trigger.setAttribute('aria-expanded', 'true')
+					if (content) {
+						content.style.maxHeight = content.scrollHeight + 'px'
+					}
+					if (icon) {
+						icon.style.transform = 'rotate(180deg)'
+					}
+				} else {
+					trigger.setAttribute('aria-expanded', 'false')
+					if (content) {
+						content.style.maxHeight = '0'
+					}
+					if (icon) {
+						icon.style.transform = 'rotate(0deg)'
+					}
+				}
+			})
+		})
+	}
+
+	// Initialize when DOM is ready
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initializeFAQ)
+	} else {
+		initializeFAQ()
+	}
+
+	// Re-initialize after navigation (for SPAs)
+	document.addEventListener('astro:page-load', initializeFAQ)
+</script>
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+
+	.animation-delay-800 {
+		animation-delay: 800ms;
+	}
+
+	.faq-content {
+		transition: max-height 0.3s ease-in-out;
+	}
+</style>

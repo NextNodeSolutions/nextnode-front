@@ -1,0 +1,211 @@
+---
+import { cn } from '@/lib/core/utils'
+import { Check } from 'lucide-react'
+import { t } from '@/lib/i18n/i18n-server'
+
+export interface Props {
+	plan: 'starter' | 'business' | 'enterprise'
+	featured?: boolean
+	animationDelay?: number
+}
+
+const { plan, featured = false, animationDelay = 0 } = Astro.props
+
+// Get plan data from translations
+const planData = {
+	name: t(`pricing.plans.${plan}.name`),
+	tagline: t(`pricing.plans.${plan}.tagline`),
+	price: t(`pricing.plans.${plan}.price`),
+	recurring: t(`pricing.plans.${plan}.recurring`),
+	badge: t(`pricing.plans.${plan}.badge`),
+	description: t(`pricing.plans.${plan}.description`),
+	features: t(`pricing.plans.${plan}.features`) as string[],
+	cta: t(`pricing.plans.${plan}.cta`),
+	examples: t(`pricing.plans.${plan}.examples`) as string[],
+}
+
+// Define plan-specific styling
+const planStyles = {
+	starter: {
+		gradient: 'from-blue-500 to-cyan-500',
+		ring: 'ring-blue-500/20',
+		shadow: 'shadow-blue-500/25',
+		button: 'from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700',
+	},
+	business: {
+		gradient: 'from-indigo-500 to-violet-500',
+		ring: 'ring-indigo-500/20',
+		shadow: 'shadow-indigo-500/25',
+		button: 'from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700',
+	},
+	enterprise: {
+		gradient: 'from-violet-500 to-fuchsia-500',
+		ring: 'ring-violet-500/20',
+		shadow: 'shadow-violet-500/25',
+		button: 'from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700',
+	},
+}
+
+const currentStyle = planStyles[plan]
+---
+
+<div
+	class={cn(
+		// Base card styling
+		'relative flex flex-col h-full',
+		'rounded-2xl border border-gray-200/50',
+		'bg-white/80 backdrop-blur-sm',
+		'dark:border-gray-700/50 dark:bg-gray-800/80',
+		// Hover and interaction
+		'transition-all duration-500 hover:scale-105',
+		// Featured plan special styling
+		featured && [
+			'ring-2',
+			currentStyle.ring,
+			'shadow-2xl',
+			currentStyle.shadow,
+			'dark:shadow-none',
+			'scale-105 lg:scale-110',
+		],
+		// Animation
+		'opacity-0 animate-fade-in-up',
+		// Responsive
+		'p-6 lg:p-8',
+	)}
+	style={animationDelay > 0 ? `animation-delay: ${animationDelay}ms` : undefined}
+>
+	<!-- Featured Badge -->
+	{
+		featured && (
+			<div class="absolute -top-3 left-1/2 -translate-x-1/2">
+				<div
+					class={cn(
+						'rounded-full px-4 py-1 text-sm font-bold text-white',
+						`bg-gradient-to-r ${currentStyle.gradient}`,
+						'shadow-lg',
+					)}
+				>
+					{planData.badge}
+				</div>
+			</div>
+		)
+	}
+
+	<!-- Plan Header -->
+	<div class="text-center mb-8">
+		<h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+			{planData.name}
+		</h3>
+		<p class="text-gray-600 dark:text-gray-400 mb-4">
+			{planData.tagline}
+		</p>
+		
+		<!-- Pricing -->
+		<div class="mb-4">
+			<div
+				class={cn(
+					'text-4xl font-bold mb-2',
+					`bg-gradient-to-r ${currentStyle.gradient}`,
+					'bg-clip-text text-transparent',
+				)}
+			>
+				{planData.price}
+			</div>
+			<div class="text-gray-600 dark:text-gray-400 text-sm">
+				+ {planData.recurring}
+			</div>
+		</div>
+
+		<p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+			{planData.description}
+		</p>
+	</div>
+
+	<!-- Features List -->
+	<div class="flex-1 mb-8">
+		<ul class="space-y-3">
+			{
+				planData.features.map(feature => (
+					<li class="flex items-start gap-3">
+						<div
+							class={cn(
+								'mt-0.5 flex h-5 w-5 items-center justify-center rounded-full',
+								`bg-gradient-to-r ${currentStyle.gradient}`,
+								'flex-shrink-0',
+							)}
+						>
+							<Check className="h-3 w-3 text-white" />
+						</div>
+						<span class="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+							{feature}
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<!-- Examples Section -->
+	<div class="mb-8">
+		<h4 class="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+			Exemples d'usage :
+		</h4>
+		<ul class="space-y-2">
+			{
+				planData.examples.map(example => (
+					<li class="flex items-center gap-2">
+						<div class="h-1.5 w-1.5 rounded-full bg-gray-400" />
+						<span class="text-sm text-gray-600 dark:text-gray-400">
+							{example}
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<!-- CTA Button -->
+	<div class="mt-auto">
+		<a
+			href={plan === 'enterprise' ? '/contact' : '/contact?plan=' + plan}
+			class={cn(
+				'block w-full rounded-lg px-6 py-3 text-center font-semibold text-white',
+				`bg-gradient-to-r ${currentStyle.button}`,
+				'shadow-lg transition-all duration-300',
+				'hover:shadow-xl hover:scale-105',
+				'focus:outline-none focus:ring-2 focus:ring-offset-2',
+				`focus:ring-${plan === 'starter' ? 'blue' : plan === 'business' ? 'indigo' : 'violet'}-500`,
+				'dark:focus:ring-offset-gray-800',
+			)}
+		>
+			{planData.cta}
+		</a>
+	</div>
+
+	<!-- Decorative Elements -->
+	<div
+		class={cn(
+			'absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500',
+			'bg-gradient-to-br pointer-events-none',
+			currentStyle.gradient,
+			'group-hover:opacity-5',
+		)}
+	/>
+</div>
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+</style>
