@@ -6,9 +6,11 @@
 import { EmailService } from '../../lib/email'
 import { ProjectRequest } from '../../lib/email/templates'
 import { validateProjectRequestData } from '../../lib/email/utils/validation'
+import { getConfig } from '../../lib/config'
 
 import type { APIRoute } from 'astro'
 import type { ProjectRequestData } from '../../lib/email/types/email'
+import type { EmailConfig } from '../../lib/config/types'
 
 export const POST: APIRoute = async ({ request }) => {
 	try {
@@ -61,12 +63,25 @@ export const POST: APIRoute = async ({ request }) => {
 			)
 		}
 
-		// Get environment variables
+		// Get configuration
+		const emailConfig = getConfig<EmailConfig>('email')
 		const resendApiKey = import.meta.env.RESEND_API_KEY
-		const fromEmail = import.meta.env.FROM_EMAIL
-		const toEmail = import.meta.env.TO_EMAIL
 
-		// Validate environment configuration
+		// Validate configuration
+		if (!emailConfig) {
+			console.error('Email configuration not found')
+			return new Response(
+				JSON.stringify({
+					success: false,
+					error: 'Email configuration not found',
+				}),
+				{
+					status: 500,
+					headers: { 'Content-Type': 'application/json' },
+				},
+			)
+		}
+
 		if (!resendApiKey) {
 			console.error('RESEND_API_KEY environment variable is not set')
 			return new Response(
@@ -81,10 +96,8 @@ export const POST: APIRoute = async ({ request }) => {
 			)
 		}
 
-		if (!fromEmail || !toEmail) {
-			console.error(
-				'FROM_EMAIL or TO_EMAIL environment variable is not set',
-			)
+		if (!emailConfig.from || !emailConfig.to) {
+			console.error('Email addresses not configured in config files')
 			return new Response(
 				JSON.stringify({
 					success: false,
@@ -99,24 +112,32 @@ export const POST: APIRoute = async ({ request }) => {
 
 		// Initialize email service
 		const emailService = new EmailService({
-			provider: 'resend',
+			provider: emailConfig.provider,
 			apiKey: resendApiKey,
-			defaultFrom: fromEmail,
+			defaultFrom: emailConfig.from,
 		})
 
-		// Create email template
+		// Create email template with configuration
+		const templateConfig = emailConfig.templates.projectRequest
 		const emailTemplate = ProjectRequest({
 			data: projectData,
-			companyName: 'NextNode',
-			websiteUrl: 'https://nextnode.dev',
+			companyName: templateConfig.companyName,
+			websiteUrl: templateConfig.websiteUrl,
+			companyLogo: templateConfig.companyLogo || undefined,
 		})
+
+		// Create subject from template with variable substitution
+		const subject = templateConfig.subject.replace(
+			'{{projectName}}',
+			projectData.projectName,
+		)
 
 		// Send email
 		const result = await emailService.sendEmail(
 			{
-				to: toEmail,
-				from: fromEmail,
-				subject: `Nouvelle demande de projet : ${projectData.projectName}`,
+				to: emailConfig.to,
+				from: emailConfig.from,
+				subject,
 				template: 'ProjectRequest',
 				data: projectData,
 			},

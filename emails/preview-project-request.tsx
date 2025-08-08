@@ -1,8 +1,10 @@
 import React from 'react'
 
 import { ProjectRequest } from '../src/lib/email/templates/ProjectRequest'
+import { getConfig } from '../src/lib/config'
 
 import type { ProjectRequestData } from '../src/lib/email/types/email'
+import type { EmailConfig } from '../src/lib/config/types'
 
 // Sample data for preview
 const sampleData: ProjectRequestData = {
@@ -21,11 +23,21 @@ const sampleData: ProjectRequestData = {
 }
 
 export default function PreviewProjectRequest(): React.ReactElement {
+	// Get email configuration for preview
+	const emailConfig = getConfig<EmailConfig>('email')
+	const templateConfig = emailConfig?.templates.projectRequest || {
+		companyName: 'NextNode',
+		websiteUrl: 'https://nextnode.dev',
+		subject: 'Test Preview',
+		companyLogo: null,
+	}
+
 	return (
 		<ProjectRequest
 			data={sampleData}
-			companyName="NextNode"
-			websiteUrl="https://nextnode.dev"
+			companyName={templateConfig.companyName}
+			websiteUrl={templateConfig.websiteUrl}
+			companyLogo={templateConfig.companyLogo || undefined}
 		/>
 	)
 }
