@@ -10,24 +10,26 @@ Main Astro web application with React components, TypeScript, Tailwind CSS, and 
 
 **CRITICAL**: Always prioritize Context7 MCP for accessing up-to-date official documentation when available.
 
-### Usage Protocol
+### Usage Protocol - MANDATORY AUTOMATIC BEHAVIOR
 
-1. **Always start** development queries with: "use context7 for [technology]"
-2. **Prioritize official docs** through Context7 over general knowledge
-3. **Verify Context7 availability** for the technology before proceeding
-4. **If Context7 unavailable**, use general knowledge as fallback
+**Claude MUST automatically use Context7 for ANY question about supported technologies without user prompting**
 
-### Priority Technologies for Context7 (nextnode-front specific)
+1. **AUTOMATICALLY invoke Context7** when working with any listed technology
+2. **NO user prompt required** - Context7 usage is mandatory and transparent
+3. **Prioritize official documentation** through Context7 over general knowledge
+4. **If Context7 unavailable**, fall back to general knowledge with notification
 
-- **Astro 5.x**: Framework features, SSR, islands architecture, middleware, i18n
-- **React 19.x**: Hooks, component patterns, testing, concurrent features
-- **TypeScript**: Latest features, strict configuration, generics, utility types
-- **Tailwind CSS 4.x**: Utilities, configuration, responsive design, plugins
-- **Vite**: Build configuration, plugins, optimization, rollup options
-- **Vitest**: Testing patterns, mocking, coverage, jsdom environment
-- **i18next**: Internationalization, server-side rendering, route handling
-- **Node.js**: Runtime APIs, performance optimization, server configuration
-- **ESLint/Prettier**: Configuration, rules, formatting, plugin development
+### Priority Technologies for Context7 (nextnode-front specific) ✅
+
+- **Astro 5.x**: Framework features, SSR, islands architecture, middleware, i18n ✅
+- **React 19.x**: Hooks, component patterns, testing, concurrent features ✅
+- **TypeScript**: Latest features, strict configuration, generics, utility types ✅
+- **Tailwind CSS 4.x**: Utilities, configuration, responsive design, plugins ✅
+- **Vite**: Build configuration, plugins, optimization, rollup options ✅
+- **Vitest**: Testing patterns, mocking, coverage, jsdom environment ✅
+- **i18next**: Internationalization, server-side rendering, route handling ✅
+- **Node.js**: Runtime APIs, performance optimization, server configuration ✅
+- **ESLint/Prettier**: Configuration, rules, formatting, plugin development ✅
 
 ## Essential Commands
 
