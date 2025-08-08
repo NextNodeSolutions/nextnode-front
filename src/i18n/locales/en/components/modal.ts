@@ -14,6 +14,10 @@ export const modal = {
 		details: 'Project Details',
 		detailsPlaceholder: 'Tell us more about your project...',
 		submit: 'Submit Project Request',
+		sending: 'Sending...',
+		sent: 'Sent!',
+		successMessage: 'Your project request has been sent successfully! We\'ll get back to you within 24 hours.',
+		errorMessage: 'Failed to send your request. Please try again or contact us directly.',
 	},
 	stepModal: {
 		whatWeDo: 'What we do:',

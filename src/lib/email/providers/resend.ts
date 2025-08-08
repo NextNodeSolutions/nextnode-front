@@ -1,4 +1,5 @@
 import { Resend } from 'resend'
+
 import type { EmailResponse } from '../types/email'
 
 export class ResendProvider {

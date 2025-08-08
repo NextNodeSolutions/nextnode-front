@@ -1,3 +1,5 @@
+import React from 'react'
+
 import {
 	Html,
 	Head,
@@ -12,6 +14,7 @@ import {
 	Column,
 	Img,
 } from '@react-email/components'
+
 import type { ProjectRequestData } from '../types/email'
 
 interface ProjectRequestProps {
@@ -26,7 +29,7 @@ export function ProjectRequest({
 	companyName = 'NextNode',
 	companyLogo,
 	websiteUrl = 'https://nextnode.dev',
-}: ProjectRequestProps) {
+}: ProjectRequestProps): React.ReactElement {
 	const {
 		projectName,
 		userName,

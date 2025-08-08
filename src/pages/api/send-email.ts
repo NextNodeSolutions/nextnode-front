@@ -6,6 +6,7 @@
 import { EmailService } from '../../lib/email'
 import { ProjectRequest } from '../../lib/email/templates'
 import { validateProjectRequestData } from '../../lib/email/utils/validation'
+
 import type { APIRoute } from 'astro'
 import type { ProjectRequestData } from '../../lib/email/types/email'
 
@@ -172,8 +173,8 @@ export const POST: APIRoute = async ({ request }) => {
 }
 
 // Only allow POST requests
-export const GET: APIRoute = () => {
-	return new Response(
+export const GET: APIRoute = () =>
+	new Response(
 		JSON.stringify({
 			success: false,
 			error: 'Method not allowed. Use POST to send emails.',
@@ -186,4 +187,3 @@ export const GET: APIRoute = () => {
 			},
 		},
 	)
-}

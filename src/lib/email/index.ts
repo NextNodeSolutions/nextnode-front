@@ -5,6 +5,7 @@ export * from './utils'
 import { ResendProvider } from './providers/resend'
 import { renderEmailTemplate, validateEmailAddresses } from './utils/render'
 import { validateEmailData } from './utils/validation'
+
 import type { EmailData, EmailResponse, EmailConfig } from './types/email'
 
 export class EmailService {

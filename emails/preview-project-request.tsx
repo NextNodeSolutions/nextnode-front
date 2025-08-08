@@ -1,4 +1,7 @@
+import React from 'react'
+
 import { ProjectRequest } from '../src/lib/email/templates/ProjectRequest'
+
 import type { ProjectRequestData } from '../src/lib/email/types/email'
 
 // Sample data for preview
@@ -17,7 +20,7 @@ const sampleData: ProjectRequestData = {
 		'Nous avons déjà un site web existant et une base de données clients. Nous recherchons une solution native iOS et Android avec une interface moderne et intuitive.',
 }
 
-export default function PreviewProjectRequest() {
+export default function PreviewProjectRequest(): React.ReactElement {
 	return (
 		<ProjectRequest
 			data={sampleData}

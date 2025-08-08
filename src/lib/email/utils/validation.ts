@@ -66,6 +66,6 @@ function isValidEmail(email: string): boolean {
 
 function isValidPhoneNumber(phone: string): boolean {
 	// Basic international phone number validation
-	const phoneRegex = /^[\+]?[\d\s\-\(\)]{8,20}$/
+	const phoneRegex = /^[+]?[\d\s\-()]{8,20}$/
 	return phoneRegex.test(phone.trim())
 }
