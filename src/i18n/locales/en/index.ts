@@ -9,7 +9,7 @@ import { footer } from './components/footer'
 import { faq } from './components/faq'
 
 export const en = {
-	...common,
+	common,
 	home,
 	howWeWork,
 	privacy,

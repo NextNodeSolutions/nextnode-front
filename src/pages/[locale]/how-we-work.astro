@@ -1,16 +1,19 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import Header from '@/components/layout/header.astro'
-import Footer from '@/components/layout/footer.astro'
+import Header from '@/components/layout/header/header.astro'
+import Footer from '@/components/layout/footer/footer.astro'
 import GradientCircle from '@/components/common/gradient-circle.astro'
-import WorkflowJourney from '@/components/how-we-work/workflow-journey.astro'
-import MobileTimeline from '@/components/how-we-work/MobileTimeline.astro'
-import TechnicalFaq from '@/components/how-we-work/technical-faq.astro'
-import WorkflowJourneyInteractive from '@/components/how-we-work/WorkflowJourneyInteractive'
-import { t, initI18n } from '@/lib/i18n-server'
-import { generateDetailedSteps, generateSteps } from '@/lib/workflow-utils'
-import { generatePageTitle } from '@/lib/page-utils'
-import { STEP_COLORS } from '@/lib/workflow-constants'
+import WorkflowJourney from '@/components/features/workflow/interactive/workflow-journey.astro'
+import MobileTimeline from '@/components/features/workflow/timeline/MobileTimeline.astro'
+import TechnicalFAQOptimized from '@/components/features/workflow/content/TechnicalFAQOptimized.astro'
+import WorkflowJourneyInteractive from '@/components/features/workflow/interactive/WorkflowJourneyInteractive'
+import { t, initI18n } from '@/lib/i18n/i18n-server'
+import {
+	generateDetailedSteps,
+	generateSteps,
+} from '@/components/features/workflow/workflow-utils'
+import { generatePageTitle } from '@/lib/core/page-utils'
+import { STEP_COLORS } from '@/components/features/workflow/workflow-constants'
 
 // Get language from route parameter
 // For [...locale], the parameter can be undefined (for root path) or an array
@@ -18,14 +21,14 @@ const localeParam = Astro.params.locale
 const locale = Array.isArray(localeParam) ? localeParam[0] : localeParam || 'en'
 await initI18n(Astro.request, locale)
 
-// Données de la page
+// Page data
 const pageTitle = generatePageTitle(
 	'howWeWork.hero.title',
 	'howWeWork.hero.titleHighlight',
 )
 const pageDescription = t('howWeWork.hero.description')
 
-// Étapes du workflow avec toutes les données
+// Workflow steps with all data
 const steps = generateDetailedSteps()
 const simpleSteps = generateSteps()
 ---
@@ -68,8 +71,19 @@ const simpleSteps = generateSteps()
 				<!-- Workflow Journey - Responsive Switch -->
 				<div class="mx-auto max-w-7xl">
 					<!-- Desktop/Tablet SVG Version (md and up) -->
-					<div class="hidden md:block">
-						<WorkflowJourney steps={steps} />
+					<!-- Medium screens (md to lg) use mini variant -->
+					<div class="hidden md:block lg:hidden">
+						<WorkflowJourney variant="mini" />
+					</div>
+
+					<!-- Large screens (lg to xl) use compact variant -->
+					<div class="hidden lg:block xl:hidden">
+						<WorkflowJourney variant="compact" />
+					</div>
+
+					<!-- Extra large screens (xl and up) use large variant -->
+					<div class="hidden xl:block">
+						<WorkflowJourney variant="large" />
 					</div>
 
 					<!-- Mobile Timeline Version (sm and down) -->
@@ -104,7 +118,7 @@ const simpleSteps = generateSteps()
 					</p>
 				</div>
 
-				<TechnicalFaq />
+				<TechnicalFAQOptimized />
 			</div>
 		</section>
 
@@ -113,7 +127,7 @@ const simpleSteps = generateSteps()
 </BaseLayout>
 
 <style>
-	/* Animation pour révéler les sections au scroll */
+	/* Animation to reveal sections on scroll */
 	@keyframes fadeInUp {
 		from {
 			opacity: 0;
@@ -129,7 +143,7 @@ const simpleSteps = generateSteps()
 		animation: fadeInUp 0.6s ease-out forwards;
 	}
 
-	/* Hover effects pour les cards */
+	/* Hover effects for cards */
 	.hover-lift {
 		transition:
 			transform 0.3s ease,
@@ -145,7 +159,7 @@ const simpleSteps = generateSteps()
 </style>
 
 <script>
-	// Animation au scroll avec Intersection Observer
+	// Scroll animation with Intersection Observer
 	const observerOptions = {
 		threshold: 0.1,
 		rootMargin: '0px 0px -50px 0px',
@@ -159,7 +173,7 @@ const simpleSteps = generateSteps()
 		})
 	}, observerOptions)
 
-	// Observer toutes les sections
+	// Observe all sections
 	document.addEventListener('DOMContentLoaded', () => {
 		const sections = document.querySelectorAll('section')
 		sections.forEach(section => {

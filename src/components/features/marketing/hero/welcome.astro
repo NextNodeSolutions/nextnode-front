@@ -1,0 +1,33 @@
+---
+import { cn } from '@/lib/core/utils'
+import HeroContent from './hero-content.astro'
+import ScrollIndicator from '../interaction/scroll-indicator.astro'
+import MobileSidePanel from '../panels/mobile-side-panel.astro'
+import SidePanel from '../panels/side-panel.astro'
+---
+
+<!-- Hero Section -->
+<div
+	class={cn(
+		'mx-auto mt-12 px-0',
+		'min-h-[calc(100vh-3rem)] flex flex-col justify-center',
+		'sm:mt-0 sm:px-4',
+		'md:min-h-[70vh] md:flex-row md:items-center md:px-6 md:max-w-6xl',
+	)}
+>
+	<HeroContent />
+
+	<!-- Side Panel -->
+	<div
+		class={cn(
+			'hidden',
+			'md:block md:w-2/5 md:pl-8 opacity-0 animate-fade-in-up animation-delay-600',
+		)}
+	>
+		<SidePanel />
+	</div>
+</div>
+
+<ScrollIndicator />
+
+<MobileSidePanel />

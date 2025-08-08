@@ -3,7 +3,7 @@ import '../styles/global.css'
 import '../styles/base.css'
 import '../styles/animations.css'
 import '../styles/liquid-effects.css'
-import { t } from '@/lib/i18n-server'
+import { t } from '@/lib/i18n/i18n-server'
 
 export interface Props {
 	title: string
@@ -13,7 +13,7 @@ export interface Props {
 
 const {
 	title,
-	description = t('meta.defaultDescription'),
+	description = t('common.meta.defaultDescription'),
 	image = '/og-image.png',
 } = Astro.props
 
@@ -88,7 +88,7 @@ const currentLocale = Astro.currentLocale || 'en'
 		<!-- Theme initialization -->
 		<script is:inline>
 			// Initialize theme immediately to prevent flash
-			;(function () {
+			function initTheme() {
 				const savedTheme = localStorage.getItem('theme')
 				const systemPrefersDark = window.matchMedia(
 					'(prefers-color-scheme: dark)',
@@ -105,7 +105,8 @@ const currentLocale = Astro.currentLocale || 'en'
 
 				// Store theme state globally for components to access
 				window.initialTheme = isDark ? 'dark' : 'light'
-			})()
+			}
+			initTheme()
 		</script>
 	</head>
 	<body
@@ -115,15 +116,6 @@ const currentLocale = Astro.currentLocale || 'en'
 
 		<!-- Global theme and language management script -->
 		<script>
-			// Declare global types
-			declare global {
-				interface Window {
-					currentLanguage?: string
-					languageManager: any
-					themeManager: any
-				}
-			}
-
 			// Global language management
 			window.languageManager = {
 				getCurrentLanguage() {

@@ -3,7 +3,7 @@
  * Provides application health status and basic metrics
  */
 
-import { getHealthStatus } from '../lib/metrics'
+import { getHealthStatus } from '../lib/core/metrics'
 
 import type { APIRoute } from 'astro'
 

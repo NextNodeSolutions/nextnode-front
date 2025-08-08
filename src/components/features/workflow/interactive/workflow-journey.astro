@@ -1,0 +1,380 @@
+---
+import {
+	STEP_COLORS,
+	DESKTOP_WORKFLOW_POSITIONS,
+	generateGradientStops,
+	type Position,
+} from '../workflow-constants'
+import { generateDetailedSteps } from '../workflow-utils'
+
+import WorkflowGradients from '../visual/WorkflowGradients.astro'
+import WorkflowPath from '../visual/WorkflowPath.astro'
+import StepCard from '../cards/StepCard.astro'
+
+export interface Props {
+	variant?: 'mini' | 'compact' | 'large'
+}
+
+const { variant = 'mini' } = Astro.props
+
+// Step data with translations
+const detailedSteps = generateDetailedSteps()
+const positions = DESKTOP_WORKFLOW_POSITIONS
+const gradientStops = generateGradientStops(STEP_COLORS)
+
+// ViewBox dimensions - same as the working old version
+const VIEWBOX_WIDTH = 1000
+const VIEWBOX_HEIGHT = 500
+
+// Card dimensions in viewBox units - aligned with actual Tailwind CSS dimensions
+// Based on Tailwind spacing system: h-12=48px, h-16=64px, h-32=128px + content padding
+const CARD_DIMENSIONS = {
+	compact: { width: 200, height: 215 }, // h-16 (64px) + content (48px) + padding
+	mini: { width: 190, height: 155 }, // h-12 (48px) + content (24px) + padding
+	large: { width: 190, height: 180 }, // h-20 (80px) + content (60px) + padding for xl screens
+}
+
+const cardWidth = CARD_DIMENSIONS[variant].width
+const cardHeight = CARD_DIMENSIONS[variant].height
+
+// Map workflow-journey variants to StepCard variants
+// Since StepCard only has 'mobile', 'mini', and 'compact', we map 'large' to 'compact'
+const stepCardVariant = variant === 'large' ? 'compact' : variant
+
+// Function to calculate the correct rectangle position
+// based on line direction and rectangle dimensions
+function calculateRectanglePosition(
+	position: Position,
+	width: number,
+	height: number,
+) {
+	const { x, y, lineEndX, lineEndY } = position
+
+	// Calculate line direction
+	const deltaX = lineEndX - x
+	const deltaY = lineEndY - y
+
+	// Determine which direction is dominant
+	if (Math.abs(deltaX) > Math.abs(deltaY)) {
+		// Dominant horizontal movement
+		if (deltaX > 0) {
+			// Line goes right → rectangle on right, line touches left edge
+			return {
+				x: lineEndX,
+				y: lineEndY - height / 2,
+			}
+		} else {
+			// Line goes left → rectangle on left, line touches right edge
+			return {
+				x: lineEndX - width,
+				y: lineEndY - height / 2,
+			}
+		}
+	} else {
+		// Dominant vertical movement
+		if (deltaY > 0) {
+			// Line goes down → rectangle below, line touches top edge
+			return {
+				x: lineEndX - width / 2,
+				y: lineEndY,
+			}
+		} else {
+			// Line goes up → rectangle above, line touches bottom edge
+			return {
+				x: lineEndX - width / 2,
+				y: lineEndY - height,
+			}
+		}
+	}
+}
+---
+
+<div
+	class="workflow-journey relative w-full pt-8 pb-0 md:pt-12 md:pb-12 lg:pt-28 lg:pb-16"
+>
+	<div class="container mx-auto px-4">
+		<!-- Relative container for overlay -->
+		<div class="relative aspect-[2/1] w-full">
+			<!-- SVG Background with path and lines -->
+			<svg
+				class="absolute inset-0 h-full w-full"
+				viewBox="0 -50 1000 500"
+				style="overflow: visible; pointer-events: none;"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<WorkflowGradients gradientStops={gradientStops} />
+				<WorkflowPath />
+
+				{/* Connection lines, points and cards - all in SVG */}
+				{
+					positions.map((position, index) => {
+						const color = STEP_COLORS[index]
+						const step = detailedSteps[index]
+
+						if (!step || !color) {
+							return null
+						}
+
+						// Position calculation removed - variable was unused
+
+						return (
+							<g>
+								{/* Connection line */}
+								<line
+									x1={position.x}
+									y1={position.y}
+									x2={position.lineEndX}
+									y2={position.lineEndY}
+									stroke={color}
+									stroke-width="3"
+									opacity="0"
+									class="workflow-line"
+									style={`animation-delay: ${index * 150}ms`}
+								/>
+
+								{/* Point on path */}
+								<circle
+									cx={position.x}
+									cy={position.y}
+									r="6"
+									fill={color}
+									stroke="white"
+									stroke-width="3"
+									opacity="0"
+									class="workflow-point"
+									style={`animation-delay: ${index * 150}ms`}
+								/>
+							</g>
+						)
+					})
+				}
+			</svg>
+
+			{/* HTML container for StepCards */}
+			<div class="absolute inset-0">
+				{
+					positions.map((position, index) => {
+						const step = detailedSteps[index]
+						if (!step) return null
+
+						// Calculate rectangle position
+						const rectPos = calculateRectanglePosition(
+							position,
+							cardWidth,
+							cardHeight,
+						)
+
+						// Convert SVG coordinates to percentages
+						// ViewBox is "0 -50 1000 500" - total height of 550 units (500 + 50 offset)
+						const leftPercent = (rectPos.x / VIEWBOX_WIDTH) * 100
+						const topPercent =
+							((rectPos.y + 50) / VIEWBOX_HEIGHT) * 100
+						const widthPercent = (cardWidth / VIEWBOX_WIDTH) * 100
+						const heightPercent =
+							(cardHeight / VIEWBOX_HEIGHT) * 100
+
+						return (
+							<div
+								class="workflow-card absolute"
+								style={`
+									left: ${leftPercent}%;
+									top: ${topPercent}%;
+									width: ${widthPercent}%;
+									height: ${heightPercent}%;
+									animation-delay: ${index * 150}ms;
+								`}
+							>
+								<div class="step-card-wrapper h-full w-full">
+									<StepCard
+										stepKey={step.id}
+										index={index}
+										variant={stepCardVariant}
+									/>
+								</div>
+							</div>
+						)
+					})
+				}
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	/* Styles simples et propres pour le workflow journey */
+	.workflow-journey {
+		user-select: none;
+	}
+
+	.step-card-group {
+		opacity: 1;
+	}
+
+	/* Interactive card hover effects */
+	.interactive-card {
+		cursor: pointer;
+	}
+
+	/* SVG Cards - scale automatiquement avec le viewBox */
+	.svg-card {
+		opacity: 0;
+		animation: fadeInCard 0.8s ease-out forwards;
+	}
+
+	@keyframes fadeInCard {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Workflow lines and points animations - synchronized with cards */
+	.workflow-line {
+		animation: fadeInLine 0.8s ease-out forwards;
+	}
+
+	.workflow-point {
+		animation: fadeInPoint 0.8s ease-out forwards;
+	}
+
+	.workflow-rectangle {
+		animation: fadeInRectangle 0.8s ease-out forwards;
+	}
+
+	.workflow-card {
+		opacity: 0;
+		animation: fadeInCard 0.8s ease-out forwards;
+		pointer-events: auto;
+	}
+
+	/* Force StepCard to fit in container */
+	.step-card-wrapper {
+		display: flex;
+		align-items: stretch;
+		justify-content: stretch;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+	}
+
+	.step-card-wrapper > * {
+		width: 100% !important;
+		height: 100% !important;
+		max-width: none !important;
+		max-height: none !important;
+		min-width: 100% !important;
+		min-height: 100% !important;
+		flex-shrink: 0;
+		box-sizing: border-box;
+		transform: scale(1);
+	}
+
+	/* Override StepCard's internal styles to fill container */
+	.workflow-card :global(.group) {
+		width: 100% !important;
+		height: 100% !important;
+		max-width: none !important;
+		max-height: none !important;
+		min-width: 100% !important;
+		min-height: 100% !important;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Force the main card div to fill the group */
+	.workflow-card :global(.group > div) {
+		width: 100% !important;
+		height: 100% !important;
+		flex: 1;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Force content sections to distribute space properly */
+	.workflow-card :global(.group > div > div:last-child) {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	@keyframes fadeInLine {
+		from {
+			opacity: 0;
+			stroke-dasharray: 1000;
+			stroke-dashoffset: 1000;
+		}
+		to {
+			opacity: 1;
+			stroke-dasharray: none;
+			stroke-dashoffset: 0;
+		}
+	}
+
+	@keyframes fadeInPoint {
+		from {
+			opacity: 0;
+			transform: scale(0);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	@keyframes fadeInRectangle {
+		from {
+			opacity: 0;
+			transform: scale(0.8);
+		}
+		to {
+			opacity: 0.8;
+			transform: scale(1);
+		}
+	}
+
+	@keyframes fadeInCard {
+		from {
+			opacity: 0;
+			transform: scale(0.9);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+
+	/* Accessibility - respect reduced motion preference */
+	@media (prefers-reduced-motion: reduce) {
+		.workflow-line,
+		.workflow-point,
+		.workflow-rectangle,
+		.workflow-card {
+			animation: none;
+			opacity: 1;
+		}
+		.workflow-rectangle {
+			opacity: 0.8;
+		}
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		.workflow-journey svg {
+			height: 400px;
+		}
+
+		.expanded-content {
+			width: 350px !important;
+			height: 250px !important;
+			x: 50 !important;
+			y: 125 !important;
+		}
+	}
+</style>

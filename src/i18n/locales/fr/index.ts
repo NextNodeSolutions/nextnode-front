@@ -11,7 +11,7 @@ import { faq } from './components/faq'
 import type { TranslationDict } from '../../types'
 
 export const fr = {
-	...common,
+	common,
 	home,
 	howWeWork,
 	privacy,
