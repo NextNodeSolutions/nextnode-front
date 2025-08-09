@@ -184,37 +184,187 @@ export const howWeWork = {
 	faq: {
 		title: 'FAQ Technique',
 		subtitle: "Réponses d'expert à vos questions de développement",
-		questions: [
-			{
-				question:
-					'Comment assurez-vous les performances et Core Web Vitals ?',
-				answer: "Nous optimisons pour les Core Web Vitals dès le premier jour avec des techniques comme le code splitting, l'optimisation d'images, le lazy loading et l'implémentation CDN. Nous utilisons les audits Lighthouse et le monitoring utilisateur réel pour maintenir des scores 90+.",
-			},
-			{
-				question:
-					'Quelle est votre approche pour la scalabilité et croissance future ?',
-				answer: "Nous architecturons en pensant croissance avec microservices, fonctions serverless et database sharding si nécessaire. Notre code est modulaire et documenté, facilitant l'ajout de fonctionnalités et la montée en charge infrastructure.",
-			},
-			{
-				question:
-					'Comment gérez-vous la sécurité et protection des données ?',
-				answer: 'La sécurité est intégrée à chaque couche : chiffrement HTTPS/SSL, validation des entrées, protection injection SQL, prévention XSS, conformité OWASP, audits sécurité réguliers et pratiques RGPD conformes.',
-			},
-			{
-				question:
-					'Pouvez-vous intégrer avec des systèmes et APIs existants ?',
-				answer: 'Absolument. Nous sommes spécialisés dans les intégrations fluides avec CRMs, processeurs de paiement, outils analytics, plateformes marketing et APIs personnalisées. Nous assurons cohérence des données et fiabilité lors des migrations.',
-			},
-			{
-				question: 'Quel est votre processus qualité code et tests ?',
-				answer: "Nous suivons des standards qualité stricts avec ESLint, Prettier et TypeScript. Nos tests incluent tests unitaires, d'intégration, end-to-end avec Playwright/Cypress, et pipelines CI/CD automatisés pour des déploiements cohérents.",
-			},
-			{
-				question:
-					"Comment gérez-vous le SEO et l'optimisation technique ?",
-				answer: 'Nous implémentons les meilleures pratiques SEO technique : HTML sémantique, données structurées, meta tags, génération sitemap, optimisation robots.txt, optimisation vitesse et conformité mobile-first indexing.',
-			},
-		],
+		questions: {
+			gettingStarted: [
+				{
+					question:
+						'Combien de temps faut-il pour créer un site web professionnel ?',
+					answer: 'Un site vitrine simple peut être livré en 2-4 semaines. Une application web complexe prend généralement 2-3 mois. Nous établissons un calendrier précis après avoir défini vos besoins exacts lors de la phase de découverte.',
+				},
+				{
+					question:
+						'Quelles informations dois-je préparer avant de démarrer mon projet ?',
+					answer: "Préparez vos objectifs business, votre budget approximatif, des exemples de sites que vous aimez, votre contenu (textes, images, logo), et une liste des fonctionnalités souhaitées. Pas d'inquiétude, nous vous guidons pour le reste !",
+				},
+				{
+					question:
+						'Comment choisir entre un site vitrine et une application web ?',
+					answer: 'Un site vitrine présente votre entreprise et génère des contacts. Une application web offre des fonctionnalités interactives (espace client, e-commerce, outils en ligne). Nous vous conseillons selon vos objectifs et votre budget.',
+				},
+				{
+					question: "Ai-je besoin d'un CMS ou d'un site sur-mesure ?",
+					answer: 'Un CMS (WordPress, Webflow) convient pour du contenu fréquemment mis à jour par vous-même. Le sur-mesure est idéal pour des besoins spécifiques, meilleures performances et évolutivité. Nous recommandons selon votre cas.',
+				},
+				{
+					question:
+						'Pourrai-je modifier mon site moi-même après la livraison ?',
+					answer: 'Oui ! Nous intégrons un système de gestion de contenu adapté à votre niveau technique. Formation incluse pour vous rendre autonome sur les modifications courantes (textes, images, articles de blog).',
+				},
+				{
+					question:
+						'Comment assurer la visibilité de mon site sur Google ?',
+					answer: 'Nous optimisons votre site pour le SEO dès la conception : structure technique parfaite, vitesse de chargement, contenu optimisé, balises méta. Nous pouvons aussi vous accompagner sur une stratégie SEO long terme.',
+				},
+				{
+					question:
+						"Qu'est-ce qui est inclus dans la maintenance d'un site ?",
+					answer: 'La maintenance inclut : mises à jour de sécurité, sauvegardes régulières, monitoring 24/7, corrections de bugs, support technique, et petites modifications. Différents forfaits disponibles selon vos besoins.',
+				},
+				{
+					question: 'Comment protéger mon site contre le piratage ?',
+					answer: 'Nous implémentons : certificat SSL, mises à jour sécurité régulières, pare-feu applicatif, protection anti-DDoS, sauvegardes automatiques et monitoring des menaces. Votre site est entre de bonnes mains.',
+				},
+			],
+			business: [
+				{
+					question: 'Combien coûte un site web professionnel ?',
+					answer: 'Nos sites web coûtent généralement entre 3 000€ et 15 000€ selon la complexité. Nous fournissons des devis détaillés après avoir compris vos besoins spécifiques. Cela inclut design, développement, tests et déploiement avec 3 mois de support.',
+				},
+				{
+					question:
+						"Quel ROI puis-je attendre d'un nouveau site web ?",
+					answer: 'La plupart de nos clients voient un ROI de 200-400% dans les 12 mois grâce à de meilleurs taux de conversion, un meilleur référencement SEO et une expérience utilisateur améliorée. Nous suivons les métriques comme la génération de leads et les conversions.',
+				},
+				{
+					question:
+						'Comment se déroule un projet du début à la fin ?',
+					answer: 'Notre processus en 6 étapes : Découverte & Stratégie (1-2 semaines), Design & UX (2-3 semaines), Développement (4-8 semaines), Tests & Optimisation (1-2 semaines), Déploiement (3-5 jours), et Support & Maintenance continu.',
+				},
+				{
+					question: 'Que dois-je préparer avant de commencer ?',
+					answer: 'Nous avons besoin de vos objectifs business, infos sur votre audience cible, éléments de branding existants, contenu (texte/images), et fonctionnalités spécifiques souhaitées. Nous vous guidons dans tout pendant la phase de découverte.',
+				},
+				{
+					question:
+						'Proposez-vous de la maintenance et du support continu ?',
+					answer: 'Oui ! Nous offrons des forfaits de maintenance incluant mises à jour sécurité, optimisation performance, mises à jour contenu et support technique. Les forfaits commencent à 200€/mois avec différents niveaux de service.',
+				},
+				{
+					question:
+						'Comment gérez-vous les délais et la gestion de projet ?',
+					answer: 'Nous utilisons une méthodologie agile avec des points hebdomadaires, tableaux de bord projet partagés et jalons clairs. 95% de nos projets sont livrés à temps. Nous intégrons du temps tampon pour révisions et exigences imprévues.',
+				},
+			],
+			design: [
+				{
+					question:
+						'Comment créez-vous des interfaces qui convertissent ?',
+					answer: 'Nous utilisons des principes de design basés sur les données, tests A/B et analytics comportement utilisateur. Nos designs se concentrent sur des propositions de valeur claires, navigation intuitive, call-to-actions stratégiques et flux utilisateur optimisés.',
+				},
+				{
+					question:
+						'Créez-vous des designs responsives pour tous les appareils ?',
+					answer: "Absolument ! Nous utilisons une approche mobile-first. Chaque site web est entièrement responsive et testé sur téléphones, tablettes, ordinateurs portables et de bureau. Nous garantissons un affichage parfait sur toutes les tailles d'écran.",
+				},
+				{
+					question: 'Comment intégrez-vous notre branding existant ?',
+					answer: "Nous travaillons avec vos guidelines de marque, couleurs, polices et identité visuelle. Si vous avez besoin d'un raffinement de marque, nous pouvons aider à faire évoluer votre marque pour le digital tout en maintenant la cohérence.",
+				},
+				{
+					question:
+						'Faites-vous des tests utilisateurs et de la recherche ?',
+					answer: "Oui ! Nous menons des interviews utilisateurs, tests d'utilisabilité et revues analytics. Nous créons des personas utilisateurs, cartes de parcours et testons les prototypes avec de vrais utilisateurs avant le développement.",
+				},
+				{
+					question: "Comment optimisez-vous l'expérience mobile ?",
+					answer: 'Approche mobile-first avec interfaces tactiles, temps de chargement optimisés, navigation simplifiée et fonctionnalités spécifiques mobile. Nous testons sur vrais appareils et optimisons les taux de conversion mobile.',
+				},
+			],
+			performance: [
+				{
+					question:
+						'Comment garantissez-vous des temps de chargement rapides ?',
+					answer: "Nous optimisons pour les Core Web Vitals avec techniques comme le code splitting, optimisation d'images, lazy loading, implémentation CDN et frameworks modernes. Nous maintenons des scores Lighthouse 90+.",
+				},
+				{
+					question:
+						'Que sont les Core Web Vitals et pourquoi sont-ils importants ?',
+					answer: "Les Core Web Vitals sont les métriques clés de Google pour l'expérience utilisateur : vitesse de chargement, interactivité et stabilité visuelle. Ils impactent directement le référencement SEO et la satisfaction utilisateur.",
+				},
+				{
+					question: 'Comment optimisez-vous les performances ?',
+					answer: "Via l'optimisation du code, compression d'images, stratégies de cache, optimisation base de données, utilisation CDN et technologies web modernes. Nous surveillons les performances en continu post-lancement.",
+				},
+				{
+					question:
+						'Pouvez-vous gérer les pics de trafic et la montée en charge ?',
+					answer: 'Oui ! Nous architecturons en pensant croissance avec infrastructure auto-scalable, load balancers et CDNs. Nos sites peuvent gérer les surges de trafic des campagnes marketing ou contenu viral.',
+				},
+			],
+			security: [
+				{
+					question:
+						'Comment protégez-vous les données clients et la vie privée ?',
+					answer: 'Nous implémentons chiffrement HTTPS/SSL, stockage de données sécurisé, validation des entrées et suivons les guidelines de sécurité OWASP. Toutes les données clients sont chiffrées et stockées selon les meilleures pratiques.',
+				},
+				{
+					question:
+						'Êtes-vous conformes RGPD et réglementations vie privée ?',
+					answer: 'Oui ! Nous implémentons consentement cookies conforme RGPD, politiques de confidentialité, accords de traitement des données et outils de gestion des données utilisateur. Nous vous aidons à respecter toutes les réglementations.',
+				},
+				{
+					question:
+						'Comment sécurisez-vous le traitement des paiements ?',
+					answer: 'Nous intégrons avec des processeurs de paiement conformes PCI comme Stripe et PayPal. Nous ne stockons jamais directement les données de paiement sensibles et utilisons tokenisation et chiffrement pour toutes les transactions.',
+				},
+				{
+					question:
+						'Proposez-vous des audits sécurité et monitoring ?',
+					answer: 'Oui ! Nous menons des audits sécurité réguliers, surveillons les vulnérabilités, appliquons les correctifs sécurité et fournissons du monitoring sécurité continu. Nous pouvons aussi organiser des évaluations sécurité tierces.',
+				},
+			],
+			integrations: [
+				{
+					question: 'Pouvez-vous migrer mon site web existant ?',
+					answer: 'Absolument ! Nous gérons les migrations depuis WordPress, Shopify, Squarespace et systèmes personnalisés. Nous préservons les classements SEO, redirigeons les anciennes URLs et assurons zéro perte de données pendant la migration.',
+				},
+				{
+					question:
+						'Comment intégrez-vous avec nos outils business actuels ?',
+					answer: 'Nous intégrons avec CRMs, plateformes email marketing, outils analytics, systèmes de paiement et bases de données personnalisées. Nous assurons un flux de données fluide entre votre site web et systèmes business existants.',
+				},
+				{
+					question:
+						'Travaillez-vous avec des APIs et services tiers ?',
+					answer: "Oui ! Nous intégrons avec des APIs pour paiements, livraison, inventaire, réseaux sociaux, automatisation marketing et services personnalisés. Nous gérons la documentation API, tests et gestion d'erreurs.",
+				},
+				{
+					question:
+						'Proposez-vous de la formation pour gérer le site web ?',
+					answer: 'Oui ! Nous fournissons des sessions de formation complètes, tutoriels vidéo et documentation. Nous nous assurons que votre équipe peut gérer avec confiance le contenu, produits et fonctions de base du site.',
+				},
+			],
+			marketing: [
+				{
+					question:
+						'Comment optimisez-vous pour les moteurs de recherche (SEO) ?',
+					answer: "Nous implémentons les meilleures pratiques SEO technique : HTML sémantique, données structurées, meta tags, génération sitemap, optimisation vitesse de page, indexation mobile-first et stratégies d'optimisation contenu.",
+				},
+				{
+					question: 'Intégrez-vous Google Analytics et le tracking ?',
+					answer: "Oui ! Nous configurons Google Analytics 4, tracking de conversion, heat maps et tracking d'événements personnalisés. Nous fournissons des rapports détaillés et insights pour vous aider à comprendre le comportement utilisateur.",
+				},
+				{
+					question:
+						'Aidez-vous avec la stratégie contenu et marketing ?',
+					answer: "Nous fournissons des conseils stratégie contenu, optimisation contenu SEO et design d'entonnoir marketing. Bien que nous nous concentrions sur le développement, nous nous associons avec des spécialistes marketing quand nécessaire.",
+				},
+				{
+					question: 'Comment trackez-vous les conversions et ROI ?',
+					answer: 'Nous implémentons un tracking complet pour objectifs, conversions, transactions e-commerce et génération de leads. Nous configurons des tableaux de bord pour surveiller ROI, parcours utilisateur et métriques de performance business.',
+				},
+			],
+		},
 	},
 	cta: {
 		title: 'Prêt à transformer votre présence digitale ?',
@@ -235,12 +385,28 @@ export const howWeWork = {
 	},
 	faqCategories: {
 		all: 'Toutes',
-		performance: 'Performance',
-		architecture: 'Architecture',
-		security: 'Sécurité',
-		integration: 'Intégration',
-		quality: 'Qualité',
-		seo: 'SEO',
+		gettingStarted: 'Démarrer un projet',
+		business: 'Business & Stratégie',
+		design: 'Design & UX',
+		performance: 'Performance & Vitesse',
+		security: 'Sécurité & Conformité',
+		integrations: 'Intégrations & Systèmes',
+		marketing: 'Marketing & SEO',
+	},
+	faqDifficulty: {
+		beginner: 'Débutant',
+		intermediate: 'Intermédiaire',
+		advanced: 'Avancé',
+	},
+	faqSearch: {
+		placeholder: 'Rechercher des questions...',
+		noResults: 'Aucune question trouvée correspondant à votre recherche.',
+		showingResults: 'Affichage de {{count}} question(s)',
+		questionsCount: '{{count}} question{{plural}}',
+		showingTotal: 'Affichage de {{results}} sur {{total}} questions',
+		searchTips: '💡 Essayez de rechercher "coût", "SEO", ou "sécurité"',
+		helpText:
+			'Essayez des mots-clés différents ou parcourez par catégorie.',
 	},
 	techStats: {
 		mastery: 'maîtrise',
