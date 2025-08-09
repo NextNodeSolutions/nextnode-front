@@ -4,16 +4,22 @@ import { Check } from 'lucide-react'
 import { t } from '@/lib/i18n/i18n-server'
 import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
 import { ProfessionalProjectModal } from '@/components/features/pricing/ProfessionalProjectModal'
+import {
+	PLAN_THEMES,
+	PRICING_CARD_CLASSES,
+	getPlanCSSVars,
+} from '@/lib/ui/pricing-constants'
+import type { PlanType } from '@/lib/ui/pricing-constants'
 
 export interface Props {
-	plan: 'starter' | 'business' | 'enterprise'
+	plan: PlanType
 	featured?: boolean
 	animationDelay?: number
 }
 
 const { plan, featured = false, animationDelay = 0 } = Astro.props
 
-// Get plan data from translations
+// Get plan data - optimized single object creation
 const planData = {
 	name: t(`pricing.plans.${plan}.name`),
 	tagline: t(`pricing.plans.${plan}.tagline`),
@@ -26,57 +32,32 @@ const planData = {
 	examples: t(`pricing.plans.${plan}.examples`) as readonly string[],
 }
 
-// Define plan-specific styling
-const planStyles = {
-	starter: {
-		gradient: 'from-blue-500 to-cyan-500',
-		ring: 'ring-blue-500/20',
-		shadow: 'shadow-blue-500/25',
-		button: 'from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700',
-	},
-	business: {
-		gradient: 'from-indigo-500 to-violet-500',
-		ring: 'ring-indigo-500/20',
-		shadow: 'shadow-indigo-500/25',
-		button: 'from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700',
-	},
-	enterprise: {
-		gradient: 'from-violet-500 to-fuchsia-500',
-		ring: 'ring-violet-500/20',
-		shadow: 'shadow-violet-500/25',
-		button: 'from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700',
-	},
-}
+// Get additional translation
+const examplesTitle = t('pricing.sections.examplesTitle')
 
-const currentStyle = planStyles[plan]
+// Get theme configuration for current plan
+const planTheme = PLAN_THEMES[plan]
+const cssVars = getPlanCSSVars(plan)
 ---
 
 <div
 	class={cn(
 		// Base card styling
-		'relative flex flex-col h-full',
-		'rounded-2xl border border-gray-200/50',
-		'bg-white/80 backdrop-blur-sm',
-		'dark:border-gray-700/50 dark:bg-gray-800/80',
-		// Hover and interaction
-		'transition-all duration-500 hover:scale-105',
+		PRICING_CARD_CLASSES.base,
 		// Featured plan special styling
 		featured && [
 			'ring-2',
-			currentStyle.ring,
-			'shadow-2xl',
-			currentStyle.shadow,
-			'dark:shadow-none',
-			'scale-105 lg:scale-110',
+			planTheme.ring,
+			PRICING_CARD_CLASSES.featured,
+			planTheme.shadow,
 		],
-		// Animation
-		'opacity-0 animate-fade-in-up',
-		// Responsive
-		'p-6 lg:p-8',
+		// Responsive padding
+		PRICING_CARD_CLASSES.content.padding,
 	)}
-	style={animationDelay > 0
-		? `animation-delay: ${animationDelay}ms`
-		: undefined}
+	style={{
+		animationDelay: animationDelay > 0 ? `${animationDelay}ms` : undefined,
+		...cssVars,
+	}}
 >
 	<!-- Featured Badge -->
 	{
@@ -85,7 +66,7 @@ const currentStyle = planStyles[plan]
 				<div
 					class={cn(
 						'rounded-full px-4 py-1 text-sm font-bold text-white',
-						`bg-gradient-to-r ${currentStyle.gradient}`,
+						`bg-gradient-to-r ${planTheme.gradient}`,
 						'shadow-lg',
 					)}
 				>
@@ -109,7 +90,7 @@ const currentStyle = planStyles[plan]
 			<div
 				class={cn(
 					'text-4xl font-bold mb-2',
-					`bg-gradient-to-r ${currentStyle.gradient}`,
+					`bg-gradient-to-r ${planTheme.gradient}`,
 					'bg-clip-text text-transparent',
 				)}
 			>
@@ -134,7 +115,7 @@ const currentStyle = planStyles[plan]
 						<div
 							class={cn(
 								'mt-0.5 flex h-5 w-5 items-center justify-center rounded-full',
-								`bg-gradient-to-r ${currentStyle.gradient}`,
+								`bg-gradient-to-r ${planTheme.gradient}`,
 								'flex-shrink-0',
 							)}
 						>
@@ -152,7 +133,7 @@ const currentStyle = planStyles[plan]
 	<!-- Examples Section -->
 	<div class="mb-8">
 		<h4 class="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
-			{t('pricing.sections.examplesTitle')}
+			{examplesTitle}
 		</h4>
 		<ul class="space-y-2.5">
 			{
@@ -161,7 +142,7 @@ const currentStyle = planStyles[plan]
 						<div
 							class={cn(
 								'mt-1.5 h-2 w-2 flex-shrink-0 rounded-full',
-								`bg-gradient-to-r ${currentStyle.gradient}`,
+								`bg-gradient-to-r ${planTheme.gradient}`,
 							)}
 						/>
 						<span class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
@@ -181,7 +162,7 @@ const currentStyle = planStyles[plan]
 					client:load
 					locale={Astro.currentLocale}
 					buttonText={planData.cta}
-					buttonStyle={`block w-full rounded-lg px-6 py-3 text-center font-semibold text-white bg-gradient-to-r ${currentStyle.button} focus:ring-blue-500`}
+					buttonStyle={`block w-full rounded-lg px-6 py-3 text-center font-semibold text-white bg-gradient-to-r ${planTheme.button} ${planTheme.focus}`}
 				/>
 			) : (
 				<ProfessionalProjectModal
@@ -189,7 +170,7 @@ const currentStyle = planStyles[plan]
 					locale={Astro.currentLocale}
 					plan={plan}
 					buttonText={planData.cta}
-					buttonStyle={`block w-full rounded-lg px-6 py-3 text-center font-semibold text-white bg-gradient-to-r ${currentStyle.button} focus:ring-${plan === 'business' ? 'indigo' : 'violet'}-500`}
+					buttonStyle={`block w-full rounded-lg px-6 py-3 text-center font-semibold text-white bg-gradient-to-r ${planTheme.button} ${planTheme.focus}`}
 				/>
 			)
 		}
@@ -200,7 +181,7 @@ const currentStyle = planStyles[plan]
 		class={cn(
 			'absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500',
 			'bg-gradient-to-br pointer-events-none',
-			currentStyle.gradient,
+			planTheme.gradient,
 			'group-hover:opacity-5',
 		)}
 	>

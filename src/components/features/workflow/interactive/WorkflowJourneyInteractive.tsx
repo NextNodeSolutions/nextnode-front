@@ -16,16 +16,49 @@ export default function WorkflowJourneyInteractive({
 		useWorkflowInteraction(openModal)
 
 	useEffect(() => {
-		// Initialize event listeners after DOM is ready
-		const timer = setTimeout(() => {
-			initializeCardListeners()
-		}, 100)
+		// Wait for DOM to be fully rendered before attaching listeners
+		const initializeWhenReady = (): (() => void) | undefined => {
+			// Check if target elements exist in DOM
+			const cards = document.querySelectorAll('[data-step-card]')
+			if (cards.length > 0) {
+				initializeCardListeners()
+				return undefined
+			} else {
+				// If not ready, use MutationObserver to watch for changes
+				const observer = new MutationObserver(() => {
+					const cards = document.querySelectorAll('[data-step-card]')
+					if (cards.length > 0) {
+						initializeCardListeners()
+						observer.disconnect()
+					}
+				})
 
-		// Clean up both timer and listeners
-		return (): void => {
-			clearTimeout(timer)
-			cleanup()
+				observer.observe(document.body, {
+					childList: true,
+					subtree: true,
+				})
+
+				// Fallback timeout if DOM never updates
+				const fallbackTimer = setTimeout(() => {
+					observer.disconnect()
+					initializeCardListeners()
+				}, 2000)
+
+				return (): void => {
+					observer.disconnect()
+					clearTimeout(fallbackTimer)
+				}
+			}
 		}
+
+		// Initialize immediately if DOM is ready, otherwise use requestAnimationFrame
+		if (document.readyState === 'complete') {
+			initializeWhenReady()
+		} else {
+			requestAnimationFrame(initializeWhenReady)
+		}
+
+		return cleanup
 	}, [])
 
 	return (
