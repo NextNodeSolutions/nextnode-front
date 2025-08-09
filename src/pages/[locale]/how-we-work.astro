@@ -5,7 +5,11 @@ import Footer from '@/components/layout/footer/footer.astro'
 import GradientCircle from '@/components/common/gradient-circle.astro'
 import WorkflowJourney from '@/components/features/workflow/interactive/workflow-journey.astro'
 import MobileTimeline from '@/components/features/workflow/timeline/MobileTimeline.astro'
-import TechnicalFAQOptimized from '@/components/features/workflow/content/TechnicalFAQOptimized.astro'
+import {
+	getFAQQuestions,
+	getFAQCategories,
+} from '@/components/features/workflow/content/faq/data'
+import FAQApp from '@/components/features/workflow/content/faq/FAQApp'
 import WorkflowJourneyInteractive from '@/components/features/workflow/interactive/WorkflowJourneyInteractive'
 import { t, initI18n } from '@/lib/i18n/i18n-server'
 import {
@@ -31,6 +35,21 @@ const pageDescription = t('howWeWork.hero.description')
 // Workflow steps with all data
 const steps = generateDetailedSteps()
 const simpleSteps = generateSteps()
+
+// FAQ data
+const faqQuestions = getFAQQuestions()
+const faqCategories = getFAQCategories()
+
+// Pre-calculate FAQ translations for client-side hydration
+const faqTranslations = {
+	searchPlaceholder: t('howWeWork.faqSearch.placeholder'),
+	searchTips: t('howWeWork.faqSearch.searchTips'),
+	questionsCount: t('howWeWork.faqSearch.questionsCount'),
+	showingResults: t('howWeWork.faqSearch.showingResults'),
+	showingTotal: t('howWeWork.faqSearch.showingTotal'),
+	noResults: t('howWeWork.faqSearch.noResults'),
+	helpText: t('howWeWork.faqSearch.helpText'),
+}
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -103,7 +122,7 @@ const simpleSteps = generateSteps()
 		</section>
 
 		<!-- FAQ Section -->
-		<section class="bg-gray-50 py-24 sm:py-32 dark:bg-gray-900/50">
+		<section class="bg-gray-50 py-6 sm:py-8 md:py-16 dark:bg-gray-900/50">
 			<div class="mx-auto max-w-4xl px-6 lg:px-8">
 				<div class="mx-auto mb-16 max-w-2xl text-center">
 					<h2
@@ -118,7 +137,16 @@ const simpleSteps = generateSteps()
 					</p>
 				</div>
 
-				<TechnicalFAQOptimized />
+				<div
+					class="[&_mark]:rounded [&_mark]:bg-yellow-200 [&_mark]:px-1 [&_mark]:py-0.5 [&_mark]:font-medium [&_mark]:text-amber-900 dark:[&_mark]:bg-amber-900/50 dark:[&_mark]:text-yellow-200"
+				>
+					<FAQApp
+						questions={faqQuestions}
+						categories={faqCategories}
+						translations={faqTranslations}
+						client:load
+					/>
+				</div>
 			</div>
 		</section>
 
