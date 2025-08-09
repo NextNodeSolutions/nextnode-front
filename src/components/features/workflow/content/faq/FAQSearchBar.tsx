@@ -20,12 +20,15 @@ export const FAQSearchBar = ({
 	totalCount,
 	className,
 }: FAQSearchBarProps): ReactNode => {
-	// Use static placeholder to avoid hydration mismatch
-	const placeholder = 'Search questions...'
+	// Use translated placeholder
+	const placeholder = t('howWeWork.faqSearch.placeholder')
 
 	const showingResultsText = useMemo((): string => {
 		if (searchQuery.trim() === '') {
-			return `${totalCount} question${totalCount !== 1 ? 's' : ''}`
+			return t('howWeWork.faqSearch.questionsCount', {
+				count: totalCount.toString(),
+				plural: totalCount !== 1 ? 's' : '',
+			})
 		}
 
 		return t('howWeWork.faqSearch.showingResults').replace(
@@ -124,7 +127,7 @@ export const FAQSearchBar = ({
 				{/* Search Tips */}
 				{searchQuery.trim() === '' && (
 					<div className="text-xs text-gray-500 dark:text-gray-500">
-						💡 Try searching for "cost", "SEO", or "security"
+						{t('howWeWork.faqSearch.searchTips')}
 					</div>
 				)}
 			</div>
@@ -149,8 +152,7 @@ export const FAQSearchBar = ({
 								{t('howWeWork.faqSearch.noResults')}
 							</p>
 							<p className="mt-1 text-sm">
-								Try using different keywords or browse by
-								category instead.
+								{t('howWeWork.faqSearch.helpText')}
 							</p>
 						</div>
 					</div>

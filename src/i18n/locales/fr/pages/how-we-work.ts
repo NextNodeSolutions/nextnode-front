@@ -402,6 +402,10 @@ export const howWeWork = {
 		placeholder: 'Rechercher des questions...',
 		noResults: 'Aucune question trouvée correspondant à votre recherche.',
 		showingResults: 'Affichage de {{count}} question(s)',
+		questionsCount: '{{count}} question{{plural}}',
+		searchTips: '💡 Essayez de rechercher "coût", "SEO", ou "sécurité"',
+		helpText:
+			'Essayez des mots-clés différents ou parcourez par catégorie.',
 	},
 	techStats: {
 		mastery: 'maîtrise',

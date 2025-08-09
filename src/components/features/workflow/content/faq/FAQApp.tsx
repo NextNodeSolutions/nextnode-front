@@ -1,6 +1,6 @@
 import { FAQCategoryFilter } from './FAQCategoryFilter'
 import { FAQSearchBar } from './FAQSearchBar'
-import { FAQItemReact } from './FAQItemReact'
+import { FAQItem } from './FAQItem'
 import { useFAQState } from './hooks'
 
 import type { ReactNode } from 'react'
@@ -86,7 +86,7 @@ export const FAQApp = ({ questions, categories }: FAQAppProps): ReactNode => {
 									animationFillMode: 'forwards',
 								}}
 							>
-								<FAQItemReact
+								<FAQItem
 									question={result.question}
 									isExpanded={
 										state.expandedQuestion ===

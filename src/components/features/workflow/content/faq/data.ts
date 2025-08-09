@@ -1,46 +1,32 @@
 import { t } from '@/lib/i18n/i18n-server'
 import { sortQuestionsByDifficulty, getCategoryTag } from '@/utils/faq-helpers'
 
-import type {
-	FAQQuestion,
-	FAQCategory,
-	FAQCategoryId,
-	FAQDifficulty,
-} from './types'
+import type { FAQQuestion, FAQCategory } from './types'
 
 // Configuration centralisée des catégories FAQ
-const FAQ_CATEGORIES_CONFIG = {
+export const FAQ_CATEGORIES_CONFIG = {
 	gettingStarted: {
-		category: 'gettingStarted',
 		icon: '🚀',
-		difficulty: 'beginner',
+		difficulty: 'beginner' as const,
 	},
-	business: { category: 'business', icon: '💼', difficulty: 'advanced' },
-	design: { category: 'design', icon: '🎨', difficulty: 'intermediate' },
+	business: { icon: '💼', difficulty: 'advanced' as const },
+	design: { icon: '🎨', difficulty: 'intermediate' as const },
 	performance: {
-		category: 'performance',
 		icon: '⚡',
-		difficulty: 'advanced',
+		difficulty: 'advanced' as const,
 	},
-	security: { category: 'security', icon: '🔒', difficulty: 'intermediate' },
+	security: { icon: '🔒', difficulty: 'intermediate' as const },
 	integrations: {
-		category: 'integrations',
 		icon: '🔗',
-		difficulty: 'advanced',
+		difficulty: 'advanced' as const,
 	},
 	marketing: {
-		category: 'marketing',
 		icon: '📈',
-		difficulty: 'intermediate',
+		difficulty: 'intermediate' as const,
 	},
-} as const satisfies Record<
-	string,
-	{
-		category: FAQCategoryId
-		icon: string
-		difficulty: FAQDifficulty
-	}
->
+} as const
+
+export type FAQCategoryId = 'all' | keyof typeof FAQ_CATEGORIES_CONFIG
 
 interface I18nQuestionData {
 	question: string
@@ -85,7 +71,7 @@ export function getFAQQuestions(): FAQQuestion[] {
 				question: questionData.question,
 				answer: questionData.answer,
 				icon: config.icon,
-				category: config.category,
+				category: categoryKey as keyof typeof FAQ_CATEGORIES_CONFIG,
 				difficulty: config.difficulty,
 				tags: [getCategoryTag(categoryKey), 'development'],
 			})
@@ -102,49 +88,41 @@ export function getFAQCategories(): FAQCategory[] {
 			id: 'all',
 			name: t('howWeWork.faqCategories.all'),
 			icon: '📋',
-			description: 'All questions',
 		},
 		{
 			id: 'gettingStarted',
 			name: t('howWeWork.faqCategories.gettingStarted'),
 			icon: '🚀',
-			description: 'Essential questions for starting your project',
 		},
 		{
 			id: 'business',
 			name: t('howWeWork.faqCategories.business'),
 			icon: '💼',
-			description: 'Costs, timelines, and business processes',
 		},
 		{
 			id: 'design',
 			name: t('howWeWork.faqCategories.design'),
 			icon: '🎨',
-			description: 'User experience and visual design',
 		},
 		{
 			id: 'performance',
 			name: t('howWeWork.faqCategories.performance'),
 			icon: '⚡',
-			description: 'Speed and technical optimization',
 		},
 		{
 			id: 'security',
 			name: t('howWeWork.faqCategories.security'),
 			icon: '🔒',
-			description: 'Data protection and compliance',
 		},
 		{
 			id: 'integrations',
 			name: t('howWeWork.faqCategories.integrations'),
 			icon: '🔗',
-			description: 'Third-party systems and migrations',
 		},
 		{
 			id: 'marketing',
 			name: t('howWeWork.faqCategories.marketing'),
 			icon: '📈',
-			description: 'SEO, analytics, and conversion tracking',
 		},
 	]
 }

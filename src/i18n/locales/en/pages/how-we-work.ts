@@ -383,6 +383,9 @@ export const howWeWork = {
 		placeholder: 'Search questions...',
 		noResults: 'No questions found matching your search.',
 		showingResults: 'Showing {{count}} question(s)',
+		questionsCount: '{{count}} question{{plural}}',
+		searchTips: '💡 Try searching for "cost", "SEO", or "security"',
+		helpText: 'Try using different keywords or browse by category instead.',
 	},
 	techStats: {
 		mastery: 'mastery',

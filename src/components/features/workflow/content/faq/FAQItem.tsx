@@ -8,7 +8,7 @@ import { FAQ_I18N_KEYS } from '@/utils/faq-i18n-keys'
 import type { ReactNode } from 'react'
 import type { FAQQuestion } from './types'
 
-interface FAQItemReactProps {
+interface FAQItemProps {
 	question: FAQQuestion
 	isExpanded?: boolean
 	onToggle?: () => void
@@ -16,13 +16,13 @@ interface FAQItemReactProps {
 	highlightedAnswer?: string
 }
 
-export const FAQItemReact = ({
+export const FAQItem = ({
 	question,
 	isExpanded = false,
 	onToggle,
 	highlightedQuestion,
 	highlightedAnswer,
-}: FAQItemReactProps): ReactNode => {
+}: FAQItemProps): ReactNode => {
 	const { t } = useI18n()
 
 	// Optimized: shared helper with stable config objects
@@ -195,4 +195,4 @@ export const FAQItemReact = ({
 	)
 }
 
-export default FAQItemReact
+export default FAQItem
