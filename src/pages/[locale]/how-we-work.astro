@@ -5,7 +5,11 @@ import Footer from '@/components/layout/footer/footer.astro'
 import GradientCircle from '@/components/common/gradient-circle.astro'
 import WorkflowJourney from '@/components/features/workflow/interactive/workflow-journey.astro'
 import MobileTimeline from '@/components/features/workflow/timeline/MobileTimeline.astro'
-import TechnicalFAQOptimized from '@/components/features/workflow/content/TechnicalFAQOptimized.astro'
+import {
+	getFAQQuestions,
+	getFAQCategories,
+} from '@/components/features/workflow/content/faq/data'
+import FAQApp from '@/components/features/workflow/content/faq/FAQApp'
 import WorkflowJourneyInteractive from '@/components/features/workflow/interactive/WorkflowJourneyInteractive'
 import { t, initI18n } from '@/lib/i18n/i18n-server'
 import {
@@ -31,6 +35,10 @@ const pageDescription = t('howWeWork.hero.description')
 // Workflow steps with all data
 const steps = generateDetailedSteps()
 const simpleSteps = generateSteps()
+
+// FAQ data
+const faqQuestions = getFAQQuestions()
+const faqCategories = getFAQCategories()
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -118,7 +126,15 @@ const simpleSteps = generateSteps()
 					</p>
 				</div>
 
-				<TechnicalFAQOptimized />
+				<div
+					class="[&_mark]:rounded [&_mark]:bg-yellow-200 [&_mark]:px-1 [&_mark]:py-0.5 [&_mark]:font-medium [&_mark]:text-amber-900 dark:[&_mark]:bg-amber-900/50 dark:[&_mark]:text-yellow-200"
+				>
+					<FAQApp
+						questions={faqQuestions}
+						categories={faqCategories}
+						client:load
+					/>
+				</div>
 			</div>
 		</section>
 

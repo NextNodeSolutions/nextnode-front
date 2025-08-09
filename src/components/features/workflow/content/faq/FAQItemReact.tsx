@@ -54,7 +54,7 @@ export const FAQItemReact = ({
 	return (
 		<div
 			className={cn(
-				'faq-item group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:border-blue-200 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-600',
+				'faq-item group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 focus-within:-translate-y-0.5 focus-within:shadow-xl hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-600',
 				isExpanded && 'ring-2 ring-blue-500/20',
 			)}
 			data-category={question.category}
