@@ -2,9 +2,11 @@ import { useMemo } from 'react'
 
 import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/i18n-client'
+import { getDifficultyConfig } from '@/utils/faq-helpers'
+import { FAQ_I18N_KEYS } from '@/utils/faq-i18n-keys'
 
 import type { ReactNode } from 'react'
-import type { FAQQuestion, FAQDifficulty } from './types'
+import type { FAQQuestion } from './types'
 
 interface FAQItemReactProps {
 	question: FAQQuestion
@@ -12,33 +14,6 @@ interface FAQItemReactProps {
 	onToggle?: () => void
 	highlightedQuestion?: string
 	highlightedAnswer?: string
-}
-
-const getDifficultyConfig = (
-	difficulty: FAQDifficulty,
-	t: ReturnType<typeof useI18n>['t'],
-): { icon: string; label: string; bgClass: string } => {
-	const configs = {
-		beginner: {
-			icon: '🟢',
-			label: t('howWeWork.faqDifficulty.beginner'),
-			bgClass:
-				'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-		},
-		intermediate: {
-			icon: '🟡',
-			label: t('howWeWork.faqDifficulty.intermediate'),
-			bgClass:
-				'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300',
-		},
-		advanced: {
-			icon: '🔴',
-			label: t('howWeWork.faqDifficulty.advanced'),
-			bgClass:
-				'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-		},
-	}
-	return configs[difficulty] || configs.beginner
 }
 
 export const FAQItemReact = ({
@@ -49,13 +24,20 @@ export const FAQItemReact = ({
 	highlightedAnswer,
 }: FAQItemReactProps): ReactNode => {
 	const { t } = useI18n()
+
+	// Optimized: shared helper with stable config objects
 	const difficultyConfig = useMemo(
-		() => getDifficultyConfig(question.difficulty, t),
-		[question.difficulty, t],
+		() =>
+			getDifficultyConfig(question.difficulty, difficulty =>
+				t(FAQ_I18N_KEYS.difficulties[difficulty]),
+			),
+		[question.difficulty], // Removed t dependency - getLabel callback captures current t
 	)
+
+	// Optimized: pre-built i18n keys for performance
 	const categoryName = useMemo(
-		() => t(`howWeWork.faqCategories.${question.category}` as const),
-		[question.category, t],
+		() => t(FAQ_I18N_KEYS.categories[question.category]),
+		[question.category], // Removed t dependency - constant key lookup
 	)
 
 	const handleClick = (): void => {

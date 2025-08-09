@@ -1,4 +1,5 @@
 import { t } from '@/lib/i18n/i18n-server'
+import { sortQuestionsByDifficulty, getCategoryTag } from '@/utils/faq-helpers'
 
 import type {
 	FAQQuestion,
@@ -86,28 +87,13 @@ export function getFAQQuestions(): FAQQuestion[] {
 				icon: config.icon,
 				category: config.category,
 				difficulty: config.difficulty,
-				tags: [
-					categoryKey === 'gettingStarted'
-						? 'démarrage'
-						: categoryKey,
-					'development',
-				],
+				tags: [getCategoryTag(categoryKey), 'development'],
 			})
 		})
 	})
 
 	// Trier par difficulté : beginner -> intermediate -> advanced
-	const difficultyOrder: Record<FAQDifficulty, number> = {
-		beginner: 0,
-		intermediate: 1,
-		advanced: 2,
-	}
-
-	allQuestions.sort(
-		(a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty],
-	)
-
-	return allQuestions
+	return sortQuestionsByDifficulty(allQuestions)
 }
 
 export function getFAQCategories(): FAQCategory[] {
