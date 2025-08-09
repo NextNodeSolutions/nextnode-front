@@ -39,7 +39,7 @@ const getDifficultyConfig = (difficulty: FAQDifficulty) => {
 				'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
 		},
 	}
-	return configs[difficulty] || configs.beginner
+	return configs[difficulty]
 }
 
 const difficultyConfig = getDifficultyConfig(faq.difficulty)
