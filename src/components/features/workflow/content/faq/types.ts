@@ -3,20 +3,40 @@ export interface FAQQuestion {
 	question: string
 	answer: string
 	icon: string
-	category: string
+	category: FAQCategoryId
+	difficulty: FAQDifficulty
+	tags?: string[]
+	relatedIds?: string[]
 }
 
 export interface FAQCategory {
-	id: string
+	id: FAQCategoryId
 	name: string
 	icon: string
+	description?: string
 }
 
 export type FAQCategoryId =
 	| 'all'
+	| 'gettingStarted'
+	| 'business'
+	| 'design'
 	| 'performance'
-	| 'architecture'
 	| 'security'
-	| 'integration'
-	| 'quality'
-	| 'seo'
+	| 'integrations'
+	| 'marketing'
+
+export type FAQDifficulty = 'beginner' | 'intermediate' | 'advanced'
+
+export interface FAQState {
+	selectedCategories: FAQCategoryId[]
+	searchQuery: string
+	expandedQuestion: string | null
+}
+
+export interface FAQSearchResult {
+	question: FAQQuestion
+	matchScore: number
+	highlightedQuestion: string
+	highlightedAnswer: string
+}

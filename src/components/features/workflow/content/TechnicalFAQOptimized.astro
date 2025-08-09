@@ -1,57 +1,39 @@
 ---
-import { AnimatedList } from '@/components/ui/animation/AnimatedList'
 import { getFAQQuestions, getFAQCategories } from './faq/data'
-import FAQCategoryFilter from './faq/FAQCategoryFilter.astro'
-import FAQItem from './faq/FAQItem.astro'
-import FAQInteractions from './faq/FAQInteractions'
+import FAQApp from './faq/FAQApp'
 
 const faqQuestions = getFAQQuestions()
 const categories = getFAQCategories()
 ---
 
 <div class="technical-faq">
-	<!-- Category Filters -->
-	<FAQCategoryFilter categories={categories} />
-
-	<!-- FAQ List -->
-	<AnimatedList className="space-y-4" staggerDelay={100} client:load>
-		{faqQuestions.map(faq => <FAQItem faq={faq} />)}
-	</AnimatedList>
-
-	<!-- Client-side interactions -->
-	<FAQInteractions client:load />
+	<FAQApp questions={faqQuestions} categories={categories} client:load />
 </div>
 
 <style>
-	/* FAQ Animation styles */
-	.technical-faq .faq-item {
-		opacity: 1;
-		transform: translateY(0);
-		transition: all 0.3s ease-out;
+	/* Search highlighting styles */
+	.technical-faq mark {
+		background-color: rgb(254 240 138);
+		color: rgb(120 53 15);
+		padding: 0.125rem 0.25rem;
+		border-radius: 0.25rem;
+		font-weight: 500;
 	}
 
-	.technical-faq .faq-content {
-		transition:
-			max-height 0.5s ease-out,
-			padding 0.3s ease-out;
+	.dark .technical-faq mark {
+		background-color: rgb(120 53 15 / 0.5);
+		color: rgb(254 240 138);
 	}
 
-	.technical-faq .faq-header:focus {
-		outline: none;
+	/* Enhanced hover effects */
+	.technical-faq .faq-item:hover {
+		transform: translateY(-2px);
 	}
 
-	.technical-faq .faq-filter.active {
-		transform: scale(1.05);
-	}
-
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+	.technical-faq .faq-item:focus-within {
+		transform: translateY(-2px);
+		box-shadow:
+			0 10px 25px -5px rgba(0, 0, 0, 0.1),
+			0 10px 10px -5px rgba(0, 0, 0, 0.04);
 	}
 </style>
