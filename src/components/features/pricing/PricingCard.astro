@@ -2,6 +2,8 @@
 import { cn } from '@/lib/core/utils'
 import { Check } from 'lucide-react'
 import { t } from '@/lib/i18n/i18n-server'
+import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
+import { ProfessionalProjectModal } from '@/components/features/pricing/ProfessionalProjectModal'
 
 export interface Props {
 	plan: 'starter' | 'business' | 'enterprise'
@@ -173,20 +175,24 @@ const currentStyle = planStyles[plan]
 
 	<!-- CTA Button -->
 	<div class="mt-auto">
-		<a
-			href={plan === 'enterprise' ? '/contact' : '/contact?plan=' + plan}
-			class={cn(
-				'block w-full rounded-lg px-6 py-3 text-center font-semibold text-white',
-				`bg-gradient-to-r ${currentStyle.button}`,
-				'shadow-lg transition-all duration-300',
-				'hover:shadow-xl hover:scale-105',
-				'focus:outline-none focus:ring-2 focus:ring-offset-2',
-				`focus:ring-${plan === 'starter' ? 'blue' : plan === 'business' ? 'indigo' : 'violet'}-500`,
-				'dark:focus:ring-offset-gray-800',
-			)}
-		>
-			{planData.cta}
-		</a>
+		{
+			plan === 'starter' ? (
+				<StartProjectModal
+					client:load
+					locale={Astro.currentLocale}
+					buttonText={planData.cta}
+					buttonStyle={`block w-full rounded-lg px-6 py-3 text-center font-semibold text-white bg-gradient-to-r ${currentStyle.button} focus:ring-blue-500`}
+				/>
+			) : (
+				<ProfessionalProjectModal
+					client:load
+					locale={Astro.currentLocale}
+					plan={plan}
+					buttonText={planData.cta}
+					buttonStyle={`block w-full rounded-lg px-6 py-3 text-center font-semibold text-white bg-gradient-to-r ${currentStyle.button} focus:ring-${plan === 'business' ? 'indigo' : 'violet'}-500`}
+				/>
+			)
+		}
 	</div>
 
 	<!-- Decorative Elements -->

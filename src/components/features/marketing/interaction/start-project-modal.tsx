@@ -9,11 +9,15 @@ import { StartProjectModalContent } from './StartProjectModalContent'
 interface StartProjectModalProps {
 	className?: string
 	locale?: string
+	buttonText?: string
+	buttonStyle?: string
 }
 
 export const StartProjectModal = ({
 	className,
 	locale,
+	buttonText,
+	buttonStyle,
 }: StartProjectModalProps): React.ReactElement => {
 	const { t } = useI18n(locale)
 	const [isOpen, setIsOpen] = useState(false)
@@ -24,36 +28,51 @@ export const StartProjectModal = ({
 
 	return (
 		<div className={className}>
-			<Button
-				variant="default"
-				onClick={handleClick}
-				className={cn(
-					'btn-gradient-primary group w-full cursor-pointer px-4 py-6',
-					'hover-lift shadow-lg transition-shadow hover:shadow-2xl',
-					'text-base font-bold tracking-wide text-white',
-					'sm:px-6 sm:py-6 sm:text-lg',
-					'md:px-8 md:py-6 md:text-lg',
-					'flex-center gap-2',
-					'hover:animate-pulse-dark',
-				)}
-			>
-				<span
+			{buttonText && buttonStyle ? (
+				<button
+					onClick={handleClick}
 					className={cn(
-						'transition-transform',
-						'uppercase group-hover:-translate-x-2',
+						buttonStyle,
+						'cursor-pointer shadow-lg transition-all duration-300',
+						'hover:scale-105 hover:shadow-xl',
+						'focus:ring-2 focus:ring-offset-2 focus:outline-none',
+						'dark:focus:ring-offset-gray-800',
 					)}
 				>
-					{t('home.hero.startProjectButton')}
-				</span>
-				<span
+					{buttonText}
+				</button>
+			) : (
+				<Button
+					variant="default"
+					onClick={handleClick}
 					className={cn(
-						'opacity-0 transition-all duration-300',
-						'group-hover:translate-x-2 group-hover:opacity-100',
+						'btn-gradient-primary group w-full cursor-pointer px-4 py-6',
+						'hover-lift shadow-lg transition-shadow hover:shadow-2xl',
+						'text-base font-bold tracking-wide text-white',
+						'sm:px-6 sm:py-6 sm:text-lg',
+						'md:px-8 md:py-6 md:text-lg',
+						'flex-center gap-2',
+						'hover:animate-pulse-dark',
 					)}
 				>
-					→
-				</span>
-			</Button>
+					<span
+						className={cn(
+							'transition-transform',
+							'uppercase group-hover:-translate-x-2',
+						)}
+					>
+						{t('home.hero.startProjectButton')}
+					</span>
+					<span
+						className={cn(
+							'opacity-0 transition-all duration-300',
+							'group-hover:translate-x-2 group-hover:opacity-100',
+						)}
+					>
+						→
+					</span>
+				</Button>
+			)}
 
 			<StartProjectModalContent
 				isOpen={isOpen}
