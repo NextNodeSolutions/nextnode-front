@@ -6,12 +6,27 @@ import { useFAQState } from './hooks'
 import type { ReactNode } from 'react'
 import type { FAQQuestion, FAQCategory } from './types'
 
+interface FAQTranslations {
+	searchPlaceholder: string
+	searchTips: string
+	questionsCount: string
+	showingResults: string
+	showingTotal: string
+	noResults: string
+	helpText: string
+}
+
 interface FAQAppProps {
 	questions: FAQQuestion[]
 	categories: FAQCategory[]
+	translations: FAQTranslations
 }
 
-export const FAQApp = ({ questions, categories }: FAQAppProps): ReactNode => {
+export const FAQApp = ({
+	questions,
+	categories,
+	translations,
+}: FAQAppProps): ReactNode => {
 	const {
 		state,
 		searchResults,
@@ -30,6 +45,7 @@ export const FAQApp = ({ questions, categories }: FAQAppProps): ReactNode => {
 				onSearchChange={setSearchQuery}
 				resultsCount={searchResults.length}
 				totalCount={questions.length}
+				translations={translations}
 			/>
 
 			{/* Category Filters */}
@@ -74,8 +90,15 @@ export const FAQApp = ({ questions, categories }: FAQAppProps): ReactNode => {
 				) : (
 					<>
 						<p className="mb-4 text-sm text-gray-500">
-							Showing {searchResults.length} of {questions.length}{' '}
-							questions
+							{translations.showingTotal
+								.replace(
+									'{{results}}',
+									searchResults.length.toString(),
+								)
+								.replace(
+									'{{total}}',
+									questions.length.toString(),
+								)}
 						</p>
 						{searchResults.map((result, index) => (
 							<div

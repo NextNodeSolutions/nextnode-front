@@ -1,15 +1,25 @@
 import { useMemo } from 'react'
 
 import { cn } from '@/lib/core/utils'
-import { t } from '@/lib/i18n/i18n-server'
 
 import type { ReactNode } from 'react'
+
+interface FAQTranslations {
+	searchPlaceholder: string
+	searchTips: string
+	questionsCount: string
+	showingResults: string
+	showingTotal: string
+	noResults: string
+	helpText: string
+}
 
 interface FAQSearchBarProps {
 	searchQuery: string
 	onSearchChange: (query: string) => void
 	resultsCount: number
 	totalCount: number
+	translations: FAQTranslations
 	className?: string
 }
 
@@ -18,24 +28,21 @@ export const FAQSearchBar = ({
 	onSearchChange,
 	resultsCount,
 	totalCount,
+	translations,
 	className,
 }: FAQSearchBarProps): ReactNode => {
-	// Use translated placeholder
-	const placeholder = t('howWeWork.faqSearch.placeholder')
-
 	const showingResultsText = useMemo((): string => {
 		if (searchQuery.trim() === '') {
-			return t('howWeWork.faqSearch.questionsCount', {
-				count: totalCount.toString(),
-				plural: totalCount !== 1 ? 's' : '',
-			})
+			return translations.questionsCount
+				.replace('{{count}}', totalCount.toString())
+				.replace('{{plural}}', totalCount !== 1 ? 's' : '')
 		}
 
-		return t('howWeWork.faqSearch.showingResults').replace(
+		return translations.showingResults.replace(
 			'{{count}}',
 			resultsCount.toString(),
 		)
-	}, [searchQuery, resultsCount, totalCount])
+	}, [searchQuery, resultsCount, totalCount, translations])
 
 	const hasResults = resultsCount > 0 || searchQuery.trim() === ''
 	const showNoResults = searchQuery.trim() !== '' && resultsCount === 0
@@ -64,7 +71,7 @@ export const FAQSearchBar = ({
 					type="text"
 					value={searchQuery}
 					onChange={e => onSearchChange(e.target.value)}
-					placeholder={placeholder}
+					placeholder={translations.searchPlaceholder}
 					className={cn(
 						'block w-full rounded-xl border border-gray-200 bg-white py-3 pr-4 pl-11 text-sm text-gray-900 placeholder-gray-500 transition-all duration-200',
 						'focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none',
@@ -127,7 +134,7 @@ export const FAQSearchBar = ({
 				{/* Search Tips */}
 				{searchQuery.trim() === '' && (
 					<div className="text-xs text-gray-500 dark:text-gray-500">
-						{t('howWeWork.faqSearch.searchTips')}
+						{translations.searchTips}
 					</div>
 				)}
 			</div>
@@ -149,10 +156,10 @@ export const FAQSearchBar = ({
 						</svg>
 						<div>
 							<p className="font-medium">
-								{t('howWeWork.faqSearch.noResults')}
+								{translations.noResults}
 							</p>
 							<p className="mt-1 text-sm">
-								{t('howWeWork.faqSearch.helpText')}
+								{translations.helpText}
 							</p>
 						</div>
 					</div>

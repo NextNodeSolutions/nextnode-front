@@ -1,5 +1,5 @@
 import { t } from '@/lib/i18n/i18n-server'
-import { sortQuestionsByDifficulty, getCategoryTag } from '@/utils/faq-helpers'
+import { sortQuestionsByDifficulty } from '@/utils/faq-helpers'
 
 import type { FAQQuestion, FAQCategory } from './types'
 
@@ -73,7 +73,7 @@ export function getFAQQuestions(): FAQQuestion[] {
 				icon: config.icon,
 				category: categoryKey as keyof typeof FAQ_CATEGORIES_CONFIG,
 				difficulty: config.difficulty,
-				tags: [getCategoryTag(categoryKey), 'development'],
+				tags: [categoryKey, 'development'],
 			})
 		})
 	})

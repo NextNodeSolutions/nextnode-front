@@ -2,8 +2,9 @@ import { useMemo } from 'react'
 
 import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/i18n-client'
-import { getDifficultyConfig } from '@/utils/faq-helpers'
 import { FAQ_I18N_KEYS } from '@/utils/faq-i18n-keys'
+
+import { getDifficultyConfig } from './constants'
 
 import type { ReactNode } from 'react'
 import type { FAQQuestion } from './types'
