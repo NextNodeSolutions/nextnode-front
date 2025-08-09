@@ -1,4 +1,5 @@
 export const pricing = {
+	pageTitle: 'Web Development from €25/month | Nextnode',
 	sections: {
 		plans: {
 			title: 'Choose Your Plan',

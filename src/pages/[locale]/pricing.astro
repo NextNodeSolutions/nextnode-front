@@ -14,7 +14,7 @@ const locale = Astro.params.locale || 'fr'
 await initI18n(Astro.request, locale)
 
 // Get pricing data for structured data
-const pageTitle = `${t('pricing.hero.titleHighlight')} - Nextnode`
+const pageTitle = t('pricing.pageTitle')
 const pageDescription = t('pricing.hero.subtitle')
 ---
 

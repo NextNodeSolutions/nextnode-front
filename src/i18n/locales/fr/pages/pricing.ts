@@ -1,4 +1,5 @@
 export const pricing = {
+	pageTitle: 'Développement Web dès 25€/mois | Nextnode',
 	sections: {
 		plans: {
 			title: 'Choisissez Votre Plan',
