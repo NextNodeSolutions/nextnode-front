@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
 import { cn } from '@/lib/core/utils'
+import { Button } from '@/components/ui/forms/button'
+import { PLAN_THEMES } from '@/lib/ui/pricing-constants'
 
 import { ProfessionalProjectModalContent } from './ProfessionalProjectModalContent'
 
@@ -9,7 +11,6 @@ interface ProfessionalProjectModalProps {
 	locale?: string
 	plan: 'business' | 'enterprise'
 	buttonText: string
-	buttonStyle: string
 }
 
 export const ProfessionalProjectModal = ({
@@ -17,9 +18,9 @@ export const ProfessionalProjectModal = ({
 	locale,
 	plan,
 	buttonText,
-	buttonStyle,
 }: ProfessionalProjectModalProps): React.ReactElement => {
 	const [isOpen, setIsOpen] = useState(false)
+	const planTheme = PLAN_THEMES[plan]
 
 	const handleClick = (): void => {
 		setIsOpen(true)
@@ -27,19 +28,19 @@ export const ProfessionalProjectModal = ({
 
 	return (
 		<div className={className}>
-			<button
+			<Button
+				variant="default"
 				onClick={handleClick}
 				className={cn(
 					'block w-full rounded-lg px-6 py-3 text-center font-semibold text-white',
-					buttonStyle,
-					'cursor-pointer shadow-lg transition-all duration-300',
-					'hover:scale-105 hover:shadow-xl',
-					'focus:ring-2 focus:ring-offset-2 focus:outline-none',
-					'dark:focus:ring-offset-gray-800',
+					'shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl',
+					'focus:ring-2 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-800',
+					`bg-gradient-to-r ${planTheme.button}`,
+					`${planTheme.focus}`,
 				)}
 			>
 				{buttonText}
-			</button>
+			</Button>
 
 			<ProfessionalProjectModalContent
 				isOpen={isOpen}

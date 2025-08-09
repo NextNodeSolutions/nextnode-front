@@ -253,4 +253,5 @@ export const pricing = {
 			'Get a free consultation and detailed quote for your website.',
 		button: 'Get Your Free Quote',
 	},
+	contactButton: 'Contact Us',
 } as const

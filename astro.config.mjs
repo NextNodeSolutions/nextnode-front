@@ -29,6 +29,7 @@ export default defineConfig({
 						'vendor-radix': [
 							'@radix-ui/react-dialog',
 							'@radix-ui/react-slot',
+							'@radix-ui/react-accordion',
 						],
 						'vendor-utils': [
 							'clsx',

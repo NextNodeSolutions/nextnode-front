@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/i18n-client'
 import { Button } from '@/components/ui/forms/button'
+import { PLAN_THEMES, type PlanType } from '@/lib/ui/pricing-constants'
 
 import { StartProjectModalContent } from './StartProjectModalContent'
 
@@ -10,17 +11,18 @@ interface StartProjectModalProps {
 	className?: string
 	locale?: string
 	buttonText?: string
-	buttonStyle?: string
+	plan?: PlanType
 }
 
 export const StartProjectModal = ({
 	className,
 	locale,
 	buttonText,
-	buttonStyle,
+	plan,
 }: StartProjectModalProps): React.ReactElement => {
 	const { t } = useI18n(locale)
 	const [isOpen, setIsOpen] = useState(false)
+	const planTheme = plan ? PLAN_THEMES[plan] : null
 
 	const handleClick = (): void => {
 		setIsOpen(true)
@@ -28,19 +30,20 @@ export const StartProjectModal = ({
 
 	return (
 		<div className={className}>
-			{buttonText && buttonStyle ? (
-				<button
+			{buttonText ? (
+				<Button
+					variant="default"
 					onClick={handleClick}
 					className={cn(
-						buttonStyle,
-						'cursor-pointer shadow-lg transition-all duration-300',
-						'hover:scale-105 hover:shadow-xl',
-						'focus:ring-2 focus:ring-offset-2 focus:outline-none',
-						'dark:focus:ring-offset-gray-800',
+						'block w-full rounded-lg px-6 py-3 text-center font-semibold text-white',
+						'shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl',
+						'focus:ring-2 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-800',
+						`bg-gradient-to-r ${planTheme?.button}`,
+						`${planTheme?.focus}`,
 					)}
 				>
 					{buttonText}
-				</button>
+				</Button>
 			) : (
 				<Button
 					variant="default"

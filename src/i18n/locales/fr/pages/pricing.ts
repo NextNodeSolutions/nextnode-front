@@ -262,4 +262,5 @@ export const pricing = {
 			'Obtenez une consultation gratuite et un devis détaillé pour votre site web.',
 		button: 'Obtenir Votre Devis Gratuit',
 	},
+	contactButton: 'Nous Contacter',
 } as const

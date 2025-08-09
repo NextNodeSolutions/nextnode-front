@@ -75,7 +75,7 @@ export const ProfessionalProjectModalContent = ({
 					description={t('modal.professionalModal.description')}
 				/>
 				<div className="mt-2 text-sm font-medium text-indigo-600 dark:text-indigo-400">
-					Plan sélectionné :{' '}
+					{t('modal.professionalModal.selectedPlan')}{' '}
 					{plan === 'business' ? 'Business' : 'Enterprise'}
 				</div>
 			</div>
@@ -148,10 +148,30 @@ export const ProfessionalProjectModalContent = ({
 										'modal.professionalModal.form.employeesPlaceholder',
 									),
 								},
-								{ value: '1-10', label: '1-10 employés' },
-								{ value: '11-50', label: '11-50 employés' },
-								{ value: '51-200', label: '51-200 employés' },
-								{ value: '200+', label: '200+ employés' },
+								{
+									value: '1-10',
+									label: t(
+										'modal.professionalModal.form.employeeOptions.1-10',
+									),
+								},
+								{
+									value: '11-50',
+									label: t(
+										'modal.professionalModal.form.employeeOptions.11-50',
+									),
+								},
+								{
+									value: '51-200',
+									label: t(
+										'modal.professionalModal.form.employeeOptions.51-200',
+									),
+								},
+								{
+									value: '200+',
+									label: t(
+										'modal.professionalModal.form.employeeOptions.200+',
+									),
+								},
 							]}
 						/>
 					</div>
@@ -311,10 +331,30 @@ export const ProfessionalProjectModalContent = ({
 										'modal.professionalModal.form.timelinePlaceholder',
 									),
 								},
-								{ value: 'urgent', label: 'Urgent (< 1 mois)' },
-								{ value: '1-3months', label: '1-3 mois' },
-								{ value: '3-6months', label: '3-6 mois' },
-								{ value: '6months+', label: '6+ mois' },
+								{
+									value: 'urgent',
+									label: t(
+										'modal.professionalModal.form.timelineOptions.urgent',
+									),
+								},
+								{
+									value: '1-3months',
+									label: t(
+										'modal.professionalModal.form.timelineOptions.1-3months',
+									),
+								},
+								{
+									value: '3-6months',
+									label: t(
+										'modal.professionalModal.form.timelineOptions.3-6months',
+									),
+								},
+								{
+									value: '6months+',
+									label: t(
+										'modal.professionalModal.form.timelineOptions.6months+',
+									),
+								},
 							]}
 						/>
 					</div>
@@ -344,19 +384,27 @@ export const ProfessionalProjectModalContent = ({
 								},
 								{
 									value: 'low',
-									label: '< 1 000 visiteurs/mois',
+									label: t(
+										'modal.professionalModal.form.trafficOptions.low',
+									),
 								},
 								{
 									value: 'medium',
-									label: '1 000 - 10 000 visiteurs/mois',
+									label: t(
+										'modal.professionalModal.form.trafficOptions.medium',
+									),
 								},
 								{
 									value: 'high',
-									label: '10 000 - 100 000 visiteurs/mois',
+									label: t(
+										'modal.professionalModal.form.trafficOptions.high',
+									),
 								},
 								{
 									value: 'very-high',
-									label: '100 000+ visiteurs/mois',
+									label: t(
+										'modal.professionalModal.form.trafficOptions.very-high',
+									),
 								},
 							]}
 						/>
@@ -377,14 +425,23 @@ export const ProfessionalProjectModalContent = ({
 							}
 							className="bg-white/80 backdrop-blur-sm"
 							options={[
-								{ value: 'non', label: 'Non' },
+								{
+									value: 'non',
+									label: t(
+										'modal.professionalModal.form.technicalOptions.non',
+									),
+								},
 								{
 									value: 'oui',
-									label: 'Oui, nous avons une équipe technique',
+									label: t(
+										'modal.professionalModal.form.technicalOptions.oui',
+									),
 								},
 								{
 									value: 'externe',
-									label: 'Oui, via un prestataire externe',
+									label: t(
+										'modal.professionalModal.form.technicalOptions.externe',
+									),
 								},
 							]}
 						/>
@@ -405,14 +462,23 @@ export const ProfessionalProjectModalContent = ({
 						}
 						className="bg-white/80 backdrop-blur-sm"
 						options={[
-							{ value: 'non', label: 'Non' },
+							{
+								value: 'non',
+								label: t(
+									'modal.professionalModal.form.integrationOptions.non',
+								),
+							},
 							{
 								value: 'oui-simple',
-								label: 'Oui, intégrations simples (CRM, Email)',
+								label: t(
+									'modal.professionalModal.form.integrationOptions.oui-simple',
+								),
 							},
 							{
 								value: 'oui-complexe',
-								label: 'Oui, intégrations complexes (ERP, APIs custom)',
+								label: t(
+									'modal.professionalModal.form.integrationOptions.oui-complexe',
+								),
 							},
 						]}
 					/>
