@@ -49,10 +49,6 @@ export const PRICING_CONFIG = {
  * Utilitaires pour formater les prix
  */
 export const formatPrice = {
-	// Formatage simple d'un prix
-	simple: (price: number, currency = '€'): string =>
-		`${price.toLocaleString('fr-FR')}${currency}`,
-
 	// Formatage d'une fourchette de prix
 	range: (min: number, max: number | null, currency = '€'): string =>
 		max
@@ -71,6 +67,4 @@ export const formatPrice = {
 /**
  * Type helpers pour la sécurité des types
  */
-export type PricingConfig = typeof PRICING_CONFIG
-export type PlanType = keyof typeof PRICING_CONFIG.plans
-export type SupportType = keyof typeof PRICING_CONFIG.support
+export type PricingPlanType = keyof typeof PRICING_CONFIG.plans
