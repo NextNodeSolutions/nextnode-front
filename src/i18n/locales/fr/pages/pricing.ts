@@ -263,4 +263,6 @@ export const pricing = {
 		button: 'Obtenir Votre Devis Gratuit',
 	},
 	contactButton: 'Nous Contacter',
+	faqContactText:
+		"Vous avez d'autres questions ? N'hésitez pas à nous contacter.",
 } as const

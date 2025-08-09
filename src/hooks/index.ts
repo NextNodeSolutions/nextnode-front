@@ -3,7 +3,6 @@
  */
 
 export { useWorkflowModal } from './useWorkflowModal'
-export { useWorkflowInteraction } from './useWorkflowInteraction'
 
 // Hooks spécialisés pour une réutilisabilité étendue
 export { useModalState } from './useModalState'

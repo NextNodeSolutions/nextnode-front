@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { useWorkflowModal, useWorkflowInteraction } from '@/hooks'
+import { useWorkflowModal, useCardEventListeners } from '@/hooks'
 
 import StepModal from './StepModal'
 
@@ -12,8 +12,10 @@ export default function WorkflowJourneyInteractive({
 	colors,
 }: WorkflowJourneyInteractiveProps): React.ReactElement {
 	const { openModalIndex, openModal, closeModal } = useWorkflowModal()
-	const { initializeCardListeners, cleanup } =
-		useWorkflowInteraction(openModal)
+	const { initializeListeners, cleanup } = useCardEventListeners(
+		'[data-step-card]',
+		openModal,
+	)
 
 	useEffect(() => {
 		// Wait for DOM to be fully rendered before attaching listeners
@@ -21,14 +23,14 @@ export default function WorkflowJourneyInteractive({
 			// Check if target elements exist in DOM
 			const cards = document.querySelectorAll('[data-step-card]')
 			if (cards.length > 0) {
-				initializeCardListeners()
+				initializeListeners()
 				return undefined
 			} else {
 				// If not ready, use MutationObserver to watch for changes
 				const observer = new MutationObserver(() => {
 					const cards = document.querySelectorAll('[data-step-card]')
 					if (cards.length > 0) {
-						initializeCardListeners()
+						initializeListeners()
 						observer.disconnect()
 					}
 				})
@@ -41,7 +43,7 @@ export default function WorkflowJourneyInteractive({
 				// Fallback timeout if DOM never updates
 				const fallbackTimer = setTimeout(() => {
 					observer.disconnect()
-					initializeCardListeners()
+					initializeListeners()
 				}, 2000)
 
 				return (): void => {

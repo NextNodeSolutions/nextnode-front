@@ -254,4 +254,5 @@ export const pricing = {
 		button: 'Get Your Free Quote',
 	},
 	contactButton: 'Contact Us',
+	faqContactText: "Have other questions? Don't hesitate to contact us.",
 } as const
