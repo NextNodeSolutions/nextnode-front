@@ -1,5 +1,7 @@
+import { PRICING_CONFIG, formatPrice } from '../../../../config/pricing'
+
 export const pricing = {
-	pageTitle: 'Web Development from €25/month | Nextnode',
+	pageTitle: `Web Development from €${PRICING_CONFIG.monthly.base}/month | Nextnode`,
 	sections: {
 		plans: {
 			title: 'Choose Your Plan',
@@ -7,7 +9,7 @@ export const pricing = {
 		},
 		included: {
 			title: 'Everything Included',
-			subtitle: 'In your €25 monthly plan',
+			subtitle: `In your €${PRICING_CONFIG.monthly.base} monthly plan`,
 		},
 		idealFor: 'IDEAL FOR',
 		alreadyIncluded: '🎯 Already in your plan',
@@ -33,8 +35,8 @@ export const pricing = {
 		starter: {
 			name: 'Starter',
 			tagline: 'Real coded website, no limitations',
-			price: '€500 - €800',
-			recurring: '€25/month',
+			price: `€${formatPrice.range(PRICING_CONFIG.plans.starter.min, PRICING_CONFIG.plans.starter.max, '').replace('€', '').replace(' - ', ' - €')}`,
+			recurring: formatPrice.monthly(PRICING_CONFIG.monthly.base, '€'),
 			badge: 'Perfect to start',
 			description:
 				'Your own website developed in modern code. Unlike no-code platforms, you have complete freedom to evolve and add any desired functionality.',
@@ -58,8 +60,8 @@ export const pricing = {
 		business: {
 			name: 'Business',
 			tagline: 'Complete coded web applications',
-			price: '€1,500 - €3,500',
-			recurring: '€25/month',
+			price: `€${formatPrice.range(PRICING_CONFIG.plans.business.min, PRICING_CONFIG.plans.business.max, '').replace('€', '').replace(' - ', ' - €')}`,
+			recurring: formatPrice.monthly(PRICING_CONFIG.monthly.base, '€'),
 			badge: 'Complete & scalable',
 			description:
 				'Complete websites developed in code with all possible advanced features. Scalable architecture allowing integration of any solution or API.',
@@ -85,7 +87,7 @@ export const pricing = {
 			name: 'Enterprise',
 			tagline: 'Development without technical limits',
 			price: 'Custom Quote',
-			recurring: '€25+/month',
+			recurring: `€${PRICING_CONFIG.monthly.base}+/month`,
 			badge: 'Advanced custom',
 			description:
 				'Complex web applications entirely developed in code. No technical limitations, advanced integrations, maximum performance. Your vision becomes reality without compromise.',
@@ -177,7 +179,10 @@ export const pricing = {
 			},
 			{
 				name: 'Priority Support',
-				price: '+€75/month',
+				price: formatPrice.supplement(
+					PRICING_CONFIG.support.priority,
+					'€',
+				),
 				responseTime: '24h business hours',
 				availability: 'Mon-Fri 8am-7pm',
 				description:
@@ -193,7 +198,10 @@ export const pricing = {
 			},
 			{
 				name: 'Urgent Support',
-				price: '+€200/month',
+				price: formatPrice.supplement(
+					PRICING_CONFIG.support.urgent,
+					'€',
+				),
 				responseTime: '4h maximum',
 				availability: 'Mon-Sun 8am-10pm',
 				description:
@@ -214,8 +222,8 @@ export const pricing = {
 		title: 'Frequently Asked Questions',
 		questions: [
 			{
-				question: 'What does the €25/month include?',
-				answer: 'Our monthly fee of €25 covers professional hosting, CDN, SSL certificates, daily backups, security monitoring, automatic updates, and standard technical support (48h). This ensures your website runs smoothly 24/7.',
+				question: `What does the €${PRICING_CONFIG.monthly.base}/month include?`,
+				answer: `Our monthly fee of €${PRICING_CONFIG.monthly.base} covers professional hosting, CDN, SSL certificates, daily backups, security monitoring, automatic updates, and standard technical support (48h). This ensures your website runs smoothly 24/7.`,
 			},
 			{
 				question: 'How do you determine the development cost?',
@@ -231,11 +239,11 @@ export const pricing = {
 			},
 			{
 				question: 'Do you provide ongoing maintenance?',
-				answer: 'Yes, our €25/month package includes regular updates, security patches, and technical maintenance. Additional development work is quoted separately.',
+				answer: `Yes, our €${PRICING_CONFIG.monthly.base}/month package includes regular updates, security patches, and technical maintenance. Additional development work is quoted separately.`,
 			},
 			{
 				question: 'What are the available support levels?',
-				answer: 'Standard support included (48h), priority support (+€75/month, 24h), urgent support (+€200/month, 4h). For specific needs, we offer custom SLA agreements based on your requirements.',
+				answer: `Standard support included (48h), priority support (+€${PRICING_CONFIG.support.priority}/month, 24h), urgent support (+€${PRICING_CONFIG.support.urgent}/month, 4h). For specific needs, we offer custom SLA agreements based on your requirements.`,
 			},
 		],
 	},

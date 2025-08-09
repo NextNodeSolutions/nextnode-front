@@ -1,5 +1,7 @@
+import { PRICING_CONFIG, formatPrice } from '../../../../config/pricing'
+
 export const pricing = {
-	pageTitle: 'Développement Web dès 25€/mois | Nextnode',
+	pageTitle: `Développement Web dès ${PRICING_CONFIG.monthly.base}€/mois | Nextnode`,
 	sections: {
 		plans: {
 			title: 'Choisissez Votre Plan',
@@ -8,7 +10,7 @@ export const pricing = {
 		},
 		included: {
 			title: 'Tout Ce Qui Est Inclus',
-			subtitle: 'Dans votre forfait mensuel à 25€',
+			subtitle: `Dans votre forfait mensuel à ${PRICING_CONFIG.monthly.base}€`,
 		},
 		idealFor: 'IDÉAL POUR',
 		alreadyIncluded: '🎯 Déjà dans votre forfait',
@@ -34,8 +36,8 @@ export const pricing = {
 		starter: {
 			name: 'Starter',
 			tagline: 'Site web en code, pas de limitations',
-			price: '500€ - 800€',
-			recurring: '25€/mois',
+			price: `${formatPrice.range(PRICING_CONFIG.plans.starter.min, PRICING_CONFIG.plans.starter.max, '€')}`,
+			recurring: formatPrice.monthly(PRICING_CONFIG.monthly.base, '€'),
 			badge: 'Idéal pour débuter',
 			description:
 				"Votre propre site web développé en code moderne. Contrairement aux plateformes no-code, vous disposez d'une liberté totale pour évoluer et ajouter toutes les fonctionnalités souhaitées.",
@@ -60,8 +62,8 @@ export const pricing = {
 		business: {
 			name: 'Business',
 			tagline: 'Applications web complètes en code',
-			price: '1 500€ - 3 500€',
-			recurring: '25€/mois',
+			price: `${formatPrice.range(PRICING_CONFIG.plans.business.min, PRICING_CONFIG.plans.business.max, '€')}`,
+			recurring: formatPrice.monthly(PRICING_CONFIG.monthly.base, '€'),
 			badge: 'Complet et évolutif',
 			description:
 				"Sites web complets développés en code avec toutes les fonctionnalités avancées possibles. Architecture évolutive permettant d'intégrer n'importe quelle solution ou API.",
@@ -89,7 +91,7 @@ export const pricing = {
 			name: 'Enterprise',
 			tagline: 'Développement sans limites techniques',
 			price: 'Devis Personnalisé',
-			recurring: '25€+/mois',
+			recurring: `${PRICING_CONFIG.monthly.base}€+/mois`,
 			badge: 'Sur-mesure avancé',
 			description:
 				'Applications web complexes entièrement développées en code. Aucune limite technique, intégrations avancées, performances maximales. Votre vision devient réalité sans compromis.',
@@ -138,14 +140,14 @@ export const pricing = {
 			description:
 				"Service d'hébergement et maintenance professionnel pour garantir performance et sécurité 24h/24",
 			details: [
-				'Hébergement haute performance avec CDN mondial (25€/mois)',
+				`Hébergement haute performance avec CDN mondial (${PRICING_CONFIG.monthly.base}€/mois)`,
 				'Certificats SSL automatiques et renouvellement',
 				'Sauvegardes automatisées quotidiennes avec rétention 30 jours',
 				'Monitoring proactif et alertes en temps réel',
 				'Mises à jour de sécurité automatiques',
 				'Support technique standard (réponse sous 48h ouvrables)',
-				'Support prioritaire disponible (+75€/mois, réponse 24h)',
-				'Support urgent disponible (+200€/mois, réponse 4h)',
+				`Support prioritaire disponible (+${PRICING_CONFIG.support.priority}€/mois, réponse 24h)`,
+				`Support urgent disponible (+${PRICING_CONFIG.support.urgent}€/mois, réponse 4h)`,
 				'Rapports de performance mensuels détaillés',
 				'Protection anti-DDoS et firewall avancé',
 				'Optimisation continue des performances',
@@ -186,7 +188,10 @@ export const pricing = {
 			},
 			{
 				name: 'Support Prioritaire',
-				price: '+75€/mois',
+				price: formatPrice.supplement(
+					PRICING_CONFIG.support.priority,
+					'€',
+				),
 				responseTime: '24h ouvrées',
 				availability: 'Lun-Ven 8h-19h',
 				description:
@@ -202,7 +207,10 @@ export const pricing = {
 			},
 			{
 				name: 'Support Urgent',
-				price: '+200€/mois',
+				price: formatPrice.supplement(
+					PRICING_CONFIG.support.urgent,
+					'€',
+				),
 				responseTime: '4h maximum',
 				availability: 'Lun-Dim 8h-22h',
 				description:
@@ -223,8 +231,8 @@ export const pricing = {
 		title: 'Questions Fréquemment Posées',
 		questions: [
 			{
-				question: 'Que comprend les 25€/mois ?',
-				answer: "Notre forfait mensuel à 25€ couvre l'hébergement professionnel, CDN, certificats SSL, sauvegardes quotidiennes, monitoring de sécurité, mises à jour automatiques et support technique standard (48h). Cela assure le fonctionnement optimal de votre site 24h/24.",
+				question: `Que comprend les ${PRICING_CONFIG.monthly.base}€/mois ?`,
+				answer: `Notre forfait mensuel à ${PRICING_CONFIG.monthly.base}€ couvre l'hébergement professionnel, CDN, certificats SSL, sauvegardes quotidiennes, monitoring de sécurité, mises à jour automatiques et support technique standard (48h). Cela assure le fonctionnement optimal de votre site 24h/24.`,
 			},
 			{
 				question: 'Comment déterminez-vous le coût de développement ?',
@@ -240,11 +248,11 @@ export const pricing = {
 			},
 			{
 				question: 'Fournissez-vous une maintenance continue ?',
-				answer: 'Oui, notre forfait à 25€/mois inclut les mises à jour régulières, les correctifs de sécurité et la maintenance technique. Les travaux de développement supplémentaires sont devisés séparément.',
+				answer: `Oui, notre forfait à ${PRICING_CONFIG.monthly.base}€/mois inclut les mises à jour régulières, les correctifs de sécurité et la maintenance technique. Les travaux de développement supplémentaires sont devisés séparément.`,
 			},
 			{
 				question: 'Quels sont les niveaux de support disponibles ?',
-				answer: 'Support standard inclus (48h), support prioritaire (+75€/mois, 24h), support urgent (+200€/mois, 4h). Pour des besoins spécifiques, nous proposons des SLA sur-mesure selon vos besoins.',
+				answer: `Support standard inclus (48h), support prioritaire (+${PRICING_CONFIG.support.priority}€/mois, 24h), support urgent (+${PRICING_CONFIG.support.urgent}€/mois, 4h). Pour des besoins spécifiques, nous proposons des SLA sur-mesure selon vos besoins.`,
 			},
 		],
 	},

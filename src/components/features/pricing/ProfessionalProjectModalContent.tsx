@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { useI18n } from '@/lib/i18n/i18n-client'
+import { PRICING_CONFIG, formatPrice } from '@/config/pricing'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
 import { Button } from '@/components/ui/forms/button'
 import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
@@ -191,20 +192,44 @@ export const ProfessionalProjectModalContent = ({
 												),
 											},
 											{
-												value: '1500-3500',
-												label: '1 500€ - 3 500€',
+												value: `${PRICING_CONFIG.professional.ranges[0].min}-${PRICING_CONFIG.professional.ranges[0].max}`,
+												label: formatPrice.range(
+													PRICING_CONFIG.professional
+														.ranges[0].min,
+													PRICING_CONFIG.professional
+														.ranges[0].max,
+													'€',
+												),
 											},
 											{
-												value: '3500-7500',
-												label: '3 500€ - 7 500€',
+												value: `${PRICING_CONFIG.professional.ranges[1].min}-${PRICING_CONFIG.professional.ranges[1].max}`,
+												label: formatPrice.range(
+													PRICING_CONFIG.professional
+														.ranges[1].min,
+													PRICING_CONFIG.professional
+														.ranges[1].max,
+													'€',
+												),
 											},
 											{
-												value: '7500-15000',
-												label: '7 500€ - 15 000€',
+												value: `${PRICING_CONFIG.professional.ranges[2].min}-${PRICING_CONFIG.professional.ranges[2].max}`,
+												label: formatPrice.range(
+													PRICING_CONFIG.professional
+														.ranges[2].min,
+													PRICING_CONFIG.professional
+														.ranges[2].max,
+													'€',
+												),
 											},
 											{
-												value: '15000+',
-												label: '15 000€+',
+												value: `${PRICING_CONFIG.professional.ranges[3].min}+`,
+												label: formatPrice.range(
+													PRICING_CONFIG.professional
+														.ranges[3].min,
+													PRICING_CONFIG.professional
+														.ranges[3].max,
+													'€',
+												),
 											},
 										]
 									: [
@@ -215,20 +240,52 @@ export const ProfessionalProjectModalContent = ({
 												),
 											},
 											{
-												value: '15000-30000',
-												label: '15 000€ - 30 000€',
+												value: `${PRICING_CONFIG.professional.enterprise.ranges[0].min}-${PRICING_CONFIG.professional.enterprise.ranges[0].max}`,
+												label: formatPrice.range(
+													PRICING_CONFIG.professional
+														.enterprise.ranges[0]
+														.min,
+													PRICING_CONFIG.professional
+														.enterprise.ranges[0]
+														.max,
+													'€',
+												),
 											},
 											{
-												value: '30000-50000',
-												label: '30 000€ - 50 000€',
+												value: `${PRICING_CONFIG.professional.enterprise.ranges[1].min}-${PRICING_CONFIG.professional.enterprise.ranges[1].max}`,
+												label: formatPrice.range(
+													PRICING_CONFIG.professional
+														.enterprise.ranges[1]
+														.min,
+													PRICING_CONFIG.professional
+														.enterprise.ranges[1]
+														.max,
+													'€',
+												),
 											},
 											{
-												value: '50000-100000',
-												label: '50 000€ - 100 000€',
+												value: `${PRICING_CONFIG.professional.enterprise.ranges[2].min}-${PRICING_CONFIG.professional.enterprise.ranges[2].max}`,
+												label: formatPrice.range(
+													PRICING_CONFIG.professional
+														.enterprise.ranges[2]
+														.min,
+													PRICING_CONFIG.professional
+														.enterprise.ranges[2]
+														.max,
+													'€',
+												),
 											},
 											{
-												value: '100000+',
-												label: '100 000€+',
+												value: `${PRICING_CONFIG.professional.enterprise.ranges[3].min}+`,
+												label: formatPrice.range(
+													PRICING_CONFIG.professional
+														.enterprise.ranges[3]
+														.min,
+													PRICING_CONFIG.professional
+														.enterprise.ranges[3]
+														.max,
+													'€',
+												),
 											},
 										]
 							}
