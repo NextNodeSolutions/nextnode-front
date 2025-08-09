@@ -1,0 +1,205 @@
+---
+import { cn } from '@/lib/core/utils'
+import { Check } from 'lucide-react'
+import { t } from '@/lib/i18n/i18n-server'
+import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
+import { ProfessionalProjectModal } from '@/components/features/pricing/ProfessionalProjectModal'
+import {
+	PLAN_THEMES,
+	PRICING_CARD_CLASSES,
+	getPlanCSSVars,
+} from '@/lib/ui/pricing-constants'
+import type { PlanType } from '@/lib/ui/pricing-constants'
+
+export interface Props {
+	plan: PlanType
+	featured?: boolean
+	animationDelay?: number
+}
+
+const { plan, featured = false, animationDelay = 0 } = Astro.props
+
+// Get plan data - optimized single object creation
+const planData = {
+	name: t(`pricing.plans.${plan}.name`),
+	tagline: t(`pricing.plans.${plan}.tagline`),
+	price: t(`pricing.plans.${plan}.price`),
+	recurring: t(`pricing.plans.${plan}.recurring`),
+	badge: t(`pricing.plans.${plan}.badge`),
+	description: t(`pricing.plans.${plan}.description`),
+	features: t(`pricing.plans.${plan}.features`) as readonly string[],
+	cta: t(`pricing.plans.${plan}.cta`),
+	examples: t(`pricing.plans.${plan}.examples`) as readonly string[],
+}
+
+// Get additional translation
+const examplesTitle = t('pricing.sections.examplesTitle')
+
+// Get theme configuration for current plan
+const planTheme = PLAN_THEMES[plan]
+const cssVars = getPlanCSSVars(plan)
+---
+
+<div
+	class={cn(
+		// Base card styling
+		PRICING_CARD_CLASSES.base,
+		// Featured plan special styling
+		featured && [
+			'ring-2',
+			planTheme.ring,
+			PRICING_CARD_CLASSES.featured,
+			planTheme.shadow,
+		],
+		// Responsive padding
+		PRICING_CARD_CLASSES.content.padding,
+	)}
+	style={{
+		animationDelay: animationDelay > 0 ? `${animationDelay}ms` : undefined,
+		...cssVars,
+	}}
+>
+	<!-- Featured Badge -->
+	{
+		featured && (
+			<div class="absolute -top-3 left-1/2 -translate-x-1/2">
+				<div
+					class={cn(
+						'rounded-full px-4 py-1 text-sm font-bold text-white',
+						`bg-gradient-to-r ${planTheme.gradient}`,
+						'shadow-lg',
+					)}
+				>
+					{planData.badge}
+				</div>
+			</div>
+		)
+	}
+
+	<!-- Plan Header -->
+	<div class="mb-8 text-center">
+		<h3 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
+			{planData.name}
+		</h3>
+		<p class="mb-4 text-gray-600 dark:text-gray-400">
+			{planData.tagline}
+		</p>
+
+		<!-- Pricing -->
+		<div class="mb-4">
+			<div
+				class={cn(
+					'text-4xl font-bold mb-2',
+					`bg-gradient-to-r ${planTheme.gradient}`,
+					'bg-clip-text text-transparent',
+				)}
+			>
+				{planData.price}
+			</div>
+			<div class="text-sm text-gray-600 dark:text-gray-400">
+				+ {planData.recurring}
+			</div>
+		</div>
+
+		<p class="leading-relaxed text-gray-700 dark:text-gray-300">
+			{planData.description}
+		</p>
+	</div>
+
+	<!-- Features List -->
+	<div class="mb-8 flex-1">
+		<ul class="space-y-3">
+			{
+				planData.features.map(feature => (
+					<li class="flex items-start gap-3">
+						<div
+							class={cn(
+								'mt-0.5 flex h-5 w-5 items-center justify-center rounded-full',
+								`bg-gradient-to-r ${planTheme.gradient}`,
+								'flex-shrink-0',
+							)}
+						>
+							<Check className="h-3 w-3 text-white" />
+						</div>
+						<span class="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+							{feature}
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<!-- Examples Section -->
+	<div class="mb-8">
+		<h4 class="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
+			{examplesTitle}
+		</h4>
+		<ul class="space-y-2.5">
+			{
+				planData.examples.map(example => (
+					<li class="flex items-start gap-3">
+						<div
+							class={cn(
+								'mt-1.5 h-2 w-2 flex-shrink-0 rounded-full',
+								`bg-gradient-to-r ${planTheme.gradient}`,
+							)}
+						/>
+						<span class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+							{example}
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<!-- CTA Button -->
+	<div class="mt-auto">
+		{
+			plan === 'starter' ? (
+				<StartProjectModal
+					client:load
+					locale={Astro.currentLocale}
+					buttonText={planData.cta}
+					plan={plan}
+				/>
+			) : (
+				<ProfessionalProjectModal
+					client:load
+					locale={Astro.currentLocale}
+					plan={plan}
+					buttonText={planData.cta}
+				/>
+			)
+		}
+	</div>
+
+	<!-- Decorative Elements -->
+	<div
+		class={cn(
+			'absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500',
+			'bg-gradient-to-br pointer-events-none',
+			planTheme.gradient,
+			'group-hover:opacity-5',
+		)}
+	>
+	</div>
+</div>
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+</style>

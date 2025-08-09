@@ -1,46 +1,20 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useModalState } from './useModalState'
+import { useKeyboardShortcuts } from './useKeyboardShortcuts'
 
 import type { UseWorkflowModalReturn } from '@/types/workflow'
 
 /**
- * Custom hook to manage workflow modal state
- * Handles opening/closing and current modal state
+ * Hook composite pour la gestion des modales workflow
+ * Combine la gestion d'état et les raccourcis clavier
  */
 export function useWorkflowModal(): UseWorkflowModalReturn {
-	const [openModalIndex, setOpenModalIndex] = useState<number | null>(null)
+	const { openModalIndex, openModal, closeModal } = useModalState()
 
-	/**
-	 * Opens a modal at the specified index
-	 */
-	const openModal = useCallback((index: number) => {
-		setOpenModalIndex(index)
-	}, [])
-
-	/**
-	 * Closes the currently open modal
-	 */
-	const closeModal = useCallback(() => {
-		setOpenModalIndex(null)
-	}, [])
-
-	/**
-	 * Handles closing via ESC key
-	 */
-	useEffect(() => {
-		const handleEscape = (event: KeyboardEvent): void => {
-			if (event.key === 'Escape' && openModalIndex !== null) {
-				closeModal()
-			}
-		}
-
-		if (openModalIndex !== null) {
-			document.addEventListener('keydown', handleEscape)
-			return (): void =>
-				document.removeEventListener('keydown', handleEscape)
-		}
-
-		return undefined
-	}, [openModalIndex, closeModal])
+	// Gestion des raccourcis clavier
+	useKeyboardShortcuts({
+		onEscape: closeModal,
+		enabled: openModalIndex !== null,
+	})
 
 	return {
 		openModalIndex,

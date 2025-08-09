@@ -14,7 +14,7 @@ body {
 
 /* Button patterns */
 .btn-icon {
-	@apply rounded-full p-1.5 text-muted-foreground transition-all duration-300 hover:scale-110 hover:bg-accent hover:text-accent-foreground;
+	@apply text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-full p-1.5 transition-all duration-300 hover:scale-110;
 }
 
 .btn-gradient-primary {
@@ -36,7 +36,7 @@ body {
 
 /* Container patterns */
 .card-container {
-	@apply rounded-2xl border border-border bg-card shadow-xl;
+	@apply border-border bg-card rounded-2xl border shadow-xl;
 }
 
 .card-base {
@@ -105,6 +105,10 @@ body {
 	animation-delay: 600ms;
 }
 
+.animation-delay-800 {
+	animation-delay: 800ms;
+}
+
 /* Fade animations */
 @keyframes fadeInUp {
 	from {
@@ -119,4 +123,31 @@ body {
 
 .animate-fade-in-up {
 	animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Accordion animations */
+@keyframes accordion-down {
+	from {
+		height: 0;
+	}
+	to {
+		height: var(--radix-accordion-content-height);
+	}
+}
+
+@keyframes accordion-up {
+	from {
+		height: var(--radix-accordion-content-height);
+	}
+	to {
+		height: 0;
+	}
+}
+
+.animate-accordion-down {
+	animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+	animation: accordion-up 0.2s ease-out;
 }
