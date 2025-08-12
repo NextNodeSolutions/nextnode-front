@@ -1,5 +1,5 @@
 // ====================================
-// TESTS POUR LE SYSTÈME I18N
+// TESTS FOR I18N SYSTEM
 // ====================================
 
 import { describe, it, expect, beforeEach } from 'vitest'
@@ -8,7 +8,7 @@ import { createT, t, setGlobalLocale } from './index'
 
 describe('Système i18n', () => {
 	beforeEach(() => {
-		// Reset la fonction globale pour chaque test
+		// Reset global function for each test
 		setGlobalLocale('en')
 	})
 
@@ -33,22 +33,22 @@ describe('Système i18n', () => {
 		})
 	})
 
-	describe('Clés simples', () => {
-		it('devrait récupérer une traduction simple', () => {
+	describe('Simple keys', () => {
+		it('should get a simple translation', () => {
 			const tEn = createT('en')
 			const result = tEn('common.navigation.home')
 			expect(result).toBe('Home')
 		})
 
-		it('devrait récupérer une traduction imbriquée', () => {
+		it('should get a nested translation', () => {
 			const tEn = createT('en')
 			const result = tEn('home.hero.title')
 			expect(result).toBe('YOUR NEXT')
 		})
 	})
 
-	describe('Objets imbriqués', () => {
-		it('devrait retourner un objet pour une clé partielle', () => {
+	describe('Nested objects', () => {
+		it('should return an object for a partial key', () => {
 			const tEn = createT('en')
 			const result = tEn('home.hero') as unknown as Record<
 				string,
@@ -60,7 +60,7 @@ describe('Système i18n', () => {
 			expect(result.titleHighlight).toBe('BREAKTHROUGH')
 		})
 
-		it('devrait retourner la section complète', () => {
+		it('should return the complete section', () => {
 			const tEn = createT('en')
 			const result = tEn('common.navigation') as unknown as Record<
 				string,
@@ -73,15 +73,15 @@ describe('Système i18n', () => {
 		})
 	})
 
-	describe('Arrays et indices', () => {
-		it("devrait récupérer un élément d'array par index", () => {
+	describe('Arrays and indices', () => {
+		it('should get an array element by index', () => {
 			const tEn = createT('en')
-			// Test avec un array d'exemples que nous avons ajouté
+			// Test with an examples array we added
 			const result = tEn('common.examples.messages.0')
 			expect(result).toBe('Welcome {name}!')
 		})
 
-		it("devrait retourner tout l'array", () => {
+		it('should return the entire array', () => {
 			const tEn = createT('en')
 			const result = tEn('common.examples.messages') as readonly string[]
 
@@ -91,14 +91,14 @@ describe('Système i18n', () => {
 		})
 	})
 
-	describe('Clés dynamiques', () => {
-		it('devrait résoudre les clés dynamiques avec variables', () => {
+	describe('Dynamic keys', () => {
+		it('should resolve dynamic keys with variables', () => {
 			const tEn = createT('en')
 			const result = tEn('common.examples.messages.{index}', { index: 0 })
 			expect(result).toBe('Welcome {name}!')
 		})
 
-		it('devrait résoudre les clés dynamiques complexes', () => {
+		it('should resolve complex dynamic keys', () => {
 			const tEn = createT('en')
 			const result = tEn('common.examples.messages.{index}', { index: 1 })
 			expect(result).toBe('Your account was created on {date}')
@@ -106,7 +106,7 @@ describe('Système i18n', () => {
 	})
 
 	describe('Interpolation', () => {
-		it('devrait interpoler les variables simples', () => {
+		it('should interpolate simple variables', () => {
 			const tEn = createT('en')
 			const result = tEn('common.examples.interpolation.greeting', {
 				name: 'John',
@@ -115,7 +115,7 @@ describe('Système i18n', () => {
 			expect(result).toBe('Hello John, welcome to Nextnode!')
 		})
 
-		it('devrait interpoler les variables avec clés dynamiques', () => {
+		it('should interpolate variables with dynamic keys', () => {
 			const tEn = createT('en')
 			const result = tEn('common.examples.messages.{index}', {
 				index: 0,
@@ -124,16 +124,16 @@ describe('Système i18n', () => {
 			expect(result).toBe('Welcome Alice!')
 		})
 
-		it('devrait gérer les variables manquantes', () => {
+		it('should handle missing variables', () => {
 			const tEn = createT('en')
 			const result = tEn('common.examples.interpolation.greeting', {
 				name: 'John',
-				// siteName manquant
+				// siteName missing
 			})
 			expect(result).toBe('Hello John, welcome to {siteName}!')
 		})
 
-		it('devrait gérer différents types de variables', () => {
+		it('should handle different types of variables', () => {
 			const tEn = createT('en')
 			const result = tEn('common.examples.interpolation.datetime', {
 				date: new Date('2024-01-01'),
@@ -144,51 +144,51 @@ describe('Système i18n', () => {
 		})
 	})
 
-	describe('Gestion des erreurs', () => {
-		it("devrait retourner la clé si la traduction n'existe pas", () => {
+	describe('Error handling', () => {
+		it('should return the key if translation does not exist', () => {
 			const tEn = createT('en')
 			const result = tEn('clé.inexistante')
 			expect(result).toBe('clé.inexistante')
 		})
 
-		it('devrait gérer les clés dynamiques invalides', () => {
+		it('should handle invalid dynamic keys', () => {
 			const tEn = createT('en')
 			const result = tEn('common.examples.messages.{index}', {
-				// index manquant
+				// index missing
 			})
-			// Devrait retourner la clé originale ou une valeur par défaut
+			// Should return original key or default value
 			expect(typeof result).toBe('string')
 		})
 	})
 
-	describe('Fonction globale t()', () => {
-		it('devrait utiliser la locale globale par défaut', () => {
+	describe('Global t() function', () => {
+		it('should use the default global locale', () => {
 			const result = t('common.navigation.home')
 			expect(result).toBe('Home')
 		})
 
-		it('devrait changer quand on met à jour la locale globale', () => {
+		it('should change when updating the global locale', () => {
 			setGlobalLocale('fr')
 			const result = t('common.navigation.home')
 			expect(result).toBe('Accueil')
 
-			// Reset pour les autres tests
+			// Reset for other tests
 			setGlobalLocale('en')
 		})
 	})
 
 	describe('Cache', () => {
-		it('devrait mettre en cache les résultats', () => {
+		it('should cache results', () => {
 			const tEn = createT('en')
 
-			// Premier appel
+			// First call
 			const result1 = tEn('home.hero.title')
 
-			// Deuxième appel (devrait être mis en cache)
+			// Second call (should be cached)
 			const result2 = tEn('home.hero.title')
 
 			expect(result1).toBe(result2)
-			// Test que le cache fonctionne en vérifiant l'égalité
+			// Test that cache works by checking equality
 		})
 	})
 })

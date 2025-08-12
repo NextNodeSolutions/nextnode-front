@@ -1,7 +1,7 @@
 // ====================================
-// FONCTION t() UNIFIÉE - SYSTÈME I18N
+// UNIFIED t() FUNCTION - I18N SYSTEM
 // ====================================
-// Fonction unique qui fonctionne côté client ET serveur
+// Single function that works client AND server side
 
 import {
 	getNestedValue,
@@ -24,7 +24,7 @@ import type {
 } from './types'
 
 // ====================================
-// DICTIONNAIRES ET CACHE
+// DICTIONARIES AND CACHE
 // ====================================
 
 const dictionaries = {
@@ -32,28 +32,28 @@ const dictionaries = {
 	fr,
 } as const
 
-// Cache simple pour les traductions
+// Simple cache for translations
 const translationCache = new Map<string, unknown>()
 
 // ====================================
-// FONCTION PRINCIPALE t()
+// MAIN t() FUNCTION
 // ====================================
 
 /**
- * Fonction de traduction unifiée qui fonctionne côté client ET serveur
+ * Unified translation function that works client AND server side
  *
- * Exemples d'utilisation :
+ * Usage examples:
  * - t('home.hero.title') → string
- * - t('home.hero') → objet readonly avec toutes les traductions sous hero
- * - t('common.examples.messages.{index}', { index: 0 }) → clé dynamique
+ * - t('home.hero') → readonly object with all translations under hero
+ * - t('common.examples.messages.{index}', { index: 0 }) → dynamic key
  * - t('common.examples.interpolation.greeting', { name: 'John' }) → interpolation
  */
 export function createT(locale: Locale): TFunction {
 	const dictionary = dictionaries[locale]
 
-	// Implémentation de la fonction t() avec surcharges
+	// Implementation of t() function with overloads
 	function t(key: string, variables?: InterpolationVariables): unknown {
-		// Gestion du cache
+		// Cache handling
 		const cacheKey = createCacheKey(locale, key, variables)
 		if (translationCache.has(cacheKey)) {
 			return translationCache.get(cacheKey)
@@ -62,58 +62,58 @@ export function createT(locale: Locale): TFunction {
 		let resolvedKey = key
 		let result: unknown
 
-		// Résoudre les clés dynamiques si nécessaire
+		// Resolve dynamic keys if necessary
 		if (isDynamicKey(key) && variables) {
 			resolvedKey = resolveDynamicKey(key, variables)
 		}
 
-		// Récupérer la valeur dans le dictionnaire
+		// Get value from dictionary
 		result = getNestedValue(dictionary, resolvedKey)
 
-		// Si pas trouvé, essayer avec la clé originale
+		// If not found, try with original key
 		if (result === undefined && resolvedKey !== key) {
 			result = getNestedValue(dictionary, key)
 		}
 
-		// Si toujours pas trouvé, afficher un warning et retourner la clé
+		// If still not found, show warning and return key
 		if (result === undefined) {
 			warnMissingTranslation(key, locale)
 			result = key
 		}
 
-		// Interpolation pour les strings
+		// Interpolation for strings
 		if (typeof result === 'string' && variables) {
 			result = interpolateString(result, variables)
 		}
 
-		// Mise en cache et retour
+		// Cache and return
 		translationCache.set(cacheKey, result)
 		return result
 	}
 
-	// Cast vers TFunction pour les types TypeScript
+	// Cast to TFunction for TypeScript types
 	return t as TFunction
 }
 
 // ====================================
-// FONCTION GLOBALE PAR DÉFAUT
+// DEFAULT GLOBAL FUNCTION
 // ====================================
 
-// Fonction t() globale qui utilise la locale par défaut
-// Cette variable sera réassignée par le middleware selon la locale active
+// Global t() function that uses default locale
+// This variable will be reassigned by middleware based on active locale
 export let globalT: TFunction = createT('en')
 
 /**
- * Met à jour la fonction t() globale avec une nouvelle locale
- * Utilisé par le middleware Astro
+ * Update global t() function with new locale
+ * Used by Astro middleware
  */
 export function setGlobalLocale(locale: Locale): void {
 	globalT = createT(locale)
 }
 
 /**
- * Fonction t() globale - utilise la locale courante définie par le middleware
- * Peut être utilisée partout dans l'application
+ * Global t() function - uses current locale defined by middleware
+ * Can be used anywhere in the application
  */
 export function t<K extends TranslationKey>(key: K): TranslationReturn<K>
 export function t<K extends TranslationKey>(
@@ -135,7 +135,7 @@ export function t(key: string, variables?: InterpolationVariables): unknown {
 
 export type { TFunction, TranslationKey, Locale, InterpolationVariables }
 
-// Re-export des utilitaires pour usage avancé
+// Re-export utilities for advanced usage
 export {
 	getNestedValue,
 	interpolateString,

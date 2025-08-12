@@ -1,7 +1,7 @@
 // ====================================
-// HOOKS REACT POUR LE SYSTÈME I18N
+// REACT HOOKS FOR I18N SYSTEM
 // ====================================
-// Hooks optimisés pour utiliser l'i18n dans les composants React
+// Optimized hooks for using i18n in React components
 
 import {
 	useState,
@@ -19,7 +19,7 @@ import { getLocaleFromPath } from './astro'
 import type { Locale, TFunction, InterpolationVariables } from './types'
 
 // ====================================
-// HOOK PRINCIPAL useI18n
+// MAIN useI18n HOOK
 // ====================================
 
 export interface UseI18nReturn {
@@ -113,7 +113,7 @@ export function useI18n(initialLocale?: Locale): UseI18nReturn {
 }
 
 // ====================================
-// HOOK POUR TRADUCTIONS SPÉCIFIQUES
+// HOOK FOR SPECIFIC TRANSLATIONS
 // ====================================
 
 /**
@@ -144,7 +144,7 @@ export function useTranslation<T = unknown>(
 }
 
 // ====================================
-// HOOK POUR SECTIONS COMPLÈTES
+// HOOK FOR COMPLETE SECTIONS
 // ====================================
 
 /**
@@ -174,7 +174,7 @@ export function useTranslationSection<T = unknown>(
 }
 
 // ====================================
-// HOOK POUR LOCALE PRÉFÉRÉE
+// HOOK FOR PREFERRED LOCALE
 // ====================================
 
 /**
@@ -252,12 +252,12 @@ export function getCurrentLocale(): Locale {
 }
 
 // ====================================
-// COMPOSANT PROVIDER (optionnel)
+// PROVIDER COMPONENT (optional)
 // ====================================
 
 /**
- * Context pour partager l'état i18n entre composants
- * Optionnel - les hooks peuvent fonctionner de manière indépendante
+ * Context to share i18n state between components
+ * Optional - hooks can work independently
  */
 
 interface I18nContextType {
@@ -290,8 +290,8 @@ export function I18nProvider({
 }
 
 /**
- * Hook pour utiliser le contexte i18n
- * Alternative à useI18n() quand on utilise le Provider
+ * Hook to use i18n context
+ * Alternative to useI18n() when using Provider
  */
 export function useI18nContext(): I18nContextType {
 	const context = useContext(I18nContext)

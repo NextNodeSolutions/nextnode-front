@@ -1,16 +1,20 @@
 // ====================================
-// UTILITAIRES POUR LE SYSTÈME I18N
+// UTILITIES FOR I18N SYSTEM
 // ====================================
 
-import type { InterpolationVariables, DynamicKey, TranslationKey } from './types'
+import type {
+	InterpolationVariables,
+	DynamicKey,
+	TranslationKey,
+} from './types'
 
 // ====================================
-// INTERPOLATION DE VARIABLES
+// VARIABLE INTERPOLATION
 // ====================================
 
 /**
- * Interpole les variables dans un string de traduction
- * Exemple: interpolateString("Hello {name}!", { name: "World" }) → "Hello World!"
+ * Interpolate variables in a translation string
+ * Example: interpolateString("Hello {name}!", { name: "World" }) → "Hello World!"
  */
 export function interpolateString(
 	text: string,
@@ -22,10 +26,10 @@ export function interpolateString(
 		const value = variables[key]
 		if (value === undefined || value === null) {
 			console.warn(`Missing interpolation variable: ${key}`)
-			return match // Retourner le placeholder si la variable n'existe pas
+			return match // Return placeholder if variable doesn't exist
 		}
 
-		// Gestion des différents types
+		// Handle different types
 		if (value instanceof Date) {
 			return value.toLocaleDateString()
 		}
@@ -35,12 +39,12 @@ export function interpolateString(
 }
 
 // ====================================
-// NAVIGATION DANS LES OBJETS
+// OBJECT NAVIGATION
 // ====================================
 
 /**
- * Récupère une valeur dans un objet imbriqué via un chemin en point-notation
- * Exemple: getNestedValue(obj, "home.hero.title")
+ * Get a value in a nested object via dot-notation path
+ * Example: getNestedValue(obj, "home.hero.title")
  */
 export function getNestedValue<T = unknown>(
 	obj: Record<string, unknown>,
@@ -56,7 +60,7 @@ export function getNestedValue<T = unknown>(
 			return undefined
 		}
 
-		// Support des indices d'array
+		// Support for array indices
 		if (typeof current === 'object' && Array.isArray(current)) {
 			const index = parseInt(key, 10)
 			if (!isNaN(index) && index >= 0 && index < current.length) {
@@ -65,7 +69,7 @@ export function getNestedValue<T = unknown>(
 			}
 		}
 
-		// Navigation normale dans l'objet
+		// Normal object navigation
 		if (typeof current === 'object' && current !== null) {
 			current = (current as Record<string, unknown>)[key]
 		} else {
@@ -77,12 +81,12 @@ export function getNestedValue<T = unknown>(
 }
 
 // ====================================
-// GESTION DES CLÉS DYNAMIQUES
+// DYNAMIC KEY HANDLING
 // ====================================
 
 /**
- * Résout les clés dynamiques en remplaçant les placeholders
- * Exemple: resolveDynamicKey("faq.items.{index}.question", { index: 0 })
+ * Resolve dynamic keys by replacing placeholders
+ * Example: resolveDynamicKey("faq.items.{index}.question", { index: 0 })
  * → "faq.items.0.question"
  */
 export function resolveDynamicKey(
@@ -102,31 +106,31 @@ export function resolveDynamicKey(
 }
 
 // ====================================
-// VALIDATION DE CLÉS
+// KEY VALIDATION
 // ====================================
 
 /**
- * Vérifie si une clé est une clé de traduction valide
+ * Check if a key is a valid translation key
  */
 export function isValidTranslationKey(key: string): key is TranslationKey {
-	// Cette fonction sera utilisée en runtime pour valider les clés
-	// En développement, TypeScript nous donnera les erreurs de compilation
+	// This function will be used at runtime to validate keys
+	// In development, TypeScript will give us compilation errors
 	return typeof key === 'string' && key.length > 0
 }
 
 /**
- * Vérifie si une clé contient des placeholders dynamiques
+ * Check if a key contains dynamic placeholders
  */
 export function isDynamicKey(key: string): boolean {
 	return /\{[^}]+\}/.test(key)
 }
 
 // ====================================
-// UTILITAIRES DE CACHE
+// CACHE UTILITIES
 // ====================================
 
 /**
- * Créer une clé de cache unique pour une traduction
+ * Create a unique cache key for a translation
  */
 export function createCacheKey(
 	locale: string,
@@ -140,20 +144,22 @@ export function createCacheKey(
 }
 
 // ====================================
-// UTILITAIRES DE DÉVELOPPEMENT
+// DEVELOPMENT UTILITIES
 // ====================================
 
 /**
- * Affiche un avertissement si une traduction est manquante
+ * Display a warning if a translation is missing
  */
 export function warnMissingTranslation(key: string, locale: string): void {
 	if (process.env.NODE_ENV === 'development') {
-		console.warn(`[i18n] Missing translation for key "${key}" in locale "${locale}"`)
+		console.warn(
+			`[i18n] Missing translation for key "${key}" in locale "${locale}"`,
+		)
 	}
 }
 
 /**
- * Affiche un avertissement pour variables d'interpolation manquantes
+ * Display a warning for missing interpolation variables
  */
 export function warnMissingVariable(variable: string, key: string): void {
 	if (process.env.NODE_ENV === 'development') {

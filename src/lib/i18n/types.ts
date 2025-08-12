@@ -1,40 +1,40 @@
 // ====================================
-// NOUVEAU SYSTÈME I18N TYPE-SAFE
+// NEW TYPE-SAFE I18N SYSTEM
 // ====================================
-// Ce fichier contient le système de types auto-inférés pour l'i18n
-// Il génère automatiquement tous les types depuis le dictionnaire anglais
+// This file contains the auto-inferred type system for i18n
+// It automatically generates all types from the English dictionary
 
 import type { en } from '../../i18n/locales/en'
 
-// Le dictionnaire anglais est la source de vérité
+// The English dictionary is the source of truth
 export type EnglishDict = typeof en
 
-// Types de base
+// Base types
 export type Locale = 'en' | 'fr'
 
 // ====================================
-// TYPES POUR CLÉS DYNAMIQUES
+// TYPES FOR DYNAMIC KEYS
 // ====================================
 
-// Type pour variables d'interpolation
+// Type for interpolation variables
 export interface InterpolationVariables {
 	[key: string]: string | number | Date | boolean | undefined
 }
 
-// Type pour clés avec index dynamique (ex: "faq.items.{index}.question")
+// Type for keys with dynamic index (e.g., "faq.items.{index}.question")
 export type DynamicKey = string
 
 // ====================================
-// EXTRACTEUR DE CHEMINS RÉCURSIF
+// RECURSIVE PATH EXTRACTOR
 // ====================================
 
-// Extraire tous les chemins possibles d'un objet imbriqué
+// Extract all possible paths from a nested object
 type ExtractPaths<T, Prefix extends string = ''> = T extends string
 	? Prefix extends ''
 		? never
 		: Prefix
 	: T extends readonly (infer U)[]
-		? // Support des arrays avec indices numériques
+		? // Support for arrays with numeric indices
 			| (Prefix extends '' ? never : Prefix)
 				| ExtractPaths<
 						U,
@@ -55,14 +55,14 @@ type ExtractPaths<T, Prefix extends string = ''> = T extends string
 				}[keyof T]
 			: never
 
-// Toutes les clés de traduction possibles
+// All possible translation keys
 export type TranslationKey = ExtractPaths<EnglishDict>
 
 // ====================================
-// RÉCUPÉRATION DE VALEURS PAR CHEMIN
+// GET VALUES BY PATH
 // ====================================
 
-// Récupérer la valeur à un chemin spécifique
+// Get the value at a specific path
 type GetValueAtPath<T, P extends string> = P extends `${infer K}.${infer Rest}`
 	? K extends keyof T
 		? GetValueAtPath<T[K], Rest>
@@ -80,71 +80,71 @@ type GetValueAtPath<T, P extends string> = P extends `${infer K}.${infer Rest}`
 			: never
 
 // ====================================
-// TYPE RETOUR INTELLIGENT DE LA FONCTION t()
+// SMART RETURN TYPE FOR t() FUNCTION
 // ====================================
 
-// Type de retour de la fonction t() selon le chemin
+// Return type of t() function based on the path
 export type TranslationReturn<K extends string> = K extends TranslationKey
 	? GetValueAtPath<EnglishDict, K> extends string
-		? string // Si c'est un string, retourner string
+		? string // If it's a string, return string
 		: GetValueAtPath<EnglishDict, K> extends object
-			? Readonly<GetValueAtPath<EnglishDict, K>> // Si c'est un objet, retourner readonly
-			: GetValueAtPath<EnglishDict, K> // Sinon retourner tel quel
+			? Readonly<GetValueAtPath<EnglishDict, K>> // If it's an object, return readonly
+			: GetValueAtPath<EnglishDict, K> // Otherwise return as is
 	: never
 
 // ====================================
-// FONCTION t() - SIGNATURES SURCHARGÉES
+// t() FUNCTION - OVERLOADED SIGNATURES
 // ====================================
 
-// Signature pour clés exactes sans interpolation
+// Signature for exact keys without interpolation
 export interface TFunction {
 	<K extends TranslationKey>(key: K): TranslationReturn<K>
 	<K extends TranslationKey>(
 		key: K,
 		variables: InterpolationVariables,
 	): TranslationReturn<K> extends string ? string : TranslationReturn<K>
-	// Signature pour clés dynamiques
+	// Signature for dynamic keys
 	(key: DynamicKey): string
 	(key: DynamicKey, variables: InterpolationVariables): string
 }
 
 // ====================================
-// TYPES DE VALIDATION POUR DICTIONNAIRES
+// VALIDATION TYPES FOR DICTIONARIES
 // ====================================
 
-// Type pour valider uniquement la structure des autres langues (pas le contenu)
+// Type to validate only the structure of other languages (not the content)
 type ValidateStructure<Expected> = Expected extends string
-	? string // N'importe quel string pour les valeurs traduites
+	? string // Any string for translated values
 	: Expected extends readonly (infer U)[]
-		? readonly ValidateStructure<U>[] // Même structure d'array
+		? readonly ValidateStructure<U>[] // Same array structure
 		: Expected extends object
 			? {
 					readonly [K in keyof Expected]: ValidateStructure<
 						Expected[K]
 					>
-				} // Même clés, valeurs traduites
-			: Expected // Autres types passent tel quel
+				} // Same keys, translated values
+			: Expected // Other types pass through as is
 
-// Type pour dictionnaire traduit (utilisé avec satisfies)
+// Type for translated dictionary (used with satisfies)
 export type TranslationDict = ValidateStructure<EnglishDict>
 
 // ====================================
-// UTILITAIRES POUR INTERPOLATION
+// INTERPOLATION UTILITIES
 // ====================================
 
-// Détecter les variables dans un string (ex: "Hello {name}")
+// Detect variables in a string (e.g., "Hello {name}")
 export type ExtractVariables<T extends string> =
 	T extends `${string}{${infer Var}}${infer Rest}`
 		? Var | ExtractVariables<Rest>
 		: never
 
-// Type pour variables requises dans une clé
+// Type for required variables in a key
 export type RequiredVariables<K extends TranslationKey> =
 	GetValueAtPath<EnglishDict, K> extends string
 		? ExtractVariables<GetValueAtPath<EnglishDict, K>>
 		: never
 
 // ====================================
-// TYPES D'EXPORT POUR L'API
+// EXPORT TYPES FOR API
 // ====================================
-// Tous les types sont déjà exportés individuellement ci-dessus
+// All types are already exported individually above

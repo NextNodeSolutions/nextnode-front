@@ -1,7 +1,7 @@
 // ====================================
-// INTÉGRATION ASTRO POUR LE SYSTÈME I18N
+// ASTRO INTEGRATION FOR I18N SYSTEM
 // ====================================
-// Fonctions et helpers pour utiliser l'i18n dans l'environnement Astro
+// Functions and helpers to use i18n in the Astro environment
 
 import { setGlobalLocale, createT } from './index'
 
@@ -45,7 +45,7 @@ export function initializeI18n(request: Request): {
 }
 
 // ====================================
-// HELPERS POUR COMPOSANTS ASTRO
+// HELPERS FOR ASTRO COMPONENTS
 // ====================================
 
 /**
@@ -78,7 +78,7 @@ export function getI18nForAPI(context: APIContext): {
 }
 
 // ====================================
-// HELPERS POUR URLS LOCALISÉES
+// HELPERS FOR LOCALIZED URLS
 // ====================================
 
 /**
@@ -130,7 +130,7 @@ export function getLocalizedPaths(path: string): Record<Locale, string> {
 }
 
 // ====================================
-// HELPERS POUR MÉTADONNÉES
+// HELPERS FOR METADATA
 // ====================================
 
 /**
@@ -197,7 +197,7 @@ export function getBrowserPreferredLocale(request: Request): Locale {
 }
 
 // ====================================
-// TYPES POUR MIDDLEWARE
+// TYPES FOR MIDDLEWARE
 // ====================================
 
 export interface I18nMiddlewareLocals {
