@@ -36,13 +36,14 @@ export const PricingFAQAccordion = ({
 						'hover:border-gray-300/60 hover:shadow-lg',
 						'dark:hover:border-gray-600/60',
 						'animate-fade-in-up opacity-0',
-						'mb-4 border-b-0 last:mb-0',
+						'mb-3 border-b-0 last:mb-0 sm:mb-4',
 					)}
 					style={{ animationDelay: `${(index + 1) * 100}ms` }}
 				>
 					<AccordionTrigger
 						className={cn(
-							'px-6 py-6 text-left text-lg font-semibold',
+							'px-4 py-4 text-left sm:px-6 sm:py-6',
+							'text-base font-semibold sm:text-lg',
 							'text-gray-900 dark:text-white',
 							'hover:no-underline',
 							'[&[data-state=open]>svg]:rotate-180',
@@ -50,8 +51,8 @@ export const PricingFAQAccordion = ({
 					>
 						{faq.question}
 					</AccordionTrigger>
-					<AccordionContent className="px-6 pb-6">
-						<p className="leading-relaxed text-gray-600 dark:text-gray-300">
+					<AccordionContent className="px-4 pb-4 sm:px-6 sm:pb-6">
+						<p className="text-sm leading-relaxed text-gray-600 sm:text-base dark:text-gray-300">
 							{faq.answer}
 						</p>
 					</AccordionContent>

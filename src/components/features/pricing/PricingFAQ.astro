@@ -12,14 +12,13 @@ const faqData = {
 }
 ---
 
-<section class="pt-2 pb-16 lg:pt-6 lg:pb-24">
+<section class="py-8 sm:py-12 md:py-16 lg:py-20">
 	<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
 		<!-- Section Header -->
-		<div class="mb-16 text-center">
+		<div class="mb-8 text-center sm:mb-12 lg:mb-16">
 			<h2
 				class={cn(
-					'text-3xl font-bold tracking-tight text-gray-900 dark:text-white',
-					'sm:text-4xl',
+					'text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white',
 					'opacity-0 animate-fade-in-up',
 				)}
 			>
@@ -33,12 +32,14 @@ const faqData = {
 		<!-- Additional CTA -->
 		<div
 			class={cn(
-				'mt-16 text-center',
+				'mt-8 sm:mt-12 lg:mt-16 text-center',
 				'opacity-0 animate-fade-in-up',
 				'animation-delay-800',
 			)}
 		>
-			<p class="mb-6 text-gray-600 dark:text-gray-300">
+			<p
+				class="mb-4 text-sm text-gray-600 sm:mb-6 sm:text-base dark:text-gray-300"
+			>
 				{t('pricing.faqContactText')}
 			</p>
 			<StartProjectModal
