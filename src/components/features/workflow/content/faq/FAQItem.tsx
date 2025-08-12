@@ -63,17 +63,17 @@ export const FAQItem = ({
 		>
 			{/* Question Header */}
 			<button
-				className="faq-header group/header flex w-full items-center justify-between px-6 py-6 text-left transition-all duration-200 hover:bg-gray-50 focus:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-inset dark:hover:bg-gray-700/50 dark:focus:bg-blue-900/20"
+				className="faq-header group/header flex w-full items-center justify-between px-4 py-4 text-left transition-all duration-200 hover:bg-gray-50 focus:bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:ring-inset sm:px-6 sm:py-6 dark:hover:bg-gray-700/50 dark:focus:bg-blue-900/20"
 				onClick={handleClick}
 				onKeyDown={handleKeyDown}
 				aria-expanded={isExpanded}
 				type="button"
 			>
-				<div className="flex min-w-0 flex-1 items-start gap-4">
+				<div className="flex min-w-0 flex-1 items-start gap-3 sm:gap-4">
 					{/* Category Icon */}
 					<div
 						className={cn(
-							'flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl text-xl transition-transform duration-200',
+							'flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl text-base transition-transform duration-200 sm:h-12 sm:w-12 sm:text-xl',
 							'bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30',
 							'group-focus-within:scale-110 group-hover:scale-110',
 						)}
@@ -82,17 +82,17 @@ export const FAQItem = ({
 					</div>
 
 					<div className="min-w-0 flex-1">
-						{/* Badges Row */}
-						<div className="mb-3 flex flex-wrap items-center gap-2">
+						{/* Badges Row - simplified on mobile */}
+						<div className="mb-2 flex flex-wrap items-center gap-1 sm:mb-3 sm:gap-2">
 							{/* Category Badge */}
-							<span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+							<span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 sm:px-3 sm:py-1 dark:bg-blue-900/30 dark:text-blue-300">
 								{categoryName}
 							</span>
 
-							{/* Difficulty Badge */}
+							{/* Difficulty Badge - hidden on mobile */}
 							<span
 								className={cn(
-									'inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium',
+									'hidden items-center gap-1 rounded-full px-3 py-1 text-xs font-medium sm:inline-flex',
 									difficultyConfig.bgClass,
 								)}
 							>
@@ -104,7 +104,7 @@ export const FAQItem = ({
 						</div>
 
 						{/* Question */}
-						<h3 className="text-lg leading-tight font-semibold text-gray-900 transition-colors duration-200 group-hover/header:text-blue-700 dark:text-white dark:group-hover/header:text-blue-300">
+						<h3 className="text-base leading-tight font-semibold text-gray-900 transition-colors duration-200 group-hover/header:text-blue-700 sm:text-lg dark:text-white dark:group-hover/header:text-blue-300">
 							{highlightedQuestion ? (
 								<span
 									dangerouslySetInnerHTML={{
@@ -148,8 +148,8 @@ export const FAQItem = ({
 						: 'max-h-0 opacity-0',
 				)}
 			>
-				<div className="border-t border-gray-100 px-6 py-6 dark:border-gray-700">
-					<div className="prose prose-sm dark:prose-invert ml-16 max-w-none text-gray-600 dark:text-gray-300">
+				<div className="border-t border-gray-100 px-4 py-4 sm:px-6 sm:py-6 dark:border-gray-700">
+					<div className="prose prose-sm dark:prose-invert ml-8 max-w-none text-gray-600 sm:ml-16 dark:text-gray-300">
 						{highlightedAnswer ? (
 							<div
 								dangerouslySetInnerHTML={{
@@ -167,8 +167,8 @@ export const FAQItem = ({
 
 					{/* Related Questions */}
 					{question.relatedIds && question.relatedIds.length > 0 && (
-						<div className="mt-6 ml-16 border-t border-gray-100 pt-4 dark:border-gray-700">
-							<h4 className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
+						<div className="mt-4 ml-8 border-t border-gray-100 pt-3 sm:mt-6 sm:ml-16 sm:pt-4 dark:border-gray-700">
+							<h4 className="mb-2 text-xs font-medium text-gray-900 sm:text-sm dark:text-white">
 								Related Questions:
 							</h4>
 							<div className="flex flex-wrap gap-2">
