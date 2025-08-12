@@ -59,17 +59,26 @@ const pageDescription = t('pricing.hero.subtitle')
 						)}
 					>
 						<!-- Business Plan -->
-						<PricingCard plan="business" animationDelay={300} />
+						<PricingCard
+							plan="business"
+							animationDelay={300}
+							className="order-2 lg:order-1"
+						/>
 
 						<!-- Starter Plan (Featured) -->
 						<PricingCard
 							plan="starter"
 							featured={true}
 							animationDelay={400}
+							className="order-1 lg:order-2"
 						/>
 
 						<!-- Enterprise Plan -->
-						<PricingCard plan="enterprise" animationDelay={500} />
+						<PricingCard
+							plan="enterprise"
+							animationDelay={500}
+							className="order-3 lg:order-3"
+						/>
 					</div>
 
 					<!-- What's Included Section -->

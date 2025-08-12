@@ -17,9 +17,15 @@ export interface Props {
 	plan: Plan
 	featured?: boolean
 	animationDelay?: number
+	className?: string
 }
 
-const { plan, featured = false, animationDelay = 0 } = Astro.props
+const {
+	plan,
+	featured = false,
+	animationDelay = 0,
+	className = '',
+} = Astro.props
 
 // Get plan data using translatePlan utility for proper typing
 const planData = translatePlan(plan)
@@ -45,6 +51,8 @@ const cssVars = getPlanCSSVars(plan)
 		],
 		// Responsive padding
 		PRICING_CARD_CLASSES.content.padding,
+		// Custom className for ordering
+		className,
 	)}
 	style={{
 		animationDelay: animationDelay > 0 ? `${animationDelay}ms` : undefined,
