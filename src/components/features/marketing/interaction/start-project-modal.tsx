@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 
 import { cn } from '@/lib/core/utils'
-import { useI18n } from '@/lib/i18n/i18n-client'
+import { useI18n } from '@/lib/i18n/react'
 import { Button } from '@/components/ui/forms/button'
 import { PLAN_THEMES, type PlanType } from '@/lib/ui/pricing-constants'
 
 import { StartProjectModalContent } from './StartProjectModalContent'
 
+import type { Locale } from '@/lib/i18n/types'
+
+
 interface StartProjectModalProps {
 	className?: string
-	locale?: string
+	locale?: Locale
 	buttonText?: string
 	plan?: PlanType
 }
