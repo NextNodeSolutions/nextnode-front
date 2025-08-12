@@ -1,7 +1,7 @@
 import { defineMiddleware, sequence } from 'astro:middleware'
 
 import { ApplicationMetrics } from './lib/core/metrics'
-import { initI18n } from './lib/i18n/i18n-server'
+import { initializeI18n } from './lib/i18n/astro'
 
 // Middleware for intelligent URL mapping with locale handling
 const urlMappingMiddleware = defineMiddleware(async (context, next) => {
@@ -55,23 +55,14 @@ const urlMappingMiddleware = defineMiddleware(async (context, next) => {
 const metricsMiddleware = defineMiddleware(async (context, next) => {
 	const { request } = context
 
-	// Get language from URL path (manual routing)
-	const url = new URL(request.url)
-	const pathname = url.pathname
-	let currentLang = 'en' // default
+	// Initialize new i18n system
+	const { locale, t } = initializeI18n(request)
 
-	if (pathname.startsWith('/fr/')) {
-		currentLang = 'fr'
-	} else if (pathname.startsWith('/en/')) {
-		currentLang = 'en'
-	}
-
-	// Initialize i18n with detected language
-	await initI18n(request, currentLang)
-
-	// Store language in context for components to access
-	context.locals.lang = currentLang
+	// Store i18n context in locals for components to access
+	context.locals.locale = locale
+	context.locals.t = t
 	const startTime = Date.now()
+	const url = new URL(request.url)
 
 	// Log incoming requests for debugging
 	console.log(`${request.method} ${url.pathname}`)

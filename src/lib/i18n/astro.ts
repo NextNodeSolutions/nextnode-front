@@ -1,0 +1,221 @@
+// ====================================
+// INTÉGRATION ASTRO POUR LE SYSTÈME I18N
+// ====================================
+// Fonctions et helpers pour utiliser l'i18n dans l'environnement Astro
+
+import { setGlobalLocale, createT } from './index'
+
+import type { APIContext } from 'astro'
+import type { Locale, TFunction } from './types'
+
+// ====================================
+// DÉTECTION DE LA LOCALE
+// ====================================
+
+/**
+ * Extract locale from Astro URL path
+ * /en/page → 'en', /fr/page → 'fr', /page → 'en' (default)
+ */
+export function getLocaleFromPath(pathname: string): Locale {
+	if (pathname.startsWith('/fr/') || pathname === '/fr') {
+		return 'fr'
+	}
+	// Default to English for all other paths (/en/ or no locale prefix)
+	return 'en'
+}
+
+/**
+ * Initialize i18n system for server-side rendering
+ * This should be called in middleware or at the beginning of Astro components
+ */
+export function initializeI18n(request: Request): {
+	locale: Locale
+	t: TFunction
+} {
+	const url = new URL(request.url)
+	const locale = getLocaleFromPath(url.pathname)
+
+	// Set the global locale for server-side rendering
+	setGlobalLocale(locale)
+
+	// Create and return a locale-specific t function
+	const t = createT(locale)
+
+	return { locale, t }
+}
+
+// ====================================
+// HELPERS POUR COMPOSANTS ASTRO
+// ====================================
+
+/**
+ * Get locale and t function from Astro context
+ * Usage in .astro files:
+ *
+ * ```astro
+ * ---
+ * import { getI18nFromContext } from '../lib/i18n/astro'
+ * const { locale, t } = getI18nFromContext(Astro.request)
+ * ---
+ * <h1>{t('home.hero.title')}</h1>
+ * ```
+ */
+export function getI18nFromContext(request: Request): {
+	locale: Locale
+	t: TFunction
+} {
+	return initializeI18n(request)
+}
+
+/**
+ * Helper for API routes to get i18n context
+ */
+export function getI18nForAPI(context: APIContext): {
+	locale: Locale
+	t: TFunction
+} {
+	return initializeI18n(context.request)
+}
+
+// ====================================
+// HELPERS POUR URLS LOCALISÉES
+// ====================================
+
+/**
+ * Get the alternate locale for a given locale
+ */
+export function getAlternateLocale(currentLocale: Locale): Locale {
+	return currentLocale === 'en' ? 'fr' : 'en'
+}
+
+/**
+ * Convert a path to its localized version
+ * Examples:
+ * - pathToLocalized('en', '/about') → '/en/about'
+ * - pathToLocalized('fr', '/about') → '/fr/about'
+ * - pathToLocalized('en', '/') → '/en/'
+ */
+export function pathToLocalized(locale: Locale, path: string): string {
+	// Ensure path starts with /
+	if (!path.startsWith('/')) {
+		path = `/${path}`
+	}
+
+	// Remove existing locale prefix if any
+	const cleanPath = path.replace(/^\/(en|fr)(\/|$)/, '/')
+
+	// Add locale prefix
+	return `/${locale}${cleanPath === '/' ? '/' : cleanPath}`
+}
+
+/**
+ * Remove locale prefix from a path
+ * Examples:
+ * - removeLocalePrefix('/en/about') → '/about'
+ * - removeLocalePrefix('/fr/contact') → '/contact'
+ * - removeLocalePrefix('/about') → '/about'
+ */
+export function removeLocalePrefix(path: string): string {
+	return path.replace(/^\/(en|fr)(\/|$)/, '/')
+}
+
+/**
+ * Get all localized versions of a path
+ */
+export function getLocalizedPaths(path: string): Record<Locale, string> {
+	return {
+		en: pathToLocalized('en', path),
+		fr: pathToLocalized('fr', path),
+	}
+}
+
+// ====================================
+// HELPERS POUR MÉTADONNÉES
+// ====================================
+
+/**
+ * Generate hreflang links for SEO
+ * Usage in Astro Layout:
+ *
+ * ```astro
+ * ---
+ * import { getHrefLangLinks } from '../lib/i18n/astro'
+ * const hrefLangLinks = getHrefLangLinks(Astro.request)
+ * ---
+ * <head>
+ *   {hrefLangLinks.map(link =>
+ *     <link rel="alternate" hreflang={link.hreflang} href={link.href} />
+ *   )}
+ * </head>
+ * ```
+ */
+export function getHrefLangLinks(request: Request): Array<{
+	hreflang: string
+	href: string
+}> {
+	const url = new URL(request.url)
+	const currentPath = removeLocalePrefix(url.pathname)
+
+	return [
+		{
+			hreflang: 'en',
+			href: `${url.origin}${pathToLocalized('en', currentPath)}`,
+		},
+		{
+			hreflang: 'fr',
+			href: `${url.origin}${pathToLocalized('fr', currentPath)}`,
+		},
+		{
+			hreflang: 'x-default',
+			href: `${url.origin}${pathToLocalized('en', currentPath)}`,
+		},
+	]
+}
+
+// ====================================
+// VALIDATION ET UTILITAIRES
+// ====================================
+
+/**
+ * Check if a string is a valid locale
+ */
+export function isValidLocale(locale: string): locale is Locale {
+	return locale === 'en' || locale === 'fr'
+}
+
+/**
+ * Get browser preferred language from Accept-Language header
+ * Fallback to 'en' if not supported
+ */
+export function getBrowserPreferredLocale(request: Request): Locale {
+	const acceptLanguage = request.headers.get('accept-language')
+	if (!acceptLanguage) return 'en'
+
+	// Simple check for French preference
+	if (acceptLanguage.includes('fr')) return 'fr'
+	return 'en'
+}
+
+// ====================================
+// TYPES POUR MIDDLEWARE
+// ====================================
+
+export interface I18nMiddlewareLocals {
+	locale: Locale
+	t: TFunction
+}
+
+// Extend Astro's locals type
+declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
+	namespace App {
+		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+		interface Locals extends I18nMiddlewareLocals {}
+	}
+}
+
+// ====================================
+// TYPES EXPORTS
+// ====================================
+
+export type { Locale, TFunction }
