@@ -46,10 +46,40 @@ export const FAQCategoryFilter = ({
 
 	const isAllSelected = selectedCategories.includes('all')
 
+	// Get current selected category for mobile dropdown
+	const getSelectedCategoryId = (): FAQCategoryId => {
+		if (isAllSelected || selectedCategories.length === 0) return 'all'
+		// For mobile, show first selected category
+		return selectedCategories[0] || 'all'
+	}
+
 	return (
 		<div className={cn('mb-8', className)}>
-			{/* Filter Controls */}
-			<div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+			{/* Mobile Dropdown */}
+			<div className="md:hidden">
+				<label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+					Filter by Category
+				</label>
+				<select
+					className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+					value={getSelectedCategoryId()}
+					onChange={e =>
+						onCategoryToggle(e.target.value as FAQCategoryId)
+					}
+				>
+					{categories.map(category => {
+						const count = categoryStats.get(category.id) || 0
+						return (
+							<option key={category.id} value={category.id}>
+								{category.icon} {category.name} ({count})
+							</option>
+						)
+					})}
+				</select>
+			</div>
+
+			{/* Desktop Buttons */}
+			<div className="mb-6 hidden flex-wrap items-center justify-between gap-4 md:flex">
 				<div className="flex flex-wrap items-center gap-3">
 					{categories.map(category => {
 						const selected = isSelected(category.id)
