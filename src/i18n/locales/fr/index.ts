@@ -9,7 +9,7 @@ import { modal } from './components/modal'
 import { footer } from './components/footer'
 import { faq } from './components/faq'
 
-import type { TranslationDict } from '../../types'
+import type { TranslationDict } from '../../../lib/i18n/types'
 
 export const fr = {
 	common,

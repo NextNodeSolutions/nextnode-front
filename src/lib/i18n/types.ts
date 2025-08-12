@@ -36,12 +36,18 @@ type ExtractPaths<T, Prefix extends string = ''> = T extends string
 	: T extends readonly (infer U)[]
 		? // Support des arrays avec indices numériques
 			| (Prefix extends '' ? never : Prefix)
-			| ExtractPaths<U, Prefix extends '' ? `${number}` : `${Prefix}.${number}`>
+				| ExtractPaths<
+						U,
+						Prefix extends '' ? `${number}` : `${Prefix}.${number}`
+				  >
 		: T extends object
 			? {
 					[K in keyof T]: K extends string
 						? T[K] extends object
-							? ExtractPaths<T[K], Prefix extends '' ? K : `${Prefix}.${K}`>
+							? ExtractPaths<
+									T[K],
+									Prefix extends '' ? K : `${Prefix}.${K}`
+								>
 							: Prefix extends ''
 								? K
 								: `${Prefix}.${K}`
@@ -106,43 +112,21 @@ export interface TFunction {
 // TYPES DE VALIDATION POUR DICTIONNAIRES
 // ====================================
 
-// Type pour valider la structure des autres langues
-export type ValidateTranslationDict<T> = {
-	readonly [K in keyof EnglishDict]: ValidateValue<EnglishDict[K], T[K]>
-}
-
-// Valider récursivement les valeurs
-type ValidateValue<Expected, Actual> = Expected extends string
-	? Actual extends string
-		? Actual
-		: never
+// Type pour valider uniquement la structure des autres langues (pas le contenu)
+type ValidateStructure<Expected> = Expected extends string
+	? string // N'importe quel string pour les valeurs traduites
 	: Expected extends readonly (infer U)[]
-		? Actual extends readonly (infer V)[]
-			? ValidateArray<U, V>
-			: never
+		? readonly ValidateStructure<U>[] // Même structure d'array
 		: Expected extends object
-			? Actual extends object
-				? {
-						readonly [K in keyof Expected]: ValidateValue<Expected[K], Actual[K]>
-					}
-				: never
-			: never
-
-// Valider les arrays
-type ValidateArray<ExpectedItem, ActualItem> = ExpectedItem extends string
-	? ActualItem extends string
-		? readonly ActualItem[]
-		: never
-	: ExpectedItem extends object
-		? ActualItem extends object
-			? readonly {
-					[K in keyof ExpectedItem]: ValidateValue<ExpectedItem[K], ActualItem[K]>
-				}[]
-			: never
-		: never
+			? {
+					readonly [K in keyof Expected]: ValidateStructure<
+						Expected[K]
+					>
+				} // Même clés, valeurs traduites
+			: Expected // Autres types passent tel quel
 
 // Type pour dictionnaire traduit (utilisé avec satisfies)
-export type TranslationDict = ValidateTranslationDict<EnglishDict>
+export type TranslationDict = ValidateStructure<EnglishDict>
 
 // ====================================
 // UTILITAIRES POUR INTERPOLATION
@@ -163,20 +147,4 @@ export type RequiredVariables<K extends TranslationKey> =
 // ====================================
 // TYPES D'EXPORT POUR L'API
 // ====================================
-
-export type {
-	// Types principaux
-	EnglishDict,
-	TranslationKey,
-	TranslationReturn,
-	TFunction,
-	// Types pour variables
-	InterpolationVariables,
-	RequiredVariables,
-	// Types pour validation
-	TranslationDict,
-	ValidateTranslationDict,
-	// Utilitaires
-	DynamicKey,
-	Locale,
-}
+// Tous les types sont déjà exportés individuellement ci-dessus
