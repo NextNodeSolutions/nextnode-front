@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { cn } from '@/lib/core/utils'
 import {
@@ -31,6 +31,8 @@ export const FAQCategoryFilter = ({
 	hasActiveFilters,
 	className,
 }: FAQCategoryFilterProps): ReactNode => {
+	const [isSelectOpen, setIsSelectOpen] = useState(false)
+
 	const categoryStats = useMemo((): Map<FAQCategoryId, number> => {
 		const stats = new Map<FAQCategoryId, number>()
 
@@ -92,10 +94,13 @@ export const FAQCategoryFilter = ({
 				</label>
 				<Select
 					value={getSelectedCategoryId()}
+					open={isSelectOpen}
+					onOpenChange={setIsSelectOpen}
 					onValueChange={value => {
 						const categoryId = value as FAQCategoryId
-						// Toujours toggler, même si déjà sélectionné
 						onCategoryToggle(categoryId)
+						// Keep dropdown open for multi-selection
+						setIsSelectOpen(true)
 					}}
 				>
 					<SelectTrigger className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400">
@@ -112,32 +117,35 @@ export const FAQCategoryFilter = ({
 									key={category.id}
 									value={category.id}
 									className={cn(
+										'relative',
 										selected &&
 											'bg-blue-50 font-medium text-blue-900 dark:bg-blue-900/20 dark:text-blue-300',
+										selected &&
+											'border-l-4 border-blue-500 pl-4',
 									)}
 								>
-									<div className="flex w-full items-center justify-between">
-										<span className="flex items-center gap-2">
-											<span className="text-base">
-												{category.icon}
-											</span>
-											<span>{category.name}</span>
-											<span
-												className={cn(
-													'rounded-full px-1.5 py-0.5 text-xs',
-													selected
-														? 'bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200'
-														: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
-												)}
-											>
-												{count}
-											</span>
+									<div className="flex w-full items-center gap-2">
+										<span
+											className={cn(
+												'text-base transition-all duration-200',
+												selected && 'scale-110',
+											)}
+										>
+											{category.icon}
 										</span>
-										{selected && (
-											<span className="text-blue-600 dark:text-blue-400">
-												✓
-											</span>
-										)}
+										<span className="flex-1">
+											{category.name}
+										</span>
+										<span
+											className={cn(
+												'rounded-full px-1.5 py-0.5 text-xs font-medium transition-all duration-200',
+												selected
+													? 'bg-blue-500 text-white shadow-sm'
+													: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
+											)}
+										>
+											{count}
+										</span>
 									</div>
 								</SelectItem>
 							)
@@ -211,9 +219,9 @@ export const FAQCategoryFilter = ({
 				)}
 			</div>
 
-			{/* Active Filters Summary */}
+			{/* Active Filters Summary - Only show on mobile */}
 			{!isAllSelected && selectedCategories.length > 0 && (
-				<div className="mt-4 flex flex-col gap-3 text-sm text-gray-600 md:flex-row md:items-center md:gap-3 dark:text-gray-400">
+				<div className="mt-4 flex flex-col gap-3 text-sm text-gray-600 md:hidden dark:text-gray-400">
 					<span className="font-medium">Active filters:</span>
 					<div className="flex flex-wrap gap-2">
 						{selectedCategories.map(categoryId => {
