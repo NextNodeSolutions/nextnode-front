@@ -10,7 +10,7 @@ export const translations = {
 }
 
 // Constants moved from the old system
-export const SUPPORTED_LOCALES = ['en', 'fr'] as const
+export const SUPPORTED_LOCALES: readonly Locale[] = ['en', 'fr']
 export const DEFAULT_LOCALE: Locale = 'en'
 
 export const languages = [

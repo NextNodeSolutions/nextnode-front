@@ -9,6 +9,10 @@ import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '../../i18n/config'
 import type { Locale } from './types'
 import type { ReactNode } from 'react'
 
+function isValidLocale(locale: string): locale is Locale {
+	return (SUPPORTED_LOCALES as readonly string[]).includes(locale)
+}
+
 interface ContextProviderProps {
 	children: ReactNode
 }
@@ -21,10 +25,9 @@ export function ContextProvider({ children }: ContextProviderProps): ReactNode {
 	// Get locale from global window variable set by BaseLayout
 	const getLocale = (): Locale => {
 		if (typeof window !== 'undefined' && window.currentLocale) {
-			// Dynamically validate the locale value using SUPPORTED_LOCALES
 			const currentLocale = window.currentLocale
-			if (SUPPORTED_LOCALES.includes(currentLocale as Locale)) {
-				return currentLocale as Locale
+			if (isValidLocale(currentLocale)) {
+				return currentLocale
 			}
 		}
 		return DEFAULT_LOCALE
