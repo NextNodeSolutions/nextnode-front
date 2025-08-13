@@ -60,6 +60,29 @@ export const FAQCategoryFilter = ({
 		return selectedCategories[0] || 'all'
 	}
 
+	// Get display text for SelectValue
+	const getSelectDisplayText = (): string => {
+		if (isAllSelected || selectedCategories.length === 0) {
+			const allCategory = categories.find(c => c.id === 'all')
+			const count = categoryStats.get('all') || 0
+			return allCategory
+				? `${allCategory.icon} ${allCategory.name} (${count})`
+				: 'All categories'
+		}
+
+		if (selectedCategories.length === 1 && selectedCategories[0]) {
+			const categoryId = selectedCategories[0]
+			const category = categories.find(c => c.id === categoryId)
+			const count = categoryStats.get(categoryId) || 0
+			return category
+				? `${category.icon} ${category.name} (${count})`
+				: 'Select category...'
+		}
+
+		// Multiple categories selected
+		return `🔍 ${selectedCategories.length} catégories sélectionnées`
+	}
+
 	return (
 		<div className={cn('mb-8', className)}>
 			{/* Mobile Dropdown */}
@@ -69,33 +92,53 @@ export const FAQCategoryFilter = ({
 				</label>
 				<Select
 					value={getSelectedCategoryId()}
-					onValueChange={value =>
-						onCategoryToggle(value as FAQCategoryId)
-					}
+					onValueChange={value => {
+						const categoryId = value as FAQCategoryId
+						// Toujours toggler, même si déjà sélectionné
+						onCategoryToggle(categoryId)
+					}}
 				>
 					<SelectTrigger className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400">
-						<SelectValue>
-							{((): string => {
-								const selectedId = getSelectedCategoryId()
-								const category = categories.find(
-									c => c.id === selectedId,
-								)
-								const count = categoryStats.get(selectedId) || 0
-								return category
-									? `${category.icon} ${category.name} (${count})`
-									: 'Select category...'
-							})()}
-						</SelectValue>
+						<SelectValue>{getSelectDisplayText()}</SelectValue>
 					</SelectTrigger>
 					<SelectContent>
 						{categories.map(category => {
 							const count = categoryStats.get(category.id) || 0
+							const selected =
+								isSelected(category.id) ||
+								(isAllSelected && category.id === 'all')
 							return (
 								<SelectItem
 									key={category.id}
 									value={category.id}
+									className={cn(
+										selected &&
+											'bg-blue-50 font-medium text-blue-900 dark:bg-blue-900/20 dark:text-blue-300',
+									)}
 								>
-									{category.icon} {category.name} ({count})
+									<div className="flex w-full items-center justify-between">
+										<span className="flex items-center gap-2">
+											<span className="text-base">
+												{category.icon}
+											</span>
+											<span>{category.name}</span>
+											<span
+												className={cn(
+													'rounded-full px-1.5 py-0.5 text-xs',
+													selected
+														? 'bg-blue-200 text-blue-800 dark:bg-blue-800 dark:text-blue-200'
+														: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
+												)}
+											>
+												{count}
+											</span>
+										</span>
+										{selected && (
+											<span className="text-blue-600 dark:text-blue-400">
+												✓
+											</span>
+										)}
+									</div>
 								</SelectItem>
 							)
 						})}
