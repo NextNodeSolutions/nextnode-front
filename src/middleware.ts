@@ -22,8 +22,8 @@ const urlMappingMiddleware = defineMiddleware(async (context, next) => {
 	const isInternalNavigation = referer && referer.includes(url.origin)
 
 	// Get user's language preference from cookie
-	const languageCookie = context.cookies.get('language')
-	const preferredLang = languageCookie?.value || 'en'
+	const preferredLocaleCookie = context.cookies.get('preferred-locale')
+	const preferredLang = preferredLocaleCookie?.value || 'en'
 
 	// Handle French URLs - always pass through
 	if (pathname.startsWith('/fr/')) {

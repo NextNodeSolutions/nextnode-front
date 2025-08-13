@@ -137,7 +137,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
 				changeLanguage(newLang: string) {
 					// Set cookie for preference
-					document.cookie = `language=${newLang}; path=/; max-age=31536000` // 1 year
+					document.cookie = `preferred-locale=${newLang}; path=/; max-age=31536000` // 1 year
 
 					// Build new URL using proper locale logic (mimicking getRelativeLocaleUrl)
 					const currentPath = window.location.pathname

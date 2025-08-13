@@ -98,9 +98,9 @@ export function useI18n(): UseI18nReturn {
 			setIsLoading(true)
 			setLocaleState(newLocale)
 
-			// Store preference in localStorage
+			// Store preference in cookie only
 			if (typeof window !== 'undefined') {
-				localStorage.setItem('preferred-locale', newLocale)
+				document.cookie = `preferred-locale=${newLocale}; path=/; max-age=31536000` // 1 year
 
 				// Navigate to new locale if requested
 				if (navigate) {
@@ -210,11 +210,17 @@ export function usePreferredLocale(): {
 	)
 
 	useEffect(() => {
-		// Load from localStorage on mount
+		// Load from cookie on mount
 		if (typeof window !== 'undefined') {
-			const stored = localStorage.getItem('preferred-locale')
-			if (stored === 'en' || stored === 'fr') {
-				setPreferredLocaleState(stored)
+			const cookies = document.cookie.split('; ')
+			const preferredLocaleCookie = cookies.find(row =>
+				row.startsWith('preferred-locale='),
+			)
+			if (preferredLocaleCookie) {
+				const stored = preferredLocaleCookie.split('=')[1]
+				if (stored === 'en' || stored === 'fr') {
+					setPreferredLocaleState(stored)
+				}
 			}
 		}
 	}, [])
@@ -222,18 +228,16 @@ export function usePreferredLocale(): {
 	const setPreferredLocale = useCallback((locale: Locale) => {
 		setPreferredLocaleState(locale)
 		if (typeof window !== 'undefined') {
-			localStorage.setItem('preferred-locale', locale)
-			// Also set cookie for server-side detection
-			document.cookie = `language=${locale}; path=/; max-age=31536000` // 1 year
+			// Set cookie for server-side detection
+			document.cookie = `preferred-locale=${locale}; path=/; max-age=31536000` // 1 year
 		}
 	}, [])
 
 	const clearPreference = useCallback(() => {
 		setPreferredLocaleState(null)
 		if (typeof window !== 'undefined') {
-			localStorage.removeItem('preferred-locale')
 			document.cookie =
-				'language=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+				'preferred-locale=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
 		}
 	}, [])
 
@@ -313,9 +317,9 @@ export function I18nProvider({
 
 			setLocaleState(newLocale)
 
-			// Store preference in localStorage
+			// Store preference in cookie only
 			if (typeof window !== 'undefined') {
-				localStorage.setItem('preferred-locale', newLocale)
+				document.cookie = `preferred-locale=${newLocale}; path=/; max-age=31536000` // 1 year
 
 				// Navigate to new locale if requested
 				if (navigate) {

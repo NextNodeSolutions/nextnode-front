@@ -4,6 +4,7 @@
 // Functions and helpers to use i18n in the Astro environment
 
 import { setGlobalLocale, createT } from './index'
+import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '../../i18n/config'
 
 import type { APIContext } from 'astro'
 import type { Locale, TFunction } from './types'
@@ -13,15 +14,19 @@ import type { Locale, TFunction } from './types'
 // ====================================
 
 /**
- * Extract locale from Astro URL path
- * /en/page → 'en', /fr/page → 'fr', /page → 'en' (default)
+ * Extract locale from Astro URL path - Dynamic detection
+ * /en/page → 'en', /fr/page → 'fr', /es/page → 'es', /page → default locale
+ * Automatically supports any locale defined in SUPPORTED_LOCALES
  */
 export function getLocaleFromPath(pathname: string): Locale {
-	if (pathname.startsWith('/fr/') || pathname === '/fr') {
-		return 'fr'
+	// Check each supported locale
+	for (const locale of SUPPORTED_LOCALES) {
+		if (pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`) {
+			return locale
+		}
 	}
-	// Default to English for all other paths (/en/ or no locale prefix)
-	return 'en'
+	// Default to DEFAULT_LOCALE for all other paths
+	return DEFAULT_LOCALE
 }
 
 /**
