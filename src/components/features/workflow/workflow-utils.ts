@@ -1,4 +1,4 @@
-import { createT } from '@/lib/i18n'
+import { t } from '@/lib/i18n'
 
 import {
 	STEP_CONFIG,
@@ -8,13 +8,11 @@ import {
 	type StepConfig,
 } from './workflow-constants'
 
-import type { Locale } from '@/lib/i18n/types'
 import type { TranslationKey } from '@/i18n/types'
 
 // Utility function to generate step data with translations
-export const generateSteps = (locale: Locale = 'en'): Step[] => {
-	const t = createT(locale)
-	return STEP_KEYS.map(key => {
+export const generateSteps = (): Step[] =>
+	STEP_KEYS.map(key => {
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
@@ -28,14 +26,10 @@ export const generateSteps = (locale: Locale = 'en'): Step[] => {
 			icon: config.icon,
 		}
 	})
-}
 
 // Utility function to generate detailed steps for how-we-work.astro
-export const generateDetailedSteps = (
-	locale: Locale = 'en',
-): DetailedStep[] => {
-	const t = createT(locale)
-	return STEP_KEYS.map(key => {
+export const generateDetailedSteps = (): DetailedStep[] =>
+	STEP_KEYS.map(key => {
 		const config = STEP_CONFIG[key]
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
@@ -61,7 +55,6 @@ export const generateDetailedSteps = (
 			icon: config.icon,
 		}
 	})
-}
 
 // Utility function to get step configuration by key
 export const getStepConfig = (key: string): StepConfig => {

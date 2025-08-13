@@ -26,17 +26,16 @@ import { STEP_COLORS } from '@/components/features/workflow/workflow-constants'
 const pageTitle = generatePageTitle(
 	'howWeWork.hero.title',
 	'howWeWork.hero.titleHighlight',
-	locale,
 )
 const pageDescription = t('howWeWork.hero.description')
 
 // Workflow steps with all data
-const steps = generateDetailedSteps(locale)
-const simpleSteps = generateSteps(locale)
+const steps = generateDetailedSteps()
+const simpleSteps = generateSteps()
 
 // FAQ data
-const faqQuestions = getFAQQuestions(locale)
-const faqCategories = getFAQCategories(locale)
+const faqQuestions = getFAQQuestions()
+const faqCategories = getFAQCategories()
 
 // Pre-calculate FAQ translations for client-side hydration
 const faqTranslations = {
