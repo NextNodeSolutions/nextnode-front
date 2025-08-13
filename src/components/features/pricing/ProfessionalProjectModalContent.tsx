@@ -8,22 +8,18 @@ import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
 import { FormField, FormGrid } from '@/components/ui/forms/FormField'
 import { Select } from '@/components/ui/forms/select'
 
-import type { Locale } from '@/lib/i18n/types'
-
 interface ProfessionalProjectModalContentProps {
 	isOpen: boolean
 	onClose: () => void
-	locale?: Locale
 	plan: 'business' | 'enterprise'
 }
 
 export const ProfessionalProjectModalContent = ({
 	isOpen,
 	onClose,
-	locale,
 	plan,
 }: ProfessionalProjectModalContentProps): React.ReactElement => {
-	const { t } = useI18n(locale)
+	const { t } = useI18n()
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',

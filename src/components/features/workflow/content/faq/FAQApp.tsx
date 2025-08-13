@@ -7,7 +7,7 @@ import type { ReactNode } from 'react'
 import type { FAQQuestion, FAQCategory } from './types'
 
 interface FAQTranslations {
-	searchPlaceholder: string
+	placeholder: string
 	searchTips: string
 	questionsCount: string
 	showingResults: string

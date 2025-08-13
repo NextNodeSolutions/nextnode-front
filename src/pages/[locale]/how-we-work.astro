@@ -35,15 +35,7 @@ const faqQuestions = getFAQQuestions()
 const faqCategories = getFAQCategories()
 
 // Pre-calculate FAQ translations for client-side hydration
-const faqTranslations = {
-	searchPlaceholder: t('howWeWork.faqSearch.placeholder'),
-	searchTips: t('howWeWork.faqSearch.searchTips'),
-	questionsCount: t('howWeWork.faqSearch.questionsCount'),
-	showingResults: t('howWeWork.faqSearch.showingResults'),
-	showingTotal: t('howWeWork.faqSearch.showingTotal'),
-	noResults: t('howWeWork.faqSearch.noResults'),
-	helpText: t('howWeWork.faqSearch.helpText'),
-}
+const faqTranslations = t('howWeWork.faqSearch')
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>

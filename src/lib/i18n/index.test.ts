@@ -48,24 +48,18 @@ describe('Système i18n', () => {
 	})
 
 	describe('Nested objects', () => {
-		it('should return an object for a partial key', () => {
+		it('should return an object for nested keys', () => {
 			const tEn = createT('en')
-			const result = tEn('home.hero') as unknown as Record<
-				string,
-				unknown
-			>
+			const result = tEn('home.hero')
 
-			expect(typeof result).toBe('object')
-			expect(result.title).toBe('YOUR NEXT')
-			expect(result.titleHighlight).toBe('BREAKTHROUGH')
+			expect(result).toBeTypeOf('object')
+			expect(result).toHaveProperty('title', 'YOUR NEXT')
+			expect(result).toHaveProperty('titleHighlight', 'BREAKTHROUGH')
 		})
 
 		it('should return the complete section', () => {
 			const tEn = createT('en')
-			const result = tEn('common.navigation') as unknown as Record<
-				string,
-				unknown
-			>
+			const result = tEn('common.navigation')
 
 			expect(typeof result).toBe('object')
 			expect(result.home).toBe('Home')
@@ -83,11 +77,13 @@ describe('Système i18n', () => {
 
 		it('should return the entire array', () => {
 			const tEn = createT('en')
-			const result = tEn('common.examples.messages') as readonly string[]
+			const result = tEn('common.examples.messages')
 
 			expect(Array.isArray(result)).toBe(true)
-			expect(result[0]).toBe('Welcome {name}!')
-			expect(result.length).toBe(3)
+			if (Array.isArray(result)) {
+				expect(result[0]).toBe('Welcome {name}!')
+				expect(result.length).toBe(3)
+			}
 		})
 	})
 

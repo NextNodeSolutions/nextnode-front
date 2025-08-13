@@ -70,13 +70,21 @@ export function getNestedValue<T = unknown>(
 		}
 
 		// Normal object navigation
-		if (typeof current === 'object' && current !== null) {
-			current = (current as Record<string, unknown>)[key]
+		if (
+			typeof current === 'object' &&
+			current !== null &&
+			!Array.isArray(current)
+		) {
+			// Type assertion needed for dynamic object navigation
+			const obj = current as Record<string, unknown>
+			current = obj[key]
 		} else {
 			return undefined
 		}
 	}
 
+	// Type assertion needed for the return type as TypeScript cannot infer
+	// the exact type from dynamic path navigation
 	return current as T
 }
 

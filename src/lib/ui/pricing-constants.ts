@@ -3,6 +3,8 @@
  * Centralized configuration for consistent theming across pricing components
  */
 
+import type { Plan } from '../types/plans'
+
 export const PLAN_THEMES = {
 	starter: {
 		name: 'starter',
@@ -42,13 +44,13 @@ export const PLAN_THEMES = {
 	},
 } as const
 
-export type PlanType = keyof typeof PLAN_THEMES
+export type { Plan as PlanType } from '../types/plans'
 
 /**
  * CSS custom properties for plan themes
  * Can be used in CSS for dynamic theming
  */
-export function getPlanCSSVars(plan: PlanType): Record<string, string> {
+export function getPlanCSSVars(plan: Plan): Record<string, string> {
 	const theme = PLAN_THEMES[plan]
 	return {
 		'--plan-primary': theme.colors.primary,

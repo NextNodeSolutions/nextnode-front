@@ -50,8 +50,11 @@ const translationCache = new Map<string, unknown>()
 export function createT(locale: Locale): TFunction {
 	const dictionary = dictionaries[locale]
 
-	// Implementation of t() function with overloads
-	function t(key: string, variables?: InterpolationVariables): unknown {
+	// Implementation function - core logic
+	function getTranslation(
+		key: string,
+		variables?: InterpolationVariables,
+	): unknown {
 		// Cache handling
 		const cacheKey = createCacheKey(locale, key, variables)
 		if (translationCache.has(cacheKey)) {
@@ -90,8 +93,27 @@ export function createT(locale: Locale): TFunction {
 		return result
 	}
 
-	// Cast to TFunction for TypeScript types
-	return t as TFunction
+	// Return function that exactly matches TFunction interface
+	function translatorFn<K extends TranslationKey>(
+		key: K,
+	): TranslationReturn<K>
+	function translatorFn<K extends TranslationKey>(
+		key: K,
+		variables: InterpolationVariables,
+	): TranslationReturn<K> extends string ? string : TranslationReturn<K>
+	function translatorFn(key: string): unknown
+	function translatorFn(
+		key: string,
+		variables: InterpolationVariables,
+	): unknown
+	function translatorFn(
+		key: string,
+		variables?: InterpolationVariables,
+	): unknown {
+		return getTranslation(key, variables)
+	}
+
+	return translatorFn
 }
 
 // ====================================
@@ -114,27 +136,18 @@ export function setGlobalLocale(locale: Locale): void {
  * Global t() function - uses current locale defined by middleware
  * Can be used anywhere in the application
  */
-// Static keys - proper typing
 export function t<K extends TranslationKey>(key: K): TranslationReturn<K>
 export function t<K extends TranslationKey>(
 	key: K,
 	variables: InterpolationVariables,
 ): TranslationReturn<K> extends string ? string : TranslationReturn<K>
-// Dynamic keys and fallback - return unknown for safety
 export function t(key: string): unknown
 export function t(key: string, variables: InterpolationVariables): unknown
-export function t<K extends string = string>(
-	key: K,
-	variables?: InterpolationVariables,
-): K extends TranslationKey ? TranslationReturn<K> : unknown {
-	if (variables !== undefined) {
-		return globalT(key, variables) as K extends TranslationKey
-			? TranslationReturn<K>
-			: unknown
+export function t(key: string, variables?: InterpolationVariables): unknown {
+	if (variables) {
+		return globalT(key, variables)
 	}
-	return globalT(key) as K extends TranslationKey
-		? TranslationReturn<K>
-		: unknown
+	return globalT(key)
 }
 
 // ====================================

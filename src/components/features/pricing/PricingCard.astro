@@ -11,11 +11,10 @@ import {
 	PRICING_CARD_CLASSES,
 	getPlanCSSVars,
 } from '@/lib/ui/pricing-constants'
-import type { PlanType } from '@/lib/ui/pricing-constants'
-import type { PlanKey } from '@/lib/i18n/types'
+import type { Plan } from '@/lib/types/plans'
 
 export interface Props {
-	plan: PlanType
+	plan: Plan
 	featured?: boolean
 	animationDelay?: number
 }
@@ -23,7 +22,7 @@ export interface Props {
 const { plan, featured = false, animationDelay = 0 } = Astro.props
 
 // Get plan data using translatePlan utility for proper typing
-const planData = translatePlan(plan as PlanKey)
+const planData = translatePlan(plan)
 
 // Get additional translation
 const examplesTitle = t('pricing.sections.examplesTitle')
@@ -153,14 +152,12 @@ const cssVars = getPlanCSSVars(plan)
 			plan === 'starter' ? (
 				<StartProjectModal
 					client:load
-					locale={Astro.currentLocale as 'en' | 'fr'}
 					buttonText={planData.cta}
 					plan={plan}
 				/>
 			) : (
 				<ProfessionalProjectModal
 					client:load
-					locale={Astro.currentLocale as 'en' | 'fr'}
 					plan={plan}
 					buttonText={planData.cta}
 				/>

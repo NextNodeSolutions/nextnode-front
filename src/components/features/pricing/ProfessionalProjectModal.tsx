@@ -6,18 +6,14 @@ import { PLAN_THEMES } from '@/lib/ui/pricing-constants'
 
 import { ProfessionalProjectModalContent } from './ProfessionalProjectModalContent'
 
-import type { Locale } from '@/lib/i18n/types'
-
 interface ProfessionalProjectModalProps {
 	className?: string
-	locale?: Locale
 	plan: 'business' | 'enterprise'
 	buttonText: string
 }
 
 export const ProfessionalProjectModal = ({
 	className,
-	locale,
 	plan,
 	buttonText,
 }: ProfessionalProjectModalProps): React.ReactElement => {
@@ -47,7 +43,6 @@ export const ProfessionalProjectModal = ({
 			<ProfessionalProjectModalContent
 				isOpen={isOpen}
 				onClose={() => setIsOpen(false)}
-				locale={locale}
 				plan={plan}
 			/>
 		</div>

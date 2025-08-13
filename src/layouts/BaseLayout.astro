@@ -3,6 +3,7 @@ import '../styles/global.css'
 import '../styles/base.css'
 import '../styles/animations.css'
 import '../styles/liquid-effects.css'
+import { ContextProvider } from '../lib/i18n/context-provider'
 
 export interface Props {
 	title: string
@@ -111,10 +112,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 	<body
 		class="bg-white font-sans text-gray-900 antialiased dark:bg-gray-900 dark:text-gray-100"
 	>
-		<slot />
+		<!-- Provide React i18n context to all components -->
+		<ContextProvider client:load>
+			<slot />
+		</ContextProvider>
+
+		<!-- Initialize React i18n context -->
+		<script is:inline type="module" define:vars={{ locale }}>
+			// Set global locale for React context access
+			window.currentLocale = locale
+		</script>
 
 		<!-- Global theme and language management script -->
 		<script>
+			// Set current language globally
+			window.currentLanguage = '{locale}'
+
 			// Global language management
 			window.languageManager = {
 				getCurrentLanguage() {

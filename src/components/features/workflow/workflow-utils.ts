@@ -8,8 +8,6 @@ import {
 	type StepConfig,
 } from './workflow-constants'
 
-import type { StepKey } from '@/lib/i18n/types'
-
 // Utility function to generate step data with translations
 export const generateSteps = (): Step[] =>
 	STEP_KEYS.map(key => {
@@ -17,7 +15,7 @@ export const generateSteps = (): Step[] =>
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
-		const stepData = translateSteps(key as StepKey)
+		const stepData = translateSteps(key)
 		return {
 			key,
 			title: String(stepData.title),
@@ -33,13 +31,13 @@ export const generateDetailedSteps = (): DetailedStep[] =>
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
-		const stepData = translateSteps(key as StepKey)
+		const stepData = translateSteps(key)
 		return {
 			id: key,
 			title: String(stepData.title),
 			number: String(stepData.number),
 			description: String(stepData.description),
-			details: stepData.details as readonly string[],
+			details: stepData.details,
 			deliverables: String(stepData.deliverables),
 			duration: String(stepData.duration),
 			icon: config.icon,

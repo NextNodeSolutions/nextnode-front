@@ -6,20 +6,16 @@ import { Button } from '@/components/ui/forms/button'
 import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
 import { FormField, FormGrid } from '@/components/ui/forms/FormField'
 
-import type { Locale } from '@/lib/i18n/types'
-
 interface StartProjectModalContentProps {
 	isOpen: boolean
 	onClose: () => void
-	locale?: Locale
 }
 
 export const StartProjectModalContent = ({
 	isOpen,
 	onClose,
-	locale,
 }: StartProjectModalContentProps): React.ReactElement => {
-	const { t } = useI18n(locale)
+	const { t } = useI18n()
 
 	return (
 		<BaseModal

@@ -19,7 +19,7 @@ const detailedSteps = generateDetailedSteps()
 			</div>
 			{
 				detailedSteps.map((step, index) => {
-					const color = STEP_COLORS[index] as string
+					const color = STEP_COLORS[index]!
 
 					return (
 						<div class="timeline-step relative ml-14">

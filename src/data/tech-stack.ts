@@ -3,12 +3,14 @@
  * Extracted from tech-stack-grid.astro for better maintainability and reusability
  */
 
+import type { TranslationKey } from '@/lib/i18n/types'
+
 /**
  * Technology item definition
  */
 export interface Technology {
 	name: string
-	descriptionKey: string // i18n key for description
+	descriptionKey: TranslationKey // i18n key for description
 	icon: string
 	level: number // Skill/usage level (0-100)
 }
@@ -18,8 +20,8 @@ export interface Technology {
  */
 export interface TechCategory {
 	id: string
-	titleKey: string // i18n key for title
-	descriptionKey: string // i18n key for description
+	titleKey: TranslationKey // i18n key for title
+	descriptionKey: TranslationKey // i18n key for description
 	icon: string
 	color: 'blue' | 'purple' | 'green' | 'orange' | 'red'
 	technologies: Technology[]

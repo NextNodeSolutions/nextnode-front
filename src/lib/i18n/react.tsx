@@ -32,6 +32,7 @@ export interface UseI18nReturn {
 
 /**
  * Main i18n hook for React components
+ * Uses React context when available (client-side), falls back to URL detection for SSR
  *
  * Usage:
  * ```tsx
@@ -49,13 +50,33 @@ export interface UseI18nReturn {
  * }
  * ```
  */
-export function useI18n(initialLocale?: Locale): UseI18nReturn {
-	// Get initial locale from URL or prop
+export function useI18n(): UseI18nReturn {
+	const context = useContext(I18nContext)
+
+	// If context available (client-side), use it
+	if (context) {
+		const { locale, t, setLocale } = context
+
+		const toggleLocale = useCallback(() => {
+			const newLocale = locale === 'en' ? 'fr' : 'en'
+			setLocale(newLocale)
+		}, [locale, setLocale])
+
+		return {
+			locale,
+			t,
+			setLocale,
+			toggleLocale,
+			isLoading: false,
+		}
+	}
+
+	// Fallback for SSR: URL-based detection
 	const [locale, setLocaleState] = useState<Locale>(() => {
-		if (initialLocale) return initialLocale
 		if (typeof window !== 'undefined') {
 			return getLocaleFromPath(window.location.pathname)
 		}
+		// SSR fallback - try to get from URL or default to 'en'
 		return 'en'
 	})
 
@@ -120,22 +141,21 @@ export function useI18n(initialLocale?: Locale): UseI18nReturn {
  * Hook for getting a specific translation with caching
  * Useful when you only need one translation and want to optimize re-renders
  */
-export function useTranslation<T = unknown>(
+export function useTranslation(
 	key: string,
 	variables?: InterpolationVariables,
-	locale?: Locale,
-): { value: T; isLoading: boolean } {
-	const currentLocale = locale || getLocaleFromPath(window.location.pathname)
-	const [value, setValue] = useState<T>()
+): { value: unknown; isLoading: boolean } {
+	const { locale } = useI18n()
+	const [value, setValue] = useState<unknown>()
 	const [isLoading, setIsLoading] = useState(true)
 
 	useEffect(() => {
 		setIsLoading(true)
-		const t = createT(currentLocale)
-		const translation = variables ? (t(key, variables) as T) : (t(key) as T)
+		const t = createT(locale)
+		const translation = variables ? t(key, variables) : t(key)
 		setValue(translation)
 		setIsLoading(false)
-	}, [key, variables, currentLocale])
+	}, [key, variables, locale])
 
 	return {
 		value: value!,
@@ -151,21 +171,21 @@ export function useTranslation<T = unknown>(
  * Hook for getting an entire section of translations
  * Useful for forms, lists, or components that need multiple related translations
  */
-export function useTranslationSection<T = unknown>(
-	sectionKey: string,
-	locale?: Locale,
-): { section: T; isLoading: boolean } {
-	const currentLocale = locale || getLocaleFromPath(window.location.pathname)
-	const [section, setSection] = useState<T>()
+export function useTranslationSection(sectionKey: string): {
+	section: unknown
+	isLoading: boolean
+} {
+	const { locale } = useI18n()
+	const [section, setSection] = useState<unknown>()
 	const [isLoading, setIsLoading] = useState(true)
 
 	useEffect(() => {
 		setIsLoading(true)
-		const t = createT(currentLocale)
-		const sectionData = t(sectionKey) as T
+		const t = createT(locale)
+		const sectionData = t(sectionKey)
 		setSection(sectionData)
 		setIsLoading(false)
-	}, [sectionKey, currentLocale])
+	}, [sectionKey, locale])
 
 	return {
 		section: section!,
@@ -273,9 +293,43 @@ export function I18nProvider({
 	initialLocale,
 }: {
 	children: ReactNode
-	initialLocale?: Locale
+	initialLocale: Locale
 }): ReactNode {
-	const { locale, t, setLocale } = useI18n(initialLocale)
+	// Create standalone state for provider (not dependent on useI18n hook)
+	const [locale, setLocaleState] = useState<Locale>(initialLocale)
+
+	// Create t function for current locale
+	const t = useMemo(() => createT(locale), [locale])
+
+	// Update global locale when local state changes
+	useEffect(() => {
+		setGlobalLocale(locale)
+	}, [locale])
+
+	// Set locale with optional navigation
+	const setLocale = useCallback(
+		(newLocale: Locale, navigate = true) => {
+			if (newLocale === locale) return
+
+			setLocaleState(newLocale)
+
+			// Store preference in localStorage
+			if (typeof window !== 'undefined') {
+				localStorage.setItem('preferred-locale', newLocale)
+
+				// Navigate to new locale if requested
+				if (navigate) {
+					const currentPath = window.location.pathname
+					const newPath = switchLocaleInPath(currentPath, newLocale)
+					if (newPath !== currentPath) {
+						window.location.href = newPath
+						return
+					}
+				}
+			}
+		},
+		[locale],
+	)
 
 	const value = useMemo(
 		() => ({
@@ -287,18 +341,6 @@ export function I18nProvider({
 	)
 
 	return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
-}
-
-/**
- * Hook to use i18n context
- * Alternative to useI18n() when using Provider
- */
-export function useI18nContext(): I18nContextType {
-	const context = useContext(I18nContext)
-	if (!context) {
-		throw new Error('useI18nContext must be used within an I18nProvider')
-	}
-	return context
 }
 
 // ====================================

@@ -55,7 +55,6 @@ const { t } = Astro.locals
 
 	<StartProjectModal
 		client:load
-		locale={(Astro.currentLocale as 'en' | 'fr') || 'en'}
 		className={cn(
 			'animate-fade-in-up animation-delay-900 mx-auto max-w-sm opacity-0',
 			'sm:max-w-md',

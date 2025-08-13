@@ -5,7 +5,7 @@ import { cn } from '@/lib/core/utils'
 import type { ReactNode } from 'react'
 
 interface FAQTranslations {
-	searchPlaceholder: string
+	placeholder: string
 	searchTips: string
 	questionsCount: string
 	showingResults: string
@@ -71,7 +71,7 @@ export const FAQSearchBar = ({
 					type="text"
 					value={searchQuery}
 					onChange={e => onSearchChange(e.target.value)}
-					placeholder={translations.searchPlaceholder}
+					placeholder={translations.placeholder}
 					className={cn(
 						'block w-full rounded-xl border border-gray-200 bg-white py-3 pr-4 pl-11 text-sm text-gray-900 placeholder-gray-500 transition-all duration-200',
 						'focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none',
