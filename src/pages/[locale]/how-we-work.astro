@@ -17,16 +17,13 @@ import {
 	generateDetailedSteps,
 	generateSteps,
 } from '@/components/features/workflow/workflow-utils'
-import { generatePageTitle } from '@/lib/core/page-utils'
 import { STEP_COLORS } from '@/components/features/workflow/workflow-constants'
 
 // Locale is now available from middleware
 
 // Page data
-const pageTitle = generatePageTitle(
-	'howWeWork.hero.title',
-	'howWeWork.hero.titleHighlight',
-)
+const pageTitle =
+	t('howWeWork.hero.title') + ' ' + t('howWeWork.hero.titleHighlight')
 const pageDescription = t('howWeWork.hero.description')
 
 // Workflow steps with all data
