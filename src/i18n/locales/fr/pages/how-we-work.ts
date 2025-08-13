@@ -403,7 +403,7 @@ export const howWeWork = {
 		noResults: 'Aucune question trouvée correspondant à votre recherche.',
 		showingResults: 'Affichage de {{count}} question(s)',
 		questionsCount: '{{count}} question{{plural}}',
-		showingTotal: 'Affichage de {{results}} sur {{total}} questions',
+		showingTotal: 'Affichage de {{start}}-{{end}} sur {{total}} questions',
 		searchTips: '💡 Essayez de rechercher "coût", "SEO", ou "sécurité"',
 		helpText:
 			'Essayez des mots-clés différents ou parcourez par catégorie.',

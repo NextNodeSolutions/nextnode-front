@@ -63,8 +63,8 @@ export const FAQCategoryFilter = ({
 	return (
 		<div className={cn('mb-8', className)}>
 			{/* Mobile Dropdown */}
-			<div className="md:hidden">
-				<label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+			<div className="mb-6 md:hidden">
+				<label className="mb-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
 					Filter by Category
 				</label>
 				<Select
@@ -170,9 +170,9 @@ export const FAQCategoryFilter = ({
 
 			{/* Active Filters Summary */}
 			{!isAllSelected && selectedCategories.length > 0 && (
-				<div className="flex flex-col gap-2 text-sm text-gray-600 md:flex-row md:items-center md:gap-2 dark:text-gray-400">
-					<span>Active filters:</span>
-					<div className="flex flex-wrap gap-1">
+				<div className="mt-4 flex flex-col gap-3 text-sm text-gray-600 md:flex-row md:items-center md:gap-3 dark:text-gray-400">
+					<span className="font-medium">Active filters:</span>
+					<div className="flex flex-wrap gap-2">
 						{selectedCategories.map(categoryId => {
 							const category = categories.find(
 								c => c.id === categoryId,
@@ -182,9 +182,12 @@ export const FAQCategoryFilter = ({
 							return (
 								<span
 									key={categoryId}
-									className="inline-flex items-center gap-1 rounded bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
+									className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1.5 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
 								>
-									{category.icon} {category.name}
+									<span className="text-sm">
+										{category.icon}
+									</span>
+									{category.name}
 								</span>
 							)
 						})}

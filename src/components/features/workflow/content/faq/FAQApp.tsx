@@ -85,8 +85,9 @@ export const FAQApp = ({
 						{searchResults.length > 0 && (
 							<p className="mb-4 text-sm text-gray-500">
 								{translations.showingTotal
+									.replace('{{start}}', '1')
 									.replace(
-										'{{results}}',
+										'{{end}}',
 										paginatedResults.length.toString(),
 									)
 									.replace(
