@@ -1,10 +1,6 @@
 ---
-import {
-	getNestedValue,
-	translations,
-	getCurrentLanguage,
-	t,
-} from '@/lib/i18n/i18n-server'
+// Use new i18n system from middleware
+const { locale, t } = Astro.locals
 import { getStepDesign } from '../step-designs'
 import { VARIANT_FEATURES, getVariantClasses } from './step-card-variants'
 import PatternBackground from '@/components/ui/patterns/pattern-background.astro'
@@ -30,10 +26,8 @@ const showStepLabel = VARIANT_FEATURES.showStepLabel(variant)
 type StepData =
 	EnglishDict['howWeWork']['steps'][keyof EnglishDict['howWeWork']['steps']]
 
-const step = getNestedValue(
-	translations[getCurrentLanguage()],
-	`howWeWork.steps.${stepKey}`,
-) as StepData
+// Get step data using the new t() function
+const step = t(`howWeWork.steps.${stepKey}`) as StepData
 const number = step.number
 const title = step.title
 const description = step.description
