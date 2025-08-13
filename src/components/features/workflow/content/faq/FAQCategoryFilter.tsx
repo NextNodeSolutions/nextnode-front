@@ -95,12 +95,22 @@ export const FAQCategoryFilter = ({
 				<Select
 					value={getSelectedCategoryId()}
 					open={isSelectOpen}
-					onOpenChange={setIsSelectOpen}
+					onOpenChange={open => {
+						// Only allow closing if user explicitly wants to close
+						// Prevent auto-close on value selection
+						if (!open && isSelectOpen) {
+							// This is an auto-close, keep it open
+							return
+						}
+						setIsSelectOpen(open)
+					}}
 					onValueChange={value => {
 						const categoryId = value as FAQCategoryId
 						onCategoryToggle(categoryId)
 						// Keep dropdown open for multi-selection
-						setIsSelectOpen(true)
+						if (!isSelectOpen) {
+							setIsSelectOpen(true)
+						}
 					}}
 				>
 					<SelectTrigger className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400">
@@ -117,30 +127,23 @@ export const FAQCategoryFilter = ({
 									key={category.id}
 									value={category.id}
 									className={cn(
-										'relative',
+										'data-[highlighted]:bg-gray-100 data-[highlighted]:text-gray-900 dark:data-[highlighted]:bg-gray-800 dark:data-[highlighted]:text-gray-100',
 										selected &&
 											'bg-blue-50 font-medium text-blue-900 dark:bg-blue-900/20 dark:text-blue-300',
-										selected &&
-											'border-l-4 border-blue-500 pl-4',
 									)}
 								>
-									<div className="flex w-full items-center gap-2">
+									<div className="flex w-full items-center justify-between">
+										<div className="flex items-center gap-2">
+											<span className="text-base">
+												{category.icon}
+											</span>
+											<span>{category.name}</span>
+										</div>
 										<span
 											className={cn(
-												'text-base transition-all duration-200',
-												selected && 'scale-110',
-											)}
-										>
-											{category.icon}
-										</span>
-										<span className="flex-1">
-											{category.name}
-										</span>
-										<span
-											className={cn(
-												'rounded-full px-1.5 py-0.5 text-xs font-medium transition-all duration-200',
+												'rounded-full px-1.5 py-0.5 text-xs font-medium',
 												selected
-													? 'bg-blue-500 text-white shadow-sm'
+													? 'bg-blue-500 text-white'
 													: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
 											)}
 										>
