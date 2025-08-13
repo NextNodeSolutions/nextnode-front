@@ -32,6 +32,7 @@ export const FAQCategoryFilter = ({
 	className,
 }: FAQCategoryFilterProps): ReactNode => {
 	const [isSelectOpen, setIsSelectOpen] = useState(false)
+	const [isSelecting, setIsSelecting] = useState(false)
 
 	const categoryStats = useMemo((): Map<FAQCategoryId, number> => {
 		const stats = new Map<FAQCategoryId, number>()
@@ -96,21 +97,19 @@ export const FAQCategoryFilter = ({
 					value={getSelectedCategoryId()}
 					open={isSelectOpen}
 					onOpenChange={open => {
-						// Only allow closing if user explicitly wants to close
-						// Prevent auto-close on value selection
-						if (!open && isSelectOpen) {
-							// This is an auto-close, keep it open
+						// Block close only during active selection
+						if (!open && isSelecting) {
 							return
 						}
 						setIsSelectOpen(open)
 					}}
 					onValueChange={value => {
 						const categoryId = value as FAQCategoryId
+						// Mark as selecting to prevent auto-close
+						setIsSelecting(true)
 						onCategoryToggle(categoryId)
-						// Keep dropdown open for multi-selection
-						if (!isSelectOpen) {
-							setIsSelectOpen(true)
-						}
+						// Reset selecting flag after micro-delay
+						setTimeout(() => setIsSelecting(false), 0)
 					}}
 				>
 					<SelectTrigger className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400">
@@ -132,16 +131,16 @@ export const FAQCategoryFilter = ({
 											'bg-blue-50 font-medium text-blue-900 dark:bg-blue-900/20 dark:text-blue-300',
 									)}
 								>
-									<div className="flex w-full items-center justify-between">
-										<div className="flex items-center gap-2">
-											<span className="text-base">
-												{category.icon}
-											</span>
-											<span>{category.name}</span>
-										</div>
+									<div className="flex w-full items-center">
+										<span className="mr-2 text-base">
+											{category.icon}
+										</span>
+										<span className="flex-1">
+											{category.name}
+										</span>
 										<span
 											className={cn(
-												'rounded-full px-1.5 py-0.5 text-xs font-medium',
+												'ml-3 rounded-full px-2 py-1 text-xs font-medium',
 												selected
 													? 'bg-blue-500 text-white'
 													: 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400',
