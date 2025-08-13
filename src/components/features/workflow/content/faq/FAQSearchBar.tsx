@@ -56,7 +56,8 @@ export const FAQSearchBar = ({
 					onChange={e => onSearchChange(e.target.value)}
 					placeholder={translations.placeholder}
 					className={cn(
-						'block w-full rounded-xl border border-gray-200 bg-white py-3 pr-4 pl-11 text-sm text-gray-900 placeholder-gray-500 transition-all duration-200',
+						'block w-full rounded-xl border border-gray-200 bg-white py-3 pr-4 pl-11',
+						'text-sm text-gray-900 placeholder-gray-500 transition-all duration-200 sm:text-base',
 						'focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none',
 						'dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400',
 						'dark:focus:border-blue-400 dark:focus:ring-blue-400/20',
@@ -89,7 +90,7 @@ export const FAQSearchBar = ({
 			{/* Search Tips - only show when not searching */}
 			{searchQuery.trim() === '' && (
 				<div className="text-right">
-					<div className="text-xs text-gray-500 dark:text-gray-500">
+					<div className="text-xs text-gray-500 sm:text-sm dark:text-gray-500">
 						{translations.searchTips}
 					</div>
 				</div>
