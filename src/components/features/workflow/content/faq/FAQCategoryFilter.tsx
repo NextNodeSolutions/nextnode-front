@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import { cn } from '@/lib/core/utils'
 import {
@@ -31,9 +31,6 @@ export const FAQCategoryFilter = ({
 	hasActiveFilters,
 	className,
 }: FAQCategoryFilterProps): ReactNode => {
-	const [isSelectOpen, setIsSelectOpen] = useState(false)
-	const [isSelecting, setIsSelecting] = useState(false)
-
 	const categoryStats = useMemo((): Map<FAQCategoryId, number> => {
 		const stats = new Map<FAQCategoryId, number>()
 
@@ -95,21 +92,9 @@ export const FAQCategoryFilter = ({
 				</label>
 				<Select
 					value={getSelectedCategoryId()}
-					open={isSelectOpen}
-					onOpenChange={open => {
-						// Block close only during active selection
-						if (!open && isSelecting) {
-							return
-						}
-						setIsSelectOpen(open)
-					}}
 					onValueChange={value => {
 						const categoryId = value as FAQCategoryId
-						// Mark as selecting to prevent auto-close
-						setIsSelecting(true)
 						onCategoryToggle(categoryId)
-						// Reset selecting flag after micro-delay
-						setTimeout(() => setIsSelecting(false), 0)
 					}}
 				>
 					<SelectTrigger className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400">
