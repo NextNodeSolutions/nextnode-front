@@ -22,7 +22,7 @@ const currentLanguage =
 	<!-- Desktop Language Selector with Dropdown -->
 	<div class="group relative">
 		<button
-			class="flex items-center space-x-1.5 text-gray-600 transition-all duration-300 hover:scale-105 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+			class="flex cursor-pointer items-center space-x-1.5 text-gray-600 transition-all duration-300 hover:scale-105 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
 			aria-label={t('common.ui.selectLanguage')}
 			id="current-language-desktop"
 		>
@@ -43,10 +43,10 @@ const currentLanguage =
 				languages.map(lang => (
 					<button
 						data-lang={lang.code}
-						class="flex w-full items-center space-x-2 px-4 py-2 text-gray-600 transition-all duration-300 hover:translate-x-1 hover:bg-white/60 hover:text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700/60 dark:hover:text-white"
+						class="flex w-full cursor-pointer items-center space-x-2 px-4 py-2 text-gray-600 transition-all duration-300 hover:translate-x-1 hover:bg-white/60 hover:text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700/60 dark:hover:text-white"
 					>
 						<span class="text-lg">{lang.flag}</span>
-						<span>{lang.label}</span>
+						<span>{lang.name}</span>
 					</button>
 				))
 			}

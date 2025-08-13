@@ -27,9 +27,7 @@ const { locale: currentLocale, t } = Astro.locals
 							id={`lang-button-${lang.code}-mobile`}
 						>
 							<span class="text-xl">{lang.flag}</span>
-							<span class="text-xs font-medium">
-								{lang.label}
-							</span>
+							<span class="text-xs font-medium">{lang.name}</span>
 						</button>
 					)
 				})
