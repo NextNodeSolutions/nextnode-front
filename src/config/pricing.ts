@@ -64,8 +64,3 @@ export const formatPrice = {
 	supplement: (price: number, currency = '€'): string =>
 		`+${price.toLocaleString('fr-FR')}${currency}/mois`,
 }
-
-/**
- * Type helpers pour la sécurité des types
- */
-export type { Plan as PricingPlanType } from '../lib/types/plans'

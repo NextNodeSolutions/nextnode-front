@@ -44,8 +44,6 @@ export const PLAN_THEMES = {
 	},
 } as const
 
-export type { Plan as PlanType } from '../types/plans'
-
 /**
  * CSS custom properties for plan themes
  * Can be used in CSS for dynamic theming
