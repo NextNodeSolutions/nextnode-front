@@ -59,7 +59,7 @@ export const FAQCategoryFilter = ({
 	const getSelectedCategoryId = (): FAQCategoryId => {
 		if (isAllSelected || selectedCategories.length === 0) return 'all'
 		// For mobile, show first selected category
-		return selectedCategories[0] || 'all'
+		return selectedCategories[0]!
 	}
 
 	// Get display text for SelectValue
@@ -72,8 +72,8 @@ export const FAQCategoryFilter = ({
 				: 'All categories'
 		}
 
-		if (selectedCategories.length === 1 && selectedCategories[0]) {
-			const categoryId = selectedCategories[0]
+		if (selectedCategories.length === 1) {
+			const categoryId = selectedCategories[0]!
 			const category = categories.find(c => c.id === categoryId)
 			const count = categoryStats.get(categoryId) || 0
 			return category
