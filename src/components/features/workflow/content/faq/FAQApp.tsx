@@ -30,11 +30,14 @@ export const FAQApp = ({
 	const {
 		state,
 		searchResults,
+		paginatedResults,
 		toggleCategory,
 		setSearchQuery,
 		toggleQuestion,
 		clearFilters,
+		loadMore,
 		hasActiveFilters,
+		hasMoreItems,
 	} = useFAQState(questions)
 
 	return (
@@ -44,7 +47,6 @@ export const FAQApp = ({
 				searchQuery={state.searchQuery}
 				onSearchChange={setSearchQuery}
 				resultsCount={searchResults.length}
-				totalCount={questions.length}
 				translations={translations}
 			/>
 
@@ -72,35 +74,29 @@ export const FAQApp = ({
 							</svg>
 						</div>
 						<p className="mb-2 text-lg font-medium text-gray-900 dark:text-white">
-							No questions found ({questions.length} total
-							questions, {searchResults.length} results)
+							{translations.noResults}
 						</p>
 						<p className="text-gray-600 dark:text-gray-400">
-							Categories:{' '}
-							{state.selectedCategories
-								.map(
-									id =>
-										categories.find(c => c.id === id)
-											?.name || id,
-								)
-								.join(', ')}{' '}
-							| Search: "{state.searchQuery}"
+							{translations.helpText}
 						</p>
 					</div>
 				) : (
 					<>
-						<p className="mb-4 text-sm text-gray-500">
-							{translations.showingTotal
-								.replace(
-									'{{results}}',
-									searchResults.length.toString(),
-								)
-								.replace(
-									'{{total}}',
-									questions.length.toString(),
-								)}
-						</p>
-						{searchResults.map((result, index) => (
+						{searchResults.length > 0 && (
+							<p className="mb-4 text-sm text-gray-500">
+								{translations.showingResults
+									.replace('{{start}}', '1')
+									.replace(
+										'{{end}}',
+										paginatedResults.length.toString(),
+									)
+									.replace(
+										'{{total}}',
+										searchResults.length.toString(),
+									)}
+							</p>
+						)}
+						{paginatedResults.map((result, index) => (
 							<div
 								key={result.question.id}
 								className="animate-fade-in opacity-0"
@@ -125,6 +121,34 @@ export const FAQApp = ({
 								/>
 							</div>
 						))}
+
+						{/* Load More Button */}
+						{hasMoreItems && (
+							<div className="mt-8 text-center">
+								<button
+									onClick={loadMore}
+									className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:border-blue-300 hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+								>
+									<svg
+										className="h-4 w-4"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth={2}
+											d="M19 9l-7 7-7-7"
+										/>
+									</svg>
+									Load More (
+									{searchResults.length -
+										paginatedResults.length}{' '}
+									remaining)
+								</button>
+							</div>
+						)}
 					</>
 				)}
 			</div>

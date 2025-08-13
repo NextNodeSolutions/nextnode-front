@@ -11,17 +11,32 @@ export interface UseFAQStateReturn {
 	state: FAQState
 	filteredQuestions: FAQQuestion[]
 	searchResults: FAQSearchResult[]
+	paginatedResults: FAQSearchResult[]
+	currentPage: number
+	totalPages: number
+	itemsPerPage: number
 	toggleCategory: (categoryId: FAQCategoryId) => void
 	setSearchQuery: (query: string) => void
 	toggleQuestion: (questionId: string) => void
 	clearFilters: () => void
+	loadMore: () => void
+	resetPagination: () => void
 	hasActiveFilters: boolean
+	hasMoreItems: boolean
 }
 
 const initialState: FAQState = {
 	selectedCategories: ['all'],
 	searchQuery: '',
 	expandedQuestion: null,
+}
+
+// Responsive items per page
+const getItemsPerPage = (): number => {
+	if (typeof window !== 'undefined') {
+		return window.innerWidth < 768 ? 10 : 20 // 10 on mobile, 20 on desktop
+	}
+	return 10 // SSR default
 }
 
 function highlightText(text: string, query: string): string {
@@ -81,6 +96,8 @@ function calculateMatchScore(question: FAQQuestion, query: string): number {
 
 export function useFAQState(questions: FAQQuestion[]): UseFAQStateReturn {
 	const [state, setState] = useState<FAQState>(initialState)
+	const [currentPage, setCurrentPage] = useState(1)
+	const [itemsPerPage] = useState(getItemsPerPage())
 
 	const toggleCategory = useCallback((categoryId: FAQCategoryId) => {
 		setState(prev => {
@@ -107,10 +124,12 @@ export function useFAQState(questions: FAQQuestion[]): UseFAQStateReturn {
 
 			return { ...prev, selectedCategories: newCategories }
 		})
+		setCurrentPage(1) // Reset to first page on category change
 	}, [])
 
 	const setSearchQuery = useCallback((query: string) => {
 		setState(prev => ({ ...prev, searchQuery: query }))
+		setCurrentPage(1) // Reset to first page on search
 	}, [])
 
 	const toggleQuestion = useCallback((questionId: string) => {
@@ -123,6 +142,15 @@ export function useFAQState(questions: FAQQuestion[]): UseFAQStateReturn {
 
 	const clearFilters = useCallback(() => {
 		setState(initialState)
+		setCurrentPage(1)
+	}, [])
+
+	const loadMore = useCallback(() => {
+		setCurrentPage(prev => prev + 1)
+	}, [])
+
+	const resetPagination = useCallback(() => {
+		setCurrentPage(1)
 	}, [])
 
 	const filteredQuestions = useMemo(() => {
@@ -180,14 +208,30 @@ export function useFAQState(questions: FAQQuestion[]): UseFAQStateReturn {
 		[state.selectedCategories, state.searchQuery],
 	)
 
+	// Pagination calculations
+	const totalPages = Math.ceil(searchResults.length / itemsPerPage)
+	const paginatedResults = useMemo(() => {
+		const endIndex = currentPage * itemsPerPage
+		return searchResults.slice(0, endIndex)
+	}, [searchResults, currentPage, itemsPerPage])
+
+	const hasMoreItems = currentPage * itemsPerPage < searchResults.length
+
 	return {
 		state,
 		filteredQuestions,
 		searchResults,
+		paginatedResults,
+		currentPage,
+		totalPages,
+		itemsPerPage,
 		toggleCategory,
 		setSearchQuery,
 		toggleQuestion,
 		clearFilters,
+		loadMore,
+		resetPagination,
 		hasActiveFilters,
+		hasMoreItems,
 	}
 }
