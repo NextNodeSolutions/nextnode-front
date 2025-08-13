@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useI18n } from '@/lib/i18n/i18n-client'
+import { useI18n } from '@/lib/i18n/react'
 import { PRICING_CONFIG, formatPrice } from '@/config/pricing'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
 import { Button } from '@/components/ui/forms/button'
@@ -8,10 +8,12 @@ import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
 import { FormField, FormGrid } from '@/components/ui/forms/FormField'
 import { Select } from '@/components/ui/forms/select'
 
+import type { Locale } from '@/lib/i18n/types'
+
 interface ProfessionalProjectModalContentProps {
 	isOpen: boolean
 	onClose: () => void
-	locale?: string
+	locale?: Locale
 	plan: 'business' | 'enterprise'
 }
 

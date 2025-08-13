@@ -1,6 +1,7 @@
 ---
 import { cn } from '@/lib/core/utils'
-import { t } from '@/lib/i18n/i18n-server'
+// Use new i18n system from middleware
+const { t } = Astro.locals
 import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
 import { PricingFAQAccordion } from './PricingFAQAccordion'
 

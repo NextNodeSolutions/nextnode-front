@@ -11,7 +11,8 @@ import {
 } from '@/components/features/workflow/content/faq/data'
 import FAQApp from '@/components/features/workflow/content/faq/FAQApp'
 import WorkflowJourneyInteractive from '@/components/features/workflow/interactive/WorkflowJourneyInteractive'
-import { t, initI18n } from '@/lib/i18n/i18n-server'
+// Use new i18n system from middleware
+const { locale, t } = Astro.locals
 import {
 	generateDetailedSteps,
 	generateSteps,
@@ -19,26 +20,23 @@ import {
 import { generatePageTitle } from '@/lib/core/page-utils'
 import { STEP_COLORS } from '@/components/features/workflow/workflow-constants'
 
-// Get language from route parameter
-// For [...locale], the parameter can be undefined (for root path) or an array
-const localeParam = Astro.params.locale
-const locale = Array.isArray(localeParam) ? localeParam[0] : localeParam || 'en'
-await initI18n(Astro.request, locale)
+// Locale is now available from middleware
 
 // Page data
 const pageTitle = generatePageTitle(
 	'howWeWork.hero.title',
 	'howWeWork.hero.titleHighlight',
+	locale,
 )
 const pageDescription = t('howWeWork.hero.description')
 
 // Workflow steps with all data
-const steps = generateDetailedSteps()
-const simpleSteps = generateSteps()
+const steps = generateDetailedSteps(locale)
+const simpleSteps = generateSteps(locale)
 
 // FAQ data
-const faqQuestions = getFAQQuestions()
-const faqCategories = getFAQCategories()
+const faqQuestions = getFAQQuestions(locale)
+const faqCategories = getFAQCategories(locale)
 
 // Pre-calculate FAQ translations for client-side hydration
 const faqTranslations = {

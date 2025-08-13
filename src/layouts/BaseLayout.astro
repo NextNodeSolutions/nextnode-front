@@ -76,7 +76,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 		/>
 
 		<!-- Language initialization from server -->
-		<script is:inline define:vars={{ currentLocale }}>
+		<script is:inline define:vars={{ currentLocale: locale }}>
 			// Use server-provided locale instead of manual parsing
 			window.currentLanguage = currentLocale
 

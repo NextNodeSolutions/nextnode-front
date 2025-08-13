@@ -1,5 +1,6 @@
 ---
-import { t } from '@/lib/i18n/i18n-server'
+// Use new i18n system from middleware
+const { t } = Astro.locals
 import { STEP_KEYS } from '../workflow-constants'
 import StepCard from '../cards/StepCard.astro'
 import AnimatedList from '@/components/ui/animation/AnimatedList.astro'

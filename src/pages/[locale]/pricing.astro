@@ -7,11 +7,8 @@ import PricingHero from '@/components/features/pricing/PricingHero.astro'
 import PricingCard from '@/components/features/pricing/PricingCard.astro'
 import PricingFAQ from '@/components/features/pricing/PricingFAQ.astro'
 import { cn } from '@/lib/core/utils'
-import { initI18n, t } from '@/lib/i18n/i18n-server'
-
-// Get language from route parameter
-const locale = Astro.params.locale || 'fr'
-await initI18n(Astro.request, locale)
+// Use new i18n system from middleware
+const { locale, t } = Astro.locals
 
 // Get pricing data for structured data
 const pageTitle = t('pricing.pageTitle')

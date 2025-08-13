@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { cn } from '@/lib/core/utils'
-import { useI18n } from '@/lib/i18n/i18n-client'
+import { useI18n } from '@/lib/i18n/react'
 import { FAQ_I18N_KEYS } from '@/utils/faq-i18n-keys'
 
 import { getDifficultyConfig } from './constants'

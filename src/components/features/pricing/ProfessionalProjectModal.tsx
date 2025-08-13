@@ -6,9 +6,11 @@ import { PLAN_THEMES } from '@/lib/ui/pricing-constants'
 
 import { ProfessionalProjectModalContent } from './ProfessionalProjectModalContent'
 
+import type { Locale } from '@/lib/i18n/types'
+
 interface ProfessionalProjectModalProps {
 	className?: string
-	locale?: string
+	locale?: Locale
 	plan: 'business' | 'enterprise'
 	buttonText: string
 }
