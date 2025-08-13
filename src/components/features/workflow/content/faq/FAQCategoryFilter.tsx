@@ -1,6 +1,13 @@
 import { useMemo } from 'react'
 
 import { cn } from '@/lib/core/utils'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/forms/select'
 
 import type { ReactNode } from 'react'
 import type { FAQCategory, FAQCategoryId, FAQQuestion } from './types'
@@ -60,22 +67,40 @@ export const FAQCategoryFilter = ({
 				<label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
 					Filter by Category
 				</label>
-				<select
-					className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+				<Select
 					value={getSelectedCategoryId()}
-					onChange={e =>
-						onCategoryToggle(e.target.value as FAQCategoryId)
+					onValueChange={value =>
+						onCategoryToggle(value as FAQCategoryId)
 					}
 				>
-					{categories.map(category => {
-						const count = categoryStats.get(category.id) || 0
-						return (
-							<option key={category.id} value={category.id}>
-								{category.icon} {category.name} ({count})
-							</option>
-						)
-					})}
-				</select>
+					<SelectTrigger className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400">
+						<SelectValue>
+							{((): string => {
+								const selectedId = getSelectedCategoryId()
+								const category = categories.find(
+									c => c.id === selectedId,
+								)
+								const count = categoryStats.get(selectedId) || 0
+								return category
+									? `${category.icon} ${category.name} (${count})`
+									: 'Select category...'
+							})()}
+						</SelectValue>
+					</SelectTrigger>
+					<SelectContent>
+						{categories.map(category => {
+							const count = categoryStats.get(category.id) || 0
+							return (
+								<SelectItem
+									key={category.id}
+									value={category.id}
+								>
+									{category.icon} {category.name} ({count})
+								</SelectItem>
+							)
+						})}
+					</SelectContent>
+				</Select>
 			</div>
 
 			{/* Desktop Buttons */}
@@ -145,7 +170,7 @@ export const FAQCategoryFilter = ({
 
 			{/* Active Filters Summary */}
 			{!isAllSelected && selectedCategories.length > 0 && (
-				<div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+				<div className="flex flex-col gap-2 text-sm text-gray-600 md:flex-row md:items-center md:gap-2 dark:text-gray-400">
 					<span>Active filters:</span>
 					<div className="flex flex-wrap gap-1">
 						{selectedCategories.map(categoryId => {

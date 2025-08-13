@@ -6,7 +6,7 @@ import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
 import { Button } from '@/components/ui/forms/button'
 import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
 import { FormField, FormGrid } from '@/components/ui/forms/FormField'
-import { Select } from '@/components/ui/forms/select'
+import { SelectLegacy as Select } from '@/components/ui/forms/SelectLegacy'
 
 interface ProfessionalProjectModalContentProps {
 	isOpen: boolean
