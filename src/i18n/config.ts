@@ -2,6 +2,7 @@ import { en } from './locales/en'
 import { fr } from './locales/fr'
 
 import type { Locale } from '../lib/i18n/types'
+import type { NavigationLinks } from './types'
 
 export const translations = {
 	en: { common: en },
@@ -17,9 +18,9 @@ export const languages = [
 	{ code: 'fr', name: 'Français', flag: '🇫🇷' },
 ] as const
 
-export const navigationLinks = [
-	{ href: '/how-we-work', titleKey: 'navigation.howWeWork' },
-	{ href: '/pricing', titleKey: 'navigation.pricing' },
+export const navigationLinks: NavigationLinks = [
+	{ href: '/how-we-work', labelKey: 'common.navigation.howWeWork' },
+	{ href: '/pricing', labelKey: 'common.navigation.pricing' },
 ]
 
 export const locales: readonly Locale[] = SUPPORTED_LOCALES

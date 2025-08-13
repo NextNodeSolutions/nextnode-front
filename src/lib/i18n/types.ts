@@ -24,6 +24,32 @@ export interface InterpolationVariables {
 // Type for keys with dynamic index (e.g., "faq.items.{index}.question")
 export type DynamicKey = string
 
+// Type for workflow step keys
+export type StepKey =
+	| 'discovery'
+	| 'design'
+	| 'development'
+	| 'testing'
+	| 'deployment'
+	| 'support'
+
+// Type for pricing plan keys
+export type PlanKey = 'starter' | 'business' | 'enterprise'
+
+// Type for FAQ difficulty levels
+export type DifficultyKey = 'beginner' | 'intermediate' | 'advanced'
+
+// Type for FAQ category keys
+export type FaqCategoryKey =
+	| 'all'
+	| 'gettingStarted'
+	| 'business'
+	| 'design'
+	| 'performance'
+	| 'security'
+	| 'integrations'
+	| 'marketing'
+
 // ====================================
 // RECURSIVE PATH EXTRACTOR
 // ====================================
@@ -59,38 +85,60 @@ type ExtractPaths<T, Prefix extends string = ''> = T extends string
 export type TranslationKey = ExtractPaths<EnglishDict>
 
 // ====================================
-// GET VALUES BY PATH
+// DYNAMIC PATH NAVIGATION SYSTEM
 // ====================================
 
-// Get the value at a specific path
-type GetValueAtPath<T, P extends string> = P extends `${infer K}.${infer Rest}`
-	? K extends keyof T
-		? GetValueAtPath<T[K], Rest>
-		: K extends `${number}`
-			? T extends readonly (infer U)[]
-				? GetValueAtPath<U, Rest>
+// Helper type to parse template string into path segments
+type ParseDynamicPath<T extends string> =
+	T extends `${infer First}.${infer Rest}`
+		? [First, ...ParseDynamicPath<Rest>]
+		: [T]
+
+// Generic type to navigate nested objects with path array
+// Supports both object keys and array indices
+type NavigateObject<
+	Obj,
+	Path extends readonly string[],
+> = Path extends readonly [infer First, ...infer Rest]
+	? First extends keyof Obj
+		? Rest extends readonly string[]
+			? Rest['length'] extends 0
+				? Obj[First] // End of path, return the value
+				: NavigateObject<Obj[First], Rest> // Continue navigation
+			: never
+		: First extends `${number}`
+			? Obj extends readonly (infer U)[]
+				? Rest extends readonly string[]
+					? Rest['length'] extends 0
+						? U
+						: NavigateObject<U, Rest>
+					: never
 				: never
 			: never
-	: P extends keyof T
-		? T[P]
-		: P extends `${number}`
-			? T extends readonly (infer U)[]
-				? U
-				: never
-			: never
+	: Obj
+
+// Legacy alias for backward compatibility
+type GetValueAtPath<T, P extends string> = NavigateObject<
+	T,
+	ParseDynamicPath<P>
+>
 
 // ====================================
-// SMART RETURN TYPE FOR t() FUNCTION
+// SIMPLE RETURN TYPE FOR t() FUNCTION
 // ====================================
 
-// Return type of t() function based on the path
+// Return type of t() function based on the path - simple and reliable
 export type TranslationReturn<K extends string> = K extends TranslationKey
-	? GetValueAtPath<EnglishDict, K> extends string
-		? string // If it's a string, return string
-		: GetValueAtPath<EnglishDict, K> extends object
-			? Readonly<GetValueAtPath<EnglishDict, K>> // If it's an object, return readonly
-			: GetValueAtPath<EnglishDict, K> // Otherwise return as is
-	: never
+	? NavigateObject<EnglishDict, ParseDynamicPath<K>> extends infer Result
+		? Result extends object
+			? Readonly<Result>
+			: Result extends string
+				? string
+				: Result extends never
+					? unknown // Fallback for safety if static key resolution fails
+					: Result
+		: unknown // Fallback for safety if navigation fails
+	: unknown // Non-static keys return unknown
 
 // ====================================
 // t() FUNCTION - OVERLOADED SIGNATURES
@@ -103,9 +151,12 @@ export interface TFunction {
 		key: K,
 		variables: InterpolationVariables,
 	): TranslationReturn<K> extends string ? string : TranslationReturn<K>
-	// Signature for dynamic keys
-	(key: DynamicKey): string
-	(key: DynamicKey, variables: InterpolationVariables): string
+	// Signature for dynamic keys - return unknown for safety
+	(key: DynamicKey): unknown
+	(key: DynamicKey, variables: InterpolationVariables): unknown
+	// Generic string fallback - return unknown
+	(key: string): unknown
+	(key: string, variables: InterpolationVariables): unknown
 }
 
 // ====================================

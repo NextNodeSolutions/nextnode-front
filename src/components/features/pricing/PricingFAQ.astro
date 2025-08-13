@@ -8,10 +8,7 @@ import { PricingFAQAccordion } from './PricingFAQAccordion'
 // Get FAQ data from translations
 const faqData = {
 	title: t('pricing.faq.title'),
-	questions: t('pricing.faq.questions') as readonly {
-		question: string
-		answer: string
-	}[],
+	questions: t('pricing.faq.questions'),
 }
 ---
 
@@ -46,7 +43,7 @@ const faqData = {
 			</p>
 			<StartProjectModal
 				client:load
-				locale={Astro.currentLocale}
+				locale={Astro.currentLocale as 'en' | 'fr'}
 				buttonText={t('pricing.contactButton')}
 			/>
 		</div>

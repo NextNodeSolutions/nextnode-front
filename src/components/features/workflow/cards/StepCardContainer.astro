@@ -3,7 +3,13 @@ import StepCard from './StepCard.astro'
 import { cn } from '@/lib/core/utils'
 
 interface Props {
-	stepKey: string
+	stepKey:
+		| 'discovery'
+		| 'design'
+		| 'development'
+		| 'testing'
+		| 'deployment'
+		| 'support'
 	index: number
 	className?: string
 	variant?: 'mobile' | 'compact' | 'mini'

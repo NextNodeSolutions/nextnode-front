@@ -19,7 +19,6 @@ import type {
 	TranslationKey,
 	TranslationReturn,
 	InterpolationVariables,
-	DynamicKey,
 	Locale,
 } from './types'
 
@@ -115,18 +114,27 @@ export function setGlobalLocale(locale: Locale): void {
  * Global t() function - uses current locale defined by middleware
  * Can be used anywhere in the application
  */
+// Static keys - proper typing
 export function t<K extends TranslationKey>(key: K): TranslationReturn<K>
 export function t<K extends TranslationKey>(
 	key: K,
 	variables: InterpolationVariables,
 ): TranslationReturn<K> extends string ? string : TranslationReturn<K>
-export function t(key: DynamicKey): string
-export function t(key: DynamicKey, variables: InterpolationVariables): string
-export function t(key: string, variables?: InterpolationVariables): unknown {
+// Dynamic keys and fallback - return unknown for safety
+export function t(key: string): unknown
+export function t(key: string, variables: InterpolationVariables): unknown
+export function t<K extends string = string>(
+	key: K,
+	variables?: InterpolationVariables,
+): K extends TranslationKey ? TranslationReturn<K> : unknown {
 	if (variables !== undefined) {
-		return globalT(key, variables)
+		return globalT(key, variables) as K extends TranslationKey
+			? TranslationReturn<K>
+			: unknown
 	}
-	return globalT(key)
+	return globalT(key) as K extends TranslationKey
+		? TranslationReturn<K>
+		: unknown
 }
 
 // ====================================

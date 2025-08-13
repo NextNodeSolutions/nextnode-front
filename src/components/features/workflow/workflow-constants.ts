@@ -28,7 +28,13 @@ export interface Step {
 
 // Interface for detailed steps used in workflow-step.astro
 export interface DetailedStep {
-	id: string
+	id:
+		| 'discovery'
+		| 'design'
+		| 'development'
+		| 'testing'
+		| 'deployment'
+		| 'support'
 	title: string
 	number: string
 	description: string

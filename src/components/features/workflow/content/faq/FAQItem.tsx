@@ -25,19 +25,19 @@ export const FAQItem = ({
 }: FAQItemProps): ReactNode => {
 	const { t } = useI18n()
 
-	// Optimized: shared helper with stable config objects
+	// Optimized: shared helper with stable config objects using t() directly
 	const difficultyConfig = useMemo(
 		() =>
 			getDifficultyConfig(question.difficulty, difficulty =>
-				t(`howWeWork.faqDifficulty.${difficulty}`),
+				String(t(`howWeWork.faqDifficulty.${difficulty}`)),
 			),
-		[question.difficulty], // Removed t dependency - getLabel callback captures current t
+		[question.difficulty],
 	)
 
-	// Optimized: direct i18n keys
+	// Optimized: direct i18n keys using t() directly
 	const categoryName = useMemo(
-		() => t(`howWeWork.faqCategories.${question.category}`),
-		[question.category], // Removed t dependency - constant key lookup
+		() => String(t(`howWeWork.faqCategories.${question.category}`)),
+		[question.category],
 	)
 
 	const handleClick = (): void => {

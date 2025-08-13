@@ -98,7 +98,7 @@ import { StartProjectModal } from '@/components/features/marketing/interaction/s
 			>
 				<StartProjectModal
 					client:load
-					locale={Astro.currentLocale}
+					locale={Astro.currentLocale as 'en' | 'fr'}
 					buttonText={t('pricing.hero.cta.button')}
 				/>
 

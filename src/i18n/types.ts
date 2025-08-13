@@ -60,47 +60,25 @@ export type TranslationValue<K extends TranslationKey> = GetValueAtPath<
 export type LocaleGuard = (value: unknown) => value is Locale
 
 // Navigation link type used across components
-export interface NavigationLink {
+export type NavigationLink = Readonly<{
 	href: string
 	labelKey: TranslationKey
-}
+}>
 
-// Array of navigation links
+// Array of navigation links (readonly compatible)
 export type NavigationLinks = NavigationLink[]
 
-// Type helper to extract structure without literal string types
+// Type helper to extract structure without literal string types - generic only
 type StructureOf<T> = {
 	readonly [K in keyof T]: T[K] extends string
 		? string
 		: T[K] extends readonly string[]
 			? readonly string[]
-			: T[K] extends readonly { name: string; description: string }[]
-				? readonly { name: string; description: string }[]
-				: T[K] extends readonly { question: string; answer: string }[]
-					? readonly { question: string; answer: string }[]
-					: T[K] extends readonly {
-								name: string
-								price: string
-								responseTime: string
-								availability: string
-								description: string
-								features: readonly string[]
-								suitable: string
-						  }[]
-						? readonly {
-								name: string
-								price: string
-								responseTime: string
-								availability: string
-								description: string
-								features: readonly string[]
-								suitable: string
-							}[]
-						: T[K] extends readonly unknown[]
-							? readonly string[]
-							: T[K] extends object
-								? StructureOf<T[K]>
-								: T[K]
+			: T[K] extends readonly unknown[]
+				? readonly unknown[]
+				: T[K] extends object
+					? StructureOf<T[K]>
+					: T[K]
 }
 
 // Type for other language dictionaries - validates structure but allows different string values

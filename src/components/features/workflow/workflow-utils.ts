@@ -1,4 +1,4 @@
-import { t } from '@/lib/i18n'
+import { translateSteps } from '@/lib/i18n/translate-utils'
 
 import {
 	STEP_CONFIG,
@@ -8,7 +8,7 @@ import {
 	type StepConfig,
 } from './workflow-constants'
 
-import type { TranslationKey } from '@/i18n/types'
+import type { StepKey } from '@/lib/i18n/types'
 
 // Utility function to generate step data with translations
 export const generateSteps = (): Step[] =>
@@ -17,12 +17,11 @@ export const generateSteps = (): Step[] =>
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
+		const stepData = translateSteps(key as StepKey)
 		return {
 			key,
-			title: String(t(`howWeWork.steps.${key}.title` as TranslationKey)),
-			number: String(
-				t(`howWeWork.steps.${key}.number` as TranslationKey),
-			),
+			title: String(stepData.title),
+			number: String(stepData.number),
 			icon: config.icon,
 		}
 	})
@@ -34,24 +33,15 @@ export const generateDetailedSteps = (): DetailedStep[] =>
 		if (!config) {
 			throw new Error(`Step config not found for key: ${key}`)
 		}
+		const stepData = translateSteps(key as StepKey)
 		return {
 			id: key,
-			title: String(t(`howWeWork.steps.${key}.title` as TranslationKey)),
-			number: String(
-				t(`howWeWork.steps.${key}.number` as TranslationKey),
-			),
-			description: String(
-				t(`howWeWork.steps.${key}.description` as TranslationKey),
-			),
-			details: t(
-				`howWeWork.steps.${key}.details` as TranslationKey,
-			) as readonly string[],
-			deliverables: String(
-				t(`howWeWork.steps.${key}.deliverables` as TranslationKey),
-			),
-			duration: String(
-				t(`howWeWork.steps.${key}.duration` as TranslationKey),
-			),
+			title: String(stepData.title),
+			number: String(stepData.number),
+			description: String(stepData.description),
+			details: stepData.details as readonly string[],
+			deliverables: String(stepData.deliverables),
+			duration: String(stepData.duration),
 			icon: config.icon,
 		}
 	})
