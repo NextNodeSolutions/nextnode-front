@@ -78,7 +78,6 @@ export default function WorkflowJourneyInteractive({
 						isOpen={openModalIndex === index}
 						onClose={closeModal}
 						step={step}
-						stepIndex={index}
 						color={color}
 					/>
 				)

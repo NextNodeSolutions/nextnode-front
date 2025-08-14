@@ -34,7 +34,6 @@ export interface StepModalProps {
 	isOpen: boolean
 	onClose: () => void
 	step: Step
-	stepIndex: number
 	color: string
 }
 

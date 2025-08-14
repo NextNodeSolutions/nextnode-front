@@ -15,7 +15,6 @@ export default function StepModal({
 	isOpen,
 	onClose,
 	step,
-	stepIndex: _stepIndex,
 	color,
 }: StepModalProps): React.ReactElement {
 	const { t } = useI18n()

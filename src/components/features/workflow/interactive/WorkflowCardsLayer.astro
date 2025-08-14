@@ -22,7 +22,7 @@ const stepPositions = calculateStepPositions(variant)
 <!-- Card overlay layer -->
 <div class="workflow-cards-container">
 	{
-		stepPositions.map((position: StepPosition, index: number) => {
+		stepPositions.map((position, index) => {
 			const stepKey = STEP_KEYS[index]
 			const color = STEP_COLORS[index]
 
