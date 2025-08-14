@@ -4,7 +4,8 @@ import {
 	DESKTOP_WORKFLOW_POSITIONS,
 	generateGradientStops,
 } from '../workflow-constants'
-import type { Step, WorkflowPosition } from '@/types/workflow'
+import type { Step } from '@/types/workflow'
+import type { WorkflowPosition } from '@/types/workflow'
 
 import WorkflowGradients from '../visual/WorkflowGradients.astro'
 import WorkflowPath from '../visual/WorkflowPath.astro'
@@ -42,7 +43,7 @@ const stepCardVariant = variant === 'large' ? 'compact' : variant
 // Function to calculate the correct rectangle position
 // based on line direction and rectangle dimensions
 function calculateRectanglePosition(
-	position: Position,
+	position: WorkflowPosition,
 	width: number,
 	height: number,
 ) {

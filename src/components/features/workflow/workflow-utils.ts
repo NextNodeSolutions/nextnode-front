@@ -14,12 +14,7 @@ export const generateWorkflowSteps = (): Step[] =>
 		const stepData = translateSteps(key)
 		return {
 			id: key,
-			title: stepData.title,
-			number: stepData.number,
-			description: stepData.description,
-			details: stepData.details,
-			deliverables: stepData.deliverables,
-			duration: stepData.duration,
+			...stepData,
 			icon: config.icon,
 		}
 	})

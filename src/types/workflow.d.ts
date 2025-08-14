@@ -1,6 +1,8 @@
 // Centralized types for the workflow system
 // Single source of truth for all workflow-related types
 
+import type { EnglishDict } from '@/lib/i18n/types'
+
 export interface StepConfig {
 	icon: string
 	color: string
@@ -21,17 +23,11 @@ export interface GradientStop {
 	opacity: string
 }
 
-// Unified Step interface (formerly DetailedStep)
-export interface Step {
+// Step type derived DIRECTLY from i18n data - DRY and KISS
+export type Step = {
 	id: string
-	title: string
-	number: string
-	description: string
-	details: readonly string[]
-	deliverables: string
-	duration: string
 	icon: string
-}
+} & EnglishDict['howWeWork']['steps'][keyof EnglishDict['howWeWork']['steps']]
 
 // Types pour les composants de modal
 export interface StepModalProps {
