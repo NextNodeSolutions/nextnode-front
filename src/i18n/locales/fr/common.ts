@@ -32,4 +32,24 @@ export const common = {
 		defaultDescription:
 			'Template moderne et performant créé avec Astro et Nextnode',
 	},
+	// Exemples pour tester le nouveau système i18n
+	examples: {
+		messages: [
+			'Bienvenue {name} !',
+			'Votre compte a été créé le {date}',
+			'Vous avez {count} nouvelles notifications',
+		],
+		interpolation: {
+			greeting: 'Bonjour {name}, bienvenue sur {siteName} !',
+			datetime: 'Nous sommes le {date} et il est {time}',
+			plural: 'Vous avez {count} {count, plural, =0 {éléments} one {élément} other {éléments}}',
+		},
+		nested: {
+			level1: {
+				level2: {
+					value: 'Valeur imbriquée profonde pour les tests',
+				},
+			},
+		},
+	},
 } as const

@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { useI18n } from '@/lib/i18n/i18n-client'
+import { useI18n } from '@/lib/i18n/react'
 import {
 	BaseModal,
 	ModalHeader,
 	ModalInfoCard,
 } from '@/components/ui/modals/BaseModal'
 
-import { STEP_KEYS } from '../workflow-constants'
 import StepIllustration from '../visual/StepIllustrations'
 
 import type { StepModalProps } from '@/types/workflow'
@@ -15,20 +14,18 @@ import type { StepModalProps } from '@/types/workflow'
 export default function StepModal({
 	isOpen,
 	onClose,
-	step: _step,
-	detailedStep,
-	stepIndex,
+	step,
 	color,
 }: StepModalProps): React.ReactElement {
 	const { t } = useI18n()
-	const stepKey = STEP_KEYS[stepIndex] || 'discovery'
+	const stepKey = step.id
 
 	return (
 		<BaseModal
 			isOpen={isOpen}
 			onClose={onClose}
 			color={color}
-			title={detailedStep.title}
+			title={step.title}
 			width="900px"
 			maxWidth="95vw"
 			className="sm:max-w-[900px]"
@@ -43,10 +40,10 @@ export default function StepModal({
 		>
 			<div className="min-h-0 flex-1">
 				<ModalHeader
-					title={detailedStep.title}
-					description={detailedStep.description}
+					title={step.title}
+					description={step.description}
 					badge={{
-						text: detailedStep.number,
+						text: step.number,
 						color: color,
 					}}
 				/>
@@ -56,7 +53,7 @@ export default function StepModal({
 						{t('modal.stepModal.whatWeDo')}
 					</h3>
 					<ul className="space-y-2">
-						{detailedStep.details.map((detail, index) => (
+						{step.details.map((detail, index) => (
 							<li key={index} className="flex items-start gap-3">
 								<div
 									className="mt-2 h-2 w-2 flex-shrink-0 rounded-full"
@@ -84,7 +81,7 @@ export default function StepModal({
 						</svg>
 					}
 					title={t('modal.stepModal.deliverables')}
-					content={detailedStep.deliverables}
+					content={step.deliverables}
 					color="blue"
 				/>
 
@@ -100,7 +97,7 @@ export default function StepModal({
 						</svg>
 					}
 					title={t('modal.stepModal.duration')}
-					content={detailedStep.duration}
+					content={step.duration}
 					color="purple"
 				/>
 			</div>

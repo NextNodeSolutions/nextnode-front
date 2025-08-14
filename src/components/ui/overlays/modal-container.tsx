@@ -12,6 +12,14 @@ import { cn } from '@/lib/core/utils'
 
 import GlassmorphicOverlay from './glassmorphic-overlay'
 
+import type { CSSProperties } from 'react'
+
+// Type for CSS properties with custom variables
+type ModalCSSProperties = CSSProperties & {
+	'--modal-width': string
+	'--modal-max-width': string
+}
+
 interface ModalContainerProps {
 	isOpen: boolean
 	onClose: () => void
@@ -54,10 +62,7 @@ export default function ModalContainer({
 						...glassmorphism.container,
 						'--modal-width': width,
 						'--modal-max-width': maxWidth,
-					} as React.CSSProperties & {
-						'--modal-width': string
-						'--modal-max-width': string
-					}
+					} as ModalCSSProperties
 				}
 				data-modal-size="custom"
 			>

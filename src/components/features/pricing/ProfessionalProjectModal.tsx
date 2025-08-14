@@ -8,14 +8,12 @@ import { ProfessionalProjectModalContent } from './ProfessionalProjectModalConte
 
 interface ProfessionalProjectModalProps {
 	className?: string
-	locale?: string
 	plan: 'business' | 'enterprise'
 	buttonText: string
 }
 
 export const ProfessionalProjectModal = ({
 	className,
-	locale,
 	plan,
 	buttonText,
 }: ProfessionalProjectModalProps): React.ReactElement => {
@@ -45,7 +43,6 @@ export const ProfessionalProjectModal = ({
 			<ProfessionalProjectModalContent
 				isOpen={isOpen}
 				onClose={() => setIsOpen(false)}
-				locale={locale}
 				plan={plan}
 			/>
 		</div>

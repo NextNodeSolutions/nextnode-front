@@ -1,6 +1,8 @@
 ---
 import { cn } from '@/lib/core/utils'
-import { t } from '@/lib/i18n/i18n-server'
+
+// Use new i18n system from middleware
+const { t } = Astro.locals
 ---
 
 <footer
@@ -14,12 +16,7 @@ import { t } from '@/lib/i18n/i18n-server'
 			class="flex flex-col items-center justify-between gap-4 text-xs md:flex-row"
 		>
 			<div class="text-gray-600 dark:text-gray-200">
-				{
-					t('footer.copyright').replace(
-						'{year}',
-						new Date().getFullYear().toString(),
-					)
-				}
+				{t('footer.copyright', { year: new Date().getFullYear() })}
 			</div>
 			<div class="flex gap-6">
 				<a

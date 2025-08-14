@@ -1,7 +1,7 @@
 ---
 import StepCard from '../cards/StepCard.astro'
 import {
-	calculateAllStepPositions,
+	calculateStepPositions,
 	getWorkflowPositioning,
 	type WorkflowVariant,
 } from './workflow-positioning'
@@ -15,7 +15,7 @@ const { variant = 'mini' } = Astro.props
 
 // Get positioning data
 const { stepCardVariant } = getWorkflowPositioning(variant)
-const stepPositions = calculateAllStepPositions(variant)
+const stepPositions = calculateStepPositions(variant)
 ---
 
 <!-- Card overlay layer -->

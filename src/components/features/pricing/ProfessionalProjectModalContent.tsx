@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useI18n } from '@/lib/i18n/i18n-client'
+import { useI18n } from '@/lib/i18n/react'
 import { PRICING_CONFIG, formatPrice } from '@/config/pricing'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
 import { Button } from '@/components/ui/forms/button'
@@ -11,17 +11,15 @@ import { Select } from '@/components/ui/forms/select'
 interface ProfessionalProjectModalContentProps {
 	isOpen: boolean
 	onClose: () => void
-	locale?: string
 	plan: 'business' | 'enterprise'
 }
 
 export const ProfessionalProjectModalContent = ({
 	isOpen,
 	onClose,
-	locale,
 	plan,
 }: ProfessionalProjectModalContentProps): React.ReactElement => {
-	const { t } = useI18n(locale)
+	const { t } = useI18n()
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',

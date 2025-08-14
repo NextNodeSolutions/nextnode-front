@@ -1,26 +1,26 @@
 import React, { useState } from 'react'
 
 import { cn } from '@/lib/core/utils'
-import { useI18n } from '@/lib/i18n/i18n-client'
+import { useI18n } from '@/lib/i18n/react'
 import { Button } from '@/components/ui/forms/button'
-import { PLAN_THEMES, type PlanType } from '@/lib/ui/pricing-constants'
+import { PLAN_THEMES } from '@/lib/ui/pricing-constants'
 
 import { StartProjectModalContent } from './StartProjectModalContent'
 
+import type { Plan } from '@/lib/types/plans'
+
 interface StartProjectModalProps {
 	className?: string
-	locale?: string
 	buttonText?: string
-	plan?: PlanType
+	plan?: Plan
 }
 
 export const StartProjectModal = ({
 	className,
-	locale,
 	buttonText,
 	plan,
 }: StartProjectModalProps): React.ReactElement => {
-	const { t } = useI18n(locale)
+	const { t } = useI18n()
 	const [isOpen, setIsOpen] = useState(false)
 	const planTheme = plan ? PLAN_THEMES[plan] : null
 
@@ -80,7 +80,6 @@ export const StartProjectModal = ({
 			<StartProjectModalContent
 				isOpen={isOpen}
 				onClose={() => setIsOpen(false)}
-				locale={locale}
 			/>
 		</div>
 	)

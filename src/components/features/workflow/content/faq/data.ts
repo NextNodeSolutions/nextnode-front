@@ -1,4 +1,5 @@
-import { t } from '@/lib/i18n/i18n-server'
+import { translateFAQCategory } from '@/lib/i18n/translate-utils'
+import { t } from '@/lib/i18n'
 import { sortQuestionsByDifficulty } from '@/utils/faq-helpers'
 
 import type { FAQQuestion, FAQCategory } from './types'
@@ -28,42 +29,12 @@ export const FAQ_CATEGORIES_CONFIG = {
 
 export type FAQCategoryId = 'all' | keyof typeof FAQ_CATEGORIES_CONFIG
 
-interface I18nQuestionData {
-	question: string
-	answer: string
-}
-
-/**
- * Helper type-safe pour accéder aux données i18n d'une catégorie FAQ
- * Throw une erreur explicite si les données n'existent pas (pas de fallback)
- */
-function getFAQCategoryData(categoryKey: string): I18nQuestionData[] {
-	try {
-		// Accès aux données i18n avec un seul cast propre
-		const categoryData = (t as unknown as (key: string) => unknown)(
-			`howWeWork.faq.questions.${categoryKey}`,
-		)
-
-		if (!Array.isArray(categoryData)) {
-			throw new Error(
-				`FAQ category '${categoryKey}' is not an array in i18n data`,
-			)
-		}
-
-		return categoryData as I18nQuestionData[]
-	} catch (error) {
-		throw new Error(
-			`Failed to load FAQ data for category '${categoryKey}': ${error instanceof Error ? error.message : String(error)}`,
-		)
-	}
-}
-
 export function getFAQQuestions(): FAQQuestion[] {
 	const allQuestions: FAQQuestion[] = []
 
 	// Itération générique sur la configuration au lieu de duplication
 	Object.entries(FAQ_CATEGORIES_CONFIG).forEach(([categoryKey, config]) => {
-		const categoryQuestions = getFAQCategoryData(categoryKey)
+		const categoryQuestions = translateFAQCategory(categoryKey)
 
 		categoryQuestions.forEach((questionData, questionIndex) => {
 			allQuestions.push({

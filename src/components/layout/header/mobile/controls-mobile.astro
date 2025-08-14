@@ -1,11 +1,10 @@
 ---
-import { languages } from '@/lib/i18n/i18n-constants'
+import { languages } from '@/i18n/config'
 import { Sun, Moon } from 'lucide-react'
-import { t } from '@/lib/i18n/i18n-server'
 import { cn } from '@/lib/core/utils'
 
-// Get current locale from server
-const currentLocale = Astro.currentLocale || 'en'
+// Use new i18n system from middleware
+const { locale: currentLocale, t } = Astro.locals
 ---
 
 <div class="border-t border-gray-200 pt-4 dark:border-gray-700">
@@ -28,9 +27,7 @@ const currentLocale = Astro.currentLocale || 'en'
 							id={`lang-button-${lang.code}-mobile`}
 						>
 							<span class="text-xl">{lang.flag}</span>
-							<span class="text-xs font-medium">
-								{lang.label}
-							</span>
+							<span class="text-xs font-medium">{lang.name}</span>
 						</button>
 					)
 				})

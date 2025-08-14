@@ -2,6 +2,7 @@
  * Configuration centralisée des prix
  * Modifiez les valeurs dans ce fichier pour mettre à jour tous les prix du site
  */
+
 export const PRICING_CONFIG = {
 	// Prix de base mensuel pour l'hébergement et maintenance
 	monthly: {
@@ -63,8 +64,3 @@ export const formatPrice = {
 	supplement: (price: number, currency = '€'): string =>
 		`+${price.toLocaleString('fr-FR')}${currency}/mois`,
 }
-
-/**
- * Type helpers pour la sécurité des types
- */
-export type PricingPlanType = keyof typeof PRICING_CONFIG.plans
