@@ -1,11 +1,14 @@
 ---
 import { STEP_COLORS } from '../workflow-constants'
-import { generateDetailedSteps } from '../workflow-utils'
+import type { Step } from '@/types/workflow'
 import TimelineNode from './TimelineNode.astro'
 import StepCardContainer from '../cards/StepCardContainer.astro'
 
-// Générer les données des étapes
-const detailedSteps = generateDetailedSteps()
+export interface Props {
+	steps: Step[]
+}
+
+const { steps } = Astro.props
 ---
 
 <div class="mobile-timeline w-full py-12">
@@ -18,7 +21,7 @@ const detailedSteps = generateDetailedSteps()
 			>
 			</div>
 			{
-				detailedSteps.map((step, index) => {
+				steps.map((step, index) => {
 					const color = STEP_COLORS[index]!
 
 					return (

@@ -1,5 +1,5 @@
 // Centralized types for the workflow system
-// Merged from workflow-constants.ts and various components
+// Single source of truth for all workflow-related types
 
 export interface StepConfig {
 	icon: string
@@ -21,14 +21,8 @@ export interface GradientStop {
 	opacity: string
 }
 
+// Unified Step interface (formerly DetailedStep)
 export interface Step {
-	key: string
-	title: string
-	number: string
-	icon: string
-}
-
-export interface DetailedStep {
 	id: string
 	title: string
 	number: string
@@ -43,18 +37,7 @@ export interface DetailedStep {
 export interface StepModalProps {
 	isOpen: boolean
 	onClose: () => void
-	step: {
-		icon: string
-		title: string
-	}
-	detailedStep: {
-		title: string
-		number: string
-		description: string
-		details: readonly string[]
-		deliverables: string
-		duration: string
-	}
+	step: Step
 	stepIndex: number
 	color: string
 }
@@ -62,7 +45,6 @@ export interface StepModalProps {
 // Types pour les composants interactifs
 export interface WorkflowJourneyInteractiveProps {
 	steps: Step[]
-	detailedSteps: DetailedStep[]
 	colors: readonly string[]
 }
 

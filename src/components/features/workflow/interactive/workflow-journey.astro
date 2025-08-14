@@ -3,22 +3,20 @@ import {
 	STEP_COLORS,
 	DESKTOP_WORKFLOW_POSITIONS,
 	generateGradientStops,
-	type Position,
 } from '../workflow-constants'
-import { generateDetailedSteps } from '../workflow-utils'
+import type { Step, WorkflowPosition } from '@/types/workflow'
 
 import WorkflowGradients from '../visual/WorkflowGradients.astro'
 import WorkflowPath from '../visual/WorkflowPath.astro'
 import StepCard from '../cards/StepCard.astro'
 
 export interface Props {
+	steps: Step[]
 	variant?: 'mini' | 'compact' | 'large'
 }
 
-const { variant = 'mini' } = Astro.props
+const { steps, variant = 'mini' } = Astro.props
 
-// Step data with translations
-const detailedSteps = generateDetailedSteps()
 const positions = DESKTOP_WORKFLOW_POSITIONS
 const gradientStops = generateGradientStops(STEP_COLORS)
 
@@ -109,7 +107,7 @@ function calculateRectanglePosition(
 				{
 					positions.map((position, index) => {
 						const color = STEP_COLORS[index]
-						const step = detailedSteps[index]
+						const step = steps[index]
 
 						if (!step || !color) {
 							return null
@@ -154,7 +152,7 @@ function calculateRectanglePosition(
 			<div class="absolute inset-0">
 				{
 					positions.map((position, index) => {
-						const step = detailedSteps[index]
+						const step = steps[index]
 						if (!step) return null
 
 						// Calculate rectangle position

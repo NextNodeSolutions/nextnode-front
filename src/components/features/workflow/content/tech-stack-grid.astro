@@ -1,16 +1,50 @@
 ---
 // Use new i18n system from middleware
-const { t } = Astro.locals
-import { TECH_CATEGORIES, getTechColorClasses } from '@/data/tech-stack'
+const { t, locale } = Astro.locals
+import {
+	TECH_METADATA,
+	getTechColorClasses,
+	getCategoryMetadata,
+	getTechnologyMetadata,
+} from '@/data/tech-stack-metadata'
 import TechCard from '@/components/ui/cards/TechCard.astro'
 import { cn } from '@/lib/core/utils'
 
-// Generate categories with translated titles and descriptions
-const categories = TECH_CATEGORIES.map(category => ({
-	...category,
-	title: t(category.titleKey),
-	description: t(category.descriptionKey),
-}))
+// Import i18n data to get the structure
+import { howWeWork as enHowWeWork } from '@/i18n/locales/en/pages/how-we-work'
+import { howWeWork as frHowWeWork } from '@/i18n/locales/fr/pages/how-we-work'
+
+// Get localized data
+const howWeWorkData = locale === 'fr' ? frHowWeWork : enHowWeWork
+
+// Build categories from i18n data with metadata
+const categories = Object.entries(howWeWorkData.techStack.categories).map(
+	([id, categoryData]) => {
+		const metadata = getCategoryMetadata(id)
+		const colors = getTechColorClasses(metadata.color)
+
+		// Map technologies with their metadata
+		const technologies = categoryData.technologies.map((tech, index) => {
+			const techMeta = getTechnologyMetadata(id, index)
+			return {
+				name: tech.name,
+				description: tech.description,
+				icon: techMeta?.icon || '📦',
+				level: techMeta?.level || 80,
+			}
+		})
+
+		return {
+			id,
+			title: categoryData.title,
+			description: categoryData.description,
+			icon: metadata.icon,
+			color: metadata.color,
+			colors,
+			technologies,
+		}
+	},
+)
 ---
 
 <div class="tech-stack-grid">
@@ -18,14 +52,13 @@ const categories = TECH_CATEGORIES.map(category => ({
 	<div class="mb-12 flex flex-wrap justify-center gap-4">
 		{
 			categories.map((category, index) => {
-				const colors = getTechColorClasses(category.color)
 				return (
 					<button
 						class={cn(
 							'category-tab rounded-full px-6 py-3 font-semibold transition-all duration-300 hover:scale-105 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none',
-							colors.border,
-							colors.bgLight,
-							colors.text,
+							category.colors.border,
+							category.colors.bgLight,
+							category.colors.text,
 							index === 0 && 'active',
 						)}
 						data-category={category.id}
@@ -42,7 +75,6 @@ const categories = TECH_CATEGORIES.map(category => ({
 	<div class="relative min-h-[600px]">
 		{
 			categories.map((category, categoryIndex) => {
-				const colors = getTechColorClasses(category.color)
 				return (
 					<div
 						id={`category-${category.id}`}
@@ -58,7 +90,7 @@ const categories = TECH_CATEGORIES.map(category => ({
 							<div
 								class={cn(
 									'mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br text-2xl text-white shadow-lg',
-									colors.bg,
+									category.colors.bg,
 								)}
 							>
 								{category.icon}
@@ -75,8 +107,13 @@ const categories = TECH_CATEGORIES.map(category => ({
 						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
 							{category.technologies.map((tech, techIndex) => (
 								<TechCard
-									technology={tech}
-									category={category}
+									name={tech.name}
+									description={tech.description}
+									icon={tech.icon}
+									level={tech.level}
+									categoryId={category.id}
+									categoryColor={category.color}
+									categoryIcon={category.icon}
 									animationIndex={techIndex}
 								/>
 							))}
@@ -86,8 +123,8 @@ const categories = TECH_CATEGORIES.map(category => ({
 						<div
 							class={cn(
 								'mt-12 rounded-2xl border p-6',
-								colors.bgLight,
-								colors.border,
+								category.colors.bgLight,
+								category.colors.border,
 							)}
 						>
 							<div class="grid grid-cols-1 gap-6 text-center md:grid-cols-3">
@@ -95,7 +132,7 @@ const categories = TECH_CATEGORIES.map(category => ({
 									<div
 										class={cn(
 											'mb-1 text-3xl font-bold',
-											colors.text,
+											category.colors.text,
 										)}
 									>
 										{category.technologies.length}
@@ -110,7 +147,7 @@ const categories = TECH_CATEGORIES.map(category => ({
 									<div
 										class={cn(
 											'mb-1 text-3xl font-bold',
-											colors.text,
+											category.colors.text,
 										)}
 									>
 										{Math.round(
@@ -129,7 +166,7 @@ const categories = TECH_CATEGORIES.map(category => ({
 									<div
 										class={cn(
 											'mb-1 text-3xl font-bold',
-											colors.text,
+											category.colors.text,
 										)}
 									>
 										{

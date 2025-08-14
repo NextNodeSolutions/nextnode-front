@@ -13,10 +13,7 @@ import FAQApp from '@/components/features/workflow/content/faq/FAQApp'
 import WorkflowJourneyInteractive from '@/components/features/workflow/interactive/WorkflowJourneyInteractive'
 // Use new i18n system from middleware
 const { t } = Astro.locals
-import {
-	generateDetailedSteps,
-	generateSteps,
-} from '@/components/features/workflow/workflow-utils'
+import { generateWorkflowSteps } from '@/components/features/workflow/workflow-utils'
 import { STEP_COLORS } from '@/components/features/workflow/workflow-constants'
 
 // Locale is now available from middleware
@@ -26,9 +23,8 @@ const pageTitle =
 	t('howWeWork.hero.title') + ' ' + t('howWeWork.hero.titleHighlight')
 const pageDescription = t('howWeWork.hero.description')
 
-// Workflow steps with all data
-const steps = generateDetailedSteps()
-const simpleSteps = generateSteps()
+// Generate workflow steps once and reuse everywhere
+const steps = generateWorkflowSteps()
 
 // FAQ data
 const faqQuestions = getFAQQuestions()
@@ -78,29 +74,28 @@ const faqTranslations = t('howWeWork.faqSearch')
 					<!-- Desktop/Tablet SVG Version (md and up) -->
 					<!-- Medium screens (md to lg) use mini variant -->
 					<div class="hidden md:block lg:hidden">
-						<WorkflowJourney variant="mini" />
+						<WorkflowJourney variant="mini" steps={steps} />
 					</div>
 
 					<!-- Large screens (lg to xl) use compact variant -->
 					<div class="hidden lg:block xl:hidden">
-						<WorkflowJourney variant="compact" />
+						<WorkflowJourney variant="compact" steps={steps} />
 					</div>
 
 					<!-- Extra large screens (xl and up) use large variant -->
 					<div class="hidden xl:block">
-						<WorkflowJourney variant="large" />
+						<WorkflowJourney variant="large" steps={steps} />
 					</div>
 
 					<!-- Mobile Timeline Version (sm and down) -->
 					<div class="block md:hidden">
-						<MobileTimeline />
+						<MobileTimeline steps={steps} />
 					</div>
 				</div>
 
 				<!-- Interactive Modal System - Shared for both versions -->
 				<WorkflowJourneyInteractive
-					steps={simpleSteps}
-					detailedSteps={steps}
+					steps={steps}
 					colors={STEP_COLORS}
 					client:load
 				/>

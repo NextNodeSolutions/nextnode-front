@@ -1,28 +1,49 @@
 ---
 /**
  * TechCard - Reusable technology card component
- * Extracted from tech-stack-grid.astro for consistent tech display
+ * Uses i18n data with metadata from tech-stack-metadata
  */
 
 // Use new i18n system from middleware
 const { t } = Astro.locals
-import type { Technology, TechCategory } from '@/data/tech-stack'
-import { getTechColorClasses } from '@/data/tech-stack'
+import { getTechColorClasses } from '@/data/tech-stack-metadata'
+import type { TechColor } from '@/data/tech-stack-metadata'
 import { cn } from '@/lib/core/utils'
 
 interface Props {
-	/** Technology data to display */
-	technology: Technology
-	/** Category data for color theming */
-	category: TechCategory
+	/** Technology name */
+	name: string
+	/** Technology description */
+	description: string
+	/** Technology icon */
+	icon: string
+	/** Technology skill level (0-100) */
+	level: number
+	/** Category ID for retrieving color */
+	categoryId: string
+	/** Category color */
+	categoryColor: TechColor
+	/** Category icon */
+	categoryIcon: string
 	/** Animation delay index for staggered animations */
 	animationIndex?: number
 	/** Additional CSS classes */
 	className?: string
 }
 
-const { technology, category, animationIndex = 0, className = '' } = Astro.props
-const colors = getTechColorClasses(category.color)
+const {
+	name,
+	description,
+	icon,
+	level,
+	categoryId,
+	categoryColor,
+	categoryIcon,
+	animationIndex = 0,
+	className = '',
+} = Astro.props
+
+const colors = getTechColorClasses(categoryColor)
 ---
 
 <div
@@ -38,7 +59,7 @@ const colors = getTechColorClasses(category.color)
 		<svg viewBox="0 0 100 100" class="h-full w-full">
 			<defs>
 				<pattern
-					id={`tech-pattern-${category.id}-${animationIndex}`}
+					id={`tech-pattern-${categoryId}-${animationIndex}`}
 					x="0"
 					y="0"
 					width="10"
@@ -51,7 +72,7 @@ const colors = getTechColorClasses(category.color)
 			<rect
 				width="100"
 				height="100"
-				fill={`url(#tech-pattern-${category.id}-${animationIndex})`}
+				fill={`url(#tech-pattern-${categoryId}-${animationIndex})`}
 			></rect>
 		</svg>
 	</div>
@@ -66,16 +87,16 @@ const colors = getTechColorClasses(category.color)
 						colors.bgLight,
 					)}
 				>
-					{technology.icon}
+					{icon}
 				</div>
 				<div>
 					<h4
 						class="text-lg font-semibold text-gray-900 dark:text-white"
 					>
-						{technology.name}
+						{name}
 					</h4>
 					<div class={cn('text-sm font-medium', colors.text)}>
-						{technology.level}% {t('howWeWork.techStats.mastery')}
+						{level}% {t('howWeWork.techStats.mastery')}
 					</div>
 				</div>
 			</div>
@@ -84,7 +105,7 @@ const colors = getTechColorClasses(category.color)
 		<p
 			class="mb-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300"
 		>
-			{t(technology.descriptionKey)}
+			{description}
 		</p>
 
 		<!-- Skill level bar -->
@@ -96,7 +117,7 @@ const colors = getTechColorClasses(category.color)
 					{t('howWeWork.techStats.expertiseLevel')}
 				</span>
 				<span class={cn('text-xs font-bold', colors.text)}>
-					{technology.level}%
+					{level}%
 				</span>
 			</div>
 			<div class="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
@@ -105,7 +126,7 @@ const colors = getTechColorClasses(category.color)
 						'h-2 rounded-full bg-gradient-to-r tech-progress transition-all duration-1000 ease-out',
 						colors.bg,
 					)}
-					data-progress={technology.level}
+					data-progress={level}
 					style="width: 0%"
 				>
 				</div>
