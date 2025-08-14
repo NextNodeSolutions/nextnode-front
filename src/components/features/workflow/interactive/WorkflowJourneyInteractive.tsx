@@ -8,7 +8,6 @@ import type { WorkflowJourneyInteractiveProps } from '@/types/workflow'
 
 export default function WorkflowJourneyInteractive({
 	steps,
-	detailedSteps,
 	colors,
 }: WorkflowJourneyInteractiveProps): React.ReactElement {
 	const { openModalIndex, openModal, closeModal } = useWorkflowModal()
@@ -67,21 +66,18 @@ export default function WorkflowJourneyInteractive({
 		<>
 			{/* Modals */}
 			{steps.map((step, index) => {
-				const detailedStep = detailedSteps[index]
 				const color = colors[index]
 
-				if (!detailedStep || !color) {
+				if (!color) {
 					return null
 				}
 
 				return (
 					<StepModal
-						key={index}
+						key={step.id}
 						isOpen={openModalIndex === index}
 						onClose={closeModal}
 						step={step}
-						detailedStep={detailedStep}
-						stepIndex={index}
 						color={color}
 					/>
 				)

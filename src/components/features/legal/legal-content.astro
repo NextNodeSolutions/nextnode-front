@@ -1,5 +1,6 @@
 ---
-import { t } from '@/lib/i18n/i18n-server'
+// Use new i18n system from middleware
+const { t } = Astro.locals
 import GradientCircle from '@/components/common/gradient-circle.astro'
 
 export interface Props {

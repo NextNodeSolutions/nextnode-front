@@ -1,16 +1,14 @@
 ---
 import { cn } from '@/lib/core/utils'
-import { t } from '@/lib/i18n/i18n-server'
+// Use new i18n system from middleware
+const { t } = Astro.locals
 import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
 import { PricingFAQAccordion } from './PricingFAQAccordion'
 
 // Get FAQ data from translations
 const faqData = {
 	title: t('pricing.faq.title'),
-	questions: t('pricing.faq.questions') as readonly {
-		question: string
-		answer: string
-	}[],
+	questions: t('pricing.faq.questions'),
 }
 ---
 
@@ -45,7 +43,6 @@ const faqData = {
 			</p>
 			<StartProjectModal
 				client:load
-				locale={Astro.currentLocale}
 				buttonText={t('pricing.contactButton')}
 			/>
 		</div>

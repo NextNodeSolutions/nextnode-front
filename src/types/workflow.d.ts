@@ -1,5 +1,7 @@
 // Centralized types for the workflow system
-// Merged from workflow-constants.ts and various components
+// Single source of truth for all workflow-related types
+
+import type { EnglishDict, StepKey } from '@/lib/i18n/types'
 
 export interface StepConfig {
 	icon: string
@@ -21,48 +23,23 @@ export interface GradientStop {
 	opacity: string
 }
 
-export interface Step {
-	key: string
-	title: string
-	number: string
+// Step type derived DIRECTLY from i18n data - DRY and KISS
+export type Step = {
+	id: StepKey
 	icon: string
-}
-
-export interface DetailedStep {
-	id: string
-	title: string
-	number: string
-	description: string
-	details: readonly string[]
-	deliverables: string
-	duration: string
-	icon: string
-}
+} & EnglishDict['howWeWork']['steps'][keyof EnglishDict['howWeWork']['steps']]
 
 // Types pour les composants de modal
 export interface StepModalProps {
 	isOpen: boolean
 	onClose: () => void
-	step: {
-		icon: string
-		title: string
-	}
-	detailedStep: {
-		title: string
-		number: string
-		description: string
-		details: readonly string[]
-		deliverables: string
-		duration: string
-	}
-	stepIndex: number
+	step: Step
 	color: string
 }
 
 // Types pour les composants interactifs
 export interface WorkflowJourneyInteractiveProps {
 	steps: Step[]
-	detailedSteps: DetailedStep[]
 	colors: readonly string[]
 }
 

@@ -1,7 +1,9 @@
 ---
 import { cn } from '@/lib/core/utils'
 import { Check } from 'lucide-react'
-import { t } from '@/lib/i18n/i18n-server'
+// Use new i18n system from middleware
+const { t } = Astro.locals
+import { translatePlan } from '@/lib/i18n/translate-utils'
 import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
 import { ProfessionalProjectModal } from '@/components/features/pricing/ProfessionalProjectModal'
 import {
@@ -9,28 +11,18 @@ import {
 	PRICING_CARD_CLASSES,
 	getPlanCSSVars,
 } from '@/lib/ui/pricing-constants'
-import type { PlanType } from '@/lib/ui/pricing-constants'
+import type { Plan } from '@/lib/types/plans'
 
 export interface Props {
-	plan: PlanType
+	plan: Plan
 	featured?: boolean
 	animationDelay?: number
 }
 
 const { plan, featured = false, animationDelay = 0 } = Astro.props
 
-// Get plan data - optimized single object creation
-const planData = {
-	name: t(`pricing.plans.${plan}.name`),
-	tagline: t(`pricing.plans.${plan}.tagline`),
-	price: t(`pricing.plans.${plan}.price`),
-	recurring: t(`pricing.plans.${plan}.recurring`),
-	badge: t(`pricing.plans.${plan}.badge`),
-	description: t(`pricing.plans.${plan}.description`),
-	features: t(`pricing.plans.${plan}.features`) as readonly string[],
-	cta: t(`pricing.plans.${plan}.cta`),
-	examples: t(`pricing.plans.${plan}.examples`) as readonly string[],
-}
+// Get plan data using translatePlan utility for proper typing
+const planData = translatePlan(plan)
 
 // Get additional translation
 const examplesTitle = t('pricing.sections.examplesTitle')
@@ -160,14 +152,12 @@ const cssVars = getPlanCSSVars(plan)
 			plan === 'starter' ? (
 				<StartProjectModal
 					client:load
-					locale={Astro.currentLocale}
 					buttonText={planData.cta}
 					plan={plan}
 				/>
 			) : (
 				<ProfessionalProjectModal
 					client:load
-					locale={Astro.currentLocale}
 					plan={plan}
 					buttonText={planData.cta}
 				/>

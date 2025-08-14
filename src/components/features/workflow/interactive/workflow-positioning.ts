@@ -1,7 +1,6 @@
-import {
-	DESKTOP_WORKFLOW_POSITIONS,
-	type Position,
-} from '../workflow-constants'
+import { DESKTOP_WORKFLOW_POSITIONS } from '../workflow-constants'
+
+import type { WorkflowPosition } from '@/types/workflow'
 
 export type WorkflowVariant = 'mini' | 'compact' | 'large'
 
@@ -19,8 +18,8 @@ export const CARD_DIMENSIONS = {
 /**
  * Calculate the correct rectangle position based on line direction and rectangle dimensions
  */
-export function calculateRectanglePosition(
-	position: Position,
+export function calculateRectPosition(
+	position: WorkflowPosition,
 	width: number,
 	height: number,
 ): { x: number; y: number } {
@@ -39,7 +38,7 @@ export function calculateRectanglePosition(
  * Get positioning data for workflow components
  */
 export function getWorkflowPositioning(variant: WorkflowVariant): {
-	positions: Position[]
+	positions: WorkflowPosition[]
 	cardWidth: number
 	cardHeight: number
 	stepCardVariant: 'compact' | 'mini'
@@ -63,20 +62,24 @@ export function getWorkflowPositioning(variant: WorkflowVariant): {
 	}
 }
 
-/**
- * Calculate positions for all step cards
- */
-export function calculateAllStepPositions(variant: WorkflowVariant): Array<{
+export interface StepPosition {
 	x: number
 	y: number
 	stepIndex: number
-	originalPosition: Position
-}> {
+	originalWorkflowPosition: WorkflowPosition
+}
+
+/**
+ * Calculate positions for all step cards
+ */
+export function calculateStepPositions(
+	variant: WorkflowVariant,
+): StepPosition[] {
 	const { positions, cardWidth, cardHeight } = getWorkflowPositioning(variant)
 
 	return positions.map((position, index) => ({
-		...calculateRectanglePosition(position, cardWidth, cardHeight),
+		...calculateRectPosition(position, cardWidth, cardHeight),
 		stepIndex: index,
-		originalPosition: position,
+		originalWorkflowPosition: position,
 	}))
 }

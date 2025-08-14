@@ -1,42 +1,10 @@
-// Types for the workflow
-export interface StepConfig {
-	icon: string
-	color: string
-}
-
-export interface Position {
-	x: number
-	y: number
-	cardX: number
-	cardY: number
-	lineEndX: number
-	lineEndY: number
-}
-
-export interface GradientStop {
-	offset: string
-	color: string
-	opacity: string
-}
-
-export interface Step {
-	key: string
-	title: string
-	number: string
-	icon: string
-}
-
-// Interface for detailed steps used in workflow-step.astro
-export interface DetailedStep {
-	id: string
-	title: string
-	number: string
-	description: string
-	details: readonly string[]
-	deliverables: string
-	duration: string
-	icon: string
-}
+// Import types from centralized location
+import type {
+	StepConfig,
+	WorkflowPosition,
+	GradientStop,
+} from '@/types/workflow'
+import type { StepKey } from '@/lib/i18n/types'
 
 // Step keys in order (pre-computed for performance)
 export const STEP_KEYS = [
@@ -46,7 +14,7 @@ export const STEP_KEYS = [
 	'testing',
 	'deployment',
 	'support',
-] as const
+] as const satisfies readonly StepKey[]
 
 // Colors for each step (pre-computed for performance)
 export const STEP_COLORS = [
@@ -80,7 +48,7 @@ export const STEP_CONFIG: Record<string, StepConfig> = {
 
 // Desktop positions for StepCard (220x120px) with straight lines
 // Those positions are perfect, do not move them
-export const DESKTOP_WORKFLOW_POSITIONS: Position[] = [
+export const DESKTOP_WORKFLOW_POSITIONS: WorkflowPosition[] = [
 	{ x: 80, y: 60, cardX: -20, cardY: -120, lineEndX: 80, lineEndY: 0 },
 	{ x: 350, y: 75, cardX: 310, cardY: -100, lineEndX: 350, lineEndY: 10 },
 	{ x: 510, y: 140, cardX: 670, cardY: 120, lineEndX: 560, lineEndY: 140 },

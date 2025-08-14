@@ -11,45 +11,27 @@ import {
 } from '@/components/features/workflow/content/faq/data'
 import FAQApp from '@/components/features/workflow/content/faq/FAQApp'
 import WorkflowJourneyInteractive from '@/components/features/workflow/interactive/WorkflowJourneyInteractive'
-import { t, initI18n } from '@/lib/i18n/i18n-server'
-import {
-	generateDetailedSteps,
-	generateSteps,
-} from '@/components/features/workflow/workflow-utils'
-import { generatePageTitle } from '@/lib/core/page-utils'
+// Use new i18n system from middleware
+const { t } = Astro.locals
+import { generateWorkflowSteps } from '@/components/features/workflow/workflow-utils'
 import { STEP_COLORS } from '@/components/features/workflow/workflow-constants'
 
-// Get language from route parameter
-// For [...locale], the parameter can be undefined (for root path) or an array
-const localeParam = Astro.params.locale
-const locale = Array.isArray(localeParam) ? localeParam[0] : localeParam || 'en'
-await initI18n(Astro.request, locale)
+// Locale is now available from middleware
 
 // Page data
-const pageTitle = generatePageTitle(
-	'howWeWork.hero.title',
-	'howWeWork.hero.titleHighlight',
-)
+const pageTitle =
+	t('howWeWork.hero.title') + ' ' + t('howWeWork.hero.titleHighlight')
 const pageDescription = t('howWeWork.hero.description')
 
-// Workflow steps with all data
-const steps = generateDetailedSteps()
-const simpleSteps = generateSteps()
+// Generate workflow steps once and reuse everywhere
+const steps = generateWorkflowSteps()
 
 // FAQ data
 const faqQuestions = getFAQQuestions()
 const faqCategories = getFAQCategories()
 
 // Pre-calculate FAQ translations for client-side hydration
-const faqTranslations = {
-	searchPlaceholder: t('howWeWork.faqSearch.placeholder'),
-	searchTips: t('howWeWork.faqSearch.searchTips'),
-	questionsCount: t('howWeWork.faqSearch.questionsCount'),
-	showingResults: t('howWeWork.faqSearch.showingResults'),
-	showingTotal: t('howWeWork.faqSearch.showingTotal'),
-	noResults: t('howWeWork.faqSearch.noResults'),
-	helpText: t('howWeWork.faqSearch.helpText'),
-}
+const faqTranslations = t('howWeWork.faqSearch')
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -92,29 +74,28 @@ const faqTranslations = {
 					<!-- Desktop/Tablet SVG Version (md and up) -->
 					<!-- Medium screens (md to lg) use mini variant -->
 					<div class="hidden md:block lg:hidden">
-						<WorkflowJourney variant="mini" />
+						<WorkflowJourney variant="mini" steps={steps} />
 					</div>
 
 					<!-- Large screens (lg to xl) use compact variant -->
 					<div class="hidden lg:block xl:hidden">
-						<WorkflowJourney variant="compact" />
+						<WorkflowJourney variant="compact" steps={steps} />
 					</div>
 
 					<!-- Extra large screens (xl and up) use large variant -->
 					<div class="hidden xl:block">
-						<WorkflowJourney variant="large" />
+						<WorkflowJourney variant="large" steps={steps} />
 					</div>
 
 					<!-- Mobile Timeline Version (sm and down) -->
 					<div class="block md:hidden">
-						<MobileTimeline />
+						<MobileTimeline steps={steps} />
 					</div>
 				</div>
 
 				<!-- Interactive Modal System - Shared for both versions -->
 				<WorkflowJourneyInteractive
-					steps={simpleSteps}
-					detailedSteps={steps}
+					steps={steps}
 					colors={STEP_COLORS}
 					client:load
 				/>

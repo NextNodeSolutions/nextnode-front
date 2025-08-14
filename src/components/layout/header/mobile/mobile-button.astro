@@ -1,6 +1,7 @@
 ---
 import { Menu, X } from 'lucide-react'
-import { t } from '@/lib/i18n/i18n-server'
+// Use new i18n system from middleware
+const { t } = Astro.locals
 
 interface Props {
 	action: 'open' | 'close'
