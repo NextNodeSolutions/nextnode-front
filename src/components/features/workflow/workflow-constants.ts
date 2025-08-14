@@ -4,6 +4,7 @@ import type {
 	WorkflowPosition,
 	GradientStop,
 } from '@/types/workflow'
+import type { StepKey } from '@/lib/i18n/types'
 
 // Step keys in order (pre-computed for performance)
 export const STEP_KEYS = [
@@ -13,7 +14,7 @@ export const STEP_KEYS = [
 	'testing',
 	'deployment',
 	'support',
-] as const
+] as const satisfies readonly StepKey[]
 
 // Colors for each step (pre-computed for performance)
 export const STEP_COLORS = [

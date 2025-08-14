@@ -1,7 +1,7 @@
 // Centralized types for the workflow system
 // Single source of truth for all workflow-related types
 
-import type { EnglishDict } from '@/lib/i18n/types'
+import type { EnglishDict, StepKey } from '@/lib/i18n/types'
 
 export interface StepConfig {
 	icon: string
@@ -25,7 +25,7 @@ export interface GradientStop {
 
 // Step type derived DIRECTLY from i18n data - DRY and KISS
 export type Step = {
-	id: string
+	id: StepKey
 	icon: string
 } & EnglishDict['howWeWork']['steps'][keyof EnglishDict['howWeWork']['steps']]
 
