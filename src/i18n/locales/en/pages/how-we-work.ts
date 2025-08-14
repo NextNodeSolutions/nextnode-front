@@ -384,7 +384,7 @@ export const howWeWork = {
 		noResults: 'No questions found matching your search.',
 		showingResults: 'Showing {{count}} question(s)',
 		questionsCount: '{{count}} question{{plural}}',
-		showingTotal: 'Showing {{results}} of {{total}} questions',
+		showingTotal: 'Showing {{start}}-{{end}} of {{total}} questions',
 		searchTips: '💡 Try searching for "cost", "SEO", or "security"',
 		helpText: 'Try using different keywords or browse by category instead.',
 	},

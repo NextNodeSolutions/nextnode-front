@@ -66,12 +66,17 @@ export const PRICING_CARD_CLASSES = {
 		'rounded-2xl border border-gray-200/50',
 		'bg-white/80 backdrop-blur-sm',
 		'dark:border-gray-700/50 dark:bg-gray-800/80',
-		'transition-all duration-500 hover:scale-105',
+		'transition-all duration-500',
+		'hover:shadow-lg md:hover:scale-105', // Scale only on desktop
 		'opacity-0 animate-fade-in-up',
 	],
-	featured: ['scale-105 lg:scale-110', 'shadow-2xl', 'dark:shadow-none'],
+	featured: [
+		'shadow-lg sm:shadow-xl lg:shadow-2xl', // Progressive shadow
+		'sm:scale-105 lg:scale-110', // Scale only on larger screens
+		'dark:shadow-none',
+	],
 	content: {
-		padding: 'p-6 lg:p-8',
+		padding: 'p-4 sm:p-6 lg:p-8', // Mobile-first padding
 		spacing: 'space-y-3',
 	},
 } as const

@@ -17,9 +17,15 @@ export interface Props {
 	plan: Plan
 	featured?: boolean
 	animationDelay?: number
+	className?: string
 }
 
-const { plan, featured = false, animationDelay = 0 } = Astro.props
+const {
+	plan,
+	featured = false,
+	animationDelay = 0,
+	className = '',
+} = Astro.props
 
 // Get plan data using translatePlan utility for proper typing
 const planData = translatePlan(plan)
@@ -45,6 +51,8 @@ const cssVars = getPlanCSSVars(plan)
 		],
 		// Responsive padding
 		PRICING_CARD_CLASSES.content.padding,
+		// Custom className for ordering
+		className,
 	)}
 	style={{
 		animationDelay: animationDelay > 0 ? `${animationDelay}ms` : undefined,
@@ -57,7 +65,7 @@ const cssVars = getPlanCSSVars(plan)
 			<div class="absolute -top-3 left-1/2 -translate-x-1/2">
 				<div
 					class={cn(
-						'rounded-full px-4 py-1 text-sm font-bold text-white',
+						'rounded-full px-3 py-0.5 text-xs font-bold text-white sm:px-4 sm:py-1 sm:text-sm',
 						`bg-gradient-to-r ${planTheme.gradient}`,
 						'shadow-lg',
 					)}
@@ -69,38 +77,44 @@ const cssVars = getPlanCSSVars(plan)
 	}
 
 	<!-- Plan Header -->
-	<div class="mb-8 text-center">
-		<h3 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white">
+	<div class="mb-6 text-center sm:mb-8">
+		<h3
+			class="mb-2 text-xl font-bold text-gray-900 sm:text-2xl dark:text-white"
+		>
 			{planData.name}
 		</h3>
-		<p class="mb-4 text-gray-600 dark:text-gray-400">
+		<p
+			class="mb-3 text-sm text-gray-600 sm:mb-4 sm:text-base dark:text-gray-400"
+		>
 			{planData.tagline}
 		</p>
 
 		<!-- Pricing -->
-		<div class="mb-4">
+		<div class="mb-3 sm:mb-4">
 			<div
 				class={cn(
-					'text-4xl font-bold mb-2',
+					'text-3xl sm:text-4xl font-bold mb-1 sm:mb-2',
 					`bg-gradient-to-r ${planTheme.gradient}`,
 					'bg-clip-text text-transparent',
 				)}
 			>
 				{planData.price}
 			</div>
-			<div class="text-sm text-gray-600 dark:text-gray-400">
+			<div class="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
 				+ {planData.recurring}
 			</div>
 		</div>
 
-		<p class="leading-relaxed text-gray-700 dark:text-gray-300">
+		<p
+			class="text-sm leading-relaxed text-gray-700 sm:text-base dark:text-gray-300"
+		>
 			{planData.description}
 		</p>
 	</div>
 
 	<!-- Features List -->
-	<div class="mb-8 flex-1">
-		<ul class="space-y-3">
+	<div class="mb-6 flex-1 sm:mb-8">
+		<ul class="space-y-2 sm:space-y-3">
 			{
 				planData.features.map(feature => (
 					<li class="flex items-start gap-3">
@@ -123,11 +137,13 @@ const cssVars = getPlanCSSVars(plan)
 	</div>
 
 	<!-- Examples Section -->
-	<div class="mb-8">
-		<h4 class="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
+	<div class="mb-6 sm:mb-8">
+		<h4
+			class="mb-2 text-xs font-semibold text-gray-900 sm:mb-3 sm:text-sm dark:text-white"
+		>
 			{examplesTitle}
 		</h4>
-		<ul class="space-y-2.5">
+		<ul class="space-y-2 sm:space-y-2.5">
 			{
 				planData.examples.map(example => (
 					<li class="flex items-start gap-3">
