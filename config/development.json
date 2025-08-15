@@ -4,8 +4,8 @@
 		"features": ["email", "i18n", "analytics", "debug"]
 	},
 	"email": {
-		"from": "dev@nextnode.local",
-		"to": "dev@nextnode.local",
+		"from": "onboarding@resend.dev",
+		"to": "walidmostefaoui@nextnode.fr",
 		"templates": {
 			"projectRequest": {
 				"subject": "[DEV] Nouvelle demande de projet : {{projectName}}",
