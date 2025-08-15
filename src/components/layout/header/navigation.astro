@@ -1,13 +1,15 @@
 ---
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/core/utils'
 import { ChevronRight } from 'lucide-react'
-import { t } from '@/lib/i18n-server'
+import type { NavigationLinks } from '@/i18n/types'
 
 interface Props {
-	links: { href: string; labelKey: string }[]
+	links: NavigationLinks
 	variant?: 'desktop' | 'mobile'
 }
 
+// Use new i18n system from middleware
+const { t } = Astro.locals
 const { links, variant = 'desktop' } = Astro.props
 ---
 
@@ -23,7 +25,7 @@ const { links, variant = 'desktop' } = Astro.props
 			links.map(link => (
 				<a
 					href={link.href}
-					class="relative rounded-md px-1.5 py-0.5 text-sm text-gray-600 transition-all duration-300 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
+					class="transition-smooth relative rounded-md px-1.5 py-0.5 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
 				>
 					{t(link.labelKey)}
 				</a>
@@ -33,13 +35,13 @@ const { links, variant = 'desktop' } = Astro.props
 				{links.map((link, index) => (
 					<a
 						href={link.href}
-						class="group flex items-center justify-between border-b border-gray-100/50 px-2 py-4 text-gray-700 transition-all duration-300 last:border-b-0 hover:translate-x-2 hover:text-gray-900 dark:border-gray-600/30 dark:text-gray-100 dark:hover:text-white"
+						class="group transition-smooth flex items-center justify-between border-b border-gray-100/50 px-2 py-4 text-gray-700 last:border-b-0 hover:translate-x-2 hover:text-gray-900 dark:border-gray-600/30 dark:text-gray-100 dark:hover:text-white"
 						style={`animation-delay: ${index * 100}ms`}
 					>
-						<span class="text-xl font-medium transition-all duration-300 group-hover:font-semibold">
+						<span class="transition-smooth text-xl font-medium group-hover:font-semibold">
 							{t(link.labelKey)}
 						</span>
-						<ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-all duration-300 dark:text-gray-300 dark:group-hover:text-gray-200" />
+						<ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600 group-hover:translate-x-1 transition-smooth dark:text-gray-300 dark:group-hover:text-gray-200" />
 					</a>
 				))}
 			</div>
@@ -48,7 +50,7 @@ const { links, variant = 'desktop' } = Astro.props
 </nav>
 
 <style>
-	/* Animation d'entrée simple */
+	/* Simple entry animation */
 	@keyframes fadeInUp {
 		from {
 			opacity: 0;

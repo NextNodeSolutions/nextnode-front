@@ -1,0 +1,468 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Header from '@/components/layout/header/header.astro'
+import Footer from '@/components/layout/footer/footer.astro'
+import GradientCircle from '@/components/common/gradient-circle.astro'
+import PricingHero from '@/components/features/pricing/PricingHero.astro'
+import PricingCard from '@/components/features/pricing/PricingCard.astro'
+import PricingFAQ from '@/components/features/pricing/PricingFAQ.astro'
+import { cn } from '@/lib/core/utils'
+// Use new i18n system from middleware
+const { t } = Astro.locals
+
+// Get pricing data for structured data
+const pageTitle = t('pricing.pageTitle')
+const pageDescription = t('pricing.hero.subtitle')
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+	<div class="relative flex min-h-screen flex-col">
+		<Header />
+
+		<main class="flex-1">
+			<!-- Hero Section -->
+			<PricingHero />
+
+			<!-- Pricing Plans Section -->
+			<section
+				id="plans"
+				class="bg-gray-50/50 py-8 sm:py-12 md:py-16 lg:py-20 dark:bg-gray-900/50"
+			>
+				<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<!-- Section Header -->
+					<div class="mb-12 text-center sm:mb-16 lg:mb-20">
+						<h2
+							class={cn(
+								'text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white',
+								'mb-3 sm:mb-4',
+								'opacity-0 animate-fade-in-up',
+							)}
+						>
+							{t('pricing.sections.plans.title')}
+						</h2>
+						<p
+							class={cn(
+								'mx-auto max-w-2xl text-base sm:text-lg text-gray-600 dark:text-gray-300',
+								'opacity-0 animate-fade-in-up animation-delay-200',
+							)}
+						>
+							{t('pricing.sections.plans.subtitle')}
+						</p>
+					</div>
+
+					<!-- Pricing Cards Grid -->
+					<div
+						class={cn(
+							'grid gap-6 sm:gap-8 lg:gap-10',
+							'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+							'items-stretch',
+						)}
+					>
+						<!-- Business Plan -->
+						<PricingCard
+							plan="business"
+							animationDelay={300}
+							className="order-2 lg:order-1"
+						/>
+
+						<!-- Starter Plan (Featured) -->
+						<PricingCard
+							plan="starter"
+							featured={true}
+							animationDelay={400}
+							className="order-1 lg:order-2"
+						/>
+
+						<!-- Enterprise Plan -->
+						<PricingCard
+							plan="enterprise"
+							animationDelay={500}
+							className="order-3 lg:order-3"
+						/>
+					</div>
+
+					<!-- What's Included Section -->
+					<div class="mt-12 sm:mt-16 lg:mt-24">
+						<div class="mb-8 text-center sm:mb-12 lg:mb-16">
+							<h3
+								class={cn(
+									'text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4',
+									'opacity-0 animate-fade-in-up animation-delay-600',
+								)}
+							>
+								{t('pricing.pricing.title')}
+							</h3>
+							<p
+								class={cn(
+									'mx-auto max-w-2xl text-base sm:text-lg text-gray-600 dark:text-gray-300',
+									'opacity-0 animate-fade-in-up animation-delay-700',
+								)}
+							>
+								{t('pricing.pricing.subtitle')}
+							</p>
+						</div>
+
+						<div class="grid gap-6 sm:gap-8 lg:grid-cols-3">
+							<!-- Development -->
+							<div
+								class={cn(
+									'rounded-2xl border border-gray-200/50 p-6 sm:p-8',
+									'bg-white/80 backdrop-blur-sm',
+									'dark:border-gray-700/50 dark:bg-gray-800/80',
+									'opacity-0 animate-fade-in-up animation-delay-800',
+								)}
+							>
+								<h4
+									class="mb-3 text-lg font-semibold text-gray-900 sm:mb-4 sm:text-xl dark:text-white"
+								>
+									{t('pricing.pricing.development.title')}
+								</h4>
+								<p
+									class="mb-4 text-sm text-gray-600 sm:mb-6 sm:text-base dark:text-gray-300"
+								>
+									{
+										t(
+											'pricing.pricing.development.description',
+										)
+									}
+								</p>
+								<ul class="space-y-3">
+									{
+										t(
+											'pricing.pricing.development.details',
+										).map(detail => (
+											<li class="flex items-start gap-3">
+												<div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-indigo-500" />
+												<span class="text-sm text-gray-700 dark:text-gray-300">
+													{detail}
+												</span>
+											</li>
+										))
+									}
+								</ul>
+							</div>
+
+							<!-- Infrastructure & Support -->
+							<div
+								class={cn(
+									'rounded-2xl border border-gray-200/50 p-6 sm:p-8',
+									'bg-white/80 backdrop-blur-sm',
+									'dark:border-gray-700/50 dark:bg-gray-800/80',
+									'opacity-0 animate-fade-in-up animation-delay-900',
+								)}
+							>
+								<h4
+									class="mb-3 text-lg font-semibold text-gray-900 sm:mb-4 sm:text-xl dark:text-white"
+								>
+									{t('pricing.pricing.infrastructure.title')}
+								</h4>
+								<p
+									class="mb-4 text-sm text-gray-600 sm:mb-6 sm:text-base dark:text-gray-300"
+								>
+									{
+										t(
+											'pricing.pricing.infrastructure.description',
+										)
+									}
+								</p>
+								<ul class="space-y-3">
+									{
+										t(
+											'pricing.pricing.infrastructure.details',
+										).map(detail => (
+											<li class="flex items-start gap-3">
+												<div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
+												<span class="text-sm text-gray-700 dark:text-gray-300">
+													{detail}
+												</span>
+											</li>
+										))
+									}
+								</ul>
+							</div>
+
+							<!-- Guarantees -->
+							<div
+								class={cn(
+									'rounded-2xl border border-gray-200/50 p-6 sm:p-8',
+									'bg-white/80 backdrop-blur-sm',
+									'dark:border-gray-700/50 dark:bg-gray-800/80',
+									'opacity-0 animate-fade-in-up animation-delay-1000',
+								)}
+							>
+								<h4
+									class="mb-3 text-lg font-semibold text-gray-900 sm:mb-4 sm:text-xl dark:text-white"
+								>
+									{t('pricing.pricing.guarantee.title')}
+								</h4>
+								<p
+									class="mb-4 text-sm text-gray-600 sm:mb-6 sm:text-base dark:text-gray-300"
+								>
+									{t('pricing.pricing.guarantee.description')}
+								</p>
+								<ul class="space-y-3">
+									{
+										t(
+											'pricing.pricing.guarantee.points',
+										).map(point => (
+											<li class="flex items-start gap-3">
+												<div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-violet-500" />
+												<span class="text-sm text-gray-700 dark:text-gray-300">
+													{point}
+												</span>
+											</li>
+										))
+									}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Support Levels Section -->
+			<section class="py-2 lg:py-6">
+				<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<!-- Section Header -->
+					<div class="mb-16 text-center">
+						<h2
+							class={cn(
+								'text-3xl font-bold tracking-tight text-gray-900 dark:text-white',
+								'sm:text-4xl mb-4',
+								'opacity-0 animate-fade-in-up',
+							)}
+						>
+							{t('pricing.support.title')}
+						</h2>
+						<p
+							class={cn(
+								'mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300',
+								'opacity-0 animate-fade-in-up animation-delay-200',
+							)}
+						>
+							{t('pricing.support.subtitle')}
+						</p>
+					</div>
+
+					<!-- Support Levels Grid -->
+					<div
+						class={cn(
+							'grid gap-8 lg:gap-12',
+							'grid-cols-1 md:grid-cols-3',
+							'items-stretch mb-12',
+						)}
+					>
+						{
+							t('pricing.support.levels').map((level, index) => (
+								<div
+									class={cn(
+										'rounded-2xl border border-gray-200/50 p-6 sm:p-8',
+										'bg-white/80 backdrop-blur-sm',
+										'dark:border-gray-700/50 dark:bg-gray-800/80',
+										'transition-all duration-500',
+										'hover:shadow-lg md:hover:scale-105',
+										index === 0 &&
+											'shadow-lg ring-2 shadow-emerald-500/25 ring-emerald-500/20 sm:scale-105 sm:shadow-xl lg:scale-110',
+										index === 1 &&
+											'shadow-lg ring-2 shadow-indigo-500/25 ring-indigo-500/20 sm:shadow-xl',
+										index === 2 &&
+											'shadow-lg ring-2 shadow-violet-500/25 ring-violet-500/20 sm:shadow-xl',
+										'animate-fade-in-up opacity-0',
+									)}
+									style={`animation-delay: ${400 + index * 200}ms`}
+								>
+									{/* Level Header */}
+									<div class="mb-6 text-center">
+										<h3 class="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+											{level.name}
+										</h3>
+										<div class="mb-4">
+											<div class="mb-1">
+												{index === 0 ? (
+													<span
+														class={cn(
+															'inline-flex items-center gap-2 rounded-full px-4 py-3 text-base font-semibold',
+															'border border-emerald-200 bg-emerald-50 text-emerald-700',
+															'dark:border-emerald-800/50 dark:bg-emerald-950/30 dark:text-emerald-300',
+															'transition-all duration-300 hover:scale-105 hover:bg-emerald-100',
+															'dark:hover:bg-emerald-950/50',
+														)}
+													>
+														<svg
+															class="h-5 w-5"
+															fill="none"
+															stroke="currentColor"
+															viewBox="0 0 24 24"
+														>
+															<path
+																stroke-linecap="round"
+																stroke-linejoin="round"
+																stroke-width="2"
+																d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+															/>
+														</svg>
+														{t(
+															'pricing.sections.alreadyIncluded',
+														)}
+													</span>
+												) : (
+													<div
+														class={cn(
+															'text-3xl font-bold',
+															index === 1 &&
+																'text-indigo-600 dark:text-indigo-400',
+															index === 2 &&
+																'text-violet-600 dark:text-violet-400',
+														)}
+													>
+														{level.price}
+													</div>
+												)}
+											</div>
+											<div class="text-sm text-gray-600 dark:text-gray-400">
+												{t(
+													'pricing.support.responseLabel',
+												)}{' '}
+												{level.responseTime}
+											</div>
+										</div>
+										<p class="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+											{level.description}
+										</p>
+									</div>
+
+									{/* Features */}
+									<div class="mb-6">
+										<ul class="space-y-3">
+											{level.features.map(
+												(feature: string) => (
+													<li class="flex items-start gap-3">
+														<div
+															class={cn(
+																'mt-0.5 flex h-5 w-5 items-center justify-center rounded-full',
+																'flex-shrink-0',
+																index === 0 &&
+																	'bg-green-500',
+																index === 1 &&
+																	'bg-indigo-500',
+																index === 2 &&
+																	'bg-violet-500',
+															)}
+														>
+															<svg
+																class="h-3 w-3 text-white"
+																fill="none"
+																viewBox="0 0 24 24"
+																stroke="currentColor"
+															>
+																<path
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																	stroke-width="2"
+																	d="M5 13l4 4L19 7"
+																/>
+															</svg>
+														</div>
+														<span class="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+															{feature}
+														</span>
+													</li>
+												),
+											)}
+										</ul>
+									</div>
+
+									{/* Suitable For */}
+									<div class="mt-auto">
+										<div
+											class={cn(
+												'rounded-lg p-4 text-center',
+												'bg-gray-50 dark:bg-gray-800/50',
+												'border border-gray-200/50 dark:border-gray-600/50',
+											)}
+										>
+											<div class="mb-1 text-xs font-semibold text-gray-600 dark:text-gray-400">
+												{t('pricing.sections.idealFor')}
+											</div>
+											<div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+												{level.suitable}
+											</div>
+										</div>
+									</div>
+								</div>
+							))
+						}
+					</div>
+
+					<!-- Note -->
+					<div
+						class={cn(
+							'text-center p-6 rounded-2xl',
+							'bg-gradient-to-br from-blue-50 to-indigo-50',
+							'dark:from-gray-800 dark:to-gray-700',
+							'border border-blue-200/50 dark:border-gray-600',
+							'opacity-0 animate-fade-in-up animation-delay-1000',
+						)}
+					>
+						<p
+							class="text-sm leading-relaxed text-gray-600 dark:text-gray-300"
+						>
+							💡 {t('pricing.support.note')}
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- FAQ Section -->
+			<PricingFAQ />
+		</main>
+
+		<GradientCircle />
+		<Footer />
+	</div>
+</BaseLayout>
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+
+	.animation-delay-200 {
+		animation-delay: 200ms;
+	}
+
+	.animation-delay-400 {
+		animation-delay: 400ms;
+	}
+
+	.animation-delay-600 {
+		animation-delay: 600ms;
+	}
+
+	.animation-delay-700 {
+		animation-delay: 700ms;
+	}
+
+	.animation-delay-800 {
+		animation-delay: 800ms;
+	}
+
+	.animation-delay-900 {
+		animation-delay: 900ms;
+	}
+
+	.animation-delay-1000 {
+		animation-delay: 1000ms;
+	}
+</style>

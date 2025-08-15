@@ -1,0 +1,84 @@
+---
+import { languages } from '@/i18n/config'
+import { ChevronDown, Sun, Moon } from 'lucide-react'
+// Use new i18n system from middleware
+const { locale: currentLocale, t } = Astro.locals
+const currentLanguage =
+	languages.find(lang => lang.code === currentLocale) ||
+	languages.find(lang => lang.code === 'en')!
+---
+
+<div class="flex items-center space-x-6">
+	<!-- Theme Toggle -->
+	<button
+		id="theme-toggle-desktop"
+		class="btn-icon"
+		aria-label={t('common.ui.toggleTheme')}
+	>
+		<Sun id="sun-icon-desktop" className="h-4 w-4" />
+		<Moon id="moon-icon-desktop" className="hidden h-4 w-4" />
+	</button>
+
+	<!-- Desktop Language Selector with Dropdown -->
+	<div class="group relative">
+		<button
+			class="flex cursor-pointer items-center space-x-1.5 text-gray-600 transition-all duration-300 hover:scale-105 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+			aria-label={t('common.ui.selectLanguage')}
+			id="current-language-desktop"
+		>
+			<span class="text-base" id="current-flag-desktop"
+				>{currentLanguage.flag}</span
+			>
+			<span class="text-xs" id="current-lang-desktop"
+				>{currentLanguage.code.toUpperCase()}</span
+			>
+			<ChevronDown
+				className="h-3 w-3 transition-transform duration-300 group-hover:rotate-180"
+			/>
+		</button>
+		<div
+			class="invisible absolute right-0 mt-2 w-40 translate-y-2 transform rounded-lg border border-white/20 bg-white/80 opacity-0 shadow-lg backdrop-blur-md transition-all duration-300 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 dark:border-gray-600/20 dark:bg-gray-800/80 dark:backdrop-blur-md"
+		>
+			{
+				languages.map(lang => (
+					<button
+						data-lang={lang.code}
+						class="flex w-full cursor-pointer items-center space-x-2 px-4 py-2 text-gray-600 transition-all duration-300 hover:translate-x-1 hover:bg-white/60 hover:text-gray-900 dark:text-gray-100 dark:hover:bg-gray-700/60 dark:hover:text-white"
+					>
+						<span class="text-lg">{lang.flag}</span>
+						<span>{lang.name}</span>
+					</button>
+				))
+			}
+		</div>
+	</div>
+</div>
+
+<!-- Initialize icons with correct state -->
+<script is:inline>
+	// Consolidated theme toggle script from theme-utils.ts
+	function initThemeIcons() {
+		const savedTheme = localStorage.getItem('theme')
+		const systemPrefersDark = window.matchMedia(
+			'(prefers-color-scheme: dark)',
+		).matches
+		const isDark =
+			savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
+
+		const sunIcon = document.getElementById('sun-icon-desktop')
+		const moonIcon = document.getElementById('moon-icon-desktop')
+
+		if (sunIcon && moonIcon) {
+			if (isDark) {
+				sunIcon.classList.add('hidden')
+				moonIcon.classList.remove('hidden')
+			} else {
+				sunIcon.classList.remove('hidden')
+				moonIcon.classList.add('hidden')
+			}
+		}
+	}
+	initThemeIcons()
+</script>
+
+<!-- No need for client-side initialization - server-side values are already correct -->

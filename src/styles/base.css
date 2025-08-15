@@ -1,3 +1,5 @@
+@reference "./global.css";
+
 html {
 	scroll-behavior: smooth;
 }
@@ -6,4 +8,146 @@ body {
 	font-family: var(--font-family-sans);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Component utility classes using @apply */
+
+/* Button patterns */
+.btn-icon {
+	@apply text-muted-foreground hover:bg-accent hover:text-accent-foreground cursor-pointer rounded-full p-1.5 transition-all duration-300 hover:scale-110;
+}
+
+.btn-gradient-primary {
+	@apply bg-primary text-primary-foreground shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl;
+}
+
+/* Common transitions */
+.transition-smooth {
+	@apply transition-all duration-300;
+}
+
+.transition-transform {
+	@apply transition-transform duration-300;
+}
+
+.transition-shadow {
+	@apply transition-shadow duration-300;
+}
+
+/* Container patterns */
+.card-container {
+	@apply border-border bg-card rounded-2xl border shadow-xl;
+}
+
+.card-base {
+	@apply rounded-2xl shadow-lg transition-shadow duration-300 hover:shadow-2xl;
+	@apply bg-card text-card-foreground;
+}
+
+/* Layout utilities */
+.flex-center {
+	@apply flex items-center justify-center;
+}
+
+.flex-between {
+	@apply flex items-center justify-between;
+}
+
+/* Text utilities */
+.text-muted {
+	@apply text-muted-foreground;
+}
+
+.text-heading {
+	@apply text-foreground;
+}
+
+/* Hover effects */
+.hover-lift {
+	@apply transition-transform duration-300 hover:scale-[1.05];
+}
+
+.hover-lift-sm {
+	@apply transition-transform duration-300 hover:scale-[1.02];
+}
+
+.hover-lift-lg {
+	@apply transition-transform duration-300 hover:scale-[1.1];
+}
+
+/* Animation patterns */
+.animate-enter {
+	@apply opacity-0;
+}
+
+/* Staggered animation delays */
+.animation-delay-100 {
+	animation-delay: 100ms;
+}
+
+.animation-delay-200 {
+	animation-delay: 200ms;
+}
+
+.animation-delay-300 {
+	animation-delay: 300ms;
+}
+
+.animation-delay-400 {
+	animation-delay: 400ms;
+}
+
+.animation-delay-500 {
+	animation-delay: 500ms;
+}
+
+.animation-delay-600 {
+	animation-delay: 600ms;
+}
+
+.animation-delay-800 {
+	animation-delay: 800ms;
+}
+
+/* Fade animations */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fade-in-up {
+	animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Accordion animations */
+@keyframes accordion-down {
+	from {
+		height: 0;
+	}
+	to {
+		height: var(--radix-accordion-content-height);
+	}
+}
+
+@keyframes accordion-up {
+	from {
+		height: var(--radix-accordion-content-height);
+	}
+	to {
+		height: 0;
+	}
+}
+
+.animate-accordion-down {
+	animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+	animation: accordion-up 0.2s ease-out;
 }
