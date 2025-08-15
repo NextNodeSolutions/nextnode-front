@@ -11,13 +11,15 @@ import type { ProjectRequestData } from '@/lib/email/types/email'
 interface StartProjectModalContentProps {
 	isOpen: boolean
 	onClose: () => void
+	locale: 'en' | 'fr'
 }
 
 export const StartProjectModalContent = ({
 	isOpen,
 	onClose,
+	locale,
 }: StartProjectModalContentProps): React.ReactElement => {
-	const { t } = useI18n()
+	const { t } = useI18n(locale)
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [submitStatus, setSubmitStatus] = useState<{
 		type: 'success' | 'error' | null

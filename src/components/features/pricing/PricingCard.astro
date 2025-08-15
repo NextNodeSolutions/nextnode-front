@@ -2,7 +2,7 @@
 import { cn } from '@/lib/core/utils'
 import { Check } from 'lucide-react'
 // Use new i18n system from middleware
-const { t } = Astro.locals
+const { t, locale } = Astro.locals
 import { translatePlan } from '@/lib/i18n/translate-utils'
 import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
 import { ProfessionalProjectModal } from '@/components/features/pricing/ProfessionalProjectModal'
@@ -168,6 +168,7 @@ const cssVars = getPlanCSSVars(plan)
 			plan === 'starter' ? (
 				<StartProjectModal
 					client:load
+					locale={locale}
 					buttonText={planData.cta}
 					plan={plan}
 				/>
