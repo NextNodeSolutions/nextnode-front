@@ -145,12 +145,21 @@ export const POST: APIRoute = async ({ request }) => {
 		)
 
 		if (!result.success) {
-			console.error('Failed to send email:', result.error)
+			console.error('Failed to send email:', {
+				error: result.error,
+				from: emailConfig.from,
+				to: emailConfig.to,
+				provider: emailConfig.provider,
+			})
 			return new Response(
 				JSON.stringify({
 					success: false,
-					error: 'Failed to send email',
-					details: result.error,
+					error: result.error || 'Failed to send email',
+					details: {
+						message: result.error,
+						from: emailConfig.from,
+						to: emailConfig.to,
+					},
 				}),
 				{
 					status: 500,

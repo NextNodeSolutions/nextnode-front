@@ -21,6 +21,12 @@ export class ResendProvider {
 		html: string
 	}): Promise<EmailResponse> {
 		try {
+			console.log('Attempting to send email:', {
+				to: Array.isArray(to) ? to : [to],
+				from,
+				subject: subject.substring(0, 50) + '...',
+			})
+
 			const { data, error } = await this.resend.emails.send({
 				to: Array.isArray(to) ? to : [to],
 				from,
@@ -29,17 +35,31 @@ export class ResendProvider {
 			})
 
 			if (error) {
+				console.error('Resend API error:', {
+					message: error.message,
+					name: error.name,
+					details: error,
+				})
 				return {
 					success: false,
-					error: error.message,
+					error: error.message || 'Resend API error',
 				}
 			}
+
+			console.log('Email sent successfully via Resend:', {
+				messageId: data?.id,
+			})
 
 			return {
 				success: true,
 				messageId: data?.id,
 			}
 		} catch (error) {
+			console.error('Exception while sending email:', {
+				error,
+				message: error instanceof Error ? error.message : 'Unknown',
+				stack: error instanceof Error ? error.stack : undefined,
+			})
 			return {
 				success: false,
 				error:

@@ -1,16 +1,6 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-import type { ReactElement } from 'react'
+import { render } from '@react-email/components'
 
-// Import render function with proper typing
-const { render } = require('@react-email/render') as {
-	render: (
-		component: ReactElement,
-		options?: {
-			pretty?: boolean
-			plainText?: boolean
-		},
-	) => Promise<string>
-}
+import type { ReactElement } from 'react'
 
 export async function renderEmailTemplate(
 	template: ReactElement,

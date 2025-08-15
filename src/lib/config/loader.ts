@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from 'fs'
+import { readFileSync, existsSync, readdirSync } from 'fs'
 import { join } from 'path'
 
 import { deepMerge, validateConfig, getCurrentEnvironment } from './utils'
@@ -118,12 +118,10 @@ export class ConfigLoader {
 	 * Get available configuration files
 	 */
 	getAvailableConfigs(): string[] {
-		/* eslint-disable @typescript-eslint/no-require-imports */
-		const { readdirSync } = require('fs')
 		try {
 			return readdirSync(this.configDir)
-				.filter((file: string) => file.endsWith('.json'))
-				.map((file: string) => file.replace('.json', ''))
+				.filter(file => file.endsWith('.json'))
+				.map(file => file.replace('.json', ''))
 		} catch {
 			return []
 		}
