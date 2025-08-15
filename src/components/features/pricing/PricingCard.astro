@@ -1,0 +1,211 @@
+---
+import { cn } from '@/lib/core/utils'
+import { Check } from 'lucide-react'
+// Use new i18n system from middleware
+const { t } = Astro.locals
+import { translatePlan } from '@/lib/i18n/translate-utils'
+import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
+import { ProfessionalProjectModal } from '@/components/features/pricing/ProfessionalProjectModal'
+import {
+	PLAN_THEMES,
+	PRICING_CARD_CLASSES,
+	getPlanCSSVars,
+} from '@/lib/ui/pricing-constants'
+import type { Plan } from '@/lib/types/plans'
+
+export interface Props {
+	plan: Plan
+	featured?: boolean
+	animationDelay?: number
+	className?: string
+}
+
+const {
+	plan,
+	featured = false,
+	animationDelay = 0,
+	className = '',
+} = Astro.props
+
+// Get plan data using translatePlan utility for proper typing
+const planData = translatePlan(plan)
+
+// Get additional translation
+const examplesTitle = t('pricing.sections.examplesTitle')
+
+// Get theme configuration for current plan
+const planTheme = PLAN_THEMES[plan]
+const cssVars = getPlanCSSVars(plan)
+---
+
+<div
+	class={cn(
+		// Base card styling
+		PRICING_CARD_CLASSES.base,
+		// Featured plan special styling
+		featured && [
+			'ring-2',
+			planTheme.ring,
+			PRICING_CARD_CLASSES.featured,
+			planTheme.shadow,
+		],
+		// Responsive padding
+		PRICING_CARD_CLASSES.content.padding,
+		// Custom className for ordering
+		className,
+	)}
+	style={{
+		animationDelay: animationDelay > 0 ? `${animationDelay}ms` : undefined,
+		...cssVars,
+	}}
+>
+	<!-- Featured Badge -->
+	{
+		featured && (
+			<div class="absolute -top-3 left-1/2 -translate-x-1/2">
+				<div
+					class={cn(
+						'rounded-full px-3 py-0.5 text-xs font-bold text-white sm:px-4 sm:py-1 sm:text-sm',
+						`bg-gradient-to-r ${planTheme.gradient}`,
+						'shadow-lg',
+					)}
+				>
+					{planData.badge}
+				</div>
+			</div>
+		)
+	}
+
+	<!-- Plan Header -->
+	<div class="mb-6 text-center sm:mb-8">
+		<h3
+			class="mb-2 text-xl font-bold text-gray-900 sm:text-2xl dark:text-white"
+		>
+			{planData.name}
+		</h3>
+		<p
+			class="mb-3 text-sm text-gray-600 sm:mb-4 sm:text-base dark:text-gray-400"
+		>
+			{planData.tagline}
+		</p>
+
+		<!-- Pricing -->
+		<div class="mb-3 sm:mb-4">
+			<div
+				class={cn(
+					'text-3xl sm:text-4xl font-bold mb-1 sm:mb-2',
+					`bg-gradient-to-r ${planTheme.gradient}`,
+					'bg-clip-text text-transparent',
+				)}
+			>
+				{planData.price}
+			</div>
+			<div class="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
+				+ {planData.recurring}
+			</div>
+		</div>
+
+		<p
+			class="text-sm leading-relaxed text-gray-700 sm:text-base dark:text-gray-300"
+		>
+			{planData.description}
+		</p>
+	</div>
+
+	<!-- Features List -->
+	<div class="mb-6 flex-1 sm:mb-8">
+		<ul class="space-y-2 sm:space-y-3">
+			{
+				planData.features.map(feature => (
+					<li class="flex items-start gap-3">
+						<div
+							class={cn(
+								'mt-0.5 flex h-5 w-5 items-center justify-center rounded-full',
+								`bg-gradient-to-r ${planTheme.gradient}`,
+								'flex-shrink-0',
+							)}
+						>
+							<Check className="h-3 w-3 text-white" />
+						</div>
+						<span class="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+							{feature}
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<!-- Examples Section -->
+	<div class="mb-6 sm:mb-8">
+		<h4
+			class="mb-2 text-xs font-semibold text-gray-900 sm:mb-3 sm:text-sm dark:text-white"
+		>
+			{examplesTitle}
+		</h4>
+		<ul class="space-y-2 sm:space-y-2.5">
+			{
+				planData.examples.map(example => (
+					<li class="flex items-start gap-3">
+						<div
+							class={cn(
+								'mt-1.5 h-2 w-2 flex-shrink-0 rounded-full',
+								`bg-gradient-to-r ${planTheme.gradient}`,
+							)}
+						/>
+						<span class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+							{example}
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<!-- CTA Button -->
+	<div class="mt-auto">
+		{
+			plan === 'starter' ? (
+				<StartProjectModal
+					client:load
+					buttonText={planData.cta}
+					plan={plan}
+				/>
+			) : (
+				<ProfessionalProjectModal
+					client:load
+					plan={plan}
+					buttonText={planData.cta}
+				/>
+			)
+		}
+	</div>
+
+	<!-- Decorative Elements -->
+	<div
+		class={cn(
+			'absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500',
+			'bg-gradient-to-br pointer-events-none',
+			planTheme.gradient,
+			'group-hover:opacity-5',
+		)}
+	>
+	</div>
+</div>
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+</style>

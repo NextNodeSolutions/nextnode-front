@@ -1,0 +1,128 @@
+---
+import type { WorkflowPosition, Step } from '@/types/workflow'
+
+interface Props {
+	step: Step
+	position: WorkflowPosition
+	color: string
+	index: number
+}
+
+const { step, position, color, index } = Astro.props
+
+// Constants for the small card
+const SMALL_CARD_SIZE = 60
+const SMALL_CARD_SHADOW_OFFSET = 2
+const SMALL_CARD_CENTER = SMALL_CARD_SIZE / 2
+const SMALL_CARD_BORDER_RADIUS = 12
+---
+
+<g class="step-card-group" data-step-index={index}>
+	<!-- Connection line -->
+	<line
+		x1={position.x}
+		y1={position.y}
+		x2={position.lineEndX}
+		y2={position.lineEndY}
+		stroke={color}
+		stroke-width="3"
+		opacity="1"></line>
+
+	<!-- Interactive card -->
+	<g
+		class="interactive-card"
+		transform={`translate(${position.cardX}, ${position.cardY})`}
+		data-step-index={index}
+		data-step-card
+	>
+		<!-- Shadow -->
+		<rect
+			x={SMALL_CARD_SHADOW_OFFSET}
+			y={SMALL_CARD_SHADOW_OFFSET}
+			width={SMALL_CARD_SIZE}
+			height={SMALL_CARD_SIZE}
+			rx={SMALL_CARD_BORDER_RADIUS}
+			fill="rgba(0,0,0,0.1)"
+			opacity="0.3"></rect>
+
+		<!-- Background gradient -->
+		<defs>
+			<linearGradient
+				id={`cardGradient${index}`}
+				x1="0%"
+				y1="0%"
+				x2="100%"
+				y2="100%"
+			>
+				<stop offset="0%" style={`stop-color:${color};stop-opacity:1`}
+				></stop>
+				<stop
+					offset="100%"
+					style={`stop-color:${color};stop-opacity:0.8`}></stop>
+			</linearGradient>
+		</defs>
+
+		<!-- Card background -->
+		<rect
+			x="0"
+			y="0"
+			width={SMALL_CARD_SIZE}
+			height={SMALL_CARD_SIZE}
+			rx={SMALL_CARD_BORDER_RADIUS}
+			fill={`url(#cardGradient${index})`}
+			filter="url(#dropShadow)"
+			class="card-background"></rect>
+
+		<!-- Central icon -->
+		<text
+			x={SMALL_CARD_CENTER}
+			y={SMALL_CARD_CENTER + 5}
+			text-anchor="middle"
+			font-size="16"
+			font-weight="bold"
+			dominant-baseline="middle"
+			fill="white"
+			style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3))"
+			class="card-icon"
+		>
+			{step.icon}
+		</text>
+
+		<!-- Creative number in top right -->
+		<text
+			x={SMALL_CARD_SIZE - 12}
+			y={18}
+			text-anchor="middle"
+			font-family="'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+			font-size="32"
+			font-weight="700"
+			dominant-baseline="middle"
+			fill="white"
+			opacity="0.95"
+			style="filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));"
+			class="card-number"
+		>
+			{index + 1}
+		</text>
+
+		<!-- Title - position adapted according to step -->
+		<text
+			x={SMALL_CARD_CENTER}
+			y={index === 0 || index === 1 || index === 5 ? '-10' : '75'}
+			text-anchor="middle"
+			class="card-title fill-gray-800 text-xs font-semibold transition-opacity duration-300 dark:fill-white"
+			dominant-baseline="middle"
+		>
+			{step.title}
+		</text>
+	</g>
+
+	<!-- Connection point on path -->
+	<circle
+		cx={position.x}
+		cy={position.y}
+		r="6"
+		fill={color}
+		stroke="white"
+		stroke-width="3"></circle>
+</g>

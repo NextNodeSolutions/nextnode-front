@@ -1,0 +1,196 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Header from '@/components/layout/header/header.astro'
+import Footer from '@/components/layout/footer/footer.astro'
+import GradientCircle from '@/components/common/gradient-circle.astro'
+import WorkflowJourney from '@/components/features/workflow/interactive/workflow-journey.astro'
+import MobileTimeline from '@/components/features/workflow/timeline/MobileTimeline.astro'
+import {
+	getFAQQuestions,
+	getFAQCategories,
+} from '@/components/features/workflow/content/faq/data'
+import FAQApp from '@/components/features/workflow/content/faq/FAQApp'
+import WorkflowJourneyInteractive from '@/components/features/workflow/interactive/WorkflowJourneyInteractive'
+// Use new i18n system from middleware
+const { t } = Astro.locals
+import { generateWorkflowSteps } from '@/components/features/workflow/workflow-utils'
+import { STEP_COLORS } from '@/components/features/workflow/workflow-constants'
+
+// Locale is now available from middleware
+
+// Page data
+const pageTitle =
+	t('howWeWork.hero.title') + ' ' + t('howWeWork.hero.titleHighlight')
+const pageDescription = t('howWeWork.hero.description')
+
+// Generate workflow steps once and reuse everywhere
+const steps = generateWorkflowSteps()
+
+// FAQ data
+const faqQuestions = getFAQQuestions()
+const faqCategories = getFAQCategories()
+
+// Pre-calculate FAQ translations for client-side hydration
+const faqTranslations = t('howWeWork.faqSearch')
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+	<div class="relative flex min-h-screen flex-col">
+		<Header />
+
+		<!-- Hero Section -->
+		<section
+			class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900/20"
+		>
+			<GradientCircle
+				position="left"
+				size="large"
+				blur="high"
+				opacity="low"
+			/>
+			<div
+				class="relative mx-auto max-w-7xl px-6 pt-32 pb-8 sm:pt-40 sm:pb-8 lg:pt-48 lg:pb-8"
+			>
+				<div class="mx-auto max-w-4xl text-center">
+					<h1
+						class="mb-6 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl dark:text-white"
+					>
+						{t('howWeWork.hero.title')}
+						<span
+							class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+						>
+							{t('howWeWork.hero.titleHighlight')}
+						</span>
+					</h1>
+					<p
+						class="mb-16 text-xl leading-8 text-gray-600 dark:text-gray-300"
+					>
+						{t('howWeWork.hero.description')}
+					</p>
+				</div>
+
+				<!-- Workflow Journey - Responsive Switch -->
+				<div class="mx-auto max-w-7xl">
+					<!-- Desktop/Tablet SVG Version (md and up) -->
+					<!-- Medium screens (md to lg) use mini variant -->
+					<div class="hidden md:block lg:hidden">
+						<WorkflowJourney variant="mini" steps={steps} />
+					</div>
+
+					<!-- Large screens (lg to xl) use compact variant -->
+					<div class="hidden lg:block xl:hidden">
+						<WorkflowJourney variant="compact" steps={steps} />
+					</div>
+
+					<!-- Extra large screens (xl and up) use large variant -->
+					<div class="hidden xl:block">
+						<WorkflowJourney variant="large" steps={steps} />
+					</div>
+
+					<!-- Mobile Timeline Version (sm and down) -->
+					<div class="block md:hidden">
+						<MobileTimeline steps={steps} />
+					</div>
+				</div>
+
+				<!-- Interactive Modal System - Shared for both versions -->
+				<WorkflowJourneyInteractive
+					steps={steps}
+					colors={STEP_COLORS}
+					client:load
+				/>
+			</div>
+		</section>
+
+		<!-- FAQ Section -->
+		<section
+			class="bg-gray-50 py-8 sm:py-12 md:py-16 lg:py-20 dark:bg-gray-900/50"
+		>
+			<div class="mx-auto max-w-full px-4 sm:max-w-4xl sm:px-6 lg:px-8">
+				<div
+					class="mx-auto mb-8 max-w-2xl text-center sm:mb-12 lg:mb-16"
+				>
+					<h2
+						class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl dark:text-white"
+					>
+						{t('howWeWork.faq.title')}
+					</h2>
+					<p
+						class="mt-3 text-base leading-7 text-gray-600 sm:mt-4 sm:text-lg sm:leading-8 dark:text-gray-300"
+					>
+						{t('howWeWork.faq.subtitle')}
+					</p>
+				</div>
+
+				<div
+					class="[&_mark]:rounded [&_mark]:bg-yellow-200 [&_mark]:px-1 [&_mark]:py-0.5 [&_mark]:font-medium [&_mark]:text-amber-900 dark:[&_mark]:bg-amber-900/50 dark:[&_mark]:text-yellow-200"
+				>
+					<FAQApp
+						questions={faqQuestions}
+						categories={faqCategories}
+						translations={faqTranslations}
+						client:load
+					/>
+				</div>
+			</div>
+		</section>
+
+		<Footer />
+	</div>
+</BaseLayout>
+
+<style>
+	/* Animation to reveal sections on scroll */
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+
+	/* Hover effects for cards */
+	.hover-lift {
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
+	}
+
+	.hover-lift:hover {
+		transform: translateY(-4px);
+		box-shadow:
+			0 20px 25px -5px rgba(0, 0, 0, 0.1),
+			0 10px 10px -5px rgba(0, 0, 0, 0.04);
+	}
+</style>
+
+<script>
+	// Scroll animation with Intersection Observer
+	const observerOptions = {
+		threshold: 0.1,
+		rootMargin: '0px 0px -50px 0px',
+	}
+
+	const observer = new IntersectionObserver(entries => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('animate-fade-in-up')
+			}
+		})
+	}, observerOptions)
+
+	// Observe all sections
+	document.addEventListener('DOMContentLoaded', () => {
+		const sections = document.querySelectorAll('section')
+		sections.forEach(section => {
+			observer.observe(section)
+		})
+	})
+</script>

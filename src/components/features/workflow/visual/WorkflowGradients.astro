@@ -1,0 +1,50 @@
+---
+import type { GradientStop } from '@/types/workflow'
+
+interface Props {
+	gradientStops: GradientStop[]
+}
+
+const { gradientStops } = Astro.props
+---
+
+<defs>
+	<linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+		{
+			gradientStops.map((stop: GradientStop) => (
+				<stop
+					offset={stop.offset}
+					style={`stop-color:${stop.color};stop-opacity:${stop.opacity}`}
+				/>
+			))
+		}
+	</linearGradient>
+
+	<!-- Gradient with fade at the end -->
+	<linearGradient id="pathGradientWithFade" x1="0%" y1="0%" x2="100%" y2="0%">
+		{
+			gradientStops
+				.slice(0, -1)
+				.map((stop: GradientStop) => (
+					<stop
+						offset={stop.offset}
+						style={`stop-color:${stop.color};stop-opacity:${stop.opacity}`}
+					/>
+				))
+		}
+		<stop
+			offset="85%"
+			style={`stop-color:${gradientStops[gradientStops.length - 1]?.color};stop-opacity:0.8`}
+		></stop>
+		<stop
+			offset="100%"
+			style={`stop-color:${gradientStops[gradientStops.length - 1]?.color};stop-opacity:0`}
+		></stop>
+	</linearGradient>
+
+	<!-- Drop shadow filter -->
+	<filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+		<feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.1"
+		></feDropShadow>
+	</filter>
+</defs>
