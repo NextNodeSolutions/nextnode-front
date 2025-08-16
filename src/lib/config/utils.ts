@@ -116,15 +116,34 @@ export function validateConfig(config: unknown): config is ConfigObject {
 }
 
 /**
- * Get current environment
+ * Get current environment from APP_ENV
+ * APP_ENV is mandatory - no fallback to avoid ambiguity
  */
 export function getCurrentEnvironment(): string {
 	if (typeof process !== 'undefined') {
-		return process.env.NODE_ENV || 'development'
+		const appEnv = process.env.APP_ENV
+
+		if (!appEnv) {
+			throw new Error(
+				'APP_ENV environment variable is required. Valid values: LOCAL, DEV, PROD',
+			)
+		}
+
+		const validEnvironments = ['LOCAL', 'DEV', 'PROD', 'TEST']
+		if (!validEnvironments.includes(appEnv)) {
+			throw new Error(
+				`Invalid APP_ENV value: ${appEnv}. Valid values: ${validEnvironments.join(', ')}`,
+			)
+		}
+
+		// Convert to lowercase for file matching
+		return appEnv.toLowerCase()
 	}
 
-	// Fallback for browser environments
-	return 'development'
+	// Browser environment - throw error as APP_ENV is mandatory
+	throw new Error(
+		'APP_ENV is required but not available in browser environment',
+	)
 }
 
 /**
