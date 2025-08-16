@@ -1,6 +1,6 @@
 {
 	"app": {
-		"environment": "development",
+		"environment": "local",
 		"features": ["email", "i18n", "analytics", "debug"]
 	},
 	"email": {
