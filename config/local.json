@@ -1,0 +1,16 @@
+{
+	"app": {
+		"environment": "local",
+		"features": ["email", "i18n", "analytics", "debug"]
+	},
+	"email": {
+		"from": "onboarding@resend.dev",
+		"to": "walidmostefaoui@nextnode.fr",
+		"templates": {
+			"projectRequest": {
+				"subject": "[DEV] Nouvelle demande de projet : {{projectName}}",
+				"websiteUrl": "http://localhost:4321"
+			}
+		}
+	}
+}

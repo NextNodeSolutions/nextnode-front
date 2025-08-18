@@ -14,6 +14,12 @@ export const modal = {
 		details: 'Détails du projet',
 		detailsPlaceholder: 'Parlez-nous de votre projet...',
 		submit: 'Envoyer la demande',
+		sending: 'Envoi en cours...',
+		sent: 'Envoyé !',
+		successMessage:
+			'Votre demande de projet a été envoyée avec succès ! Nous vous recontacterons sous 24h.',
+		errorMessage:
+			"Échec de l'envoi de votre demande. Veuillez réessayer ou nous contacter directement.",
 	},
 	professionalModal: {
 		title: 'Projet Professionnel - Demande de Devis',
