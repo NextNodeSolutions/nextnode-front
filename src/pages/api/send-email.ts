@@ -3,14 +3,14 @@
  * Validates input data and sends email using the EmailService
  */
 
+import { getConfig } from '@nextnode/functions-server/config'
+
 import { EmailService } from '../../lib/email'
 import { ProjectRequest } from '../../lib/email/templates'
 import { validateProjectRequestData } from '../../lib/email/utils/validation'
-import { getConfig } from '../../lib/config'
 
 import type { APIRoute } from 'astro'
 import type { ProjectRequestData } from '../../lib/email/types/email'
-import type { EmailConfig } from '../../lib/config/types'
 
 export const POST: APIRoute = async ({ request }) => {
 	try {
@@ -64,7 +64,7 @@ export const POST: APIRoute = async ({ request }) => {
 		}
 
 		// Get configuration
-		const emailConfig = getConfig<EmailConfig>('email')
+		const emailConfig = getConfig('email')
 		const resendApiKey = import.meta.env.RESEND_API_KEY
 
 		// Validate configuration

@@ -2,14 +2,13 @@ import {
 	getConfig,
 	getAvailableEnvironments,
 	getEnvironment,
-} from '../../lib/config'
+} from '@nextnode/functions-server/config'
 
 import type { APIRoute } from 'astro'
-import type { RootConfig } from '../../lib/config'
 
 export const GET: APIRoute = async () => {
 	try {
-		const currentConfig = getConfig<RootConfig>()
+		const currentConfig = getConfig()
 		const environment = process.env.APP_ENV || 'NOT_SET'
 		const nodeEnv = process.env.NODE_ENV || 'NOT_SET'
 		const currentEnv = getEnvironment()

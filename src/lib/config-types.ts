@@ -1,14 +1,7 @@
-export interface ConfigObject {
-	[key: string]: ConfigValue | undefined
-}
-
-export type ConfigValue =
-	| string
-	| number
-	| boolean
-	| null
-	| ConfigValue[]
-	| ConfigObject
+/**
+ * Configuration types for the application
+ * These are used both by @nextnode/functions-server and our application code
+ */
 
 export interface EmailConfig {
 	provider: 'resend' | 'nodemailer'
@@ -35,12 +28,4 @@ export interface AppConfig {
 export interface RootConfig {
 	email: EmailConfig
 	app: AppConfig
-}
-
-export type ConfigPath = string | string[]
-
-export interface ConfigOptions {
-	environment?: string
-	configDir?: string
-	cache?: boolean
 }
