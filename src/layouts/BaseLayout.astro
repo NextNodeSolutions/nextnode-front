@@ -4,6 +4,18 @@ import '../styles/base.css'
 import '../styles/animations.css'
 import '../styles/liquid-effects.css'
 import { ContextProvider } from '../lib/i18n/context-provider'
+import { initConfig } from '@nextnode/config-manager'
+import { layoutLogger } from '../lib/logging'
+
+// Initialize configuration at application startup
+await initConfig()
+layoutLogger.info('Rendering page', {
+	scope: 'page-render',
+	details: {
+		pathname: Astro.url.pathname,
+		locale: Astro.locals.locale,
+	},
+})
 
 export interface Props {
 	title: string

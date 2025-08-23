@@ -22,14 +22,15 @@
 		"test:coverage": "vitest run --coverage",
 		"test:ui": "vitest --ui",
 		"test:watch": "vitest",
-		"type-check": "astro sync && astro check && tsc --noEmit",
+		"type-check": "generate-config && astro sync && astro check && tsc --noEmit",
 		"type-check:fast": "astro sync && tsc --noEmit",
 		"preview": "astro preview"
 	},
 	"dependencies": {
 		"@astrojs/node": "^9.4.2",
 		"@astrojs/react": "4.3.0",
-		"@nextnode/functions-server": "^1.0.1",
+		"@nextnode/config-manager": "^2.0.1",
+		"@nextnode/logger": "^0.2.1",
 		"@radix-ui/react-accordion": "^1.2.11",
 		"@radix-ui/react-dialog": "^1.0.5",
 		"@radix-ui/react-select": "^2.2.5",

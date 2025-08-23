@@ -3,17 +3,21 @@
  * Validates input data and sends email using the EmailService
  */
 
-import { getConfig } from '@nextnode/functions-server/config'
+import { getConfig } from '@nextnode/config-manager'
 
 import { EmailService } from '../../lib/email'
 import { ProjectRequest } from '../../lib/email/templates'
 import { validateProjectRequestData } from '../../lib/email/utils/validation'
+import { emailLogger } from '../../lib/logging'
 
 import type { APIRoute } from 'astro'
 import type { ProjectRequestData } from '../../lib/email/types/email'
 
 export const POST: APIRoute = async ({ request }) => {
 	try {
+		emailLogger.info('Processing email request', {
+			scope: 'email-processing',
+		})
 		// Parse request body
 		let body: unknown
 		try {
@@ -69,7 +73,9 @@ export const POST: APIRoute = async ({ request }) => {
 
 		// Validate configuration
 		if (!emailConfig) {
-			console.error('Email configuration not found')
+			emailLogger.error('Email configuration not found', {
+				scope: 'config-error',
+			})
 			return new Response(
 				JSON.stringify({
 					success: false,
@@ -83,7 +89,12 @@ export const POST: APIRoute = async ({ request }) => {
 		}
 
 		if (!resendApiKey) {
-			console.error('RESEND_API_KEY environment variable is not set')
+			emailLogger.error(
+				'RESEND_API_KEY environment variable is not set',
+				{
+					scope: 'config-error',
+				},
+			)
 			return new Response(
 				JSON.stringify({
 					success: false,
@@ -97,7 +108,12 @@ export const POST: APIRoute = async ({ request }) => {
 		}
 
 		if (!emailConfig.from || !emailConfig.to) {
-			console.error('Email addresses not configured in config files')
+			emailLogger.error(
+				'Email addresses not configured in config files',
+				{
+					scope: 'config-error',
+				},
+			)
 			return new Response(
 				JSON.stringify({
 					success: false,
@@ -112,7 +128,7 @@ export const POST: APIRoute = async ({ request }) => {
 
 		// Initialize email service
 		const emailService = new EmailService({
-			provider: emailConfig.provider,
+			provider: emailConfig.provider as 'resend' | 'nodemailer',
 			apiKey: resendApiKey,
 			defaultFrom: emailConfig.from,
 		})
@@ -145,11 +161,14 @@ export const POST: APIRoute = async ({ request }) => {
 		)
 
 		if (!result.success) {
-			console.error('Failed to send email:', {
-				error: result.error,
-				from: emailConfig.from,
-				to: emailConfig.to,
-				provider: emailConfig.provider,
+			emailLogger.error('Failed to send email', {
+				scope: 'email-send-error',
+				details: {
+					error: result.error,
+					from: emailConfig.from,
+					to: emailConfig.to,
+					provider: emailConfig.provider,
+				},
 			})
 			return new Response(
 				JSON.stringify({
@@ -169,11 +188,13 @@ export const POST: APIRoute = async ({ request }) => {
 		}
 
 		// Log successful email send (without sensitive data)
-		console.log('Email sent successfully:', {
-			messageId: result.messageId,
-			projectName: projectData.projectName,
-			userEmail: projectData.userEmail,
-			timestamp: new Date().toISOString(),
+		emailLogger.info('Email sent successfully', {
+			scope: 'email-success',
+			details: {
+				messageId: result.messageId,
+				projectName: projectData.projectName,
+				userEmail: projectData.userEmail,
+			},
 		})
 
 		return new Response(
@@ -188,7 +209,10 @@ export const POST: APIRoute = async ({ request }) => {
 			},
 		)
 	} catch (error) {
-		console.error('Unexpected error in send-email API:', error)
+		emailLogger.error('Unexpected error in send-email API', {
+			scope: 'api-error',
+			details: { error },
+		})
 
 		return new Response(
 			JSON.stringify({

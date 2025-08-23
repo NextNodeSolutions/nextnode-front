@@ -2,6 +2,7 @@ import { defineMiddleware, sequence } from 'astro:middleware'
 
 import { ApplicationMetrics } from './lib/core/metrics'
 import { initializeI18n } from './lib/i18n/astro'
+import { middlewareLogger } from './lib/logging'
 
 // Middleware for intelligent URL mapping with locale handling
 const urlMappingMiddleware = defineMiddleware(async (context, next) => {
@@ -65,7 +66,14 @@ const metricsMiddleware = defineMiddleware(async (context, next) => {
 	const url = new URL(request.url)
 
 	// Log incoming requests for debugging
-	console.log(`${request.method} ${url.pathname}`)
+	middlewareLogger.info('Incoming request', {
+		scope: 'http-request',
+		details: {
+			method: request.method,
+			path: url.pathname,
+			locale,
+		},
+	})
 
 	// Process the request
 	const response = await next()
@@ -89,25 +97,32 @@ const metricsMiddleware = defineMiddleware(async (context, next) => {
 	// Record errors
 	if (response.status >= 400) {
 		ApplicationMetrics.recordError(`http_${response.status}`, path)
+		middlewareLogger.error('Request failed', {
+			scope: 'http-error',
+			status: response.status,
+			details: {
+				method: request.method,
+				path: path,
+				duration: duration,
+			},
+		})
 	}
 
 	// Log structured request data
-	if (typeof process !== 'undefined') {
-		console.log(
-			JSON.stringify({
-				timestamp: new Date().toISOString(),
-				method: request.method,
-				path: path,
-				status: response.status,
-				duration: duration,
-				userAgent: request.headers.get('user-agent'),
-				referer: request.headers.get('referer'),
-				ip:
-					request.headers.get('cf-connecting-ip') ||
-					request.headers.get('x-forwarded-for'),
-			}),
-		)
-	}
+	middlewareLogger.info('Request completed', {
+		scope: 'http-response',
+		status: response.status,
+		details: {
+			method: request.method,
+			path: path,
+			duration: duration,
+			userAgent: request.headers.get('user-agent'),
+			referer: request.headers.get('referer'),
+			ip:
+				request.headers.get('cf-connecting-ip') ||
+				request.headers.get('x-forwarded-for'),
+		},
+	})
 
 	return response
 })
