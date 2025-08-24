@@ -9,6 +9,7 @@
 		"templates": {
 			"projectRequest": {
 				"subject": "Nouvelle demande de projet : {{projectName}}",
+				"companyName": "NextNode",
 				"websiteUrl": "https://nextnode.dev"
 			}
 		}
