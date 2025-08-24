@@ -2,6 +2,8 @@
 // UTILITIES FOR I18N SYSTEM
 // ====================================
 
+import { i18nLogger } from '../logging'
+
 import type {
 	InterpolationVariables,
 	DynamicKey,
@@ -25,7 +27,10 @@ export function interpolateString(
 	return text.replace(/\{([^}]+)\}/g, (match, key) => {
 		const value = variables[key]
 		if (value === undefined || value === null) {
-			console.warn(`Missing interpolation variable: ${key}`)
+			i18nLogger.warning('Missing interpolation variable', {
+				scope: 'variable-interpolation',
+				details: { key, text },
+			})
 			return match // Return placeholder if variable doesn't exist
 		}
 
@@ -106,7 +111,10 @@ export function resolveDynamicKey(
 	return key.replace(/\{([^}]+)\}/g, (match, placeholder) => {
 		const value = variables[placeholder]
 		if (value === undefined || value === null) {
-			console.warn(`Missing dynamic key variable: ${placeholder}`)
+			i18nLogger.warning('Missing dynamic key variable', {
+				scope: 'dynamic-key-resolution',
+				details: { placeholder, key },
+			})
 			return match
 		}
 		return String(value)
@@ -160,9 +168,10 @@ export function createCacheKey(
  */
 export function warnMissingTranslation(key: string, locale: string): void {
 	if (process.env.NODE_ENV === 'development') {
-		console.warn(
-			`[i18n] Missing translation for key "${key}" in locale "${locale}"`,
-		)
+		i18nLogger.warning('Missing translation', {
+			scope: 'translation-missing',
+			details: { key, locale },
+		})
 	}
 }
 
@@ -171,6 +180,9 @@ export function warnMissingTranslation(key: string, locale: string): void {
  */
 export function warnMissingVariable(variable: string, key: string): void {
 	if (process.env.NODE_ENV === 'development') {
-		console.warn(`[i18n] Missing variable "${variable}" for key "${key}"`)
+		i18nLogger.warning('Missing variable for interpolation', {
+			scope: 'variable-missing',
+			details: { variable, key },
+		})
 	}
 }

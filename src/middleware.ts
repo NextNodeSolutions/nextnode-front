@@ -2,7 +2,7 @@ import { defineMiddleware, sequence } from 'astro:middleware'
 
 import { ApplicationMetrics } from './lib/core/metrics'
 import { initializeI18n } from './lib/i18n/astro'
-import { middlewareLogger } from './lib/logging'
+import { middlewareLogger, configLogger } from './lib/logging'
 
 // Middleware for intelligent URL mapping with locale handling
 const urlMappingMiddleware = defineMiddleware(async (context, next) => {
@@ -55,23 +55,48 @@ const urlMappingMiddleware = defineMiddleware(async (context, next) => {
 // Middleware for metrics and analytics
 const metricsMiddleware = defineMiddleware(async (context, next) => {
 	const { request } = context
-
-	// Initialize new i18n system
-	const { locale, t } = initializeI18n(request)
-
-	// Store i18n context in locals for components to access
-	context.locals.locale = locale
-	context.locals.t = t
 	const startTime = Date.now()
 	const url = new URL(request.url)
+	const path = url.pathname
+
+	// Initialize new i18n system
+	try {
+		const { locale, t } = initializeI18n(request)
+
+		// Store i18n context in locals for components to access
+		context.locals.locale = locale
+		context.locals.t = t
+
+		// Log successful i18n initialization on first request
+		if (path === '/en/' || path === '/fr/' || path === '/') {
+			configLogger.info('I18n system initialized', {
+				scope: 'i18n-init',
+				details: {
+					locale,
+					path,
+				},
+			})
+		}
+	} catch (error) {
+		configLogger.error('I18n initialization failed', {
+			scope: 'i18n-init-error',
+			details: {
+				error,
+				path,
+			},
+		})
+		// Fallback to default locale
+		context.locals.locale = 'en'
+		context.locals.t = (key: string): string => key
+	}
 
 	// Log incoming requests for debugging
 	middlewareLogger.info('Incoming request', {
 		scope: 'http-request',
 		details: {
 			method: request.method,
-			path: url.pathname,
-			locale,
+			path,
+			locale: context.locals.locale,
 		},
 	})
 
@@ -80,7 +105,6 @@ const metricsMiddleware = defineMiddleware(async (context, next) => {
 
 	// Record metrics after response
 	const duration = Date.now() - startTime
-	const path = url.pathname
 
 	// Record page view (exclude API and asset requests)
 	if (

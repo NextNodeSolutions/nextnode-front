@@ -4,6 +4,7 @@
  */
 
 import { metrics } from '../lib/core/metrics'
+import { metricsLogger } from '../lib/logging'
 
 import type { APIRoute } from 'astro'
 
@@ -48,7 +49,10 @@ export const GET: APIRoute = async ({ request: _request }) => {
 			},
 		})
 	} catch (error) {
-		console.error('Error generating metrics:', error)
+		metricsLogger.error('Error generating metrics', {
+			scope: 'metrics-generation-error',
+			details: { error },
+		})
 
 		return new Response('Error generating metrics', {
 			status: 500,

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { useI18n } from '@/lib/i18n/react'
+import { componentLogger } from '@/lib/logging'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
 import { Button } from '@/components/ui/forms/button'
 import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
@@ -69,7 +70,10 @@ export const StartProjectModalContent = ({
 				setSubmitStatus({ type: null, message: '' })
 			}, 2000)
 		} catch (error) {
-			console.error('Error sending email:', error)
+			componentLogger.error('Error sending email', {
+				scope: 'form-submission-error',
+				details: { error },
+			})
 			setSubmitStatus({
 				type: 'error',
 				message:

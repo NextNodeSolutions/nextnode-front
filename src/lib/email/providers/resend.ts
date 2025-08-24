@@ -1,5 +1,7 @@
 import { Resend } from 'resend'
 
+import { emailLogger } from '../../logging'
+
 import type { EmailResponse } from '../types/email'
 
 export class ResendProvider {
@@ -21,10 +23,13 @@ export class ResendProvider {
 		html: string
 	}): Promise<EmailResponse> {
 		try {
-			console.log('Attempting to send email:', {
-				to: Array.isArray(to) ? to : [to],
-				from,
-				subject: subject.substring(0, 50) + '...',
+			emailLogger.info('Attempting to send email', {
+				scope: 'email-send-attempt',
+				details: {
+					to: Array.isArray(to) ? to : [to],
+					from,
+					subject: subject.substring(0, 50) + '...',
+				},
 			})
 
 			const { data, error } = await this.resend.emails.send({
@@ -35,10 +40,13 @@ export class ResendProvider {
 			})
 
 			if (error) {
-				console.error('Resend API error:', {
-					message: error.message,
-					name: error.name,
-					details: error,
+				emailLogger.error('Resend API error', {
+					scope: 'resend-api-error',
+					details: {
+						message: error.message,
+						name: error.name,
+						error,
+					},
 				})
 				return {
 					success: false,
@@ -46,8 +54,11 @@ export class ResendProvider {
 				}
 			}
 
-			console.log('Email sent successfully via Resend:', {
-				messageId: data?.id,
+			emailLogger.info('Email sent successfully via Resend', {
+				scope: 'email-send-success',
+				details: {
+					messageId: data?.id,
+				},
 			})
 
 			return {
@@ -55,10 +66,13 @@ export class ResendProvider {
 				messageId: data?.id,
 			}
 		} catch (error) {
-			console.error('Exception while sending email:', {
-				error,
-				message: error instanceof Error ? error.message : 'Unknown',
-				stack: error instanceof Error ? error.stack : undefined,
+			emailLogger.error('Exception while sending email', {
+				scope: 'email-send-exception',
+				details: {
+					error,
+					message: error instanceof Error ? error.message : 'Unknown',
+					stack: error instanceof Error ? error.stack : undefined,
+				},
 			})
 			return {
 				success: false,
