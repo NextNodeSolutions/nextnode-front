@@ -27,7 +27,7 @@ export function interpolateString(
 	return text.replace(/\{([^}]+)\}/g, (match, key) => {
 		const value = variables[key]
 		if (value === undefined || value === null) {
-			i18nLogger.warning('Missing interpolation variable', {
+			i18nLogger.warn('Missing interpolation variable', {
 				scope: 'variable-interpolation',
 				details: { key, text },
 			})
@@ -111,7 +111,7 @@ export function resolveDynamicKey(
 	return key.replace(/\{([^}]+)\}/g, (match, placeholder) => {
 		const value = variables[placeholder]
 		if (value === undefined || value === null) {
-			i18nLogger.warning('Missing dynamic key variable', {
+			i18nLogger.warn('Missing dynamic key variable', {
 				scope: 'dynamic-key-resolution',
 				details: { placeholder, key },
 			})
@@ -168,7 +168,7 @@ export function createCacheKey(
  */
 export function warnMissingTranslation(key: string, locale: string): void {
 	if (process.env.NODE_ENV === 'development') {
-		i18nLogger.warning('Missing translation', {
+		i18nLogger.warn('Missing translation', {
 			scope: 'translation-missing',
 			details: { key, locale },
 		})
@@ -180,7 +180,7 @@ export function warnMissingTranslation(key: string, locale: string): void {
  */
 export function warnMissingVariable(variable: string, key: string): void {
 	if (process.env.NODE_ENV === 'development') {
-		i18nLogger.warning('Missing variable for interpolation', {
+		i18nLogger.warn('Missing variable for interpolation', {
 			scope: 'variable-missing',
 			details: { variable, key },
 		})
