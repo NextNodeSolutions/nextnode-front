@@ -9,6 +9,7 @@
 		"templates": {
 			"projectRequest": {
 				"subject": "[DEV] Nouvelle demande de projet : {{projectName}}",
+				"companyName": "NextNode",
 				"websiteUrl": "https://nextnode-front-dev.fly.dev"
 			}
 		}

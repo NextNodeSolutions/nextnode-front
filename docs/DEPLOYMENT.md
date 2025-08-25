@@ -17,8 +17,9 @@ Complete guide for deploying the NextNode Frontend application to Fly.io with au
 # 1. Login to Fly.io
 flyctl auth login
 
-# 2. Run the setup script
-./scripts/setup-fly-apps.sh
+# 2. Create Fly.io apps (if not already created)
+flyctl apps create nextnode-front-prod --org nextnode
+flyctl apps create nextnode-front-dev --org nextnode
 
 # 3. Configure GitHub Secrets (see below)
 

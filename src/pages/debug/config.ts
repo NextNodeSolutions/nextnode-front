@@ -1,33 +1,48 @@
-import {
-	getConfig,
-	getAvailableEnvironments,
-	getEnvironment,
-} from '@nextnode/functions-server/config'
+import { getConfig } from '@nextnode/config-manager'
+
+import { configLogger } from '../../lib/logging'
 
 import type { APIRoute } from 'astro'
 
 export const GET: APIRoute = async () => {
 	try {
-		const currentConfig = getConfig()
-		const environment = process.env.APP_ENV || 'NOT_SET'
-		const nodeEnv = process.env.NODE_ENV || 'NOT_SET'
-		const currentEnv = getEnvironment()
+		configLogger.info('Config debug endpoint accessed', {
+			scope: 'debug-config-access',
+		})
+
+		const environment = process.env.NODE_ENV || 'NOT_SET'
+		const appConfig = getConfig('app')
+		const emailConfig = getConfig('email')
+
+		// Log detailed configuration status
+		configLogger.info('Configuration debug details', {
+			scope: 'config-debug',
+			details: {
+				environment,
+				configsLoaded: {
+					app: !!appConfig,
+					email: !!emailConfig,
+				},
+				environmentVariables: {
+					NODE_ENV: environment,
+					RESEND_API_KEY: !!process.env.RESEND_API_KEY,
+				},
+			},
+		})
 
 		const debugInfo = {
 			timestamp: new Date().toISOString(),
 			environment: {
-				APP_ENV: environment,
-				NODE_ENV: nodeEnv,
-				detected_environment: currentEnv,
+				NODE_ENV: environment,
 			},
 			config: {
-				app: currentConfig?.app,
-				// Only show non-sensitive config
-				features: currentConfig?.app?.features || [],
-				environment_from_config:
-					currentConfig?.app?.environment || 'unknown',
+				app: appConfig,
+				email: {
+					// Only show non-sensitive config
+					provider: emailConfig?.provider,
+					from: emailConfig?.from,
+				},
 			},
-			availableConfigs: getAvailableEnvironments(),
 		}
 
 		return new Response(JSON.stringify(debugInfo, null, 2), {
@@ -38,6 +53,19 @@ export const GET: APIRoute = async () => {
 			},
 		})
 	} catch (error) {
+		configLogger.error('Config debug endpoint error', {
+			scope: 'debug-config-error',
+			details: {
+				error,
+				message:
+					error instanceof Error ? error.message : 'Unknown error',
+				type:
+					error instanceof Error
+						? error.constructor.name
+						: 'UnknownError',
+			},
+		})
+
 		const errorInfo = {
 			timestamp: new Date().toISOString(),
 			error: {
@@ -49,7 +77,6 @@ export const GET: APIRoute = async () => {
 						: 'UnknownError',
 			},
 			environment: {
-				APP_ENV: process.env.APP_ENV || 'NOT_SET',
 				NODE_ENV: process.env.NODE_ENV || 'NOT_SET',
 			},
 		}

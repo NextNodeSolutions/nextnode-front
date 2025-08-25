@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getConfig } from '@nextnode/functions-server/config'
+import { getConfig } from '@nextnode/config-manager'
 
 import { ProjectRequest } from '../src/lib/email/templates/ProjectRequest'
 
@@ -23,13 +23,24 @@ const sampleData: ProjectRequestData = {
 }
 
 export default function PreviewProjectRequest(): React.ReactElement {
-	// Get email configuration for preview
-	const emailConfig = getConfig('email')
-	const templateConfig = emailConfig?.templates.projectRequest || {
-		companyName: 'NextNode',
-		websiteUrl: 'https://nextnode.dev',
-		subject: 'Test Preview',
-		companyLogo: null,
+	// Get email configuration for preview (config initialized at app level)
+	let templateConfig
+	try {
+		const emailConfig = getConfig('email')
+		templateConfig = emailConfig?.templates?.projectRequest || {
+			companyName: 'NextNode',
+			websiteUrl: 'https://nextnode.dev',
+			subject: 'Test Preview',
+			companyLogo: null,
+		}
+	} catch {
+		// Fallback config for preview
+		templateConfig = {
+			companyName: 'NextNode',
+			websiteUrl: 'https://nextnode.dev',
+			subject: 'Test Preview',
+			companyLogo: null,
+		}
 	}
 
 	return (
