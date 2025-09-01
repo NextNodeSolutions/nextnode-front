@@ -51,12 +51,30 @@ COPY --chown=astro:astro src ./src/
 COPY --chown=astro:astro types ./types/
 COPY --chown=astro:astro astro.config.mjs tsconfig.json ./
 
-# Build and clean in single layer  
+# Build application
 RUN pnpm run build
-RUN pnpm prune --prod --ignore-scripts
-RUN rm -rf node_modules/.cache .astro node_modules/.pnpm .pnpm-store
 
-# Stage 2: Minimal runtime with distroless approach
+# Stage 2: Dependencies cleaner - Smart dependency optimization
+FROM node:${NODE_VERSION}-alpine AS deps-cleaner
+
+# Install pnpm for dependency management
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
+
+WORKDIR /app
+
+# Copy package info and built node_modules from builder
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/node_modules ./node_modules
+
+# Clean dependencies intelligently - keep source maps for production debugging
+RUN pnpm prune --prod --ignore-scripts --config.confirmModulesPurge=false
+RUN rm -rf node_modules/.cache
+RUN rm -rf .pnpm-store
+RUN find node_modules -name "*.d.ts" -type f -delete
+RUN find node_modules -name ".bin" -type d -exec rm -rf {} + 2>/dev/null || true
+
+# Stage 3: Minimal runtime with distroless approach
 FROM node:${NODE_VERSION}-alpine AS runtime
 
 # Security hardening: minimal packages and updates
@@ -84,8 +102,8 @@ ENV NODE_ENV=production \
 
 WORKDIR /app
 
-# Copy minimal production files from builder
-COPY --from=builder --chown=astro:astro /app/node_modules ./node_modules
+# Copy minimal production files from respective stages
+COPY --from=deps-cleaner --chown=astro:astro /app/node_modules ./node_modules
 COPY --from=builder --chown=astro:astro /app/dist ./dist
 COPY --from=builder --chown=astro:astro /app/package.json ./package.json
 
