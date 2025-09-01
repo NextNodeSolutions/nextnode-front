@@ -113,9 +113,8 @@ RUN find /app -type f -perm /6000 -exec chmod -s {} \; 2>/dev/null || true
 # Switch to non-root user
 USER astro
 
-# Optimized health check
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:${PORT:-4321}',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+# Health check handled by Railway platform via healthcheckPath
+# HEALTHCHECK disabled to avoid conflicts with Railway monitoring
 
 # Expose port
 EXPOSE $APP_PORT
