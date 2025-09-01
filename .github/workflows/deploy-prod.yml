@@ -21,7 +21,7 @@ jobs:
     deploy:
         name: Deploy to Production
         needs: quality-checks
-        uses: NextNodeSolutions/github-actions/.github/workflows/deploy-prod.yml@main
+        uses: NextNodeSolutions/github-actions/.github/workflows/deploy.yml@main
         with:
             app-name: 'nextnode-front'
             domain: 'nextnode.fr'
