@@ -21,15 +21,13 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "test:watch": "vitest",
-    "type-check": "pnpm type-config && astro check && tsc --noEmit",
-    "type-check:fast": "astro sync && tsc --noEmit",
-    "type-config": "generate-config && prettier --write types/config.d.ts",
+    "type-check": "astro check && tsc --noEmit",
     "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/node": "^9.4.2",
     "@astrojs/react": "4.3.0",
-    "@nextnode/config-manager": "^3.0.1",
+    "@nextnode/config-manager": "file:../config-manager",
     "@nextnode/logger": "^0.2.3",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-dialog": "^1.0.5",
