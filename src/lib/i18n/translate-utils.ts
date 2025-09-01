@@ -7,7 +7,7 @@
 import { globalT } from './index'
 
 import type { EnglishDict, StepKey } from './types'
-import type { Plan } from '../types/plans'
+import type { Plan } from '@/types/plans'
 
 /**
  * Utility function for translating step objects with proper typing
