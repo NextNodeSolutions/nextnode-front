@@ -8,19 +8,23 @@ Nextnode is a creative agency specialized in custom web development and ultra-fa
 
 ## 🛠️ Technologies Used
 
-- **[Astro](https://astro.build)** - Modern web framework for performant static sites
-- **[React](https://react.dev)** - For interactive components
-- **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework
-- **[TypeScript](https://www.typescriptlang.org)** - Static typing
+- **[Astro 5.x](https://astro.build)** - Modern web framework with SSR and selective hydration
+- **[React 19](https://react.dev)** - For interactive components with latest features
+- **[Tailwind CSS v4](https://tailwindcss.com)** - Latest utility-first CSS framework with design tokens
+- **[TypeScript](https://www.typescriptlang.org)** - Static typing in strict mode
 - **[Radix UI](https://www.radix-ui.com)** - Accessible UI components
-- **[Lucide React](https://lucide.dev)** - Modern icons
-- **[Vitest](https://vitest.dev)** - Testing framework
-- **[Biome](https://biomejs.dev)** - Code linter and formatter
+- **[Lucide React](https://lucide.dev)** - Modern icon system
+- **[Vitest](https://vitest.dev)** - Fast unit and component testing
+- **[Playwright](https://playwright.dev)** - End-to-end testing framework
+- **[i18next](https://www.i18next.com)** - Internationalization system
+- **[React Email](https://react.email)** - Email template components
+- **[@nextnode/config-manager](https://www.npmjs.com/package/@nextnode/config-manager)** - Environment-based configuration
+- **[@nextnode/eslint-plugin](https://www.npmjs.com/package/@nextnode/eslint-plugin)** - Shared linting rules
 
 ## 📋 Prerequisites
 
 - Node.js >= 20.0.0
-- pnpm >= 10.11.0
+- pnpm >= 10.12.4 (current: 10.12.4)
 
 ## 🚀 Installation
 
@@ -41,10 +45,10 @@ Nextnode is a creative agency specialized in custom web development and ultra-fa
 ### Development
 
 ```bash
-# Start development server
+# Start development server with hot reload
 pnpm dev
 
-# Type check with TypeScript
+# Type check with TypeScript and Astro
 pnpm type-check
 ```
 
@@ -61,13 +65,10 @@ pnpm preview
 ### Code quality
 
 ```bash
-# Lint code
+# Lint code with @nextnode/eslint-plugin
 pnpm lint
 
-# Fix linting errors automatically
-pnpm lint:fix
-
-# Format code with Biome
+# Format code with Prettier
 pnpm format
 ```
 
@@ -87,32 +88,34 @@ pnpm test:coverage
 pnpm test:ui
 ```
 
-### Version management
-
-```bash
-# Create a changeset
-pnpm changeset
-
-# Version packages
-pnpm changeset:version
-
-# Publish packages
-pnpm changeset:publish
-```
-
 ## 📁 Project Structure
 
 ```
-src/
-├── components/          # Reusable components
-│   ├── common/         # Common components
-│   ├── layout/         # Layout components
-│   ├── marketing/      # Marketing components
-│   └── ui/             # Base UI components
-├── layouts/            # Astro layouts
-├── lib/                # Utilities and constants
-├── pages/              # Site pages
-└── styles/             # Global styles
+├── src/
+│   ├── components/          # Reusable components
+│   │   ├── common/         # Shared utility components
+│   │   ├── features/       # Business logic components
+│   │   │   ├── marketing/  # Marketing-related features
+│   │   │   ├── workflow/   # Complex workflow visualizations
+│   │   │   └── pricing/    # Pricing page components
+│   │   ├── layout/         # Header, footer, navigation
+│   │   └── ui/             # Base design system components
+│   ├── i18n/               # Internationalization
+│   │   └── locales/        # Translation dictionaries (en/fr)
+│   ├── layouts/            # Astro layout templates
+│   ├── lib/                # Utilities and shared logic
+│   │   ├── config/         # Environment-based configuration
+│   │   ├── email/          # Email template system
+│   │   ├── i18n/           # Translation utilities
+│   │   └── middleware/     # Specialized middleware modules
+│   ├── pages/              # File-based routing
+│   │   └── [locale]/       # Internationalized pages
+│   └── styles/             # Global CSS and Tailwind
+├── types/                  # TypeScript definitions
+├── emails/                 # React Email templates
+├── config/                 # Environment configurations
+├── public/                 # Static assets
+└── railway.toml           # Railway deployment config
 ```
 
 ## 🌐 Configuration
@@ -123,13 +126,26 @@ The project uses the following environment variables:
 - `PORT` - Server port (default: `4321`)
 - `URL` - Site URL
 
+## 🌍 Internationalization
+
+- **Manual routing**: URLs structured as `/en/page` and `/fr/page`
+- **Middleware-driven**: Automatic locale detection and URL mapping
+- **Unified translation system**: Works both server-side (Astro) and client-side (React)
+- **Structured dictionaries**: Translation files in `src/i18n/locales/{en,fr}/`
+
 ## 🧪 Testing
 
-The project uses Vitest for unit and component testing. Tests are configured to work with React Testing Library and jsdom.
+- **Vitest**: Fast unit and component testing with jsdom environment
+- **Playwright**: End-to-end testing for complex user journeys
+- **React Testing Library**: Component testing with accessibility focus
+- **Coverage reporting**: V8 provider with comprehensive reporting
 
 ## 📦 Deployment
 
-The project is configured with Astro's Node.js adapter for standalone deployment.
+- **Platform**: Railway with Docker containerization
+- **Adapter**: Astro Node.js adapter for SSR capability
+- **Health checks**: Built-in health monitoring and restart policies
+- **Docker**: Multi-stage builds optimized for production
 
 ## 🤝 Contributing
 

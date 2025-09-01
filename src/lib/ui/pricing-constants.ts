@@ -3,7 +3,7 @@
  * Centralized configuration for consistent theming across pricing components
  */
 
-import type { Plan } from '../types/plans'
+import type { Plan } from '@/types/plans'
 
 export const PLAN_THEMES = {
 	starter: {

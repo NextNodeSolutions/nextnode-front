@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 
 import { useI18n } from '@/lib/i18n/react'
 import { componentLogger } from '@/lib/logging'
-import { PRICING_CONFIG, formatPrice } from '@/config/pricing'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
 import { Button } from '@/components/ui/forms/button'
 import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
 import { FormField, FormGrid } from '@/components/ui/forms/FormField'
 import { SelectLegacy as Select } from '@/components/ui/forms/SelectLegacy'
+
+import { PRICING_CONFIG, formatPrice } from './pricing-config'
 
 interface ProfessionalProjectModalContentProps {
 	isOpen: boolean

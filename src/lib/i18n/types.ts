@@ -34,7 +34,7 @@ export type StepKey =
 	| 'support'
 
 // Type for pricing plan keys - re-export from shared types
-export type { Plan as PlanKey } from '../types/plans'
+export type { Plan as PlanKey } from '@/types/plans'
 
 // Type for FAQ difficulty levels
 export type DifficultyKey = 'beginner' | 'intermediate' | 'advanced'

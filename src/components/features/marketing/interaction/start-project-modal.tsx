@@ -7,7 +7,7 @@ import { PLAN_THEMES } from '@/lib/ui/pricing-constants'
 
 import { StartProjectModalContent } from './StartProjectModalContent'
 
-import type { Plan } from '@/lib/types/plans'
+import type { Plan } from '@/types/plans'
 
 interface StartProjectModalProps {
 	className?: string

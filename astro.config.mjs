@@ -54,10 +54,10 @@ export default defineConfig({
 		mode: 'standalone',
 	}),
 	integrations: [
-		react(), 
+		react(),
 		configManagerIntegration({
 			verbose: false, // Disable verbose logging for production
-		})
+		}),
 	],
 	i18n: {
 		defaultLocale: 'en',
