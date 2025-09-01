@@ -16,19 +16,39 @@ export const isApiRequest = (pathname: string): boolean =>
 	pathname.startsWith('/api/')
 
 /**
+ * System and monitoring routes that should bypass i18n middleware
+ * These routes need direct access without locale prefixes for external services
+ */
+const SYSTEM_MONITORING_ROUTES = [
+	'/health', // Railway health check
+	'/monitoring', // Future monitoring dashboard
+	'/metrics', // Future metrics endpoint
+	'/status', // Future status page
+] as const
+
+/**
  * Check if the request is for a system/internal route
  */
 export const isSystemRequest = (pathname: string): boolean =>
 	pathname.startsWith('/_')
 
 /**
+ * Check if the request is for a monitoring/system route
+ */
+export const isMonitoringRoute = (
+	pathname: string,
+): pathname is (typeof SYSTEM_MONITORING_ROUTES)[number] =>
+	SYSTEM_MONITORING_ROUTES.some(route => route === pathname)
+
+/**
  * Check if the request should be skipped by most middleware
- * (assets, API routes, system paths)
+ * (assets, API routes, system paths, monitoring routes)
  */
 export const shouldSkipRequest = (pathname: string): boolean =>
 	isSystemRequest(pathname) ||
 	isApiRequest(pathname) ||
-	isAssetRequest(pathname)
+	isAssetRequest(pathname) ||
+	isMonitoringRoute(pathname)
 
 /**
  * Check if the request should be logged
