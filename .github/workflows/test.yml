@@ -13,7 +13,7 @@ jobs:
         with:
             run-lint: true
             run-typecheck: true
-            run-test: true
+            run-tests: true
             run-build: false
             run-security: false
             test-coverage: false
