@@ -52,14 +52,9 @@ COPY --chown=astro:astro types ./types/
 COPY --chown=astro:astro astro.config.mjs tsconfig.json ./
 
 # Build and clean in single layer  
-RUN pnpm run type-config && pnpm run build && \
-    pnpm prune --prod && \
-    rm -rf node_modules/.cache .astro node_modules/.pnpm .pnpm-store && \
-    find node_modules -name '*.md' -delete && \
-    find node_modules -name 'README*' -delete && \
-    find node_modules -name 'CHANGELOG*' -delete && \
-    find node_modules -name '*.test.js' -delete && \
-    find node_modules -name '__tests__' -type d -exec rm -rf {} + 2>/dev/null || true
+RUN pnpm run build
+RUN pnpm prune --prod
+RUN rm -rf node_modules/.cache .astro node_modules/.pnpm .pnpm-store
 
 # Stage 2: Minimal runtime with distroless approach
 FROM node:${NODE_VERSION}-alpine AS runtime
