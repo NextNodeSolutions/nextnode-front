@@ -58,7 +58,6 @@ Dockerfile*
 .dockerignore
 docker-compose*.yml
 docker-bake.hcl
-build-clean.sh
 
 # Package manager
 npm-debug.log*
