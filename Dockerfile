@@ -53,7 +53,7 @@ COPY --chown=astro:astro astro.config.mjs tsconfig.json ./
 
 # Build and clean in single layer  
 RUN pnpm run build
-RUN pnpm prune --prod
+RUN pnpm prune --prod --ignore-scripts
 RUN rm -rf node_modules/.cache .astro node_modules/.pnpm .pnpm-store
 
 # Stage 2: Minimal runtime with distroless approach
