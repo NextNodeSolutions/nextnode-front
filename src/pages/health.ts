@@ -4,6 +4,7 @@
  */
 
 import { getHealthStatus } from '../lib/core/metrics'
+import { metricsLogger } from '../lib/logging'
 
 import type { APIRoute } from 'astro'
 
@@ -81,7 +82,10 @@ export const GET: APIRoute = async ({ request: _request }) => {
 			},
 		})
 	} catch (error) {
-		console.error('Health check error:', error)
+		metricsLogger.error('Health check error', {
+			scope: 'health-check-error',
+			details: { error },
+		})
 
 		return new Response(
 			JSON.stringify(

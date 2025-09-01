@@ -13,14 +13,16 @@ interface StartProjectModalProps {
 	className?: string
 	buttonText?: string
 	plan?: Plan
+	locale: 'en' | 'fr'
 }
 
 export const StartProjectModal = ({
 	className,
 	buttonText,
 	plan,
+	locale,
 }: StartProjectModalProps): React.ReactElement => {
-	const { t } = useI18n()
+	const { t } = useI18n(locale)
 	const [isOpen, setIsOpen] = useState(false)
 	const planTheme = plan ? PLAN_THEMES[plan] : null
 
@@ -80,6 +82,7 @@ export const StartProjectModal = ({
 			<StartProjectModalContent
 				isOpen={isOpen}
 				onClose={() => setIsOpen(false)}
+				locale={locale}
 			/>
 		</div>
 	)

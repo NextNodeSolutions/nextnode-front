@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { useI18n } from '@/lib/i18n/react'
+import { componentLogger } from '@/lib/logging'
 import { PRICING_CONFIG, formatPrice } from '@/config/pricing'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
 import { Button } from '@/components/ui/forms/button'
@@ -48,9 +49,12 @@ export const ProfessionalProjectModalContent = ({
 	const handleSubmit = (e: React.FormEvent): void => {
 		e.preventDefault()
 		// TODO: Handle form submission
-		console.log('Professional project form submitted:', {
-			...formData,
-			plan,
+		componentLogger.info('Professional project form submitted', {
+			scope: 'form-submission',
+			details: {
+				...formData,
+				plan,
+			},
 		})
 		onClose()
 	}

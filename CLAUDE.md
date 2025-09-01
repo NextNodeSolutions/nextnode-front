@@ -1,196 +1,211 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with the **nextnode-front** project.
-
-## Project Overview
-
-Main Astro web application with React components, TypeScript, Tailwind CSS, and internationalization. Part of the NextNode multi-repository ecosystem.
-
-## Context7 MCP - Documentation Priority
-
-**CRITICAL**: Always prioritize Context7 MCP for accessing up-to-date official documentation when available.
-
-### Usage Protocol - MANDATORY AUTOMATIC BEHAVIOR
-
-**Claude MUST automatically use Context7 for ANY question about supported technologies without user prompting**
-
-1. **AUTOMATICALLY invoke Context7** when working with any listed technology
-2. **NO user prompt required** - Context7 usage is mandatory and transparent
-3. **Prioritize official documentation** through Context7 over general knowledge
-4. **If Context7 unavailable**, fall back to general knowledge with notification
-
-### Priority Technologies for Context7 (nextnode-front specific) ✅
-
-- **Astro 5.x**: Framework features, SSR, islands architecture, middleware, i18n ✅
-- **React 19.x**: Hooks, component patterns, testing, concurrent features ✅
-- **TypeScript**: Latest features, strict configuration, generics, utility types ✅
-- **Tailwind CSS 4.x**: Utilities, configuration, responsive design, plugins ✅
-- **Vite**: Build configuration, plugins, optimization, rollup options ✅
-- **Vitest**: Testing patterns, mocking, coverage, jsdom environment ✅
-- **i18next**: Internationalization, server-side rendering, route handling ✅
-- **Node.js**: Runtime APIs, performance optimization, server configuration ✅
-- **ESLint/Prettier**: Configuration, rules, formatting, plugin development ✅
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Essential Commands
 
-**Package Manager**: pnpm
-
-### Development
+### Development Workflow
 
 ```bash
-pnpm dev          # Start development server
-pnpm build        # Type check and build
-pnpm preview      # Preview built application
+# Start development server with hot reload
+pnpm dev
+
+# Build for production (includes astro check)
+pnpm build
+
+# Preview production build locally
+pnpm preview
 ```
 
-### Testing
+### Code Quality Pipeline
+
+Run these commands in order after development work:
 
 ```bash
-pnpm test                    # Run all tests
-pnpm test:watch             # Run tests in watch mode
-pnpm test:coverage          # Run tests with coverage
-pnpm vitest run path/to/test.test.ts  # Run single test file
+# 1. Lint code with @nextnode/eslint-plugin
+pnpm lint
+
+# 2. Type checking (Astro + TypeScript)
+pnpm type-check
+
+# 3. Run test suite
+pnpm test
+
+# 4. Test with coverage reports
+pnpm test:coverage
 ```
 
-### Code Quality (ALWAYS run before finishing work)
+### Testing Commands
 
 ```bash
-pnpm lint         # ESLint with zero warnings tolerance
-pnpm type-check   # TypeScript type checking (REQUIRED)
-pnpm format       # Prettier formatting
-pnpm build        # Full build when necessary
+# Watch mode for active development
+pnpm test:watch
+
+# Interactive test UI
+pnpm test:ui
+
+# Fast type check (skips astro check)
+pnpm type-check:fast
 ```
-
-## TypeScript Standards (STRICTLY ENFORCED)
-
-- **TypeScript is MANDATORY** - all code must be properly typed
-- **Use generics** when appropriate but keep them simple, concise, and descriptive
-- **NEVER use `any`** - absolutely forbidden
-- **NEVER use `as`** except for `as const`
-- **Use `unknown` only as last resort** when type is truly unknowable
-- Prefer explicit type annotations over inference for public APIs
-- Use proper generic constraints and conditional types when needed
 
 ## Architecture Overview
 
-### Tech Stack
+### Core Technology Stack
 
-- **Framework**: Astro 5.x with server-side rendering
-- **UI**: React 19.x for interactive components
-- **Styling**: Tailwind CSS 4.x with custom utilities
-- **i18n**: Built-in Astro i18n with manual routing
-- **State**: React hooks only (no global state management)
-- **Testing**: Vitest with jsdom environment
+- **Astro 5.x** with React integration for selective hydration
+- **Tailwind CSS v4** for styling with design tokens
+- **TypeScript** in strict mode throughout
+- **Vitest** for testing with jsdom environment
+- **Node.js adapter** for standalone server deployment
 
-### Project Structure
+### Key Architectural Patterns
+
+#### 1. Internationalization (i18n) System
+
+- **Manual routing**: URLs like `/en/page` and `/fr/page`
+- **Middleware-driven**: `src/middleware.ts` handles locale detection and URL mapping
+- **Unified t() function**: Works both server-side (Astro) and client-side (React)
+- **Translation files**: Structured dictionaries in `src/i18n/locales/`
+- **Context injection**: Middleware injects `locale` and `t` into `context.locals`
+
+#### 2. Configuration Management
+
+- **Environment-based configs**: JSON files in `config/{dev,prod,test}.json`
+- **Type-safe access**: Via `src/lib/config/` with dot notation (`getConfig('email.from')`)
+- **Runtime loading**: Dynamic config resolution based on NODE_ENV
+
+#### 3. Component Organization
 
 ```
-src/
-├── components/          # React/Astro components
-│   ├── common/         # Shared utilities
-│   ├── features/       # Feature-specific components
-│   ├── layout/         # Site structure
-│   └── ui/            # Reusable UI components
-├── pages/             # File-based routing with i18n
-├── lib/               # Utilities and configurations
-├── hooks/             # Custom React hooks
-├── types/             # TypeScript type definitions
-└── styles/            # Global CSS and animations
+src/components/
+├── common/          # Shared utility components
+├── features/        # Business logic components
+│   ├── marketing/   # Marketing-related features
+│   ├── workflow/    # Complex workflow visualizations
+│   └── pricing/     # Pricing page components
+├── layout/          # Header, footer, navigation
+└── ui/             # Base design system components
 ```
 
-### Internationalization
+#### 4. State Management
 
-- **Framework**: Astro's built-in i18n with manual routing
-- **Languages**: English (default) and French
-- **URL Structure**: Automatic locale routing with middleware
-- **Server-side**: Translation handling in middleware
-- **Client-side**: Language switching with localStorage
+- **React hooks**: Custom hooks in `src/hooks/` for client-side state
+- **Modal management**: Centralized modal state with `useModalState`
+- **Keyboard shortcuts**: `useKeyboardShortcuts` for accessibility
+- **No external state library**: Pure React patterns
 
-### Component Architecture
+#### 5. Email System
 
-- **Hybrid approach**: Astro for static, React for interactivity
-- **Design system**: BaseCard variants using class-variance-authority
-- **Type-safe props**: All components fully typed with TypeScript
-- **Accessibility**: ARIA compliance throughout
+- **React Email**: Components in `emails/` directory
+- **Resend integration**: Production email delivery
+- **Template system**: Reusable email components with type safety
+- **API endpoint**: `/api/send-email.ts` for form submissions
 
-### Key Patterns
+### Performance Optimizations
 
-#### Custom Hooks
+#### Bundle Splitting (astro.config.mjs)
 
-- Always return properly typed objects/tuples
-- Use `useCallback` for function references
-- Example: `useWorkflowModal(): UseWorkflowModalReturn`
+- **Vendor chunks**: React, Radix UI, utilities separated
+- **Feature-based splitting**: Workflow and marketing components
+- **Icon isolation**: Lucide React in separate chunk
 
-#### Component Props
+#### SSR + Selective Hydration
 
-```typescript
-interface ComponentProps {
-	title: string
-	variant?: 'primary' | 'secondary'
-	children: React.ReactNode
-}
+- **Server-side rendering** for initial page load
+- **Client components** only when interactivity needed
+- **Progressive enhancement** approach
+
+### Development Patterns
+
+#### Import Standards
+
+- **ES modules only**: Never use `require()`
+- **Arrow functions**: `const fn = () => {}` preferred
+- **Destructuring**: Used extensively for clean code
+- **Strong typing**: No `any` types allowed, minimal `unknown`
+
+#### Component Patterns
+
+- **Astro components**: `.astro` for static/SSR content
+- **React components**: `.tsx` for interactive features
+- **Props interfaces**: Defined per component with TypeScript
+- **Tailwind composition**: Design tokens via CSS custom properties
+
+#### Testing Strategy
+
+- **Component testing**: React Testing Library + Vitest
+- **Integration tests**: For complex features like workflow journey
+- **Type testing**: Via TypeScript compilation
+- **Coverage tracking**: V8 provider with JSON output
+
+## Environment Configuration
+
+### Required Environment Variables
+
+- `HOST`: Server host (default: 0.0.0.0)
+- `PORT`: Server port (default: 4321)
+- `URL`: Public site URL for canonical links
+
+### Config Files Structure
+
+```
+config/
+├── default.json     # Base configuration
+├── dev.json         # Development overrides
+├── prod.json        # Production settings
+└── test.json        # Test environment
 ```
 
-#### API Routes
-
-- Located in `src/pages/` (health.ts, metrics.ts)
-- Type API responses with proper interfaces
-- Use `APIRoute` type from Astro
-
-### Performance & Monitoring
-
-- Custom metrics system with Prometheus endpoint at `/metrics`
-- Health checks at `/health`
-- Request/response timing in middleware
-- Memory and performance monitoring
-
-### Configuration Files
-
-- **astro.config.mjs**: SSR, integrations, i18n setup
-- **vitest.config.ts**: Test configuration with jsdom
-- **eslint.config.mjs**: Uses `@nextnode/eslint-plugin/base`
-- **tsconfig.json**: Strict TypeScript configuration
-
-## Development Guidelines
-
-### Before Finishing Any Work
-
-1. **Always run** `pnpm lint` - must pass with zero warnings
-2. **Always run** `pnpm type-check` - must pass completely
-3. **Run** `pnpm build` when making structural changes
-4. **Never use** `pnpm dev` for final testing
+## Common Development Workflows
 
 ### Adding New Features
 
-1. Create properly typed components in appropriate `src/components/` subdirectory
-2. Define TypeScript interfaces in `src/types/` if shared
-3. Add translations for both languages
-4. Write tests with full type coverage
-5. Follow existing component patterns and naming conventions
+1. Create components in appropriate `src/components/features/` subdirectory
+2. Add translations to both `en/` and `fr/` locale files
+3. Update routing in `src/pages/[locale]/` if needed
+4. Add tests in same directory as component
+5. Run quality pipeline: `pnpm lint && pnpm type-check && pnpm test`
 
-### Code Quality Rules
+### Internationalization Updates
 
-- **Prettier config**: Tabs (width: 4), no semicolons, single quotes
-- **ESLint**: Zero warnings tolerance - build will fail otherwise
-- **Git hooks**: Husky enforces linting and conventional commits
-- **Type safety**: Every function, component, and variable must be typed
+- Edit `src/i18n/locales/{en,fr}/` dictionary files
+- Use dot notation keys (e.g., `home.hero.title`)
+- Test with both `/en/` and `/fr/` URL prefixes
+- Verify middleware locale detection works correctly
 
-### Testing
+### Email Template Development
 
-- Use Vitest with React Testing Library
-- Test files co-located with components or in `__tests__`
-- Mock external dependencies properly with TypeScript
-- Maintain test coverage above 80%
+1. Create React Email component in `emails/` directory
+2. Add to template exports in `src/lib/email/templates/index.ts`
+3. Test rendering via `/api/send-email` endpoint
+4. Configure Resend API key for production
 
-## Deployment
+## Critical Implementation Details
 
-- **Platform**: Fly.io with Docker
-- **Environment**: Node.js standalone mode
-- **Region**: Paris (CDG)
-- **Health checks**: Built-in monitoring endpoints
+### Middleware Request Flow
 
-## Related Projects
+1. **URL mapping**: Handles locale prefixes and internal navigation
+2. **I18n initialization**: Sets up translation context per request
+3. **Metrics collection**: Records page views and response times
+4. **Error tracking**: Logs structured request/response data
 
-- See [../CLAUDE.md](../CLAUDE.md) for multi-repo overview
-- Templates available in [../project-templates/](../project-templates/)
-- CI/CD workflows in [../github-actions/](../github-actions/)
+### Workflow Journey Component
+
+- **Complex interactive visualization** in `src/components/features/workflow/`
+- **SVG animations** with coordinated state management
+- **Modal system** for step details with keyboard navigation
+- **Mobile responsive** with separate timeline component
+
+### Build Process
+
+1. `astro check` validates Astro components and routing
+2. TypeScript compilation with strict mode
+3. Tailwind CSS processing with v4 features
+4. Vite bundling with custom chunk strategy
+5. Node.js adapter for standalone deployment
+
+# important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
