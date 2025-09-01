@@ -6,7 +6,7 @@ import '../styles/liquid-effects.css'
 import { ContextProvider } from '../lib/i18n/context-provider'
 // TODO: Re-enable after fixing package.json and pnpm-lock.yaml conflicts
 // import { initConfig, getConfig } from '@nextnode/config-manager'
-import { layoutLogger, configLogger } from '../lib/logging'
+import { layoutLogger } from '../lib/logging'
 
 // Initialize configuration at application startup
 // TODO: Re-enable after fixing dependency conflicts
@@ -27,13 +27,13 @@ import { layoutLogger, configLogger } from '../lib/logging'
 // 		},
 // 	})
 
-	layoutLogger.info('Rendering page', {
-		scope: 'page-render',
-		details: {
-			pathname: Astro.url.pathname,
-			locale: Astro.locals.locale,
-		},
-	})
+layoutLogger.info('Rendering page', {
+	scope: 'page-render',
+	details: {
+		pathname: Astro.url.pathname,
+		locale: Astro.locals.locale,
+	},
+})
 // } catch (error) {
 // 	configLogger.error('Failed to initialize configuration', {
 // 		scope: 'config-init-error',
