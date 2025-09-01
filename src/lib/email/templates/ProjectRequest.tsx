@@ -15,7 +15,7 @@ import {
 	Img,
 } from '@react-email/components'
 
-import type { ProjectRequestData } from '../types/email'
+import type { ProjectRequestData } from '@/types/email'
 
 interface ProjectRequestProps {
 	data: ProjectRequestData

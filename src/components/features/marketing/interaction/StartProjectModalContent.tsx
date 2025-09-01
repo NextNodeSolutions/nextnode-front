@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/forms/button'
 import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
 import { FormField, FormGrid } from '@/components/ui/forms/FormField'
 
-import type { ProjectRequestData } from '@/lib/email/types/email'
+import type { ProjectRequestData } from '@/types/email'
 
 interface StartProjectModalContentProps {
 	isOpen: boolean

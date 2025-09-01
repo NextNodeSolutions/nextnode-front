@@ -1,4 +1,4 @@
-import type { EmailData, ProjectRequestData } from '../types/email'
+import type { EmailData, ProjectRequestData } from '@/types/email'
 
 export function validateEmailData(data: EmailData): string[] {
 	const errors: string[] = []
@@ -11,7 +11,7 @@ export function validateEmailData(data: EmailData): string[] {
 	// Validate email addresses
 	const emails = Array.isArray(data.to) ? data.to : [data.to]
 	emails.forEach((email, index) => {
-		if (!isValidEmail(email)) {
+		if (!validateEmailAddress(email)) {
 			errors.push(`Invalid email address at index ${index}: ${email}`)
 		}
 	})
@@ -43,7 +43,7 @@ export function validateProjectRequestData(data: ProjectRequestData): string[] {
 
 	if (!data.userEmail || data.userEmail.trim() === '') {
 		errors.push('User email is required')
-	} else if (!isValidEmail(data.userEmail)) {
+	} else if (!validateEmailAddress(data.userEmail)) {
 		errors.push('Invalid user email address')
 	}
 
@@ -62,9 +62,14 @@ export function validateProjectRequestData(data: ProjectRequestData): string[] {
 	return errors
 }
 
-function isValidEmail(email: string): boolean {
+export function validateEmailAddress(email: string): boolean {
 	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 	return emailRegex.test(email)
+}
+
+export function validateEmailAddresses(emails: string | string[]): boolean {
+	const emailList = Array.isArray(emails) ? emails : [emails]
+	return emailList.every(validateEmailAddress)
 }
 
 function isValidPhoneNumber(phone: string): boolean {

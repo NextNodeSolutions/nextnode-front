@@ -4,7 +4,7 @@ import { getConfig } from '@nextnode/config-manager'
 
 import { ProjectRequest } from '../src/lib/email/templates/ProjectRequest'
 
-import type { ProjectRequestData } from '../src/lib/email/types/email'
+import type { ProjectRequestData } from '../types/email'
 
 // Sample data for preview
 const sampleData: ProjectRequestData = {

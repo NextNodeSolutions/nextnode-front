@@ -4,43 +4,6 @@ import '../styles/base.css'
 import '../styles/animations.css'
 import '../styles/liquid-effects.css'
 import { ContextProvider } from '../lib/i18n/context-provider'
-import { initConfig, getConfig } from '@nextnode/config-manager'
-import { layoutLogger, configLogger } from '../lib/logging'
-
-// Initialize configuration at application startup
-try {
-	await initConfig()
-
-	// Log successful configuration initialization
-	const appConfig = getConfig('app')
-	const emailConfig = getConfig('email')
-
-	configLogger.info('Configuration initialized successfully', {
-		scope: 'config-init',
-		details: {
-			environment: appConfig?.environment || 'unknown',
-			appName: appConfig?.name || 'unknown',
-			emailProvider: emailConfig?.provider || 'unknown',
-			hasEmailTemplates: !!emailConfig?.templates?.projectRequest,
-		},
-	})
-} catch (error) {
-	configLogger.error('Failed to initialize configuration', {
-		scope: 'config-init-error',
-		details: {
-			error,
-			pathname: Astro.url.pathname,
-		},
-	})
-}
-
-layoutLogger.info('Rendering page', {
-	scope: 'page-render',
-	details: {
-		pathname: Astro.url.pathname,
-		locale: Astro.locals.locale,
-	},
-})
 
 export interface Props {
 	title: string

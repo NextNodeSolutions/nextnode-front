@@ -23,13 +23,3 @@ export async function renderEmailTemplate(
 		)
 	}
 }
-
-export function validateEmailAddress(email: string): boolean {
-	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-	return emailRegex.test(email)
-}
-
-export function validateEmailAddresses(emails: string | string[]): boolean {
-	const emailList = Array.isArray(emails) ? emails : [emails]
-	return emailList.every(validateEmailAddress)
-}

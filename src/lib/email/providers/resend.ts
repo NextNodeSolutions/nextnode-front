@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 
 import { emailLogger } from '../../logging'
 
-import type { EmailResponse } from '../types/email'
+import type { EmailResponse } from '@/types/email'
 
 export class ResendProvider {
 	private resend: Resend
