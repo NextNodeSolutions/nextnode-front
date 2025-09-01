@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
+import { configManagerIntegration } from '@nextnode/config-manager/astro'
 
 import node from '@astrojs/node'
 import react from '@astrojs/react'
@@ -52,7 +53,12 @@ export default defineConfig({
 	adapter: node({
 		mode: 'standalone',
 	}),
-	integrations: [react()],
+	integrations: [
+		react(), 
+		configManagerIntegration({
+			verbose: false, // Disable verbose logging for production
+		})
+	],
 	i18n: {
 		defaultLocale: 'en',
 		locales: ['en', 'fr'],

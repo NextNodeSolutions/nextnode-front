@@ -15,8 +15,8 @@ importers:
         specifier: 4.3.0
         version: 4.3.0(@types/node@24.3.0)(@types/react-dom@19.1.7(@types/react@19.1.11))(@types/react@19.1.11)(jiti@2.5.1)(lightningcss@1.30.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(yaml@2.8.1)
       '@nextnode/config-manager':
-        specifier: ^3.0.1
-        version: 3.0.1(eslint@9.34.0(jiti@2.5.1))
+        specifier: 3.1.0
+        version: 3.1.0(astro@5.13.3(@types/node@24.3.0)(jiti@2.5.1)(lightningcss@1.30.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(eslint@9.34.0(jiti@2.5.1))(vite@6.3.5(@types/node@24.3.0)(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.1))
       '@nextnode/logger':
         specifier: ^0.2.3
         version: 0.2.3(eslint@9.34.0(jiti@2.5.1))
@@ -797,12 +797,19 @@ packages:
   '@next/eslint-plugin-next@15.5.0':
     resolution: {integrity: sha512-+k83U/fST66eQBjTltX2T9qUYd43ntAe+NZ5qeZVTQyTiFiHvTLtkpLKug4AnZAtuI/lwz5tl/4QDJymjVkybg==}
 
-  '@nextnode/config-manager@3.0.1':
-    resolution: {integrity: sha512-TY8Dirx6GmjCZU4FlCwyeCl9vHwXH5KYQKX65KpLwxnOwQHe0AKEFt4satbXf///1XFV0MrOpTwhQCbev5oikg==}
+  '@nextnode/config-manager@3.1.0':
+    resolution: {integrity: sha512-i0MS26CuuNEt1n+A12tRYe1GNwgQW/oB0aL8wS//NY3XtMNTLb/TWNmpdr7VLheRW31FmgNE6lCtRXCEeRR7kQ==}
     engines: {node: '>=20.0.0'}
     hasBin: true
     peerDependencies:
+      astro: '>=4.0.0'
       eslint: ^9.22.0
+      vite: '>=5.0.0'
+    peerDependenciesMeta:
+      astro:
+        optional: true
+      vite:
+        optional: true
 
   '@nextnode/eslint-plugin@1.2.0':
     resolution: {integrity: sha512-aXwB0+aHPr2iWKpvj/bXsBKnl4OrW9S0C9YCTQXsPsw9jbOBaYlqgTr9QMIpQK/4gKyS1nO+iQcaEr7XF50NhA==}
@@ -5816,9 +5823,13 @@ snapshots:
     dependencies:
       fast-glob: 3.3.1
 
-  '@nextnode/config-manager@3.0.1(eslint@9.34.0(jiti@2.5.1))':
+  '@nextnode/config-manager@3.1.0(astro@5.13.3(@types/node@24.3.0)(jiti@2.5.1)(lightningcss@1.30.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1))(eslint@9.34.0(jiti@2.5.1))(vite@6.3.5(@types/node@24.3.0)(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.1))':
     dependencies:
+      '@nextnode/logger': 0.2.3(eslint@9.34.0(jiti@2.5.1))
       eslint: 9.34.0(jiti@2.5.1)
+    optionalDependencies:
+      astro: 5.13.3(@types/node@24.3.0)(jiti@2.5.1)(lightningcss@1.30.1)(rollup@4.47.1)(typescript@5.9.2)(yaml@2.8.1)
+      vite: 6.3.5(@types/node@24.3.0)(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.1)
 
   '@nextnode/eslint-plugin@1.2.0(@typescript-eslint/utils@8.40.0(eslint@9.34.0(jiti@2.5.1))(typescript@5.9.2))(eslint@9.34.0(jiti@2.5.1))':
     dependencies:
