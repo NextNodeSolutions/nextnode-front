@@ -49,11 +49,11 @@ function highlightText(text: string, query: string): TextSegment[] {
 		`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
 		'gi',
 	)
-	
+
 	const segments: TextSegment[] = []
 	let lastIndex = 0
 	let match: RegExpExecArray | null
-	
+
 	match = regex.exec(text)
 	while (match !== null) {
 		// Add text before the match
@@ -63,17 +63,17 @@ function highlightText(text: string, query: string): TextSegment[] {
 				isHighlighted: false,
 			})
 		}
-		
+
 		// Add the highlighted match
 		segments.push({
-			text: match[1],
+			text: match[1]!, // The capture group always exists due to our regex pattern having a capture group
 			isHighlighted: true,
 		})
-		
+
 		lastIndex = regex.lastIndex
 		match = regex.exec(text)
 	}
-	
+
 	// Add remaining text after last match
 	if (lastIndex < text.length) {
 		segments.push({
@@ -81,7 +81,7 @@ function highlightText(text: string, query: string): TextSegment[] {
 			isHighlighted: false,
 		})
 	}
-	
+
 	return segments
 }
 
@@ -212,8 +212,12 @@ export function useFAQState(questions: FAQQuestion[]): UseFAQStateReturn {
 			return filteredQuestions.map(question => ({
 				question,
 				matchScore: 1,
-				highlightedQuestion: [{ text: question.question, isHighlighted: false }],
-				highlightedAnswer: [{ text: question.answer, isHighlighted: false }],
+				highlightedQuestion: [
+					{ text: question.question, isHighlighted: false },
+				],
+				highlightedAnswer: [
+					{ text: question.answer, isHighlighted: false },
+				],
 			}))
 		}
 

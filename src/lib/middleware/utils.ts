@@ -77,7 +77,7 @@ export const shouldTrackMetrics = (pathname: string): boolean =>
 export const isInternalNavigation = (request: Request): boolean => {
 	const referer = request.headers.get('referer')
 	const url = new URL(request.url)
-	return referer?.includes(url.origin)
+	return referer?.includes(url.origin) ?? false
 }
 
 /**

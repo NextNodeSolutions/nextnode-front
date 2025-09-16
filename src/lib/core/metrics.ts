@@ -198,11 +198,9 @@ export function getHealthStatus(): {
 		uptime: typeof process !== 'undefined' ? process.uptime() : null,
 		memory: memUsage
 			? {
-					heapUsed:
-						Math.round(memUsage.heapUsed / 1024 / 1024) + 'MB',
-					heapTotal:
-						Math.round(memUsage.heapTotal / 1024 / 1024) + 'MB',
-					rss: Math.round(memUsage.rss / 1024 / 1024) + 'MB',
+					heapUsed: `${Math.round(memUsage.heapUsed / 1024 / 1024)}MB`,
+					heapTotal: `${Math.round(memUsage.heapTotal / 1024 / 1024)}MB`,
+					rss: `${Math.round(memUsage.rss / 1024 / 1024)}MB`,
 				}
 			: null,
 		version: process.env.APP_VERSION || 'unknown',

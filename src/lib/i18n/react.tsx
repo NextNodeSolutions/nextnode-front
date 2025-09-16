@@ -18,6 +18,27 @@ import { createT, setGlobalLocale } from './index'
 import type { InterpolationVariables, Locale, TFunction } from './types'
 
 // ====================================
+// COOKIE UTILITIES
+// ====================================
+
+/**
+ * Set a cookie value (suppresses Biome warnings for standard cookie usage)
+ */
+function setCookie(name: string, value: string, options: string): void {
+	// Using direct assignment as it's the standard approach for client-side cookies
+	// biome-ignore lint/suspicious/noDocumentCookie: Standard cookie setting approach
+	document.cookie = `${name}=${value}; ${options}`
+}
+
+/**
+ * Remove a cookie by setting its expiration date to the past
+ */
+function removeCookie(name: string): void {
+	// biome-ignore lint/suspicious/noDocumentCookie: Standard cookie removal approach
+	document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
+}
+
+// ====================================
 // MAIN useI18n HOOK
 // ====================================
 
@@ -84,7 +105,11 @@ export function useI18n(initialLocale?: Locale): UseI18nReturn {
 
 			// Store preference in cookie only
 			if (typeof window !== 'undefined') {
-				document.cookie = `preferred-locale=${newLocale}; path=/; max-age=31536000` // 1 year
+				setCookie(
+					'preferred-locale',
+					newLocale,
+					'path=/; max-age=31536000',
+				) // 1 year
 
 				// Navigate to new locale if requested
 				if (navigate) {
@@ -232,15 +257,14 @@ export function usePreferredLocale(): {
 		setPreferredLocaleState(locale)
 		if (typeof window !== 'undefined') {
 			// Set cookie for server-side detection
-			document.cookie = `preferred-locale=${locale}; path=/; max-age=31536000` // 1 year
+			setCookie('preferred-locale', locale, 'path=/; max-age=31536000') // 1 year
 		}
 	}, [])
 
 	const clearPreference = useCallback(() => {
 		setPreferredLocaleState(null)
 		if (typeof window !== 'undefined') {
-			document.cookie =
-				'preferred-locale=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
+			removeCookie('preferred-locale')
 		}
 	}, [])
 
@@ -322,7 +346,11 @@ export function I18nProvider({
 
 			// Store preference in cookie only
 			if (typeof window !== 'undefined') {
-				document.cookie = `preferred-locale=${newLocale}; path=/; max-age=31536000` // 1 year
+				setCookie(
+					'preferred-locale',
+					newLocale,
+					'path=/; max-age=31536000',
+				) // 1 year
 
 				// Navigate to new locale if requested
 				if (navigate) {
