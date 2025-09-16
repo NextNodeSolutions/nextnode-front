@@ -75,14 +75,6 @@
 		"node": ">=20.0.0"
 	},
 	"packageManager": "pnpm@10.12.4",
-	"prettier": "@nextnode/standards/prettier/astro",
 	"type": "module",
-	"lint-staged": {
-		"*.{js,jsx,ts,tsx,astro}": [
-			"biome check --write --no-errors-on-unmatched"
-		],
-		"*.{js,jsx,ts,tsx,astro,json,md}": [
-			"prettier --write"
-		]
-	}
+	"prettier": "@nextnode/standards/prettier/astro"
 }
