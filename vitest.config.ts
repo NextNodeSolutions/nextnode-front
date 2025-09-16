@@ -1,8 +1,8 @@
-import { defineConfig } from 'vitest/config'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
-	// @ts-ignore - Plugin type compatibility issue between Vite versions
+	// @ts-expect-error - Plugin type compatibility issue between Vite versions
 	plugins: [tsconfigPaths()],
 	test: {
 		environment: 'jsdom',

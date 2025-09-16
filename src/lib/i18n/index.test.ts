@@ -2,9 +2,9 @@
 // TESTS FOR I18N SYSTEM
 // ====================================
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 
-import { createT, t, setGlobalLocale } from './index'
+import { createT, setGlobalLocale, t } from './index'
 
 describe('Système i18n', () => {
 	beforeEach(() => {

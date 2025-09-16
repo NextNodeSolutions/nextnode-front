@@ -3,24 +3,23 @@
 // ====================================
 // Single function that works client AND server side
 
-import {
-	getNestedValue,
-	interpolateString,
-	resolveDynamicKey,
-	isDynamicKey,
-	warnMissingTranslation,
-	createCacheKey,
-} from './utils'
 import { en } from '../../i18n/locales/en'
 import { fr } from '../../i18n/locales/fr'
-
 import type {
+	InterpolationVariables,
+	Locale,
 	TFunction,
 	TranslationKey,
 	TranslationReturn,
-	InterpolationVariables,
-	Locale,
 } from './types'
+import {
+	createCacheKey,
+	getNestedValue,
+	interpolateString,
+	isDynamicKey,
+	resolveDynamicKey,
+	warnMissingTranslation,
+} from './utils'
 
 // ====================================
 // DICTIONARIES AND CACHE
@@ -160,6 +159,6 @@ export type { TFunction, TranslationKey, Locale, InterpolationVariables }
 export {
 	getNestedValue,
 	interpolateString,
-	resolveDynamicKey,
 	isDynamicKey,
+	resolveDynamicKey,
 } from './utils'

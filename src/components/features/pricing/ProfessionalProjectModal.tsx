@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import type React from 'react'
 
-import { cn } from '@/lib/core/utils'
 import { Button } from '@/components/ui/forms/button'
+import { cn } from '@/lib/core/utils'
 import { PLAN_THEMES } from '@/lib/ui/pricing-constants'
 
 import { ProfessionalProjectModalContent } from './ProfessionalProjectModalContent'

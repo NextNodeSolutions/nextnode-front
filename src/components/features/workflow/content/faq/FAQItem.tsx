@@ -1,11 +1,10 @@
 import { useMemo } from 'react'
+import type { ReactNode } from 'react'
 
 import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/react'
 
 import { getDifficultyConfig } from './constants'
-
-import type { ReactNode } from 'react'
 import type { FAQQuestion } from './types'
 
 interface FAQItemProps {

@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import type React from 'react'
 
+import { Button } from '@/components/ui/forms/button'
+import { FormField, FormGrid } from '@/components/ui/forms/FormField'
+import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
 import { useI18n } from '@/lib/i18n/react'
 import { componentLogger } from '@/lib/logging'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
-import { Button } from '@/components/ui/forms/button'
-import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
-import { FormField, FormGrid } from '@/components/ui/forms/FormField'
 
 import type { ProjectRequestData } from '@/types/email'
 

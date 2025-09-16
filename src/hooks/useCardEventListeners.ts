@@ -27,7 +27,9 @@ export function useCardEventListeners(
 			const eventHandler = (): void => {
 				// Récupère l'index depuis l'attribut data ou utilise l'index de l'élément
 				const stepIndex = element.getAttribute('data-step-index')
-				const cardIndex = stepIndex ? parseInt(stepIndex, 10) : index
+				const cardIndex = stepIndex
+					? Number.parseInt(stepIndex, 10)
+					: index
 
 				if (!isNaN(cardIndex)) {
 					onClick(cardIndex)

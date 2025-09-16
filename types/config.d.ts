@@ -47,5 +47,3 @@ declare module '@nextnode/config-manager' {
 	// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 	interface ConfigSchema extends GeneratedConfigSchema {}
 }
-
-export {}

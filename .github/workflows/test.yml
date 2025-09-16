@@ -17,5 +17,3 @@ jobs:
             run-build: false
             run-security: false
             test-coverage: false
-            node-version: '22'
-            pnpm-version: '10.12.4'

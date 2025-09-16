@@ -1,11 +1,11 @@
-import React from 'react'
+import type React from 'react'
 
-import { useI18n } from '@/lib/i18n/react'
 import {
 	BaseModal,
 	ModalHeader,
 	ModalInfoCard,
 } from '@/components/ui/modals/BaseModal'
+import { useI18n } from '@/lib/i18n/react'
 
 import StepIllustration from '../visual/StepIllustrations'
 

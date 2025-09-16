@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import type React from 'react'
 
+import { Button } from '@/components/ui/forms/button'
 import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/react'
-import { Button } from '@/components/ui/forms/button'
 import { PLAN_THEMES } from '@/lib/ui/pricing-constants'
 
 import { StartProjectModalContent } from './StartProjectModalContent'

@@ -3,10 +3,10 @@
 // ====================================
 // Functions and helpers to use i18n in the Astro environment
 
-import { setGlobalLocale, createT } from './index'
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '../../i18n/config'
-
 import type { APIContext } from 'astro'
+
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../../i18n/config'
+import { createT, setGlobalLocale } from './index'
 import type { Locale, TFunction } from './types'
 
 // ====================================

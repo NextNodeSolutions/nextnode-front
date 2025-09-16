@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
+import type { ReactNode } from 'react'
 
-import { cn } from '@/lib/core/utils'
 import {
 	Select,
 	SelectContent,
@@ -8,8 +8,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/forms/select'
+import { cn } from '@/lib/core/utils'
 
-import type { ReactNode } from 'react'
 import type { FAQCategory, FAQCategoryId, FAQQuestion } from './types'
 
 interface FAQCategoryFilterProps {

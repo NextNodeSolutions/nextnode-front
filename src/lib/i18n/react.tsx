@@ -4,19 +4,18 @@
 // Optimized hooks for using i18n in React components
 
 import {
-	useState,
-	useEffect,
-	useCallback,
-	useMemo,
 	createContext,
+	useCallback,
 	useContext,
-	type ReactNode,
+	useEffect,
+	useMemo,
+	useState,
 } from 'react'
+import type { ReactNode } from 'react'
 
-import { createT, setGlobalLocale } from './index'
 import { getLocaleFromPath } from './astro'
-
-import type { Locale, TFunction, InterpolationVariables } from './types'
+import { createT, setGlobalLocale } from './index'
+import type { InterpolationVariables, Locale, TFunction } from './types'
 
 // ====================================
 // MAIN useI18n HOOK

@@ -3,10 +3,10 @@
  * Provides application health status and basic metrics
  */
 
+import type { APIRoute } from 'astro'
+
 import { getHealthStatus } from '../lib/core/metrics'
 import { metricsLogger } from '../lib/logging'
-
-import type { APIRoute } from 'astro'
 
 export const GET: APIRoute = async ({ request: _request }) => {
 	try {

@@ -1,12 +1,11 @@
-import { defineConfig } from 'astro/config'
-import tailwindcss from '@tailwindcss/vite'
-import { configManagerIntegration } from '@nextnode/config-manager/astro'
-
 import node from '@astrojs/node'
 import react from '@astrojs/react'
+import { configManagerIntegration } from '@nextnode/config-manager/astro'
+import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'astro/config'
 
 const host = process.env.HOST ?? '0.0.0.0'
-const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4321
+const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4321
 const site = process.env.URL ?? `http://${host}:${port}`
 
 // https://astro.build/config

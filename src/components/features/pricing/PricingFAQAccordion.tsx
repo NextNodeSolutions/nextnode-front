@@ -1,12 +1,12 @@
-import React from 'react'
+import type React from 'react'
 
-import { cn } from '@/lib/core/utils'
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion'
+import { cn } from '@/lib/core/utils'
 
 interface FAQItem {
 	question: string

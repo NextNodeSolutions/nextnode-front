@@ -1,5 +1,5 @@
-import { useModalState } from './useModalState'
 import { useKeyboardShortcuts } from './useKeyboardShortcuts'
+import { useModalState } from './useModalState'
 
 import type { UseWorkflowModalReturn } from '@/types/workflow'
 

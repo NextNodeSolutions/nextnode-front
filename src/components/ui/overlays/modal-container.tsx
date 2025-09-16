@@ -1,18 +1,17 @@
-import React from 'react'
+import type React from 'react'
+import type { CSSProperties } from 'react'
 
 import {
 	Dialog,
 	DialogContent,
-	DialogTitle,
 	DialogDescription,
+	DialogTitle,
 } from '@/components/ui/overlays/dialog'
+import { cn } from '@/lib/core/utils'
 import { createModalGlassmorphism } from '@/lib/ui/glassmorphism'
 import { DEFAULT_MODAL_CONFIG } from '@/lib/ui/modal-utils'
-import { cn } from '@/lib/core/utils'
 
 import GlassmorphicOverlay from './glassmorphic-overlay'
-
-import type { CSSProperties } from 'react'
 
 // Type for CSS properties with custom variables
 type ModalCSSProperties = CSSProperties & {

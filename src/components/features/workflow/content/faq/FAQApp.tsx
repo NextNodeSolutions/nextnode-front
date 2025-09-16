@@ -1,10 +1,10 @@
-import { FAQCategoryFilter } from './FAQCategoryFilter'
-import { FAQSearchBar } from './FAQSearchBar'
-import { FAQItem } from './FAQItem'
-import { useFAQState } from './hooks'
-
 import type { ReactNode } from 'react'
-import type { FAQQuestion, FAQCategory } from './types'
+
+import { FAQCategoryFilter } from './FAQCategoryFilter'
+import { FAQItem } from './FAQItem'
+import { FAQSearchBar } from './FAQSearchBar'
+import { useFAQState } from './hooks'
+import type { FAQCategory, FAQQuestion } from './types'
 
 interface FAQTranslations {
 	placeholder: string

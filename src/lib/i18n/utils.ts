@@ -3,10 +3,9 @@
 // ====================================
 
 import { i18nLogger } from '../logging'
-
 import type {
-	InterpolationVariables,
 	DynamicKey,
+	InterpolationVariables,
 	TranslationKey,
 } from './types'
 
@@ -67,7 +66,7 @@ export function getNestedValue<T = unknown>(
 
 		// Support for array indices
 		if (typeof current === 'object' && Array.isArray(current)) {
-			const index = parseInt(key, 10)
+			const index = Number.parseInt(key, 10)
 			if (!isNaN(index) && index >= 0 && index < current.length) {
 				current = current[index]
 				continue

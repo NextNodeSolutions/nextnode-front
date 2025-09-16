@@ -1,6 +1,6 @@
-import { cn } from '@/lib/core/utils'
-
 import type { ReactNode } from 'react'
+
+import { cn } from '@/lib/core/utils'
 
 interface FAQTranslations {
 	placeholder: string

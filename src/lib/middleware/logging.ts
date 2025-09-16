@@ -3,10 +3,10 @@
  * Handles structured logging of HTTP requests and responses
  */
 
-import { defineMiddleware } from 'astro:middleware'
-
 import { middlewareLogger } from '../logging'
-import { shouldLogRequest, extractUserIP } from './utils'
+import { extractUserIP, shouldLogRequest } from './utils'
+
+import { defineMiddleware } from 'astro:middleware'
 
 /**
  * Middleware for logging requests and responses

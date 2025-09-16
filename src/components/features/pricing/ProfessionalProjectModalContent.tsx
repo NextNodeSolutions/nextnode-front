@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import type React from 'react'
 
+import { Button } from '@/components/ui/forms/button'
+import { FormField, FormGrid } from '@/components/ui/forms/FormField'
+import { SelectLegacy as Select } from '@/components/ui/forms/SelectLegacy'
+import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
 import { useI18n } from '@/lib/i18n/react'
 import { componentLogger } from '@/lib/logging'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
-import { Button } from '@/components/ui/forms/button'
-import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
-import { FormField, FormGrid } from '@/components/ui/forms/FormField'
-import { SelectLegacy as Select } from '@/components/ui/forms/SelectLegacy'
 
-import { PRICING_CONFIG, formatPrice } from './pricing-config'
+import { formatPrice, PRICING_CONFIG } from './pricing-config'
 
 interface ProfessionalProjectModalContentProps {
 	isOpen: boolean

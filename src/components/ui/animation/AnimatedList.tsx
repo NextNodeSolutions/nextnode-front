@@ -3,7 +3,8 @@
  * Eliminates repetitive animation-delay inline styles
  */
 
-import React, { Children, cloneElement, isValidElement } from 'react'
+import { Children, cloneElement, isValidElement } from 'react'
+import type React from 'react'
 
 import { cn } from '@/lib/core/utils'
 

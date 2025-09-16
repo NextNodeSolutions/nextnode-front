@@ -1,10 +1,10 @@
-import React from 'react'
+import type React from 'react'
 
+import { cn } from '@/lib/core/utils'
 import {
 	createColoredOverlay,
 	createReadabilityOverlay,
 } from '@/lib/ui/glassmorphism'
-import { cn } from '@/lib/core/utils'
 
 interface GlassmorphicOverlayProps {
 	color: string

@@ -1,9 +1,7 @@
-import React from 'react'
-
 import { getConfig } from '@nextnode/config-manager'
+import type React from 'react'
 
 import { ProjectRequest } from '../src/lib/email/templates/ProjectRequest'
-
 import type { ProjectRequestData } from '../types/email'
 
 // Sample data for preview

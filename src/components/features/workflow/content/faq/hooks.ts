@@ -1,10 +1,10 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import type {
-	FAQState,
-	FAQQuestion,
 	FAQCategoryId,
+	FAQQuestion,
 	FAQSearchResult,
+	FAQState,
 } from './types'
 
 export interface UseFAQStateReturn {

@@ -1,10 +1,11 @@
 // Import types from centralized location
+
+import type { StepKey } from '@/lib/i18n/types'
 import type {
+	GradientStop,
 	StepConfig,
 	WorkflowPosition,
-	GradientStop,
 } from '@/types/workflow'
-import type { StepKey } from '@/lib/i18n/types'
 
 // Step keys in order (pre-computed for performance)
 export const STEP_KEYS = [
