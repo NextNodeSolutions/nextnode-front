@@ -150,7 +150,10 @@ export const ProfessionalProjectModalContent = ({
 
 				<FormGrid columns={2}>
 					<div className="space-y-2">
-						<label htmlFor={employeesId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label
+							htmlFor={employeesId}
+							className="text-sm font-medium text-gray-700 dark:text-gray-300"
+						>
 							{t('modal.professionalModal.form.employees')}
 						</label>
 						<Select
@@ -210,7 +213,10 @@ export const ProfessionalProjectModalContent = ({
 				{/* Project Details */}
 				<FormGrid columns={2}>
 					<div className="space-y-2">
-						<label htmlFor={budgetId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label
+							htmlFor={budgetId}
+							className="text-sm font-medium text-gray-700 dark:text-gray-300"
+						>
 							{t('modal.professionalModal.form.budget')}
 							<span className="ml-1 text-red-500">*</span>
 						</label>
@@ -333,7 +339,10 @@ export const ProfessionalProjectModalContent = ({
 						/>
 					</div>
 					<div className="space-y-2">
-						<label htmlFor={timelineId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label
+							htmlFor={timelineId}
+							className="text-sm font-medium text-gray-700 dark:text-gray-300"
+						>
 							{t('modal.professionalModal.form.timeline')}
 							<span className="ml-1 text-red-500">*</span>
 						</label>
@@ -385,7 +394,10 @@ export const ProfessionalProjectModalContent = ({
 				{/* Technical Requirements */}
 				<FormGrid columns={2}>
 					<div className="space-y-2">
-						<label htmlFor={expectedTrafficId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label
+							htmlFor={expectedTrafficId}
+							className="text-sm font-medium text-gray-700 dark:text-gray-300"
+						>
 							{t('modal.professionalModal.form.expectedTraffic')}
 						</label>
 						<Select
@@ -433,7 +445,10 @@ export const ProfessionalProjectModalContent = ({
 						/>
 					</div>
 					<div className="space-y-2">
-						<label htmlFor={hasTechnicalContactId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label
+							htmlFor={hasTechnicalContactId}
+							className="text-sm font-medium text-gray-700 dark:text-gray-300"
+						>
 							{t(
 								'modal.professionalModal.form.hasTechnicalContact',
 							)}
@@ -473,7 +488,10 @@ export const ProfessionalProjectModalContent = ({
 				</FormGrid>
 
 				<div className="space-y-2">
-					<label htmlFor={needsIntegrationsId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
+					<label
+						htmlFor={needsIntegrationsId}
+						className="text-sm font-medium text-gray-700 dark:text-gray-300"
+					>
 						{t('modal.professionalModal.form.needsIntegrations')}
 					</label>
 					<Select

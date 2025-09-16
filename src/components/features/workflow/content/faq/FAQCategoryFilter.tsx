@@ -88,7 +88,10 @@ export const FAQCategoryFilter = ({
 		<div className={cn('mb-8', className)}>
 			{/* Mobile Dropdown */}
 			<div className="mb-6 md:hidden">
-				<label htmlFor={categoryFilterId} className="mb-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
+				<label
+					htmlFor={categoryFilterId}
+					className="mb-3 block text-sm font-medium text-gray-700 dark:text-gray-300"
+				>
 					Filter by Category
 				</label>
 				<Select
@@ -98,7 +101,10 @@ export const FAQCategoryFilter = ({
 						onCategoryToggle(categoryId)
 					}}
 				>
-					<SelectTrigger id={categoryFilterId} className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400">
+					<SelectTrigger
+						id={categoryFilterId}
+						className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400"
+					>
 						<SelectValue>{getSelectDisplayText()}</SelectValue>
 					</SelectTrigger>
 					<SelectContent>

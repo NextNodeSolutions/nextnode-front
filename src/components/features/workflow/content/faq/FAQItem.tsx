@@ -6,7 +6,7 @@ import { useI18n } from '@/lib/i18n/react'
 
 import { getDifficultyConfig } from './constants'
 import type { TextSegment } from './HighlightedText'
-import { HighlightedText, } from './HighlightedText'
+import { HighlightedText } from './HighlightedText'
 import type { FAQQuestion } from './types'
 
 interface FAQItemProps {
@@ -107,7 +107,9 @@ export const FAQItem = ({
 						{/* Question */}
 						<h3 className="text-base leading-tight font-semibold text-gray-900 transition-colors duration-200 group-hover/header:text-blue-700 sm:text-lg dark:text-white dark:group-hover/header:text-blue-300">
 							{highlightedQuestion ? (
-								<HighlightedText segments={highlightedQuestion} />
+								<HighlightedText
+									segments={highlightedQuestion}
+								/>
 							) : (
 								question.question
 							)}
@@ -126,7 +128,9 @@ export const FAQItem = ({
 						stroke="currentColor"
 						viewBox="0 0 24 24"
 					>
-						<title>{isExpanded ? 'Collapse answer' : 'Expand answer'}</title>
+						<title>
+							{isExpanded ? 'Collapse answer' : 'Expand answer'}
+						</title>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"

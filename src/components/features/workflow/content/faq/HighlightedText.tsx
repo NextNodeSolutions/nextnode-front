@@ -11,19 +11,24 @@ interface HighlightedTextProps {
 	className?: string
 }
 
-export const HighlightedText = ({ segments, className }: HighlightedTextProps): ReactElement => (
+export const HighlightedText = ({
+	segments,
+	className,
+}: HighlightedTextProps): ReactElement => (
 	<span className={className}>
-		{segments.map((segment, index) => (
+		{segments.map((segment, index) =>
 			segment.isHighlighted ? (
-				<mark 
-					key={`${segment.text}-${index}`} 
+				<mark
+					key={`${segment.text}-${index}`}
 					className="bg-yellow-200 dark:bg-yellow-800/50"
 				>
 					{segment.text}
 				</mark>
 			) : (
-				<React.Fragment key={`${segment.text}-${index}`}>{segment.text}</React.Fragment>
-			)
-		))}
+				<React.Fragment key={`${segment.text}-${index}`}>
+					{segment.text}
+				</React.Fragment>
+			),
+		)}
 	</span>
 )

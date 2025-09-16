@@ -65,7 +65,11 @@ export const FAQApp = ({
 				{searchResults.length === 0 ? (
 					<div className="py-12 text-center">
 						<div className="mx-auto mb-4 h-24 w-24 text-gray-300 dark:text-gray-600">
-							<svg fill="currentColor" viewBox="0 0 20 20" aria-label="No results found">
+							<svg
+								fill="currentColor"
+								viewBox="0 0 20 20"
+								aria-label="No results found"
+							>
 								<title>No results found</title>
 								<path
 									fillRule="evenodd"

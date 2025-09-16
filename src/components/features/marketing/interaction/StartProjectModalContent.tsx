@@ -27,7 +27,7 @@ export const StartProjectModalContent = ({
 		type: 'success' | 'error' | null
 		message: string
 	}>({ type: null, message: '' })
-	
+
 	// Generate unique IDs for form fields
 	const nameId = useId()
 	const emailId = useId()

@@ -54,7 +54,10 @@ export default function StepModal({
 					</h3>
 					<ul className="space-y-2">
 						{step.details.map((detail, index) => (
-							<li key={`${detail.substring(0, 30)}-${index}`} className="flex items-start gap-3">
+							<li
+								key={`${detail.substring(0, 30)}-${index}`}
+								className="flex items-start gap-3"
+							>
 								<div
 									className="mt-2 h-2 w-2 flex-shrink-0 rounded-full"
 									style={{ backgroundColor: color }}
