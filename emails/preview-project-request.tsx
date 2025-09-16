@@ -22,7 +22,12 @@ const sampleData: ProjectRequestData = {
 
 export default function PreviewProjectRequest(): React.ReactElement {
 	// Get email configuration for preview (config initialized at app level)
-	let templateConfig
+	let templateConfig: {
+		companyName: string
+		websiteUrl: string
+		subject: string
+		companyLogo: string | null
+	}
 	try {
 		const emailConfig = getConfig('email')
 		templateConfig = emailConfig?.templates?.projectRequest || {

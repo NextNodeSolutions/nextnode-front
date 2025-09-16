@@ -26,7 +26,7 @@ export const PricingFAQAccordion = ({
 		<Accordion type="single" collapsible className="w-full">
 			{questions.map((faq, index) => (
 				<AccordionItem
-					key={index}
+					key={faq.question.substring(0, 50)}
 					value={`item-${index}`}
 					className={cn(
 						'rounded-2xl border border-gray-200/50',

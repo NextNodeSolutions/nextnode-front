@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import type React from 'react'
 
 import { Button } from '@/components/ui/forms/button'
@@ -27,6 +27,13 @@ export const StartProjectModalContent = ({
 		type: 'success' | 'error' | null
 		message: string
 	}>({ type: null, message: '' })
+	
+	// Generate unique IDs for form fields
+	const nameId = useId()
+	const emailId = useId()
+	const projectId = useId()
+	const budgetId = useId()
+	const messageId = useId()
 
 	const handleSubmit = async (
 		event: React.FormEvent<HTMLFormElement>,
@@ -122,14 +129,14 @@ export const StartProjectModalContent = ({
 			<form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
 				<FormGrid columns={2}>
 					<FormField
-						id="name"
+						id={nameId}
 						label={t('modal.form.name')}
 						placeholder={t('modal.form.namePlaceholder')}
 						required
 						disabled={isSubmitting}
 					/>
 					<FormField
-						id="email"
+						id={emailId}
 						label={t('modal.form.email')}
 						type="email"
 						placeholder={t('modal.form.emailPlaceholder')}
@@ -139,7 +146,7 @@ export const StartProjectModalContent = ({
 				</FormGrid>
 
 				<FormField
-					id="project"
+					id={projectId}
 					label={t('modal.form.projectType')}
 					placeholder={t('modal.form.projectTypePlaceholder')}
 					required
@@ -147,14 +154,14 @@ export const StartProjectModalContent = ({
 				/>
 
 				<FormField
-					id="budget"
+					id={budgetId}
 					label={t('modal.form.budget')}
 					placeholder={t('modal.form.budgetPlaceholder')}
 					disabled={isSubmitting}
 				/>
 
 				<FormField
-					id="message"
+					id={messageId}
 					label={t('modal.form.details')}
 					type="textarea"
 					placeholder={t('modal.form.detailsPlaceholder')}

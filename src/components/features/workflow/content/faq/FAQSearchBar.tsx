@@ -40,6 +40,7 @@ export const FAQSearchBar = ({
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
+						aria-label="Search icon"
 					>
 						<path
 							strokeLinecap="round"
@@ -67,6 +68,7 @@ export const FAQSearchBar = ({
 				{/* Clear Search Button */}
 				{searchQuery.trim() !== '' && (
 					<button
+						type="button"
 						onClick={() => onSearchChange('')}
 						className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-gray-600 focus:text-gray-600 focus:outline-none dark:hover:text-gray-300 dark:focus:text-gray-300"
 					>
@@ -75,6 +77,7 @@ export const FAQSearchBar = ({
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
+							aria-label="Clear search"
 						>
 							<path
 								strokeLinecap="round"
@@ -104,6 +107,7 @@ export const FAQSearchBar = ({
 							className="h-5 w-5 flex-shrink-0"
 							fill="currentColor"
 							viewBox="0 0 20 20"
+							aria-label="Warning icon"
 						>
 							<path
 								fillRule="evenodd"
