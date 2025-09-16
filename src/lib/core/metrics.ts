@@ -107,7 +107,7 @@ export const ApplicationMetrics = {
 
 	// Memory usage (Node.js specific)
 	recordMemoryUsage(): void {
-		if (typeof process !== 'undefined' && process.memoryUsage) {
+		if (process?.memoryUsage) {
 			const mem = process.memoryUsage()
 			metrics.setGauge('app_memory_heap_used_bytes', mem.heapUsed)
 			metrics.setGauge('app_memory_heap_total_bytes', mem.heapTotal)

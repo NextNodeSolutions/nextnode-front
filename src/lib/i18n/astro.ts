@@ -102,12 +102,13 @@ export function getAlternateLocale(currentLocale: Locale): Locale {
  */
 export function pathToLocalized(locale: Locale, path: string): string {
 	// Ensure path starts with /
-	if (!path.startsWith('/')) {
-		path = `/${path}`
+	let normalizedPath = path
+	if (!normalizedPath.startsWith('/')) {
+		normalizedPath = `/${normalizedPath}`
 	}
 
 	// Remove existing locale prefix if any
-	const cleanPath = path.replace(/^\/(en|fr)(\/|$)/, '/')
+	const cleanPath = normalizedPath.replace(/^\/(en|fr)(\/|$)/, '/')
 
 	// Add locale prefix
 	return `/${locale}${cleanPath === '/' ? '/' : cleanPath}`

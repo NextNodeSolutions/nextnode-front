@@ -67,7 +67,7 @@ export function getNestedValue<T = unknown>(
 		// Support for array indices
 		if (typeof current === 'object' && Array.isArray(current)) {
 			const index = Number.parseInt(key, 10)
-			if (!isNaN(index) && index >= 0 && index < current.length) {
+			if (!Number.isNaN(index) && index >= 0 && index < current.length) {
 				current = current[index]
 				continue
 			}

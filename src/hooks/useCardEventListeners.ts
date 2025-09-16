@@ -31,7 +31,7 @@ export function useCardEventListeners(
 					? Number.parseInt(stepIndex, 10)
 					: index
 
-				if (!isNaN(cardIndex)) {
+				if (!Number.isNaN(cardIndex)) {
 					onClick(cardIndex)
 				}
 			}

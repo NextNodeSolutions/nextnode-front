@@ -24,7 +24,7 @@ interface ContextProviderProps {
 export function ContextProvider({ children }: ContextProviderProps): ReactNode {
 	// Get locale from global window variable set by BaseLayout
 	const getLocale = (): Locale => {
-		if (typeof window !== 'undefined' && window.currentLocale) {
+		if (window?.currentLocale) {
 			const currentLocale = window.currentLocale
 			if (isValidLocale(currentLocale)) {
 				return currentLocale

@@ -52,9 +52,10 @@ function highlightText(text: string, query: string): TextSegment[] {
 	
 	const segments: TextSegment[] = []
 	let lastIndex = 0
-	let match
+	let match: RegExpExecArray | null
 	
-	while ((match = regex.exec(text)) !== null) {
+	match = regex.exec(text)
+	while (match !== null) {
 		// Add text before the match
 		if (match.index > lastIndex) {
 			segments.push({
@@ -70,6 +71,7 @@ function highlightText(text: string, query: string): TextSegment[] {
 		})
 		
 		lastIndex = regex.lastIndex
+		match = regex.exec(text)
 	}
 	
 	// Add remaining text after last match

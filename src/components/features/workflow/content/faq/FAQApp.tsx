@@ -66,6 +66,7 @@ export const FAQApp = ({
 					<div className="py-12 text-center">
 						<div className="mx-auto mb-4 h-24 w-24 text-gray-300 dark:text-gray-600">
 							<svg fill="currentColor" viewBox="0 0 20 20" aria-label="No results found">
+								<title>No results found</title>
 								<path
 									fillRule="evenodd"
 									d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
@@ -126,6 +127,7 @@ export const FAQApp = ({
 						{hasMoreItems && (
 							<div className="mt-8 text-center">
 								<button
+									type="button"
 									onClick={loadMore}
 									className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-700 shadow-sm transition-all duration-200 hover:border-blue-300 hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
 								>
@@ -136,6 +138,7 @@ export const FAQApp = ({
 										viewBox="0 0 24 24"
 										aria-label="Show more categories"
 									>
+										<title>Show more categories</title>
 										<path
 											strokeLinecap="round"
 											strokeLinejoin="round"

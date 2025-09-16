@@ -126,6 +126,7 @@ export const FAQItem = ({
 						stroke="currentColor"
 						viewBox="0 0 24 24"
 					>
+						<title>{isExpanded ? 'Collapse answer' : 'Expand answer'}</title>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"

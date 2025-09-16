@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import type React from 'react'
 
 import { Button } from '@/components/ui/forms/button'
@@ -38,6 +38,21 @@ export const ProfessionalProjectModalContent = ({
 		expectedTraffic: '',
 		projectDetails: '',
 	})
+
+	// Generate unique IDs for form fields
+	const nameId = useId()
+	const emailId = useId()
+	const companyNameId = useId()
+	const sectorId = useId()
+	const currentWebsiteId = useId()
+	const featuresId = useId()
+	const projectDetailsId = useId()
+	const employeesId = useId()
+	const budgetId = useId()
+	const timelineId = useId()
+	const expectedTrafficId = useId()
+	const hasTechnicalContactId = useId()
+	const needsIntegrationsId = useId()
 
 	const handleInputChange =
 		(name: string) =>
@@ -90,7 +105,7 @@ export const ProfessionalProjectModalContent = ({
 				<FormGrid columns={2}>
 					<FormField
 						label={t('modal.form.name')}
-						id="name"
+						id={nameId}
 						type="text"
 						placeholder={t('modal.form.namePlaceholder')}
 						value={formData.name}
@@ -99,7 +114,7 @@ export const ProfessionalProjectModalContent = ({
 					/>
 					<FormField
 						label={t('modal.form.email')}
-						id="email"
+						id={emailId}
 						type="email"
 						placeholder={t('modal.form.emailPlaceholder')}
 						value={formData.email}
@@ -112,7 +127,7 @@ export const ProfessionalProjectModalContent = ({
 				<FormGrid columns={2}>
 					<FormField
 						label={t('modal.professionalModal.form.companyName')}
-						id="companyName"
+						id={companyNameId}
 						type="text"
 						placeholder={t(
 							'modal.professionalModal.form.companyNamePlaceholder',
@@ -123,7 +138,7 @@ export const ProfessionalProjectModalContent = ({
 					/>
 					<FormField
 						label={t('modal.professionalModal.form.sector')}
-						id="sector"
+						id={sectorId}
 						type="text"
 						placeholder={t(
 							'modal.professionalModal.form.sectorPlaceholder',
@@ -135,10 +150,11 @@ export const ProfessionalProjectModalContent = ({
 
 				<FormGrid columns={2}>
 					<div className="space-y-2">
-						<label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label htmlFor={employeesId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
 							{t('modal.professionalModal.form.employees')}
 						</label>
 						<Select
+							id={employeesId}
 							name="employees"
 							value={formData.employees}
 							onChange={e =>
@@ -181,7 +197,7 @@ export const ProfessionalProjectModalContent = ({
 					</div>
 					<FormField
 						label={t('modal.professionalModal.form.currentWebsite')}
-						id="currentWebsite"
+						id={currentWebsiteId}
 						type="text"
 						placeholder={t(
 							'modal.professionalModal.form.currentWebsitePlaceholder',
@@ -194,11 +210,12 @@ export const ProfessionalProjectModalContent = ({
 				{/* Project Details */}
 				<FormGrid columns={2}>
 					<div className="space-y-2">
-						<label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label htmlFor={budgetId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
 							{t('modal.professionalModal.form.budget')}
 							<span className="ml-1 text-red-500">*</span>
 						</label>
 						<Select
+							id={budgetId}
 							name="budget"
 							value={formData.budget}
 							onChange={e =>
@@ -316,11 +333,12 @@ export const ProfessionalProjectModalContent = ({
 						/>
 					</div>
 					<div className="space-y-2">
-						<label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label htmlFor={timelineId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
 							{t('modal.professionalModal.form.timeline')}
 							<span className="ml-1 text-red-500">*</span>
 						</label>
 						<Select
+							id={timelineId}
 							name="timeline"
 							value={formData.timeline}
 							onChange={e =>
@@ -367,10 +385,11 @@ export const ProfessionalProjectModalContent = ({
 				{/* Technical Requirements */}
 				<FormGrid columns={2}>
 					<div className="space-y-2">
-						<label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label htmlFor={expectedTrafficId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
 							{t('modal.professionalModal.form.expectedTraffic')}
 						</label>
 						<Select
+							id={expectedTrafficId}
 							name="expectedTraffic"
 							value={formData.expectedTraffic}
 							onChange={e =>
@@ -414,12 +433,13 @@ export const ProfessionalProjectModalContent = ({
 						/>
 					</div>
 					<div className="space-y-2">
-						<label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+						<label htmlFor={hasTechnicalContactId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
 							{t(
 								'modal.professionalModal.form.hasTechnicalContact',
 							)}
 						</label>
 						<Select
+							id={hasTechnicalContactId}
 							name="hasTechnicalContact"
 							value={formData.hasTechnicalContact}
 							onChange={e =>
@@ -453,10 +473,11 @@ export const ProfessionalProjectModalContent = ({
 				</FormGrid>
 
 				<div className="space-y-2">
-					<label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+					<label htmlFor={needsIntegrationsId} className="text-sm font-medium text-gray-700 dark:text-gray-300">
 						{t('modal.professionalModal.form.needsIntegrations')}
 					</label>
 					<Select
+						id={needsIntegrationsId}
 						name="needsIntegrations"
 						value={formData.needsIntegrations}
 						onChange={e =>
@@ -490,7 +511,7 @@ export const ProfessionalProjectModalContent = ({
 
 				<FormField
 					label={t('modal.professionalModal.form.features')}
-					id="features"
+					id={featuresId}
 					type="textarea"
 					placeholder={t(
 						'modal.professionalModal.form.featuresPlaceholder',
@@ -501,7 +522,7 @@ export const ProfessionalProjectModalContent = ({
 
 				<FormField
 					label={t('modal.professionalModal.form.projectDetails')}
-					id="projectDetails"
+					id={projectDetailsId}
 					type="textarea"
 					placeholder={t(
 						'modal.professionalModal.form.projectDetailsPlaceholder',

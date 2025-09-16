@@ -52,25 +52,7 @@ export interface UseI18nReturn {
 export function useI18n(initialLocale?: Locale): UseI18nReturn {
 	const context = useContext(I18nContext)
 
-	// If context available (client-side), use it
-	if (context) {
-		const { locale, t, setLocale } = context
-
-		const toggleLocale = useCallback(() => {
-			const newLocale = locale === 'en' ? 'fr' : 'en'
-			setLocale(newLocale)
-		}, [locale, setLocale])
-
-		return {
-			locale,
-			t,
-			setLocale,
-			toggleLocale,
-			isLoading: false,
-		}
-	}
-
-	// Use provided initial locale or fallback to URL detection
+	// Always declare hooks at the top level
 	const [locale, setLocaleState] = useState<Locale>(() => {
 		if (initialLocale) {
 			return initialLocale
@@ -125,6 +107,25 @@ export function useI18n(initialLocale?: Locale): UseI18nReturn {
 		const newLocale = locale === 'en' ? 'fr' : 'en'
 		setLocale(newLocale)
 	}, [locale, setLocale])
+
+	// Context toggle locale (always declare hook)
+	const contextToggleLocale = useCallback(() => {
+		if (context) {
+			const newLocale = context.locale === 'en' ? 'fr' : 'en'
+			context.setLocale(newLocale)
+		}
+	}, [context])
+
+	// If context available (client-side), use it instead of local state
+	if (context) {
+		return {
+			locale: context.locale,
+			t: context.t,
+			setLocale: context.setLocale,
+			toggleLocale: contextToggleLocale,
+			isLoading: false,
+		}
+	}
 
 	return {
 		locale,
