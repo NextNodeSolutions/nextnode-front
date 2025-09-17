@@ -5,7 +5,6 @@ import Footer from '@/components/layout/footer/footer.astro'
 import GradientCircle from '@/components/common/gradient-circle.astro'
 import PricingHero from '@/components/features/pricing/PricingHero.astro'
 import PricingCard from '@/components/features/pricing/PricingCard.astro'
-import PricingFAQ from '@/components/features/pricing/PricingFAQ.astro'
 import { cn } from '@/lib/core/utils'
 // Use new i18n system from middleware
 const { t } = Astro.locals
@@ -412,9 +411,6 @@ const pageDescription = t('pricing.hero.subtitle')
 					</div>
 				</div>
 			</section>
-
-			<!-- FAQ Section -->
-			<PricingFAQ />
 		</main>
 
 		<GradientCircle />

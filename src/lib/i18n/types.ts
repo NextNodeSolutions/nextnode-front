@@ -21,7 +21,7 @@ export interface InterpolationVariables {
 	[key: string]: string | number | Date | boolean | undefined
 }
 
-// Type for keys with dynamic index (e.g., "faq.items.{index}.question")
+// Type for keys with dynamic index (e.g., "plans.items.{index}.name")
 export type DynamicKey = string
 
 // Type for workflow step keys
@@ -35,20 +35,6 @@ export type StepKey =
 
 // Type for pricing plan keys - re-export from shared types
 export type { Plan as PlanKey } from '@/types/plans'
-
-// Type for FAQ difficulty levels
-export type DifficultyKey = 'beginner' | 'intermediate' | 'advanced'
-
-// Type for FAQ category keys
-export type FaqCategoryKey =
-	| 'all'
-	| 'gettingStarted'
-	| 'business'
-	| 'design'
-	| 'performance'
-	| 'security'
-	| 'integrations'
-	| 'marketing'
 
 // ====================================
 // SIMPLE PATH EXTRACTOR - ACTUALLY WORKING VERSION

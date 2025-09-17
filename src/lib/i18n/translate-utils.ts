@@ -32,15 +32,3 @@ export function translatePlan<K extends Plan>(
 	const result = globalT(`pricing.plans.${planKey}`)
 	return result as Readonly<EnglishDict['pricing']['plans'][K]>
 }
-
-/**
- * Utility function for translating FAQ category questions with proper typing
- * Usage: translateFAQCategory('gettingStarted') → Readonly<{question: string, answer: string}[]>
- */
-export function translateFAQCategory(
-	categoryKey: string,
-): Readonly<{ question: string; answer: string }[]> {
-	// Template string keys can't be statically typed, so cast is necessary
-	const result = globalT(`howWeWork.faq.questions.${categoryKey}`)
-	return result as Readonly<{ question: string; answer: string }[]>
-}

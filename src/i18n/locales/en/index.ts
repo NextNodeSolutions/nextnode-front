@@ -1,5 +1,4 @@
 import { common } from './common'
-import { faq } from './components/faq'
 import { footer } from './components/footer'
 import { error } from './pages/error'
 import { home } from './pages/home'
@@ -17,5 +16,4 @@ export const en = {
 	terms,
 	error,
 	footer,
-	faq,
 } as const

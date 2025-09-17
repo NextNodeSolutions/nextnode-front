@@ -1,6 +1,5 @@
 import type { TranslationDict } from '../../../lib/i18n/types'
 import { common } from './common'
-import { faq } from './components/faq'
 import { footer } from './components/footer'
 import { error } from './pages/error'
 import { home } from './pages/home'
@@ -18,5 +17,4 @@ export const fr = {
 	terms,
 	error,
 	footer,
-	faq,
 } satisfies TranslationDict
