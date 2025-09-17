@@ -1,9 +1,6 @@
 /**
- * Export des hooks personnalisés pour le workflow
+ * Export custom hooks for workflow functionality
  */
 
 export { useCardEventListeners } from './useCardEventListeners'
 export { useKeyboardShortcuts } from './useKeyboardShortcuts'
-// Hooks spécialisés pour une réutilisabilité étendue
-export { useModalState } from './useModalState'
-export { useWorkflowModal } from './useWorkflowModal'

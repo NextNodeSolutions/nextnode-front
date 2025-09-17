@@ -6,6 +6,7 @@
 import { useId } from 'react'
 
 import type React from 'react'
+import type { PropsWithChildren } from 'react'
 
 import { cn } from '@/lib/core/utils'
 
@@ -91,11 +92,12 @@ export const FormField: React.FC<FormFieldProps> = ({
 /**
  * FormGrid - Grid layout for form fields
  */
-export const FormGrid: React.FC<{
-	children: React.ReactNode
-	columns?: 1 | 2
-	className?: string
-}> = ({ children, columns = 1, className }) => (
+export const FormGrid: React.FC<
+	PropsWithChildren<{
+		columns?: 1 | 2
+		className?: string
+	}>
+> = ({ children, columns = 1, className }) => (
 	<div
 		className={cn(
 			'grid gap-4',

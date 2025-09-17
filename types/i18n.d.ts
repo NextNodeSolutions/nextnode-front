@@ -1,10 +1,10 @@
 // ====================================
-// NEW TYPE-SAFE I18N SYSTEM
+// TYPE-SAFE I18N SYSTEM
 // ====================================
-// This file contains the auto-inferred type system for i18n
-// It automatically generates all types from the English dictionary
+// Consolidated i18n type definitions
+// Auto-inferred type system from the English dictionary
 
-import type { en } from '../../i18n/locales/en'
+import type { en } from '../src/i18n/locales/en'
 
 // The English dictionary is the source of truth
 export type EnglishDict = typeof en
@@ -21,7 +21,7 @@ export interface InterpolationVariables {
 	[key: string]: string | number | Date | boolean | undefined
 }
 
-// Type for keys with dynamic index (e.g., "faq.items.{index}.question")
+// Type for keys with dynamic index (e.g., "plans.items.{index}.name")
 export type DynamicKey = string
 
 // Type for workflow step keys
@@ -34,21 +34,7 @@ export type StepKey =
 	| 'support'
 
 // Type for pricing plan keys - re-export from shared types
-export type { Plan as PlanKey } from '@/types/plans'
-
-// Type for FAQ difficulty levels
-export type DifficultyKey = 'beginner' | 'intermediate' | 'advanced'
-
-// Type for FAQ category keys
-export type FaqCategoryKey =
-	| 'all'
-	| 'gettingStarted'
-	| 'business'
-	| 'design'
-	| 'performance'
-	| 'security'
-	| 'integrations'
-	| 'marketing'
+export type { Plan as PlanKey } from './plans'
 
 // ====================================
 // SIMPLE PATH EXTRACTOR - ACTUALLY WORKING VERSION
@@ -144,6 +130,17 @@ export type RequiredVariables<K extends TranslationKey> =
 		: never
 
 // ====================================
-// EXPORT TYPES FOR API
+// UTILITY TYPES FOR COMPONENTS
 // ====================================
-// All types are already exported individually above
+
+// Type-safe locale validation function type
+export type LocaleGuard = (value: unknown) => value is Locale
+
+// Navigation link type used across components
+export type NavigationLink = Readonly<{
+	href: string
+	labelKey: TranslationKey
+}>
+
+// Array of navigation links (readonly compatible)
+export type NavigationLinks = NavigationLink[]

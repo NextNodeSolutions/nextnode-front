@@ -10,6 +10,12 @@ import { EmailService } from '../../lib/email'
 import { ProjectRequest } from '../../lib/email/templates'
 import { validateProjectRequestData } from '../../lib/email/utils/validation'
 import { emailLogger } from '../../lib/logging'
+import {
+	createBadRequestResponse,
+	createInternalServerErrorResponse,
+	createMethodNotAllowedResponse,
+	createSuccessResponse,
+} from '../../lib/utils/api-response'
 
 import type { ProjectRequestData } from '@/types/email'
 
@@ -23,30 +29,12 @@ export const POST: APIRoute = async ({ request }) => {
 		try {
 			body = await request.json()
 		} catch {
-			return new Response(
-				JSON.stringify({
-					success: false,
-					error: 'Invalid JSON in request body',
-				}),
-				{
-					status: 400,
-					headers: { 'Content-Type': 'application/json' },
-				},
-			)
+			return createBadRequestResponse('Invalid JSON in request body')
 		}
 
 		// Validate body structure
 		if (!body || typeof body !== 'object' || Array.isArray(body)) {
-			return new Response(
-				JSON.stringify({
-					success: false,
-					error: 'Request body must be an object',
-				}),
-				{
-					status: 400,
-					headers: { 'Content-Type': 'application/json' },
-				},
-			)
+			return createBadRequestResponse('Request body must be an object')
 		}
 
 		const projectData = body as ProjectRequestData
@@ -54,16 +42,9 @@ export const POST: APIRoute = async ({ request }) => {
 		// Validate project request data
 		const validationErrors = validateProjectRequestData(projectData)
 		if (validationErrors.length > 0) {
-			return new Response(
-				JSON.stringify({
-					success: false,
-					error: 'Validation failed',
-					details: validationErrors,
-				}),
-				{
-					status: 400,
-					headers: { 'Content-Type': 'application/json' },
-				},
+			return createBadRequestResponse(
+				'Validation failed',
+				validationErrors,
 			)
 		}
 
@@ -76,15 +57,8 @@ export const POST: APIRoute = async ({ request }) => {
 			emailLogger.error('Email configuration not found', {
 				scope: 'config-error',
 			})
-			return new Response(
-				JSON.stringify({
-					success: false,
-					error: 'Email configuration not found',
-				}),
-				{
-					status: 500,
-					headers: { 'Content-Type': 'application/json' },
-				},
+			return createInternalServerErrorResponse(
+				'Email configuration not found',
 			)
 		}
 
@@ -95,15 +69,8 @@ export const POST: APIRoute = async ({ request }) => {
 					scope: 'config-error',
 				},
 			)
-			return new Response(
-				JSON.stringify({
-					success: false,
-					error: 'Email service not configured',
-				}),
-				{
-					status: 500,
-					headers: { 'Content-Type': 'application/json' },
-				},
+			return createInternalServerErrorResponse(
+				'Email service not configured',
 			)
 		}
 
@@ -114,15 +81,8 @@ export const POST: APIRoute = async ({ request }) => {
 					scope: 'config-error',
 				},
 			)
-			return new Response(
-				JSON.stringify({
-					success: false,
-					error: 'Email addresses not configured',
-				}),
-				{
-					status: 500,
-					headers: { 'Content-Type': 'application/json' },
-				},
+			return createInternalServerErrorResponse(
+				'Email addresses not configured',
 			)
 		}
 
@@ -170,19 +130,12 @@ export const POST: APIRoute = async ({ request }) => {
 					provider: emailConfig.provider,
 				},
 			})
-			return new Response(
-				JSON.stringify({
-					success: false,
-					error: result.error || 'Failed to send email',
-					details: {
-						message: result.error,
-						from: emailConfig.from,
-						to: emailConfig.to,
-					},
-				}),
+			return createInternalServerErrorResponse(
+				result.error || 'Failed to send email',
 				{
-					status: 500,
-					headers: { 'Content-Type': 'application/json' },
+					message: result.error,
+					from: emailConfig.from,
+					to: emailConfig.to,
 				},
 			)
 		}
@@ -197,16 +150,10 @@ export const POST: APIRoute = async ({ request }) => {
 			},
 		})
 
-		return new Response(
-			JSON.stringify({
-				success: true,
-				messageId: result.messageId,
-				message: 'Email sent successfully',
-			}),
-			{
-				status: 200,
-				headers: { 'Content-Type': 'application/json' },
-			},
+		return createSuccessResponse(
+			{ messageId: result.messageId },
+			'Email sent successfully',
+			result.messageId,
 		)
 	} catch (error) {
 		emailLogger.error('Unexpected error in send-email API', {
@@ -214,33 +161,12 @@ export const POST: APIRoute = async ({ request }) => {
 			details: { error },
 		})
 
-		return new Response(
-			JSON.stringify({
-				success: false,
-				error: 'Internal server error',
-				details:
-					error instanceof Error ? error.message : 'Unknown error',
-			}),
-			{
-				status: 500,
-				headers: { 'Content-Type': 'application/json' },
-			},
+		return createInternalServerErrorResponse(
+			'Internal server error',
+			error instanceof Error ? error.message : 'Unknown error',
 		)
 	}
 }
 
 // Only allow POST requests
-export const GET: APIRoute = () =>
-	new Response(
-		JSON.stringify({
-			success: false,
-			error: 'Method not allowed. Use POST to send emails.',
-		}),
-		{
-			status: 405,
-			headers: {
-				'Content-Type': 'application/json',
-				Allow: 'POST',
-			},
-		},
-	)
+export const GET: APIRoute = () => createMethodNotAllowedResponse(['POST'])

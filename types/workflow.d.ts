@@ -1,7 +1,7 @@
 // Centralized types for the workflow system
 // Single source of truth for all workflow-related types
 
-import type { EnglishDict, StepKey } from '@/lib/i18n/types'
+import type { EnglishDict, StepKey } from './i18n'
 
 export interface StepConfig {
 	icon: string

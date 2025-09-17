@@ -3,11 +3,12 @@
 // ====================================
 
 import { i18nLogger } from '../logging'
+
 import type {
 	DynamicKey,
 	InterpolationVariables,
 	TranslationKey,
-} from './types'
+} from '@/types/i18n'
 
 // ====================================
 // VARIABLE INTERPOLATION
@@ -118,8 +119,8 @@ export function getNestedValue<T = unknown>(
 
 /**
  * Resolve dynamic keys by replacing placeholders
- * Example: resolveDynamicKey("faq.items.{index}.question", { index: 0 })
- * → "faq.items.0.question"
+ * Example: resolveDynamicKey("plans.items.{index}.name", { index: 0 })
+ * → "plans.items.0.name"
  */
 export function resolveDynamicKey(
 	key: DynamicKey,

@@ -7,7 +7,8 @@ import type { APIContext } from 'astro'
 
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../../i18n/config'
 import { createT, setGlobalLocale } from './index'
-import type { Locale, TFunction } from './types'
+
+import type { Locale, TFunction } from '@/types/i18n'
 
 // ====================================
 // DÉTECTION DE LA LOCALE
@@ -209,15 +210,6 @@ export function getBrowserPreferredLocale(request: Request): Locale {
 export interface I18nMiddlewareLocals {
 	locale: Locale
 	t: TFunction
-}
-
-// Extend Astro's locals type
-declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
-	namespace App {
-		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-		interface Locals extends I18nMiddlewareLocals {}
-	}
 }
 
 // ====================================

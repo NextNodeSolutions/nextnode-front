@@ -5,13 +5,6 @@
 
 import { en } from '../../i18n/locales/en'
 import { fr } from '../../i18n/locales/fr'
-import type {
-	InterpolationVariables,
-	Locale,
-	TFunction,
-	TranslationKey,
-	TranslationReturn,
-} from './types'
 import {
 	createCacheKey,
 	getNestedValue,
@@ -20,6 +13,14 @@ import {
 	resolveDynamicKey,
 	warnMissingTranslation,
 } from './utils'
+
+import type {
+	InterpolationVariables,
+	Locale,
+	TFunction,
+	TranslationKey,
+	TranslationReturn,
+} from '@/types/i18n'
 
 // ====================================
 // DICTIONARIES AND CACHE

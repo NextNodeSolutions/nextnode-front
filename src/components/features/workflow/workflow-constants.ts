@@ -1,6 +1,6 @@
 // Import types from centralized location
 
-import type { StepKey } from '@/lib/i18n/types'
+import type { StepKey } from '@/types/i18n'
 import type {
 	GradientStop,
 	StepConfig,
