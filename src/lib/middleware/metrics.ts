@@ -3,10 +3,10 @@
  * Handles application metrics and analytics tracking
  */
 
+import { defineMiddleware } from 'astro:middleware'
+
 import { ApplicationMetrics } from '../core/metrics'
 import { shouldTrackMetrics } from './utils'
-
-import { defineMiddleware } from 'astro:middleware'
 
 /**
  * Middleware for collecting application metrics

@@ -3,13 +3,13 @@
  * Handles intelligent URL mapping with locale detection and redirection
  */
 
+import { defineMiddleware } from 'astro:middleware'
+
 import {
 	getPreferredLocaleFromCookie,
 	isInternalNavigation,
 	shouldSkipRequest,
 } from './utils'
-
-import { defineMiddleware } from 'astro:middleware'
 
 /**
  * Middleware for intelligent URL mapping with locale handling

@@ -3,10 +3,10 @@
  * Handles internationalization setup and context injection
  */
 
+import { defineMiddleware } from 'astro:middleware'
+
 import { initializeI18n } from '../i18n/astro'
 import { middlewareLogger } from '../logging'
-
-import { defineMiddleware } from 'astro:middleware'
 
 /**
  * Middleware for initializing the i18n system

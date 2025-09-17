@@ -1,4 +1,5 @@
 import { useId, useState } from 'react'
+
 import type React from 'react'
 
 import { Button } from '@/components/ui/forms/button'
@@ -39,14 +40,7 @@ export const ProfessionalProjectModalContent = ({
 		projectDetails: '',
 	})
 
-	// Generate unique IDs for form fields
-	const nameId = useId()
-	const emailId = useId()
-	const companyNameId = useId()
-	const sectorId = useId()
-	const currentWebsiteId = useId()
-	const featuresId = useId()
-	const projectDetailsId = useId()
+	// Generate unique IDs for non-FormField elements (Select components)
 	const employeesId = useId()
 	const budgetId = useId()
 	const timelineId = useId()
@@ -105,7 +99,6 @@ export const ProfessionalProjectModalContent = ({
 				<FormGrid columns={2}>
 					<FormField
 						label={t('modal.form.name')}
-						id={nameId}
 						type="text"
 						placeholder={t('modal.form.namePlaceholder')}
 						value={formData.name}
@@ -114,7 +107,6 @@ export const ProfessionalProjectModalContent = ({
 					/>
 					<FormField
 						label={t('modal.form.email')}
-						id={emailId}
 						type="email"
 						placeholder={t('modal.form.emailPlaceholder')}
 						value={formData.email}
@@ -127,7 +119,6 @@ export const ProfessionalProjectModalContent = ({
 				<FormGrid columns={2}>
 					<FormField
 						label={t('modal.professionalModal.form.companyName')}
-						id={companyNameId}
 						type="text"
 						placeholder={t(
 							'modal.professionalModal.form.companyNamePlaceholder',
@@ -138,7 +129,6 @@ export const ProfessionalProjectModalContent = ({
 					/>
 					<FormField
 						label={t('modal.professionalModal.form.sector')}
-						id={sectorId}
 						type="text"
 						placeholder={t(
 							'modal.professionalModal.form.sectorPlaceholder',
@@ -200,7 +190,6 @@ export const ProfessionalProjectModalContent = ({
 					</div>
 					<FormField
 						label={t('modal.professionalModal.form.currentWebsite')}
-						id={currentWebsiteId}
 						type="text"
 						placeholder={t(
 							'modal.professionalModal.form.currentWebsitePlaceholder',
@@ -529,7 +518,6 @@ export const ProfessionalProjectModalContent = ({
 
 				<FormField
 					label={t('modal.professionalModal.form.features')}
-					id={featuresId}
 					type="textarea"
 					placeholder={t(
 						'modal.professionalModal.form.featuresPlaceholder',
@@ -540,7 +528,6 @@ export const ProfessionalProjectModalContent = ({
 
 				<FormField
 					label={t('modal.professionalModal.form.projectDetails')}
-					id={projectDetailsId}
 					type="textarea"
 					placeholder={t(
 						'modal.professionalModal.form.projectDetailsPlaceholder',

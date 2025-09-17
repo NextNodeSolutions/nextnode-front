@@ -3,6 +3,8 @@
  * Consolidates form field patterns from modal components
  */
 
+import { useId } from 'react'
+
 import type React from 'react'
 
 import { cn } from '@/lib/core/utils'
@@ -13,8 +15,10 @@ import { Textarea } from './textarea'
 export interface FormFieldProps {
 	/** Field label */
 	label: string
-	/** Field ID and name */
-	id: string
+	/** Field ID (optional - auto-generated if not provided) */
+	id?: string
+	/** Field name for form submission (optional - uses id if not provided) */
+	name?: string
 	/** Input type */
 	type?: 'text' | 'email' | 'textarea'
 	/** Placeholder text */
@@ -35,7 +39,8 @@ export interface FormFieldProps {
 
 export const FormField: React.FC<FormFieldProps> = ({
 	label,
-	id,
+	id: externalId,
+	name,
 	type = 'text',
 	placeholder,
 	required = false,
@@ -45,6 +50,9 @@ export const FormField: React.FC<FormFieldProps> = ({
 	value,
 	onChange,
 }) => {
+	const generatedId = useId()
+	const id = externalId || generatedId
+	const fieldName = name || id
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	): void => {
@@ -53,7 +61,7 @@ export const FormField: React.FC<FormFieldProps> = ({
 
 	const commonInputProps = {
 		id,
-		name: id,
+		name: fieldName,
 		placeholder,
 		required,
 		disabled,

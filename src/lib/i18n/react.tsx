@@ -11,6 +11,7 @@ import {
 	useMemo,
 	useState,
 } from 'react'
+
 import type { ReactNode } from 'react'
 
 import { getLocaleFromPath } from './astro'

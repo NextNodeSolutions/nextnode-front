@@ -1,3 +1,5 @@
+import { useId } from 'react'
+
 import type React from 'react'
 
 import {
@@ -19,6 +21,7 @@ export default function StepModal({
 }: StepModalProps): React.ReactElement {
 	const { t } = useI18n()
 	const stepKey = step.id
+	const detailsListId = useId()
 
 	return (
 		<BaseModal
@@ -53,9 +56,9 @@ export default function StepModal({
 						{t('modal.stepModal.whatWeDo')}
 					</h3>
 					<ul className="space-y-2">
-						{step.details.map((detail, index) => (
+						{step.details.map(detail => (
 							<li
-								key={`${detail.substring(0, 30)}-${index}`}
+								key={`${detailsListId}-${detail.substring(8)}`}
 								className="flex items-start gap-3"
 							>
 								<div
