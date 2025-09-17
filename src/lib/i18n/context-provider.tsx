@@ -33,11 +33,3 @@ export function ContextProvider({ children }: PropsWithChildren): ReactNode {
 
 	return <I18nProvider initialLocale={locale}>{children}</I18nProvider>
 }
-
-// Declare global window types for TypeScript
-declare global {
-	interface Window {
-		currentLocale?: string
-		currentLanguage?: string
-	}
-}

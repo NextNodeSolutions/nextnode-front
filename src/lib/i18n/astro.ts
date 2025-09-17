@@ -212,15 +212,6 @@ export interface I18nMiddlewareLocals {
 	t: TFunction
 }
 
-// Extend Astro's locals type
-declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
-	namespace App {
-		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-		interface Locals extends I18nMiddlewareLocals {}
-	}
-}
-
 // ====================================
 // TYPES EXPORTS
 // ====================================

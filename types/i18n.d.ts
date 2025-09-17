@@ -130,7 +130,7 @@ export type RequiredVariables<K extends TranslationKey> =
 		: never
 
 // ====================================
-// LEGACY TYPES FOR BACKWARD COMPATIBILITY
+// UTILITY TYPES FOR COMPONENTS
 // ====================================
 
 // Type-safe locale validation function type
@@ -144,57 +144,3 @@ export type NavigationLink = Readonly<{
 
 // Array of navigation links (readonly compatible)
 export type NavigationLinks = NavigationLink[]
-
-// Recursive type to extract all paths from nested objects (legacy)
-type PathsToStringProps<T, Prefix extends string = ''> = T extends string
-	? Prefix extends ''
-		? never
-		: Prefix
-	: T extends readonly (infer U)[]
-		? Prefix extends ''
-			? never
-			: Prefix | PathsToStringProps<U, `${Prefix}.${number}`>
-		: {
-				[K in keyof T]: K extends string
-					? T[K] extends object
-						? PathsToStringProps<
-								T[K],
-								Prefix extends '' ? K : `${Prefix}.${K}`
-							>
-						: Prefix extends ''
-							? K
-							: `${Prefix}.${K}`
-					: never
-			}[keyof T]
-
-// All possible translation keys (automatically generated from legacy system)
-export type LegacyTranslationKey = PathsToStringProps<EnglishDict>
-
-// Helper type to get the value at a specific path, supporting array indices (legacy)
-type GetValueAtPath<T, P extends string> = P extends `${infer K}.${infer Rest}`
-	? K extends keyof T
-		? GetValueAtPath<T[K], Rest>
-		: K extends `${number}`
-			? T extends readonly (infer U)[]
-				? GetValueAtPath<U, Rest>
-				: never
-			: never
-	: P extends keyof T
-		? T[P]
-		: P extends `${number}`
-			? T extends readonly (infer U)[]
-				? U
-				: never
-			: never
-
-// Get the exact type for a specific translation key (legacy)
-export type LegacyTranslationValue<K extends LegacyTranslationKey> =
-	GetValueAtPath<EnglishDict, K>
-
-// Note: StructureOf type removed as it was unused
-
-// Type for typed nested value getter function (legacy)
-export type TypedGetNestedValue = <K extends LegacyTranslationKey>(
-	obj: TranslationDict,
-	path: K,
-) => LegacyTranslationValue<K>

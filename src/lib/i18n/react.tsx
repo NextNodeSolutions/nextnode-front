@@ -12,7 +12,7 @@ import {
 	useState,
 } from 'react'
 
-import type { ReactNode } from 'react'
+import type { PropsWithChildren, ReactNode } from 'react'
 
 import { getLocaleFromPath } from './astro'
 import { createT, setGlobalLocale } from './index'
@@ -324,10 +324,9 @@ const I18nContext = createContext<I18nContextType | null>(null)
 export function I18nProvider({
 	children,
 	initialLocale,
-}: {
-	children: ReactNode
+}: PropsWithChildren<{
 	initialLocale: Locale
-}): ReactNode {
+}>): ReactNode {
 	// Create standalone state for provider (not dependent on useI18n hook)
 	const [locale, setLocaleState] = useState<Locale>(initialLocale)
 

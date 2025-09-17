@@ -1,4 +1,4 @@
-import type { Locale } from './i18n'
+import type { Locale, TFunction } from './i18n'
 
 declare global {
 	interface Window {
@@ -17,5 +17,15 @@ declare global {
 		}
 		initialLanguage?: string
 		initialTheme?: string
+	}
+
+	// Astro App namespace extension for middleware
+	// eslint-disable-next-line @typescript-eslint/no-namespace
+	namespace App {
+		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+		interface Locals {
+			locale: Locale
+			t: TFunction
+		}
 	}
 }
