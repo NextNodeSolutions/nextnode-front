@@ -52,7 +52,7 @@
 		"@biomejs/biome": "^2.2.3",
 		"@commitlint/cli": "^19.2.1",
 		"@commitlint/config-conventional": "^19.1.0",
-		"@nextnode/standards": "file:/Users/walid/Development/Nextnode/standards",
+		"@nextnode/standards": "^2.0.4",
 		"@playwright/test": "^1.54.2",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@types/node": "^24.1.0",
