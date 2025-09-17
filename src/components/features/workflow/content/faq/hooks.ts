@@ -1,10 +1,11 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
+import type { TextSegment } from './HighlightedText'
 import type {
-	FAQState,
-	FAQQuestion,
 	FAQCategoryId,
+	FAQQuestion,
 	FAQSearchResult,
+	FAQState,
 } from './types'
 
 export interface UseFAQStateReturn {
@@ -39,17 +40,49 @@ const getItemsPerPage = (): number => {
 	return 10 // SSR default
 }
 
-function highlightText(text: string, query: string): string {
-	if (!query.trim()) return text
+function highlightText(text: string, query: string): TextSegment[] {
+	if (!query.trim()) {
+		return [{ text, isHighlighted: false }]
+	}
 
 	const regex = new RegExp(
 		`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
 		'gi',
 	)
-	return text.replace(
-		regex,
-		'<mark class="bg-yellow-200 dark:bg-yellow-800/50">$1</mark>',
-	)
+
+	const segments: TextSegment[] = []
+	let lastIndex = 0
+	let match: RegExpExecArray | null
+
+	match = regex.exec(text)
+	while (match !== null) {
+		// Add text before the match
+		if (match.index > lastIndex) {
+			segments.push({
+				text: text.substring(lastIndex, match.index),
+				isHighlighted: false,
+			})
+		}
+
+		// Add the highlighted match
+		segments.push({
+			text: match[1]!, // The capture group always exists due to our regex pattern having a capture group
+			isHighlighted: true,
+		})
+
+		lastIndex = regex.lastIndex
+		match = regex.exec(text)
+	}
+
+	// Add remaining text after last match
+	if (lastIndex < text.length) {
+		segments.push({
+			text: text.substring(lastIndex),
+			isHighlighted: false,
+		})
+	}
+
+	return segments
 }
 
 function calculateMatchScore(question: FAQQuestion, query: string): number {
@@ -179,8 +212,12 @@ export function useFAQState(questions: FAQQuestion[]): UseFAQStateReturn {
 			return filteredQuestions.map(question => ({
 				question,
 				matchScore: 1,
-				highlightedQuestion: question.question,
-				highlightedAnswer: question.answer,
+				highlightedQuestion: [
+					{ text: question.question, isHighlighted: false },
+				],
+				highlightedAnswer: [
+					{ text: question.answer, isHighlighted: false },
+				],
 			}))
 		}
 

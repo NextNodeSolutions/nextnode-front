@@ -4,13 +4,13 @@
  */
 
 import { getConfig } from '@nextnode/config-manager'
+import type { APIRoute } from 'astro'
 
 import { EmailService } from '../../lib/email'
 import { ProjectRequest } from '../../lib/email/templates'
 import { validateProjectRequestData } from '../../lib/email/utils/validation'
 import { emailLogger } from '../../lib/logging'
 
-import type { APIRoute } from 'astro'
 import type { ProjectRequestData } from '@/types/email'
 
 export const POST: APIRoute = async ({ request }) => {

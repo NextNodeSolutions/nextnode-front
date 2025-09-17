@@ -1,8 +1,8 @@
-import { translateFAQCategory } from '@/lib/i18n/translate-utils'
 import { t } from '@/lib/i18n'
+import { translateFAQCategory } from '@/lib/i18n/translate-utils'
 import { sortQuestionsByDifficulty } from '@/utils/faq-helpers'
 
-import type { FAQQuestion, FAQCategory } from './types'
+import type { FAQCategory, FAQQuestion } from './types'
 
 // Configuration centralisée des catégories FAQ
 export const FAQ_CATEGORIES_CONFIG = {

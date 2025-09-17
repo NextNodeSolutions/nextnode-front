@@ -6,7 +6,7 @@
 import { defineMiddleware } from 'astro:middleware'
 
 import { middlewareLogger } from '../logging'
-import { shouldLogRequest, extractUserIP } from './utils'
+import { extractUserIP, shouldLogRequest } from './utils'
 
 /**
  * Middleware for logging requests and responses

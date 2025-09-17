@@ -1,19 +1,21 @@
 import { useMemo } from 'react'
 
+import type { ReactNode } from 'react'
+
 import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/react'
 
 import { getDifficultyConfig } from './constants'
-
-import type { ReactNode } from 'react'
+import type { TextSegment } from './HighlightedText'
+import { HighlightedText } from './HighlightedText'
 import type { FAQQuestion } from './types'
 
 interface FAQItemProps {
 	question: FAQQuestion
 	isExpanded?: boolean
 	onToggle?: () => void
-	highlightedQuestion?: string
-	highlightedAnswer?: string
+	highlightedQuestion?: TextSegment[]
+	highlightedAnswer?: TextSegment[]
 }
 
 export const FAQItem = ({
@@ -31,13 +33,13 @@ export const FAQItem = ({
 			getDifficultyConfig(question.difficulty, difficulty =>
 				String(t(`howWeWork.faqDifficulty.${difficulty}`)),
 			),
-		[question.difficulty],
+		[question.difficulty, t],
 	)
 
 	// Optimized: direct i18n keys using t() directly
 	const categoryName = useMemo(
 		() => String(t(`howWeWork.faqCategories.${question.category}`)),
-		[question.category],
+		[question.category, t],
 	)
 
 	const handleClick = (): void => {
@@ -106,10 +108,8 @@ export const FAQItem = ({
 						{/* Question */}
 						<h3 className="text-base leading-tight font-semibold text-gray-900 transition-colors duration-200 group-hover/header:text-blue-700 sm:text-lg dark:text-white dark:group-hover/header:text-blue-300">
 							{highlightedQuestion ? (
-								<span
-									dangerouslySetInnerHTML={{
-										__html: highlightedQuestion,
-									}}
+								<HighlightedText
+									segments={highlightedQuestion}
 								/>
 							) : (
 								question.question
@@ -129,6 +129,9 @@ export const FAQItem = ({
 						stroke="currentColor"
 						viewBox="0 0 24 24"
 					>
+						<title>
+							{isExpanded ? 'Collapse answer' : 'Expand answer'}
+						</title>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -151,17 +154,9 @@ export const FAQItem = ({
 				<div className="border-t border-gray-100 px-4 py-4 sm:px-6 sm:py-6 dark:border-gray-700">
 					<div className="prose prose-sm dark:prose-invert ml-8 max-w-none text-gray-600 sm:ml-16 dark:text-gray-300">
 						{highlightedAnswer ? (
-							<div
-								dangerouslySetInnerHTML={{
-									__html: highlightedAnswer,
-								}}
-							/>
+							<HighlightedText segments={highlightedAnswer} />
 						) : (
-							<div
-								dangerouslySetInnerHTML={{
-									__html: question.answer,
-								}}
-							/>
+							<div>{question.answer}</div>
 						)}
 					</div>
 

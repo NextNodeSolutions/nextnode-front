@@ -1,19 +1,18 @@
-import React from 'react'
-
 import {
-	Html,
-	Head,
 	Body,
+	Column,
 	Container,
-	Section,
+	Head,
 	Heading,
-	Text,
 	Hr,
+	Html,
+	Img,
 	Link,
 	Row,
-	Column,
-	Img,
+	Section,
+	Text,
 } from '@react-email/components'
+import type React from 'react'
 
 import type { ProjectRequestData } from '@/types/email'
 

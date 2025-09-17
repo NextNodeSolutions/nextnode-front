@@ -1,6 +1,6 @@
 import {
-	PRICING_CONFIG,
 	formatPrice,
+	PRICING_CONFIG,
 } from '@/components/features/pricing/pricing-config'
 
 export const pricing = {

@@ -1,6 +1,7 @@
-import { useMemo } from 'react'
+import { useId, useMemo } from 'react'
 
-import { cn } from '@/lib/core/utils'
+import type { ReactNode } from 'react'
+
 import {
 	Select,
 	SelectContent,
@@ -8,8 +9,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/forms/select'
+import { cn } from '@/lib/core/utils'
 
-import type { ReactNode } from 'react'
 import type { FAQCategory, FAQCategoryId, FAQQuestion } from './types'
 
 interface FAQCategoryFilterProps {
@@ -31,6 +32,7 @@ export const FAQCategoryFilter = ({
 	hasActiveFilters,
 	className,
 }: FAQCategoryFilterProps): ReactNode => {
+	const categoryFilterId = useId()
 	const categoryStats = useMemo((): Map<FAQCategoryId, number> => {
 		const stats = new Map<FAQCategoryId, number>()
 
@@ -87,7 +89,10 @@ export const FAQCategoryFilter = ({
 		<div className={cn('mb-8', className)}>
 			{/* Mobile Dropdown */}
 			<div className="mb-6 md:hidden">
-				<label className="mb-3 block text-sm font-medium text-gray-700 dark:text-gray-300">
+				<label
+					htmlFor={categoryFilterId}
+					className="mb-3 block text-sm font-medium text-gray-700 dark:text-gray-300"
+				>
 					Filter by Category
 				</label>
 				<Select
@@ -97,7 +102,10 @@ export const FAQCategoryFilter = ({
 						onCategoryToggle(categoryId)
 					}}
 				>
-					<SelectTrigger className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400">
+					<SelectTrigger
+						id={categoryFilterId}
+						className="w-full shadow-sm transition-colors focus:border-blue-500 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400"
+					>
 						<SelectValue>{getSelectDisplayText()}</SelectValue>
 					</SelectTrigger>
 					<SelectContent>
@@ -150,6 +158,7 @@ export const FAQCategoryFilter = ({
 
 						return (
 							<button
+								type="button"
 								key={category.id}
 								onClick={() => onCategoryToggle(category.id)}
 								className={cn(
@@ -185,6 +194,7 @@ export const FAQCategoryFilter = ({
 				{/* Clear Filters Button */}
 				{hasActiveFilters && !isAllSelected && (
 					<button
+						type="button"
 						onClick={onClearFilters}
 						className="inline-flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
 					>
@@ -194,6 +204,7 @@ export const FAQCategoryFilter = ({
 							stroke="currentColor"
 							viewBox="0 0 24 24"
 						>
+							<title>Clear filters</title>
 							<path
 								strokeLinecap="round"
 								strokeLinejoin="round"

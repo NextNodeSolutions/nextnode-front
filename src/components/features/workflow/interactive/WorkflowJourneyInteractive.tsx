@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { useWorkflowModal, useCardEventListeners } from '@/hooks'
+import { useCardEventListeners, useWorkflowModal } from '@/hooks'
 
 import StepModal from './StepModal'
 
@@ -24,31 +24,30 @@ export default function WorkflowJourneyInteractive({
 			if (cards.length > 0) {
 				initializeListeners()
 				return undefined
-			} else {
-				// If not ready, use MutationObserver to watch for changes
-				const observer = new MutationObserver(() => {
-					const cards = document.querySelectorAll('[data-step-card]')
-					if (cards.length > 0) {
-						initializeListeners()
-						observer.disconnect()
-					}
-				})
-
-				observer.observe(document.body, {
-					childList: true,
-					subtree: true,
-				})
-
-				// Fallback timeout if DOM never updates
-				const fallbackTimer = setTimeout(() => {
-					observer.disconnect()
+			}
+			// If not ready, use MutationObserver to watch for changes
+			const observer = new MutationObserver(() => {
+				const cards = document.querySelectorAll('[data-step-card]')
+				if (cards.length > 0) {
 					initializeListeners()
-				}, 2000)
-
-				return (): void => {
 					observer.disconnect()
-					clearTimeout(fallbackTimer)
 				}
+			})
+
+			observer.observe(document.body, {
+				childList: true,
+				subtree: true,
+			})
+
+			// Fallback timeout if DOM never updates
+			const fallbackTimer = setTimeout(() => {
+				observer.disconnect()
+				initializeListeners()
+			}, 2000)
+
+			return (): void => {
+				observer.disconnect()
+				clearTimeout(fallbackTimer)
 			}
 		}
 
@@ -60,7 +59,7 @@ export default function WorkflowJourneyInteractive({
 		}
 
 		return cleanup
-	}, [])
+	}, [cleanup, initializeListeners])
 
 	return (
 		<>

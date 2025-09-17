@@ -3,12 +3,11 @@
  * Extracted common patterns from StartProjectModal and StepModal
  */
 
-import React from 'react'
-
 import { cva } from 'class-variance-authority'
+import type React from 'react'
 
-import { cn } from '@/lib/core/utils'
 import ModalContainer from '@/components/ui/overlays/modal-container'
+import { cn } from '@/lib/core/utils'
 
 export interface BaseModalProps {
 	/** Modal open state */

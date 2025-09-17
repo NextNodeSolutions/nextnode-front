@@ -1,11 +1,13 @@
-import React from 'react'
+import { useId } from 'react'
 
-import { useI18n } from '@/lib/i18n/react'
+import type React from 'react'
+
 import {
 	BaseModal,
 	ModalHeader,
 	ModalInfoCard,
 } from '@/components/ui/modals/BaseModal'
+import { useI18n } from '@/lib/i18n/react'
 
 import StepIllustration from '../visual/StepIllustrations'
 
@@ -19,6 +21,7 @@ export default function StepModal({
 }: StepModalProps): React.ReactElement {
 	const { t } = useI18n()
 	const stepKey = step.id
+	const detailsListId = useId()
 
 	return (
 		<BaseModal
@@ -53,8 +56,11 @@ export default function StepModal({
 						{t('modal.stepModal.whatWeDo')}
 					</h3>
 					<ul className="space-y-2">
-						{step.details.map((detail, index) => (
-							<li key={index} className="flex items-start gap-3">
+						{step.details.map(detail => (
+							<li
+								key={`${detailsListId}-${detail.substring(8)}`}
+								className="flex items-start gap-3"
+							>
 								<div
 									className="mt-2 h-2 w-2 flex-shrink-0 rounded-full"
 									style={{ backgroundColor: color }}
@@ -76,6 +82,7 @@ export default function StepModal({
 							fill="currentColor"
 							viewBox="0 0 24 24"
 						>
+							<title>Deliverables document</title>
 							<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
 							<polyline points="14,2 14,8 20,8" />
 						</svg>
@@ -92,6 +99,7 @@ export default function StepModal({
 							fill="currentColor"
 							viewBox="0 0 24 24"
 						>
+							<title>Duration clock</title>
 							<circle cx="12" cy="12" r="10" />
 							<polyline points="12,6 12,12 16,14" />
 						</svg>

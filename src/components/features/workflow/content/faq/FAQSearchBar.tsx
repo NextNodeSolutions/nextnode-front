@@ -1,6 +1,6 @@
-import { cn } from '@/lib/core/utils'
-
 import type { ReactNode } from 'react'
+
+import { cn } from '@/lib/core/utils'
 
 interface FAQTranslations {
 	placeholder: string
@@ -40,7 +40,9 @@ export const FAQSearchBar = ({
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
+						aria-label="Search icon"
 					>
+						<title>Search icon</title>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -67,6 +69,7 @@ export const FAQSearchBar = ({
 				{/* Clear Search Button */}
 				{searchQuery.trim() !== '' && (
 					<button
+						type="button"
 						onClick={() => onSearchChange('')}
 						className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-gray-600 focus:text-gray-600 focus:outline-none dark:hover:text-gray-300 dark:focus:text-gray-300"
 					>
@@ -75,7 +78,9 @@ export const FAQSearchBar = ({
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
+							aria-label="Clear search"
 						>
+							<title>Clear search</title>
 							<path
 								strokeLinecap="round"
 								strokeLinejoin="round"
@@ -104,7 +109,9 @@ export const FAQSearchBar = ({
 							className="h-5 w-5 flex-shrink-0"
 							fill="currentColor"
 							viewBox="0 0 20 20"
+							aria-label="Warning icon"
 						>
+							<title>Warning icon</title>
 							<path
 								fillRule="evenodd"
 								d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"

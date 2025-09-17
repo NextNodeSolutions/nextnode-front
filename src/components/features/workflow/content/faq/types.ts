@@ -1,4 +1,5 @@
 import type { FAQCategoryId } from './data'
+import type { TextSegment } from './HighlightedText'
 
 export type { FAQCategoryId }
 
@@ -30,6 +31,6 @@ export interface FAQState {
 export interface FAQSearchResult {
 	question: FAQQuestion
 	matchScore: number
-	highlightedQuestion: string
-	highlightedAnswer: string
+	highlightedQuestion: TextSegment[]
+	highlightedAnswer: TextSegment[]
 }

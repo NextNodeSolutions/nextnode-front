@@ -3,10 +3,10 @@
  * Exposes application metrics in Prometheus format
  */
 
+import type { APIRoute } from 'astro'
+
 import { metrics } from '../lib/core/metrics'
 import { metricsLogger } from '../lib/logging'
-
-import type { APIRoute } from 'astro'
 
 export const GET: APIRoute = async ({ request: _request }) => {
 	try {

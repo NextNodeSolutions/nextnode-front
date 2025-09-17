@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 /**
  * Hook spécialisé pour la gestion d'état des modales

@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
+import type React from 'react'
+
+import { Button } from '@/components/ui/forms/button'
+import { FormField, FormGrid } from '@/components/ui/forms/FormField'
+import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
 import { useI18n } from '@/lib/i18n/react'
 import { componentLogger } from '@/lib/logging'
 import { GLASSMORPHISM_PRESETS } from '@/lib/ui/ui-constants'
-import { Button } from '@/components/ui/forms/button'
-import { BaseModal, ModalHeader } from '@/components/ui/modals/BaseModal'
-import { FormField, FormGrid } from '@/components/ui/forms/FormField'
 
 import type { ProjectRequestData } from '@/types/email'
 
@@ -121,14 +123,14 @@ export const StartProjectModalContent = ({
 			<form className="space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
 				<FormGrid columns={2}>
 					<FormField
-						id="name"
+						name="name"
 						label={t('modal.form.name')}
 						placeholder={t('modal.form.namePlaceholder')}
 						required
 						disabled={isSubmitting}
 					/>
 					<FormField
-						id="email"
+						name="email"
 						label={t('modal.form.email')}
 						type="email"
 						placeholder={t('modal.form.emailPlaceholder')}
@@ -138,7 +140,7 @@ export const StartProjectModalContent = ({
 				</FormGrid>
 
 				<FormField
-					id="project"
+					name="project"
 					label={t('modal.form.projectType')}
 					placeholder={t('modal.form.projectTypePlaceholder')}
 					required
@@ -146,14 +148,14 @@ export const StartProjectModalContent = ({
 				/>
 
 				<FormField
-					id="budget"
+					name="budget"
 					label={t('modal.form.budget')}
 					placeholder={t('modal.form.budgetPlaceholder')}
 					disabled={isSubmitting}
 				/>
 
 				<FormField
-					id="message"
+					name="message"
 					label={t('modal.form.details')}
 					type="textarea"
 					placeholder={t('modal.form.detailsPlaceholder')}

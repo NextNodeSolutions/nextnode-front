@@ -6,9 +6,9 @@
 import { defineMiddleware } from 'astro:middleware'
 
 import {
-	shouldSkipRequest,
-	isInternalNavigation,
 	getPreferredLocaleFromCookie,
+	isInternalNavigation,
+	shouldSkipRequest,
 } from './utils'
 
 /**

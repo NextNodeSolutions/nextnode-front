@@ -3,11 +3,11 @@
 // ====================================
 // Initializes React i18n context for use in components
 
-import { I18nProvider } from './react'
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '../../i18n/config'
-
-import type { Locale } from './types'
 import type { ReactNode } from 'react'
+
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../../i18n/config'
+import { I18nProvider } from './react'
+import type { Locale } from './types'
 
 function isValidLocale(locale: string): locale is Locale {
 	return (SUPPORTED_LOCALES as readonly string[]).includes(locale)
@@ -24,7 +24,7 @@ interface ContextProviderProps {
 export function ContextProvider({ children }: ContextProviderProps): ReactNode {
 	// Get locale from global window variable set by BaseLayout
 	const getLocale = (): Locale => {
-		if (typeof window !== 'undefined' && window.currentLocale) {
+		if (window?.currentLocale) {
 			const currentLocale = window.currentLocale
 			if (isValidLocale(currentLocale)) {
 				return currentLocale

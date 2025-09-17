@@ -13,8 +13,8 @@
 		"build": "astro check && astro build",
 		"commitlint": "commitlint --edit",
 		"dev": "astro dev",
-		"format": "prettier --write . --log-level warn",
-		"lint": "eslint . --max-warnings 0 --fix",
+		"format": "prettier --write .",
+		"lint": "biome check --write --no-errors-on-unmatched",
 		"lint-staged": "lint-staged",
 		"prepare": "husky",
 		"test": "vitest run",
@@ -49,9 +49,10 @@
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.4",
+		"@biomejs/biome": "^2.2.3",
 		"@commitlint/cli": "^19.2.1",
 		"@commitlint/config-conventional": "^19.1.0",
-		"@nextnode/eslint-plugin": "^1.2.0",
+		"@nextnode/standards": "^2.0.5",
 		"@playwright/test": "^1.54.2",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@types/node": "^24.1.0",
@@ -59,7 +60,6 @@
 		"@types/react-dom": "^19.1.2",
 		"@vitest/coverage-v8": "^3.1.4",
 		"better-sort-package-json": "^1.1.1",
-		"eslint": "^9.27.0",
 		"husky": "^9.0.11",
 		"jsdom": "^26.1.0",
 		"lint-staged": "^15.2.2",
@@ -71,12 +71,10 @@
 		"vite-tsconfig-paths": "^5.1.4",
 		"vitest": "^3.1.4"
 	},
-	"peerDependencies": {
-		"eslint": "^9.22.0"
-	},
 	"engines": {
 		"node": ">=20.0.0"
 	},
 	"packageManager": "pnpm@10.12.4",
-	"type": "module"
+	"type": "module",
+	"prettier": "@nextnode/standards/prettier/astro"
 }

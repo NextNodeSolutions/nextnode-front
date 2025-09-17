@@ -1,10 +1,10 @@
 import * as React from 'react'
 
 import { Slot } from '@radix-ui/react-slot'
-import { type VariantProps } from 'class-variance-authority'
+import type { VariantProps } from 'class-variance-authority'
 
-import { cn } from '@/lib/core/utils'
 import { buttonVariants } from '@/components/ui/forms/button'
+import { cn } from '@/lib/core/utils'
 
 export interface ButtonWithLinkProps
 	extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
