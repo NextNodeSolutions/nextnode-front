@@ -10,11 +10,9 @@ import {
 	getFAQCategories,
 } from '@/components/features/workflow/content/faq/data'
 import FAQApp from '@/components/features/workflow/content/faq/FAQApp'
-import WorkflowJourneyInteractive from '@/components/features/workflow/interactive/WorkflowJourneyInteractive'
 // Use new i18n system from middleware
 const { t } = Astro.locals
 import { generateWorkflowSteps } from '@/components/features/workflow/workflow-utils'
-import { STEP_COLORS } from '@/components/features/workflow/workflow-constants'
 
 // Locale is now available from middleware
 
@@ -92,13 +90,6 @@ const faqTranslations = t('howWeWork.faqSearch')
 						<MobileTimeline steps={steps} />
 					</div>
 				</div>
-
-				<!-- Interactive Modal System - Shared for both versions -->
-				<WorkflowJourneyInteractive
-					steps={steps}
-					colors={STEP_COLORS}
-					client:load
-				/>
 			</div>
 		</section>
 

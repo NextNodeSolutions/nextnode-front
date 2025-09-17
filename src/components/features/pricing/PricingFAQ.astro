@@ -1,8 +1,8 @@
 ---
 import { cn } from '@/lib/core/utils'
 // Use new i18n system from middleware
-const { t, locale } = Astro.locals
-import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
+const { t } = Astro.locals
+import { ButtonWithLink } from '@/components/ui/forms/button-with-link'
 import { PricingFAQAccordion } from './PricingFAQAccordion'
 
 // Get FAQ data from translations
@@ -42,11 +42,19 @@ const faqData = {
 			>
 				{t('pricing.faqContactText')}
 			</p>
-			<StartProjectModal
-				client:load
-				locale={locale}
-				buttonText={t('pricing.contactButton')}
-			/>
+			<ButtonWithLink
+				href="#"
+				variant="default"
+				className={cn(
+					'btn-gradient-primary group w-auto cursor-pointer px-6 py-3',
+					'hover-lift shadow-lg transition-shadow hover:shadow-2xl',
+					'text-sm font-semibold tracking-wide text-white',
+					'sm:px-8 sm:py-4 sm:text-base',
+					'rounded-lg',
+				)}
+			>
+				{t('pricing.contactButton')}
+			</ButtonWithLink>
 		</div>
 	</div>
 </section>

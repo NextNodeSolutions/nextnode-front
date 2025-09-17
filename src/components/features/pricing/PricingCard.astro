@@ -2,10 +2,9 @@
 import { cn } from '@/lib/core/utils'
 import { Check } from 'lucide-react'
 // Use new i18n system from middleware
-const { t, locale } = Astro.locals
+const { t } = Astro.locals
 import { translatePlan } from '@/lib/i18n/translate-utils'
-import { StartProjectModal } from '@/components/features/marketing/interaction/start-project-modal'
-import { ProfessionalProjectModal } from '@/components/features/pricing/ProfessionalProjectModal'
+import { Button } from '@/components/ui/forms/button'
 import {
 	PLAN_THEMES,
 	PRICING_CARD_CLASSES,
@@ -164,22 +163,18 @@ const cssVars = getPlanCSSVars(plan)
 
 	<!-- CTA Button -->
 	<div class="mt-auto">
-		{
-			plan === 'starter' ? (
-				<StartProjectModal
-					client:load
-					locale={locale}
-					buttonText={planData.cta}
-					plan={plan}
-				/>
-			) : (
-				<ProfessionalProjectModal
-					client:load
-					plan={plan}
-					buttonText={planData.cta}
-				/>
-			)
-		}
+		<Button
+			variant="default"
+			className={cn(
+				'block w-full rounded-lg px-6 py-3 text-center font-semibold text-white',
+				'shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl',
+				'focus:ring-2 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-800',
+				`bg-gradient-to-r ${planTheme.button}`,
+				`${planTheme.focus}`,
+			)}
+		>
+			{planData.cta}
+		</Button>
 	</div>
 
 	<!-- Decorative Elements -->
