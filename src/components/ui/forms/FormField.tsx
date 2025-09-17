@@ -10,8 +10,8 @@ import type { PropsWithChildren } from 'react'
 
 import { cn } from '@/lib/core/utils'
 
-import { Input } from './input'
-import { Textarea } from './textarea'
+import { Input } from './Input'
+import { Textarea } from './Textarea'
 
 export interface FormFieldProps {
 	/** Field label */
