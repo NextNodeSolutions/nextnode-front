@@ -56,8 +56,6 @@ prettier.config.*
 Dockerfile*
 !Dockerfile
 .dockerignore
-docker-compose*.yml
-docker-bake.hcl
 
 # Package manager
 npm-debug.log*
