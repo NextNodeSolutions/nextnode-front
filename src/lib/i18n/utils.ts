@@ -3,11 +3,12 @@
 // ====================================
 
 import { i18nLogger } from '../logging'
+
 import type {
 	DynamicKey,
 	InterpolationVariables,
 	TranslationKey,
-} from './types'
+} from '@/types/i18n'
 
 // ====================================
 // VARIABLE INTERPOLATION

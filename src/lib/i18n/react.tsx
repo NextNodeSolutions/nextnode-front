@@ -16,7 +16,8 @@ import type { ReactNode } from 'react'
 
 import { getLocaleFromPath } from './astro'
 import { createT, setGlobalLocale } from './index'
-import type { InterpolationVariables, Locale, TFunction } from './types'
+
+import type { InterpolationVariables, Locale, TFunction } from '@/types/i18n'
 
 // ====================================
 // COOKIE UTILITIES

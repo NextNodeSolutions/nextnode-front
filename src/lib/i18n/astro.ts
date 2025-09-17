@@ -7,7 +7,8 @@ import type { APIContext } from 'astro'
 
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../../i18n/config'
 import { createT, setGlobalLocale } from './index'
-import type { Locale, TFunction } from './types'
+
+import type { Locale, TFunction } from '@/types/i18n'
 
 // ====================================
 // DÉTECTION DE LA LOCALE

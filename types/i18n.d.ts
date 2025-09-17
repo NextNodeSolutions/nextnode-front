@@ -1,10 +1,10 @@
 // ====================================
-// NEW TYPE-SAFE I18N SYSTEM
+// TYPE-SAFE I18N SYSTEM
 // ====================================
-// This file contains the auto-inferred type system for i18n
-// It automatically generates all types from the English dictionary
+// Consolidated i18n type definitions
+// Auto-inferred type system from the English dictionary
 
-import type { en } from '../../i18n/locales/en'
+import type { en } from '../src/i18n/locales/en'
 
 // The English dictionary is the source of truth
 export type EnglishDict = typeof en
@@ -34,7 +34,7 @@ export type StepKey =
 	| 'support'
 
 // Type for pricing plan keys - re-export from shared types
-export type { Plan as PlanKey } from '@/types/plans'
+export type { Plan as PlanKey } from './plans'
 
 // ====================================
 // SIMPLE PATH EXTRACTOR - ACTUALLY WORKING VERSION
@@ -130,6 +130,71 @@ export type RequiredVariables<K extends TranslationKey> =
 		: never
 
 // ====================================
-// EXPORT TYPES FOR API
+// LEGACY TYPES FOR BACKWARD COMPATIBILITY
 // ====================================
-// All types are already exported individually above
+
+// Type-safe locale validation function type
+export type LocaleGuard = (value: unknown) => value is Locale
+
+// Navigation link type used across components
+export type NavigationLink = Readonly<{
+	href: string
+	labelKey: TranslationKey
+}>
+
+// Array of navigation links (readonly compatible)
+export type NavigationLinks = NavigationLink[]
+
+// Recursive type to extract all paths from nested objects (legacy)
+type PathsToStringProps<T, Prefix extends string = ''> = T extends string
+	? Prefix extends ''
+		? never
+		: Prefix
+	: T extends readonly (infer U)[]
+		? Prefix extends ''
+			? never
+			: Prefix | PathsToStringProps<U, `${Prefix}.${number}`>
+		: {
+				[K in keyof T]: K extends string
+					? T[K] extends object
+						? PathsToStringProps<
+								T[K],
+								Prefix extends '' ? K : `${Prefix}.${K}`
+							>
+						: Prefix extends ''
+							? K
+							: `${Prefix}.${K}`
+					: never
+			}[keyof T]
+
+// All possible translation keys (automatically generated from legacy system)
+export type LegacyTranslationKey = PathsToStringProps<EnglishDict>
+
+// Helper type to get the value at a specific path, supporting array indices (legacy)
+type GetValueAtPath<T, P extends string> = P extends `${infer K}.${infer Rest}`
+	? K extends keyof T
+		? GetValueAtPath<T[K], Rest>
+		: K extends `${number}`
+			? T extends readonly (infer U)[]
+				? GetValueAtPath<U, Rest>
+				: never
+			: never
+	: P extends keyof T
+		? T[P]
+		: P extends `${number}`
+			? T extends readonly (infer U)[]
+				? U
+				: never
+			: never
+
+// Get the exact type for a specific translation key (legacy)
+export type LegacyTranslationValue<K extends LegacyTranslationKey> =
+	GetValueAtPath<EnglishDict, K>
+
+// Note: StructureOf type removed as it was unused
+
+// Type for typed nested value getter function (legacy)
+export type TypedGetNestedValue = <K extends LegacyTranslationKey>(
+	obj: TranslationDict,
+	path: K,
+) => LegacyTranslationValue<K>

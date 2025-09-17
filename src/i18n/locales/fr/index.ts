@@ -1,4 +1,3 @@
-import type { TranslationDict } from '../../../lib/i18n/types'
 import { common } from './common'
 import { footer } from './components/footer'
 import { error } from './pages/error'
@@ -7,6 +6,8 @@ import { howWeWork } from './pages/how-we-work'
 import { pricing } from './pages/pricing'
 import { privacy } from './pages/privacy'
 import { terms } from './pages/terms'
+
+import type { TranslationDict } from '@/types/i18n'
 
 export const fr = {
 	common,

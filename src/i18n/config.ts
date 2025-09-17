@@ -1,7 +1,7 @@
-import type { Locale } from '../lib/i18n/types'
 import { en } from './locales/en'
 import { fr } from './locales/fr'
-import type { NavigationLinks } from './types'
+
+import type { Locale, NavigationLinks } from '@/types/i18n'
 
 export const translations = {
 	en: { common: en },

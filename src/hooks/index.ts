@@ -1,5 +1,5 @@
 /**
- * Export des hooks personnalisés pour le workflow
+ * Export custom hooks for workflow functionality
  */
 
 export { useCardEventListeners } from './useCardEventListeners'

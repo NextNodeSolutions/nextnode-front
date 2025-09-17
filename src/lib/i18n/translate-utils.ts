@@ -5,8 +5,8 @@
 // This avoids the complexity of template string type inference at runtime
 
 import { globalT } from './index'
-import type { EnglishDict, StepKey } from './types'
 
+import type { EnglishDict, StepKey } from '@/types/i18n'
 import type { Plan } from '@/types/plans'
 
 /**
