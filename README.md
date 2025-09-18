@@ -20,6 +20,8 @@ Nextnode is a creative agency specialized in custom web development and ultra-fa
 - **[React Email](https://react.email)** - Email template components
 - **[@nextnode/config-manager](https://www.npmjs.com/package/@nextnode/config-manager)** - Environment-based configuration
 - **[@nextnode/eslint-plugin](https://www.npmjs.com/package/@nextnode/eslint-plugin)** - Shared linting rules
+- **[@nextnode/logger](https://www.npmjs.com/package/@nextnode/logger)** - Structured logging system
+- **[@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/)** - SEO sitemap generation
 
 ## 📋 Prerequisites
 
@@ -107,7 +109,9 @@ pnpm test:ui
 │   │   ├── config/         # Environment-based configuration
 │   │   ├── email/          # Email template system
 │   │   ├── i18n/           # Translation utilities
-│   │   └── middleware/     # Specialized middleware modules
+│   │   ├── logging/        # NextNode logger instances
+│   │   ├── middleware/     # Specialized middleware modules
+│   │   └── seo/            # SEO utilities and Schema.org
 │   ├── pages/              # File-based routing
 │   │   └── [locale]/       # Internationalized pages
 │   └── styles/             # Global CSS and Tailwind
@@ -132,6 +136,30 @@ The project uses the following environment variables:
 - **Middleware-driven**: Automatic locale detection and URL mapping
 - **Unified translation system**: Works both server-side (Astro) and client-side (React)
 - **Structured dictionaries**: Translation files in `src/i18n/locales/{en,fr}/`
+
+## 🔍 SEO Optimization
+
+### Local SEO for Paris/Île-de-France
+
+- **Target market**: 80% France, focused on Paris and Île-de-France region
+- **Primary keywords**: "agence web paris", "création site internet paris", "nextnode"
+- **Local targeting**: Schema.org LocalBusiness with Paris coordinates and service areas
+
+### Technical SEO Features
+
+- **Sitemap.xml**: Automatically generated with i18n support and priority settings
+- **Robots.txt**: Optimized for French market with crawl directives
+- **Meta tags**: Localized titles and descriptions for each page
+- **Schema.org**: Comprehensive structured data (LocalBusiness, Organization, WebSite)
+- **Canonical URLs**: Proper canonicalization with hreflang implementation
+- **Open Graph**: Optimized social media sharing metadata
+
+### SEO Components
+
+- **Centralized SEO**: `src/components/common/SEO.astro` for consistent meta tags
+- **Schema utilities**: `src/lib/seo/schema.ts` for structured data generation
+- **Geo-targeting**: FR-75 region codes and Paris coordinates
+- **Performance**: Preconnect headers and DNS prefetch for speed optimization
 
 ## 🧪 Testing
 
