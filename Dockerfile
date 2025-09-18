@@ -88,15 +88,25 @@ RUN apk update && apk upgrade && \
     && mkdir -p /app /tmp \
     && chown -R astro:astro /app /tmp
 
-# Set secure runtime environment
+# Railway environment variables (passed as build args)
 ARG APP_PORT
-ENV NODE_ENV=production \
-    HOST=0.0.0.0 \
-    PORT=${APP_PORT} \
-    ASTRO_TELEMETRY_DISABLED=1 \
-    NODE_NO_WARNINGS=1 \
-    NODE_OPTIONS="--max-old-space-size=512 --max-semi-space-size=64" \
-    PATH=/app/node_modules/.bin:$PATH
+ARG URL
+ARG RESEND_API_KEY
+ARG APP_ENV
+
+# Convert ARGs to ENV for runtime availability
+ENV PORT=${APP_PORT}
+ENV URL=${URL}
+ENV RESEND_API_KEY=${RESEND_API_KEY}
+ENV APP_ENV=${APP_ENV}
+
+# Set secure runtime environment
+ENV NODE_ENV=production
+ENV HOST=0.0.0.0
+ENV ASTRO_TELEMETRY_DISABLED=1
+ENV NODE_NO_WARNINGS=1
+ENV NODE_OPTIONS="--max-old-space-size=512 --max-semi-space-size=64"
+ENV PATH=/app/node_modules/.bin:$PATH
 
 # Railway.app deployment optimizations
 
