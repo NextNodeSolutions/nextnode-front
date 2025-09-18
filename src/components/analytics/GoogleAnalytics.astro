@@ -1,0 +1,234 @@
+---
+/**
+ * Composant Google Analytics 4 pour NextNode
+ * Optimisé pour le tracking SEO et les conversions
+ */
+
+interface Props {
+	gaId?: string
+	debugMode?: boolean
+}
+
+const { gaId = 'G-XXXXXXXXXX', debugMode = false } = Astro.props
+
+// Configuration conditionnelle selon l'environnement
+const isDev = import.meta.env.DEV
+const isProduction = import.meta.env.PROD
+
+// Ne charger GA que en production ou avec debug activé
+const shouldLoadGA = isProduction || debugMode
+
+// Configuration des événements personnalisés pour le SEO
+const customEvents = {
+	// Événements de conversion SEO
+	contact_form_submit: 'contact_form_submit',
+	quote_request: 'quote_request', 
+	project_start: 'project_start',
+	
+	// Événements d'engagement
+	pricing_view: 'pricing_view',
+	workflow_step_view: 'workflow_step_view',
+	local_service_inquiry: 'local_service_inquiry',
+	
+	// Événements SEO local Paris
+	paris_location_click: 'paris_location_click',
+	ile_de_france_search: 'ile_de_france_search',
+}
+---
+
+{shouldLoadGA && (
+	<Fragment>
+		<!-- Google tag (gtag.js) -->
+		<script 
+			async 
+			src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+			is:inline
+		></script>
+		
+		<script 
+			is:inline 
+			define:vars={{ 
+				gaId, 
+				isDev, 
+				customEvents,
+				debugMode 
+			}}
+		>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			
+			// Configuration de base
+			gtag('js', new Date());
+			gtag('config', gaId, {
+				// Optimisations pour le SEO et la performance
+				page_title: document.title,
+				page_location: window.location.href,
+				
+				// Configuration pour le tracking local Paris
+				custom_map: {
+					'custom_parameter_1': 'location_type',
+					'custom_parameter_2': 'service_area'
+				},
+				
+				// Configuration Enhanced E-commerce pour les devis
+				send_page_view: true,
+				
+				// Paramètres de debug
+				debug_mode: debugMode,
+				
+				// Optimisations privacy-friendly
+				anonymize_ip: true,
+				allow_google_signals: true,
+				allow_ad_personalization_signals: false
+			});
+
+			// Événements personnalisés pour le SEO local
+			window.gtag_nextnode = {
+				// Tracking des formulaires de contact (conversion principale)
+				trackContactForm: function(formType = 'general') {
+					gtag('event', customEvents.contact_form_submit, {
+						event_category: 'conversion',
+						event_label: formType,
+						value: 1,
+						location_type: 'paris',
+						service_area: 'ile_de_france'
+					});
+				},
+				
+				// Tracking des demandes de devis (conversion SEO importante)
+				trackQuoteRequest: function(projectType = 'website') {
+					gtag('event', customEvents.quote_request, {
+						event_category: 'lead_generation', 
+						event_label: projectType,
+						value: 5,
+						currency: 'EUR',
+						location_type: 'paris'
+					});
+				},
+				
+				// Tracking du démarrage de projet (conversion finale)
+				trackProjectStart: function(planType = 'business') {
+					gtag('event', customEvents.project_start, {
+						event_category: 'conversion',
+						event_label: planType,
+						value: 10,
+						currency: 'EUR'
+					});
+				},
+				
+				// Tracking des pages pricing (signal d'intention)
+				trackPricingView: function(planViewed = 'all') {
+					gtag('event', customEvents.pricing_view, {
+						event_category: 'engagement',
+						event_label: planViewed,
+						service_area: 'paris_idf'
+					});
+				},
+				
+				// Tracking workflow steps (engagement utilisateur)
+				trackWorkflowStep: function(stepNumber) {
+					gtag('event', customEvents.workflow_step_view, {
+						event_category: 'engagement',
+						event_label: `step_${stepNumber}`,
+						value: stepNumber
+					});
+				},
+				
+				// Tracking spécifique géolocalisation Paris
+				trackLocalInteraction: function(interactionType) {
+					gtag('event', customEvents.paris_location_click, {
+						event_category: 'local_seo',
+						event_label: interactionType,
+						location_type: 'paris',
+						service_area: 'ile_de_france'
+					});
+				},
+				
+				// Tracking des recherches locales
+				trackLocalSearch: function(searchTerm) {
+					gtag('event', customEvents.ile_de_france_search, {
+						event_category: 'search',
+						event_label: searchTerm,
+						location_type: 'ile_de_france'
+					});
+				}
+			};
+
+			// Auto-tracking des clics sur éléments avec data-ga-* attributes
+			document.addEventListener('click', function(e) {
+				const element = e.target.closest('[data-ga-event]');
+				if (element) {
+					const eventName = element.getAttribute('data-ga-event');
+					const eventCategory = element.getAttribute('data-ga-category') || 'interaction';
+					const eventLabel = element.getAttribute('data-ga-label') || '';
+					const eventValue = element.getAttribute('data-ga-value') || 0;
+					
+					gtag('event', eventName, {
+						event_category: eventCategory,
+						event_label: eventLabel,
+						value: parseInt(eventValue) || 0
+					});
+				}
+			});
+
+			// Tracking automatique du scroll depth (signal SEO)
+			let scrollDepths = [25, 50, 75, 90];
+			let scrolled = [];
+			
+			window.addEventListener('scroll', function() {
+				const scrollPercent = Math.round(
+					(window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+				);
+				
+				scrollDepths.forEach(function(depth) {
+					if (scrollPercent >= depth && scrolled.indexOf(depth) === -1) {
+						scrolled.push(depth);
+						gtag('event', 'scroll_depth', {
+							event_category: 'engagement',
+							event_label: depth + '%',
+							value: depth
+						});
+					}
+				});
+			});
+
+			// Enhanced measurements pour le SEO
+			gtag('config', gaId, {
+				// Mesures avancées automatiques
+				enhanced_measurements: {
+					scrolls: true,
+					outbound_clicks: true,
+					site_search: true,
+					video_engagement: true,
+					file_downloads: true
+				}
+			});
+
+			// Debug logging en mode développement
+			if (debugMode) {
+				console.log('🚀 NextNode Google Analytics initialized', {
+					gaId: gaId,
+					customEvents: customEvents,
+					isDev: isDev
+				});
+			}
+		</script>
+	</Fragment>
+)}
+
+{/* Placeholder en mode développement */}
+{!shouldLoadGA && debugMode && (
+	<script is:inline>
+		console.log('📊 Google Analytics (DEV MODE): Tracking disabled');
+		// Mock des fonctions pour éviter les erreurs en dev
+		window.gtag_nextnode = {
+			trackContactForm: (type) => console.log('📊 [DEV] Contact form:', type),
+			trackQuoteRequest: (type) => console.log('📊 [DEV] Quote request:', type),
+			trackProjectStart: (type) => console.log('📊 [DEV] Project start:', type),
+			trackPricingView: (plan) => console.log('📊 [DEV] Pricing view:', plan),
+			trackWorkflowStep: (step) => console.log('📊 [DEV] Workflow step:', step),
+			trackLocalInteraction: (type) => console.log('📊 [DEV] Local interaction:', type),
+			trackLocalSearch: (term) => console.log('📊 [DEV] Local search:', term)
+		};
+	</script>
+)}

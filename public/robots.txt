@@ -22,5 +22,4 @@ Allow: /
 Crawl-delay: 1
 
 # Référence du sitemap pour l'indexation
-Sitemap: https://nextnode.fr/sitemap-index.xml
-Sitemap: https://nextnode.fr/sitemap-0.xml
+Sitemap: https://nextnode.fr/sitemap.xml

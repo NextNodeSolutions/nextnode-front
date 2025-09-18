@@ -2,7 +2,6 @@ import { defineConfig } from 'astro/config'
 
 import node from '@astrojs/node'
 import react from '@astrojs/react'
-import sitemap from '@astrojs/sitemap'
 import { configManagerIntegration } from '@nextnode/config-manager/astro'
 import tailwindcss from '@tailwindcss/vite'
 
@@ -38,25 +37,7 @@ export default defineConfig({
 	}),
 	integrations: [
 		react(),
-		sitemap({
-			// Configuration SEO optimisée pour agence web Paris
-			i18n: {
-				defaultLocale: 'en',
-				locales: {
-					en: 'en',
-					fr: 'fr',
-				},
-			},
-			filter: page => {
-				// Exclure les pages de debug et API du sitemap
-				return (
-					!page.includes('/debug/') &&
-					!page.includes('/api/') &&
-					!page.includes('/health') &&
-					!page.includes('/metrics')
-				)
-			},
-		}),
+		// Sitemap personnalisé via src/pages/sitemap.xml.ts pour meilleur contrôle SEO
 		configManagerIntegration({
 			verbose: false, // Disable verbose logging for production
 		}),
