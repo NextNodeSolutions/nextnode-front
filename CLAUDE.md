@@ -101,6 +101,14 @@ src/components/
 - **Template system**: Reusable email components with type safety
 - **API endpoint**: `/api/send-email.ts` for form submissions
 
+#### 6. SEO & Local Search Optimization
+
+- **Sitemap.xml**: Automatic generation with @astrojs/sitemap and i18n support
+- **Schema.org**: LocalBusiness data optimized for Paris/Île-de-France market
+- **Meta optimization**: Centralized SEO component with locale-specific content
+- **Local targeting**: Paris coordinates, service areas, and French market focus
+- **Robots.txt**: Optimized crawl directives for French search engines
+
 ### Performance Optimizations
 
 #### Bundle Splitting (astro.config.mjs)
@@ -166,6 +174,16 @@ types/
 └── plans.ts         # Pricing plan type definitions
 ```
 
+### SEO & Logging Structure
+
+```
+src/lib/
+├── seo/
+│   └── schema.ts    # Schema.org structured data utilities
+└── logging/
+    └── index.ts     # NextNode logger instances (astroLogger, etc.)
+```
+
 ## Common Development Workflows
 
 ### Adding New Features
@@ -189,6 +207,49 @@ types/
 2. Add to template exports in `src/lib/email/templates/index.ts`
 3. Test rendering via `/api/send-email` endpoint
 4. Configure Resend API key for production
+
+### SEO Configuration and Optimization
+
+#### Using the SEO Component
+
+All pages should use the centralized SEO component via BaseLayout:
+
+```astro
+---
+const title = t('common.meta.homepage.title')
+const description = t('common.meta.homepage.description')
+---
+
+<BaseLayout title={title} description={description} type="website">
+	<!-- Page content -->
+</BaseLayout>
+```
+
+#### Adding New Page SEO
+
+1. Add meta translations to `src/i18n/locales/{en,fr}/common.ts`:
+
+    ```typescript
+    meta: {
+      newPage: {
+        title: 'Page Title | NextNode - Agence Web Paris',
+        description: 'SEO-optimized description with Paris keywords...'
+      }
+    }
+    ```
+
+2. Use in page component:
+    ```astro
+    const title = t('common.meta.newPage.title') const description =
+    t('common.meta.newPage.description')
+    ```
+
+#### Schema.org Updates
+
+- Edit `src/lib/seo/schema.ts` for structured data changes
+- LocalBusiness schema covers Paris/Île-de-France service area
+- Automatically injected in all pages via SEO component
+- Supports both French and English locales
 
 ## Critical Implementation Details
 

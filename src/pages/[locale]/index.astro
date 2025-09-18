@@ -11,9 +11,13 @@ import { cn } from '@/lib/core/utils'
 
 // i18n is now handled by middleware - no manual initialization needed
 // The locale and t function are available via Astro.locals
+const { t } = Astro.locals
+
+const title = t('common.meta.homepage.title')
+const description = t('common.meta.homepage.description')
 ---
 
-<BaseLayout title="Nextnode - Creative Agency">
+<BaseLayout title={title} description={description}>
 	<div class="relative flex min-h-screen flex-col">
 		<Header />
 		<main class={cn('flex flex-col flex-1 justify-center')}>
