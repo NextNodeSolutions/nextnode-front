@@ -30,7 +30,27 @@ export const common = {
 	},
 	meta: {
 		defaultDescription:
-			'Modern and performant template built with Astro and Nextnode',
+			'Web agency in Paris specialized in custom website creation. Free quote, personalized support. Web development expert Île-de-France.',
+		homepage: {
+			title: 'NextNode | Web Agency Paris - Website Creation Île-de-France',
+			description:
+				'Web agency in Paris specialized in custom website creation, web development and digital solutions. Free quote in 48h. Île-de-France expertise.',
+		},
+		pricing: {
+			title: 'Website Pricing Paris | Free Quote - NextNode',
+			description:
+				'Discover our transparent pricing for your website creation in Paris. Packages adapted for SMEs, personalized quote within 48h. Île-de-France web agency.',
+		},
+		services: {
+			title: 'Web Services Paris | Development, Design, SEO - NextNode',
+			description:
+				'Digital agency Paris: showcase website, e-commerce, web application creation. Custom solutions for Île-de-France businesses. Recognized technical expertise.',
+		},
+		howWeWork: {
+			title: 'Work Method | Web Agency Paris - NextNode',
+			description:
+				'Discover our collaborative and transparent work method. Optimized creation process for your web projects in Paris and Île-de-France.',
+		},
 	},
 	// Exemples pour tester le nouveau système i18n
 	examples: {
