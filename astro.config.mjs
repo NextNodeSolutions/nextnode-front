@@ -3,16 +3,15 @@ import { defineConfig } from 'astro/config'
 import node from '@astrojs/node'
 import react from '@astrojs/react'
 import { configManagerIntegration } from '@nextnode/config-manager/astro'
+import { logger } from '@nextnode/logger'
 import tailwindcss from '@tailwindcss/vite'
-
-import { astroLogger } from './src/lib/logging/index.ts'
 
 const host = process.env.HOST ?? '0.0.0.0'
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4321
 const site = process.env.URL ?? `http://${host}:${port}`
 
 // Log configuration
-astroLogger.info('Configuration loaded', {
+logger.info('Configuration loaded', {
 	details: {
 		host,
 		port,
