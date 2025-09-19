@@ -3,12 +3,15 @@ import '../styles/global.css'
 import '../styles/base.css'
 import '../styles/animations.css'
 import '../styles/liquid-effects.css'
-import { ContextProvider } from '../lib/i18n/context-provider'
+import { ContextProvider } from '../lib/i18n/ContextProvider'
+import SEO from '@/components/common/SEO.astro'
 
 export interface Props {
 	title: string
 	description?: string
 	image?: string
+	type?: 'website' | 'article' | 'service'
+	noindex?: boolean
 }
 
 // Use new i18n system from middleware
@@ -18,9 +21,9 @@ const {
 	title,
 	description = t('common.meta.defaultDescription'),
 	image = '/og-image.png',
+	type = 'website',
+	noindex = false,
 } = Astro.props
-
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 ---
 
 <!doctype html>
@@ -28,45 +31,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>{title}</title>
-		<meta name="description" content={description} />
 
-		<!-- Favicon -->
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-		<!-- Canonical URL -->
-		<link rel="canonical" href={canonicalURL} />
-
-		<!-- Language links -->
-		<link
-			rel="alternate"
-			hreflang="en"
-			href={Astro.url.origin + Astro.url.pathname}
+		<!-- SEO centralisé avec Schema.org -->
+		<SEO
+			title={title}
+			description={description}
+			image={image}
+			type={type}
+			noindex={noindex}
 		/>
-		<link
-			rel="alternate"
-			hreflang="fr"
-			href={Astro.url.origin + '/fr' + Astro.url.pathname}
-		/>
-		<link
-			rel="alternate"
-			hreflang="x-default"
-			href={Astro.url.origin + Astro.url.pathname}
-		/>
-
-		<!-- Open Graph -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={Astro.url} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content={new URL(image, Astro.url)} />
-
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={Astro.url} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />

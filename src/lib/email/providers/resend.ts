@@ -28,7 +28,7 @@ export class ResendProvider {
 				details: {
 					to: Array.isArray(to) ? to : [to],
 					from,
-					subject: subject.substring(0, 50) + '...',
+					subject: `${subject.substring(0, 50)}...`,
 				},
 			})
 

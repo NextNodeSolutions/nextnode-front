@@ -1,9 +1,7 @@
-import React from 'react'
-
 import { getConfig } from '@nextnode/config-manager'
+import type React from 'react'
 
 import { ProjectRequest } from '../src/lib/email/templates/ProjectRequest'
-
 import type { ProjectRequestData } from '../types/email'
 
 // Sample data for preview
@@ -24,7 +22,12 @@ const sampleData: ProjectRequestData = {
 
 export default function PreviewProjectRequest(): React.ReactElement {
 	// Get email configuration for preview (config initialized at app level)
-	let templateConfig
+	let templateConfig: {
+		companyName: string
+		websiteUrl: string
+		subject: string
+		companyLogo: string | null
+	}
 	try {
 		const emailConfig = getConfig('email')
 		templateConfig = emailConfig?.templates?.projectRequest || {

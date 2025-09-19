@@ -3,18 +3,23 @@
  * Consolidates form field patterns from modal components
  */
 
-import React from 'react'
+import { useId } from 'react'
+
+import type React from 'react'
+import type { PropsWithChildren } from 'react'
 
 import { cn } from '@/lib/core/utils'
 
-import { Input } from './input'
-import { Textarea } from './textarea'
+import { Input } from './Input'
+import { Textarea } from './Textarea'
 
 export interface FormFieldProps {
 	/** Field label */
 	label: string
-	/** Field ID and name */
-	id: string
+	/** Field ID (optional - auto-generated if not provided) */
+	id?: string
+	/** Field name for form submission (optional - uses id if not provided) */
+	name?: string
 	/** Input type */
 	type?: 'text' | 'email' | 'textarea'
 	/** Placeholder text */
@@ -35,7 +40,8 @@ export interface FormFieldProps {
 
 export const FormField: React.FC<FormFieldProps> = ({
 	label,
-	id,
+	id: externalId,
+	name,
 	type = 'text',
 	placeholder,
 	required = false,
@@ -45,6 +51,9 @@ export const FormField: React.FC<FormFieldProps> = ({
 	value,
 	onChange,
 }) => {
+	const generatedId = useId()
+	const id = externalId || generatedId
+	const fieldName = name || id
 	const handleChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	): void => {
@@ -53,7 +62,7 @@ export const FormField: React.FC<FormFieldProps> = ({
 
 	const commonInputProps = {
 		id,
-		name: id,
+		name: fieldName,
 		placeholder,
 		required,
 		disabled,
@@ -83,11 +92,12 @@ export const FormField: React.FC<FormFieldProps> = ({
 /**
  * FormGrid - Grid layout for form fields
  */
-export const FormGrid: React.FC<{
-	children: React.ReactNode
-	columns?: 1 | 2
-	className?: string
-}> = ({ children, columns = 1, className }) => (
+export const FormGrid: React.FC<
+	PropsWithChildren<{
+		columns?: 1 | 2
+		className?: string
+	}>
+> = ({ children, columns = 1, className }) => (
 	<div
 		className={cn(
 			'grid gap-4',

@@ -1,4 +1,7 @@
-import { PRICING_CONFIG, formatPrice } from '../../../../config/pricing'
+import {
+	formatPrice,
+	PRICING_CONFIG,
+} from '@/components/features/pricing/pricing-config'
 
 export const pricing = {
 	pageTitle: `Web Development from €${PRICING_CONFIG.monthly.base}/month | Nextnode`,
@@ -218,35 +221,6 @@ export const pricing = {
 		],
 		note: 'For specific needs (24/7, custom SLA), we offer tailored agreements based on your requirements.',
 	},
-	faq: {
-		title: 'Frequently Asked Questions',
-		questions: [
-			{
-				question: `What does the €${PRICING_CONFIG.monthly.base}/month include?`,
-				answer: `Our monthly fee of €${PRICING_CONFIG.monthly.base} covers professional hosting, CDN, SSL certificates, daily backups, security monitoring, automatic updates, and standard technical support (48h). This ensures your website runs smoothly 24/7.`,
-			},
-			{
-				question: 'How do you determine the development cost?',
-				answer: 'Development costs depend on complexity, features, and design requirements. We provide detailed quotes after understanding your specific needs during our free consultation.',
-			},
-			{
-				question: 'Do you offer payment plans?',
-				answer: 'Yes, we offer flexible payment options including milestone-based payments for development and monthly billing for infrastructure and support.',
-			},
-			{
-				question: 'What happens if I want to cancel?',
-				answer: "You own your website and can cancel anytime with 30 days notice. We'll help you migrate to your preferred hosting solution.",
-			},
-			{
-				question: 'Do you provide ongoing maintenance?',
-				answer: `Yes, our €${PRICING_CONFIG.monthly.base}/month package includes regular updates, security patches, and technical maintenance. Additional development work is quoted separately.`,
-			},
-			{
-				question: 'What are the available support levels?',
-				answer: `Standard support included (48h), priority support (+€${PRICING_CONFIG.support.priority}/month, 24h), urgent support (+€${PRICING_CONFIG.support.urgent}/month, 4h). For specific needs, we offer custom SLA agreements based on your requirements.`,
-			},
-		],
-	},
 	cta: {
 		title: 'Ready to start your project?',
 		description:
@@ -254,5 +228,4 @@ export const pricing = {
 		button: 'Get Your Free Quote',
 	},
 	contactButton: 'Contact Us',
-	faqContactText: "Have other questions? Don't hesitate to contact us.",
 } as const

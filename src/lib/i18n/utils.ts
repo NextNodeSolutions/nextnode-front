@@ -5,10 +5,10 @@
 import { i18nLogger } from '../logging'
 
 import type {
-	InterpolationVariables,
 	DynamicKey,
+	InterpolationVariables,
 	TranslationKey,
-} from './types'
+} from '@/types/i18n'
 
 // ====================================
 // VARIABLE INTERPOLATION
@@ -48,6 +48,38 @@ export function interpolateString(
 // ====================================
 
 /**
+ * Check if a value can be navigated as an array
+ */
+function canNavigateAsArray(value: unknown): value is unknown[] {
+	return typeof value === 'object' && Array.isArray(value)
+}
+
+/**
+ * Check if a value can be navigated as an object
+ */
+function canNavigateAsObject(value: unknown): value is Record<string, unknown> {
+	return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+/**
+ * Navigate array by index key
+ */
+function navigateArray(array: unknown[], key: string): unknown {
+	const index = Number.parseInt(key, 10)
+	if (!Number.isNaN(index) && index >= 0 && index < array.length) {
+		return array[index]
+	}
+	return undefined
+}
+
+/**
+ * Navigate object by property key
+ */
+function navigateObject(obj: Record<string, unknown>, key: string): unknown {
+	return obj[key]
+}
+
+/**
  * Get a value in a nested object via dot-notation path
  * Example: getNestedValue(obj, "home.hero.title")
  */
@@ -65,31 +97,19 @@ export function getNestedValue<T = unknown>(
 			return undefined
 		}
 
-		// Support for array indices
-		if (typeof current === 'object' && Array.isArray(current)) {
-			const index = parseInt(key, 10)
-			if (!isNaN(index) && index >= 0 && index < current.length) {
-				current = current[index]
-				continue
-			}
+		if (canNavigateAsArray(current)) {
+			current = navigateArray(current, key)
+		} else if (canNavigateAsObject(current)) {
+			current = navigateObject(current, key)
+		} else {
+			return undefined
 		}
 
-		// Normal object navigation
-		if (
-			typeof current === 'object' &&
-			current !== null &&
-			!Array.isArray(current)
-		) {
-			// Type assertion needed for dynamic object navigation
-			const obj = current as Record<string, unknown>
-			current = obj[key]
-		} else {
+		if (current === undefined) {
 			return undefined
 		}
 	}
 
-	// Type assertion needed for the return type as TypeScript cannot infer
-	// the exact type from dynamic path navigation
 	return current as T
 }
 
@@ -99,8 +119,8 @@ export function getNestedValue<T = unknown>(
 
 /**
  * Resolve dynamic keys by replacing placeholders
- * Example: resolveDynamicKey("faq.items.{index}.question", { index: 0 })
- * → "faq.items.0.question"
+ * Example: resolveDynamicKey("plans.items.{index}.name", { index: 0 })
+ * → "plans.items.0.name"
  */
 export function resolveDynamicKey(
 	key: DynamicKey,

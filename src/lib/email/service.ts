@@ -1,8 +1,8 @@
 import { ResendProvider } from './providers/resend'
 import { renderEmailTemplate } from './utils/render'
-import { validateEmailData, validateEmailAddresses } from './utils/validation'
+import { validateEmailAddresses, validateEmailData } from './utils/validation'
 
-import type { EmailData, EmailResponse, EmailConfig } from '@/types/email'
+import type { EmailConfig, EmailData, EmailResponse } from '@/types/email'
 
 export class EmailService {
 	private provider: ResendProvider

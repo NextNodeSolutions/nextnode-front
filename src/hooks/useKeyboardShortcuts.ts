@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export interface KeyboardHandlers {
 	/** Gestionnaire pour la touche Escape */

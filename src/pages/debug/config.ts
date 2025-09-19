@@ -1,8 +1,7 @@
 import { getConfig } from '@nextnode/config-manager'
+import type { APIRoute } from 'astro'
 
 import { configLogger } from '../../lib/logging'
-
-import type { APIRoute } from 'astro'
 
 export const GET: APIRoute = async () => {
 	try {

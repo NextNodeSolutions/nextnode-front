@@ -1,4 +1,7 @@
-import { PRICING_CONFIG, formatPrice } from '../../../../config/pricing'
+import {
+	formatPrice,
+	PRICING_CONFIG,
+} from '@/components/features/pricing/pricing-config'
 
 export const pricing = {
 	pageTitle: `Développement Web dès ${PRICING_CONFIG.monthly.base}€/mois | Nextnode`,
@@ -22,9 +25,9 @@ export const pricing = {
 		titleHighlight: 'TRANSPARENTS',
 		titleEnd: 'POUR VOTRE SUCCÈS',
 		subtitle:
-			'Développement sur-mesure de vrais sites web en code - Liberté maximale, fonctionnalités illimitées',
+			'Développement sur-mesure de vrais sites web en code - Agence web Paris & Île-de-France',
 		description:
-			'Contrairement aux solutions no-code limitantes, nous développons de vrais sites web en code qui vous appartiennent entièrement. Liberté totale de fonctionnalités, évolutivité garantie, performances optimales. Tarification transparente sans frais cachés.',
+			'Contrairement aux solutions no-code limitantes, nous développons de vrais sites web en code qui vous appartiennent entièrement. Basés à Paris, nous servons les entreprises franciliennes avec liberté totale de fonctionnalités, évolutivité garantie et performances optimales. Tarification transparente adaptée au marché parisien.',
 		badge: '💡 Consultation gratuite incluse',
 		cta: {
 			button: 'Consultation Gratuite pour Cerner Votre Projet',
@@ -227,42 +230,37 @@ export const pricing = {
 		],
 		note: 'Pour des besoins spécifiques (24/7, SLA personnalisés), nous proposons des accords sur-mesure selon vos exigences.',
 	},
-	faq: {
-		title: 'Questions Fréquemment Posées',
-		questions: [
-			{
-				question: `Que comprend les ${PRICING_CONFIG.monthly.base}€/mois ?`,
-				answer: `Notre forfait mensuel à ${PRICING_CONFIG.monthly.base}€ couvre l'hébergement professionnel, CDN, certificats SSL, sauvegardes quotidiennes, monitoring de sécurité, mises à jour automatiques et support technique standard (48h). Cela assure le fonctionnement optimal de votre site 24h/24.`,
-			},
-			{
-				question: 'Comment déterminez-vous le coût de développement ?',
-				answer: 'Les coûts de développement dépendent de la complexité, des fonctionnalités et des exigences de design. Nous fournissons des devis détaillés après avoir compris vos besoins spécifiques lors de notre consultation gratuite.',
-			},
-			{
-				question: 'Proposez-vous des plans de paiement ?',
-				answer: "Oui, nous offrons des options de paiement flexibles incluant des paiements par étapes pour le développement et une facturation mensuelle pour l'infrastructure et le support.",
-			},
-			{
-				question: 'Que se passe-t-il si je veux annuler ?',
-				answer: "Vous possédez votre site web et pouvez annuler à tout moment avec un préavis de 30 jours. Nous vous aiderons à migrer vers votre solution d'hébergement préférée.",
-			},
-			{
-				question: 'Fournissez-vous une maintenance continue ?',
-				answer: `Oui, notre forfait à ${PRICING_CONFIG.monthly.base}€/mois inclut les mises à jour régulières, les correctifs de sécurité et la maintenance technique. Les travaux de développement supplémentaires sont devisés séparément.`,
-			},
-			{
-				question: 'Quels sont les niveaux de support disponibles ?',
-				answer: `Support standard inclus (48h), support prioritaire (+${PRICING_CONFIG.support.priority}€/mois, 24h), support urgent (+${PRICING_CONFIG.support.urgent}€/mois, 4h). Pour des besoins spécifiques, nous proposons des SLA sur-mesure selon vos besoins.`,
-			},
-		],
-	},
 	cta: {
 		title: 'Prêt à démarrer votre projet ?',
 		description:
 			'Obtenez une consultation gratuite et un devis détaillé pour votre site web.',
 		button: 'Obtenir Votre Devis Gratuit',
 	},
+	localAdvantages: {
+		title: 'Pourquoi choisir une agence web parisienne ?',
+		subtitle: 'Les avantages de travailler en local',
+		benefits: [
+			{
+				title: 'Rencontres en présentiel',
+				description:
+					'Rdv dans nos bureaux parisiens ou chez vous en Île-de-France',
+			},
+			{
+				title: 'Connaissance du marché local',
+				description:
+					'Expertise des enjeux business parisiens et franciliens',
+			},
+			{
+				title: 'Support réactif et proximité',
+				description:
+					'Équipe basée à Paris, disponible dans votre fuseau horaire',
+			},
+			{
+				title: 'Tarifs adaptés au marché parisien',
+				description:
+					'Prix compétitifs et transparents pour les entreprises franciliennes',
+			},
+		],
+	},
 	contactButton: 'Nous Contacter',
-	faqContactText:
-		"Vous avez d'autres questions ? N'hésitez pas à nous contacter.",
 } as const

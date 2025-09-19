@@ -3,11 +3,12 @@
 // ====================================
 // Functions and helpers to use i18n in the Astro environment
 
-import { setGlobalLocale, createT } from './index'
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from '../../i18n/config'
-
 import type { APIContext } from 'astro'
-import type { Locale, TFunction } from './types'
+
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../../i18n/config'
+import { createT, setGlobalLocale } from './index'
+
+import type { Locale, TFunction } from '@/types/i18n'
 
 // ====================================
 // DÉTECTION DE LA LOCALE
@@ -102,12 +103,13 @@ export function getAlternateLocale(currentLocale: Locale): Locale {
  */
 export function pathToLocalized(locale: Locale, path: string): string {
 	// Ensure path starts with /
-	if (!path.startsWith('/')) {
-		path = `/${path}`
+	let normalizedPath = path
+	if (!normalizedPath.startsWith('/')) {
+		normalizedPath = `/${normalizedPath}`
 	}
 
 	// Remove existing locale prefix if any
-	const cleanPath = path.replace(/^\/(en|fr)(\/|$)/, '/')
+	const cleanPath = normalizedPath.replace(/^\/(en|fr)(\/|$)/, '/')
 
 	// Add locale prefix
 	return `/${locale}${cleanPath === '/' ? '/' : cleanPath}`
@@ -208,15 +210,6 @@ export function getBrowserPreferredLocale(request: Request): Locale {
 export interface I18nMiddlewareLocals {
 	locale: Locale
 	t: TFunction
-}
-
-// Extend Astro's locals type
-declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
-	namespace App {
-		// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-		interface Locals extends I18nMiddlewareLocals {}
-	}
 }
 
 // ====================================

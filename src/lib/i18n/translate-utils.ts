@@ -6,8 +6,8 @@
 
 import { globalT } from './index'
 
-import type { EnglishDict, StepKey } from './types'
-import type { Plan } from '../types/plans'
+import type { EnglishDict, StepKey } from '@/types/i18n'
+import type { Plan } from '@/types/plans'
 
 /**
  * Utility function for translating step objects with proper typing
@@ -31,16 +31,4 @@ export function translatePlan<K extends Plan>(
 	// Template string keys can't be statically typed, so cast is necessary
 	const result = globalT(`pricing.plans.${planKey}`)
 	return result as Readonly<EnglishDict['pricing']['plans'][K]>
-}
-
-/**
- * Utility function for translating FAQ category questions with proper typing
- * Usage: translateFAQCategory('gettingStarted') → Readonly<{question: string, answer: string}[]>
- */
-export function translateFAQCategory(
-	categoryKey: string,
-): Readonly<{ question: string; answer: string }[]> {
-	// Template string keys can't be statically typed, so cast is necessary
-	const result = globalT(`howWeWork.faq.questions.${categoryKey}`)
-	return result as Readonly<{ question: string; answer: string }[]>
 }

@@ -14,8 +14,6 @@ jobs:
             run-typecheck: true
             run-tests: true
             run-build: true
-            node-version: '22'
-            pnpm-version: '10.12.4'
         secrets: inherit
 
     deploy:

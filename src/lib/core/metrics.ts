@@ -107,7 +107,7 @@ export const ApplicationMetrics = {
 
 	// Memory usage (Node.js specific)
 	recordMemoryUsage(): void {
-		if (typeof process !== 'undefined' && process.memoryUsage) {
+		if (process?.memoryUsage) {
 			const mem = process.memoryUsage()
 			metrics.setGauge('app_memory_heap_used_bytes', mem.heapUsed)
 			metrics.setGauge('app_memory_heap_total_bytes', mem.heapTotal)
@@ -198,11 +198,9 @@ export function getHealthStatus(): {
 		uptime: typeof process !== 'undefined' ? process.uptime() : null,
 		memory: memUsage
 			? {
-					heapUsed:
-						Math.round(memUsage.heapUsed / 1024 / 1024) + 'MB',
-					heapTotal:
-						Math.round(memUsage.heapTotal / 1024 / 1024) + 'MB',
-					rss: Math.round(memUsage.rss / 1024 / 1024) + 'MB',
+					heapUsed: `${Math.round(memUsage.heapUsed / 1024 / 1024)}MB`,
+					heapTotal: `${Math.round(memUsage.heapTotal / 1024 / 1024)}MB`,
+					rss: `${Math.round(memUsage.rss / 1024 / 1024)}MB`,
 				}
 			: null,
 		version: process.env.APP_VERSION || 'unknown',
