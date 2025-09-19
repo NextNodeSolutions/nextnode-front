@@ -2,32 +2,39 @@
 import { metricsLogger } from '@/lib/logging/index'
 
 interface Props {
-	gaId?: string
 	debugMode?: boolean
 }
 
-const { gaId = 'G-XXXXXXXXXX', debugMode = false } = Astro.props
+const { debugMode = false } = Astro.props
+const gaId = import.meta.env.GA_MEASUREMENT_ID || process.env.GA_MEASUREMENT_ID
+
+// Early return si pas de GA ID
+if (!gaId) {
+	metricsLogger.info(
+		'No Google Analytics ID provided - skipping GA initialization',
+	)
+	return null
+}
 
 // Validation sécurisée du Google Analytics ID
 const GA_ID_PATTERN = /^G-[A-Z0-9]{10}$/
 const isValidGaId = (id: string): boolean => GA_ID_PATTERN.test(id)
-const sanitizedGaId = isValidGaId(gaId) ? gaId : 'G-XXXXXXXXXX'
 
-const shouldLoadGA = import.meta.env.PROD || debugMode
-
-// Si l'ID n'est pas valide et qu'on n'est pas en mode debug, on ne charge pas GA
-if (!isValidGaId(gaId) && !debugMode) {
-	metricsLogger.warn('Invalid Google Analytics ID provided:', {
+if (!isValidGaId(gaId)) {
+	metricsLogger.warn('Invalid Google Analytics ID format:', {
 		details: { gaId },
 	})
+	return null
 }
+
+const shouldLoadGA = import.meta.env.PROD || debugMode
 
 // Script sécurisé avec validation
 const analyticsScript = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${sanitizedGaId}', {
+gtag('config', '${gaId}', {
 	page_title: document.title,
 	page_location: window.location.href,
 	send_page_view: true,
@@ -116,7 +123,7 @@ document.addEventListener('click', function(e) {
 });
 
 if (${debugMode}) {
-	console.log('🚀 Google Analytics initialized', { gaId: '${sanitizedGaId}' });
+	console.log('🚀 Google Analytics initialized', { gaId: '${gaId}' });
 }
 `
 
@@ -134,11 +141,11 @@ window.gtag_nextnode = {
 ---
 
 {
-	shouldLoadGA && isValidGaId(gaId) ? (
+	shouldLoadGA ? (
 		<>
 			<script
 				async
-				src={`https://www.googletagmanager.com/gtag/js?id=${sanitizedGaId}`}
+				src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
 				is:inline
 			/>
 			<script is:inline set:html={analyticsScript} />
