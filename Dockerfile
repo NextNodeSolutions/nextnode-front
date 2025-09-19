@@ -4,6 +4,8 @@
 ARG NODE_VERSION=22
 ARG PNPM_VERSION=10.12.4
 ARG APP_PORT=4321
+ARG URL
+ARG GA_MEASUREMENT_ID
 
 # Stage 1: Build environment with all dependencies
 FROM node:${NODE_VERSION}-alpine AS builder
@@ -50,6 +52,12 @@ COPY --chown=astro:astro public ./public/
 COPY --chown=astro:astro src ./src/
 COPY --chown=astro:astro types ./types/
 COPY --chown=astro:astro astro.config.mjs tsconfig.json ./
+
+# Variables needed for build only
+ARG URL
+ARG GA_MEASUREMENT_ID
+ENV URL=${URL}
+ENV GA_MEASUREMENT_ID=${GA_MEASUREMENT_ID}
 
 # Build application
 RUN pnpm run build
