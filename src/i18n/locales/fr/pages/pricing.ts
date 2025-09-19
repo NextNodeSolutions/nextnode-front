@@ -25,9 +25,9 @@ export const pricing = {
 		titleHighlight: 'TRANSPARENTS',
 		titleEnd: 'POUR VOTRE SUCCÈS',
 		subtitle:
-			'Développement sur-mesure de vrais sites web en code - Liberté maximale, fonctionnalités illimitées',
+			'Développement sur-mesure de vrais sites web en code - Agence web Paris & Île-de-France',
 		description:
-			'Contrairement aux solutions no-code limitantes, nous développons de vrais sites web en code qui vous appartiennent entièrement. Liberté totale de fonctionnalités, évolutivité garantie, performances optimales. Tarification transparente sans frais cachés.',
+			'Contrairement aux solutions no-code limitantes, nous développons de vrais sites web en code qui vous appartiennent entièrement. Basés à Paris, nous servons les entreprises franciliennes avec liberté totale de fonctionnalités, évolutivité garantie et performances optimales. Tarification transparente adaptée au marché parisien.',
 		badge: '💡 Consultation gratuite incluse',
 		cta: {
 			button: 'Consultation Gratuite pour Cerner Votre Projet',
@@ -235,6 +235,32 @@ export const pricing = {
 		description:
 			'Obtenez une consultation gratuite et un devis détaillé pour votre site web.',
 		button: 'Obtenir Votre Devis Gratuit',
+	},
+	localAdvantages: {
+		title: 'Pourquoi choisir une agence web parisienne ?',
+		subtitle: 'Les avantages de travailler en local',
+		benefits: [
+			{
+				title: 'Rencontres en présentiel',
+				description:
+					'Rdv dans nos bureaux parisiens ou chez vous en Île-de-France',
+			},
+			{
+				title: 'Connaissance du marché local',
+				description:
+					'Expertise des enjeux business parisiens et franciliens',
+			},
+			{
+				title: 'Support réactif et proximité',
+				description:
+					'Équipe basée à Paris, disponible dans votre fuseau horaire',
+			},
+			{
+				title: 'Tarifs adaptés au marché parisien',
+				description:
+					'Prix compétitifs et transparents pour les entreprises franciliennes',
+			},
+		],
 	},
 	contactButton: 'Nous Contacter',
 } as const
