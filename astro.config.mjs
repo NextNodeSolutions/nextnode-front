@@ -11,7 +11,7 @@ const host = process.env.HOST ?? '0.0.0.0'
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4321
 const site = process.env.URL ?? `http://${host}:${port}`
 
-// Log configuration
+// Log configuration for debugging
 logger.info('Configuration loaded', {
 	details: {
 		host,
