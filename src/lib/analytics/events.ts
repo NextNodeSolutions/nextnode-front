@@ -44,7 +44,9 @@ declare global {
  * Helper pour tracker les formulaires de contact
  * Conversion principale pour le SEO local
  */
-export const trackContactForm = (formType: 'general' | 'pricing' | 'project' | 'quote' = 'general') => {
+export const trackContactForm = (
+	formType: 'general' | 'pricing' | 'project' | 'quote' = 'general',
+) => {
 	window.gtag_nextnode?.trackContactForm(formType)
 }
 
@@ -52,7 +54,9 @@ export const trackContactForm = (formType: 'general' | 'pricing' | 'project' | '
  * Helper pour tracker les demandes de devis
  * Conversion haute valeur pour le SEO
  */
-export const trackQuoteRequest = (projectType: 'website' | 'ecommerce' | 'app' | 'enterprise' = 'website') => {
+export const trackQuoteRequest = (
+	projectType: 'website' | 'ecommerce' | 'app' | 'enterprise' = 'website',
+) => {
 	window.gtag_nextnode?.trackQuoteRequest(projectType)
 }
 
@@ -60,7 +64,9 @@ export const trackQuoteRequest = (projectType: 'website' | 'ecommerce' | 'app' |
  * Helper pour tracker le démarrage de projet
  * Conversion finale - succès SEO
  */
-export const trackProjectStart = (planType: 'starter' | 'business' | 'enterprise' = 'business') => {
+export const trackProjectStart = (
+	planType: 'starter' | 'business' | 'enterprise' = 'business',
+) => {
 	window.gtag_nextnode?.trackProjectStart(planType)
 }
 
@@ -68,7 +74,9 @@ export const trackProjectStart = (planType: 'starter' | 'business' | 'enterprise
  * Helper pour tracker les vues de pricing
  * Signal d'intention - important pour le SEO
  */
-export const trackPricingView = (planViewed: 'starter' | 'business' | 'enterprise' | 'all' = 'all') => {
+export const trackPricingView = (
+	planViewed: 'starter' | 'business' | 'enterprise' | 'all' = 'all',
+) => {
 	window.gtag_nextnode?.trackPricingView(planViewed)
 }
 
@@ -84,7 +92,13 @@ export const trackWorkflowStep = (stepNumber: number) => {
  * Helper pour tracker les interactions locales Paris
  * Spécifique SEO local - très important
  */
-export const trackLocalInteraction = (interactionType: 'address_click' | 'phone_click' | 'map_view' | 'area_select') => {
+export const trackLocalInteraction = (
+	interactionType:
+		| 'address_click'
+		| 'phone_click'
+		| 'map_view'
+		| 'area_select',
+) => {
 	window.gtag_nextnode?.trackLocalInteraction(interactionType)
 }
 
@@ -100,12 +114,15 @@ export const trackLocalSearch = (searchTerm: string) => {
  * Helper pour tracker les téléchargements de fichiers
  * Engagement - signaux pour le SEO
  */
-export const trackFileDownload = (fileName: string, fileType: 'pdf' | 'doc' | 'image' | 'other' = 'other') => {
+export const trackFileDownload = (
+	fileName: string,
+	fileType: 'pdf' | 'doc' | 'image' | 'other' = 'other',
+) => {
 	window.gtag?.('event', 'file_download', {
 		event_category: 'engagement',
 		event_label: fileName,
 		file_extension: fileType,
-		location_type: 'paris'
+		location_type: 'paris',
 	})
 }
 
@@ -118,7 +135,7 @@ export const trackExternalClick = (url: string, linkText: string) => {
 		event_category: 'outbound',
 		event_label: url,
 		transport_type: 'beacon',
-		description: linkText
+		description: linkText,
 	})
 }
 
@@ -131,7 +148,7 @@ export const track404Error = (page: string, referrer?: string) => {
 		event_category: 'error',
 		event_label: page,
 		referrer: referrer || document.referrer,
-		value: 0
+		value: 0,
 	})
 }
 
@@ -139,12 +156,15 @@ export const track404Error = (page: string, referrer?: string) => {
  * Helper pour tracker les temps de chargement
  * Core Web Vitals - crucial pour le SEO
  */
-export const trackPagePerformance = (metric: 'LCP' | 'FID' | 'CLS', value: number) => {
+export const trackPagePerformance = (
+	metric: 'LCP' | 'FID' | 'CLS',
+	value: number,
+) => {
 	window.gtag?.('event', 'web_vitals', {
 		event_category: 'performance',
 		event_label: metric,
 		value: Math.round(value),
-		custom_parameter_1: 'core_web_vitals'
+		custom_parameter_1: 'core_web_vitals',
 	})
 }
 
@@ -152,14 +172,18 @@ export const trackPagePerformance = (metric: 'LCP' | 'FID' | 'CLS', value: numbe
  * Helper pour tracker les conversions e-commerce simulées
  * Pour les devis et projets - important pour le ROI SEO
  */
-export const trackEcommerceConversion = (transactionId: string, value: number, currency: 'EUR' = 'EUR') => {
+export const trackEcommerceConversion = (
+	transactionId: string,
+	value: number,
+	currency: 'EUR' = 'EUR',
+) => {
 	window.gtag?.('event', 'purchase', {
 		transaction_id: transactionId,
 		value: value,
 		currency: currency,
 		event_category: 'ecommerce',
 		location_type: 'paris',
-		service_area: 'ile_de_france'
+		service_area: 'ile_de_france',
 	})
 }
 
@@ -167,12 +191,15 @@ export const trackEcommerceConversion = (transactionId: string, value: number, c
  * Helper pour tracker les sessions avec intention d'achat
  * Signal fort pour le SEO et les algorithmes
  */
-export const trackHighIntentSession = (intentLevel: 'low' | 'medium' | 'high', actions: string[]) => {
+export const trackHighIntentSession = (
+	intentLevel: 'low' | 'medium' | 'high',
+	actions: string[],
+) => {
 	window.gtag?.('event', 'high_intent_session', {
 		event_category: 'user_behavior',
 		event_label: intentLevel,
 		custom_parameter_1: actions.join(','),
-		value: intentLevel === 'high' ? 3 : intentLevel === 'medium' ? 2 : 1
+		value: intentLevel === 'high' ? 3 : intentLevel === 'medium' ? 2 : 1,
 	})
 }
 
@@ -193,7 +220,7 @@ export const analyticsUtils = {
 			console.groupEnd()
 		}
 	},
-	
+
 	/**
 	 * Vérification de la configuration GA
 	 */
@@ -201,20 +228,20 @@ export const analyticsUtils = {
 		if (typeof window !== 'undefined') {
 			const hasGtag = !!window.gtag
 			const hasCustomTracking = !!window.gtag_nextnode
-			
+
 			if (import.meta.env.DEV) {
 				// biome-ignore lint/suspicious/noConsole: Debug mode only
 				console.log('📊 Analytics Configuration:', {
 					gtag: hasGtag ? '✅' : '❌',
 					customTracking: hasCustomTracking ? '✅' : '❌',
-					environment: import.meta.env.MODE
+					environment: import.meta.env.MODE,
 				})
 			}
-			
+
 			return hasGtag && hasCustomTracking
 		}
 		return false
-	}
+	},
 }
 
 // Export des constantes pour les événements
@@ -225,7 +252,8 @@ export const ANALYTICS_EVENTS = {
 	PRICING_VIEW: 'pricing_view',
 	WORKFLOW_STEP: 'workflow_step_view',
 	LOCAL_INTERACTION: 'paris_location_click',
-	LOCAL_SEARCH: 'ile_de_france_search'
+	LOCAL_SEARCH: 'ile_de_france_search',
 } as const
 
-export type AnalyticsEventType = typeof ANALYTICS_EVENTS[keyof typeof ANALYTICS_EVENTS]
+export type AnalyticsEventType =
+	(typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS]

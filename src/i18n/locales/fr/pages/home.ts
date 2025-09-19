@@ -33,7 +33,8 @@ export const home = {
 	localExpertise: {
 		title: 'Expertise locale Paris & Île-de-France',
 		subtitle: 'Votre agence web de proximité',
-		description: 'Basés à Paris, nous comprenons les enjeux des entreprises franciliennes. Rencontres en présentiel, connaissance du marché local et accompagnement personnalisé.',
+		description:
+			'Basés à Paris, nous comprenons les enjeux des entreprises franciliennes. Rencontres en présentiel, connaissance du marché local et accompagnement personnalisé.',
 		areas: {
 			paris: 'Paris (tous arrondissements)',
 			hautsdeseine: 'Hauts-de-Seine (92)',
@@ -44,6 +45,6 @@ export const home = {
 			proximity: 'Proximité et rencontres sur site',
 			local: 'Connaissance du marché parisien',
 			support: 'Support réactif et personnalisé',
-		}
+		},
 	},
 } as const

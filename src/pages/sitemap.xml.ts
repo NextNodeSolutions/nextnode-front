@@ -8,11 +8,11 @@ const pages = [
 	{ url: '/fr', priority: 1.0, changefreq: 'weekly' as const },
 	{ url: '/fr/pricing', priority: 0.9, changefreq: 'monthly' as const },
 	{ url: '/fr/how-we-work', priority: 0.8, changefreq: 'monthly' as const },
-	
+
 	// Pages légales FR
 	{ url: '/fr/privacy', priority: 0.3, changefreq: 'yearly' as const },
 	{ url: '/fr/terms', priority: 0.3, changefreq: 'yearly' as const },
-	
+
 	// Pages EN (marché secondaire)
 	{ url: '/', priority: 0.7, changefreq: 'weekly' as const },
 	{ url: '/pricing', priority: 0.6, changefreq: 'monthly' as const },
@@ -23,14 +23,18 @@ const pages = [
 
 function generateSitemap(): string {
 	const lastmod = new Date().toISOString().split('T')[0] // Format YYYY-MM-DD
-	
-	const urlEntries = pages.map(page => `
+
+	const urlEntries = pages
+		.map(
+			page => `
   <url>
     <loc>${siteUrl}${page.url}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
-  </url>`).join('')
+  </url>`,
+		)
+		.join('')
 
 	return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -40,7 +44,7 @@ function generateSitemap(): string {
 
 export const GET: APIRoute = () => {
 	const sitemap = generateSitemap()
-	
+
 	return new Response(sitemap, {
 		headers: {
 			'Content-Type': 'application/xml; charset=utf-8',

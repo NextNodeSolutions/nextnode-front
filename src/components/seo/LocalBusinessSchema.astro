@@ -13,7 +13,8 @@ const localBusinessSchema = createLocalBusinessSchema(locale as 'en' | 'fr')
 
 // Détection du type de page pour ajustements spécifiques
 const currentPath = Astro.url.pathname
-const isHomepage = currentPath === '/' || currentPath === '/fr' || currentPath === '/fr/'
+const isHomepage =
+	currentPath === '/' || currentPath === '/fr' || currentPath === '/fr/'
 const isPricing = currentPath.includes('pricing')
 
 // Ajout de schemas spécifiques selon la page
@@ -22,72 +23,96 @@ let additionalSchemas: any[] = []
 if (isPricing && locale === 'fr') {
 	// Schema FAQ spécifique pricing pour SEO local Paris
 	additionalSchemas.push({
-		"@context": "https://schema.org",
-		"@type": "FAQPage",
-		"mainEntity": [
+		'@context': 'https://schema.org',
+		'@type': 'FAQPage',
+		mainEntity: [
 			{
-				"@type": "Question",
-				"name": "Combien coûte un site web à Paris ?",
-				"acceptedAnswer": {
-					"@type": "Answer",
-					"text": "Les tarifs pour un site web à Paris varient selon vos besoins. Nos formules transparentes sont adaptées aux TPE/PME avec devis gratuit sous 48h. Prix compétitifs sur le marché parisien."
-				}
+				'@type': 'Question',
+				name: 'Combien coûte un site web à Paris ?',
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: 'Les tarifs pour un site web à Paris varient selon vos besoins. Nos formules transparentes sont adaptées aux TPE/PME avec devis gratuit sous 48h. Prix compétitifs sur le marché parisien.',
+				},
 			},
 			{
-				"@type": "Question",
-				"name": "Pourquoi choisir une agence web parisienne ?",
-				"acceptedAnswer": {
-					"@type": "Answer",
-					"text": "Une agence web locale à Paris offre proximité, connaissance du marché local, rencontres en présentiel et support réactif. NextNode accompagne vos projets avec expertise technique et compréhension du business parisien."
-				}
+				'@type': 'Question',
+				name: 'Pourquoi choisir une agence web parisienne ?',
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: 'Une agence web locale à Paris offre proximité, connaissance du marché local, rencontres en présentiel et support réactif. NextNode accompagne vos projets avec expertise technique et compréhension du business parisien.',
+				},
 			},
 			{
-				"@type": "Question",
-				"name": "Quels sont les délais de création d'un site web ?",
-				"acceptedAnswer": {
-					"@type": "Answer",
-					"text": "Délais de 2 à 8 semaines selon la complexité. Notre méthode agile garantit transparence et respect des échéances pour vos projets à Paris et Île-de-France."
-				}
-			}
-		]
+				'@type': 'Question',
+				name: "Quels sont les délais de création d'un site web ?",
+				acceptedAnswer: {
+					'@type': 'Answer',
+					text: 'Délais de 2 à 8 semaines selon la complexité. Notre méthode agile garantit transparence et respect des échéances pour vos projets à Paris et Île-de-France.',
+				},
+			},
+		],
 	})
 }
 
 // Schema Service pour les capacités de l'agence
 if (isHomepage) {
 	additionalSchemas.push({
-		"@context": "https://schema.org",
-		"@type": "Service",
-		"name": locale === 'fr' ? "Création de Sites Web Paris" : "Website Creation Paris",
-		"description": locale === 'fr' 
-			? "Service de création de sites internet sur mesure pour entreprises parisiennes. Sites vitrines, e-commerce, applications web avec expertise technique."
-			: "Custom website creation service for Parisian businesses. Showcase sites, e-commerce, web applications with technical expertise.",
-		"provider": {
-			"@type": "LocalBusiness",
-			"@id": "https://nextnode.fr/#organization"
+		'@context': 'https://schema.org',
+		'@type': 'Service',
+		name:
+			locale === 'fr'
+				? 'Création de Sites Web Paris'
+				: 'Website Creation Paris',
+		description:
+			locale === 'fr'
+				? 'Service de création de sites internet sur mesure pour entreprises parisiennes. Sites vitrines, e-commerce, applications web avec expertise technique.'
+				: 'Custom website creation service for Parisian businesses. Showcase sites, e-commerce, web applications with technical expertise.',
+		provider: {
+			'@type': 'LocalBusiness',
+			'@id': 'https://nextnode.fr/#organization',
 		},
-		"areaServed": [
-			"Paris", "Île-de-France", "75001", "75002", "75003", "75004", "75005",
-			"75006", "75007", "75008", "75009", "75010", "75011", "75012", "75013",
-			"75014", "75015", "75016", "75017", "75018", "75019", "75020"
+		areaServed: [
+			'Paris',
+			'Île-de-France',
+			'75001',
+			'75002',
+			'75003',
+			'75004',
+			'75005',
+			'75006',
+			'75007',
+			'75008',
+			'75009',
+			'75010',
+			'75011',
+			'75012',
+			'75013',
+			'75014',
+			'75015',
+			'75016',
+			'75017',
+			'75018',
+			'75019',
+			'75020',
 		],
-		"serviceType": "WebDevelopment",
-		"category": "Web Agency"
+		serviceType: 'WebDevelopment',
+		category: 'Web Agency',
 	})
 }
 
 // Combinaison des schemas en @graph
 const combinedSchema = {
-	"@context": "https://schema.org",
-	"@graph": [
-		localBusinessSchema,
-		...additionalSchemas
-	]
+	'@context': 'https://schema.org',
+	'@graph': [localBusinessSchema, ...additionalSchemas],
 }
 ---
 
 <!-- Schema LocalBusiness + schemas additionnels -->
-<script type="application/ld+json" set:html={JSON.stringify(combinedSchema, null, 2)} is:inline />
+<script
+	type="application/ld+json"
+	set:html={JSON.stringify(combinedSchema, null, 2)}
+	is:inline
+/>
 
 <!-- Rich snippets additionnels pour Google -->
 <meta property="business:contact_data:locality" content="Paris" />

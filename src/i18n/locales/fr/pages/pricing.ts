@@ -242,21 +242,25 @@ export const pricing = {
 		benefits: [
 			{
 				title: 'Rencontres en présentiel',
-				description: 'Rdv dans nos bureaux parisiens ou chez vous en Île-de-France',
+				description:
+					'Rdv dans nos bureaux parisiens ou chez vous en Île-de-France',
 			},
 			{
 				title: 'Connaissance du marché local',
-				description: 'Expertise des enjeux business parisiens et franciliens',
+				description:
+					'Expertise des enjeux business parisiens et franciliens',
 			},
 			{
 				title: 'Support réactif et proximité',
-				description: 'Équipe basée à Paris, disponible dans votre fuseau horaire',
+				description:
+					'Équipe basée à Paris, disponible dans votre fuseau horaire',
 			},
 			{
 				title: 'Tarifs adaptés au marché parisien',
-				description: 'Prix compétitifs et transparents pour les entreprises franciliennes',
-			}
-		]
+				description:
+					'Prix compétitifs et transparents pour les entreprises franciliennes',
+			},
+		],
 	},
 	contactButton: 'Nous Contacter',
 } as const
