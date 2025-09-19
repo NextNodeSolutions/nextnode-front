@@ -1,4 +1,6 @@
 ---
+import { metricsLogger } from '@/lib/logging/index'
+
 interface Props {
 	gaId?: string
 	debugMode?: boolean
@@ -15,7 +17,9 @@ const shouldLoadGA = import.meta.env.PROD || debugMode
 
 // Si l'ID n'est pas valide et qu'on n'est pas en mode debug, on ne charge pas GA
 if (!isValidGaId(gaId) && !debugMode) {
-	console.warn('Invalid Google Analytics ID provided:', gaId)
+	metricsLogger.warn('Invalid Google Analytics ID provided:', {
+		details: { gaId },
+	})
 }
 
 // Script sécurisé avec validation
