@@ -12,15 +12,25 @@ import { navigationLinks } from '@/i18n/config'
 	id="header"
 >
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-		<div class="transition-smooth flex h-12 items-center justify-between">
-			<Logo />
+		<div
+			class="transition-smooth flex h-20 items-center justify-between md:justify-between"
+		>
+			<!-- Logo centré sur mobile, aligné à gauche sur desktop -->
+			<div
+				class="flex flex-1 justify-center md:flex-none md:justify-start"
+			>
+				<Logo />
+			</div>
 
 			<div class="hidden items-center space-x-6 md:flex">
 				<Navigation links={navigationLinks} />
 				<Controls />
 			</div>
 
-			<MobileButton action="open" />
+			<!-- Bouton menu en position absolue sur mobile pour ne pas affecter le centrage du logo -->
+			<div class="absolute right-4 md:hidden">
+				<MobileButton action="open" />
+			</div>
 		</div>
 	</div>
 </header>
