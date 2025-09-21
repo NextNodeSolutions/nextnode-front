@@ -49,19 +49,10 @@ const {
 			rel="stylesheet"
 		/>
 
-		<!-- Language initialization from server -->
-		<script is:inline define:vars={{ currentLocale: locale }}>
-			// Use server-provided locale instead of manual parsing
-			window.currentLanguage = currentLocale
-
-			// Ensure HTML lang attribute is consistent (should already be set)
-			document.documentElement.setAttribute('lang', currentLocale)
-		</script>
-
-		<!-- Theme initialization -->
+		<!-- Critical inline scripts to prevent FOUC -->
 		<script is:inline>
 			// Initialize theme immediately to prevent flash
-			function initTheme() {
+			;(function () {
 				const savedTheme = localStorage.getItem('theme')
 				const systemPrefersDark = window.matchMedia(
 					'(prefers-color-scheme: dark)',
@@ -76,10 +67,16 @@ const {
 					document.documentElement.classList.remove('dark')
 				}
 
-				// Store theme state globally for components to access
+				// Store initial theme globally for later use
 				window.initialTheme = isDark ? 'dark' : 'light'
-			}
-			initTheme()
+			})()
+		</script>
+
+		<script is:inline define:vars={{ locale }}>
+			// Initialize locale from server-provided data
+			window.currentLanguage = locale
+			window.currentLocale = locale
+			document.documentElement.setAttribute('lang', locale)
 		</script>
 	</head>
 	<body
@@ -90,159 +87,24 @@ const {
 			<slot />
 		</ContextProvider>
 
-		<!-- Initialize React i18n context -->
-		<script is:inline type="module" define:vars={{ locale }}>
-			// Set global locale for React context access
-			window.currentLocale = locale
-		</script>
-
-		<!-- Global theme and language management script -->
+		<!-- Initialize client-side management modules -->
 		<script>
-			// Set current language globally
-			window.currentLanguage = '{locale}'
+			import { themeManager } from '@/lib/client/theme-manager'
+			import { languageManager } from '@/lib/client/language-manager'
 
-			// Global language management
-			window.languageManager = {
-				getCurrentLanguage() {
-					// Use the language set by server (already available globally)
-					return window.currentLanguage || 'en'
-				},
-
-				changeLanguage(newLang: string) {
-					// Set cookie for preference
-					document.cookie = `preferred-locale=${newLang}; path=/; max-age=31536000` // 1 year
-
-					// Build new URL using proper locale logic (mimicking getRelativeLocaleUrl)
-					const currentPath = window.location.pathname
-					const pathWithoutLang =
-						currentPath.replace(/^\/(en|fr)/, '') || '/'
-
-					let newPath
-					if (newLang === 'en') {
-						// English is default, no prefix needed
-						newPath = pathWithoutLang
-					} else {
-						// French needs /fr prefix
-						newPath = `/fr${pathWithoutLang}`
-					}
-
-					// Navigate to new URL
-					window.location.href = newPath
-				},
-
-				init() {
-					// Set initial language
-					const currentLang = this.getCurrentLanguage()
-					document.documentElement.setAttribute('lang', currentLang)
-
-					// Set up language selector buttons
-					const languageButtons =
-						document.querySelectorAll('[data-lang]')
-					languageButtons.forEach(button => {
-						button.addEventListener('click', e => {
-							e.preventDefault()
-							const lang = button.getAttribute('data-lang')
-							if (lang) {
-								this.changeLanguage(lang)
-							}
-						})
-					})
-				},
+			// Initialize when DOM is ready
+			const initializeManagers = () => {
+				themeManager.init()
+				languageManager.init()
 			}
 
-			// Global theme management
-			window.themeManager = {
-				getCurrentTheme() {
-					const savedTheme = localStorage.getItem('theme')
-					const systemPrefersDark = window.matchMedia(
-						'(prefers-color-scheme: dark)',
-					).matches
-					return savedTheme === 'dark' ||
-						(!savedTheme && systemPrefersDark)
-						? 'dark'
-						: 'light'
-				},
-
-				applyTheme(theme: string) {
-					if (theme === 'dark') {
-						document.documentElement.classList.add('dark')
-					} else {
-						document.documentElement.classList.remove('dark')
-					}
-
-					// Update all theme toggle icons (both desktop and mobile)
-					const sunIcons =
-						document.querySelectorAll('[id^="sun-icon"]')
-					const moonIcons =
-						document.querySelectorAll('[id^="moon-icon"]')
-
-					sunIcons.forEach(sunIcon => {
-						if (theme === 'dark') {
-							sunIcon.classList.add('hidden')
-						} else {
-							sunIcon.classList.remove('hidden')
-						}
-					})
-
-					moonIcons.forEach(moonIcon => {
-						if (theme === 'dark') {
-							moonIcon.classList.remove('hidden')
-						} else {
-							moonIcon.classList.add('hidden')
-						}
-					})
-				},
-
-				toggleTheme() {
-					const currentTheme = this.getCurrentTheme()
-					const newTheme = currentTheme === 'light' ? 'dark' : 'light'
-
-					localStorage.setItem('theme', newTheme)
-					this.applyTheme(newTheme)
-
-					// Trigger custom event for other components
-					window.dispatchEvent(
-						new CustomEvent('theme-changed', {
-							detail: { theme: newTheme },
-						}),
-					)
-				},
-
-				init() {
-					// Set initial theme
-					this.applyTheme(this.getCurrentTheme())
-
-					// Listen for system theme changes
-					const mediaQuery = window.matchMedia(
-						'(prefers-color-scheme: dark)',
-					)
-					mediaQuery.addEventListener('change', e => {
-						if (!localStorage.getItem('theme')) {
-							this.applyTheme(e.matches ? 'dark' : 'light')
-						}
-					})
-
-					// Set up all theme toggle buttons (both desktop and mobile)
-					const themeToggleButtons = document.querySelectorAll(
-						'[id^="theme-toggle"]',
-					)
-					themeToggleButtons.forEach(button => {
-						button.addEventListener('click', () =>
-							this.toggleTheme(),
-						)
-					})
-				},
-			}
-
-			// Initialize language and theme management when DOM is ready
 			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', () => {
-					window.languageManager.init()
-					window.themeManager.init()
-				})
+				document.addEventListener(
+					'DOMContentLoaded',
+					initializeManagers,
+				)
 			} else {
-				window.languageManager.init()
-				window.themeManager.init()
+				initializeManagers()
 			}
 		</script>
 	</body>
