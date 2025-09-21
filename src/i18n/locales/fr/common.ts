@@ -17,6 +17,13 @@ export const common = {
 		theme: 'Thème',
 		language: 'Langue',
 	},
+	cal: {
+		scheduleButton: '📅 Réserver un rendez-vous',
+		scheduleMeeting: 'Planifier un appel',
+		bookConsultation: 'Réserver une consultation',
+		letsChat: 'Discutons de votre projet',
+		freeConsultation: 'Consultation gratuite',
+	},
 	stepCard: {
 		step: 'Étape',
 		clickToSeeMore: 'Cliquer pour voir plus',

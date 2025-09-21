@@ -59,10 +59,9 @@ const { t } = Astro.locals
 			'md:mx-0 md:max-w-none',
 		)}
 	>
-		<ButtonWithLink
-			href="#"
-			variant="default"
-			className={cn(
+		<button
+			onclick="window.openCalBooking()"
+			class={cn(
 				'btn-gradient-primary group w-full cursor-pointer px-4 py-6',
 				'hover-lift shadow-lg transition-shadow hover:shadow-2xl',
 				'text-base font-bold tracking-wide text-white',
@@ -88,7 +87,7 @@ const { t } = Astro.locals
 			>
 				→
 			</span>
-		</ButtonWithLink>
+		</button>
 	</div>
 	<div
 		class={cn(

@@ -49,6 +49,104 @@ const {
 			rel="stylesheet"
 		/>
 
+		<!-- Cal.com embed script - Simple approach -->
+		<script is:inline>
+			// Simple Cal.com integration
+			;(function (C, A, L) {
+				let p = function (a, ar) {
+					a.q.push(ar)
+				}
+				let d = C.document
+				C.Cal =
+					C.Cal ||
+					function () {
+						let cal = C.Cal
+						let ar = arguments
+						if (!cal.loaded) {
+							cal.q = cal.q || []
+							p(cal, ar)
+							return
+						}
+						let api = function () {
+							let f = ar[0]
+							if (f === 'ui') {
+								f = 'embed-modal'
+								ar[1] = ar[1] || {}
+							}
+							return api[f].apply(api, ar.slice(1))
+						}
+						api.loaded = true
+						api.q = []
+						p(api, ar)
+						return api
+					}
+				C.Cal.ns = {}
+				C.Cal.q = C.Cal.q || []
+				d.head.appendChild(d.createElement('script')).src = A
+			})(window, 'https://app.cal.com/embed/embed.js', 'Cal')
+
+			// Global function to open Cal.com booking - Multiple approaches
+			window.openCalBooking = function () {
+				console.log('Opening Cal.com booking...')
+
+				if (typeof window.Cal === 'function') {
+					console.log(
+						'Cal is available, trying different syntaxes...',
+					)
+
+					// Try method 1: modal
+					try {
+						console.log('Trying: Cal("modal", ...)')
+						window.Cal('modal', { calLink: 'walid-mos' })
+						return
+					} catch (error) {
+						console.log('Method 1 failed:', error)
+					}
+
+					// Try method 2: ui with embed-modal
+					try {
+						console.log('Trying: Cal("ui", ...)')
+						window.Cal('ui', {
+							calLink: 'walid-mos',
+							config: { layout: 'month_view' },
+						})
+						return
+					} catch (error) {
+						console.log('Method 2 failed:', error)
+					}
+
+					// Try method 3: different syntax
+					try {
+						console.log('Trying: Cal("embed-modal", ...)')
+						window.Cal('embed-modal', { calLink: 'walid-mos' })
+						return
+					} catch (error) {
+						console.log('Method 3 failed:', error)
+					}
+
+					console.error('All Cal.com methods failed, using fallback')
+				} else {
+					console.error('Cal is not available')
+				}
+
+				// Fallback: direct link
+				console.log('Opening fallback link')
+				window.open('https://cal.com/walid-mos', '_blank')
+			}
+
+			// Wait for Cal to be ready
+			function waitForCal() {
+				if (typeof window.Cal === 'function') {
+					console.log('Cal.com loaded and ready')
+				} else {
+					console.log('Waiting for Cal.com...')
+					setTimeout(waitForCal, 100)
+				}
+			}
+
+			setTimeout(waitForCal, 100)
+		</script>
+
 		<!-- Language initialization from server -->
 		<script is:inline define:vars={{ currentLocale: locale }}>
 			// Use server-provided locale instead of manual parsing

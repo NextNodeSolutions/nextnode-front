@@ -10,7 +10,7 @@ export const home = {
 		magicText:
 			"✨ C'est ici que la magie opère — construisons quelque chose d'exceptionnel ensemble",
 		viewWorkButton: 'Voir comment nous travaillons',
-		startProjectButton: '🚀 Démarrer votre projet',
+		startProjectButton: '📅 Réserver un rendez-vous',
 	},
 	sidePanel: {
 		whoWeAre: 'Qui sommes-nous',
