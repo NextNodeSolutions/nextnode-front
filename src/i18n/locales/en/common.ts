@@ -23,6 +23,9 @@ export const common = {
 		bookConsultation: 'Book consultation',
 		letsChat: "Let's talk about your project",
 		freeConsultation: 'Free consultation',
+		loading: 'Loading calendar...',
+		opensInModal: 'Opens calendar booking modal',
+		error: 'Unable to load calendar, opening in new tab',
 	},
 	stepCard: {
 		step: 'Step',

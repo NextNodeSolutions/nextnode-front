@@ -1,5 +1,6 @@
 ---
 import { ButtonWithLink } from '@/components/ui/forms/ButtonWithLink'
+import CalEmbed from '@/components/ui/CalEmbed'
 import { cn } from '@/lib/core/utils'
 
 // Use new i18n system from middleware
@@ -59,35 +60,12 @@ const { t } = Astro.locals
 			'md:mx-0 md:max-w-none',
 		)}
 	>
-		<button
-			onclick="window.openCalBooking()"
-			class={cn(
-				'btn-gradient-primary group w-full cursor-pointer px-4 py-6',
-				'hover-lift shadow-lg transition-shadow hover:shadow-2xl',
-				'text-base font-bold tracking-wide text-white',
-				'sm:px-6 sm:py-6 sm:text-lg',
-				'md:px-8 md:py-6 md:text-lg',
-				'flex-center gap-2',
-				'hover:animate-pulse-dark',
-			)}
-		>
-			<span
-				class={cn(
-					'transition-transform',
-					'uppercase group-hover:-translate-x-2',
-				)}
-			>
-				{t('home.hero.startProjectButton')}
-			</span>
-			<span
-				class={cn(
-					'opacity-0 transition-all duration-300',
-					'group-hover:translate-x-2 group-hover:opacity-100',
-				)}
-			>
-				→
-			</span>
-		</button>
+		<CalEmbed
+			calLink="walid-mos"
+			mode="popup"
+			buttonText={t('home.hero.startProjectButton')}
+			client:load
+		/>
 	</div>
 	<div
 		class={cn(

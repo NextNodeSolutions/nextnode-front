@@ -23,6 +23,9 @@ export const common = {
 		bookConsultation: 'Réserver une consultation',
 		letsChat: 'Discutons de votre projet',
 		freeConsultation: 'Consultation gratuite',
+		loading: 'Chargement du calendrier...',
+		opensInModal: 'Ouvre la fenêtre de réservation du calendrier',
+		error: 'Impossible de charger le calendrier, ouverture dans un nouvel onglet',
 	},
 	stepCard: {
 		step: 'Étape',
