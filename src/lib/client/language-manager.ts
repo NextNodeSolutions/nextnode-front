@@ -3,6 +3,8 @@
  * Handles locale switching, URL generation, and persistence
  */
 
+import { cookies } from '@/lib/utils/cookies'
+
 import type { Locale } from '@/types/i18n'
 
 export class LanguageManager {
@@ -41,7 +43,14 @@ export class LanguageManager {
 	 * Set cookie preference for the selected language
 	 */
 	private setLanguagePreference(locale: Locale): void {
-		document.cookie = `preferred-locale=${locale}; path=/; max-age=31536000` // 1 year
+		cookies.set('preferred-locale', locale)
+	}
+
+	/**
+	 * Get the stored language preference from cookies
+	 */
+	async getStoredLanguagePreference(): Promise<Locale | null> {
+		return await cookies.get('preferred-locale')
 	}
 
 	/**

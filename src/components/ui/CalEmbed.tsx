@@ -6,6 +6,8 @@ import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/I18nReact'
 import { componentLogger } from '@/lib/logging'
 
+import type { Locale } from '@/types/i18n'
+
 export interface CalEmbedProps {
 	/** Cal.com username/link (e.g., 'walid-mos') */
 	calLink: string
@@ -19,6 +21,8 @@ export interface CalEmbedProps {
 	theme?: 'light' | 'dark' | 'auto'
 	/** Additional Cal.com configuration */
 	config?: Record<string, unknown>
+	/** Locale override for proper SSR hydration */
+	locale?: Locale
 }
 
 /**
@@ -38,8 +42,9 @@ export const CalEmbed = ({
 	buttonClassName,
 	theme = 'auto',
 	config = {},
+	locale: initialLocale,
 }: CalEmbedProps) => {
-	const { locale, t } = useI18n()
+	const { locale, t } = useI18n(initialLocale)
 
 	// Default texts with i18n support
 	const defaultButtonText =
@@ -100,7 +105,7 @@ export const CalEmbed = ({
 				type="button"
 				onClick={handlePopupClick}
 				className={defaultButtonStyles}
-				aria-label={`${defaultButtonText} - ${t('common.cal.opensInModal') || 'Opens calendar booking modal'}`}
+				aria-label={`${defaultButtonText} - ${t('common.cal.opensInModal')}`}
 			>
 				<span
 					className={cn(

@@ -5,6 +5,8 @@
 
 import type { APIContext } from 'astro'
 
+import { createServerCookieManager } from '@/lib/utils/cookies'
+
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../../i18n/config'
 import { createT, setGlobalLocale } from './index'
 
@@ -31,6 +33,44 @@ export function getLocaleFromPath(pathname: string): Locale {
 }
 
 /**
+ * Detect user's preferred locale with fallback priority:
+ * 1. URL path (/fr/page, /en/page)
+ * 2. Cookie preference
+ * 3. Browser Accept-Language header
+ * 4. Default locale (en)
+ */
+export function detectUserLocale(request: Request): Locale {
+	const url = new URL(request.url)
+	const pathname = url.pathname
+
+	// Priority 1: Check URL path first
+	const pathLocale = getLocaleFromPath(pathname)
+	if (
+		pathLocale !== DEFAULT_LOCALE ||
+		pathname.startsWith('/en/') ||
+		pathname === '/en'
+	) {
+		return pathLocale
+	}
+
+	// Priority 2: Check cookie preference
+	const cookieManager = createServerCookieManager(request)
+	const cookieLocale = cookieManager.get('preferred-locale')
+	if (cookieLocale && SUPPORTED_LOCALES.includes(cookieLocale)) {
+		return cookieLocale
+	}
+
+	// Priority 3: Check browser Accept-Language header
+	const browserLocale = getBrowserPreferredLocale(request)
+	if (browserLocale && SUPPORTED_LOCALES.includes(browserLocale)) {
+		return browserLocale
+	}
+
+	// Priority 4: Default fallback
+	return DEFAULT_LOCALE
+}
+
+/**
  * Initialize i18n system for server-side rendering
  * This should be called in middleware or at the beginning of Astro components
  */
@@ -38,8 +78,7 @@ export function initializeI18n(request: Request): {
 	locale: Locale
 	t: TFunction
 } {
-	const url = new URL(request.url)
-	const locale = getLocaleFromPath(url.pathname)
+	const locale = detectUserLocale(request)
 
 	// Set the global locale for server-side rendering
 	setGlobalLocale(locale)

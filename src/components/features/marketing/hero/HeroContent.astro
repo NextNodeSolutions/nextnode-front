@@ -4,7 +4,7 @@ import CalEmbed from '@/components/ui/CalEmbed'
 import { cn } from '@/lib/core/utils'
 
 // Use new i18n system from middleware
-const { t } = Astro.locals
+const { t, locale } = Astro.locals
 ---
 
 <div
@@ -64,6 +64,7 @@ const { t } = Astro.locals
 			calLink="walid-mos"
 			mode="popup"
 			buttonText={t('home.hero.startProjectButton')}
+			locale={locale}
 			client:load
 		/>
 	</div>
