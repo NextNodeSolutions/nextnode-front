@@ -56,14 +56,36 @@ const currentLanguage =
 
 <!-- Initialize icons with correct state -->
 <script is:inline>
-	// Consolidated theme toggle script from theme-utils.ts
+	// Consolidated theme toggle script using unified storage logic
 	function initThemeIcons() {
-		const savedTheme = localStorage.getItem('theme')
+		// Get saved theme from localStorage or cookie (same as storage manager)
+		let savedTheme = null
+
+		try {
+			savedTheme = localStorage.getItem('theme')
+		} catch {
+			try {
+				const name = 'theme-preference='
+				const cookies = document.cookie.split(';')
+				for (const cookie of cookies) {
+					const trimmedCookie = cookie.trim()
+					if (trimmedCookie.startsWith(name)) {
+						savedTheme = trimmedCookie.substring(name.length)
+						break
+					}
+				}
+			} catch {
+				// If both fail, use system preference
+			}
+		}
+
 		const systemPrefersDark = window.matchMedia(
 			'(prefers-color-scheme: dark)',
 		).matches
+
 		const isDark =
-			savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
+			savedTheme === 'dark' ||
+			((!savedTheme || savedTheme === 'system') && systemPrefersDark)
 
 		const sunIcon = document.getElementById('sun-icon-desktop')
 		const moonIcon = document.getElementById('moon-icon-desktop')

@@ -11,12 +11,37 @@ import type { Locale } from '@/types/i18n'
  * This function will be stringified and executed inline
  */
 export const initThemeInline = () => {
-	const savedTheme = localStorage.getItem('theme')
+	// Get saved theme from localStorage or cookie
+	let savedTheme = null
+
+	// Try localStorage first
+	try {
+		savedTheme = localStorage.getItem('theme')
+	} catch {
+		// Fallback to cookie if localStorage fails
+		try {
+			const name = 'theme-preference='
+			const cookies = document.cookie.split(';')
+			for (const cookie of cookies) {
+				const trimmedCookie = cookie.trim()
+				if (trimmedCookie.startsWith(name)) {
+					savedTheme = trimmedCookie.substring(name.length)
+					break
+				}
+			}
+		} catch {
+			// If both fail, use system preference
+		}
+	}
+
 	const systemPrefersDark = window.matchMedia(
 		'(prefers-color-scheme: dark)',
 	).matches
 
-	const isDark = savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
+	// Handle 'system' preference
+	const isDark =
+		savedTheme === 'dark' ||
+		((!savedTheme || savedTheme === 'system') && systemPrefersDark)
 
 	if (isDark) {
 		document.documentElement.classList.add('dark')

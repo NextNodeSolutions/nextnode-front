@@ -3,7 +3,13 @@
  * Handles dark/light mode toggle, persistence, and system preference detection
  */
 
-export type Theme = 'light' | 'dark'
+import { createLogger } from '@nextnode/logger'
+
+import { storage } from '@/lib/client/storage-manager'
+
+import type { Theme } from '@/lib/client/storage-manager'
+
+const themeLogger = createLogger({ prefix: 'theme' })
 
 export class ThemeManager {
 	private static instance: ThemeManager | null = null
@@ -19,12 +25,17 @@ export class ThemeManager {
 	 * Get the current theme preference
 	 */
 	getCurrentTheme(): Theme {
-		const savedTheme = localStorage.getItem('theme') as Theme | null
-		const systemPrefersDark = window.matchMedia(
-			'(prefers-color-scheme: dark)',
-		).matches
+		const savedTheme = storage.getTheme()
 
-		return savedTheme || (systemPrefersDark ? 'dark' : 'light')
+		// If no saved preference, check system preference
+		if (!savedTheme || savedTheme === 'system') {
+			const systemPrefersDark = window.matchMedia(
+				'(prefers-color-scheme: dark)',
+			).matches
+			return systemPrefersDark ? 'dark' : 'light'
+		}
+
+		return savedTheme
 	}
 
 	/**
@@ -46,24 +57,42 @@ export class ThemeManager {
 	}
 
 	/**
+	 * Set a specific theme
+	 */
+	setTheme(theme: Theme): void {
+		// Save preference using unified storage
+		const success = storage.setTheme(theme)
+		if (!success) {
+			themeLogger.warn(
+				'Failed to save theme preference, continuing with theme change',
+				{
+					details: { theme },
+				},
+			)
+		}
+
+		// Apply theme
+		this.applyTheme(theme)
+
+		// Store globally for other components
+		window.currentTheme = theme
+
+		// Dispatch custom event for React components
+		window.dispatchEvent(
+			new CustomEvent('theme-changed', {
+				detail: { theme },
+			}),
+		)
+	}
+
+	/**
 	 * Toggle between light and dark themes
 	 */
 	toggleTheme(): void {
 		const currentTheme = this.getCurrentTheme()
 		const newTheme: Theme = currentTheme === 'light' ? 'dark' : 'light'
 
-		// Save preference
-		localStorage.setItem('theme', newTheme)
-
-		// Apply theme
-		this.applyTheme(newTheme)
-
-		// Dispatch custom event for React components
-		window.dispatchEvent(
-			new CustomEvent('theme-changed', {
-				detail: { theme: newTheme },
-			}),
-		)
+		this.setTheme(newTheme)
 	}
 
 	/**
@@ -100,8 +129,9 @@ export class ThemeManager {
 		// Listen for system theme changes
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 		mediaQuery.addEventListener('change', e => {
-			// Only apply system theme if user hasn't set a preference
-			if (!localStorage.getItem('theme')) {
+			// Only apply system theme if user hasn't set a preference or chose 'system'
+			const savedTheme = storage.getTheme()
+			if (!savedTheme || savedTheme === 'system') {
 				this.applyTheme(e.matches ? 'dark' : 'light')
 			}
 		})
