@@ -3,9 +3,13 @@
  * Handles locale switching, URL generation, and persistence
  */
 
-import { cookies } from '@/lib/utils/cookies'
+import { createLogger } from '@nextnode/logger'
+
+import { storage } from '@/lib/client/storage-manager'
 
 import type { Locale } from '@/types/i18n'
+
+const languageLogger = createLogger({ prefix: 'language' })
 
 export class LanguageManager {
 	private static instance: LanguageManager | null = null
@@ -40,17 +44,17 @@ export class LanguageManager {
 	}
 
 	/**
-	 * Set cookie preference for the selected language
+	 * Set language preference using unified storage
 	 */
-	private setLanguagePreference(locale: Locale): void {
-		cookies.set('preferred-locale', locale)
+	private setLanguagePreference(locale: Locale): boolean {
+		return storage.setLanguage(locale)
 	}
 
 	/**
-	 * Get the stored language preference from cookies
+	 * Get the stored language preference
 	 */
-	async getStoredLanguagePreference(): Promise<Locale | null> {
-		return await cookies.get('preferred-locale')
+	getStoredLanguagePreference(): Locale | null {
+		return storage.getLanguage()
 	}
 
 	/**
@@ -61,8 +65,22 @@ export class LanguageManager {
 		const validLocales: Locale[] = ['en', 'fr']
 		const safeLocale = validLocales.includes(newLocale) ? newLocale : 'en'
 
-		// Set preference cookie
-		this.setLanguagePreference(safeLocale)
+		// Set preference synchronously before navigation
+		const success = this.setLanguagePreference(safeLocale)
+		if (!success) {
+			languageLogger.warn(
+				'Failed to save language preference, continuing with navigation',
+				{
+					details: { safeLocale },
+				},
+			)
+		}
+
+		// Update HTML lang attribute immediately
+		this.updateHtmlLang(safeLocale)
+
+		// Update global current language
+		window.currentLanguage = safeLocale
 
 		// Build new URL
 		const newPath = this.buildLocaleUrl(safeLocale)

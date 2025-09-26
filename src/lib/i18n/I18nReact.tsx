@@ -14,31 +14,12 @@ import {
 
 import type { PropsWithChildren, ReactNode } from 'react'
 
+import { storage } from '@/lib/client/storage-manager'
+
 import { getLocaleFromPath } from './astro'
 import { createT, setGlobalLocale } from './index'
 
 import type { InterpolationVariables, Locale, TFunction } from '@/types/i18n'
-
-// ====================================
-// COOKIE UTILITIES
-// ====================================
-
-/**
- * Set a cookie value (suppresses Biome warnings for standard cookie usage)
- */
-function setCookie(name: string, value: string, options: string): void {
-	// Using direct assignment as it's the standard approach for client-side cookies
-	// biome-ignore lint/suspicious/noDocumentCookie: Standard cookie setting approach
-	document.cookie = `${name}=${value}; ${options}`
-}
-
-/**
- * Remove a cookie by setting its expiration date to the past
- */
-function removeCookie(name: string): void {
-	// biome-ignore lint/suspicious/noDocumentCookie: Standard cookie removal approach
-	document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`
-}
 
 // ====================================
 // MAIN useI18n HOOK
@@ -105,13 +86,9 @@ export function useI18n(initialLocale?: Locale): UseI18nReturn {
 			setIsLoading(true)
 			setLocaleState(newLocale)
 
-			// Store preference in cookie only
+			// Store preference using unified storage
 			if (typeof window !== 'undefined') {
-				setCookie(
-					'preferred-locale',
-					newLocale,
-					'path=/; max-age=31536000',
-				) // 1 year
+				storage.setLanguage(newLocale)
 
 				// Navigate to new locale if requested
 				if (navigate) {
@@ -240,17 +217,11 @@ export function usePreferredLocale(): {
 	)
 
 	useEffect(() => {
-		// Load from cookie on mount
+		// Load from unified storage on mount
 		if (typeof window !== 'undefined') {
-			const cookies = document.cookie.split('; ')
-			const preferredLocaleCookie = cookies.find(row =>
-				row.startsWith('preferred-locale='),
-			)
-			if (preferredLocaleCookie) {
-				const stored = preferredLocaleCookie.split('=')[1]
-				if (stored === 'en' || stored === 'fr') {
-					setPreferredLocaleState(stored)
-				}
+			const stored = storage.getLanguage()
+			if (stored) {
+				setPreferredLocaleState(stored)
 			}
 		}
 	}, [])
@@ -258,15 +229,15 @@ export function usePreferredLocale(): {
 	const setPreferredLocale = useCallback((locale: Locale) => {
 		setPreferredLocaleState(locale)
 		if (typeof window !== 'undefined') {
-			// Set cookie for server-side detection
-			setCookie('preferred-locale', locale, 'path=/; max-age=31536000') // 1 year
+			// Set preference using unified storage
+			storage.setLanguage(locale)
 		}
 	}, [])
 
 	const clearPreference = useCallback(() => {
 		setPreferredLocaleState(null)
 		if (typeof window !== 'undefined') {
-			removeCookie('preferred-locale')
+			storage.remove('language')
 		}
 	}, [])
 
@@ -345,13 +316,9 @@ export function I18nProvider({
 
 			setLocaleState(newLocale)
 
-			// Store preference in cookie only
+			// Store preference using unified storage
 			if (typeof window !== 'undefined') {
-				setCookie(
-					'preferred-locale',
-					newLocale,
-					'path=/; max-age=31536000',
-				) // 1 year
+				storage.setLanguage(newLocale)
 
 				// Navigate to new locale if requested
 				if (navigate) {
