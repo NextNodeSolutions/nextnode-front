@@ -5,14 +5,18 @@
 
 import { defineMiddleware } from 'astro:middleware'
 
-import {
-	getPreferredLocaleFromCookie,
-	isInternalNavigation,
-	shouldSkipRequest,
-} from './utils'
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '@/i18n/config'
+
+import { getPreferredLocaleFromCookie, shouldSkipRequest } from './utils'
+
+import type { Locale } from '@/types/i18n'
 
 /**
  * Middleware for intelligent URL mapping with locale handling
+ *
+ * Strategy:
+ * - Default locale (fr): URLs without prefix, use rewrite to maintain clean URLs
+ * - Other locales (en): URLs with prefix, redirect when accessed without prefix
  */
 export const urlMappingMiddleware = defineMiddleware(async (context, next) => {
 	const url = new URL(context.request.url)
@@ -23,34 +27,79 @@ export const urlMappingMiddleware = defineMiddleware(async (context, next) => {
 		return next()
 	}
 
-	// Check if request comes from internal navigation or manual URL entry
-	const isInternal = isInternalNavigation(context.request)
+	const preferredLocale = getPreferredLocaleFromCookie(
+		context.request,
+		DEFAULT_LOCALE,
+	)
 
-	// Get user's language preference from cookie
-	const preferredLang = getPreferredLocaleFromCookie(context.request)
+	// Parse the current URL to extract locale
+	const { locale: currentLocale, pathnameWithoutLocale } = parseUrlLocale(
+		pathname,
+		SUPPORTED_LOCALES,
+	)
 
-	// Handle French URLs - always pass through
-	if (pathname.startsWith('/fr/')) {
+	// If URL already has a locale prefix, continue
+	if (currentLocale) {
 		return next()
 	}
 
-	// Handle root URL - always redirect to preferred language
-	if (pathname === '/') {
-		if (preferredLang === 'fr') {
-			return context.redirect('/fr/')
-		}
-		return context.rewrite('/en/')
+	// No locale in URL - determine target locale from cookie
+	const targetLocale = preferredLocale
+	const isDefaultLocale = targetLocale === DEFAULT_LOCALE
+
+	// Build the expected URL for the target locale
+	const expectedUrl = buildLocalizedUrl(
+		pathnameWithoutLocale,
+		targetLocale,
+		isDefaultLocale,
+	)
+
+	// Apply appropriate handling based on locale type
+	if (isDefaultLocale) {
+		// Default locale: rewrite to keep clean URLs
+		return context.rewrite(`/${targetLocale}${pathnameWithoutLocale}`)
 	}
 
-	// For any other path without locale prefix
-	if (!pathname.startsWith('/en/')) {
-		if (isInternal && preferredLang === 'fr') {
-			// Internal navigation + French preference = redirect to French
-			return context.redirect(`/fr${pathname}`)
-		}
-		// Manual navigation or English preference = rewrite to English
-		return context.rewrite(`/en${pathname}`)
-	}
-
-	return next()
+	// Other locales: redirect to show locale in URL
+	return context.redirect(expectedUrl)
 })
+
+/**
+ * Parses the locale from a URL pathname
+ * Returns the detected locale and the pathname without locale prefix
+ */
+const parseUrlLocale = (
+	pathname: string,
+	supportedLocales: readonly Locale[],
+): {
+	locale: Locale | null
+	pathnameWithoutLocale: string
+} => {
+	for (const locale of supportedLocales) {
+		if (pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`) {
+			return {
+				locale,
+				pathnameWithoutLocale:
+					pathname.slice(`/${locale}`.length) || '/',
+			}
+		}
+	}
+	return { locale: null, pathnameWithoutLocale: pathname }
+}
+
+/**
+ * Builds a localized URL based on the target locale
+ */
+const buildLocalizedUrl = (
+	pathname: string,
+	targetLocale: string,
+	isDefaultLocale: boolean,
+): string => {
+	// Default locale: no prefix needed (clean URLs)
+	if (isDefaultLocale) {
+		return pathname
+	}
+
+	// Other locales: add locale prefix
+	return `/${targetLocale}${pathname}`
+}

@@ -91,10 +91,13 @@ export const extractUserIP = (request: Request): string | null =>
 /**
  * Get preferred locale from cookie
  */
-export const getPreferredLocaleFromCookie = (request: Request): string => {
+export const getPreferredLocaleFromCookie = (
+	request: Request,
+	defaultLocale: string,
+): string => {
 	const cookieHeader = request.headers.get('cookie')
-	if (!cookieHeader) return 'en'
+	if (!cookieHeader) return defaultLocale
 
 	const match = cookieHeader.match(/preferred-locale=([^;]+)/)
-	return match?.[1] || 'en'
+	return match?.[1] || defaultLocale
 }
