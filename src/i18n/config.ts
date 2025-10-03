@@ -17,3 +17,11 @@ export const navigationLinks: NavigationLinks = [
 	{ href: '/how-we-work', labelKey: 'common.navigation.howWeWork' },
 	{ href: '/pricing', labelKey: 'common.navigation.pricing' },
 ]
+
+/**
+ * Type guard to check if a string is a valid Locale
+ * Single source of truth for locale validation
+ */
+export const isValidLocale = (locale: string | null): locale is Locale => {
+	return locale !== null && SUPPORTED_LOCALES.includes(locale as Locale)
+}

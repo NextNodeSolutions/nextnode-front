@@ -14,7 +14,8 @@ import {
 
 import type { PropsWithChildren, ReactNode } from 'react'
 
-import { storage } from '@/lib/client/storage-manager'
+import { COOKIE_NAMES } from '@/lib/constants'
+import { getCookie, setCookie } from '@/lib/cookies'
 
 import { getLocaleFromPath } from './astro'
 import { createT, setGlobalLocale } from './index'
@@ -86,9 +87,13 @@ export function useI18n(initialLocale?: Locale): UseI18nReturn {
 			setIsLoading(true)
 			setLocaleState(newLocale)
 
-			// Store preference using unified storage
+			// Store preference in cookie
 			if (typeof window !== 'undefined') {
-				storage.setLanguage(newLocale)
+				setCookie(COOKIE_NAMES.LANG, newLocale, {
+					path: '/',
+					maxAge: 365 * 24 * 60 * 60, // 1 year
+					sameSite: 'lax',
+				})
 
 				// Navigate to new locale if requested
 				if (navigate) {
@@ -217,27 +222,35 @@ export function usePreferredLocale(): {
 	)
 
 	useEffect(() => {
-		// Load from unified storage on mount
+		// Load from cookie on mount
 		if (typeof window !== 'undefined') {
-			const stored = storage.getLanguage()
-			if (stored) {
-				setPreferredLocaleState(stored)
-			}
+			getCookie(COOKIE_NAMES.LANG).then(stored => {
+				if (stored) {
+					setPreferredLocaleState(stored as Locale)
+				}
+			})
 		}
 	}, [])
 
 	const setPreferredLocale = useCallback((locale: Locale) => {
 		setPreferredLocaleState(locale)
 		if (typeof window !== 'undefined') {
-			// Set preference using unified storage
-			storage.setLanguage(locale)
+			// Set preference in cookie
+			setCookie('preferred-locale', locale, {
+				path: '/',
+				maxAge: 365 * 24 * 60 * 60, // 1 year
+				sameSite: 'lax',
+			})
 		}
 	}, [])
 
 	const clearPreference = useCallback(() => {
 		setPreferredLocaleState(null)
 		if (typeof window !== 'undefined') {
-			storage.remove('language')
+			// Note: removeCookie is async, we don't await here
+			import('@/lib/cookies').then(({ removeCookie }) => {
+				removeCookie(COOKIE_NAMES.LANG, { path: '/' })
+			})
 		}
 	}, [])
 
@@ -316,9 +329,13 @@ export function I18nProvider({
 
 			setLocaleState(newLocale)
 
-			// Store preference using unified storage
+			// Store preference in cookie
 			if (typeof window !== 'undefined') {
-				storage.setLanguage(newLocale)
+				setCookie(COOKIE_NAMES.LANG, newLocale, {
+					path: '/',
+					maxAge: 365 * 24 * 60 * 60, // 1 year
+					sameSite: 'lax',
+				})
 
 				// Navigate to new locale if requested
 				if (navigate) {

@@ -5,9 +5,11 @@
 
 import { createLogger } from '@nextnode/logger'
 
-import { storage } from '@/lib/client/storage-manager'
+import { COOKIE_NAMES } from '@/lib/constants'
+import { setCookie } from '@/lib/cookies'
+import { getLocalStorage, setLocalStorage } from '@/lib/utils/local-storage'
 
-import type { Theme } from '@/lib/client/storage-manager'
+export type Theme = 'light' | 'dark' | 'system'
 
 const themeLogger = createLogger({ prefix: 'theme' })
 
@@ -25,17 +27,29 @@ export class ThemeManager {
 	 * Get the current theme preference
 	 */
 	getCurrentTheme(): Theme {
-		const savedTheme = storage.getTheme()
+		// Try localStorage first (fast)
+		const localTheme = getLocalStorage('theme') as Theme | null
 
-		// If no saved preference, check system preference
-		if (!savedTheme || savedTheme === 'system') {
-			const systemPrefersDark = window.matchMedia(
-				'(prefers-color-scheme: dark)',
-			).matches
-			return systemPrefersDark ? 'dark' : 'light'
+		if (localTheme && ['light', 'dark', 'system'].includes(localTheme)) {
+			// If system, resolve to actual theme
+			if (localTheme === 'system') {
+				const systemPrefersDark = window.matchMedia(
+					'(prefers-color-scheme: dark)',
+				).matches
+				return systemPrefersDark ? 'dark' : 'light'
+			}
+			return localTheme
 		}
 
-		return savedTheme
+		// Fallback to cookie (if localStorage disabled)
+		// Note: getCookie is async, but we need sync here, so we skip it for now
+		// The initial theme is set via inline script in BaseLayout
+
+		// Default: check system preference
+		const systemPrefersDark = window.matchMedia(
+			'(prefers-color-scheme: dark)',
+		).matches
+		return systemPrefersDark ? 'dark' : 'light'
 	}
 
 	/**
@@ -60,16 +74,24 @@ export class ThemeManager {
 	 * Set a specific theme
 	 */
 	setTheme(theme: Theme): void {
-		// Save preference using unified storage
-		const success = storage.setTheme(theme)
-		if (!success) {
-			themeLogger.warn(
-				'Failed to save theme preference, continuing with theme change',
-				{
-					details: { theme },
-				},
-			)
+		// Save to localStorage (fast, client-side)
+		const localSuccess = setLocalStorage('theme', theme)
+		if (!localSuccess) {
+			themeLogger.warn('Failed to save theme to localStorage', {
+				details: { theme },
+			})
 		}
+
+		// Also save to cookie (for SSR compatibility and localStorage fallback)
+		setCookie(COOKIE_NAMES.THEME, theme, {
+			path: '/',
+			maxAge: 365 * 24 * 60 * 60, // 1 year
+			sameSite: 'lax',
+		}).catch(error => {
+			themeLogger.warn('Failed to save theme to cookie', {
+				details: { theme, error },
+			})
+		})
 
 		// Apply theme
 		this.applyTheme(theme)
@@ -130,7 +152,7 @@ export class ThemeManager {
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
 		mediaQuery.addEventListener('change', e => {
 			// Only apply system theme if user hasn't set a preference or chose 'system'
-			const savedTheme = storage.getTheme()
+			const savedTheme = getLocalStorage('theme') as Theme | null
 			if (!savedTheme || savedTheme === 'system') {
 				this.applyTheme(e.matches ? 'dark' : 'light')
 			}

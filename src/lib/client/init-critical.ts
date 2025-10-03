@@ -20,7 +20,7 @@ export const initThemeInline = () => {
 	} catch {
 		// Fallback to cookie if localStorage fails
 		try {
-			const name = 'theme-preference='
+			const name = 'themePreference='
 			const cookies = document.cookie.split(';')
 			for (const cookie of cookies) {
 				const trimmedCookie = cookie.trim()

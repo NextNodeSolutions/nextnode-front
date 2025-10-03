@@ -17,6 +17,12 @@ export const HTTP_HEADERS = {
 	ALLOW_POST: { Allow: 'POST' },
 } as const
 
+// Cookie Names
+export const COOKIE_NAMES = {
+	LANG: 'preferredLocale',
+	THEME: 'themePreference',
+} as const
+
 // Add any truly global constants here that don't belong to specific domains
 // Domain-specific constants have been moved to their respective folders:
 // - I18n constants: src/i18n/config.ts

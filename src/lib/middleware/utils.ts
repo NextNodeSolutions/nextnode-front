@@ -3,6 +3,8 @@
  * Shared logic to avoid duplication across middleware modules
  */
 
+import { COOKIE_NAMES } from '@/lib/constants'
+
 /**
  * Check if the request is for an asset file
  */
@@ -98,6 +100,6 @@ export const getPreferredLocaleFromCookie = (
 	const cookieHeader = request.headers.get('cookie')
 	if (!cookieHeader) return defaultLocale
 
-	const match = cookieHeader.match(/preferred-locale=([^;]+)/)
+	const match = cookieHeader.match(new RegExp(`${COOKIE_NAMES.LANG}=([^;]+)`))
 	return match?.[1] || defaultLocale
 }

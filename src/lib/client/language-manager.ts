@@ -1,11 +1,13 @@
 /**
  * Language management utilities for client-side language switching
- * Handles locale switching, URL generation, and persistence
+ * Handles locale switching, URL generation, and persistence via cookies
  */
 
 import { createLogger } from '@nextnode/logger'
 
-import { storage } from '@/lib/client/storage-manager'
+import { DEFAULT_LOCALE, isValidLocale, SUPPORTED_LOCALES } from '@/i18n/config'
+import { COOKIE_NAMES } from '@/lib/constants'
+import { setCookie } from '@/lib/cookies'
 
 import type { Locale } from '@/types/i18n'
 
@@ -25,51 +27,56 @@ export class LanguageManager {
 	 * Get the current language from the global context
 	 */
 	getCurrentLanguage(): Locale {
-		return (window.currentLanguage as Locale) || 'en'
+		return (window.currentLanguage as Locale) || DEFAULT_LOCALE
 	}
 
 	/**
 	 * Generate the correct URL for a given locale
+	 * Uses dynamic locale detection based on SUPPORTED_LOCALES
 	 */
 	private buildLocaleUrl(newLocale: Locale): string {
 		const currentPath = window.location.pathname
-		const pathWithoutLang = currentPath.replace(/^\/(en|fr)/, '') || '/'
 
-		if (newLocale === 'en') {
-			// English is default, no prefix needed
+		// Build regex pattern from supported locales
+		const localePattern = new RegExp(`^/(${SUPPORTED_LOCALES.join('|')})`)
+		const pathWithoutLang = currentPath.replace(localePattern, '') || '/'
+
+		// Default locale: no prefix needed (clean URLs)
+		if (newLocale === DEFAULT_LOCALE) {
 			return pathWithoutLang
 		}
-		// French needs /fr prefix
-		return `/fr${pathWithoutLang}`
-	}
 
-	/**
-	 * Set language preference using unified storage
-	 */
-	private setLanguagePreference(locale: Locale): boolean {
-		return storage.setLanguage(locale)
-	}
-
-	/**
-	 * Get the stored language preference
-	 */
-	getStoredLanguagePreference(): Locale | null {
-		return storage.getLanguage()
+		// Other locales: add locale prefix
+		return `/${newLocale}${pathWithoutLang}`
 	}
 
 	/**
 	 * Change the current language and navigate to the new URL
 	 */
-	changeLanguage(newLocale: Locale): void {
-		// Validate locale (TypeScript should catch this, but extra safety)
-		const validLocales: Locale[] = ['en', 'fr']
-		const safeLocale = validLocales.includes(newLocale) ? newLocale : 'en'
+	async changeLanguage(newLocale: Locale): Promise<void> {
+		// Validate locale against supported locales
+		const safeLocale = SUPPORTED_LOCALES.includes(newLocale)
+			? newLocale
+			: DEFAULT_LOCALE
 
-		// Set preference synchronously before navigation
-		const success = this.setLanguagePreference(safeLocale)
+		languageLogger.info('Attempting to change language', {
+			details: { newLocale, safeLocale },
+		})
+
+		// Set preference in cookie before navigation
+		const success = await setCookie(COOKIE_NAMES.LANG, safeLocale, {
+			path: '/',
+			maxAge: 365 * 24 * 60 * 60, // 1 year
+			sameSite: 'lax',
+		})
+
 		if (!success) {
-			languageLogger.warn(
-				'Failed to save language preference, continuing with navigation',
+			languageLogger.error('Failed to save language preference cookie', {
+				details: { safeLocale },
+			})
+		} else {
+			languageLogger.info(
+				'Language preference cookie saved successfully',
 				{
 					details: { safeLocale },
 				},
@@ -84,6 +91,10 @@ export class LanguageManager {
 
 		// Build new URL
 		const newPath = this.buildLocaleUrl(safeLocale)
+
+		languageLogger.info('Navigating to new locale URL', {
+			details: { newPath },
+		})
 
 		// Navigate to new URL
 		window.location.href = newPath
@@ -102,14 +113,33 @@ export class LanguageManager {
 	private setupLanguageSelectors(): void {
 		const languageButtons = document.querySelectorAll('[data-lang]')
 
-		languageButtons.forEach(button => {
-			button.addEventListener('click', e => {
-				e.preventDefault()
-				const lang = button.getAttribute('data-lang') as Locale
+		languageLogger.info('Setting up language selectors', {
+			details: { buttonsFound: languageButtons.length },
+		})
 
-				const validLocales: Locale[] = ['en', 'fr']
-				if (lang && validLocales.includes(lang as Locale)) {
-					this.changeLanguage(lang)
+		if (languageButtons.length === 0) {
+			languageLogger.warn(
+				'No language buttons found with [data-lang] attribute',
+			)
+			return
+		}
+
+		languageButtons.forEach((button, index) => {
+			const lang = button.getAttribute('data-lang')
+			languageLogger.info('Attaching listener to language button', {
+				details: { index, lang, element: button.id || 'no-id' },
+			})
+
+			button.addEventListener('click', async e => {
+				e.preventDefault()
+				const clickedLang = button.getAttribute('data-lang')
+
+				languageLogger.info('Language button clicked', {
+					details: { lang: clickedLang },
+				})
+
+				if (isValidLocale(clickedLang)) {
+					await this.changeLanguage(clickedLang)
 				}
 			})
 		})

@@ -1,7 +1,7 @@
-import type { Locale, TFunction } from './i18n'
+import type { TFunction } from './i18n'
+import type { Locale } from '@/i18n/config'
 import type { ThemeManager, Theme } from '../src/lib/client/theme-manager'
 import type { LanguageManager } from '../src/lib/client/language-manager'
-import type { StorageManager } from '../src/lib/client/storage-manager'
 
 declare global {
 	interface Window {
@@ -11,7 +11,6 @@ declare global {
 		initialTheme: Theme
 		languageManager: LanguageManager
 		themeManager: ThemeManager
-		storageManager: StorageManager
 	}
 
 	// Astro App namespace extension for middleware

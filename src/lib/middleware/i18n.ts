@@ -22,17 +22,6 @@ export const i18nMiddleware = defineMiddleware(async (context, next) => {
 		// Store i18n context in locals for components to access
 		context.locals.locale = locale
 		context.locals.t = t
-
-		// Log successful i18n initialization on first request
-		if (path === '/en/' || path === '/fr/' || path === '/') {
-			middlewareLogger.info('I18n system initialized', {
-				scope: 'i18n-init',
-				details: {
-					locale,
-					path,
-				},
-			})
-		}
 	} catch (error) {
 		middlewareLogger.error('I18n initialization failed', {
 			scope: 'i18n-init-error',

@@ -5,7 +5,8 @@
 
 import type { APIContext } from 'astro'
 
-import { createServerCookieManager } from '@/lib/utils/cookies'
+import { COOKIE_NAMES } from '@/lib/constants'
+import { createServerCookieManager } from '@/lib/cookies'
 
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../../i18n/config'
 import { createT, setGlobalLocale } from './index'
@@ -55,9 +56,9 @@ export function detectUserLocale(request: Request): Locale {
 
 	// Priority 2: Check cookie preference
 	const cookieManager = createServerCookieManager(request)
-	const cookieLocale = cookieManager.get('preferred-locale')
-	if (cookieLocale && SUPPORTED_LOCALES.includes(cookieLocale)) {
-		return cookieLocale
+	const cookieLocale = cookieManager.get(COOKIE_NAMES.LANG)
+	if (cookieLocale && SUPPORTED_LOCALES.includes(cookieLocale as Locale)) {
+		return cookieLocale as Locale
 	}
 
 	// Priority 3: Check browser Accept-Language header
@@ -221,13 +222,6 @@ export function getHrefLangLinks(request: Request): Array<{
 // ====================================
 // VALIDATION ET UTILITAIRES
 // ====================================
-
-/**
- * Check if a string is a valid locale
- */
-export function isValidLocale(locale: string): locale is Locale {
-	return locale === 'en' || locale === 'fr'
-}
 
 /**
  * Get browser preferred language from Accept-Language header

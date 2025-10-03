@@ -4,22 +4,11 @@ import node from '@astrojs/node'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import { configManagerIntegration } from '@nextnode/config-manager/astro'
-import { logger } from '@nextnode/logger'
 import tailwindcss from '@tailwindcss/vite'
 
 const host = process.env.HOST ?? '0.0.0.0'
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4321
 const site = process.env.URL ?? `http://${host}:${port}`
-
-// Log configuration for debugging
-logger.info('Configuration loaded', {
-	details: {
-		host,
-		port,
-		site,
-		environment: process.env.NODE_ENV || 'development',
-	},
-})
 
 const siteMapPages = [
 	{ name: '', priority: 1, changeFreq: 'weekly' },
