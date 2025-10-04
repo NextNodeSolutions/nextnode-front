@@ -25,33 +25,30 @@ export const createCookieStrategy = (): CookieStrategy => {
 		)
 	}
 
-	// Cookie Store API requires secure context (HTTPS)
-	const isSecureContext = window.isSecureContext
 	const apiAvailable = 'cookieStore' in window
+	const isHttps = window.location.protocol === 'https:'
 
-	if (apiAvailable && isSecureContext) {
+	// Use Cookie Store API only on HTTPS (regardless of isSecureContext)
+	// Note: localhost has isSecureContext=true even on HTTP, but Cookie Store API doesn't work
+	if (apiAvailable && isHttps) {
 		strategyLogger.info('Using Cookie Store API strategy', {
-			details: { isSecureContext, protocol: window.location.protocol },
+			details: { protocol: window.location.protocol },
 		})
 		return new CookieStoreStrategy()
 	}
 
-	// Log why we're using fallback
-	if (apiAvailable && !isSecureContext) {
-		strategyLogger.info(
-			'Cookie Store API available but not in secure context (HTTP), using document.cookie fallback',
-			{
-				details: { protocol: window.location.protocol },
-			},
-		)
-	} else {
-		strategyLogger.info(
-			'Cookie Store API not available, using document.cookie fallback',
-			{
-				details: { apiAvailable, isSecureContext },
-			},
-		)
-	}
+	// Fallback to document.cookie
+	const fallbackReason = apiAvailable
+		? 'Cookie Store API available but HTTP protocol - using document.cookie fallback'
+		: 'Cookie Store API not available - using document.cookie fallback'
+
+	strategyLogger.info(fallbackReason, {
+		details: {
+			apiAvailable,
+			protocol: window.location.protocol,
+			host: window.location.host,
+		},
+	})
 
 	return new DocumentCookieStrategy()
 }

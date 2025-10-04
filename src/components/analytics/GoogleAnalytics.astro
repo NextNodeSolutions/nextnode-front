@@ -111,7 +111,7 @@ document.addEventListener('click', function(e) {
 		var eventName = el.getAttribute('data-ga-event');
 		var eventCategory = el.getAttribute('data-ga-category') || 'interaction';
 		var eventLabel = el.getAttribute('data-ga-label') || '';
-		
+
 		// Validation de sécurité : seuls les événements autorisés
 		if (ALLOWED_EVENTS.includes(eventName)) {
 			gtag('event', eventName, {
@@ -121,21 +121,16 @@ document.addEventListener('click', function(e) {
 		}
 	}
 });
-
-if (${debugMode}) {
-	console.log('🚀 Google Analytics initialized', { gaId: '${gaId}' });
-}
 `
 
 const debugScript = `
-console.log('📊 Google Analytics disabled (invalid ID or dev mode)');
 window.gtag_nextnode = {
-	trackContactForm: function(t) { console.log('📊 [DEV] Contact:', t); },
-	trackQuoteRequest: function(t) { console.log('📊 [DEV] Quote:', t); },
-	trackProjectStart: function(t) { console.log('📊 [DEV] Project:', t); },
-	trackPricingView: function(p) { console.log('📊 [DEV] Pricing:', p); },
-	trackWorkflowStep: function(s) { console.log('📊 [DEV] Step:', s); },
-	trackLocalInteraction: function(t) { console.log('📊 [DEV] Local:', t); }
+	trackContactForm: function() {},
+	trackQuoteRequest: function() {},
+	trackProjectStart: function() {},
+	trackPricingView: function() {},
+	trackWorkflowStep: function() {},
+	trackLocalInteraction: function() {}
 };
 `
 ---

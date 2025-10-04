@@ -14,8 +14,8 @@ export interface Props {
 	noindex?: boolean
 }
 
-// Use new i18n system from middleware
-const { locale, t } = Astro.locals
+// Use new i18n and theme system from middleware
+const { locale, t, theme } = Astro.locals
 
 const {
 	title,
@@ -27,7 +27,7 @@ const {
 ---
 
 <!doctype html>
-<html lang={locale} class="scroll-smooth">
+<html lang={locale} class:list={['scroll-smooth', { dark: theme === 'dark' }]}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,34 +49,16 @@ const {
 			rel="stylesheet"
 		/>
 
-		<!-- Critical inline scripts to prevent FOUC -->
-		<script is:inline>
-			// Initialize theme immediately to prevent flash
-			;(function () {
-				const savedTheme = localStorage.getItem('theme')
-				const systemPrefersDark = window.matchMedia(
-					'(prefers-color-scheme: dark)',
-				).matches
-
-				const isDark =
-					savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
-
-				if (isDark) {
-					document.documentElement.classList.add('dark')
-				} else {
-					document.documentElement.classList.remove('dark')
-				}
-
-				// Store initial theme globally for later use
-				window.initialTheme = isDark ? 'dark' : 'light'
-			})()
-		</script>
-
-		<script is:inline define:vars={{ locale }}>
-			// Initialize locale from server-provided data
+		<!-- Initialize global variables from server-provided data -->
+		<script is:inline define:vars={{ locale, theme }}>
+			// Set locale globals
 			window.currentLanguage = locale
 			window.currentLocale = locale
 			document.documentElement.setAttribute('lang', locale)
+
+			// Set theme globals
+			window.initialTheme = theme
+			window.currentTheme = theme
 		</script>
 	</head>
 	<body
@@ -89,13 +71,13 @@ const {
 
 		<!-- Initialize client-side management modules -->
 		<script>
-			import { themeManager } from '@/lib/client/theme-manager'
-			import { languageManager } from '@/lib/client/language-manager'
+			import { initTheme } from '@/lib/client/theme-manager'
+			import { initLanguage } from '@/lib/client/language-manager'
 
 			// Initialize when DOM is ready
 			const initializeManagers = () => {
-				themeManager.init()
-				languageManager.init()
+				initTheme()
+				initLanguage()
 			}
 
 			if (document.readyState === 'loading') {

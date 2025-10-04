@@ -1,8 +1,8 @@
 ---
 import { languages } from '@/i18n/config'
 import { ChevronDown, Sun, Moon } from 'lucide-react'
-// Use new i18n system from middleware
-const { locale: currentLocale, t } = Astro.locals
+// Use new i18n and theme system from middleware
+const { locale: currentLocale, t, theme } = Astro.locals
 const currentLanguage =
 	languages.find(lang => lang.code === currentLocale) ||
 	languages.find(lang => lang.code === 'en')!
@@ -15,8 +15,14 @@ const currentLanguage =
 		class="btn-icon"
 		aria-label={t('common.ui.toggleTheme')}
 	>
-		<Sun id="sun-icon-desktop" className="h-4 w-4" />
-		<Moon id="moon-icon-desktop" className="hidden h-4 w-4" />
+		<Sun
+			id="sun-icon-desktop"
+			className={theme === 'dark' ? 'hidden h-4 w-4' : 'h-4 w-4'}
+		/>
+		<Moon
+			id="moon-icon-desktop"
+			className={theme === 'dark' ? 'h-4 w-4' : 'hidden h-4 w-4'}
+		/>
 	</button>
 
 	<!-- Desktop Language Selector with Dropdown -->
@@ -54,53 +60,4 @@ const currentLanguage =
 	</div>
 </div>
 
-<!-- Initialize icons with correct state -->
-<script is:inline>
-	// Consolidated theme toggle script using unified storage logic
-	function initThemeIcons() {
-		// Get saved theme from localStorage or cookie (same as storage manager)
-		let savedTheme = null
-
-		try {
-			savedTheme = localStorage.getItem('theme')
-		} catch {
-			try {
-				const name = 'themePreference='
-				const cookies = document.cookie.split(';')
-				for (const cookie of cookies) {
-					const trimmedCookie = cookie.trim()
-					if (trimmedCookie.startsWith(name)) {
-						savedTheme = trimmedCookie.substring(name.length)
-						break
-					}
-				}
-			} catch {
-				// If both fail, use system preference
-			}
-		}
-
-		const systemPrefersDark = window.matchMedia(
-			'(prefers-color-scheme: dark)',
-		).matches
-
-		const isDark =
-			savedTheme === 'dark' ||
-			((!savedTheme || savedTheme === 'system') && systemPrefersDark)
-
-		const sunIcon = document.getElementById('sun-icon-desktop')
-		const moonIcon = document.getElementById('moon-icon-desktop')
-
-		if (sunIcon && moonIcon) {
-			if (isDark) {
-				sunIcon.classList.add('hidden')
-				moonIcon.classList.remove('hidden')
-			} else {
-				sunIcon.classList.remove('hidden')
-				moonIcon.classList.add('hidden')
-			}
-		}
-	}
-	initThemeIcons()
-</script>
-
-<!-- No need for client-side initialization - server-side values are already correct -->
+<!-- No inline script needed - icons are rendered with correct state from SSR -->

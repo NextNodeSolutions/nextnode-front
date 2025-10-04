@@ -24,7 +24,7 @@ export default defineConfig({
 	output: 'server',
 	server: {
 		port,
-		host,
+		host: process.env.NODE_ENV === 'production' ? host : '127.0.0.1',
 	},
 	vite: {
 		plugins: [tailwindcss()],

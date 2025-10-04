@@ -47,6 +47,28 @@ export class DocumentCookieStrategy implements CookieStrategy {
 				...options,
 			}
 
+			// Chrome blocks permanent cookies on localhost HTTP
+			const isLocalhost =
+				window.location.hostname === 'localhost' ||
+				window.location.hostname === '127.0.0.1'
+			const isHttp = window.location.protocol === 'http:'
+			const skipExpiration = isLocalhost && isHttp
+
+			if (
+				skipExpiration &&
+				(finalOptions.maxAge || finalOptions.expires)
+			) {
+				strategyLogger.info(
+					'Skipping cookie expiration on localhost HTTP (Chrome restriction)',
+					{
+						details: {
+							hostname: window.location.hostname,
+							protocol: window.location.protocol,
+						},
+					},
+				)
+			}
+
 			let cookieString = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`
 
 			if (finalOptions.path) {
@@ -55,17 +77,17 @@ export class DocumentCookieStrategy implements CookieStrategy {
 			if (finalOptions.domain) {
 				cookieString += `; domain=${finalOptions.domain}`
 			}
-			if (finalOptions.expires) {
+			if (finalOptions.expires && !skipExpiration) {
 				cookieString += `; expires=${finalOptions.expires.toUTCString()}`
 			}
-			if (finalOptions.maxAge) {
+			if (finalOptions.maxAge && !skipExpiration) {
 				cookieString += `; max-age=${finalOptions.maxAge}`
 			}
 			if (finalOptions.secure && window.location.protocol === 'https:') {
 				cookieString += '; secure'
 			}
 			if (finalOptions.sameSite) {
-				cookieString += `; samesite=${finalOptions.sameSite}`
+				cookieString += `; SameSite=${finalOptions.sameSite}`
 			}
 
 			strategyLogger.info('Writing cookie with document.cookie', {

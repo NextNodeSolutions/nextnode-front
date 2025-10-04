@@ -103,3 +103,46 @@ export const getPreferredLocaleFromCookie = (
 	const match = cookieHeader.match(new RegExp(`${COOKIE_NAMES.LANG}=([^;]+)`))
 	return match?.[1] || defaultLocale
 }
+
+/**
+ * Get theme preference from cookie
+ */
+export const getThemeFromCookie = (request: Request): string | null => {
+	const cookieHeader = request.headers.get('cookie')
+	if (!cookieHeader) return null
+
+	const match = cookieHeader.match(
+		new RegExp(`${COOKIE_NAMES.THEME}=([^;]+)`),
+	)
+	return match?.[1] || null
+}
+
+/**
+ * Resolve theme preference to actual theme (light or dark)
+ * Handles 'system' preference by checking prefers-color-scheme
+ */
+export const resolveTheme = (
+	themePreference: string | null,
+	request: Request,
+): 'light' | 'dark' => {
+	// If no preference, default to light
+	if (!themePreference) return 'light'
+
+	// If explicit light or dark, use it
+	if (themePreference === 'light' || themePreference === 'dark') {
+		return themePreference
+	}
+
+	// If 'system', check Accept header or default to light
+	// Note: We can't reliably detect system preference server-side,
+	// so we default to light for SSR and let client update if needed
+	if (themePreference === 'system') {
+		// Check Sec-CH-Prefers-Color-Scheme header (if available)
+		const prefersDark = request.headers.get('Sec-CH-Prefers-Color-Scheme')
+		if (prefersDark === 'dark') return 'dark'
+		return 'light'
+	}
+
+	// Invalid preference, default to light
+	return 'light'
+}

@@ -11,7 +11,7 @@
 	"author": "Nextnode",
 	"scripts": {
 		"build": "astro check && astro build",
-		"clean": "rm -rf node_modules/.vite && rm -rf .astro",
+		"clean": "rm -rf node_modules/.vite .astro dist",
 		"commitlint": "commitlint --edit",
 		"dev": "astro dev",
 		"format": "prettier --write .",
