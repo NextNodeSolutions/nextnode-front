@@ -1,0 +1,112 @@
+---
+import { cn } from '@/lib/core/utils'
+
+const { t } = Astro.locals
+
+const categories = {
+	frontend: {
+		title: t('home.techStack.categories.frontend.title'),
+		items: t('home.techStack.categories.frontend.items'),
+	},
+	backend: {
+		title: t('home.techStack.categories.backend.title'),
+		items: t('home.techStack.categories.backend.items'),
+	},
+	deployment: {
+		title: t('home.techStack.categories.deployment.title'),
+		items: t('home.techStack.categories.deployment.items'),
+	},
+}
+---
+
+<section
+	class={cn(
+		'relative py-24 sm:py-32',
+		'bg-gradient-to-br from-gray-50 to-white',
+		'dark:from-brand-black dark:to-brand-charcoal',
+	)}
+>
+	<div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+		<!-- Section Header -->
+		<div class="mb-16 space-y-4 text-center">
+			<h2
+				class={cn(
+					'text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight',
+					'text-gray-900 dark:text-white',
+				)}
+			>
+				{t('home.techStack.title')}
+			</h2>
+			<p
+				class="mx-auto max-w-3xl text-lg text-gray-600 sm:text-xl dark:text-gray-400"
+			>
+				{t('home.techStack.subtitle')}
+			</p>
+		</div>
+
+		<!-- Tech Categories -->
+		<div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-10">
+			{
+				Object.entries(categories).map(([_key, category]) => (
+					<div
+						class={cn(
+							'group relative rounded-2xl p-8',
+							'dark:bg-brand-charcoal bg-white',
+							'dark:border-brand-soft-black border border-gray-200',
+							'hover:border-brand-green dark:hover:border-brand-green',
+							'transition-all duration-300',
+							'hover:shadow-brand-green/10 hover:shadow-xl',
+						)}
+					>
+						{/* Category Title */}
+						<div class="mb-6">
+							<h3
+								class={cn(
+									'text-2xl font-semibold',
+									'text-gray-900 dark:text-white',
+									'group-hover:text-brand-green dark:group-hover:text-brand-green',
+									'transition-colors duration-300',
+								)}
+							>
+								{category.title}
+							</h3>
+						</div>
+
+						{/* Tech Items */}
+						<div class="space-y-3">
+							{category.items.map((item: string) => (
+								<div
+									class={cn(
+										'flex items-center gap-3 rounded-lg p-3',
+										'dark:bg-brand-soft-black bg-gray-50',
+										'dark:hover:bg-brand-black hover:bg-gray-100',
+										'transition-colors duration-200',
+									)}
+								>
+									<div
+										class={cn(
+											'h-2 w-2 rounded-full',
+											'from-brand-blue to-brand-green bg-gradient-to-r',
+										)}
+									/>
+									<span class="font-medium text-gray-700 dark:text-gray-300">
+										{item}
+									</span>
+								</div>
+							))}
+						</div>
+
+						{/* Glow Effect */}
+						<div
+							class={cn(
+								'absolute inset-0 rounded-2xl opacity-0',
+								'from-brand-green/10 to-brand-blue/10 bg-gradient-to-br',
+								'blur-xl transition-opacity duration-500 group-hover:opacity-100',
+							)}
+						/>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>

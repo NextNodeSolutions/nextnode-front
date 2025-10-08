@@ -1,30 +1,94 @@
 ---
-// Welcome to Astro! Everything between these triple-dash code fences
-// is your "component frontmatter". It never runs in the browser.
-
-import Welcome from '@/components/features/marketing/hero/Welcome.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import GradientCircle from '@/components/common/GradientCircle.astro'
 import Header from '@/components/layout/header/Header.astro'
 import Footer from '@/components/layout/footer/Footer.astro'
-import { cn } from '@/lib/core/utils'
+import PremiumHero from '@/components/features/marketing/hero/PremiumHero.astro'
+import ServicesGrid from '@/components/features/marketing/services/ServicesGrid.astro'
+import StatsSection from '@/components/features/marketing/stats/StatsSection'
+import TechGrid from '@/components/features/marketing/tech/TechGrid.astro'
+import CTASection from '@/components/features/marketing/cta/CTASection.astro'
+import WorkflowJourney from '@/components/features/workflow/interactive/WorkflowJourney.astro'
+import MobileTimeline from '@/components/features/workflow/timeline/MobileTimeline.astro'
+import { generateWorkflowSteps } from '@/components/features/workflow/workflow-utils'
 
-// i18n is now handled by middleware - no manual initialization needed
-// The locale and t function are available via Astro.locals
 const { t } = Astro.locals
 
 const title = t('common.meta.homepage.title')
 const description = t('common.meta.homepage.description')
+const stats = t('home.stats.items')
+const steps = generateWorkflowSteps()
 ---
 
 <BaseLayout title={title} description={description}>
 	<div class="relative flex min-h-screen flex-col">
 		<Header />
-		<main class={cn('flex flex-col flex-1 justify-center')}>
-			<Welcome />
+
+		<main class="flex flex-col">
+			<!-- Hero Section -->
+			<PremiumHero />
+
+			<!-- Services Section -->
+			<ServicesGrid />
+
+			<!-- Stats Section -->
+			<StatsSection
+				title={t('home.stats.title')}
+				stats={stats}
+				client:visible
+			/>
+
+			<!-- Workflow Process Section with Original Component -->
+			<section
+				class="dark:bg-brand-black relative bg-white py-24 sm:py-32"
+			>
+				<div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+					<!-- Section Header -->
+					<div class="mb-20 space-y-4 text-center">
+						<h2
+							class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl dark:text-white"
+						>
+							{t('home.workflow.title')}
+						</h2>
+						<p
+							class="mx-auto max-w-3xl text-lg text-gray-600 sm:text-xl dark:text-gray-400"
+						>
+							{t('home.workflow.subtitle')}
+						</p>
+					</div>
+
+					<!-- Workflow Journey - Responsive Switch -->
+					<div class="mx-auto max-w-7xl">
+						<!-- Desktop/Tablet SVG Version (md and up) -->
+						<!-- Medium screens (md to lg) use mini variant -->
+						<div class="hidden md:block lg:hidden">
+							<WorkflowJourney variant="mini" steps={steps} />
+						</div>
+
+						<!-- Large screens (lg to xl) use compact variant -->
+						<div class="hidden lg:block xl:hidden">
+							<WorkflowJourney variant="compact" steps={steps} />
+						</div>
+
+						<!-- Extra large screens (xl and up) use large variant -->
+						<div class="hidden xl:block">
+							<WorkflowJourney variant="large" steps={steps} />
+						</div>
+
+						<!-- Mobile Timeline Version (sm and down) -->
+						<div class="block md:hidden">
+							<MobileTimeline steps={steps} />
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Tech Stack Section -->
+			<TechGrid />
+
+			<!-- CTA Section -->
+			<CTASection />
 		</main>
 
-		<GradientCircle />
 		<Footer />
 	</div>
 </BaseLayout>

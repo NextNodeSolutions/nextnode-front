@@ -1,0 +1,44 @@
+---
+import { cn } from '@/lib/core/utils'
+import ServiceCard from './ServiceCard.astro'
+
+const { t } = Astro.locals
+
+const services = t('home.services.items')
+---
+
+<section class="dark:bg-brand-black relative bg-white py-24 sm:py-32">
+	<div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+		<!-- Section Header -->
+		<div class="mb-16 space-y-4 text-center">
+			<h2
+				class={cn(
+					'text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight',
+					'text-gray-900 dark:text-white',
+				)}
+			>
+				{t('home.services.title')}
+			</h2>
+			<p
+				class="mx-auto max-w-3xl text-lg text-gray-600 sm:text-xl dark:text-gray-400"
+			>
+				{t('home.services.subtitle')}
+			</p>
+		</div>
+
+		<!-- Services Grid -->
+		<div
+			class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
+		>
+			{
+				services.map((service, index) => (
+					<ServiceCard
+						title={service.title}
+						description={service.description}
+						index={index}
+					/>
+				))
+			}
+		</div>
+	</div>
+</section>

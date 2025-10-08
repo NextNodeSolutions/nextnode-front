@@ -12,7 +12,6 @@ const site = process.env.URL ?? `http://${host}:${port}`
 
 const siteMapPages = [
 	{ name: '', priority: 1, changeFreq: 'weekly' },
-	{ name: 'how-we-work', priority: 0.8, changeFreq: 'monthly' },
 	{ name: 'pricing', priority: 0.9, changeFreq: 'monthly' },
 	{ name: 'privacy', priority: 0.3, changeFreq: 'yearly' },
 	{ name: 'terms', priority: 0.3, changeFreq: 'yearly' },

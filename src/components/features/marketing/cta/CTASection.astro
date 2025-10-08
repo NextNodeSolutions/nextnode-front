@@ -1,0 +1,77 @@
+---
+import { cn } from '@/lib/core/utils'
+import CalEmbed from '@/components/ui/CalEmbed'
+
+const { t, locale } = Astro.locals
+---
+
+<section
+	class={cn(
+		'relative py-24 sm:py-32 overflow-hidden',
+		'bg-gradient-to-br from-brand-blue via-brand-green to-brand-blue',
+	)}
+>
+	<!-- Animated Background Patterns -->
+	<div class="absolute inset-0 opacity-10">
+		<div
+			class="absolute top-0 left-0 h-96 w-96 animate-pulse rounded-full bg-white blur-3xl"
+		>
+		</div>
+		<div
+			class="animation-delay-1000 absolute right-0 bottom-0 h-96 w-96 animate-pulse rounded-full bg-white blur-3xl"
+		>
+		</div>
+	</div>
+
+	<div class="relative z-10 mx-auto max-w-4xl px-6 sm:px-8 lg:px-12">
+		<!-- Content -->
+		<div class="space-y-8 text-center">
+			<!-- Title -->
+			<h2
+				class={cn(
+					'text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight',
+					'text-white',
+				)}
+			>
+				{t('home.cta.title')}
+			</h2>
+
+			<!-- Description -->
+			<p
+				class="mx-auto max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl"
+			>
+				{t('home.cta.description')}
+			</p>
+
+			<!-- Features List -->
+			<div
+				class="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-8"
+			>
+				{
+					t('home.cta.features').map((feature: string) => (
+						<div class="flex items-center gap-2 font-medium text-white/90">
+							<span class="text-lg">{feature}</span>
+						</div>
+					))
+				}
+			</div>
+
+			<!-- CTA Button -->
+			<div class="pt-4">
+				<CalEmbed
+					calLink="walid-mos"
+					mode="popup"
+					buttonText={t('home.cta.primaryButton')}
+					locale={locale}
+					client:load
+				/>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.animation-delay-1000 {
+		animation-delay: 1s;
+	}
+</style>

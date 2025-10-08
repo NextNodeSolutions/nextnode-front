@@ -7,27 +7,128 @@ export const home = {
 		titleEnd: 'STARTS HERE',
 		description:
 			'Turn visitors into customers with websites that convert. Custom-built, lightning-fast, and designed to grow your business.',
-		magicText:
-			"✨ This is where the magic happens — let's build something amazing together",
-		viewWorkButton: 'View How We Work',
-		startProjectButton: '📅 Schedule a meeting',
+		cta: 'Start Your Project Journey',
 	},
-	sidePanel: {
-		whoWeAre: 'Who We Are',
+	services: {
+		title: 'What We Do Best',
+		subtitle: 'Comprehensive digital solutions for ambitious businesses',
+		items: [
+			{
+				title: 'Web Development',
+				description:
+					'Custom websites and web applications built with cutting-edge technologies',
+			},
+			{
+				title: 'E-Commerce',
+				description:
+					'High-converting online stores that drive sales and growth',
+			},
+			{
+				title: 'Mobile Apps',
+				description:
+					'Native and cross-platform applications for iOS and Android',
+			},
+			{
+				title: 'UX/UI Design',
+				description:
+					'Beautiful, intuitive designs that users love and convert',
+			},
+			{
+				title: 'SEO & Marketing',
+				description:
+					'Get found online and turn visitors into customers',
+			},
+			{
+				title: 'Support & Maintenance',
+				description:
+					'Ongoing optimization and support to keep you ahead',
+			},
+		],
+	},
+	workflow: {
+		title: 'Our Proven Process',
+		subtitle: 'Six steps to digital excellence',
+		steps: {
+			discovery: {
+				title: 'Discovery & Strategy',
+				number: '01',
+				description:
+					'We dive deep into your business goals, target audience, and technical requirements.',
+			},
+			design: {
+				title: 'Design & UX/UI',
+				number: '02',
+				description:
+					'Beautiful interfaces that convert. Pixel-perfect designs optimized for results.',
+			},
+			development: {
+				title: 'Development',
+				number: '03',
+				description:
+					'Clean, scalable code using cutting-edge technologies.',
+			},
+			testing: {
+				title: 'Testing & QA',
+				number: '04',
+				description:
+					'Rigorous testing ensures everything works perfectly.',
+			},
+			deployment: {
+				title: 'Launch',
+				number: '05',
+				description:
+					'Seamless deployment to production with scalable infrastructure.',
+			},
+			support: {
+				title: 'Growth',
+				number: '06',
+				description:
+					'Ongoing support to keep your site running smoothly.',
+			},
+		},
+	},
+	stats: {
+		title: 'Results That Speak',
+		items: [
+			{ value: '100+', label: 'Projects Delivered' },
+			{ value: '98%', label: 'Client Satisfaction' },
+			{ value: '50+', label: 'Happy Clients' },
+			{ value: '24/7', label: 'Support Available' },
+		],
+	},
+	techStack: {
+		title: 'Technologies We Master',
+		subtitle: 'The right tool for every job',
+		categories: {
+			frontend: {
+				title: 'Frontend',
+				items: ['React', 'Next.js', 'Astro', 'TypeScript', 'Tailwind'],
+			},
+			backend: {
+				title: 'Backend',
+				items: ['Node.js', 'PostgreSQL', 'MongoDB', 'GraphQL', 'Redis'],
+			},
+			deployment: {
+				title: 'DevOps',
+				items: [
+					'AWS',
+					'Vercel',
+					'Docker',
+					'GitHub Actions',
+					'Monitoring',
+				],
+			},
+		},
+	},
+	cta: {
+		title: 'Ready to Transform Your Digital Presence?',
 		description:
-			"We're a digital studio that specializes in creating high-performance websites for ambitious businesses. From startups to established companies, we turn your vision into reality.",
-		features: {
-			custom: 'Custom development tailored to your needs',
-			fast: 'Lightning-fast deployment & ongoing support',
-			convert: 'Websites that convert visitors into customers',
-		},
-		quote: "Great websites don't just look good — they convert visitors into customers and drive real business growth.",
-		quoteAuthor: '— Digital Marketing Best Practices',
-		cta: {
-			title: 'Ready to transform your business?',
-			description:
-				'Click "Start your project" to begin your digital transformation journey.',
-			highlight: '💡 Free consultation included',
-		},
+			"Let's discuss your project and create something extraordinary together.",
+		primaryButton: 'Start Your Project',
+		features: [
+			'✅ Free technical consultation',
+			'✅ Custom development proposal',
+			'✅ No obligation quote',
+		],
 	},
 } as const

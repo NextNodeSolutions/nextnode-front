@@ -1,0 +1,132 @@
+---
+import { cn } from '@/lib/core/utils'
+
+const { t } = Astro.locals
+
+const steps = [
+	{
+		number: t('home.workflow.steps.discovery.number'),
+		title: t('home.workflow.steps.discovery.title'),
+		description: t('home.workflow.steps.discovery.description'),
+	},
+	{
+		number: t('home.workflow.steps.design.number'),
+		title: t('home.workflow.steps.design.title'),
+		description: t('home.workflow.steps.design.description'),
+	},
+	{
+		number: t('home.workflow.steps.development.number'),
+		title: t('home.workflow.steps.development.title'),
+		description: t('home.workflow.steps.development.description'),
+	},
+	{
+		number: t('home.workflow.steps.testing.number'),
+		title: t('home.workflow.steps.testing.title'),
+		description: t('home.workflow.steps.testing.description'),
+	},
+	{
+		number: t('home.workflow.steps.deployment.number'),
+		title: t('home.workflow.steps.deployment.title'),
+		description: t('home.workflow.steps.deployment.description'),
+	},
+	{
+		number: t('home.workflow.steps.support.number'),
+		title: t('home.workflow.steps.support.title'),
+		description: t('home.workflow.steps.support.description'),
+	},
+]
+---
+
+<section class="dark:bg-brand-black relative bg-white py-24 sm:py-32">
+	<div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+		<!-- Section Header -->
+		<div class="mb-20 space-y-4 text-center">
+			<h2
+				class={cn(
+					'text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight',
+					'text-gray-900 dark:text-white',
+				)}
+			>
+				{t('home.workflow.title')}
+			</h2>
+			<p
+				class="mx-auto max-w-3xl text-lg text-gray-600 sm:text-xl dark:text-gray-400"
+			>
+				{t('home.workflow.subtitle')}
+			</p>
+		</div>
+
+		<!-- Timeline Grid -->
+		<div
+			class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
+		>
+			{
+				steps.map((step, index) => (
+					<div
+						class={cn(
+							'group relative rounded-2xl p-8',
+							'bg-gradient-to-br from-gray-50 to-white',
+							'dark:from-brand-charcoal dark:to-brand-soft-black',
+							'dark:border-brand-soft-black border border-gray-200',
+							'hover:border-brand-blue dark:hover:border-brand-blue',
+							'transition-all duration-300',
+							'hover:shadow-brand-blue/10 hover:shadow-xl',
+							'hover:-translate-y-2',
+						)}
+					>
+						{/* Step Number Badge */}
+						<div
+							class={cn(
+								'absolute -top-4 -left-4 h-12 w-12 rounded-full',
+								'from-brand-blue to-brand-green bg-gradient-to-br',
+								'flex items-center justify-center',
+								'text-lg font-bold text-white',
+								'shadow-brand-blue/30 shadow-lg',
+								'transition-transform duration-300 group-hover:scale-110',
+							)}
+						>
+							{step.number}
+						</div>
+
+						{/* Content */}
+						<div class="relative space-y-4 pt-4">
+							<h3
+								class={cn(
+									'text-xl font-semibold sm:text-2xl',
+									'text-gray-900 dark:text-white',
+									'group-hover:text-brand-blue dark:group-hover:text-brand-blue',
+									'transition-colors duration-300',
+								)}
+							>
+								{step.title}
+							</h3>
+							<p class="leading-relaxed text-gray-600 dark:text-gray-400">
+								{step.description}
+							</p>
+						</div>
+
+						{/* Progress Line Connector (hidden on mobile, shown on larger screens) */}
+						{index < steps.length - 1 && (
+							<div
+								class={cn(
+									'absolute top-1/2 -right-10 hidden h-0.5 w-10 lg:block',
+									'from-brand-blue to-brand-green bg-gradient-to-r',
+									'opacity-30',
+								)}
+							/>
+						)}
+
+						{/* Glow Effect */}
+						<div
+							class={cn(
+								'absolute inset-0 rounded-2xl opacity-0',
+								'from-brand-blue/10 to-brand-green/10 bg-gradient-to-br',
+								'blur-xl transition-opacity duration-500 group-hover:opacity-100',
+							)}
+						/>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>

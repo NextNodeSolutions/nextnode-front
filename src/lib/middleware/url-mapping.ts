@@ -95,6 +95,11 @@ const buildLocalizedUrl = (
 	targetLocale: string,
 	isDefaultLocale: boolean,
 ): string => {
+	// Handle how-we-work redirect to homepage
+	if (pathname === '/how-we-work' || pathname === '/how-we-work/') {
+		return isDefaultLocale ? '/' : `/${targetLocale}/`
+	}
+
 	// Default locale: no prefix needed (clean URLs)
 	if (isDefaultLocale) {
 		return pathname
