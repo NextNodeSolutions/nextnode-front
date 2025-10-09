@@ -135,12 +135,3 @@ export type RequiredVariables<K extends TranslationKey> =
 
 // Type-safe locale validation function type
 export type LocaleGuard = (value: unknown) => value is Locale
-
-// Navigation link type used across components
-export type NavigationLink = Readonly<{
-	href: string
-	labelKey: TranslationKey
-}>
-
-// Array of navigation links (readonly compatible)
-export type NavigationLinks = NavigationLink[]

@@ -2,7 +2,7 @@
 // GLOBAL CONSTANTS - Only truly global application constants
 // =============================================================================
 
-import type { NavigationLinks } from '@/types/i18n'
+import type { TranslationKey } from '@/types/i18n'
 
 // HTTP Status Codes
 export const HTTP_STATUS = {
@@ -24,6 +24,19 @@ export const COOKIE_NAMES = {
 	LANG: 'preferredLocale',
 	THEME: 'themePreference',
 } as const
+
+// =============================================================================
+// Navigation Types & Constants
+// =============================================================================
+
+// Navigation link type used across components
+export type NavigationLink = Readonly<{
+	href: string
+	labelKey: TranslationKey
+}>
+
+// Array of navigation links (readonly compatible)
+export type NavigationLinks = NavigationLink[]
 
 // Navigation Links
 export const NAVIGATION_LINKS: NavigationLinks = [
