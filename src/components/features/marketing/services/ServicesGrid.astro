@@ -7,20 +7,40 @@ const { t } = Astro.locals
 const services = t('home.services.items')
 ---
 
-<section class="dark:bg-brand-black relative bg-white py-24 sm:py-32">
-	<div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+<section
+	class="dark:from-brand-black/90 dark:via-brand-charcoal/80 dark:to-brand-black/90 relative overflow-hidden bg-gradient-to-br from-gray-50/80 via-white/80 to-gray-50/80 py-24 sm:py-32"
+>
+	<!-- Grid Pattern Background -->
+	<div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
+		<div
+			class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
+		>
+		</div>
+	</div>
+
+	<!-- Subtle decorative elements -->
+	<div
+		class="bg-brand-blue-soft/20 dark:bg-brand-blue-soft/30 absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
+	>
+	</div>
+	<div
+		class="animation-delay-1000 bg-brand-green-soft/20 dark:bg-brand-green-soft/30 absolute right-10 bottom-20 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
+	>
+	</div>
+
+	<div class="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
 		<!-- Section Header -->
-		<div class="mb-16 space-y-4 text-center">
+		<div class="mb-20 space-y-4 text-center">
 			<h2
 				class={cn(
-					'text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight',
+					'animate-fade-in-up text-3xl font-bold tracking-tight opacity-0 sm:text-4xl lg:text-5xl',
 					'text-gray-900 dark:text-white',
 				)}
 			>
 				{t('home.services.title')}
 			</h2>
 			<p
-				class="mx-auto max-w-3xl text-lg text-gray-600 sm:text-xl dark:text-gray-400"
+				class="animation-delay-300 animate-fade-in-up mx-auto max-w-3xl text-lg text-gray-600 opacity-0 sm:text-xl dark:text-gray-400"
 			>
 				{t('home.services.subtitle')}
 			</p>
@@ -42,3 +62,28 @@ const services = t('home.services.items')
 		</div>
 	</div>
 </section>
+
+<style>
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.8s ease-out forwards;
+	}
+
+	.animation-delay-300 {
+		animation-delay: 300ms;
+	}
+
+	.animation-delay-1000 {
+		animation-delay: 1s;
+	}
+</style>
