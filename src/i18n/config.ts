@@ -1,4 +1,4 @@
-import type { Locale, NavigationLinks } from '@/types/i18n'
+import type { Locale } from '@/types/i18n'
 
 const LANGS = {
 	en: 'en',
@@ -12,11 +12,6 @@ export const languages = [
 	{ code: LANGS.en, name: 'English', flag: '🇺🇸' },
 	{ code: LANGS.fr, name: 'Français', flag: '🇫🇷' },
 ] as const
-
-export const navigationLinks: NavigationLinks = [
-	{ href: '/how-we-work', labelKey: 'common.navigation.howWeWork' },
-	{ href: '/pricing', labelKey: 'common.navigation.pricing' },
-]
 
 /**
  * Type guard to check if a string is a valid Locale

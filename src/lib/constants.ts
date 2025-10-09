@@ -2,6 +2,8 @@
 // GLOBAL CONSTANTS - Only truly global application constants
 // =============================================================================
 
+import type { NavigationLinks } from '@/types/i18n'
+
 // HTTP Status Codes
 export const HTTP_STATUS = {
 	OK: 200,
@@ -22,6 +24,11 @@ export const COOKIE_NAMES = {
 	LANG: 'preferredLocale',
 	THEME: 'themePreference',
 } as const
+
+// Navigation Links
+export const NAVIGATION_LINKS: NavigationLinks = [
+	{ href: '/pricing', labelKey: 'common.navigation.pricing' },
+]
 
 // Add any truly global constants here that don't belong to specific domains
 // Domain-specific constants have been moved to their respective folders:
