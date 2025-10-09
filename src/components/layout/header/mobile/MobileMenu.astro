@@ -1,15 +1,8 @@
 ---
 import Navigation from '../Navigation.astro'
-import Controls from '../Controls.astro'
+import ControlsMobile from './ControlsMobile.astro'
 import Logo from '../Logo.astro'
 import MobileButton from './MobileButton.astro'
-import type { NavigationLinks } from '@/lib/constants'
-
-interface Props {
-	links: NavigationLinks
-}
-
-const { links } = Astro.props
 ---
 
 <div
@@ -30,10 +23,10 @@ const { links } = Astro.props
 				</div>
 			</div>
 
-			<Navigation links={links} variant="mobile" />
+			<Navigation variant="mobile" />
 
 			<div class="mt-auto px-4 py-4 sm:px-6 lg:px-8">
-				<Controls variant="mobile" />
+				<ControlsMobile />
 			</div>
 		</div>
 	</div>

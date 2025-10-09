@@ -1,10 +1,9 @@
 ---
 import Navigation from './Navigation.astro'
-import Controls from './Controls.astro'
+import ControlsDesktop from './desktop/ControlsDesktop.astro'
 import Logo from './Logo.astro'
 import MobileButton from './mobile/MobileButton.astro'
 import MobileMenu from './mobile/MobileMenu.astro'
-import { NAVIGATION_LINKS } from '@/lib/constants'
 ---
 
 <header
@@ -23,8 +22,8 @@ import { NAVIGATION_LINKS } from '@/lib/constants'
 			</div>
 
 			<div class="hidden items-center space-x-6 md:flex">
-				<Navigation links={NAVIGATION_LINKS} />
-				<Controls />
+				<Navigation />
+				<ControlsDesktop />
 			</div>
 
 			<!-- Bouton menu en position absolue sur mobile pour ne pas affecter le centrage du logo -->
@@ -36,7 +35,7 @@ import { NAVIGATION_LINKS } from '@/lib/constants'
 </header>
 
 <!-- Mobile Menu (outside header to avoid stacking context issues) -->
-<MobileMenu links={NAVIGATION_LINKS} />
+<MobileMenu />
 
 <script>
 	// Header scroll effect
