@@ -78,7 +78,7 @@ const StatsCounter = ({ value, label }: StatItem) => {
 				'hover:shadow-brand-green/10 hover:shadow-xl',
 			)}
 		>
-			<div className="relative z-10 space-y-3">
+			<div className="relative space-y-3">
 				<div
 					className={cn(
 						'text-4xl font-bold sm:text-5xl lg:text-6xl',
@@ -118,7 +118,7 @@ const StatsSection = ({ title, stats }: StatsSectionProps) => {
 				<div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
 			</div>
 
-			<div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+			<div className="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
 				{/* Section Header */}
 				<div className="mb-16 text-center">
 					<h2

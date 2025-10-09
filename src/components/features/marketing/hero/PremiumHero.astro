@@ -1,6 +1,8 @@
 ---
 import { cn } from '@/lib/core/utils'
 import CalEmbed from '@/components/ui/CalEmbed'
+import DashboardMockup from './DashboardMockup.astro'
+import { Star, Award, CheckCircle2, TrendingUp, ArrowRight } from 'lucide-react'
 
 const { t, locale } = Astro.locals
 ---
@@ -8,99 +10,184 @@ const { t, locale } = Astro.locals
 <section
 	class={cn(
 		'relative min-h-[90vh] flex items-center justify-center overflow-hidden',
-		'bg-gradient-to-br from-brand-black via-brand-charcoal to-brand-soft-black',
+		'bg-gradient-to-br from-white via-brand-gray-soft to-brand-blue-light/30',
+		'dark:from-brand-black dark:via-brand-charcoal dark:to-brand-soft-black',
 	)}
 >
-	<!-- Gradient Overlays -->
+	<!-- Subtle decorative elements -->
 	<div
-		class="from-brand-blue/10 to-brand-green/10 pointer-events-none absolute inset-0 bg-gradient-to-br via-transparent"
+		class="bg-brand-blue-soft/30 absolute top-20 right-10 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
 	>
 	</div>
 	<div
-		class="bg-brand-blue/20 absolute top-0 right-0 h-96 w-96 animate-pulse rounded-full opacity-20 blur-3xl"
-	>
-	</div>
-	<div
-		class="bg-brand-green/20 animation-delay-1000 absolute bottom-0 left-0 h-96 w-96 animate-pulse rounded-full opacity-20 blur-3xl"
+		class="bg-brand-green-soft/30 animation-delay-1000 absolute bottom-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
 	>
 	</div>
 
-	<!-- Content -->
-	<div class="relative z-10 mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-12">
-		<div class="space-y-8 text-center lg:space-y-12">
-			<!-- Subtitle -->
-			<p
-				class={cn(
-					'text-sm sm:text-base font-medium tracking-wide uppercase',
-					'text-brand-green opacity-0 animate-fade-in-up',
-					'max-w-3xl mx-auto',
-				)}
-			>
-				{t('home.hero.subtitle')}
-			</p>
-
-			<!-- Main Title -->
-			<h1
-				class={cn(
-					'text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl',
-					'font-bold tracking-tight leading-tight',
-					'opacity-0 animate-fade-in-up animation-delay-300',
-				)}
-			>
-				<span class="text-white">{t('home.hero.title')}</span><br />
-				<span
-					class="from-brand-blue to-brand-green bg-gradient-to-r bg-clip-text text-transparent"
-				>
-					{t('home.hero.titleHighlight')}
-				</span><br />
-				<span class="text-white">{t('home.hero.titleEnd')}</span>
-			</h1>
-
-			<!-- Description -->
-			<p
-				class={cn(
-					'text-lg sm:text-xl lg:text-2xl text-gray-300 leading-relaxed',
-					'opacity-0 animate-fade-in-up animation-delay-600',
-					'max-w-4xl mx-auto',
-				)}
-			>
-				{t('home.hero.description')}
-			</p>
-
-			<!-- CTA Button -->
-			<div
-				class={cn(
-					'opacity-0 animate-fade-in-up animation-delay-900',
-					'flex justify-center',
-				)}
-			>
-				<CalEmbed
-					calLink="walid-mos"
-					mode="popup"
-					buttonText={t('home.hero.cta')}
-					locale={locale}
-					client:load
-				/>
-			</div>
-
-			<!-- Scroll Indicator -->
-			<div
-				class={cn(
-					'opacity-0 animate-fade-in-up animation-delay-1200',
-					'flex flex-col items-center gap-2 pt-12',
-				)}
-			>
-				<span class="text-sm tracking-wider text-gray-400 uppercase"
-					>Scroll to explore</span
-				>
+	<!-- Main Content -->
+	<div class="relative mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-12">
+		<div
+			class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
+		>
+			<!-- Left Column: Text Content -->
+			<div class="space-y-8">
+				<!-- Trust Badges -->
 				<div
-					class="flex h-10 w-6 justify-center rounded-full border-2 border-gray-600 p-2"
+					class={cn(
+						'flex flex-wrap gap-4 items-center',
+						'opacity-0 animate-fade-in-up',
+					)}
 				>
 					<div
-						class="from-brand-blue to-brand-green h-3 w-1 animate-bounce rounded-full bg-gradient-to-b"
+						class="dark:bg-brand-charcoal/80 flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm backdrop-blur-sm"
 					>
+						<Star
+							className="h-4 w-4 fill-yellow-500 text-yellow-500"
+						/>
+						<span
+							class="text-sm font-medium text-gray-700 dark:text-gray-300"
+							>5.0 Rating</span
+						>
+					</div>
+					<div
+						class="dark:bg-brand-charcoal/80 flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm backdrop-blur-sm"
+					>
+						<Award className="text-brand-blue-muted h-4 w-4" />
+						<span
+							class="text-sm font-medium text-gray-700 dark:text-gray-300"
+							>100+ Projets</span
+						>
 					</div>
 				</div>
+
+				<!-- Subtitle -->
+				<p
+					class={cn(
+						'text-base sm:text-lg font-medium',
+						'text-brand-blue-muted dark:text-brand-blue-soft',
+						'opacity-0 animate-fade-in-up animation-delay-300',
+					)}
+				>
+					{t('home.hero.subtitle')}
+				</p>
+
+				<!-- Main Title -->
+				<h1
+					class={cn(
+						'text-4xl sm:text-5xl md:text-6xl lg:text-7xl',
+						'font-bold tracking-tight leading-[1.1]',
+						'opacity-0 animate-fade-in-up animation-delay-600',
+					)}
+				>
+					<span class="text-gray-900 dark:text-white"
+						>{t('home.hero.title')}</span
+					><br />
+					<span
+						class="from-brand-blue-muted via-brand-green-muted to-brand-blue-muted relative inline-block bg-gradient-to-r bg-clip-text text-transparent"
+					>
+						{t('home.hero.titleHighlight')}
+						<!-- Decorative underline -->
+						<span
+							class="from-brand-blue-soft to-brand-green-soft absolute -bottom-2 left-0 h-1 w-full rounded-full bg-gradient-to-r"
+						></span>
+					</span><br />
+					<span class="text-gray-900 dark:text-white"
+						>{t('home.hero.titleEnd')}</span
+					>
+				</h1>
+
+				<!-- Description -->
+				<p
+					class={cn(
+						'text-lg sm:text-xl text-gray-600 dark:text-gray-400 leading-relaxed',
+						'opacity-0 animate-fade-in-up animation-delay-900',
+						'max-w-2xl',
+					)}
+				>
+					{t('home.hero.description')}
+				</p>
+
+				<!-- Key Features -->
+				<div
+					class={cn(
+						'space-y-3',
+						'opacity-0 animate-fade-in-up animation-delay-1200',
+					)}
+				>
+					<div class="flex items-start gap-3">
+						<div
+							class="bg-brand-green-soft/50 mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full"
+						>
+							<CheckCircle2
+								className="text-brand-green-dark h-4 w-4"
+							/>
+						</div>
+						<span
+							class="text-base leading-6 font-medium text-gray-700 dark:text-gray-300"
+							>Développement sur-mesure et ultra-rapide</span
+						>
+					</div>
+					<div class="flex items-start gap-3">
+						<div
+							class="bg-brand-green-soft/50 mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full"
+						>
+							<CheckCircle2
+								className="text-brand-green-dark h-4 w-4"
+							/>
+						</div>
+						<span
+							class="text-base leading-6 font-medium text-gray-700 dark:text-gray-300"
+							>Optimisé pour la conversion et la croissance</span
+						>
+					</div>
+					<div class="flex items-start gap-3">
+						<div
+							class="bg-brand-green-soft/50 mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full"
+						>
+							<CheckCircle2
+								className="text-brand-green-dark h-4 w-4"
+							/>
+						</div>
+						<span
+							class="text-base leading-6 font-medium text-gray-700 dark:text-gray-300"
+							>Support et maintenance continus</span
+						>
+					</div>
+				</div>
+
+				<!-- CTA Button -->
+				<div
+					class={cn(
+						'opacity-0 animate-fade-in-up animation-delay-1500',
+						'flex flex-col gap-3',
+					)}
+				>
+					<div class="premium-cta-wrapper">
+						<CalEmbed
+							calLink="walid-mos"
+							mode="popup"
+							buttonText={t('home.hero.cta')}
+							locale={locale}
+							client:load
+						/>
+					</div>
+					<span
+						class="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400"
+					>
+						<TrendingUp className="h-4 w-4" />
+						Consultation gratuite de 30 min
+					</span>
+				</div>
+			</div>
+
+			<!-- Right Column: Visual Element -->
+			<div
+				class={cn(
+					'relative opacity-0 animate-fade-in-right animation-delay-900',
+					'hidden lg:flex items-center justify-center',
+				)}
+			>
+				<DashboardMockup />
 			</div>
 		</div>
 	</div>
@@ -118,27 +205,118 @@ const { t, locale } = Astro.locals
 		}
 	}
 
+	@keyframes fadeInRight {
+		from {
+			opacity: 0;
+			transform: translateX(-30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	@keyframes gradientShift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+
 	.animate-fade-in-up {
 		animation: fadeInUp 0.8s ease-out forwards;
 	}
 
+	.animate-fade-in-right {
+		animation: fadeInRight 0.8s ease-out forwards;
+	}
+
+	.animate-gradient-shift {
+		background-size: 200% 200%;
+		animation: gradientShift 3s ease infinite;
+	}
+
 	.animation-delay-300 {
-		animation-delay: 0.3s;
+		animation-delay: 300ms;
 	}
 
 	.animation-delay-600 {
-		animation-delay: 0.6s;
+		animation-delay: 600ms;
 	}
 
 	.animation-delay-900 {
-		animation-delay: 0.9s;
-	}
-
-	.animation-delay-1000 {
-		animation-delay: 1s;
+		animation-delay: 900ms;
 	}
 
 	.animation-delay-1200 {
-		animation-delay: 1.2s;
+		animation-delay: 1200ms;
+	}
+
+	.animation-delay-1500 {
+		animation-delay: 1500ms;
+	}
+
+	/* Premium CTA Button Styles */
+	.premium-cta-wrapper :global(button) {
+		position: relative;
+		overflow: hidden;
+		border-radius: 0.75rem;
+		padding: 1rem 2rem;
+		font-weight: 700;
+		font-size: 1.125rem;
+		color: white;
+		box-shadow:
+			0 20px 25px -5px rgb(0 0 0 / 0.1),
+			0 8px 10px -6px rgb(0 0 0 / 0.1);
+		transition: all 0.3s ease;
+		background: transparent !important;
+	}
+
+	.premium-cta-wrapper :global(button::before) {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			to right,
+			var(--brand-blue),
+			var(--brand-green-muted),
+			var(--brand-green)
+		);
+		background-size: 200% 200%;
+		animation: gradientShift 3s ease infinite;
+		z-index: -1;
+	}
+
+	.premium-cta-wrapper :global(button::after) {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: 0.75rem;
+		border: 2px solid rgba(255, 255, 255, 0.2);
+		pointer-events: none;
+	}
+
+	.premium-cta-wrapper :global(button:hover) {
+		transform: scale(1.05);
+		box-shadow:
+			0 0 40px rgba(59, 130, 246, 0.5),
+			0 20px 25px -5px rgb(0 0 0 / 0.2);
+	}
+
+	.premium-cta-wrapper :global(button:hover::before) {
+		animation-duration: 2s;
+	}
+
+	/* Icon animation */
+	.premium-cta-wrapper :global(button span) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
 	}
 </style>

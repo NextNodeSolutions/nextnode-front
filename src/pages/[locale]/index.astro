@@ -27,19 +27,9 @@ const steps = generateWorkflowSteps()
 			<!-- Hero Section -->
 			<PremiumHero />
 
-			<!-- Services Section -->
-			<ServicesGrid />
-
-			<!-- Stats Section -->
-			<StatsSection
-				title={t('home.stats.title')}
-				stats={stats}
-				client:visible
-			/>
-
 			<!-- Workflow Process Section with Original Component -->
 			<section
-				class="dark:bg-brand-black relative bg-white py-24 sm:py-32"
+				class="dark:bg-brand-black/90 relative bg-white/90 py-24 sm:py-32"
 			>
 				<div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
 					<!-- Section Header -->
@@ -81,6 +71,16 @@ const steps = generateWorkflowSteps()
 					</div>
 				</div>
 			</section>
+
+			<!-- Services Section -->
+			<ServicesGrid />
+
+			<!-- Stats Section -->
+			<StatsSection
+				title={t('home.stats.title')}
+				stats={stats}
+				client:visible
+			/>
 
 			<!-- Tech Stack Section -->
 			<TechGrid />

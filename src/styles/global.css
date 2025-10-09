@@ -20,6 +20,14 @@
 	--brand-charcoal: oklch(0.22 0.01 260);
 	--brand-soft-black: oklch(0.3 0.01 260);
 
+	/* Soft pastel variants for harmonious design */
+	--brand-blue-soft: oklch(0.85 0.08 240);
+	--brand-blue-muted: oklch(0.75 0.12 240);
+	--brand-green-soft: oklch(0.88 0.06 160);
+	--brand-green-muted: oklch(0.78 0.1 160);
+	--brand-gray-soft: oklch(0.97 0.005 260);
+	--brand-gray-light: oklch(0.94 0.008 260);
+
 	/* System colors using brand palette */
 	--background: oklch(1 0 0);
 	--foreground: oklch(0.15 0.01 260);
@@ -144,12 +152,18 @@
 	--color-brand-blue: var(--brand-blue);
 	--color-brand-blue-dark: var(--brand-blue-dark);
 	--color-brand-blue-light: var(--brand-blue-light);
+	--color-brand-blue-soft: var(--brand-blue-soft);
+	--color-brand-blue-muted: var(--brand-blue-muted);
 	--color-brand-green: var(--brand-green);
 	--color-brand-green-dark: var(--brand-green-dark);
 	--color-brand-green-light: var(--brand-green-light);
+	--color-brand-green-soft: var(--brand-green-soft);
+	--color-brand-green-muted: var(--brand-green-muted);
 	--color-brand-black: var(--brand-black);
 	--color-brand-charcoal: var(--brand-charcoal);
 	--color-brand-soft-black: var(--brand-soft-black);
+	--color-brand-gray-soft: var(--brand-gray-soft);
+	--color-brand-gray-light: var(--brand-gray-light);
 
 	/* System colors */
 	--color-background: var(--background);
@@ -202,4 +216,24 @@
 	--shadow-lg: var(--shadow-lg);
 	--shadow-xl: var(--shadow-xl);
 	--shadow-2xl: var(--shadow-2xl);
+}
+
+/* Grid background utility */
+@layer utilities {
+	.bg-grid {
+		background-image:
+			linear-gradient(rgba(156, 163, 175, 0.35) 1px, transparent 1px),
+			linear-gradient(
+				90deg,
+				rgba(156, 163, 175, 0.35) 1px,
+				transparent 1px
+			);
+		background-size: 40px 40px;
+	}
+
+	.dark .bg-grid {
+		background-image:
+			linear-gradient(rgba(75, 85, 99, 0.3) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(75, 85, 99, 0.3) 1px, transparent 1px);
+	}
 }
