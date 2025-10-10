@@ -53,7 +53,7 @@ const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
 
 			<!-- Mouse SVG -->
 			<svg
-				class="relative h-9 w-6 animate-bounce"
+				class="chevron-bounce relative h-9 w-6"
 				viewBox="0 0 24 36"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
@@ -83,8 +83,9 @@ const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
 				class={cn(
 					'absolute left-1/2 -translate-x-1/2',
 					'opacity-0',
+					'chevron-bounce',
 					'group-hover:opacity-100',
-					'transition-all duration-700 ease-out',
+					'transition-opacity duration-700 ease-out',
 				)}
 			>
 				<ChevronDown
@@ -108,21 +109,25 @@ const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
 </div>
 
 <style>
+	/* Base styles with transition */
+	.scroll-indicator {
+		transition: opacity 0.7s ease-out;
+	}
+
 	/* Fade in up animation for initial appearance */
 	.fade-in-up {
 		opacity: 0;
-		transform: translateX(-50%) translateY(2rem);
 		animation: fadeInUp 0.8s ease-out 2s forwards;
 	}
 
 	@keyframes fadeInUp {
 		from {
 			opacity: 0;
-			transform: translateX(-50%) translateY(2rem);
+			transform: translateY(2rem);
 		}
 		to {
 			opacity: 1;
-			transform: translateX(-50%) translateY(0);
+			transform: translateY(0);
 		}
 	}
 
@@ -162,10 +167,30 @@ const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
 			background-position: 0% 50%;
 		}
 	}
+
+	/* Chevron bounce down animation */
+	.chevron-bounce {
+		animation: bounceDown 1.5s ease-in-out infinite;
+	}
+
+	@keyframes bounceDown {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(6px);
+		}
+	}
+
+	/* Hide on scroll */
+	.hidden-on-scroll {
+		opacity: 0;
+		pointer-events: none;
+	}
 </style>
 
 <script>
-	// Client-side script for scroll behavior
 	const scrollIndicators = document.querySelectorAll('.scroll-indicator')
 
 	scrollIndicators.forEach(indicator => {
@@ -173,14 +198,18 @@ const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
 		const targetSelector =
 			indicator.getAttribute('data-target') || 'section:nth-of-type(2)'
 
-		let lastScrollY = window.scrollY
+		// Remove animation class after it completes to allow transitions
+		setTimeout(() => {
+			indicator.classList.remove('fade-in-up')
+		}, 2800) // 2s delay + 0.8s animation
+
+		// Hide indicator when scrolling down
 		const handleScroll = () => {
 			if (window.scrollY > 100) {
-				indicator.classList.add('opacity-0', 'pointer-events-none')
-			} else if (window.scrollY < lastScrollY) {
-				indicator.classList.remove('opacity-0', 'pointer-events-none')
+				indicator.classList.add('hidden-on-scroll')
+			} else {
+				indicator.classList.remove('hidden-on-scroll')
 			}
-			lastScrollY = window.scrollY
 		}
 
 		window.addEventListener('scroll', handleScroll, { passive: true })
