@@ -8,6 +8,22 @@ export const home = {
 		description:
 			'Transformez vos visiteurs en clients avec des sites web qui convertissent. Sur-mesure, ultra-rapides et conçus pour développer votre business.',
 		cta: 'Démarrer votre parcours projet',
+		badges: {
+			rating: '5.0 Rating',
+			projects: '100+ Projets',
+		},
+		features: [
+			'Développement sur-mesure et ultra-rapide',
+			'Optimisé pour la conversion et la croissance',
+			'Support et maintenance continus',
+		],
+		consultation: 'Consultation gratuite de 30 min',
+		dashboard: {
+			conversion: 'Conversion',
+			growth: 'Croissance',
+			satisfaction: 'Satisfaction',
+			projects: 'Projets',
+		},
 	},
 	services: {
 		title: 'Ce Que Nous Faisons de Mieux',

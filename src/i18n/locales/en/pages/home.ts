@@ -8,6 +8,22 @@ export const home = {
 		description:
 			'Turn visitors into customers with websites that convert. Custom-built, lightning-fast, and designed to grow your business.',
 		cta: 'Start Your Project Journey',
+		badges: {
+			rating: '5.0 Rating',
+			projects: '100+ Projects',
+		},
+		features: [
+			'Custom-built and lightning-fast development',
+			'Optimized for conversion and growth',
+			'Ongoing support and maintenance',
+		],
+		consultation: 'Free 30-min consultation',
+		dashboard: {
+			conversion: 'Conversion',
+			growth: 'Growth',
+			satisfaction: 'Satisfaction',
+			projects: 'Projects',
+		},
 	},
 	services: {
 		title: 'What We Do Best',

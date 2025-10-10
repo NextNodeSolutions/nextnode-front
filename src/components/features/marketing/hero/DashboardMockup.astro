@@ -7,9 +7,15 @@ interface Props {
 }
 
 const { className } = Astro.props
+const { t } = Astro.locals
 ---
 
-<div class={cn('relative w-full max-w-xl p-2', className)}>
+<div
+	class={cn(
+		'relative w-full max-w-xl p-2 sm:translate-x-5 lg:translate-x-8',
+		className,
+	)}
+>
 	<!-- Main card - Browser/Dashboard mockup -->
 	<div
 		class="dark:bg-brand-charcoal relative aspect-[4/3] w-full transform rounded-2xl bg-white p-6 shadow-2xl transition-transform duration-300 hover:scale-[1.02] sm:p-8"
@@ -113,7 +119,7 @@ const { className } = Astro.props
 					98%
 				</div>
 				<div class="text-[10px] text-gray-600 dark:text-gray-400">
-					Satisfaction
+					{t('home.hero.dashboard.satisfaction')}
 				</div>
 			</div>
 		</div>
@@ -134,7 +140,7 @@ const { className } = Astro.props
 					100+
 				</div>
 				<div class="text-[10px] text-gray-600 dark:text-gray-400">
-					Projets
+					{t('home.hero.dashboard.projects')}
 				</div>
 			</div>
 		</div>
