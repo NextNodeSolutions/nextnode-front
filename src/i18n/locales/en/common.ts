@@ -5,7 +5,6 @@ export const common = {
 		services: 'Services',
 		portfolio: 'Portfolio',
 		contact: 'Contact',
-		howWeWork: 'How we work',
 		pricing: 'Pricing',
 	},
 	ui: {
@@ -55,11 +54,6 @@ export const common = {
 			title: 'Web Services Paris | Development, Design, SEO - NextNode',
 			description:
 				'Digital agency Paris: showcase website, e-commerce, web application creation. Custom solutions for Île-de-France businesses. Recognized technical expertise.',
-		},
-		howWeWork: {
-			title: 'Work Method | Web Agency Paris - NextNode',
-			description:
-				'Discover our collaborative and transparent work method. Optimized creation process for your web projects in Paris and Île-de-France.',
 		},
 	},
 	// Exemples pour tester le nouveau système i18n

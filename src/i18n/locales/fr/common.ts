@@ -5,7 +5,6 @@ export const common = {
 		services: 'Services',
 		portfolio: 'Portfolio',
 		contact: 'Contact',
-		howWeWork: 'Comment nous travaillons',
 		pricing: 'Tarifs',
 	},
 	ui: {
@@ -55,11 +54,6 @@ export const common = {
 			title: 'Services Web Paris | Développement, Design, SEO - NextNode',
 			description:
 				'Agence digitale Paris : création site vitrine, e-commerce, application web. Solutions sur mesure pour entreprises Île-de-France. Expertise technique reconnue.',
-		},
-		howWeWork: {
-			title: 'Méthode de Travail | Agence Web Paris - NextNode',
-			description:
-				'Découvrez notre méthode de travail collaborative et transparente. Processus de création optimisé pour vos projets web à Paris et Île-de-France.',
 		},
 	},
 	// Exemples pour tester le nouveau système i18n

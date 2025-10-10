@@ -64,6 +64,7 @@ export const home = {
 	workflow: {
 		title: 'Our Proven Process',
 		subtitle: 'Six steps to digital excellence',
+		intro: "Whether you're a technical expert or a non-tech leader, you deserve complete visibility on your project. Each phase guarantees concrete deliverables and controlled investment from start to finish.",
 		steps: {
 			discovery: {
 				title: 'Discovery & Strategy',

@@ -1,15 +1,4 @@
-export const howWeWork = {
-	hero: {
-		title: 'Voici comment nous travaillons :',
-		titleHighlight: 'Notre processus éprouvé',
-		description:
-			'Six étapes méthodiques pour transformer votre vision en succès digital. Si vous nous choisissez, voici exactement comment nous procédons pour garantir des résultats exceptionnels.',
-		cta: 'Démarrer votre parcours projet',
-	},
-	journey: {
-		title: 'Notre parcours de développement',
-		subtitle: "Six étapes éprouvées vers l'excellence digitale",
-	},
+export const workflow = {
 	steps: {
 		discovery: {
 			title: 'Découverte & Stratégie',
@@ -102,107 +91,9 @@ export const howWeWork = {
 			duration: 'En continu',
 		},
 	},
-	techStack: {
-		title: 'Technologies que nous maîtrisons',
-		subtitle: 'Le bon outil pour chaque mission',
-		description:
-			'Nous ne suivons pas seulement les tendances — nous choisissons les technologies qui délivrent les meilleurs résultats pour vos besoins spécifiques.',
-		categories: {
-			frontend: {
-				title: 'Excellence Frontend',
-				description:
-					'Frameworks modernes pour des expériences utilisateur ultra-rapides',
-				technologies: [
-					{
-						name: 'React & Next.js',
-						description:
-							'Pour les applications complexes et interactives',
-					},
-					{
-						name: 'Astro',
-						description:
-							'Pour les sites riches en contenu et optimisés SEO',
-					},
-					{
-						name: 'TypeScript',
-						description:
-							'Développement type-safe pour un code maintenable',
-					},
-					{
-						name: 'Tailwind CSS',
-						description:
-							'Styling utility-first pour un design cohérent',
-					},
-				],
-			},
-			backend: {
-				title: 'Puissance Backend',
-				description: 'Architecture serveur robuste qui scale',
-				technologies: [
-					{
-						name: 'Node.js',
-						description: 'Runtime JavaScript haute performance',
-					},
-					{
-						name: 'PostgreSQL & MongoDB',
-						description: 'Solutions de stockage de données fiables',
-					},
-					{
-						name: 'GraphQL & REST APIs',
-						description: 'Communication de données flexible',
-					},
-					{
-						name: 'Redis',
-						description: 'Cache rapide et gestion de sessions',
-					},
-				],
-			},
-			deployment: {
-				title: 'Déploiement & DevOps',
-				description: 'Infrastructure scalable et déploiement fluide',
-				technologies: [
-					{
-						name: 'AWS & Vercel',
-						description: 'Hébergement cloud niveau entreprise',
-					},
-					{
-						name: 'Docker',
-						description: 'Cohérence de déploiement containerisé',
-					},
-					{
-						name: 'GitHub Actions',
-						description: 'Pipelines CI/CD automatisés',
-					},
-					{
-						name: 'Outils de Monitoring',
-						description: 'Suivi des performances 24/7',
-					},
-				],
-			},
-		},
-	},
-	cta: {
-		title: 'Prêt à transformer votre présence digitale ?',
-		description:
-			"Discutons de votre projet et créons quelque chose d'extraordinaire ensemble.",
-		primaryButton: 'Démarrer votre projet',
-		secondaryButton: 'Programmer un appel',
-		features: [
-			'✅ Consultation technique gratuite',
-			'✅ Proposition de développement sur-mesure',
-			'✅ Devis sans engagement',
-		],
-	},
-	workflow: {
+	labels: {
 		mainTasks: 'Tâches principales',
 		deliverables: 'Livrables',
 		estimatedDuration: 'Durée estimée',
-	},
-	techStats: {
-		mastery: 'maîtrise',
-		expertiseLevel: "Niveau d'expertise",
-		masteriedTechnologies: 'Technologies maîtrisées',
-		averageLevel: 'Niveau moyen',
-		expertTechnologies: 'Technologies expertes (90%+)',
 	},
 } as const

@@ -64,6 +64,7 @@ export const home = {
 	workflow: {
 		title: 'Notre Processus Éprouvé',
 		subtitle: "Six étapes vers l'excellence digitale",
+		intro: 'Que vous soyez expert technique ou dirigeant non-tech, vous méritez une visibilité totale sur votre projet. Chaque phase vous garantit des livrables concrets et un investissement maîtrisé du début à la fin.',
 		steps: {
 			discovery: {
 				title: 'Découverte & Stratégie',
