@@ -9,7 +9,7 @@ export const home = {
 			'Transformez vos visiteurs en clients avec des sites web qui convertissent. Sur-mesure, ultra-rapides et conçus pour développer votre business.',
 		cta: 'Démarrer votre parcours projet',
 		badges: {
-			rating: '5.0 Rating',
+			rating: '5.0 Évaluation',
 			projects: '100+ Projets',
 		},
 		features: [
