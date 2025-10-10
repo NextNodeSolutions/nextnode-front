@@ -1,0 +1,209 @@
+---
+import { cn } from '@/lib/core/utils'
+
+interface Props {
+	className?: string
+	targetSelector?: string
+}
+
+const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
+---
+
+<div
+	class={cn(
+		'scroll-indicator',
+		'absolute bottom-8 left-1/2 -translate-x-1/2 z-10',
+		'opacity-0 animate-fade-in-up animation-delay-2000',
+		'hidden md:block',
+		className,
+	)}
+	data-target={targetSelector}
+>
+	<button
+		type="button"
+		aria-label="Scroll to next section"
+		class={cn(
+			'group relative',
+			'flex flex-col items-center gap-3',
+			'cursor-pointer transition-all duration-300',
+			'hover:scale-110',
+		)}
+	>
+		<!-- Mouse SVG Container with glassmorphism -->
+		<div
+			class={cn(
+				'relative p-4 rounded-2xl',
+				'bg-white/10 dark:bg-black/20',
+				'backdrop-blur-md',
+				'border border-white/20 dark:border-white/10',
+				'shadow-xl',
+				'transition-all duration-300',
+				'group-hover:shadow-2xl group-hover:bg-white/15',
+			)}
+		>
+			<!-- Animated gradient border glow -->
+			<div
+				class="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+			>
+				<div
+					class="from-brand-blue-soft via-brand-green-soft to-brand-blue-soft animate-gradient-shift absolute inset-0 rounded-2xl bg-gradient-to-r bg-[length:200%_100%] blur-sm"
+				>
+				</div>
+			</div>
+
+			<!-- Mouse SVG -->
+			<svg
+				class="animate-bounce-slow relative h-9 w-6"
+				viewBox="0 0 24 36"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<!-- Mouse body -->
+				<rect
+					x="1"
+					y="1"
+					width="22"
+					height="34"
+					rx="11"
+					class="stroke-brand-blue-muted dark:stroke-brand-blue-soft"
+					stroke-width="2"
+					fill="none"></rect>
+
+				<!-- Scroll wheel -->
+				<circle
+					cx="12"
+					cy="10"
+					r="2"
+					class="fill-brand-green-muted dark:fill-brand-green-soft animate-scroll-wheel"
+				></circle>
+			</svg>
+		</div>
+
+		<!-- Scroll text -->
+		<span
+			class={cn(
+				'text-xs font-medium tracking-wider uppercase',
+				'text-gray-600 dark:text-gray-400',
+				'group-hover:text-brand-blue-muted dark:group-hover:text-brand-blue-soft',
+				'transition-colors duration-300',
+			)}
+		>
+			Scroll
+		</span>
+	</button>
+</div>
+
+<style>
+	/* Fade in up animation */
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateX(-50%) translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.8s ease-out forwards;
+	}
+
+	.animation-delay-2000 {
+		animation-delay: 2000ms;
+	}
+
+	/* Slow bounce animation for mouse */
+	@keyframes bounceSlow {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-8px);
+		}
+	}
+
+	.animate-bounce-slow {
+		animation: bounceSlow 2s ease-in-out infinite;
+	}
+
+	/* Scroll wheel animation */
+	@keyframes scrollWheel {
+		0% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		50% {
+			opacity: 0.3;
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(8px);
+		}
+	}
+
+	.animate-scroll-wheel {
+		animation: scrollWheel 1.5s ease-in-out infinite;
+	}
+
+	/* Gradient animation */
+	@keyframes gradientShift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+
+	.animate-gradient-shift {
+		animation: gradientShift 3s ease infinite;
+	}
+
+	/* Hide when scrolled */
+	.scroll-indicator.hidden {
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.3s ease-out;
+	}
+</style>
+
+<script>
+	// Client-side script for scroll behavior
+	const scrollIndicators = document.querySelectorAll('.scroll-indicator')
+
+	scrollIndicators.forEach(indicator => {
+		const button = indicator.querySelector('button')
+		const targetSelector =
+			indicator.getAttribute('data-target') || 'section:nth-of-type(2)'
+
+		// Hide indicator on scroll
+		let lastScrollY = window.scrollY
+		const handleScroll = () => {
+			if (window.scrollY > 100) {
+				indicator.classList.add('hidden')
+			} else if (window.scrollY < lastScrollY) {
+				indicator.classList.remove('hidden')
+			}
+			lastScrollY = window.scrollY
+		}
+
+		window.addEventListener('scroll', handleScroll, { passive: true })
+
+		// Smooth scroll on click
+		button?.addEventListener('click', () => {
+			const target = document.querySelector(targetSelector)
+			if (target) {
+				target.scrollIntoView({
+					behavior: 'smooth',
+					block: 'start',
+				})
+			}
+		})
+	})
+</script>
