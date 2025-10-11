@@ -1,0 +1,810 @@
+---
+import { cn } from '@/lib/core/utils'
+import {
+	Zap,
+	TrendingUp,
+	Shield,
+	Clock,
+	Rocket,
+	Infinity,
+	Brain,
+	Search,
+	Code2,
+	Settings,
+} from 'lucide-react'
+import OrbitingTech from './OrbitingTech'
+
+const { t } = Astro.locals
+
+const benefits = [
+	{
+		id: 'mentalHealth',
+		icon: Brain,
+		title: t('home.techTransform.benefits.mentalHealth.title'),
+		description: t('home.techTransform.benefits.mentalHealth.description'),
+		metric: t('home.techTransform.benefits.mentalHealth.metric'),
+		hero: true, // Main hero card
+	},
+	{
+		id: 'seoGrowth',
+		icon: Search,
+		title: t('home.techTransform.benefits.seoGrowth.title'),
+		description: t('home.techTransform.benefits.seoGrowth.description'),
+		metric: t('home.techTransform.benefits.seoGrowth.metric'),
+	},
+	{
+		id: 'performance',
+		icon: Zap,
+		title: t('home.techTransform.benefits.performance.title'),
+		description: t('home.techTransform.benefits.performance.description'),
+		metric: t('home.techTransform.benefits.performance.metric'),
+	},
+	{
+		id: 'security',
+		icon: Shield,
+		title: t('home.techTransform.benefits.security.title'),
+		description: t('home.techTransform.benefits.security.description'),
+		metric: t('home.techTransform.benefits.security.metric'),
+	},
+	{
+		id: 'speed',
+		icon: Rocket,
+		title: t('home.techTransform.benefits.speed.title'),
+		description: t('home.techTransform.benefits.speed.description'),
+		metric: t('home.techTransform.benefits.speed.metric'),
+	},
+	{
+		id: 'scalability',
+		icon: Infinity,
+		title: t('home.techTransform.benefits.scalability.title'),
+		description: t('home.techTransform.benefits.scalability.description'),
+		metric: t('home.techTransform.benefits.scalability.metric'),
+	},
+]
+
+const heroBenefit = benefits.find(b => b.hero)
+const regularBenefits = benefits.filter(b => !b.hero)
+
+// Pipeline steps
+const pipelineSteps = [
+	{
+		icon: Code2,
+		label: 'On développe',
+		delay: '0s',
+	},
+	{
+		icon: Settings,
+		label: 'On optimise',
+		delay: '0.8s',
+	},
+	{
+		icon: Rocket,
+		label: 'On livre',
+		delay: '1.6s',
+	},
+]
+---
+
+<section
+	class={cn(
+		'relative overflow-hidden py-24 sm:py-32',
+		'bg-gradient-to-br from-gray-50/80 via-white/80 to-gray-50/80',
+		'dark:from-brand-black/90 dark:via-brand-charcoal/80 dark:to-brand-black/90',
+	)}
+>
+	<!-- Grid Pattern Background -->
+	<div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
+		<div
+			class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
+		>
+		</div>
+	</div>
+
+	<!-- Decorative elements -->
+	<div
+		class="bg-brand-green-soft/20 dark:bg-brand-green-soft/30 absolute top-20 right-10 h-96 w-96 animate-pulse rounded-full opacity-40 blur-3xl"
+	>
+	</div>
+	<div
+		class="animation-delay-2000 bg-brand-blue-soft/20 dark:bg-brand-blue-soft/30 absolute bottom-20 left-10 h-96 w-96 animate-pulse rounded-full opacity-40 blur-3xl"
+	>
+	</div>
+
+	<div class="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+		<!-- Section Header -->
+		<div class="mb-16 space-y-6 text-center">
+			<h2
+				class={cn(
+					'animate-fade-in-up text-3xl font-bold tracking-tight opacity-0 sm:text-4xl lg:text-5xl',
+					'text-gray-900 dark:text-white',
+				)}
+			>
+				{t('home.techTransform.title')}
+			</h2>
+			<p
+				class="animation-delay-300 animate-fade-in-up mx-auto max-w-3xl text-lg text-gray-600 opacity-0 sm:text-xl dark:text-gray-400"
+			>
+				{t('home.techTransform.subtitle')}
+			</p>
+		</div>
+
+		<!-- Transformation Container -->
+		<div
+			class="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8"
+		>
+			<!-- Technologies Cloud (Left) -->
+			<div
+				class={cn(
+					'lg:col-span-5',
+					'animation-delay-600 animate-fade-in-up opacity-0',
+				)}
+			>
+				<div
+					class={cn(
+						'relative rounded-3xl p-8 sm:p-10',
+						'dark:bg-brand-charcoal/50 bg-white/50',
+						'backdrop-blur-sm',
+						'border-2 border-gray-200/50 dark:border-brand-soft-black/50',
+					)}
+				>
+					<h3
+						class="mb-6 text-center text-xl font-semibold text-gray-900 dark:text-white"
+					>
+						{t('home.techTransform.techSection.title')}
+					</h3>
+
+					<!-- Orbiting Technologies -->
+					<OrbitingTech client:only="react" />
+				</div>
+			</div>
+
+			<!-- Transformation Pipeline (Center) -->
+			<div
+				class={cn(
+					'lg:col-span-2',
+					'animation-delay-900 animate-fade-in opacity-0',
+					'flex items-center justify-center',
+					'py-8 lg:py-0',
+				)}
+			>
+				<div class="relative">
+					<!-- Pipeline Container -->
+					<div
+						class={cn(
+							'relative',
+							'rounded-2xl p-6',
+							'bg-gradient-to-b from-white/50 to-gray-50/50',
+							'dark:from-brand-soft-black/50 dark:to-brand-charcoal/50',
+							'backdrop-blur-md',
+							'border-2 border-gray-300/50 dark:border-brand-black/50',
+							'shadow-xl',
+							'min-w-[160px]',
+						)}
+					>
+						<!-- Animated border gradient -->
+						<div
+							class="pipeline-border-glow absolute inset-0 rounded-2xl opacity-50"
+						>
+						</div>
+
+						<!-- Pipeline Steps -->
+						<div class="relative z-10 flex flex-col gap-4">
+							{
+								pipelineSteps.map((step, index) => (
+									<>
+										<div
+											class={cn(
+												'pipeline-step',
+												'relative overflow-hidden',
+												'rounded-xl p-3',
+												'dark:bg-brand-soft-black bg-white',
+												'dark:border-brand-black border border-gray-200',
+												'shadow-md',
+												'transition-all duration-300',
+												'hover:scale-105 hover:shadow-lg',
+											)}
+											style={`animation-delay: ${step.delay}`}
+										>
+											<div class="relative z-10 flex items-center gap-3">
+												<div
+													class={cn(
+														'flex-shrink-0 rounded-lg p-2',
+														'from-brand-blue to-brand-green bg-gradient-to-br',
+													)}
+												>
+													<step.icon className="h-4 w-4 text-white" />
+												</div>
+												<span class="text-xs font-semibold text-gray-900 dark:text-white">
+													{step.label}
+												</span>
+											</div>
+
+											{/* Step glow effect */}
+											<div class="step-glow absolute inset-0" />
+										</div>
+
+										{/* Connecting line with animated particles */}
+										{index < pipelineSteps.length - 1 && (
+											<div class="relative mx-auto h-6 w-0.5">
+												<div class="from-brand-blue to-brand-green absolute inset-0 bg-gradient-to-b opacity-50" />
+												<div class="particle particle-1" />
+												<div class="particle particle-2" />
+												<div class="particle particle-3" />
+											</div>
+										)}
+									</>
+								))
+							}
+						</div>
+
+						<!-- Floating particles around pipeline -->
+						<div class="pipeline-particles">
+							<div class="float-particle float-particle-1"></div>
+							<div class="float-particle float-particle-2"></div>
+							<div class="float-particle float-particle-3"></div>
+						</div>
+					</div>
+
+					<!-- Pipeline Label -->
+					<div
+						class="mt-4 text-center lg:absolute lg:top-full lg:left-1/2 lg:-translate-x-1/2 lg:whitespace-nowrap"
+					>
+						<span
+							class={cn(
+								'text-xs font-bold tracking-wide',
+								'from-brand-green to-brand-blue bg-gradient-to-r bg-clip-text text-transparent',
+							)}
+						>
+							PIPELINE DE TRANSFORMATION
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Benefits Bento Grid (Right) -->
+			<div
+				class={cn(
+					'lg:col-span-5',
+					'animation-delay-1200 animate-fade-in-up opacity-0',
+				)}
+			>
+				<div
+					class={cn(
+						'rounded-3xl p-6 sm:p-8',
+						'dark:bg-brand-charcoal/50 bg-white/50',
+						'backdrop-blur-sm',
+						'border-2 border-gray-200/50 dark:border-brand-soft-black/50',
+					)}
+				>
+					<h3
+						class="mb-6 text-center text-xl font-semibold text-gray-900 dark:text-white"
+					>
+						{t('home.techTransform.benefitsSection.title')}
+					</h3>
+
+					<!-- Bento Grid Layout -->
+					<div class="benefits-bento-grid">
+						<!-- Hero Card (Mental Health) -->
+						{
+							heroBenefit && (
+								<div
+									class={cn(
+										'group relative overflow-hidden',
+										'rounded-2xl p-6',
+										'dark:bg-brand-soft-black bg-gradient-to-br from-gray-50 to-gray-100',
+										'dark:from-brand-soft-black dark:to-brand-black',
+										'dark:border-brand-black border-2 border-gray-300',
+										'transition-all duration-500',
+										'hover:scale-[1.02] hover:shadow-2xl',
+										'cursor-pointer',
+										'benefit-card-hero',
+										'bento-hero',
+									)}
+									style="animation-delay: 1400ms"
+								>
+									{/* Animated gradient background */}
+									<div class="gradient-animated absolute inset-0 opacity-20" />
+
+									<div class="relative z-10 flex h-full flex-col justify-between gap-4">
+										{/* Icon with pulse animation */}
+										<div
+											class={cn(
+												'w-fit flex-shrink-0 rounded-xl p-3',
+												'from-brand-blue to-brand-green bg-gradient-to-br',
+												'shadow-lg',
+												'icon-pulse',
+											)}
+										>
+											<heroBenefit.icon className="h-8 w-8 text-white" />
+										</div>
+
+										<div class="flex-1 space-y-3">
+											<h4 class="text-xl font-bold text-gray-900 dark:text-white">
+												{heroBenefit.title}
+											</h4>
+											<p class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+												{heroBenefit.description}
+											</p>
+										</div>
+
+										{/* Metric badge */}
+										<div class="flex justify-end">
+											<span
+												class={cn(
+													'text-2xl font-black',
+													'from-brand-green to-brand-blue bg-gradient-to-r bg-clip-text text-transparent',
+												)}
+											>
+												{heroBenefit.metric}
+											</span>
+										</div>
+									</div>
+
+									{/* Glow effect on hover */}
+									<div class="from-brand-green/5 to-brand-blue/5 absolute inset-0 translate-y-full bg-gradient-to-t transition-transform duration-500 group-hover:translate-y-0" />
+								</div>
+							)
+						}
+
+						<!-- Regular Cards Grid -->
+						{
+							regularBenefits.map((benefit, index) => (
+								<div
+									class={cn(
+										'group relative overflow-hidden',
+										'rounded-xl p-4',
+										'dark:bg-brand-soft-black bg-gray-100',
+										'dark:border-brand-black border border-gray-300',
+										'transition-all duration-300',
+										'hover:-translate-y-1 hover:scale-[1.03] hover:shadow-lg',
+										'cursor-pointer',
+										'benefit-card',
+										'bento-card',
+									)}
+									style={`animation-delay: ${index * 100 + 1500}ms`}
+								>
+									<div class="relative z-10 space-y-3">
+										<div class="flex items-start justify-between gap-2">
+											<div
+												class={cn(
+													'flex-shrink-0 rounded-lg p-2',
+													'from-brand-blue to-brand-green bg-gradient-to-br',
+													'shadow-md',
+												)}
+											>
+												<benefit.icon className="h-4 w-4 text-white" />
+											</div>
+											<span
+												class={cn(
+													'text-lg font-bold',
+													'from-brand-green to-brand-blue bg-gradient-to-r bg-clip-text text-transparent',
+												)}
+											>
+												{benefit.metric}
+											</span>
+										</div>
+
+										<h4 class="text-sm leading-tight font-semibold text-gray-900 dark:text-white">
+											{benefit.title}
+										</h4>
+
+										<p class="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+											{benefit.description}
+										</p>
+									</div>
+
+									{/* Subtle glow on hover */}
+									<div class="from-brand-green/10 to-brand-blue/10 absolute inset-0 translate-x-full bg-gradient-to-r transition-transform duration-300 group-hover:translate-x-0" />
+								</div>
+							))
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bottom CTA Message -->
+		<div
+			class={cn(
+				'animation-delay-1800 animate-fade-in-up mt-16 text-center opacity-0',
+			)}
+		>
+			<p
+				class={cn(
+					'mx-auto max-w-3xl text-lg font-medium',
+					'text-gray-700 dark:text-gray-300',
+				)}
+			>
+				{t('home.techTransform.ctaMessage')}
+			</p>
+		</div>
+	</div>
+</section>
+
+<style>
+	/* Animations */
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes float {
+		0%,
+		100% {
+			transform: translate(0, 0);
+		}
+		33% {
+			transform: translate(20px, -20px);
+		}
+		66% {
+			transform: translate(-20px, 20px);
+		}
+	}
+
+	@keyframes pulseRing {
+		0% {
+			transform: scale(1);
+			opacity: 0.5;
+		}
+		100% {
+			transform: scale(2);
+			opacity: 0;
+		}
+	}
+
+	@keyframes arrowPulse {
+		0%,
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.8;
+		}
+	}
+
+	@keyframes particleFall {
+		0% {
+			transform: translateY(-100%);
+			opacity: 0;
+		}
+		10% {
+			opacity: 1;
+		}
+		90% {
+			opacity: 1;
+		}
+		100% {
+			transform: translateY(100%);
+			opacity: 0;
+		}
+	}
+
+	@keyframes stepGlow {
+		0%,
+		100% {
+			opacity: 0;
+		}
+		33% {
+			opacity: 1;
+		}
+		66% {
+			opacity: 0;
+		}
+	}
+
+	@keyframes borderGlow {
+		0%,
+		100% {
+			box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+		}
+		50% {
+			box-shadow: 0 0 40px rgba(34, 197, 94, 0.5);
+		}
+	}
+
+	@keyframes floatAround {
+		0% {
+			transform: translate(0, 0);
+			opacity: 0.3;
+		}
+		25% {
+			transform: translate(10px, -15px);
+			opacity: 0.6;
+		}
+		50% {
+			transform: translate(5px, -25px);
+			opacity: 0.8;
+		}
+		75% {
+			transform: translate(-10px, -15px);
+			opacity: 0.6;
+		}
+		100% {
+			transform: translate(0, 0);
+			opacity: 0.3;
+		}
+	}
+
+	@keyframes gradientShift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+
+	@keyframes iconPulse {
+		0%,
+		100% {
+			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+		}
+		50% {
+			transform: scale(1.05);
+			box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fadeInUp 0.8s ease-out forwards;
+	}
+
+	.animate-fade-in {
+		animation: fadeIn 0.8s ease-out forwards;
+	}
+
+	.tech-tag {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+
+	.benefit-card,
+	.benefit-card-hero {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+
+	/* Bento Grid Layout */
+	.benefits-bento-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: repeat(3, auto);
+		gap: 1rem;
+		grid-template-areas:
+			'hero hero'
+			'card1 card2'
+			'card3 card4'
+			'card5 card5';
+	}
+
+	.bento-hero {
+		grid-area: hero;
+		min-height: 200px;
+	}
+
+	.bento-card:nth-of-type(1) {
+		grid-area: card1;
+	}
+	.bento-card:nth-of-type(2) {
+		grid-area: card2;
+	}
+	.bento-card:nth-of-type(3) {
+		grid-area: card3;
+	}
+	.bento-card:nth-of-type(4) {
+		grid-area: card4;
+	}
+	.bento-card:nth-of-type(5) {
+		grid-area: card5;
+	}
+
+	/* Gradient Animation for Hero Card */
+	.gradient-animated {
+		background: linear-gradient(
+			135deg,
+			var(--brand-blue) 0%,
+			var(--brand-green) 50%,
+			var(--brand-blue) 100%
+		);
+		background-size: 200% 200%;
+		animation: gradientShift 8s ease infinite;
+	}
+
+	/* Icon Pulse Animation */
+	.icon-pulse {
+		animation: iconPulse 2s ease-in-out infinite;
+	}
+
+	/* 3D Hover Effect Enhancement */
+	.benefit-card:hover,
+	.benefit-card-hero:hover {
+		transform: translateY(-8px) scale(1.02);
+		box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3);
+	}
+
+	/* Mobile: Single Column Stack */
+	@media (max-width: 640px) {
+		.benefits-bento-grid {
+			grid-template-columns: 1fr;
+			grid-template-areas:
+				'hero'
+				'card1'
+				'card2'
+				'card3'
+				'card4'
+				'card5';
+		}
+
+		.bento-hero {
+			min-height: 220px;
+		}
+	}
+
+	.animation-delay-300 {
+		animation-delay: 300ms;
+	}
+
+	.animation-delay-600 {
+		animation-delay: 600ms;
+	}
+
+	.animation-delay-900 {
+		animation-delay: 900ms;
+	}
+
+	.animation-delay-1200 {
+		animation-delay: 1200ms;
+	}
+
+	.animation-delay-1800 {
+		animation-delay: 1800ms;
+	}
+
+	.animation-delay-2000 {
+		animation-delay: 2s;
+	}
+
+	/* Pipeline Animations */
+	.pipeline-border-glow {
+		animation: borderGlow 3s ease-in-out infinite;
+	}
+
+	.pipeline-step {
+		animation: fadeInUp 0.6s ease-out forwards;
+	}
+
+	.step-glow {
+		background: linear-gradient(
+			135deg,
+			rgba(59, 130, 246, 0.1),
+			rgba(34, 197, 94, 0.1)
+		);
+		animation: stepGlow 2.4s ease-in-out infinite;
+	}
+
+	.pipeline-step:nth-child(2) .step-glow {
+		animation-delay: 0.8s;
+	}
+
+	.pipeline-step:nth-child(4) .step-glow {
+		animation-delay: 1.6s;
+	}
+
+	/* Connecting line particles */
+	.particle {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 4px;
+		height: 4px;
+		border-radius: 50%;
+		background: linear-gradient(
+			to bottom,
+			var(--brand-blue),
+			var(--brand-green)
+		);
+		animation: particleFall 2s ease-in-out infinite;
+	}
+
+	.particle-1 {
+		animation-delay: 0s;
+	}
+
+	.particle-2 {
+		animation-delay: 0.7s;
+	}
+
+	.particle-3 {
+		animation-delay: 1.4s;
+	}
+
+	/* Floating particles around pipeline */
+	.pipeline-particles {
+		position: absolute;
+		inset: -20px;
+		pointer-events: none;
+		overflow: visible;
+	}
+
+	.float-particle {
+		position: absolute;
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: linear-gradient(
+			135deg,
+			var(--brand-blue),
+			var(--brand-green)
+		);
+		box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+	}
+
+	.float-particle-1 {
+		top: 20%;
+		left: -10px;
+		animation: floatAround 4s ease-in-out infinite;
+	}
+
+	.float-particle-2 {
+		top: 50%;
+		right: -10px;
+		animation: floatAround 5s ease-in-out infinite;
+		animation-delay: 1s;
+	}
+
+	.float-particle-3 {
+		top: 80%;
+		left: -10px;
+		animation: floatAround 4.5s ease-in-out infinite;
+		animation-delay: 2s;
+	}
+
+	/* Floating Particles */
+	.tech-particles {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		overflow: hidden;
+		border-radius: 1.5rem;
+	}
+
+	.particle {
+		position: absolute;
+		width: 4px;
+		height: 4px;
+		background: linear-gradient(
+			to right,
+			var(--brand-blue),
+			var(--brand-green)
+		);
+		border-radius: 50%;
+		opacity: 0.3;
+		animation: float ease-in-out infinite;
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 1023px) {
+		.tech-particles {
+			display: none;
+		}
+	}
+</style>

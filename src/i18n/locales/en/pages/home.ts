@@ -137,6 +137,58 @@ export const home = {
 			},
 		},
 	},
+	techTransform: {
+		title: 'Our Technical Expertise = Your Business Results',
+		subtitle:
+			'We handle all the technical complexity so you get the cream of the crop, effortlessly',
+		techSection: {
+			title: 'Our Tech Stack',
+		},
+		transformText: 'Transforms into',
+		benefitsSection: {
+			title: 'Your Concrete Gains',
+		},
+		benefits: {
+			mentalHealth: {
+				title: 'Zero Tech Stress, 100% Business',
+				description:
+					'We manage infrastructure, security, updates, monitoring. Sleep soundly while we watch over your digital presence 24/7.',
+				metric: '0 worries',
+			},
+			seoGrowth: {
+				title: 'SEO Visibility = Automatic Clients',
+				description:
+					'Google-optimized architecture. Appear on the first page and turn searches into concrete business opportunities.',
+				metric: '+250%',
+			},
+			performance: {
+				title: 'Performance = Conversions',
+				description:
+					'Every millisecond counts. Ultra-fast sites that keep visitors engaged and turn them into paying customers.',
+				metric: '+40%',
+			},
+			security: {
+				title: 'Bulletproof Security, Guaranteed Compliance',
+				description:
+					'GDPR, automated backups, 24/7 monitoring, SSL certificates. Your reputation protected, your data secured.',
+				metric: '99.9%',
+			},
+			speed: {
+				title: 'From Idea to Launch Express',
+				description:
+					'No more dragging projects. Automated workflows, continuous deployment. Online in weeks, not months.',
+				metric: '-50%',
+			},
+			scalability: {
+				title: 'Limitless Evolution',
+				description:
+					'Your business growing? Your tech follows. Scalable infrastructure that adapts from 100 to 100,000 users effortlessly.',
+				metric: '∞',
+			},
+		},
+		ctaMessage:
+			"Free yourself from tech, focus on your sales. We're your outsourced CTO: robust infrastructure, converting SEO, solid security. You get clients, we handle the rest.",
+	},
 	cta: {
 		title: 'Ready to Transform Your Digital Presence?',
 		description:

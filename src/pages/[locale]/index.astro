@@ -6,7 +6,7 @@ import PremiumHero from '@/components/features/marketing/hero/PremiumHero.astro'
 import WorkflowSection from '@/components/features/marketing/workflow/WorkflowSection.astro'
 import ServicesGrid from '@/components/features/marketing/services/ServicesGrid.astro'
 import StatsSection from '@/components/features/marketing/stats/StatsSection'
-import TechGrid from '@/components/features/marketing/tech/TechGrid.astro'
+import TechTransformation from '@/components/features/marketing/tech/TechTransformation.astro'
 import CTASection from '@/components/features/marketing/cta/CTASection.astro'
 
 const { t } = Astro.locals
@@ -27,8 +27,8 @@ const stats = t('home.stats.items')
 			<!-- Workflow Process Section -->
 			<WorkflowSection />
 
-			<!-- Services Section -->
-			<ServicesGrid />
+			<!-- Tech Transformation Section -->
+			<TechTransformation />
 
 			<!-- Stats Section -->
 			<StatsSection
@@ -37,8 +37,8 @@ const stats = t('home.stats.items')
 				client:visible
 			/>
 
-			<!-- Tech Stack Section -->
-			<TechGrid />
+			<!-- Services Section -->
+			<ServicesGrid />
 
 			<!-- CTA Section -->
 			<CTASection />

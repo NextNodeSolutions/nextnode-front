@@ -137,6 +137,58 @@ export const home = {
 			},
 		},
 	},
+	techTransform: {
+		title: 'Notre Expertise Technique = Vos Résultats Business',
+		subtitle:
+			'Nous gérons toute la complexité technologique pour que vous obteniez la crème de la crème, sans vous casser la tête',
+		techSection: {
+			title: 'Notre Stack Technique',
+		},
+		transformText: 'Se transforme en',
+		benefitsSection: {
+			title: 'Vos Gains Concrets',
+		},
+		benefits: {
+			mentalHealth: {
+				title: 'Zéro Stress Tech, 100% Business',
+				description:
+					"On gère l'infrastructure, la sécurité, les mises à jour, le monitoring. Vous dormez tranquille, nous veillons 24/7 sur votre présence digitale.",
+				metric: '0 souci',
+			},
+			seoGrowth: {
+				title: 'Visibilité SEO = Clients en Automatique',
+				description:
+					'Architecture optimisée pour Google. Apparaissez en première page et transformez les recherches en opportunités commerciales concrètes.',
+				metric: '+250%',
+			},
+			performance: {
+				title: 'Performance = Conversions',
+				description:
+					'Chaque milliseconde compte. Sites ultra-rapides qui gardent vos visiteurs captifs et les transforment en clients payants.',
+				metric: '+40%',
+			},
+			security: {
+				title: 'Sécurité Blindée, Conformité Garantie',
+				description:
+					'RGPD, sauvegardes automatiques, monitoring 24/7, certificats SSL. Votre réputation protégée, vos données sécurisées.',
+				metric: '99.9%',
+			},
+			speed: {
+				title: "De l'Idée au Lancement Express",
+				description:
+					'Fini les projets qui traînent. Workflows automatisés, déploiement continu. Mise en ligne en semaines, pas en mois.',
+				metric: '-50%',
+			},
+			scalability: {
+				title: 'Évolution Sans Limites',
+				description:
+					"Votre business grandit ? Votre tech suit. Infrastructure scalable qui s'adapte de 100 à 100 000 utilisateurs sans broncher.",
+				metric: '∞',
+			},
+		},
+		ctaMessage:
+			'Libérez-vous de la tech, concentrez-vous sur vos ventes. Nous sommes votre CTO externalisé : infrastructure robuste, SEO qui convertit, sécurité béton. Vous obtenez des clients, nous gérons le reste.',
+	},
 	cta: {
 		title: 'Prêt à Transformer Votre Présence Digitale ?',
 		description:
