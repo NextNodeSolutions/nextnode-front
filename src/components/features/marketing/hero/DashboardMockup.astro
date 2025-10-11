@@ -110,7 +110,7 @@ const { t } = Astro.locals
 
 	<!-- Floating badge - Top right -->
 	<div
-		class="dark:bg-brand-charcoal animate-float border-brand-gray-light absolute -top-4 -right-4 transform rounded-xl border bg-white p-3 shadow-xl transition-transform duration-300 hover:scale-110"
+		class="dark:bg-brand-charcoal animate-float-vertical border-brand-gray-light absolute -top-4 -right-4 transform rounded-xl border bg-white p-3 shadow-xl transition-transform duration-300 hover:scale-110"
 	>
 		<div class="flex items-center gap-2">
 			<div
@@ -131,7 +131,7 @@ const { t } = Astro.locals
 
 	<!-- Floating badge - Bottom left -->
 	<div
-		class="dark:bg-brand-charcoal animate-float animation-delay-1000 border-brand-gray-light absolute -bottom-4 -left-4 transform rounded-xl border bg-white p-3 shadow-xl transition-transform duration-300 hover:scale-110"
+		class="dark:bg-brand-charcoal animate-float-vertical animation-delay-1000 border-brand-gray-light absolute -bottom-4 -left-4 transform rounded-xl border bg-white p-3 shadow-xl transition-transform duration-300 hover:scale-110"
 	>
 		<div class="flex items-center gap-2">
 			<div
@@ -150,23 +150,3 @@ const { t } = Astro.locals
 		</div>
 	</div>
 </div>
-
-<style>
-	@keyframes float {
-		0%,
-		100% {
-			transform: translateY(0);
-		}
-		50% {
-			transform: translateY(-10px);
-		}
-	}
-
-	.animate-float {
-		animation: float 3s ease-in-out infinite;
-	}
-
-	.animation-delay-1000 {
-		animation-delay: 1s;
-	}
-</style>

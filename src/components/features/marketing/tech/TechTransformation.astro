@@ -142,7 +142,7 @@ const regularBenefits = benefits.filter(b => !b.hero)
 			<div
 				class={cn(
 					MARKETING_LAYOUT.grid.techTransform.spans.tech,
-					'tech-animate tech-animate-fade-in-up',
+					'tech-animate tech-animate-fade-in-left',
 				)}
 				data-delay={ANIMATION_DELAYS.techSection}
 			>
@@ -174,7 +174,7 @@ const regularBenefits = benefits.filter(b => !b.hero)
 			<div
 				class={cn(
 					MARKETING_LAYOUT.grid.techTransform.spans.benefits,
-					'tech-animate tech-animate-fade-in-up',
+					'tech-animate tech-animate-fade-in-right',
 				)}
 				data-delay={ANIMATION_DELAYS.benefits}
 			>
@@ -186,14 +186,15 @@ const regularBenefits = benefits.filter(b => !b.hero)
 					</h3>
 
 					<!-- Bento Grid -->
-					<div class="benefits-bento-grid">
+					<div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 						<!-- Hero Benefit Card -->
 						{
 							heroBenefit && (
 								<div
 									class={cn(
 										BENEFIT_CARDS.hero,
-										'bento-hero tech-animate',
+										'col-span-1 min-h-[200px] sm:col-span-2 sm:min-h-[200px]',
+										'tech-animate tech-animate-benefit-card',
 									)}
 									data-delay={ANIMATION_DELAYS.heroCard}
 								>
@@ -259,7 +260,9 @@ const regularBenefits = benefits.filter(b => !b.hero)
 								<div
 									class={cn(
 										BENEFIT_CARDS.regular,
-										'bento-card tech-animate',
+										'tech-animate tech-animate-benefit-card',
+										index === 4 &&
+											'col-span-1 sm:col-span-2',
 									)}
 									data-delay={getRegularCardDelay(index)}
 								>
@@ -339,11 +342,24 @@ const regularBenefits = benefits.filter(b => !b.hero)
 
 	/* Triggered animation state */
 	.tech-animate.tech-animating.tech-animate-fade-in-up {
-		animation: fadeInUp 0.8s ease-out forwards;
+		animation: fade-in-up 0.8s ease-out forwards;
 	}
 
 	.tech-animate.tech-animating.tech-animate-fade-in {
-		animation: fadeIn 0.8s ease-out forwards;
+		animation: fade-in-0 0.8s ease-out forwards;
+	}
+
+	.tech-animate.tech-animating.tech-animate-fade-in-left {
+		animation: fade-in-left 0.8s ease-out forwards;
+	}
+
+	.tech-animate.tech-animating.tech-animate-fade-in-right {
+		animation: fade-in-right 0.8s ease-out forwards;
+	}
+
+	/* Pure fade-in for benefit cards (uses global fade-in-0) */
+	.tech-animate.tech-animating.tech-animate-benefit-card {
+		animation: fade-in-0 1s ease-in forwards;
 	}
 
 	/* Final state after animation - visible and stable */
@@ -353,62 +369,11 @@ const regularBenefits = benefits.filter(b => !b.hero)
 	}
 
 	/* ========================================================================
-	   KEYFRAME ANIMATIONS
+	   KEYFRAME ANIMATIONS (using global animations.css)
 	   ======================================================================== */
 
-	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(30px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	@keyframes pulseRing {
-		0% {
-			transform: scale(1);
-			opacity: 0.5;
-		}
-		100% {
-			transform: scale(2);
-			opacity: 0;
-		}
-	}
-
-	@keyframes gradientShift {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
-	}
-
-	@keyframes iconPulse {
-		0% {
-			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-		}
-		50% {
-			transform: scale(1.05);
-			box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-		}
-	}
+	/* fadeInUp, fadeIn, pulse-ring, gradient-shift, icon-pulse
+	   are now defined in src/styles/animations.css */
 
 	/* ========================================================================
 	   BACKGROUND EFFECTS
@@ -422,71 +387,11 @@ const regularBenefits = benefits.filter(b => !b.hero)
 			var(--brand-blue) 100%
 		);
 		background-size: 200% 200%;
-		animation: gradientShift 8s ease infinite;
+		animation: gradient-shift 8s ease infinite;
 	}
 
 	.icon-pulse {
-		animation: iconPulse 2s ease-in-out infinite;
-	}
-
-	/* ========================================================================
-	   BENTO GRID LAYOUT
-	   ======================================================================== */
-
-	.benefits-bento-grid {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		grid-template-rows: repeat(3, auto);
-		gap: 1rem;
-		grid-template-areas:
-			'hero hero'
-			'card1 card2'
-			'card3 card4'
-			'card5 card5';
-	}
-
-	.bento-hero {
-		grid-area: hero;
-		min-height: 200px;
-	}
-
-	.bento-card:nth-of-type(1) {
-		grid-area: card1;
-	}
-	.bento-card:nth-of-type(2) {
-		grid-area: card2;
-	}
-	.bento-card:nth-of-type(3) {
-		grid-area: card3;
-	}
-	.bento-card:nth-of-type(4) {
-		grid-area: card4;
-	}
-	.bento-card:nth-of-type(5) {
-		grid-area: card5;
-	}
-
-	/* Mobile layout - single column */
-	@media (max-width: 640px) {
-		.benefits-bento-grid {
-			grid-template-columns: 1fr;
-			grid-template-areas:
-				'hero'
-				'card1'
-				'card2'
-				'card3'
-				'card4'
-				'card5';
-		}
-
-		.bento-hero {
-			min-height: 220px;
-		}
-	}
-
-	/* Animation delay utility */
-	.animation-delay-2000 {
-		animation-delay: 2s;
+		animation: icon-pulse 2s ease-in-out infinite;
 	}
 </style>
 

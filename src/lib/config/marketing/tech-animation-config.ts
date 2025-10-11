@@ -45,19 +45,20 @@ export const ANIMATION_DURATIONS = {
 
 /**
  * Staggered animation delays for sequential reveal
+ * Reduced for faster, more dynamic presentation
  */
 export const ANIMATION_DELAYS = {
 	title: 0,
-	subtitle: 300,
-	techSection: 600,
-	beams: 900,
-	benefits: 1200,
-	heroCard: 1400,
+	subtitle: 150,
+	techSection: 200,
+	beams: 300,
+	benefits: 400,
+	heroCard: 800,
 	/** Base delay for regular benefit cards */
-	regularCardBase: 1500,
+	regularCardBase: 1000,
 	/** Increment per card */
-	regularCardIncrement: 100,
-	ctaMessage: 1800,
+	regularCardIncrement: 200,
+	ctaMessage: 900,
 } as const
 
 // ============================================================================
@@ -170,11 +171,22 @@ export const DECORATIVE_CONFIG = {
 // ============================================================================
 
 /**
- * Calculate delay for a regular benefit card based on its index
+ * Calculate delay for a regular benefit card with faster, paired timing
+ * Pattern: Cards 1&4 together, 2&3 together, then 5
+ *
+ * @param index - Card index (0-4)
+ * @returns Delay in milliseconds
  */
-export const getRegularCardDelay = (index: number): number =>
-	ANIMATION_DELAYS.regularCardBase +
-	index * ANIMATION_DELAYS.regularCardIncrement
+export const getRegularCardDelay = (index: number): number => {
+	const delays = [
+		1000, // Card 1: +200ms after hero
+		1200, // Card 2: +200ms after 1&4
+		1200, // Card 3: same time as card 2
+		1000, // Card 4: same time as card 1
+		1400, // Card 5: +200ms after 2&3
+	]
+	return delays[index] || 1000
+}
 
 /**
  * Get animation class names for an element based on animation type

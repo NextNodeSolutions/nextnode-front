@@ -120,67 +120,22 @@ const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
 		animation: fadeInUp 0.8s ease-out 2s forwards;
 	}
 
-	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(2rem);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
+	/* Animations from global animations.css: fadeInUp, scroll-wheel, gradient-shift, bounce-down */
 
 	/* Scroll wheel animation */
 	.scroll-wheel {
-		animation: scrollWheel 1.5s ease-in-out infinite;
-	}
-
-	@keyframes scrollWheel {
-		0% {
-			opacity: 1;
-			transform: translateY(0);
-		}
-		50% {
-			opacity: 0.3;
-		}
-		100% {
-			opacity: 1;
-			transform: translateY(8px);
-		}
+		animation: scroll-wheel 1.5s ease-in-out infinite;
 	}
 
 	/* Gradient shift animation */
 	.gradient-shift {
 		background-size: 200% 100%;
-		animation: gradientShift 3s ease infinite;
-	}
-
-	@keyframes gradientShift {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
+		animation: gradient-shift 3s ease infinite;
 	}
 
 	/* Chevron bounce down animation */
 	.chevron-bounce {
-		animation: bounceDown 1.5s ease-in-out infinite;
-	}
-
-	@keyframes bounceDown {
-		0%,
-		100% {
-			transform: translateY(0);
-		}
-		50% {
-			transform: translateY(6px);
-		}
+		animation: bounce-down 1.5s ease-in-out infinite;
 	}
 
 	/* Hide on scroll */
