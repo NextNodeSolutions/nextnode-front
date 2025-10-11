@@ -227,14 +227,11 @@ const SkillIcon = memo(({ config, angle, isGlobalHovered }: SkillIconProps) => {
 	return (
 		<div
 			style={{
-				position: 'absolute',
-				left: '50%',
-				top: '50%',
 				transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
 				width: `${config.size}px`,
 				height: `${config.size}px`,
 			}}
-			className="group relative"
+			className="group absolute top-1/2 left-1/2"
 		>
 			<div
 				style={{
@@ -319,25 +316,16 @@ export default function OrbitingTech() {
 					transform: isPaused
 						? 'translate(-50%, -50%) scale(1.4)'
 						: 'translate(-50%, -50%) scale(1)',
-					opacity: isPaused ? 0.15 : 0.2,
+					opacity: isPaused ? 0.15 : 0.08,
 				}}
 			/>
 			<div
-				className="animation-delay-1000 animate-spin-reverse absolute top-1/2 left-1/2 h-40 w-40 rounded-full bg-gradient-to-tr from-green-400 to-blue-600 blur-2xl transition-all duration-500"
-				style={{
-					transform: isPaused
-						? 'translate(-50%, -50%) scale(1.5)'
-						: 'translate(-50%, -50%) scale(1)',
-					opacity: isPaused ? 0.12 : 0.15,
-				}}
-			/>
-			<div
-				className="animation-delay-500 absolute top-1/2 left-1/2 h-24 w-24 animate-pulse rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-500 blur-xl transition-all duration-500"
+				className="absolute top-1/2 left-1/2 h-18 w-18 animate-pulse rounded-full bg-gradient-to-r from-blue-400 via-green-400 to-blue-500 blur-2xl transition-all duration-500"
 				style={{
 					transform: isPaused
 						? 'translate(-50%, -50%) scale(1.6)'
 						: 'translate(-50%, -50%) scale(1)',
-					opacity: isPaused ? 0.18 : 0.25,
+					opacity: isPaused ? 0.05 : 0.15,
 				}}
 			/>
 
