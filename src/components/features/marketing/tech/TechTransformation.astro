@@ -81,19 +81,24 @@ const regularBenefits = benefits.filter(b => !b.hero)
 	>
 	</div>
 
-	<div class="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+	<div
+		class="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-12"
+		id="tech-transform-section"
+	>
 		<!-- Section Header -->
 		<div class="mb-16 space-y-6 text-center">
 			<h2
 				class={cn(
-					'animate-fade-in-up text-3xl font-bold tracking-tight opacity-0 sm:text-4xl lg:text-5xl',
+					'tech-animate tech-animate-fade-in-up text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl',
 					'text-gray-900 dark:text-white',
 				)}
+				data-delay="0"
 			>
 				{t('home.techTransform.title')}
 			</h2>
 			<p
-				class="animation-delay-300 animate-fade-in-up mx-auto max-w-3xl text-lg text-gray-600 opacity-0 sm:text-xl dark:text-gray-400"
+				class="tech-animate tech-animate-fade-in-up mx-auto max-w-3xl text-lg text-gray-600 sm:text-xl dark:text-gray-400"
+				data-delay="300"
 			>
 				{t('home.techTransform.subtitle')}
 			</p>
@@ -107,8 +112,9 @@ const regularBenefits = benefits.filter(b => !b.hero)
 			<div
 				class={cn(
 					'lg:col-span-5',
-					'animation-delay-600 animate-fade-in-up opacity-0',
+					'tech-animate tech-animate-fade-in-up',
 				)}
+				data-delay="600"
 			>
 				<div
 					class={cn(
@@ -133,10 +139,11 @@ const regularBenefits = benefits.filter(b => !b.hero)
 			<div
 				class={cn(
 					'lg:col-span-2',
-					'animation-delay-900 animate-fade-in opacity-0',
+					'tech-animate tech-animate-fade-in',
 					'flex items-center justify-center',
 					'py-8 lg:py-0',
 				)}
+				data-delay="900"
 			>
 				<div class="relative h-[250px] w-full">
 					<TransformationBeams client:load />
@@ -147,8 +154,9 @@ const regularBenefits = benefits.filter(b => !b.hero)
 			<div
 				class={cn(
 					'lg:col-span-5',
-					'animation-delay-1200 animate-fade-in-up opacity-0',
+					'tech-animate tech-animate-fade-in-up',
 				)}
+				data-delay="1200"
 			>
 				<div
 					class={cn(
@@ -181,8 +189,9 @@ const regularBenefits = benefits.filter(b => !b.hero)
 										'cursor-pointer',
 										'benefit-card-hero',
 										'bento-hero',
+										'tech-animate',
 									)}
-									style="animation-delay: 1400ms"
+									data-delay="1400"
 								>
 									{/* Animated gradient background */}
 									<div class="gradient-animated absolute inset-0 opacity-20" />
@@ -242,8 +251,9 @@ const regularBenefits = benefits.filter(b => !b.hero)
 										'cursor-pointer',
 										'benefit-card',
 										'bento-card',
+										'tech-animate',
 									)}
-									style={`animation-delay: ${index * 100 + 1500}ms`}
+									data-delay={index * 100 + 1500}
 								>
 									<div class="relative z-10 space-y-3">
 										<div class="flex items-start justify-between gap-2">
@@ -287,9 +297,8 @@ const regularBenefits = benefits.filter(b => !b.hero)
 
 		<!-- Bottom CTA Message -->
 		<div
-			class={cn(
-				'animation-delay-1800 animate-fade-in-up mt-16 text-center opacity-0',
-			)}
+			class={cn('tech-animate tech-animate-fade-in-up mt-16 text-center')}
+			data-delay="1800"
 		>
 			<p
 				class={cn(
@@ -304,6 +313,26 @@ const regularBenefits = benefits.filter(b => !b.hero)
 </section>
 
 <style>
+	/* Initial state - hidden before animation trigger */
+	.tech-animate:not(.tech-animated) {
+		opacity: 0;
+	}
+
+	/* Triggered animation state */
+	.tech-animate.tech-animating.tech-animate-fade-in-up {
+		animation: fadeInUp 0.8s ease-out forwards;
+	}
+
+	.tech-animate.tech-animating.tech-animate-fade-in {
+		animation: fadeIn 0.8s ease-out forwards;
+	}
+
+	/* Final state after animation - visible and stable */
+	.tech-animate.tech-animated {
+		opacity: 1;
+		transform: none;
+	}
+
 	/* Animations */
 	@keyframes fadeInUp {
 		from {
@@ -371,23 +400,6 @@ const regularBenefits = benefits.filter(b => !b.hero)
 			transform: scale(1.05);
 			box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
 		}
-	}
-
-	.animate-fade-in-up {
-		animation: fadeInUp 0.8s ease-out forwards;
-	}
-
-	.animate-fade-in {
-		animation: fadeIn 0.8s ease-out forwards;
-	}
-
-	.tech-tag {
-		animation: fadeInUp 0.6s ease-out forwards;
-	}
-
-	.benefit-card,
-	.benefit-card-hero {
-		animation: fadeInUp 0.6s ease-out forwards;
 	}
 
 	/* Bento Grid Layout */
@@ -466,27 +478,74 @@ const regularBenefits = benefits.filter(b => !b.hero)
 		}
 	}
 
-	.animation-delay-300 {
-		animation-delay: 300ms;
-	}
-
-	.animation-delay-600 {
-		animation-delay: 600ms;
-	}
-
-	.animation-delay-900 {
-		animation-delay: 900ms;
-	}
-
-	.animation-delay-1200 {
-		animation-delay: 1200ms;
-	}
-
-	.animation-delay-1800 {
-		animation-delay: 1800ms;
-	}
-
 	.animation-delay-2000 {
 		animation-delay: 2s;
 	}
 </style>
+
+<script>
+	// Intersection Observer pour déclencher les animations une seule fois
+	const observeSection = () => {
+		const section = document.getElementById('tech-transform-section')
+		if (!section) return
+
+		// Trouver tous les éléments à animer
+		const animatedElements = section.querySelectorAll('.tech-animate')
+
+		// Si déjà animés, ne rien faire
+		const firstElement = animatedElements[0]
+		if (
+			animatedElements.length > 0 &&
+			firstElement &&
+			firstElement.classList.contains('tech-animated')
+		) {
+			return
+		}
+
+		const observer = new IntersectionObserver(
+			entries => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						// Déclencher les animations avec délais
+						animatedElements.forEach(element => {
+							const delay = parseInt(
+								element.getAttribute('data-delay') || '0',
+								10,
+							)
+
+							setTimeout(() => {
+								// Ajouter classe d'animation
+								element.classList.add('tech-animating')
+
+								// Après l'animation, marquer comme terminé
+								setTimeout(() => {
+									element.classList.add('tech-animated')
+									element.classList.remove('tech-animating')
+								}, 800) // Durée de l'animation (0.8s)
+							}, delay)
+						})
+
+						// Déconnecter l'observer après la première animation
+						observer.disconnect()
+					}
+				})
+			},
+			{
+				threshold: 0.1, // Trigger quand 10% de la section est visible
+				rootMargin: '0px',
+			},
+		)
+
+		observer.observe(section)
+	}
+
+	// Exécuter au chargement de la page
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', observeSection)
+	} else {
+		observeSection()
+	}
+
+	// Réexécuter lors de la navigation Astro
+	document.addEventListener('astro:page-load', observeSection)
+</script>
