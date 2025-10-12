@@ -219,6 +219,11 @@ export const home = {
 				title: 'SEO',
 				score: 'A+',
 			},
+			labels: {
+				performance: 'Performance',
+				loadTime: 'Load time',
+				seoPerformance: 'SEO Performance',
+			},
 		},
 		codeExample: {
 			title: 'Code Quality',

@@ -45,6 +45,11 @@ interface TechExpertiseBentoProps {
 			readonly title: string
 			readonly score: string
 		}
+		readonly labels: {
+			readonly performance: string
+			readonly loadTime: string
+			readonly seoPerformance: string
+		}
 	}
 	readonly codeExample: {
 		readonly title: string
@@ -283,7 +288,7 @@ const TechExpertiseBento = ({
 							</div>
 							<CounterMetric
 								value={metrics.lighthouse.score}
-								label="Performance"
+								label={metrics.labels.performance}
 								delay={0}
 							/>
 						</div>
@@ -342,7 +347,7 @@ const getEngagementScore = (action: EngagementAction): EngagementScore => {
 							</div>
 							<CounterMetric
 								value={metrics.performance.value}
-								label="Temps de chargement"
+								label={metrics.labels.loadTime}
 								delay={200}
 							/>
 							<div className="border-brand-soft-black border-t pt-4">
@@ -393,7 +398,7 @@ const getEngagementScore = (action: EngagementAction): EngagementScore => {
 							</div>
 							<CounterMetric
 								value={metrics.seo.score}
-								label="SEO Performance"
+								label={metrics.labels.seoPerformance}
 								delay={300}
 							/>
 						</div>

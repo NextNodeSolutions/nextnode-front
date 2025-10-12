@@ -13,6 +13,7 @@ export const common = {
 		openMenu: 'Ouvrir le menu',
 		closeMenu: 'Fermer le menu',
 		scrollToDiscover: 'Faites défiler pour découvrir plus',
+		scrollToDiscoverAria: 'Découvrir la suite',
 		theme: 'Thème',
 		language: 'Langue',
 	},

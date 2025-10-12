@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
+const { t } = Astro.locals
 ---
 
 <div
@@ -20,7 +21,7 @@ const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
 >
 	<button
 		type="button"
-		aria-label="Découvrir la suite"
+		aria-label={t('common.ui.scrollToDiscoverAria')}
 		class={cn(
 			'group relative',
 			'flex flex-col items-center gap-4',
@@ -102,7 +103,7 @@ const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
 				'transition-colors duration-700 ease-out',
 			)}
 		>
-			Découvrir la suite
+			{t('common.ui.scrollToDiscoverAria')}
 		</span>
 	</button>
 </div>

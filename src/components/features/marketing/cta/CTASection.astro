@@ -76,26 +76,11 @@ const { t, locale } = Astro.locals
 					'animate-fade-in-up animation-delay-900 flex flex-col items-center gap-3 text-sm font-extrabold text-white opacity-0 sm:flex-row sm:gap-4 sm:text-base',
 				)}
 			>
-				<span
-					>✓ {
-						t('home.cta.reassurance')?.free ||
-							'Consultation 100% gratuite'
-					}</span
-				>
+				<span>✓ {t('home.cta.reassurance.free')}</span>
 				<span class="hidden text-white/60 sm:inline">•</span>
-				<span
-					>✓ {
-						t('home.cta.reassurance')?.noCommitment ||
-							'Aucun engagement'
-					}</span
-				>
+				<span>✓ {t('home.cta.reassurance.noCommitment')}</span>
 				<span class="hidden text-white/60 sm:inline">•</span>
-				<span
-					>✓ {
-						t('home.cta.reassurance')?.transparent ||
-							'Devis transparent'
-					}</span
-				>
+				<span>✓ {t('home.cta.reassurance.transparent')}</span>
 			</p>
 		</div>
 	</div>
