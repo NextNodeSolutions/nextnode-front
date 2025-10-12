@@ -1,18 +1,32 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { Code2, Gauge, GitBranch, Layers, Rocket, Zap } from 'lucide-react'
+import {
+	Activity,
+	CheckCircle,
+	Code2,
+	Gauge,
+	GitBranch,
+	Lock,
+	Rocket,
+	Shield,
+	Zap,
+} from 'lucide-react'
 import { motion } from 'motion/react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { nord } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 import { cn } from '@/lib/core/utils'
 
 interface TechExpertiseBentoProps {
 	readonly title: string
 	readonly subtitle: string
-	readonly techStack: {
+	readonly qualityBadges: {
 		readonly title: string
-		readonly items: readonly string[]
+		readonly items: readonly {
+			readonly label: string
+			readonly value: string
+			readonly icon: 'shield' | 'check' | 'activity' | 'lock'
+		}[]
 	}
 	readonly metrics: {
 		readonly lighthouse: {
@@ -34,7 +48,6 @@ interface TechExpertiseBentoProps {
 	}
 	readonly codeExample: {
 		readonly title: string
-		readonly code: string
 	}
 	readonly tools: {
 		readonly title: string
@@ -162,11 +175,25 @@ const BentoCard = ({
 const TechExpertiseBento = ({
 	title,
 	subtitle,
-	techStack,
+	qualityBadges,
 	metrics,
 	codeExample,
 	tools,
 }: TechExpertiseBentoProps) => {
+	const getIcon = (iconName: string) => {
+		switch (iconName) {
+			case 'shield':
+				return <Shield className="text-brand-green h-5 w-5" />
+			case 'check':
+				return <CheckCircle className="text-brand-green h-5 w-5" />
+			case 'activity':
+				return <Activity className="text-brand-green h-5 w-5" />
+			case 'lock':
+				return <Lock className="text-brand-green h-5 w-5" />
+			default:
+				return <CheckCircle className="text-brand-green h-5 w-5" />
+		}
+	}
 	return (
 		<section
 			className={cn(
@@ -206,34 +233,40 @@ const TechExpertiseBento = ({
 
 				{/* Bento Grid */}
 				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-					{/* Tech Stack - Span 2 columns on large screens */}
+					{/* Quality Badges - Span 2 columns on large screens */}
 					<BentoCard className="lg:col-span-2">
 						<div className="relative z-10">
 							<div className="mb-6 flex items-center gap-3">
-								<Layers className="text-brand-blue h-6 w-6" />
+								<Shield className="text-brand-blue h-6 w-6" />
 								<h3 className="text-xl font-bold text-white">
-									{techStack.title}
+									{qualityBadges.title}
 								</h3>
 							</div>
-							<div className="flex flex-wrap gap-3">
-								{techStack.items.map((tech, index) => (
-									<motion.span
-										key={tech}
-										initial={{ opacity: 0, scale: 0.8 }}
-										whileInView={{ opacity: 1, scale: 1 }}
+							<div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+								{qualityBadges.items.map((badge, index) => (
+									<motion.div
+										key={badge.label}
+										initial={{ opacity: 0, y: 20 }}
+										whileInView={{ opacity: 1, y: 0 }}
 										viewport={{ once: true }}
 										transition={{ delay: index * 0.1 }}
-										whileHover={{ scale: 1.1 }}
 										className={cn(
-											'rounded-lg px-4 py-2',
-											'from-brand-blue/20 to-brand-green/20 bg-gradient-to-r',
-											'border-brand-blue/30 border',
-											'text-sm font-medium text-white',
-											'hover:border-brand-green/50 cursor-pointer transition-colors',
+											'flex flex-col items-center gap-2 rounded-lg p-4',
+											'from-brand-green/10 to-brand-blue/10 bg-gradient-to-br',
+											'border-brand-green/30 border',
+											'hover:border-brand-green/50 transition-colors',
 										)}
 									>
-										{tech}
-									</motion.span>
+										<div className="flex items-center gap-2">
+											{getIcon(badge.icon)}
+											<span className="text-lg font-bold text-white">
+												{badge.value}
+											</span>
+										</div>
+										<span className="text-xs text-gray-400">
+											{badge.label}
+										</span>
+									</motion.div>
 								))}
 							</div>
 						</div>
@@ -268,15 +301,31 @@ const TechExpertiseBento = ({
 							<div className="overflow-hidden rounded-lg">
 								<SyntaxHighlighter
 									language="typescript"
-									style={oneDark}
+									style={nord}
 									customStyle={{
 										margin: 0,
 										padding: '1rem',
 										fontSize: '0.875rem',
-										background: 'rgba(0, 0, 0, 0.3)',
 									}}
 								>
-									{codeExample.code}
+									{`// Track customer engagement with type-safe scoring
+type EngagementAction = 'visit' | 'click' | 'signup' | 'purchase'
+
+interface EngagementScore {
+  stage: string
+  points: number
+}
+
+const getEngagementScore = (action: EngagementAction): EngagementScore => {
+  const stages: Record<EngagementAction, EngagementScore> = {
+    visit: { stage: 'Discovery', points: 10 },
+    click: { stage: 'Interest', points: 25 },
+    signup: { stage: 'Lead', points: 50 },
+    purchase: { stage: 'Customer', points: 100 }
+  }
+
+  return stages[action]
+}`}
 								</SyntaxHighlighter>
 							</div>
 						</div>
