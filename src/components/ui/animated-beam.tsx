@@ -27,6 +27,7 @@ export interface AnimatedBeamProps {
 	endYOffset?: number
 	dotted?: boolean
 	dotSpacing?: number
+	forceVertical?: boolean
 }
 
 export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
@@ -49,11 +50,13 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 	endYOffset = 0,
 	dotted = false,
 	dotSpacing = 6,
+	forceVertical,
 }) => {
 	const id = useId()
 	const [pathD, setPathD] = useState('')
 	const [svgDimensions, setSvgDimensions] = useState({ width: 0, height: 0 })
 	const [isVertical, setIsVertical] = useState(false)
+	const [isReady, setIsReady] = useState(false)
 	const strokeDasharray = dotted ? `${dotSpacing} ${dotSpacing}` : 'none'
 
 	// Gradient coordinates adapt to orientation
@@ -118,10 +121,15 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 					rectB.height / 2 +
 					endYOffset
 
-				// Detect orientation: vertical if Y difference > X difference
-				const deltaX = Math.abs(endX - startX)
-				const deltaY = Math.abs(endY - startY)
-				const vertical = deltaY > deltaX
+				// Detect orientation: use forceVertical if provided, otherwise auto-detect
+				let vertical: boolean
+				if (forceVertical !== undefined) {
+					vertical = forceVertical
+				} else {
+					const deltaX = Math.abs(endX - startX)
+					const deltaY = Math.abs(endY - startY)
+					vertical = deltaY > deltaX
+				}
 				setIsVertical(vertical)
 
 				// Adapt curvature based on orientation
@@ -136,6 +144,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 					d = `M ${startX},${startY} Q ${(startX + endX) / 2},${controlY} ${endX},${endY}`
 				}
 				setPathD(d)
+				setIsReady(true)
 			}
 		}
 
@@ -166,7 +175,13 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 		startYOffset,
 		endXOffset,
 		endYOffset,
+		forceVertical,
 	])
+
+	// Don't render until geometry is calculated
+	if (!isReady) {
+		return null
+	}
 
 	return (
 		<svg

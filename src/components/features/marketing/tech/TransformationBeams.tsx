@@ -92,7 +92,7 @@ export const TransformationBeams = () => {
 						containerRef={containerRef}
 						fromRef={fromRef}
 						toRef={toRef}
-						curvature={isMobile ? beam.curvature : beam.curvature}
+						curvature={beam.curvature}
 						duration={beam.duration}
 						delay={beam.delay}
 						pathColor={BEAM_DEFAULTS.pathColor}
@@ -100,6 +100,7 @@ export const TransformationBeams = () => {
 						pathOpacity={BEAM_DEFAULTS.pathOpacity}
 						gradientStartColor={colors.start}
 						gradientStopColor={colors.end}
+						forceVertical={isMobile}
 					/>
 				)
 			})}
