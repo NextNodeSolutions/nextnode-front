@@ -189,6 +189,64 @@ export const home = {
 		ctaMessage:
 			'Libérez-vous de la tech, concentrez-vous sur vos ventes. Nous sommes votre CTO externalisé : infrastructure robuste, SEO qui convertit, sécurité béton. Vous obtenez des clients, nous gérons le reste.',
 	},
+	techExpertise: {
+		title: 'Expertise Technique Prouvée',
+		subtitle:
+			'Code de qualité, performances optimales et technologies modernes — pas de promesses, juste des résultats mesurables',
+		techStack: {
+			title: 'Stack Technique',
+			items: [
+				'React 19',
+				'Astro 5',
+				'TypeScript',
+				'Tailwind CSS v4',
+				'Node.js',
+				'PostgreSQL',
+				'Docker',
+				'GitHub Actions',
+			],
+		},
+		metrics: {
+			lighthouse: {
+				title: 'Lighthouse',
+				score: '100/100',
+			},
+			performance: {
+				title: 'Performance',
+				value: '<1s',
+			},
+			bundle: {
+				title: 'Bundle optimisé',
+				value: '<50kb',
+			},
+			seo: {
+				title: 'SEO',
+				score: 'A+',
+			},
+		},
+		codeExample: {
+			title: 'Qualité de Code',
+			code: `// Clean, type-safe, maintainable
+const createApiClient = <T>(config: ApiConfig) => {
+  return {
+    async fetch(endpoint: string): Promise<T> {
+      const response = await fetch(\`\${config.baseUrl}\${endpoint}\`)
+      if (!response.ok) throw new ApiError(response)
+      return response.json()
+    }
+  }
+}`,
+		},
+		tools: {
+			title: 'Outils Pro',
+			items: [
+				'GitHub (CI/CD)',
+				'Vitest (Testing)',
+				'ESLint + Biome',
+				'Docker + Railway',
+			],
+		},
+	},
 	cta: {
 		title: 'Prêt à Transformer Votre Présence Digitale ?',
 		description:

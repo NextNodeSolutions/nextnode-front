@@ -189,6 +189,64 @@ export const home = {
 		ctaMessage:
 			"Free yourself from tech, focus on your sales. We're your outsourced CTO: robust infrastructure, converting SEO, solid security. You get clients, we handle the rest.",
 	},
+	techExpertise: {
+		title: 'Proven Technical Expertise',
+		subtitle:
+			'Quality code, optimal performance, and modern technologies — no promises, just measurable results',
+		techStack: {
+			title: 'Tech Stack',
+			items: [
+				'React 19',
+				'Astro 5',
+				'TypeScript',
+				'Tailwind CSS v4',
+				'Node.js',
+				'PostgreSQL',
+				'Docker',
+				'GitHub Actions',
+			],
+		},
+		metrics: {
+			lighthouse: {
+				title: 'Lighthouse',
+				score: '100/100',
+			},
+			performance: {
+				title: 'Performance',
+				value: '<1s',
+			},
+			bundle: {
+				title: 'Optimized Bundle',
+				value: '<50kb',
+			},
+			seo: {
+				title: 'SEO',
+				score: 'A+',
+			},
+		},
+		codeExample: {
+			title: 'Code Quality',
+			code: `// Clean, type-safe, maintainable
+const createApiClient = <T>(config: ApiConfig) => {
+  return {
+    async fetch(endpoint: string): Promise<T> {
+      const response = await fetch(\`\${config.baseUrl}\${endpoint}\`)
+      if (!response.ok) throw new ApiError(response)
+      return response.json()
+    }
+  }
+}`,
+		},
+		tools: {
+			title: 'Pro Tools',
+			items: [
+				'GitHub (CI/CD)',
+				'Vitest (Testing)',
+				'ESLint + Biome',
+				'Docker + Railway',
+			],
+		},
+	},
 	cta: {
 		title: 'Ready to Transform Your Digital Presence?',
 		description:

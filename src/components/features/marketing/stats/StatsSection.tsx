@@ -75,7 +75,7 @@ const StatsCounter = ({ value, label }: StatItem) => {
 				'from-brand-charcoal to-brand-soft-black bg-gradient-to-br',
 				'border-brand-soft-black border',
 				'hover:border-brand-green transition-all duration-300',
-				'hover:shadow-brand-green/10 hover:shadow-xl',
+				'hover:shadow-brand-green/10 cursor-pointer hover:shadow-xl',
 			)}
 		>
 			<div className="relative space-y-3">

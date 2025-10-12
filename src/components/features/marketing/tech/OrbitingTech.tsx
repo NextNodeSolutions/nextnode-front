@@ -49,7 +49,7 @@ const SkillIcon = memo(({ config, angle, isGlobalHovered }: SkillIconProps) => {
 				width: sizeVar,
 				height: sizeVar,
 			}}
-			className="group absolute top-1/2 left-1/2"
+			className="group absolute top-1/2 left-1/2 cursor-pointer"
 		>
 			{/* Global hover scale wrapper */}
 			<div

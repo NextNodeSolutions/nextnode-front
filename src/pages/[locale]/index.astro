@@ -4,16 +4,15 @@ import Header from '@/components/layout/header/Header.astro'
 import Footer from '@/components/layout/footer/Footer.astro'
 import PremiumHero from '@/components/features/marketing/hero/PremiumHero.astro'
 import WorkflowSection from '@/components/features/marketing/workflow/WorkflowSection.astro'
-import ServicesGrid from '@/components/features/marketing/services/ServicesGrid.astro'
-import StatsSection from '@/components/features/marketing/stats/StatsSection'
 import TechTransformation from '@/components/features/marketing/tech/TechTransformation.astro'
+import TechExpertiseBento from '@/components/features/marketing/tech-expertise/TechExpertiseBento'
 import CTASection from '@/components/features/marketing/cta/CTASection.astro'
 
 const { t } = Astro.locals
 
 const title = t('common.meta.homepage.title')
 const description = t('common.meta.homepage.description')
-const stats = t('home.stats.items')
+const techExpertise = t('home.techExpertise')
 ---
 
 <BaseLayout title={title} description={description}>
@@ -30,15 +29,16 @@ const stats = t('home.stats.items')
 			<!-- Tech Transformation Section -->
 			<TechTransformation />
 
-			<!-- Stats Section -->
-			<StatsSection
-				title={t('home.stats.title')}
-				stats={stats}
+			<!-- Tech Expertise Section -->
+			<TechExpertiseBento
+				title={techExpertise.title}
+				subtitle={techExpertise.subtitle}
+				techStack={techExpertise.techStack}
+				metrics={techExpertise.metrics}
+				codeExample={techExpertise.codeExample}
+				tools={techExpertise.tools}
 				client:visible
 			/>
-
-			<!-- Services Section -->
-			<ServicesGrid />
 
 			<!-- CTA Section -->
 			<CTASection />
