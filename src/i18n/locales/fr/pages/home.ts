@@ -193,17 +193,13 @@ export const home = {
 		title: 'Expertise Technique Prouvée',
 		subtitle:
 			'Code de qualité, performances optimales et technologies modernes — pas de promesses, juste des résultats mesurables',
-		techStack: {
-			title: 'Stack Technique',
+		qualityBadges: {
+			title: 'Qualité & Sécurité',
 			items: [
-				'React 19',
-				'Astro 5',
-				'TypeScript',
-				'Tailwind CSS v4',
-				'Node.js',
-				'PostgreSQL',
-				'Docker',
-				'GitHub Actions',
+				{ label: 'Coverage', value: '95%', icon: 'activity' },
+				{ label: 'TypeScript', value: 'Strict', icon: 'check' },
+				{ label: 'Sécurité', value: '0 Vuln', icon: 'shield' },
+				{ label: 'Grade', value: 'A+', icon: 'lock' },
 			],
 		},
 		metrics: {
@@ -226,16 +222,6 @@ export const home = {
 		},
 		codeExample: {
 			title: 'Qualité de Code',
-			code: `// Clean, type-safe, maintainable
-const createApiClient = <T>(config: ApiConfig) => {
-  return {
-    async fetch(endpoint: string): Promise<T> {
-      const response = await fetch(\`\${config.baseUrl}\${endpoint}\`)
-      if (!response.ok) throw new ApiError(response)
-      return response.json()
-    }
-  }
-}`,
 		},
 		tools: {
 			title: 'Outils Pro',
@@ -248,14 +234,14 @@ const createApiClient = <T>(config: ApiConfig) => {
 		},
 	},
 	cta: {
-		title: 'Prêt à Transformer Votre Présence Digitale ?',
+		title: 'Transformons votre idée en réalité digitale',
 		description:
-			"Discutons de votre projet et créons quelque chose d'extraordinaire ensemble.",
-		primaryButton: 'Démarrer Votre Projet',
-		features: [
-			'✅ Consultation technique gratuite',
-			'✅ Proposition de développement sur-mesure',
-			'✅ Devis sans engagement',
-		],
+			'Consultation gratuite de 30 minutes pour analyser votre projet',
+		primaryButton: 'Réserver Ma Consultation Gratuite',
+		reassurance: {
+			free: 'Consultation 100% gratuite',
+			noCommitment: 'Aucun engagement',
+			transparent: 'Devis transparent',
+		},
 	},
 } as const
