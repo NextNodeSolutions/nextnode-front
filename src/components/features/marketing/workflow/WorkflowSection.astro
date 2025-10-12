@@ -2,12 +2,14 @@
 import WorkflowJourney from '@/components/features/workflow/interactive/WorkflowJourney.astro'
 import MobileTimeline from '@/components/features/workflow/timeline/MobileTimeline.astro'
 import { generateWorkflowSteps } from '@/components/features/workflow/workflow-utils'
+import { ANIMATION_DELAYS } from '@/lib/config/workflow/workflow-animation-config'
 
 const { t } = Astro.locals
 const steps = generateWorkflowSteps()
 ---
 
 <section
+	id="workflow-section"
 	class="dark:from-brand-black/90 dark:via-brand-charcoal/80 dark:to-brand-black/90 relative overflow-hidden bg-gradient-to-br from-white/80 via-gray-50/80 to-white/80 py-24 sm:py-32"
 >
 	<!-- Grid Pattern Background -->
@@ -49,7 +51,10 @@ const steps = generateWorkflowSteps()
 		</div>
 
 		<!-- Workflow Journey - Responsive Switch -->
-		<div class="mx-auto max-w-7xl">
+		<div
+			class="workflow-animate workflow-animate-fade-in-up mx-auto max-w-7xl"
+			data-delay={ANIMATION_DELAYS.workflowContainer}
+		>
 			<!-- Desktop/Tablet SVG Version (md and up) -->
 			<!-- Medium screens (md to lg) use mini variant -->
 			<div class="hidden md:block lg:hidden">
@@ -75,6 +80,45 @@ const steps = generateWorkflowSteps()
 </section>
 
 <style>
+	/* ========================================================================
+	   ANIMATION STATES
+	   ======================================================================== */
+
+	/* Initial state - hidden before animation trigger */
+	.workflow-animate:not(.workflow-animated) {
+		opacity: 0;
+	}
+
+	/* Triggered animation state */
+	.workflow-animate.workflow-animating.workflow-animate-fade-in-up {
+		animation: workflow-fade-in-up 1s ease-out forwards;
+	}
+
+	/* Final state after animation - visible and stable */
+	.workflow-animate.workflow-animated {
+		opacity: 1;
+		transform: none;
+	}
+
+	/* ========================================================================
+	   KEYFRAME ANIMATIONS
+	   ======================================================================== */
+
+	@keyframes workflow-fade-in-up {
+		from {
+			opacity: 0;
+			transform: translateY(60px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* ========================================================================
+	   HEADER ANIMATIONS (keep existing for title/subtitle)
+	   ======================================================================== */
+
 	@keyframes fadeInUp {
 		from {
 			opacity: 0;
@@ -102,3 +146,10 @@ const steps = generateWorkflowSteps()
 		animation-delay: 1s;
 	}
 </style>
+
+<script>
+	import { setupWorkflowAnimation } from '@/components/features/workflow/WorkflowObserver'
+
+	// Initialize animation observer
+	setupWorkflowAnimation()
+</script>

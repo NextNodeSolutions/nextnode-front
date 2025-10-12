@@ -5,7 +5,6 @@ import { Brain, Infinity, Rocket, Search, Shield, Zap } from 'lucide-react'
 import {
 	ANIMATION_DELAYS,
 	DECORATIVE_CONFIG,
-	getRegularCardDelay,
 } from '@/lib/config/marketing/tech-animation-config'
 import {
 	BENEFIT_CARDS,
@@ -145,6 +144,7 @@ const regularBenefits = benefits.filter(b => !b.hero)
 					'tech-animate tech-animate-fade-in-left',
 				)}
 				data-delay={ANIMATION_DELAYS.techSection}
+				style="will-change: transform"
 			>
 				<div class={MARKETING_CARDS.container}>
 					<h3
@@ -194,7 +194,7 @@ const regularBenefits = benefits.filter(b => !b.hero)
 									class={cn(
 										BENEFIT_CARDS.hero,
 										'col-span-1 min-h-[200px] sm:col-span-2 sm:min-h-[200px]',
-										'tech-animate tech-animate-benefit-card',
+										'tech-animate tech-animate-fade-in-right',
 									)}
 									data-delay={ANIMATION_DELAYS.heroCard}
 								>
@@ -256,60 +256,66 @@ const regularBenefits = benefits.filter(b => !b.hero)
 
 						<!-- Regular Benefit Cards -->
 						{
-							regularBenefits.map((benefit, index) => (
-								<div
-									class={cn(
-										BENEFIT_CARDS.regular,
-										'tech-animate tech-animate-benefit-card',
-										index === 4 &&
-											'col-span-1 sm:col-span-2',
-									)}
-									data-delay={getRegularCardDelay(index)}
-								>
+							regularBenefits.map((benefit, index) => {
+								const delayKey =
+									`card${index + 1}` as keyof typeof ANIMATION_DELAYS
+								return (
 									<div
 										class={cn(
-											'relative z-10',
-											MARKETING_SPACING.cardTight,
+											BENEFIT_CARDS.regular,
+											'tech-animate tech-animate-fade-in-right',
+											index === 4 &&
+												'col-span-1 sm:col-span-2',
 										)}
+										data-delay={ANIMATION_DELAYS[delayKey]}
 									>
-										<div class="flex items-start justify-between gap-2">
-											<div
-												class={
-													BENEFIT_CARDS.iconContainer
-												}
-											>
-												<benefit.icon className="h-4 w-4 text-white" />
+										<div
+											class={cn(
+												'relative z-10',
+												MARKETING_SPACING.cardTight,
+											)}
+										>
+											<div class="flex items-start justify-between gap-2">
+												<div
+													class={
+														BENEFIT_CARDS.iconContainer
+													}
+												>
+													<benefit.icon className="h-4 w-4 text-white" />
+												</div>
+												<span
+													class={
+														MARKETING_TYPOGRAPHY.metricBadge
+													}
+												>
+													{benefit.metric}
+												</span>
 											</div>
-											<span
+
+											<h4
 												class={
-													MARKETING_TYPOGRAPHY.metricBadge
+													MARKETING_TYPOGRAPHY.benefitTitle
 												}
 											>
-												{benefit.metric}
-											</span>
+												{benefit.title}
+											</h4>
+											<p
+												class={
+													MARKETING_TYPOGRAPHY.benefitDescription
+												}
+											>
+												{benefit.description}
+											</p>
 										</div>
 
-										<h4
+										<div
 											class={
-												MARKETING_TYPOGRAPHY.benefitTitle
+												DECORATIVE_ELEMENTS.hoverGlow
 											}
-										>
-											{benefit.title}
-										</h4>
-										<p
-											class={
-												MARKETING_TYPOGRAPHY.benefitDescription
-											}
-										>
-											{benefit.description}
-										</p>
+										/>
 									</div>
-
-									<div
-										class={DECORATIVE_ELEMENTS.hoverGlow}
-									/>
-								</div>
-							))
+								)
+							})
 						}
 					</div>
 				</div>
@@ -342,24 +348,19 @@ const regularBenefits = benefits.filter(b => !b.hero)
 
 	/* Triggered animation state */
 	.tech-animate.tech-animating.tech-animate-fade-in-up {
-		animation: fade-in-up 0.8s ease-out forwards;
+		animation: fade-in-up 1s ease-out forwards;
 	}
 
 	.tech-animate.tech-animating.tech-animate-fade-in {
-		animation: fade-in-0 0.8s ease-out forwards;
+		animation: fade-in-0 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 	}
 
 	.tech-animate.tech-animating.tech-animate-fade-in-left {
-		animation: fade-in-left 0.8s ease-out forwards;
+		animation: fade-in-left 1s ease-out forwards;
 	}
 
 	.tech-animate.tech-animating.tech-animate-fade-in-right {
-		animation: fade-in-right 0.8s ease-out forwards;
-	}
-
-	/* Pure fade-in for benefit cards (uses global fade-in-0) */
-	.tech-animate.tech-animating.tech-animate-benefit-card {
-		animation: fade-in-0 1s ease-in forwards;
+		animation: fade-in-right 1s ease-out forwards;
 	}
 
 	/* Final state after animation - visible and stable */
@@ -367,13 +368,6 @@ const regularBenefits = benefits.filter(b => !b.hero)
 		opacity: 1;
 		transform: none;
 	}
-
-	/* ========================================================================
-	   KEYFRAME ANIMATIONS (using global animations.css)
-	   ======================================================================== */
-
-	/* fadeInUp, fadeIn, pulse-ring, gradient-shift, icon-pulse
-	   are now defined in src/styles/animations.css */
 
 	/* ========================================================================
 	   BACKGROUND EFFECTS

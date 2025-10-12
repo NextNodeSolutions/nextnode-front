@@ -48,11 +48,14 @@ export const observeTechTransformSection = (): void => {
 							// Add animating class
 							element.classList.add('tech-animating')
 
+							// All animations use section duration (1000ms)
+							const duration = ANIMATION_DURATIONS.section
+
 							// After animation completes, mark as done
 							setTimeout(() => {
 								element.classList.add('tech-animated')
 								element.classList.remove('tech-animating')
-							}, ANIMATION_DURATIONS.fadeIn)
+							}, duration)
 						}, delay)
 					})
 

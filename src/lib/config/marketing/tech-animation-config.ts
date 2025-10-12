@@ -13,8 +13,8 @@
  * Settings for the Intersection Observer that triggers animations
  */
 export const OBSERVER_CONFIG = {
-	/** Trigger when 10% of section is visible */
-	threshold: 0.1,
+	/** Trigger when 50% of section is visible */
+	threshold: 0.5,
 	/** No margin offset */
 	rootMargin: '0px',
 } as const
@@ -27,8 +27,10 @@ export const OBSERVER_CONFIG = {
  * Duration values for all animations in the section
  */
 export const ANIMATION_DURATIONS = {
-	/** Main fade-in animations */
-	fadeIn: 800,
+	/** Section animations (fade-in-up, fade-in-left, fade-in-right) */
+	section: 1000,
+	/** Card animations (fade-in only) */
+	card: 800,
 	/** Icon pulse effect */
 	iconPulse: 2000,
 	/** Background gradient shifting */
@@ -49,16 +51,17 @@ export const ANIMATION_DURATIONS = {
  */
 export const ANIMATION_DELAYS = {
 	title: 0,
-	subtitle: 150,
-	techSection: 200,
-	beams: 300,
-	benefits: 400,
-	heroCard: 800,
-	/** Base delay for regular benefit cards */
-	regularCardBase: 1000,
-	/** Increment per card */
-	regularCardIncrement: 200,
-	ctaMessage: 900,
+	subtitle: 0,
+	techSection: 0,
+	beams: 0,
+	benefits: 0,
+	heroCard: 400,
+	card1: 700,
+	card2: 700,
+	card3: 1000,
+	card4: 1000,
+	card5: 1300,
+	ctaMessage: 0,
 } as const
 
 // ============================================================================
@@ -72,11 +75,31 @@ export const KEYFRAME_VALUES = {
 	fadeInUp: {
 		from: {
 			opacity: 0,
-			translateY: '30px',
+			translateY: '60px',
 		},
 		to: {
 			opacity: 1,
 			translateY: '0',
+		},
+	},
+	fadeInLeft: {
+		from: {
+			opacity: 0,
+			translateX: '-60px',
+		},
+		to: {
+			opacity: 1,
+			translateX: '0',
+		},
+	},
+	fadeInRight: {
+		from: {
+			opacity: 0,
+			translateX: '60px',
+		},
+		to: {
+			opacity: 1,
+			translateX: '0',
 		},
 	},
 	fadeIn: {
@@ -169,24 +192,6 @@ export const DECORATIVE_CONFIG = {
 // ============================================================================
 // HELPER FUNCTIONS
 // ============================================================================
-
-/**
- * Calculate delay for a regular benefit card with faster, paired timing
- * Pattern: Cards 1&4 together, 2&3 together, then 5
- *
- * @param index - Card index (0-4)
- * @returns Delay in milliseconds
- */
-export const getRegularCardDelay = (index: number): number => {
-	const delays = [
-		1000, // Card 1: +200ms after hero
-		1200, // Card 2: +200ms after 1&4
-		1200, // Card 3: same time as card 2
-		1000, // Card 4: same time as card 1
-		1400, // Card 5: +200ms after 2&3
-	]
-	return delays[index] || 1000
-}
 
 /**
  * Get animation class names for an element based on animation type
