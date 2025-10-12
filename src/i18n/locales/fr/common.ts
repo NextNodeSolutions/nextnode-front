@@ -28,7 +28,7 @@ export const common = {
 	},
 	stepCard: {
 		step: 'Étape',
-		clickToSeeMore: 'Cliquer pour voir plus',
+		clickToSeeMore: 'Cliquer pour plus',
 	},
 	languages: {
 		en: 'EN',

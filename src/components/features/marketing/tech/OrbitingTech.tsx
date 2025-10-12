@@ -24,18 +24,30 @@ interface SkillIconProps {
 // ============================================================================
 
 const SkillIcon = memo(({ config, angle, isGlobalHovered }: SkillIconProps) => {
-	const x = Math.cos(angle) * config.orbitRadius
-	const y = Math.sin(angle) * config.orbitRadius
-	const { Icon } = config
+	// Use CSS custom properties for responsive orbit sizing
+	const orbitVar =
+		config.orbitRadius === ORBIT_CONFIG.radii.inner
+			? 'var(--orbit-inner)'
+			: config.orbitRadius === ORBIT_CONFIG.radii.middle
+				? 'var(--orbit-middle)'
+				: 'var(--orbit-outer)'
 
+	const sizeVar =
+		config.size === ORBIT_CONFIG.sizes.inner
+			? 'var(--icon-inner)'
+			: config.size === ORBIT_CONFIG.sizes.middle
+				? 'var(--icon-middle)'
+				: 'var(--icon-outer)'
+
+	const { Icon } = config
 	const globalScale = isGlobalHovered ? ORBIT_ANIMATION.hover.globalScale : 1
 
 	return (
 		<div
 			style={{
-				transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
-				width: `${config.size}px`,
-				height: `${config.size}px`,
+				transform: `translate(calc(-50% + ${Math.cos(angle)} * ${orbitVar}), calc(-50% + ${Math.sin(angle)} * ${orbitVar}))`,
+				width: sizeVar,
+				height: sizeVar,
 			}}
 			className="group absolute top-1/2 left-1/2"
 		>
@@ -121,8 +133,7 @@ export default function OrbitingTech() {
 		<div
 			role="img"
 			aria-label="Technology Stack Visualization"
-			className="relative flex items-center justify-center"
-			style={{ minHeight: '450px' }}
+			className="orbiting-tech-container relative flex min-h-[500px] items-center justify-center md:min-h-[450px] lg:min-h-[500px] xl:min-h-[550px]"
 			onMouseEnter={() => setIsPaused(true)}
 			onMouseLeave={() => setIsPaused(false)}
 		>
@@ -149,13 +160,17 @@ export default function OrbitingTech() {
 			/>
 
 			{/* Orbit rings */}
-			{Object.values(ORBIT_CONFIG.radii).map(radius => (
+			{[
+				{ key: 'inner', var: 'var(--orbit-inner)' },
+				{ key: 'middle', var: 'var(--orbit-middle)' },
+				{ key: 'outer', var: 'var(--orbit-outer)' },
+			].map(orbit => (
 				<div
-					key={radius}
+					key={orbit.key}
 					className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed ${ORBIT_EFFECTS.border.orbit}`}
 					style={{
-						width: `${radius * 2}px`,
-						height: `${radius * 2}px`,
+						width: `calc(${orbit.var} * 2)`,
+						height: `calc(${orbit.var} * 2)`,
 					}}
 				/>
 			))}
@@ -174,4 +189,44 @@ export default function OrbitingTech() {
 			})}
 		</div>
 	)
+}
+
+// CSS for responsive orbit sizing
+const styles = `
+	.orbiting-tech-container {
+		--orbit-inner: 40px;
+		--orbit-middle: 90px;
+		--orbit-outer: 135px;
+		--icon-inner: 28px;
+		--icon-middle: 26px;
+		--icon-outer: 24px;
+	}
+
+	@media (min-width: 768px) and (max-width: 1279px) {
+		.orbiting-tech-container {
+			--orbit-inner: 45px;
+			--orbit-middle: 105px;
+			--orbit-outer: 155px;
+			--icon-inner: 32px;
+			--icon-middle: 30px;
+			--icon-outer: 28px;
+		}
+	}
+
+	@media (min-width: 1280px) {
+		.orbiting-tech-container {
+			--orbit-inner: 60px;
+			--orbit-middle: 140px;
+			--orbit-outer: 210px;
+			--icon-inner: 44px;
+			--icon-middle: 40px;
+			--icon-outer: 36px;
+		}
+	}
+`
+
+if (typeof document !== 'undefined') {
+	const styleSheet = document.createElement('style')
+	styleSheet.textContent = styles
+	document.head.appendChild(styleSheet)
 }

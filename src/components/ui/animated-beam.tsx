@@ -53,21 +53,37 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 	const id = useId()
 	const [pathD, setPathD] = useState('')
 	const [svgDimensions, setSvgDimensions] = useState({ width: 0, height: 0 })
+	const [isVertical, setIsVertical] = useState(false)
 	const strokeDasharray = dotted ? `${dotSpacing} ${dotSpacing}` : 'none'
 
-	const gradientCoordinates = reverse
-		? {
-				x1: ['90%', '-10%'],
-				x2: ['100%', '0%'],
-				y1: ['0%', '0%'],
-				y2: ['0%', '0%'],
-			}
-		: {
-				x1: ['10%', '110%'],
-				x2: ['0%', '100%'],
-				y1: ['0%', '0%'],
-				y2: ['0%', '0%'],
-			}
+	// Gradient coordinates adapt to orientation
+	const gradientCoordinates = isVertical
+		? reverse
+			? {
+					x1: ['0%', '0%'],
+					x2: ['0%', '0%'],
+					y1: ['90%', '-10%'],
+					y2: ['100%', '0%'],
+				}
+			: {
+					x1: ['0%', '0%'],
+					x2: ['0%', '0%'],
+					y1: ['10%', '110%'],
+					y2: ['0%', '100%'],
+				}
+		: reverse
+			? {
+					x1: ['90%', '-10%'],
+					x2: ['100%', '0%'],
+					y1: ['0%', '0%'],
+					y2: ['0%', '0%'],
+				}
+			: {
+					x1: ['10%', '110%'],
+					x2: ['0%', '100%'],
+					y1: ['0%', '0%'],
+					y2: ['0%', '0%'],
+				}
 
 	useEffect(() => {
 		const updatePath = () => {
@@ -102,8 +118,23 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
 					rectB.height / 2 +
 					endYOffset
 
-				const controlY = startY - curvature
-				const d = `M ${startX},${startY} Q ${(startX + endX) / 2},${controlY} ${endX},${endY}`
+				// Detect orientation: vertical if Y difference > X difference
+				const deltaX = Math.abs(endX - startX)
+				const deltaY = Math.abs(endY - startY)
+				const vertical = deltaY > deltaX
+				setIsVertical(vertical)
+
+				// Adapt curvature based on orientation
+				let d: string
+				if (vertical) {
+					// Vertical: curve on X axis (invert sign for inward curve)
+					const controlX = startX - curvature
+					d = `M ${startX},${startY} Q ${controlX},${(startY + endY) / 2} ${endX},${endY}`
+				} else {
+					// Horizontal: curve on Y axis
+					const controlY = startY - curvature
+					d = `M ${startX},${startY} Q ${(startX + endX) / 2},${controlY} ${endX},${endY}`
+				}
 				setPathD(d)
 			}
 		}

@@ -85,22 +85,3 @@ export const BEAMS: BeamConfig[] = [
 		colorScheme: 'primary',
 	},
 ] as const
-
-// ============================================================================
-// ANCHOR POINT CONFIGURATION
-// ============================================================================
-
-/**
- * Configuration for beam anchor points
- */
-export const ANCHOR_CONFIG = {
-	/** Positioning classes for left/right anchors */
-	offset: {
-		left: '-ml-3',
-		right: '-mr-3',
-	},
-	/** Size of anchor elements */
-	size: 'h-2 w-2',
-	/** Container flex layout */
-	container: 'flex h-full flex-col justify-around',
-} as const

@@ -109,7 +109,7 @@ const StatsSection = ({ title, stats }: StatsSectionProps) => {
 	return (
 		<section
 			className={cn(
-				'relative py-24 sm:py-32',
+				'relative py-12 sm:py-18 lg:py-24',
 				'from-brand-black via-brand-charcoal to-brand-black bg-gradient-to-br',
 			)}
 		>

@@ -27,37 +27,39 @@ const { t, locale } = Astro.locals
 
 	<!-- Main Content -->
 	<div
-		class="relative mx-auto mt-24 max-w-7xl px-6 sm:px-8 md:mt-32 lg:mt-40 lg:px-12"
+		class="relative mx-auto mt-16 max-w-7xl px-4 py-28 sm:mt-20 sm:px-6 md:mt-32 lg:mt-40 lg:px-12"
 	>
 		<div
-			class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
+			class="grid grid-cols-1 items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-16"
 		>
 			<!-- Left Column: Text Content -->
-			<div class="space-y-8">
+			<div class="space-y-6 sm:space-y-8">
 				<!-- Trust Badges -->
 				<div
 					class={cn(
-						'flex flex-wrap gap-4 items-center',
+						'flex flex-wrap gap-2 items-center sm:gap-3 md:gap-4',
 						'opacity-0 animate-fade-in-up',
 					)}
 				>
 					<div
-						class="dark:bg-brand-charcoal/80 flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm backdrop-blur-sm"
+						class="dark:bg-brand-charcoal/80 flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 shadow-sm backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2"
 					>
 						<Star
-							className="h-4 w-4 fill-yellow-500 text-yellow-500"
+							className="h-3.5 w-3.5 fill-yellow-500 text-yellow-500 sm:h-4 sm:w-4"
 						/>
 						<span
-							class="text-sm font-medium text-gray-700 dark:text-gray-300"
+							class="text-xs font-medium text-gray-700 sm:text-sm dark:text-gray-300"
 							>{t('home.hero.badges.rating')}</span
 						>
 					</div>
 					<div
-						class="dark:bg-brand-charcoal/80 flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-sm backdrop-blur-sm"
+						class="dark:bg-brand-charcoal/80 flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 shadow-sm backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2"
 					>
-						<Award className="text-brand-blue-muted h-4 w-4" />
+						<Award
+							className="text-brand-blue-muted h-3.5 w-3.5 sm:h-4 sm:w-4"
+						/>
 						<span
-							class="text-sm font-medium text-gray-700 dark:text-gray-300"
+							class="text-xs font-medium text-gray-700 sm:text-sm dark:text-gray-300"
 							>{t('home.hero.badges.projects')}</span
 						>
 					</div>
@@ -66,7 +68,7 @@ const { t, locale } = Astro.locals
 				<!-- Subtitle -->
 				<p
 					class={cn(
-						'text-base sm:text-lg font-medium',
+						'text-sm sm:text-base md:text-lg font-medium',
 						'text-brand-blue-muted dark:text-brand-blue-soft',
 						'opacity-0 animate-fade-in-up animation-delay-300',
 					)}
@@ -92,7 +94,7 @@ const { t, locale } = Astro.locals
 						<!-- Decorative underline -->
 						<span
 							class={cn(
-								'from-brand-blue-soft to-brand-green-soft absolute bottom-0 left-0 h-1 w-full rounded-full bg-gradient-to-r',
+								'from-brand-blue-soft to-brand-green-soft absolute bottom-0 left-0 h-0.5 w-full rounded-full bg-gradient-to-r sm:h-1',
 								'sm:-bottom-[2px]',
 							)}></span>
 					</span><br />
@@ -104,7 +106,7 @@ const { t, locale } = Astro.locals
 				<!-- Description -->
 				<p
 					class={cn(
-						'text-md sm:text-xl text-gray-600 dark:text-gray-400 leading-relaxed',
+						'text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed',
 						'opacity-0 animate-fade-in-up animation-delay-900',
 						'max-w-2xl',
 					)}
@@ -115,17 +117,17 @@ const { t, locale } = Astro.locals
 				<!-- Key Features -->
 				<div
 					class={cn(
-						'space-y-3',
+						'space-y-2.5 sm:space-y-3',
 						'opacity-0 animate-fade-in-up animation-delay-1200',
 					)}
 				>
 					{
 						t('home.hero.features').map(feature => (
-							<div class="flex items-start gap-3">
-								<div class="bg-brand-green-soft/50 mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full">
-									<CheckCircle2 className="text-brand-green-dark h-4 w-4" />
+							<div class="flex items-start gap-2.5 sm:gap-3">
+								<div class="bg-brand-green-soft/50 mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full sm:h-6 sm:w-6">
+									<CheckCircle2 className="text-brand-green-dark h-3.5 w-3.5 sm:h-4 sm:w-4" />
 								</div>
-								<span class="text-sm leading-6 font-medium text-gray-700 md:text-base dark:text-gray-300">
+								<span class="text-sm leading-6 font-medium text-gray-700 sm:text-base dark:text-gray-300">
 									{feature}
 								</span>
 							</div>
@@ -137,10 +139,10 @@ const { t, locale } = Astro.locals
 				<div
 					class={cn(
 						'opacity-0 animate-fade-in-up animation-delay-1500',
-						'flex flex-col gap-3',
+						'flex flex-col gap-2 sm:gap-3',
 					)}
 				>
-					<div class="premium-cta-wrapper">
+					<div class="premium-cta-wrapper w-full sm:w-auto">
 						<CalEmbed
 							calLink="walid-mos"
 							mode="popup"
@@ -150,9 +152,9 @@ const { t, locale } = Astro.locals
 						/>
 					</div>
 					<span
-						class="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400"
+						class="flex items-center justify-center gap-1.5 text-xs text-gray-500 sm:gap-2 sm:text-sm dark:text-gray-400"
 					>
-						<TrendingUp className="h-4 w-4" />
+						<TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
 						{t('home.hero.consultation')}
 					</span>
 				</div>
@@ -247,15 +249,28 @@ const { t, locale } = Astro.locals
 		position: relative;
 		overflow: hidden;
 		border-radius: 0.75rem;
-		padding: 1rem 2rem;
+		padding: 0.75rem 1.5rem;
 		font-weight: 700;
-		font-size: 1.125rem;
+		font-size: 0.875rem;
 		color: white;
 		box-shadow:
 			0 20px 25px -5px rgb(0 0 0 / 0.1),
 			0 8px 10px -6px rgb(0 0 0 / 0.1);
 		transition: all 0.3s ease;
 		background: transparent !important;
+	}
+
+	@media (min-width: 640px) {
+		.premium-cta-wrapper :global(button) {
+			padding: 1rem 2rem;
+			font-size: 1rem;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.premium-cta-wrapper :global(button) {
+			font-size: 1.125rem;
+		}
 	}
 
 	.premium-cta-wrapper :global(button::before) {

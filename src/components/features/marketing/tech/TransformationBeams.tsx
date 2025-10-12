@@ -1,10 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { AnimatedBeam } from '@/components/ui/animated-beam'
 import {
-	ANCHOR_CONFIG,
 	BEAM_COLORS,
 	BEAM_DEFAULTS,
 	BEAMS,
@@ -12,45 +11,69 @@ import {
 
 export const TransformationBeams = () => {
 	const containerRef = useRef<HTMLDivElement>(null)
+	const [isMobile, setIsMobile] = useState(false)
+
+	// Detect screen size for orientation
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 768) // md breakpoint
+		}
+
+		checkMobile()
+		window.addEventListener('resize', checkMobile)
+		return () => window.removeEventListener('resize', checkMobile)
+	}, [])
 
 	// Create refs directly for each beam (3 beams total)
-	const leftTopRef = useRef<HTMLDivElement>(null)
-	const leftMidRef = useRef<HTMLDivElement>(null)
-	const leftBottomRef = useRef<HTMLDivElement>(null)
-	const rightTopRef = useRef<HTMLDivElement>(null)
-	const rightMidRef = useRef<HTMLDivElement>(null)
-	const rightBottomRef = useRef<HTMLDivElement>(null)
+	const startRef1 = useRef<HTMLDivElement>(null)
+	const startRef2 = useRef<HTMLDivElement>(null)
+	const startRef3 = useRef<HTMLDivElement>(null)
+	const endRef1 = useRef<HTMLDivElement>(null)
+	const endRef2 = useRef<HTMLDivElement>(null)
+	const endRef3 = useRef<HTMLDivElement>(null)
 
-	const leftRefs = [leftTopRef, leftMidRef, leftBottomRef]
-	const rightRefs = [rightTopRef, rightMidRef, rightBottomRef]
+	const startRefs = [startRef1, startRef2, startRef3]
+	const endRefs = [endRef1, endRef2, endRef3]
 
 	return (
 		<div
 			ref={containerRef}
-			className="relative flex h-full w-full items-center justify-between"
+			className={`relative flex h-full w-full ${
+				isMobile
+					? 'flex-col items-center justify-between'
+					: 'flex-row items-center justify-between'
+			}`}
 		>
-			{/* Left anchor points */}
+			{/* Start anchor points (top in mobile, left in desktop) */}
 			<div
-				className={`${ANCHOR_CONFIG.offset.left} ${ANCHOR_CONFIG.container}`}
+				className={
+					isMobile
+						? '-mt-3 flex w-full flex-row justify-around'
+						: '-ml-3 flex h-full flex-col justify-around'
+				}
 			>
 				{BEAMS.map((beam, i) => (
 					<div
-						key={`left-${beam.id}`}
-						ref={leftRefs[i]}
-						className={ANCHOR_CONFIG.size}
+						key={`start-${beam.id}`}
+						ref={startRefs[i]}
+						className="h-2 w-2"
 					/>
 				))}
 			</div>
 
-			{/* Right anchor points */}
+			{/* End anchor points (bottom in mobile, right in desktop) */}
 			<div
-				className={`${ANCHOR_CONFIG.offset.right} ${ANCHOR_CONFIG.container}`}
+				className={
+					isMobile
+						? '-mb-3 flex w-full flex-row justify-around'
+						: '-mr-3 flex h-full flex-col justify-around'
+				}
 			>
 				{BEAMS.map((beam, i) => (
 					<div
-						key={`right-${beam.id}`}
-						ref={rightRefs[i]}
-						className={ANCHOR_CONFIG.size}
+						key={`end-${beam.id}`}
+						ref={endRefs[i]}
+						className="h-2 w-2"
 					/>
 				))}
 			</div>
@@ -58,8 +81,8 @@ export const TransformationBeams = () => {
 			{/* Animated Beams */}
 			{BEAMS.map((beam, index) => {
 				const colors = BEAM_COLORS[beam.colorScheme]
-				const fromRef = leftRefs[index]
-				const toRef = rightRefs[index]
+				const fromRef = startRefs[index]
+				const toRef = endRefs[index]
 
 				if (!fromRef || !toRef) return null
 
@@ -69,7 +92,7 @@ export const TransformationBeams = () => {
 						containerRef={containerRef}
 						fromRef={fromRef}
 						toRef={toRef}
-						curvature={beam.curvature}
+						curvature={isMobile ? beam.curvature : beam.curvature}
 						duration={beam.duration}
 						delay={beam.delay}
 						pathColor={BEAM_DEFAULTS.pathColor}

@@ -13,8 +13,8 @@
  * Settings for the Intersection Observer that triggers animations
  */
 export const OBSERVER_CONFIG = {
-	/** Trigger when 50% of section is visible */
-	threshold: 0.5,
+	/** Trigger when 20% of section is visible */
+	threshold: 0.2,
 	/** No early detection margin */
 	rootMargin: '0px',
 } as const

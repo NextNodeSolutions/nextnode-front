@@ -14,7 +14,6 @@ const { className, targetSelector = 'section:nth-of-type(2)' } = Astro.props
 	class={cn(
 		'scroll-indicator fade-in-up',
 		'absolute bottom-10 left-1/2 -translate-x-1/2 z-10',
-		'hidden md:block',
 		className,
 	)}
 	data-target={targetSelector}
