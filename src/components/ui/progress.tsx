@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import * as ProgressPrimitive from '@radix-ui/react-progress'
+import type { ComponentRef } from 'react'
 
 import { cn } from '@/lib/core/utils'
 
@@ -10,7 +11,7 @@ interface ProgressProps
 }
 
 const Progress = React.forwardRef<
-	React.ElementRef<typeof ProgressPrimitive.Root>,
+	ComponentRef<typeof ProgressPrimitive.Root>,
 	ProgressProps
 >(({ className, value, indicatorClassName, style, ...props }, ref) => {
 	const progressColor =
