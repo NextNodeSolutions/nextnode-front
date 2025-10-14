@@ -202,10 +202,14 @@ export const home = {
 		qualityBadges: {
 			title: 'Quality & Security',
 			items: [
-				{ label: 'Coverage', value: '95%', icon: 'activity' },
-				{ label: 'TypeScript', value: 'Strict', icon: 'check' },
-				{ label: 'Security', value: '0 Vulns', icon: 'shield' },
-				{ label: 'Grade', value: 'A+', icon: 'lock' },
+				{ title: '95%', subtitle: 'Coverage', icon: 'activity' },
+				{ title: 'Strict', subtitle: 'TypeScript', icon: 'check' },
+				{
+					title: 'Secured',
+					subtitle: '0 vulnerability',
+					icon: 'shield',
+				},
+				{ title: 'A+', subtitle: 'Grade', icon: 'lock' },
 			],
 		},
 		metrics: {
