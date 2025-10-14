@@ -51,11 +51,11 @@ const services = t('home.services.items')
 			class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
 		>
 			{
-				services.map((service, index) => (
+				services.map(service => (
 					<ServiceCard
 						title={service.title}
 						description={service.description}
-						index={index}
+						icon={service.icon}
 					/>
 				))
 			}
