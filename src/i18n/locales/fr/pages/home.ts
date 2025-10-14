@@ -33,31 +33,37 @@ export const home = {
 				title: 'Développement Web',
 				description:
 					'Sites web et applications sur-mesure avec les technologies de pointe',
+				icon: 'lucide:code',
 			},
 			{
 				title: 'E-Commerce',
 				description:
 					'Boutiques en ligne performantes qui génèrent ventes et croissance',
+				icon: 'lucide:shopping-cart',
 			},
 			{
 				title: 'Applications Mobiles',
 				description:
 					'Applications natives et cross-platform pour iOS et Android',
+				icon: 'lucide:smartphone',
 			},
 			{
 				title: 'Design UX/UI',
 				description:
 					'Des designs magnifiques et intuitifs qui plaisent et convertissent',
+				icon: 'lucide:palette',
 			},
 			{
 				title: 'SEO & Marketing',
 				description:
 					'Soyez trouvé en ligne et transformez les visiteurs en clients',
+				icon: 'lucide:search',
 			},
 			{
 				title: 'Support & Maintenance',
 				description:
 					'Optimisation continue et support pour garder votre avance',
+				icon: 'lucide:headphones',
 			},
 		],
 	},
@@ -205,19 +211,100 @@ export const home = {
 		metrics: {
 			lighthouse: {
 				title: 'Lighthouse',
-				score: '100/100',
+				performance: '100',
+				seo: '95',
+				accessibility: '98',
+				bestPractices: '96',
+				pwa: '100',
+				details: [
+					{
+						label: 'Performance',
+						description:
+							'Vitesse de chargement et réactivité des pages',
+						icon: 'zap',
+					},
+					{
+						label: 'SEO',
+						description:
+							'Optimisation pour les moteurs de recherche',
+						icon: 'search',
+					},
+					{
+						label: 'Accessibilité',
+						description:
+							'Utilisabilité pour tous y compris handicaps',
+						icon: 'eye',
+					},
+					{
+						label: 'Bonnes Pratiques',
+						description: 'Standards web modernes et sécurité',
+						icon: 'shield-check',
+					},
+					{
+						label: 'PWA',
+						description: 'Capacités Progressive Web App',
+						icon: 'smartphone',
+					},
+				],
 			},
 			performance: {
-				title: 'Performance',
-				value: '<1s',
-			},
-			bundle: {
-				title: 'Bundle optimisé',
-				value: '<50kb',
+				title: 'Métriques de Performance',
+				subtitle: 'Sites rapides = plus de conversions',
+				grade: 'A+',
+				badge: 'Plus rapide que 95% du web',
+				metrics: [
+					{
+						label: 'FCP',
+						value: '1.8',
+						description: 'Premier retour visuel',
+						icon: 'eye',
+						unit: 's',
+					},
+					{
+						label: 'LCP',
+						value: '2.5',
+						description: 'Contenu principal chargé',
+						icon: 'zap',
+						unit: 's',
+					},
+					{
+						label: 'TTI',
+						value: '3.8',
+						description: 'Entièrement interactif',
+						icon: 'mouse-pointer',
+						unit: 's',
+					},
+					{
+						label: 'TBT',
+						value: '200',
+						description: 'Interaction fluide',
+						icon: 'activity',
+						unit: 'ms',
+					},
+					{
+						label: 'Speed Index',
+						value: '3.4',
+						description: 'Complétion visuelle',
+						icon: 'gauge',
+						unit: 's',
+					},
+					{
+						label: 'Bundle',
+						value: '50',
+						description: 'Charge utile optimisée',
+						icon: 'package',
+						unit: 'kb',
+					},
+				],
 			},
 			seo: {
 				title: 'SEO',
 				score: 'A+',
+				metrics: [
+					{ label: 'Core Web Vitals', value: '100%', icon: 'zap' },
+					{ label: 'Mobile-First', value: '✓', icon: 'smartphone' },
+					{ label: 'Schema.org', value: '✓', icon: 'code' },
+				],
 			},
 			labels: {
 				performance: 'Performance',
