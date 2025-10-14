@@ -59,6 +59,15 @@ const { t, locale } = Astro.locals
 					'premium-cta-wrapper',
 					'w-full sm:w-auto sm:min-w-[280px]',
 					'animate-fade-in-up animation-delay-600 opacity-0',
+					'[&_button]:relative [&_button]:overflow-hidden [&_button]:rounded-xl',
+					'[&_button]:px-6 [&_button]:py-3 sm:[&_button]:px-8 sm:[&_button]:py-4 lg:[&_button]:px-10 lg:[&_button]:py-[1.125rem]',
+					'[&_button]:font-bold [&_button]:text-sm sm:[&_button]:text-base lg:[&_button]:text-lg',
+					'[&_button]:text-white [&_button]:!bg-transparent',
+					'[&_button]:shadow-2xl',
+					'[&_button]:transition-all [&_button]:duration-300 [&_button]:ease-in-out',
+					'[&_button:hover]:scale-105',
+					'[&_button:hover]:shadow-[0_0_40px_rgba(59,130,246,0.5),0_20px_25px_-5px_rgb(0_0_0/0.2)]',
+					'[&_button_span]:flex [&_button_span]:items-center [&_button_span]:justify-center [&_button_span]:gap-2',
 				)}
 			>
 				<CalEmbed
@@ -87,36 +96,7 @@ const { t, locale } = Astro.locals
 </section>
 
 <style>
-	/* Premium CTA Button Styles - Reused from PremiumHero */
-	.premium-cta-wrapper :global(button) {
-		position: relative;
-		overflow: hidden;
-		border-radius: 0.75rem;
-		padding: 0.75rem 1.5rem;
-		font-weight: 700;
-		font-size: 0.875rem;
-		color: white;
-		box-shadow:
-			0 20px 25px -5px rgb(0 0 0 / 0.1),
-			0 8px 10px -6px rgb(0 0 0 / 0.1);
-		transition: all 0.3s ease;
-		background: transparent !important;
-	}
-
-	@media (min-width: 640px) {
-		.premium-cta-wrapper :global(button) {
-			padding: 1rem 2rem;
-			font-size: 1rem;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.premium-cta-wrapper :global(button) {
-			padding: 1.125rem 2.5rem;
-			font-size: 1.125rem;
-		}
-	}
-
+	/* Premium CTA Button - Only necessary custom CSS for pseudo-elements */
 	.premium-cta-wrapper :global(button::before) {
 		content: '';
 		position: absolute;
@@ -128,20 +108,8 @@ const { t, locale } = Astro.locals
 			var(--brand-green)
 		);
 		background-size: 200% 200%;
-		animation: gradientShift 3s ease infinite;
+		animation: gradient-shift 3s ease infinite;
 		z-index: -1;
-	}
-
-	@keyframes gradientShift {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
 	}
 
 	.premium-cta-wrapper :global(button::after) {
@@ -153,13 +121,6 @@ const { t, locale } = Astro.locals
 		pointer-events: none;
 	}
 
-	.premium-cta-wrapper :global(button:hover) {
-		transform: scale(1.05);
-		box-shadow:
-			0 0 40px rgba(59, 130, 246, 0.5),
-			0 20px 25px -5px rgb(0 0 0 / 0.2);
-	}
-
 	.premium-cta-wrapper :global(button:hover::before) {
 		background: linear-gradient(
 			to right,
@@ -168,13 +129,5 @@ const { t, locale } = Astro.locals
 			var(--brand-blue-muted)
 		);
 		animation: none;
-	}
-
-	/* Icon animation */
-	.premium-cta-wrapper :global(button span) {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
 	}
 </style>
