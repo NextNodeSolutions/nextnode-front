@@ -33,37 +33,37 @@ export const home = {
 				title: 'Développement Web',
 				description:
 					'Sites web et applications sur-mesure avec les technologies de pointe',
-				icon: 'lucide:code',
+				icon: 'code',
 			},
 			{
 				title: 'E-Commerce',
 				description:
 					'Boutiques en ligne performantes qui génèrent ventes et croissance',
-				icon: 'lucide:shopping-cart',
+				icon: 'shopping-cart',
 			},
 			{
 				title: 'Applications Mobiles',
 				description:
 					'Applications natives et cross-platform pour iOS et Android',
-				icon: 'lucide:smartphone',
+				icon: 'smartphone',
 			},
 			{
 				title: 'Design UX/UI',
 				description:
 					'Des designs magnifiques et intuitifs qui plaisent et convertissent',
-				icon: 'lucide:palette',
+				icon: 'palette',
 			},
 			{
 				title: 'SEO & Marketing',
 				description:
 					'Soyez trouvé en ligne et transformez les visiteurs en clients',
-				icon: 'lucide:search',
+				icon: 'search',
 			},
 			{
 				title: 'Support & Maintenance',
 				description:
 					'Optimisation continue et support pour garder votre avance',
-				icon: 'lucide:headphones',
+				icon: 'headphones',
 			},
 		],
 	},

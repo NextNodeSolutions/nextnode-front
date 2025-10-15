@@ -1,13 +1,7 @@
 ---
 import { cn } from '@/lib/core/utils'
-import {
-	Code,
-	ShoppingCart,
-	Smartphone,
-	Palette,
-	Search,
-	Headphones,
-} from 'lucide-react'
+import { getIconComponent } from '@/lib/ui/icon-mapper'
+import { Code } from 'lucide-react'
 
 interface Props {
 	title: string
@@ -17,17 +11,7 @@ interface Props {
 
 const { title, description, icon } = Astro.props
 
-// Map icon names to lucide-react components
-const iconMap: Record<string, typeof Code> = {
-	'lucide:code': Code,
-	'lucide:shopping-cart': ShoppingCart,
-	'lucide:smartphone': Smartphone,
-	'lucide:palette': Palette,
-	'lucide:search': Search,
-	'lucide:headphones': Headphones,
-}
-
-const IconComponent = iconMap[icon] || Code
+const IconComponent = getIconComponent(icon, Code)
 ---
 
 <div

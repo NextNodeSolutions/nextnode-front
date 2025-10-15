@@ -5,10 +5,14 @@ import {
 	Code,
 	Eye,
 	Gauge,
+	Headphones,
 	Lock,
 	MousePointer,
 	Package,
+	Palette,
+	Search,
 	Shield,
+	ShoppingCart,
 	Smartphone,
 	Zap,
 } from 'lucide-react'
@@ -29,11 +33,16 @@ type IconName =
 	| 'zap'
 	| 'smartphone'
 	| 'code'
+	| 'search'
 	// Performance icons
 	| 'eye'
 	| 'mouse-pointer'
 	| 'gauge'
 	| 'package'
+	// Service icons
+	| 'shopping-cart'
+	| 'palette'
+	| 'headphones'
 
 // Icon mapping record
 const ICON_MAP: Record<IconName, LucideIcon> = {
@@ -46,11 +55,16 @@ const ICON_MAP: Record<IconName, LucideIcon> = {
 	zap: Zap,
 	smartphone: Smartphone,
 	code: Code,
+	search: Search,
 	// Performance icons
 	eye: Eye,
 	'mouse-pointer': MousePointer,
 	gauge: Gauge,
 	package: Package,
+	// Service icons
+	'shopping-cart': ShoppingCart,
+	palette: Palette,
+	headphones: Headphones,
 }
 
 interface RenderIconOptions extends Omit<LucideProps, 'ref'> {
