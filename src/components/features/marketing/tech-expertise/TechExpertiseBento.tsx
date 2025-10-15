@@ -197,10 +197,7 @@ const TechExpertiseBento = ({
 									{tools.title}
 								</h3>
 							</div>
-							<InfiniteMarquee
-								items={tools.items}
-								direction="horizontal"
-							/>
+							<InfiniteMarquee items={tools.items} />
 						</div>
 					</BentoCard>
 
