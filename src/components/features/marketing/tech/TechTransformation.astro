@@ -1,0 +1,311 @@
+---
+import { cn } from '@/lib/core/utils'
+import { Brain, Infinity, Rocket, Search, Shield, Zap } from 'lucide-react'
+
+import {
+	ANIMATION_DELAYS,
+	DECORATIVE_CONFIG,
+} from '@/lib/config/marketing/tech-animation-config'
+
+import OrbitingTech from './OrbitingTech'
+import { TransformationBeams } from './TransformationBeams'
+
+const { t } = Astro.locals
+
+// ============================================================================
+// BENEFITS DATA
+// ============================================================================
+
+const benefits = [
+	{
+		id: 'mentalHealth',
+		icon: Brain,
+		title: t('home.techTransform.benefits.mentalHealth.title'),
+		description: t('home.techTransform.benefits.mentalHealth.description'),
+		metric: t('home.techTransform.benefits.mentalHealth.metric'),
+		hero: true,
+	},
+	{
+		id: 'seoGrowth',
+		icon: Search,
+		title: t('home.techTransform.benefits.seoGrowth.title'),
+		description: t('home.techTransform.benefits.seoGrowth.description'),
+		metric: t('home.techTransform.benefits.seoGrowth.metric'),
+	},
+	{
+		id: 'performance',
+		icon: Zap,
+		title: t('home.techTransform.benefits.performance.title'),
+		description: t('home.techTransform.benefits.performance.description'),
+		metric: t('home.techTransform.benefits.performance.metric'),
+	},
+	{
+		id: 'security',
+		icon: Shield,
+		title: t('home.techTransform.benefits.security.title'),
+		description: t('home.techTransform.benefits.security.description'),
+		metric: t('home.techTransform.benefits.security.metric'),
+	},
+	{
+		id: 'speed',
+		icon: Rocket,
+		title: t('home.techTransform.benefits.speed.title'),
+		description: t('home.techTransform.benefits.speed.description'),
+		metric: t('home.techTransform.benefits.speed.metric'),
+	},
+	{
+		id: 'scalability',
+		icon: Infinity,
+		title: t('home.techTransform.benefits.scalability.title'),
+		description: t('home.techTransform.benefits.scalability.description'),
+		metric: t('home.techTransform.benefits.scalability.metric'),
+	},
+]
+
+const heroBenefit = benefits.find(b => b.hero)
+const regularBenefits = benefits.filter(b => !b.hero)
+---
+
+<section
+	class="dark:from-brand-black/90 dark:via-brand-charcoal/80 dark:to-brand-black/90 relative overflow-hidden bg-gradient-to-br from-gray-50/80 via-white/80 to-gray-50/80 py-12 sm:py-18 lg:py-24"
+>
+	<!-- Grid Pattern Background -->
+	<div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
+		<div
+			class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
+		>
+		</div>
+	</div>
+
+	<!-- Decorative blobs -->
+	<div class={DECORATIVE_CONFIG.blobs.green.classes}></div>
+	<div class={DECORATIVE_CONFIG.blobs.blue.classes}></div>
+
+	<div
+		class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+		id="tech-transform-section"
+	>
+		<!-- Section Header -->
+		<div class="mb-8 space-y-3 text-center sm:mb-12 sm:space-y-4 lg:mb-16">
+			<h2
+				class="tech-animate tech-animate-fade-in-up text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl lg:text-5xl dark:text-white"
+				data-delay={ANIMATION_DELAYS.title}
+			>
+				{t('home.techTransform.title')}
+			</h2>
+			<p
+				class="tech-animate tech-animate-fade-in-up mx-auto max-w-3xl text-sm text-gray-600 sm:text-base md:text-lg lg:text-xl dark:text-gray-400"
+				data-delay={ANIMATION_DELAYS.subtitle}
+			>
+				{t('home.techTransform.subtitle')}
+			</p>
+		</div>
+
+		<!-- Transformation Container -->
+		<div
+			class="grid grid-cols-1 items-center md:grid-cols-24 xl:grid-cols-12"
+		>
+			<!-- Technologies Cloud (Left) -->
+			<div
+				class="tech-animate tech-animate-fade-in-left md:col-span-11 xl:col-span-5"
+				data-delay={ANIMATION_DELAYS.techSection}
+				style="will-change: transform"
+			>
+				<div
+					class="dark:bg-brand-charcoal/50 dark:border-brand-soft-black/50 rounded-3xl border-2 border-gray-200/50 bg-white/50 px-6 py-8 backdrop-blur-sm md:px-6 md:py-10 xl:px-8 xl:py-12"
+				>
+					<h3
+						class="mb-6 text-center text-xl font-bold text-gray-900 dark:text-white"
+					>
+						{t('home.techTransform.techSection.title')}
+					</h3>
+					<OrbitingTech client:only="react" />
+				</div>
+			</div>
+
+			<!-- Transformation Beams (Center) -->
+			<div
+				class="tech-animate tech-animate-fade-in flex items-center justify-center md:col-span-2 xl:col-span-2"
+				data-delay={ANIMATION_DELAYS.beams}
+			>
+				<div
+					class="relative h-[100px] w-1/3 md:h-[180px] md:w-full lg:h-[250px]"
+				>
+					<TransformationBeams client:load />
+				</div>
+			</div>
+
+			<!-- Benefits Bento Grid (Right) -->
+			<div
+				class="tech-animate tech-animate-fade-in-right md:col-span-11 xl:col-span-5"
+				data-delay={ANIMATION_DELAYS.benefits}
+			>
+				<div
+					class="dark:bg-brand-charcoal/50 dark:border-brand-soft-black/50 rounded-3xl border-2 border-gray-200/50 bg-white/50 p-6 backdrop-blur-sm md:p-6 xl:p-8"
+				>
+					<h3
+						class="mb-6 text-center text-xl font-bold text-gray-900 dark:text-white"
+					>
+						{t('home.techTransform.benefitsSection.title')}
+					</h3>
+
+					<!-- Bento Grid -->
+					<div
+						class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2"
+					>
+						<!-- Hero Benefit Card -->
+						{
+							heroBenefit && (
+								<div
+									class="group tech-animate tech-animate-fade-in-right relative col-span-1 min-h-[200px] cursor-pointer overflow-hidden rounded-2xl p-5 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl sm:col-span-2 sm:min-h-[200px] md:col-span-1 md:p-4 xl:col-span-2 xl:p-6"
+									data-delay={ANIMATION_DELAYS.heroCard}
+								>
+									{/* Animated gradient background */}
+									<div class="gradient-animated absolute inset-0" />
+
+									<div class="relative z-10 flex h-full flex-col justify-between space-y-3 md:space-y-3 xl:space-y-4">
+										<div class="from-brand-blue to-brand-green icon-pulse w-fit flex-shrink-0 rounded-xl bg-gradient-to-br p-3 shadow-lg">
+											<heroBenefit.icon className="h-8 w-8 text-white" />
+										</div>
+
+										<div class="flex-1 space-y-3">
+											<h4 class="text-xl font-bold text-white">
+												{heroBenefit.title}
+											</h4>
+											<p class="text-sm leading-relaxed text-white/90">
+												{heroBenefit.description}
+											</p>
+										</div>
+
+										<div class="flex justify-end">
+											<span class="rounded-full bg-white/20 px-3 py-1.5 text-sm font-semibold text-white">
+												{heroBenefit.metric}
+											</span>
+										</div>
+									</div>
+								</div>
+							)
+						}
+
+						<!-- Regular Benefit Cards -->
+						{
+							regularBenefits.map((benefit, index) => {
+								const delayKey =
+									`card${index + 1}` as keyof typeof ANIMATION_DELAYS
+								return (
+									<div
+										class={cn(
+											'group relative overflow-hidden',
+											'rounded-xl p-4 md:p-3 xl:p-4',
+											'dark:bg-brand-soft-black bg-gray-100',
+											'dark:border-brand-black border border-gray-300',
+											'transition-all duration-300',
+											'hover:-translate-y-1 hover:scale-[1.03] hover:shadow-lg',
+											'cursor-pointer',
+											'tech-animate tech-animate-fade-in-right',
+											index === 4 &&
+												'col-span-1 sm:col-span-2 md:col-span-1 xl:col-span-2',
+										)}
+										data-delay={ANIMATION_DELAYS[delayKey]}
+									>
+										<div class="relative z-10 space-y-3">
+											<div class="flex items-start justify-between gap-2">
+												<div class="from-brand-blue to-brand-green flex-shrink-0 rounded-lg bg-gradient-to-br p-2 shadow-md">
+													<benefit.icon className="h-4 w-4 text-white" />
+												</div>
+												<span class="rounded-full bg-gray-200/80 px-2.5 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-700/80 dark:text-gray-200">
+													{benefit.metric}
+												</span>
+											</div>
+
+											<h4 class="text-sm leading-tight font-semibold text-gray-900 dark:text-white">
+												{benefit.title}
+											</h4>
+											<p class="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+												{benefit.description}
+											</p>
+										</div>
+
+										<div class="from-brand-green/10 to-brand-blue/10 absolute inset-0 translate-x-full bg-gradient-to-r transition-transform duration-300 group-hover:translate-x-0" />
+									</div>
+								)
+							})
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bottom CTA Message -->
+		<div
+			class="tech-animate tech-animate-fade-in-up mt-16 text-center"
+			data-delay={ANIMATION_DELAYS.ctaMessage}
+		>
+			<p
+				class="mx-auto max-w-3xl text-lg font-medium text-gray-700 dark:text-gray-300"
+			>
+				{t('home.techTransform.ctaMessage')}
+			</p>
+		</div>
+	</div>
+</section>
+
+<style>
+	/* ========================================================================
+	   ANIMATION STATES
+	   ======================================================================== */
+
+	/* Initial state - hidden before animation trigger */
+	.tech-animate:not(.tech-animated) {
+		opacity: 0;
+	}
+
+	/* Triggered animation state */
+	.tech-animate.tech-animating.tech-animate-fade-in-up {
+		animation: fade-in-up 1s ease-out forwards;
+	}
+
+	.tech-animate.tech-animating.tech-animate-fade-in {
+		animation: fade-in-0 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	}
+
+	.tech-animate.tech-animating.tech-animate-fade-in-left {
+		animation: fade-in-left 1s ease-out forwards;
+	}
+
+	.tech-animate.tech-animating.tech-animate-fade-in-right {
+		animation: fade-in-right 1s ease-out forwards;
+	}
+
+	/* Final state after animation - visible and stable */
+	.tech-animate.tech-animated {
+		opacity: 1;
+		transform: none;
+	}
+
+	/* ========================================================================
+	   BACKGROUND EFFECTS
+	   ======================================================================== */
+
+	.gradient-animated {
+		background: linear-gradient(
+			45deg,
+			var(--brand-blue) 0%,
+			var(--brand-green) 50%,
+			var(--brand-blue) 100%
+		);
+		background-size: 200% 200%;
+		animation: gradient-shift 8s ease infinite;
+	}
+
+	.icon-pulse {
+		animation: icon-pulse 2s ease-in-out infinite;
+	}
+</style>
+
+<script>
+	import { setupTechTransformAnimation } from './TechTransformationObserver'
+
+	// Initialize animation observer
+	setupTechTransformAnimation()
+</script>

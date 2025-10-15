@@ -5,14 +5,10 @@
 
 import type { PropsWithChildren, ReactNode } from 'react'
 
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../../i18n/config'
+import { DEFAULT_LOCALE, isValidLocale } from '../../i18n/config'
 import { I18nProvider } from './I18nReact'
 
 import type { Locale } from '@/types/i18n'
-
-function isValidLocale(locale: string): locale is Locale {
-	return (SUPPORTED_LOCALES as readonly string[]).includes(locale)
-}
 
 /**
  * Auto-detecting I18n context provider

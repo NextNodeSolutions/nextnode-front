@@ -1,0 +1,113 @@
+---
+import WorkflowJourney from '@/components/features/workflow/interactive/WorkflowJourney.astro'
+import MobileTimeline from '@/components/features/workflow/timeline/MobileTimeline.astro'
+import { generateWorkflowSteps } from '@/components/features/workflow/workflow-utils'
+import { ANIMATION_DELAYS } from '@/lib/config/workflow/workflow-animation-config'
+
+const { t } = Astro.locals
+const steps = generateWorkflowSteps()
+---
+
+<section
+	id="workflow-section"
+	class="dark:from-brand-black/90 dark:via-brand-charcoal/80 dark:to-brand-black/90 relative overflow-hidden bg-gradient-to-br from-white/80 via-gray-50/80 to-white/80 py-12 sm:py-18 lg:py-24"
+>
+	<!-- Grid Pattern Background -->
+	<div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
+		<div
+			class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
+		>
+		</div>
+	</div>
+
+	<!-- Subtle decorative elements -->
+	<div
+		class="bg-brand-blue-soft/20 dark:bg-brand-blue-soft/30 absolute top-20 right-10 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
+	>
+	</div>
+	<div
+		class="animation-delay-1000 bg-brand-green-soft/20 dark:bg-brand-green-soft/30 absolute bottom-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
+	>
+	</div>
+
+	<div class="relative mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
+		<!-- Section Header -->
+		<div class="mb-20 space-y-4 text-center">
+			<h2
+				class="animate-fade-in-up text-3xl font-bold tracking-tight text-gray-900 opacity-0 sm:text-4xl lg:text-5xl dark:text-white"
+			>
+				{t('home.workflow.title')}
+			</h2>
+			<p
+				class="animation-delay-300 animate-fade-in-up mx-auto max-w-3xl text-lg text-gray-600 opacity-0 sm:text-xl dark:text-gray-400"
+			>
+				{t('home.workflow.subtitle')}
+			</p>
+			<p
+				class="animation-delay-500 animate-fade-in-up mx-auto max-w-3xl text-base leading-relaxed text-gray-700 opacity-0 sm:text-lg dark:text-gray-500"
+			>
+				{t('home.workflow.intro')}
+			</p>
+		</div>
+
+		<!-- Workflow Journey - Responsive Switch -->
+		<div
+			class="workflow-animate workflow-animate-fade-in-up mx-auto max-w-7xl"
+			data-delay={ANIMATION_DELAYS.workflowContainer}
+		>
+			<!-- Desktop/Tablet SVG Version (md and up) -->
+			<!-- Medium screens (md to lg) use mini variant -->
+			<div class="hidden md:block lg:hidden">
+				<WorkflowJourney variant="mini" steps={steps} />
+			</div>
+
+			<!-- Large screens (lg to xl) use compact variant -->
+			<div class="hidden lg:block xl:hidden">
+				<WorkflowJourney variant="compact" steps={steps} />
+			</div>
+
+			<!-- Extra large screens (xl and up) use large variant -->
+			<div class="hidden xl:block">
+				<WorkflowJourney variant="large" steps={steps} />
+			</div>
+
+			<!-- Mobile Timeline Version (sm and down) -->
+			<div class="block md:hidden">
+				<MobileTimeline steps={steps} />
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	/* ========================================================================
+	   ANIMATION STATES
+	   ======================================================================== */
+
+	/* Initial state - hidden before animation trigger */
+	.workflow-animate:not(.workflow-animated) {
+		opacity: 0;
+	}
+
+	/* Triggered animation state */
+	.workflow-animate.workflow-animating.workflow-animate-fade-in-up {
+		animation: workflow-fade-in-up 1s ease-out forwards;
+	}
+
+	/* Final state after animation - visible and stable */
+	.workflow-animate.workflow-animated {
+		opacity: 1;
+		transform: none;
+	}
+
+	.animation-delay-500 {
+		animation-delay: 500ms;
+	}
+</style>
+
+<script>
+	import { setupWorkflowAnimation } from '@/components/features/workflow/WorkflowObserver'
+
+	// Initialize animation observer
+	setupWorkflowAnimation()
+</script>

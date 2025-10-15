@@ -1,26 +1,22 @@
-import { en } from './locales/en'
-import { fr } from './locales/fr'
+import type { Locale } from '@/types/i18n'
 
-import type { Locale, NavigationLinks } from '@/types/i18n'
+const LANGS = {
+	en: 'en',
+	fr: 'fr',
+} as const
 
-export const translations = {
-	en: { common: en },
-	fr: { common: fr },
-}
-
-// Constants moved from the old system
-export const SUPPORTED_LOCALES: readonly Locale[] = ['en', 'fr']
-export const DEFAULT_LOCALE: Locale = 'en'
+export const SUPPORTED_LOCALES: readonly Locale[] = [LANGS.en, LANGS.fr]
+export const DEFAULT_LOCALE = LANGS.fr
 
 export const languages = [
-	{ code: 'en', name: 'English', flag: '🇺🇸' },
-	{ code: 'fr', name: 'Français', flag: '🇫🇷' },
+	{ code: LANGS.en, name: 'English', flag: '🇺🇸' },
+	{ code: LANGS.fr, name: 'Français', flag: '🇫🇷' },
 ] as const
 
-export const navigationLinks: NavigationLinks = [
-	{ href: '/how-we-work', labelKey: 'common.navigation.howWeWork' },
-	{ href: '/pricing', labelKey: 'common.navigation.pricing' },
-]
-
-export const locales: readonly Locale[] = SUPPORTED_LOCALES
-export const defaultLocale: Locale = DEFAULT_LOCALE
+/**
+ * Type guard to check if a string is a valid Locale
+ * Single source of truth for locale validation
+ */
+export const isValidLocale = (locale: string | null): locale is Locale => {
+	return locale !== null && SUPPORTED_LOCALES.includes(locale as Locale)
+}

@@ -15,10 +15,10 @@ import type { Plan } from '@/types/plans'
  */
 export function translateSteps<K extends StepKey>(
 	stepKey: K,
-): Readonly<EnglishDict['howWeWork']['steps'][K]> {
+): Readonly<EnglishDict['workflow']['steps'][K]> {
 	// Template string keys can't be statically typed, so cast is necessary
-	const result = globalT(`howWeWork.steps.${stepKey}`)
-	return result as Readonly<EnglishDict['howWeWork']['steps'][K]>
+	const result = globalT(`workflow.steps.${stepKey}`)
+	return result as Readonly<EnglishDict['workflow']['steps'][K]>
 }
 
 /**

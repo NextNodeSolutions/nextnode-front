@@ -23,15 +23,6 @@ export class ResendProvider {
 		html: string
 	}): Promise<EmailResponse> {
 		try {
-			emailLogger.info('Attempting to send email', {
-				scope: 'email-send-attempt',
-				details: {
-					to: Array.isArray(to) ? to : [to],
-					from,
-					subject: `${subject.substring(0, 50)}...`,
-				},
-			})
-
 			const { data, error } = await this.resend.emails.send({
 				to: Array.isArray(to) ? to : [to],
 				from,
@@ -53,13 +44,6 @@ export class ResendProvider {
 					error: error.message || 'Resend API error',
 				}
 			}
-
-			emailLogger.info('Email sent successfully via Resend', {
-				scope: 'email-send-success',
-				details: {
-					messageId: data?.id,
-				},
-			})
 
 			return {
 				success: true,
