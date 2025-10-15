@@ -1,42 +1,50 @@
 import { useRef } from 'react'
 
+import { getMetricColor } from '@/lib/config/metrics-config'
+
 import { useScrollAnimation } from '../hooks'
 import MetricCard from './MetricCard'
 
 interface LighthouseGaugesProps {
-	readonly performance: string
-	readonly seo: string
-	readonly accessibility: string
-	readonly bestPractices: string
-	readonly pwa: string
-	readonly details: readonly {
-		readonly label: string
-		readonly description: string
-		readonly icon: 'zap' | 'search' | 'eye' | 'shield-check' | 'smartphone'
-	}[]
+	readonly data: {
+		readonly performance: string
+		readonly seo: string
+		readonly accessibility: string
+		readonly bestPractices: string
+		readonly pwa: string
+		readonly details: readonly {
+			readonly label: string
+			readonly description: string
+			readonly icon:
+				| 'zap'
+				| 'search'
+				| 'eye'
+				| 'shield-check'
+				| 'smartphone'
+		}[]
+	}
 }
 
 /**
  * Lighthouse metrics display with animated gauges
+ * Receives all data as a single prop for cleaner composition
  */
-const LighthouseGauges = ({
-	performance,
-	seo,
-	accessibility,
-	bestPractices,
-	pwa,
-	details,
-}: LighthouseGaugesProps) => {
+const LighthouseGauges = ({ data }: LighthouseGaugesProps) => {
 	const ref = useRef<HTMLDivElement>(null)
 	const isVisible = useScrollAnimation<HTMLDivElement>(ref)
 
-	const values = [performance, seo, accessibility, bestPractices, pwa]
-	const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ec4899']
+	const values = [
+		data.performance,
+		data.seo,
+		data.accessibility,
+		data.bestPractices,
+		data.pwa,
+	]
 
-	const metrics = details.map((detail, index) => ({
+	const metrics = data.details.map((detail, index) => ({
 		...detail,
 		value: values[index] || '0',
-		color: colors[index] || '#10b981',
+		color: getMetricColor(index),
 		delay: index * 100,
 	}))
 

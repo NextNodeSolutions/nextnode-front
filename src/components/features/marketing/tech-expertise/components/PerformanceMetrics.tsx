@@ -3,62 +3,52 @@ import { useRef } from 'react'
 import { Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 
+import { getMetricColor } from '@/lib/config/metrics-config'
+
 import { useScrollAnimation } from '../hooks'
 import PerformanceMetricItem from './PerformanceMetricItem'
 
 interface PerformanceMetricsProps {
-	readonly subtitle: string
-	readonly grade: string
-	readonly badge: string
-	readonly metrics: readonly {
-		readonly label: string
-		readonly value: string
-		readonly description: string
-		readonly icon: string
-		readonly unit: string
-	}[]
+	readonly data: {
+		readonly subtitle: string
+		readonly grade: string
+		readonly badge: string
+		readonly metrics: readonly {
+			readonly label: string
+			readonly value: string
+			readonly description: string
+			readonly icon: string
+			readonly unit: string
+		}[]
+	}
 }
 
 /**
  * Performance metrics section with grade display and metric grid
  */
-const PerformanceMetrics = ({
-	subtitle,
-	grade,
-	badge,
-	metrics,
-}: PerformanceMetricsProps) => {
+const PerformanceMetrics = ({ data }: PerformanceMetricsProps) => {
 	const ref = useRef<HTMLDivElement>(null)
 	const isVisible = useScrollAnimation<HTMLDivElement>(ref)
-
-	const colors = [
-		'#10b981',
-		'#3b82f6',
-		'#8b5cf6',
-		'#f59e0b',
-		'#ec4899',
-		'#06b6d4',
-	]
 
 	return (
 		<div ref={ref} className="flex flex-col gap-6">
 			{/* Subtitle and Grade */}
 			<div className="flex items-center justify-between">
-				<p className="text-xs text-gray-400">{subtitle}</p>
+				<p className="text-xs text-gray-400">{data.subtitle}</p>
 				<div className="from-brand-blue to-brand-green rounded-md bg-gradient-to-r px-3 py-1">
 					<span className="text-sm font-bold text-white">
-						{grade}
+						{data.grade}
 					</span>
 				</div>
 			</div>
 
 			{/* Metrics Grid */}
 			<div className="grid grid-cols-2 gap-3">
-				{metrics.map((metric, index) => (
+				{data.metrics.map((metric, index) => (
 					<PerformanceMetricItem
 						key={metric.label}
 						metric={metric}
-						color={colors[index] || '#10b981'}
+						color={getMetricColor(index)}
 						index={index}
 						isVisible={isVisible}
 					/>
@@ -76,7 +66,7 @@ const PerformanceMetrics = ({
 			>
 				<Zap className="text-brand-green h-4 w-4" />
 				<span className="text-brand-green text-xs font-medium">
-					{badge}
+					{data.badge}
 				</span>
 			</motion.div>
 		</div>
