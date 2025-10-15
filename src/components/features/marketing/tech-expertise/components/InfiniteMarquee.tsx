@@ -1,6 +1,8 @@
 import { cva } from 'class-variance-authority'
 import { motion } from 'motion/react'
 
+import { cn } from '@/lib/core/utils'
+
 interface InfiniteMarqueeProps {
 	readonly items: readonly string[]
 }
@@ -10,9 +12,6 @@ const ANIMATION_CONFIG = {
 	distance: 50,
 	duration: 20,
 } as const
-
-// CVA variants for container
-const containerVariants = cva('relative w-full overflow-hidden')
 
 // CVA variants for gradient overlays
 const gradientVariants = cva(
@@ -24,19 +23,6 @@ const gradientVariants = cva(
 				right: 'right-0 bg-gradient-to-l',
 			},
 		},
-	},
-)
-
-// CVA variants for marquee items
-const itemVariants = cva(
-	[
-		'flex shrink-0 items-center gap-2 rounded-lg px-4 py-2',
-		'from-brand-blue/10 to-brand-green/10 bg-gradient-to-r',
-		'border-brand-blue/20 border',
-		'text-sm whitespace-nowrap text-white',
-	],
-	{
-		variants: {},
 	},
 )
 
@@ -60,7 +46,7 @@ const InfiniteMarquee = ({ items }: InfiniteMarqueeProps) => {
 	]
 
 	return (
-		<div className={containerVariants()}>
+		<div className="relative w-full overflow-hidden">
 			{/* Left fade gradient */}
 			<div className={gradientVariants({ position: 'left' })} />
 			{/* Right fade gradient */}
@@ -82,7 +68,15 @@ const InfiniteMarquee = ({ items }: InfiniteMarqueeProps) => {
 				}}
 			>
 				{duplicatedItems.map(item => (
-					<div key={item.id} className={itemVariants()}>
+					<div
+						key={item.id}
+						className={cn(
+							'flex shrink-0 items-center gap-2 rounded-lg px-4 py-2',
+							'from-brand-blue/10 to-brand-green/10 bg-gradient-to-r',
+							'border-brand-blue/20 border',
+							'text-sm whitespace-nowrap text-white',
+						)}
+					>
 						<MarqueeBadge />
 						{item.text}
 					</div>
