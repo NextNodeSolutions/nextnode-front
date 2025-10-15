@@ -1,7 +1,7 @@
-import { Activity, Eye, Gauge, MousePointer, Package, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 
 import { cn } from '@/lib/core/utils'
+import { renderIcon } from '@/lib/ui/icon-mapper'
 
 import { useCounterAnimation } from '../hooks'
 
@@ -34,26 +34,6 @@ const PerformanceMetricItem = ({
 		delay: index * 100,
 	})
 
-	const getIcon = (iconName: string, color: string) => {
-		const iconProps = { className: 'h-5 w-5', style: { color } }
-		switch (iconName) {
-			case 'eye':
-				return <Eye {...iconProps} />
-			case 'zap':
-				return <Zap {...iconProps} />
-			case 'mouse-pointer':
-				return <MousePointer {...iconProps} />
-			case 'activity':
-				return <Activity {...iconProps} />
-			case 'gauge':
-				return <Gauge {...iconProps} />
-			case 'package':
-				return <Package {...iconProps} />
-			default:
-				return <Zap {...iconProps} />
-		}
-	}
-
 	// Format display value to match original precision
 	const formattedValue =
 		numericValue % 1 === 0
@@ -78,7 +58,10 @@ const PerformanceMetricItem = ({
 		>
 			{/* Icon and Label */}
 			<div className="flex items-center gap-2">
-				{getIcon(metric.icon, color)}
+				{renderIcon(metric.icon, {
+					className: 'h-5 w-5',
+					style: { color },
+				})}
 				<span className="text-xs font-semibold text-gray-300">
 					{metric.label}
 				</span>

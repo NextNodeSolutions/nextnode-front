@@ -1,20 +1,9 @@
-import {
-	Activity,
-	CheckCircle,
-	Code,
-	Code2,
-	Gauge,
-	GitBranch,
-	Lock,
-	Rocket,
-	Shield,
-	Smartphone,
-	Zap,
-} from 'lucide-react'
+import { Code2, Gauge, GitBranch, Rocket, Shield, Zap } from 'lucide-react'
 import { motion } from 'motion/react'
 
 import CodeBlock from '@/components/ui/CodeBlock'
 import { cn } from '@/lib/core/utils'
+import { renderIcon } from '@/lib/ui/icon-mapper'
 
 import {
 	BentoCard,
@@ -118,34 +107,6 @@ const TechExpertiseBento = ({
 	codeExample,
 	tools,
 }: TechExpertiseBentoProps) => {
-	const getQualityIcon = (iconName: string) => {
-		switch (iconName) {
-			case 'shield':
-				return <Shield className="text-brand-green h-5 w-5" />
-			case 'check':
-				return <CheckCircle className="text-brand-green h-5 w-5" />
-			case 'activity':
-				return <Activity className="text-brand-green h-5 w-5" />
-			case 'lock':
-				return <Lock className="text-brand-green h-5 w-5" />
-			default:
-				return <CheckCircle className="text-brand-green h-5 w-5" />
-		}
-	}
-
-	const getSeoIcon = (iconName: string) => {
-		switch (iconName) {
-			case 'zap':
-				return <Zap className="text-brand-green h-4 w-4" />
-			case 'smartphone':
-				return <Smartphone className="text-brand-green h-4 w-4" />
-			case 'code':
-				return <Code className="text-brand-green h-4 w-4" />
-			default:
-				return <CheckCircle className="text-brand-green h-4 w-4" />
-		}
-	}
-
 	return (
 		<section
 			className={cn(
@@ -210,7 +171,10 @@ const TechExpertiseBento = ({
 										)}
 									>
 										<div className="flex items-center gap-2">
-											{getQualityIcon(badge.icon)}
+											{renderIcon(badge.icon, {
+												className:
+													'text-brand-green h-5 w-5',
+											})}
 											<span className="text-lg font-bold text-white">
 												{badge.title}
 											</span>
@@ -322,7 +286,10 @@ const TechExpertiseBento = ({
 										}}
 										className="flex items-center gap-2 text-sm"
 									>
-										{getSeoIcon(metric.icon)}
+										{renderIcon(metric.icon, {
+											className:
+												'text-brand-green h-4 w-4',
+										})}
 										<span className="text-gray-400">
 											{metric.label}
 										</span>

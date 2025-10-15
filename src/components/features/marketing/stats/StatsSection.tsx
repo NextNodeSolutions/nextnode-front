@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
+import { useScrollAnimation } from '@/hooks'
 import { cn } from '@/lib/core/utils'
 
 export interface StatItem {
@@ -14,30 +15,8 @@ interface StatsSectionProps {
 
 const StatsCounter = ({ value, label }: StatItem) => {
 	const [count, setCount] = useState(0)
-	const [isVisible, setIsVisible] = useState(false)
 	const ref = useRef<HTMLDivElement>(null)
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			entries => {
-				if (entries[0]?.isIntersecting) {
-					setIsVisible(true)
-				}
-			},
-			{ threshold: 0.3 },
-		)
-
-		const currentRef = ref.current
-		if (currentRef) {
-			observer.observe(currentRef)
-		}
-
-		return () => {
-			if (currentRef) {
-				observer.unobserve(currentRef)
-			}
-		}
-	}, [])
+	const isVisible = useScrollAnimation(ref, { threshold: 0.3 })
 
 	useEffect(() => {
 		if (!isVisible) return

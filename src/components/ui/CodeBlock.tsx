@@ -25,7 +25,7 @@ const CodeBlock = ({
 		if (codeRef.current) {
 			Prism.highlightElement(codeRef.current)
 		}
-	}, [code, language])
+	}, [])
 
 	return (
 		<div className={`overflow-hidden rounded-lg ${className}`}>

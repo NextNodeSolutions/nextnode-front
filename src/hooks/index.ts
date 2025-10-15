@@ -4,3 +4,4 @@
 
 export { useCardEventListeners } from './useCardEventListeners'
 export { useKeyboardShortcuts } from './useKeyboardShortcuts'
+export { default as useScrollAnimation } from './useScrollAnimation'
