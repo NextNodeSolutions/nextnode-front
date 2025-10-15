@@ -1,5 +1,4 @@
 ---
-import WorkflowGradients from '../visual/WorkflowGradients.astro'
 import WorkflowPath from '../visual/WorkflowPath.astro'
 import {
 	VIEWBOX_WIDTH,
@@ -7,14 +6,9 @@ import {
 	type WorkflowVariant,
 } from './workflow-positioning'
 
-import type { GradientStop } from '@/types/workflow'
-
 export interface Props {
 	variant?: WorkflowVariant
-	gradientStops: GradientStop[]
 }
-
-const { gradientStops } = Astro.props
 ---
 
 <!-- SVG Background with path and gradients -->
@@ -26,10 +20,7 @@ const { gradientStops } = Astro.props
 		role="presentation"
 		aria-hidden="true"
 	>
-		<!-- Gradient definitions -->
-		<WorkflowGradients gradientStops={gradientStops} />
-
-		<!-- Workflow path -->
+		<!-- Workflow path with inline gradients -->
 		<WorkflowPath />
 	</svg>
 </div>

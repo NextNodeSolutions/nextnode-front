@@ -16,6 +16,7 @@ export const common = {
 		scrollToDiscoverAria: 'Discover more',
 		theme: 'Theme',
 		language: 'Language',
+		illustrationNotFound: 'Illustration not found',
 	},
 	cal: {
 		scheduleButton: '📅 Schedule a meeting',

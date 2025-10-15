@@ -16,6 +16,7 @@ export const common = {
 		scrollToDiscoverAria: 'Découvrir la suite',
 		theme: 'Thème',
 		language: 'Langue',
+		illustrationNotFound: 'Illustration non trouvée',
 	},
 	cal: {
 		scheduleButton: '📅 Réserver un rendez-vous',

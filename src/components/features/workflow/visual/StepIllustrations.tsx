@@ -1,5 +1,7 @@
 import type React from 'react'
 
+import { useI18n } from '@/lib/i18n/I18nReact'
+
 interface StepIllustrationProps {
 	stepKey: string
 }
@@ -7,6 +9,7 @@ interface StepIllustrationProps {
 export default function StepIllustration({
 	stepKey,
 }: StepIllustrationProps): React.ReactElement {
+	const { t } = useI18n()
 	const getIllustration = (): React.ReactElement => {
 		switch (stepKey) {
 			case 'discovery':
@@ -66,7 +69,9 @@ export default function StepIllustration({
 			default:
 				return (
 					<div className="flex items-center justify-center text-gray-500">
-						<span className="text-sm">Illustration not found</span>
+						<span className="text-sm">
+							{t('common.ui.illustrationNotFound')}
+						</span>
 					</div>
 				)
 		}

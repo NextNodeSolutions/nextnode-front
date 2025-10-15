@@ -1,13 +1,8 @@
 ---
-import {
-	STEP_COLORS,
-	DESKTOP_WORKFLOW_POSITIONS,
-	generateGradientStops,
-} from '../workflow-constants'
+import { STEP_COLORS, DESKTOP_WORKFLOW_POSITIONS } from '../workflow-constants'
 import type { Step } from '@/types/workflow'
 import type { WorkflowPosition } from '@/types/workflow'
 
-import WorkflowGradients from '../visual/WorkflowGradients.astro'
 import WorkflowPath from '../visual/WorkflowPath.astro'
 import StepCard from '../cards/StepCard.astro'
 
@@ -19,7 +14,6 @@ export interface Props {
 const { steps, variant = 'mini' } = Astro.props
 
 const positions = DESKTOP_WORKFLOW_POSITIONS
-const gradientStops = generateGradientStops(STEP_COLORS)
 
 // ViewBox dimensions - same as the working old version
 const VIEWBOX_WIDTH = 1000
@@ -101,7 +95,6 @@ function calculateRectanglePosition(
 				style="overflow: visible; pointer-events: none;"
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				<WorkflowGradients gradientStops={gradientStops} />
 				<WorkflowPath />
 
 				{/* Connection lines, points and cards - all in SVG */}
