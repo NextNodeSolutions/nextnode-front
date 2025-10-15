@@ -4,29 +4,29 @@ import node from '@astrojs/node'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import { configManagerIntegration } from '@nextnode/config-manager/astro'
-import { logger } from '@nextnode/logger'
 import tailwindcss from '@tailwindcss/vite'
 
 const host = process.env.HOST ?? '0.0.0.0'
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4321
 const site = process.env.URL ?? `http://${host}:${port}`
 
-// Log configuration for debugging
-logger.info('Configuration loaded', {
-	details: {
-		host,
-		port,
-		site,
-		environment: process.env.NODE_ENV || 'development',
-	},
-})
-
 const siteMapPages = [
 	{ name: '', priority: 1, changeFreq: 'weekly' },
-	{ name: 'how-we-work', priority: 0.8, changeFreq: 'monthly' },
 	{ name: 'pricing', priority: 0.9, changeFreq: 'monthly' },
 	{ name: 'privacy', priority: 0.3, changeFreq: 'yearly' },
 	{ name: 'terms', priority: 0.3, changeFreq: 'yearly' },
+]
+
+const CHUNK_RULES = [
+	{ pattern: 'prismjs', chunk: 'prism-highlighter' },
+	{ pattern: 'motion', chunk: 'motion-animations' },
+	{
+		pattern: 'components/features/marketing/tech-expertise',
+		chunk: 'tech-expertise',
+	},
+	{ pattern: 'lucide-react', chunk: 'lucide-icons' },
+	{ pattern: '@radix-ui', chunk: 'radix-ui' },
+	{ pattern: 'node_modules/react', chunk: 'react-vendor' },
 ]
 
 // https://astro.build/config
@@ -35,10 +35,19 @@ export default defineConfig({
 	output: 'server',
 	server: {
 		port,
-		host,
+		host: process.env.NODE_ENV === 'production' ? host : '127.0.0.1',
 	},
 	vite: {
 		plugins: [tailwindcss()],
+		build: {
+			rollupOptions: {
+				output: {
+					manualChunks: id =>
+						CHUNK_RULES.find(rule => id.includes(rule.pattern))
+							?.chunk,
+				},
+			},
+		},
 	},
 	adapter: node({
 		mode: 'standalone',

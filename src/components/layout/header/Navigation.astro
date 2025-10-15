@@ -1,16 +1,15 @@
 ---
 import { cn } from '@/lib/core/utils'
 import { ChevronRight } from 'lucide-react'
-import type { NavigationLinks } from '@/types/i18n'
+import { NAVIGATION_LINKS } from '@/lib/constants'
 
 interface Props {
-	links: NavigationLinks
 	variant?: 'desktop' | 'mobile'
 }
 
 // Use new i18n system from middleware
 const { t } = Astro.locals
-const { links, variant = 'desktop' } = Astro.props
+const { variant = 'desktop' } = Astro.props
 ---
 
 <nav
@@ -22,7 +21,7 @@ const { links, variant = 'desktop' } = Astro.props
 >
 	{
 		variant === 'desktop' ? (
-			links.map(link => (
+			NAVIGATION_LINKS.map(link => (
 				<a
 					href={link.href}
 					class="transition-smooth relative rounded-md px-1.5 py-0.5 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white"
@@ -32,7 +31,7 @@ const { links, variant = 'desktop' } = Astro.props
 			))
 		) : (
 			<div class="space-y-2">
-				{links.map((link, index) => (
+				{NAVIGATION_LINKS.map((link, index) => (
 					<a
 						href={link.href}
 						class="group transition-smooth flex items-center justify-between border-b border-gray-100/50 px-2 py-4 text-gray-700 last:border-b-0 hover:translate-x-2 hover:text-gray-900 dark:border-gray-600/30 dark:text-gray-100 dark:hover:text-white"
@@ -50,20 +49,8 @@ const { links, variant = 'desktop' } = Astro.props
 </nav>
 
 <style>
-	/* Simple entry animation */
-	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
 	nav a {
-		animation: fadeInUp 0.3s ease-out forwards;
+		animation: fade-in-up 0.3s ease-out forwards;
 		opacity: 0;
 	}
 </style>

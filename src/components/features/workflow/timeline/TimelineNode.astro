@@ -32,19 +32,8 @@ const nextColor = STEP_COLORS[(index + 1) % STEP_COLORS.length]
 <style>
 	.timeline-node {
 		opacity: 0;
-		animation: scaleIn 0.6s ease-out forwards;
+		animation: scale-in 0.6s ease-out forwards;
 		transform: scale(0);
-	}
-
-	@keyframes scaleIn {
-		from {
-			opacity: 0;
-			transform: scale(0);
-		}
-		to {
-			opacity: 1;
-			transform: scale(1);
-		}
 	}
 
 	/* Dark mode adjustments */

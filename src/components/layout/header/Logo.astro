@@ -11,13 +11,12 @@ const homeUrl = getRelativeLocaleUrl(Astro.currentLocale || 'en', '/')
 ---
 
 <a href={homeUrl} class="flex items-center">
-	<span
+	<img
+		src="/logo-1.png"
+		alt="NextNode"
 		class={cn(
-			'text-xl font-medium tracking-wider text-gray-800 hover:text-gray-900 transition-colors duration-300 uppercase',
-			'dark:text-gray-200 dark:hover:text-gray-100',
-			variant === 'mobile' ? 'text-gray-800 dark:text-gray-200' : '',
+			'w-auto transition-transform duration-300 hover:scale-105',
+			variant === 'mobile' ? 'h-10' : 'h-14',
 		)}
-	>
-		Nextnode
-	</span>
+	/>
 </a>

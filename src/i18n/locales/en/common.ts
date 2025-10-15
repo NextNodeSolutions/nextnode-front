@@ -5,7 +5,6 @@ export const common = {
 		services: 'Services',
 		portfolio: 'Portfolio',
 		contact: 'Contact',
-		howWeWork: 'How we work',
 		pricing: 'Pricing',
 	},
 	ui: {
@@ -14,12 +13,24 @@ export const common = {
 		openMenu: 'Open menu',
 		closeMenu: 'Close menu',
 		scrollToDiscover: 'Scroll to discover more',
+		scrollToDiscoverAria: 'Discover more',
 		theme: 'Theme',
 		language: 'Language',
+		illustrationNotFound: 'Illustration not found',
+	},
+	cal: {
+		scheduleButton: '📅 Schedule a meeting',
+		scheduleMeeting: 'Schedule a call',
+		bookConsultation: 'Book consultation',
+		letsChat: "Let's talk about your project",
+		freeConsultation: 'Free consultation',
+		loading: 'Loading calendar...',
+		opensInModal: 'Opens calendar booking modal',
+		error: 'Unable to load calendar, opening in new tab',
 	},
 	stepCard: {
 		step: 'Step',
-		clickToSeeMore: 'Click to see more',
+		clickToSeeMore: 'Click for more',
 	},
 	languages: {
 		en: 'EN',
@@ -45,11 +56,6 @@ export const common = {
 			title: 'Web Services Paris | Development, Design, SEO - NextNode',
 			description:
 				'Digital agency Paris: showcase website, e-commerce, web application creation. Custom solutions for Île-de-France businesses. Recognized technical expertise.',
-		},
-		howWeWork: {
-			title: 'Work Method | Web Agency Paris - NextNode',
-			description:
-				'Discover our collaborative and transparent work method. Optimized creation process for your web projects in Paris and Île-de-France.',
 		},
 	},
 	// Exemples pour tester le nouveau système i18n

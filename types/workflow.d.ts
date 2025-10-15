@@ -27,7 +27,7 @@ export interface GradientStop {
 export type Step = {
 	id: StepKey
 	icon: string
-} & EnglishDict['howWeWork']['steps'][keyof EnglishDict['howWeWork']['steps']]
+} & EnglishDict['workflow']['steps'][keyof EnglishDict['workflow']['steps']]
 
 // Types pour les composants de modal
 export interface StepModalProps {

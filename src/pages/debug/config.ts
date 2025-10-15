@@ -5,29 +5,9 @@ import { configLogger } from '../../lib/logging'
 
 export const GET: APIRoute = async () => {
 	try {
-		configLogger.info('Config debug endpoint accessed', {
-			scope: 'debug-config-access',
-		})
-
 		const environment = process.env.NODE_ENV || 'NOT_SET'
 		const appConfig = getConfig('app')
 		const emailConfig = getConfig('email')
-
-		// Log detailed configuration status
-		configLogger.info('Configuration debug details', {
-			scope: 'config-debug',
-			details: {
-				environment,
-				configsLoaded: {
-					app: !!appConfig,
-					email: !!emailConfig,
-				},
-				environmentVariables: {
-					NODE_ENV: environment,
-					RESEND_API_KEY: !!process.env.RESEND_API_KEY,
-				},
-			},
-		})
 
 		const debugInfo = {
 			timestamp: new Date().toISOString(),

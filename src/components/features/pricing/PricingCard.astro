@@ -5,11 +5,7 @@ import { Check } from 'lucide-react'
 const { t } = Astro.locals
 import { translatePlan } from '@/lib/i18n/translate-utils'
 import { Button } from '@/components/ui/forms/Button'
-import {
-	PLAN_THEMES,
-	PRICING_CARD_CLASSES,
-	getPlanCSSVars,
-} from '@/lib/ui/pricing-constants'
+import { PLAN_THEMES, getPlanCSSVars } from '@/lib/ui/pricing-constants'
 import type { Plan } from '@/types/plans'
 
 export interface Props {
@@ -40,16 +36,24 @@ const cssVars = getPlanCSSVars(plan)
 <div
 	class={cn(
 		// Base card styling
-		PRICING_CARD_CLASSES.base,
+		'relative flex flex-col h-full',
+		'rounded-2xl border border-gray-200/50',
+		'bg-white/80 backdrop-blur-sm',
+		'dark:border-gray-700/50 dark:bg-gray-800/80',
+		'transition-all duration-500',
+		'hover:shadow-lg md:hover:scale-105',
+		'opacity-0 animate-fade-in-up',
 		// Featured plan special styling
 		featured && [
 			'ring-2',
 			planTheme.ring,
-			PRICING_CARD_CLASSES.featured,
+			'shadow-lg sm:shadow-xl lg:shadow-2xl',
+			'sm:scale-105 lg:scale-110',
+			'dark:shadow-none',
 			planTheme.shadow,
 		],
 		// Responsive padding
-		PRICING_CARD_CLASSES.content.padding,
+		'p-4 sm:p-6 lg:p-8',
 		// Custom className for ordering
 		className,
 	)}
@@ -188,20 +192,3 @@ const cssVars = getPlanCSSVars(plan)
 	>
 	</div>
 </div>
-
-<style>
-	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	.animate-fade-in-up {
-		animation: fadeInUp 0.6s ease-out forwards;
-	}
-</style>

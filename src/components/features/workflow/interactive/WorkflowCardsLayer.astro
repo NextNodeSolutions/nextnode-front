@@ -62,7 +62,7 @@ const stepPositions = calculateStepPositions(variant)
 	/* Animation for step cards on load */
 	.workflow-cards-container > div {
 		opacity: 0;
-		animation: fadeInUp 0.6s ease-out forwards;
+		animation: fade-in 0.6s ease-out forwards;
 	}
 
 	.workflow-cards-container > div:nth-child(1) {
@@ -79,16 +79,5 @@ const stepPositions = calculateStepPositions(variant)
 	}
 	.workflow-cards-container > div:nth-child(5) {
 		animation-delay: 0.5s;
-	}
-
-	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(20px) scale(0.9);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0) scale(1);
-		}
 	}
 </style>
