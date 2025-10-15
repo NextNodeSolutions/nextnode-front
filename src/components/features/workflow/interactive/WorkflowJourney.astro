@@ -210,36 +210,25 @@ function calculateRectanglePosition(
 	/* SVG Cards - scale automatiquement avec le viewBox */
 	.svg-card {
 		opacity: 0;
-		animation: fadeInCard 0.8s ease-out forwards;
-	}
-
-	@keyframes fadeInCard {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+		animation: fade-in-card 0.8s ease-out forwards;
 	}
 
 	/* Workflow lines and points animations - synchronized with cards */
 	.workflow-line {
-		animation: fadeInLine 0.8s ease-out forwards;
+		animation: fade-in-line 0.8s ease-out forwards;
 	}
 
 	.workflow-point {
-		animation: fadeInPoint 0.8s ease-out forwards;
+		animation: fade-in-point 0.8s ease-out forwards;
 	}
 
 	.workflow-rectangle {
-		animation: fadeInRectangle 0.8s ease-out forwards;
+		animation: fade-in-rectangle 0.8s ease-out forwards;
 	}
 
 	.workflow-card {
 		opacity: 0;
-		animation: fadeInCard 0.8s ease-out forwards;
+		animation: fade-in-card 0.8s ease-out forwards;
 		pointer-events: auto;
 	}
 
@@ -294,52 +283,6 @@ function calculateRectanglePosition(
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-	}
-
-	@keyframes fadeInLine {
-		from {
-			opacity: 0;
-			stroke-dasharray: 1000;
-			stroke-dashoffset: 1000;
-		}
-		to {
-			opacity: 1;
-			stroke-dasharray: none;
-			stroke-dashoffset: 0;
-		}
-	}
-
-	@keyframes fadeInPoint {
-		from {
-			opacity: 0;
-			transform: scale(0);
-		}
-		to {
-			opacity: 1;
-			transform: scale(1);
-		}
-	}
-
-	@keyframes fadeInRectangle {
-		from {
-			opacity: 0;
-			transform: scale(0.8);
-		}
-		to {
-			opacity: 0.8;
-			transform: scale(1);
-		}
-	}
-
-	@keyframes fadeInCard {
-		from {
-			opacity: 0;
-			transform: scale(0.9);
-		}
-		to {
-			opacity: 1;
-			transform: scale(1);
-		}
 	}
 
 	/* Accessibility - respect reduced motion preference */

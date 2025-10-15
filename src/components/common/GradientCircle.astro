@@ -32,31 +32,6 @@
 </div>
 
 <style>
-	@keyframes liquid {
-		0% {
-			transform: scale(1) translate(0px, 0px);
-			border-radius: 50%;
-		}
-		33% {
-			transform: scale(var(--scale-1))
-				translate(var(--translate-x-1), var(--translate-y-1));
-			border-radius: var(--border-radius-1);
-		}
-		66% {
-			transform: scale(var(--scale-2))
-				translate(var(--translate-x-2), var(--translate-y-2));
-			border-radius: var(--border-radius-2);
-		}
-		100% {
-			transform: scale(1) translate(0px, 0px);
-			border-radius: 50%;
-		}
-	}
-
-	.animate-liquid {
-		animation: liquid var(--duration) ease-in-out infinite;
-	}
-
 	.small-circle {
 		--scale-1: 1.05;
 		--scale-2: 0.8;

@@ -49,20 +49,8 @@ const { variant = 'desktop' } = Astro.props
 </nav>
 
 <style>
-	/* Simple entry animation */
-	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
 	nav a {
-		animation: fadeInUp 0.3s ease-out forwards;
+		animation: fade-in-up 0.3s ease-out forwards;
 		opacity: 0;
 	}
 </style>

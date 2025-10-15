@@ -100,50 +100,8 @@ const steps = generateWorkflowSteps()
 		transform: none;
 	}
 
-	/* ========================================================================
-	   KEYFRAME ANIMATIONS
-	   ======================================================================== */
-
-	@keyframes workflow-fade-in-up {
-		from {
-			opacity: 0;
-			transform: translateY(60px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	/* ========================================================================
-	   HEADER ANIMATIONS (keep existing for title/subtitle)
-	   ======================================================================== */
-
-	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(30px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	.animate-fade-in-up {
-		animation: fadeInUp 0.8s ease-out forwards;
-	}
-
-	.animation-delay-300 {
-		animation-delay: 300ms;
-	}
-
 	.animation-delay-500 {
 		animation-delay: 500ms;
-	}
-
-	.animation-delay-1000 {
-		animation-delay: 1s;
 	}
 </style>
 
