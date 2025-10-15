@@ -17,6 +17,18 @@ const siteMapPages = [
 	{ name: 'terms', priority: 0.3, changeFreq: 'yearly' },
 ]
 
+const CHUNK_RULES = [
+	{ pattern: 'prismjs', chunk: 'prism-highlighter' },
+	{ pattern: 'motion', chunk: 'motion-animations' },
+	{
+		pattern: 'components/features/marketing/tech-expertise',
+		chunk: 'tech-expertise',
+	},
+	{ pattern: 'lucide-react', chunk: 'lucide-icons' },
+	{ pattern: '@radix-ui', chunk: 'radix-ui' },
+	{ pattern: 'node_modules/react', chunk: 'react-vendor' },
+]
+
 // https://astro.build/config
 export default defineConfig({
 	site,
@@ -30,43 +42,9 @@ export default defineConfig({
 		build: {
 			rollupOptions: {
 				output: {
-					manualChunks: id => {
-						// Prism.js syntax highlighting in separate chunk
-						if (id.includes('prismjs')) {
-							return 'prism-highlighter'
-						}
-
-						// Motion animation library
-						if (id.includes('motion')) {
-							return 'motion-animations'
-						}
-
-						// TechExpertiseBento and its sub-components
-						if (
-							id.includes(
-								'components/features/marketing/tech-expertise',
-							)
-						) {
-							return 'tech-expertise'
-						}
-
-						// Lucide icons
-						if (id.includes('lucide-react')) {
-							return 'lucide-icons'
-						}
-
-						// Radix UI components
-						if (id.includes('@radix-ui')) {
-							return 'radix-ui'
-						}
-
-						// React core
-						if (id.includes('node_modules/react')) {
-							return 'react-vendor'
-						}
-
-						return undefined
-					},
+					manualChunks: id =>
+						CHUNK_RULES.find(rule => id.includes(rule.pattern))
+							?.chunk,
 				},
 			},
 		},

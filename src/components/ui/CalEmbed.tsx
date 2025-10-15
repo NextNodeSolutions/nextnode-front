@@ -55,7 +55,7 @@ export const CalEmbed = ({
 		return locale === 'fr' ? 'fr' : 'en'
 	}, [locale])
 
-	// Cal.com configuration with language support
+	// Cal.com configuration - only used for inline mode
 	const calConfig = useMemo(
 		() => ({
 			theme,
@@ -72,7 +72,7 @@ export const CalEmbed = ({
 			cal('modal', {
 				calLink: calLink,
 				config: {
-					theme: calConfig.theme,
+					theme,
 					layout: 'month_view',
 				},
 			})
@@ -85,7 +85,7 @@ export const CalEmbed = ({
 				},
 			})
 		}
-	}, [calLink, calConfig.theme])
+	}, [calLink, theme])
 
 	// Default button styles following NextNode design system
 	const defaultButtonStyles = cn(
@@ -141,41 +141,6 @@ export const CalEmbed = ({
 			/>
 		</div>
 	)
-}
-
-// Additional hook for advanced Cal.com API usage
-export const useCalApi = () => {
-	const { locale } = useI18n()
-
-	const openCalModal = useCallback(
-		async (calLink: string, _config: Record<string, unknown> = {}) => {
-			try {
-				const cal = await getCalApi({})
-
-				cal('modal', {
-					calLink: calLink,
-					config: {
-						theme: 'auto',
-						layout: 'month_view',
-					},
-				})
-			} catch (error) {
-				componentLogger.error('Cal.com API error', {
-					details: {
-						calLink: calLink,
-						error:
-							error instanceof Error
-								? error.message
-								: String(error),
-						locale,
-					},
-				})
-			}
-		},
-		[locale],
-	)
-
-	return { openCalModal }
 }
 
 export default CalEmbed
