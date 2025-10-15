@@ -27,6 +27,49 @@ export default defineConfig({
 	},
 	vite: {
 		plugins: [tailwindcss()],
+		build: {
+			rollupOptions: {
+				output: {
+					manualChunks: id => {
+						// Prism.js syntax highlighting in separate chunk
+						if (id.includes('prismjs')) {
+							return 'prism-highlighter'
+						}
+
+						// Motion animation library
+						if (id.includes('motion')) {
+							return 'motion-animations'
+						}
+
+						// TechExpertiseBento and its sub-components
+						if (
+							id.includes(
+								'components/features/marketing/tech-expertise',
+							)
+						) {
+							return 'tech-expertise'
+						}
+
+						// Lucide icons
+						if (id.includes('lucide-react')) {
+							return 'lucide-icons'
+						}
+
+						// Radix UI components
+						if (id.includes('@radix-ui')) {
+							return 'radix-ui'
+						}
+
+						// React core
+						if (id.includes('node_modules/react')) {
+							return 'react-vendor'
+						}
+
+						return undefined
+					},
+				},
+			},
+		},
 	},
 	adapter: node({
 		mode: 'standalone',
