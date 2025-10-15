@@ -1,6 +1,6 @@
 ---
 import { cn } from '@/lib/core/utils'
-import CalEmbed from '@/components/ui/CalEmbed'
+import PremiumCalButton from './PremiumCalButton'
 import ScrollIndicator from '@/components/ui/ScrollIndicator.astro'
 import DashboardMockup from './DashboardMockup.astro'
 import { Star, Award, CheckCircle2, TrendingUp } from 'lucide-react'
@@ -149,10 +149,9 @@ const { t, locale } = Astro.locals
 						'flex flex-col gap-2 sm:gap-3',
 					)}
 				>
-					<div class="premium-cta-wrapper w-full sm:w-auto">
-						<CalEmbed
+					<div class="w-full sm:w-auto">
+						<PremiumCalButton
 							calLink="walid-mos"
-							mode="popup"
 							buttonText={t('home.hero.cta')}
 							locale={locale}
 							client:load
@@ -182,77 +181,3 @@ const { t, locale } = Astro.locals
 	<!-- Scroll Indicator -->
 	<ScrollIndicator />
 </section>
-
-<style>
-	/* Premium CTA Button Styles */
-	.premium-cta-wrapper :global(button) {
-		position: relative;
-		overflow: hidden;
-		border-radius: 0.75rem;
-		padding: 0.75rem 1.5rem;
-		font-weight: 700;
-		font-size: 0.875rem;
-		color: white;
-		box-shadow:
-			0 20px 25px -5px rgb(0 0 0 / 0.1),
-			0 8px 10px -6px rgb(0 0 0 / 0.1);
-		transition: all 0.3s ease;
-		background: transparent !important;
-	}
-
-	@media (min-width: 640px) {
-		.premium-cta-wrapper :global(button) {
-			padding: 1rem 2rem;
-			font-size: 1rem;
-		}
-	}
-
-	@media (min-width: 768px) {
-		.premium-cta-wrapper :global(button) {
-			font-size: 1.125rem;
-		}
-	}
-
-	.premium-cta-wrapper :global(button::before) {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(
-			to right,
-			var(--brand-blue),
-			var(--brand-green-muted),
-			var(--brand-green)
-		);
-		background-size: 200% 200%;
-		animation: gradient-shift 3s ease infinite;
-		z-index: -1;
-	}
-
-	.premium-cta-wrapper :global(button::after) {
-		content: '';
-		position: absolute;
-		inset: 0;
-		border-radius: 0.75rem;
-		border: 2px solid rgba(255, 255, 255, 0.2);
-		pointer-events: none;
-	}
-
-	.premium-cta-wrapper :global(button:hover) {
-		transform: scale(1.05);
-		box-shadow:
-			0 0 40px rgba(59, 130, 246, 0.5),
-			0 20px 25px -5px rgb(0 0 0 / 0.2);
-	}
-
-	.premium-cta-wrapper :global(button:hover::before) {
-		animation-duration: 2s;
-	}
-
-	/* Icon animation */
-	.premium-cta-wrapper :global(button span) {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
-	}
-</style>
