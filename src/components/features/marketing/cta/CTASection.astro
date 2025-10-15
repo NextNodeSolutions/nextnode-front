@@ -1,6 +1,6 @@
 ---
 import { cn } from '@/lib/core/utils'
-import CalEmbed from '@/components/ui/CalEmbed'
+import GradientCalButton from '@/components/ui/GradientCalButton'
 
 const { t, locale } = Astro.locals
 ---
@@ -56,25 +56,16 @@ const { t, locale } = Astro.locals
 			<!-- CTA Button -->
 			<div
 				class={cn(
-					'premium-cta-wrapper',
 					'w-full sm:w-auto sm:min-w-[280px]',
 					'animate-fade-in-up animation-delay-600 opacity-0',
-					'[&_button]:relative [&_button]:overflow-hidden [&_button]:rounded-xl',
-					'[&_button]:px-6 [&_button]:py-3 sm:[&_button]:px-8 sm:[&_button]:py-4 lg:[&_button]:px-10 lg:[&_button]:py-[1.125rem]',
-					'[&_button]:font-bold [&_button]:text-sm sm:[&_button]:text-base lg:[&_button]:text-lg',
-					'[&_button]:text-white [&_button]:!bg-transparent',
-					'[&_button]:shadow-2xl',
-					'[&_button]:transition-all [&_button]:duration-300 [&_button]:ease-in-out',
-					'[&_button:hover]:scale-105',
-					'[&_button:hover]:shadow-[0_0_40px_rgba(59,130,246,0.5),0_20px_25px_-5px_rgb(0_0_0/0.2)]',
-					'[&_button_span]:flex [&_button_span]:items-center [&_button_span]:justify-center [&_button_span]:gap-2',
 				)}
 			>
-				<CalEmbed
+				<GradientCalButton
 					calLink="walid-mos"
-					mode="popup"
 					buttonText={t('home.cta.primaryButton')}
 					locale={locale}
+					gradient="cta"
+					size="large"
 					client:load
 				/>
 			</div>
@@ -94,40 +85,3 @@ const { t, locale } = Astro.locals
 		</div>
 	</div>
 </section>
-
-<style>
-	/* Premium CTA Button - Only necessary custom CSS for pseudo-elements */
-	.premium-cta-wrapper :global(button::before) {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(
-			to right,
-			var(--brand-blue),
-			var(--brand-green-muted),
-			var(--brand-green)
-		);
-		background-size: 200% 200%;
-		animation: gradient-shift 3s ease infinite;
-		z-index: -1;
-	}
-
-	.premium-cta-wrapper :global(button::after) {
-		content: '';
-		position: absolute;
-		inset: 0;
-		border-radius: 0.75rem;
-		border: 2px solid rgba(255, 255, 255, 0.2);
-		pointer-events: none;
-	}
-
-	.premium-cta-wrapper :global(button:hover::before) {
-		background: linear-gradient(
-			to right,
-			var(--brand-blue),
-			var(--brand-blue),
-			var(--brand-blue-muted)
-		);
-		animation: none;
-	}
-</style>
