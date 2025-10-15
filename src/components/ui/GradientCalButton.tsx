@@ -35,6 +35,12 @@ const buttonVariants = cva(
 		'before:from-brand-blue before:via-brand-green-muted before:to-brand-green',
 		'before:animate-[gradient-shift_3s_ease_infinite]',
 
+		// Hover: switch to static blue gradient (all buttons)
+		'hover:before:from-brand-blue',
+		'hover:before:via-brand-blue',
+		'hover:before:to-brand-blue-muted',
+		'hover:before:animate-none',
+
 		// Common size & responsiveness (all variants)
 		'px-6 py-3 text-sm',
 		'sm:px-8 sm:py-4 sm:text-base',
@@ -42,21 +48,6 @@ const buttonVariants = cva(
 	],
 	{
 		variants: {
-			/**
-			 * Gradient animation variants
-			 * - hero: Speeds up animation on hover (3s → 2s)
-			 * - cta: Switches to static blue gradient on hover
-			 */
-			gradient: {
-				hero: 'hover:before:animate-[gradient-shift_2s_ease_infinite]',
-				cta: [
-					'hover:before:from-brand-blue',
-					'hover:before:via-brand-blue',
-					'hover:before:to-brand-blue-muted',
-					'hover:before:animate-none',
-				],
-			},
-
 			/**
 			 * Size variants with responsive breakpoints
 			 * - default: Standard size with xl shadow
@@ -76,7 +67,6 @@ const buttonVariants = cva(
 			},
 		},
 		defaultVariants: {
-			gradient: 'hero',
 			size: 'default',
 		},
 	},
@@ -102,7 +92,7 @@ export interface GradientCalButtonProps
  *
  * Features:
  * - 100% Tailwind classes with organized CVA variants
- * - Two gradient behaviors: hero (speed up animation) and cta (switch to static)
+ * - Animated gradient (3s) that switches to static blue on hover
  * - Two size presets: default and large with responsive breakpoints
  * - Zero custom CSS
  *
@@ -112,17 +102,15 @@ export interface GradientCalButtonProps
  *   calLink="walid-mos"
  *   buttonText={t('home.hero.cta')}
  *   locale={locale}
- *   variant="hero"
  *   size="default"
  * />
  *
  * @example
- * // CTA section usage
+ * // CTA section usage (large size)
  * <GradientCalButton
  *   calLink="walid-mos"
  *   buttonText={t('home.cta.primaryButton')}
  *   locale={locale}
- *   variant="cta"
  *   size="large"
  * />
  */
@@ -130,7 +118,6 @@ export const GradientCalButton = ({
 	calLink,
 	buttonText,
 	locale,
-	gradient,
 	size,
 	className,
 }: GradientCalButtonProps) => {
@@ -140,7 +127,7 @@ export const GradientCalButton = ({
 			mode="popup"
 			buttonText={buttonText}
 			locale={locale}
-			buttonClassName={cn(buttonVariants({ gradient, size }), className)}
+			buttonClassName={cn(buttonVariants({ size }), className)}
 		/>
 	)
 }
