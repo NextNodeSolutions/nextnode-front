@@ -6,7 +6,6 @@ import PricingCardBadge from './PricingCardBadge.astro'
 import PricingCardHeader from './PricingCardHeader.astro'
 import PricingCardFeatures from './PricingCardFeatures.astro'
 import PricingCardExamples from './PricingCardExamples.astro'
-import PricingCardCTA from './PricingCardCTA.astro'
 import type { Plan } from '@/types/plans'
 
 const { t } = Astro.locals
@@ -121,8 +120,6 @@ const decorativeVariants = cva(
 		title={examplesTitle}
 		examples={planData.examples}
 	/>
-
-	<PricingCardCTA plan={plan} ctaText={planData.cta} />
 
 	<!-- Decorative background -->
 	<div class={cn(decorativeVariants({ plan }))}></div>

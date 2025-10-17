@@ -1,6 +1,6 @@
 ---
 import { cn } from '@/lib/core/utils'
-import GradientCalButton from '@/components/ui/GradientCalButton'
+import CalCTAButton from '@/components/ui/CalCTAButton'
 import ScrollIndicator from '@/components/ui/ScrollIndicator.astro'
 import DashboardMockup from './DashboardMockup.astro'
 import { Star, Award, CheckCircle2, TrendingUp } from 'lucide-react'
@@ -150,11 +150,11 @@ const { t, locale } = Astro.locals
 					)}
 				>
 					<div class="w-full sm:w-auto">
-						<GradientCalButton
+						<CalCTAButton
 							calLink="walid-mos"
 							buttonText={t('home.hero.cta')}
 							locale={locale}
-							size="default"
+							variant="hero"
 							client:load
 						/>
 					</div>

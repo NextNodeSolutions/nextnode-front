@@ -7,7 +7,7 @@ import { cn } from '@/lib/core/utils'
 import type { Locale } from '@/types/i18n'
 
 /**
- * Gradient button variants using class-variance-authority
+ * Button variants using class-variance-authority
  * This is the ONLY allowed usage of Tailwind classes in constants per CLAUDE.md
  */
 const buttonVariants = cva(
@@ -49,17 +49,17 @@ const buttonVariants = cva(
 	{
 		variants: {
 			/**
-			 * Size variants with responsive breakpoints
-			 * - default: Standard size with xl shadow
-			 * - large: Larger padding on lg+ screens with 2xl shadow
+			 * Visual variants for different contexts
+			 * - hero: Standard variant for hero sections with xl shadow
+			 * - cta: Larger variant for CTA sections with 2xl shadow
 			 */
-			size: {
-				default: [
+			variant: {
+				hero: [
 					'shadow-xl',
 					'md:text-lg',
 					'hover:shadow-2xl hover:shadow-blue-500/50',
 				],
-				large: [
+				cta: [
 					'shadow-2xl',
 					'lg:px-10 lg:py-[1.125rem] lg:text-lg',
 					'hover:shadow-[0_0_40px_rgba(59,130,246,0.5),0_20px_25px_-5px_rgb(0_0_0/0.2)]',
@@ -67,13 +67,12 @@ const buttonVariants = cva(
 			},
 		},
 		defaultVariants: {
-			size: 'default',
+			variant: 'hero',
 		},
 	},
 )
 
-export interface GradientCalButtonProps
-	extends VariantProps<typeof buttonVariants> {
+export interface CalCTAButtonProps extends VariantProps<typeof buttonVariants> {
 	/** Cal.com username/link (e.g., 'walid-mos') */
 	calLink: string
 	/** Button text */
@@ -85,7 +84,7 @@ export interface GradientCalButtonProps
 }
 
 /**
- * Unified gradient Cal.com button component
+ * Unified Cal.com CTA button component
  *
  * Uses class-variance-authority (CVA) for variant management.
  * This is the ONLY exception where Tailwind classes in constants are allowed per CLAUDE.md.
@@ -93,43 +92,43 @@ export interface GradientCalButtonProps
  * Features:
  * - 100% Tailwind classes with organized CVA variants
  * - Animated gradient (3s) that switches to static blue on hover
- * - Two size presets: default and large with responsive breakpoints
+ * - Two visual variants: hero and cta with responsive breakpoints
  * - Zero custom CSS
  *
  * @example
  * // Hero section usage
- * <GradientCalButton
+ * <CalCTAButton
  *   calLink="walid-mos"
  *   buttonText={t('home.hero.cta')}
  *   locale={locale}
- *   size="default"
+ *   variant="hero"
  * />
  *
  * @example
- * // CTA section usage (large size)
- * <GradientCalButton
+ * // CTA section usage (large variant)
+ * <CalCTAButton
  *   calLink="walid-mos"
  *   buttonText={t('home.cta.primaryButton')}
  *   locale={locale}
- *   size="large"
+ *   variant="cta"
  * />
  */
-export const GradientCalButton = ({
+export const CalCTAButton = ({
 	calLink,
 	buttonText,
 	locale,
-	size,
+	variant,
 	className,
-}: GradientCalButtonProps) => {
+}: CalCTAButtonProps) => {
 	return (
 		<CalEmbed
 			calLink={calLink}
 			mode="popup"
 			buttonText={buttonText}
 			locale={locale}
-			buttonClassName={cn(buttonVariants({ size }), className)}
+			buttonClassName={cn(buttonVariants({ variant }), className)}
 		/>
 	)
 }
 
-export default GradientCalButton
+export default CalCTAButton
