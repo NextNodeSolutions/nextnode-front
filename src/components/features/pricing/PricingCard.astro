@@ -6,9 +6,10 @@ import PricingCardBadge from './PricingCardBadge.astro'
 import PricingCardHeader from './PricingCardHeader.astro'
 import PricingCardFeatures from './PricingCardFeatures.astro'
 import PricingCardExamples from './PricingCardExamples.astro'
+import CalActionButton from '@/components/ui/CalActionButton'
 import type { Plan } from '@/types/plans'
 
-const { t } = Astro.locals
+const { t, locale } = Astro.locals
 
 export interface Props {
 	plan: Plan
@@ -26,6 +27,12 @@ const {
 
 const planData = translatePlan(plan)
 const examplesTitle = t('pricing.sections.examplesTitle')
+
+const gradientMap = {
+	starter: 'blue',
+	business: 'green',
+	enterprise: 'dark',
+} as const
 
 // Card container variants
 const cardVariants = cva(
@@ -120,6 +127,19 @@ const decorativeVariants = cva(
 		title={examplesTitle}
 		examples={planData.examples}
 	/>
+
+	<!-- CTA Button -->
+	<div class="mt-auto pt-6">
+		<CalActionButton
+			calLink="walid-mos"
+			buttonText={planData.cta}
+			locale={locale}
+			variant="pricing"
+			size="sm"
+			gradient={gradientMap[plan]}
+			client:load
+		/>
+	</div>
 
 	<!-- Decorative background -->
 	<div class={cn(decorativeVariants({ plan }))}></div>
