@@ -1,309 +1,11 @@
-@keyframes pulse-slow {
-	0%,
-	100% {
-		opacity: 0.5;
-	}
-	50% {
-		opacity: 0.8;
-	}
-}
-
-@keyframes pulse-dark {
-	0%,
-	100% {
-		opacity: 0.85;
-	}
-	50% {
-		opacity: 0.95;
-	}
-}
-
-@keyframes liquid {
-	0% {
-		transform: scale(1) translate(0px, 0px);
-		border-radius: 50%;
-	}
-	33% {
-		transform: scale(var(--scale-1))
-			translate(var(--translate-x-1), var(--translate-y-1));
-		border-radius: var(--border-radius-1);
-	}
-	66% {
-		transform: scale(var(--scale-2))
-			translate(var(--translate-x-2), var(--translate-y-2));
-		border-radius: var(--border-radius-2);
-	}
-	100% {
-		transform: scale(1) translate(0px, 0px);
-		border-radius: 50%;
-	}
-}
-
-@keyframes slide-in-from-bottom {
-	0% {
-		transform: translateY(100%);
-	}
-	100% {
-		transform: translateY(0%);
-	}
-}
-
-@keyframes slide-out-to-bottom {
-	0% {
-		transform: translateY(0%);
-	}
-	100% {
-		transform: translateY(100%);
-	}
-}
-
-@keyframes fade-in-up {
-	0% {
-		opacity: 0;
-		transform: translateY(60px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes fade-in-left {
-	0% {
-		opacity: 0;
-		transform: translateX(-60px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-
-@keyframes fade-in-right {
-	0% {
-		opacity: 0;
-		transform: translateX(60px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateX(0);
-	}
-}
-
-@keyframes slide-in-gentle {
-	0% {
-		opacity: 0;
-		transform: translateY(10px) scale(0.95);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0) scale(1);
-	}
-}
-
-@keyframes slide-in-from-bottom-8 {
-	0% {
-		opacity: 0;
-		transform: translateY(32px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes slide-in-from-bottom-4 {
-	0% {
-		opacity: 0;
-		transform: translateY(16px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes fade-in-0 {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-@keyframes fade-in {
-	0% {
-		opacity: 0;
-		transform: translateY(20px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
 /* ============================================================================
-   WORKFLOW ANIMATIONS
+   ANIMATION CLASSES
+   All animation utility classes using keyframes from keyframes.css
    ============================================================================ */
 
-@keyframes workflow-fade-in-up {
-	from {
-		opacity: 0;
-		transform: translateY(60px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes fade-in-card {
-	from {
-		opacity: 0;
-		transform: scale(0.9);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
-}
-
-@keyframes fade-in-line {
-	from {
-		opacity: 0;
-		stroke-dasharray: 1000;
-		stroke-dashoffset: 1000;
-	}
-	to {
-		opacity: 1;
-		stroke-dasharray: none;
-		stroke-dashoffset: 0;
-	}
-}
-
-@keyframes fade-in-point {
-	from {
-		opacity: 0;
-		transform: scale(0);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
-}
-
-@keyframes fade-in-rectangle {
-	from {
-		opacity: 0;
-		transform: scale(0.8);
-	}
-	to {
-		opacity: 0.8;
-		transform: scale(1);
-	}
-}
-
-@keyframes scale-in {
-	from {
-		opacity: 0;
-		transform: scale(0);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
-}
-
 /* ============================================================================
-   FLOAT ANIMATIONS
+   PULSE ANIMATIONS
    ============================================================================ */
-
-@keyframes float-vertical {
-	0%,
-	100% {
-		transform: translateY(0);
-	}
-	50% {
-		transform: translateY(-4px);
-	}
-}
-
-@keyframes float-diagonal {
-	0%,
-	100% {
-		transform: translate(0, 0);
-	}
-	33% {
-		transform: translate(8px, -8px);
-	}
-	66% {
-		transform: translate(-8px, 8px);
-	}
-}
-
-/* ============================================================================
-   SPECIALIZED ANIMATIONS
-   ============================================================================ */
-
-@keyframes pulse-ring {
-	0% {
-		transform: scale(1);
-		opacity: 0.5;
-	}
-	100% {
-		transform: scale(2);
-		opacity: 0;
-	}
-}
-
-@keyframes gradient-shift {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-
-@keyframes icon-pulse {
-	0%,
-	100% {
-		transform: scale(1);
-		box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-	}
-	50% {
-		transform: scale(1.05);
-		box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-	}
-}
-
-@keyframes scroll-wheel {
-	0% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-	50% {
-		opacity: 0.3;
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(8px);
-	}
-}
-
-@keyframes bounce-down {
-	0%,
-	100% {
-		transform: translateY(0);
-	}
-	50% {
-		transform: translateY(6px);
-	}
-}
 
 .animate-pulse-slow {
 	animation: pulse-slow 4s ease-in-out infinite;
@@ -313,128 +15,103 @@
 	animation: pulse-dark 2s ease-in-out infinite;
 }
 
-.animate-liquid {
-	animation: liquid var(--duration) ease-in-out infinite;
-}
-
-.animate-fade-in-up {
-	animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-fade-in-right {
-	animation: fade-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-fade-in {
-	animation: fade-in 0.6s ease-out forwards;
-}
-
-.animate-slide-in-gentle {
-	animation: slide-in-gentle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-in {
-	animation-fill-mode: forwards;
-}
-
-.slide-in-from-bottom-8 {
-	animation-name: slide-in-from-bottom-8;
-}
-
-.slide-in-from-bottom-4 {
-	animation-name: slide-in-from-bottom-4;
-}
-
-.fade-in-0 {
-	animation-name: fade-in-0;
-}
-
-.fill-mode-forwards {
-	animation-fill-mode: forwards;
-}
-
-.duration-700 {
-	animation-duration: 0.7s;
-}
-
-.duration-600 {
-	animation-duration: 0.6s;
-}
-
-.duration-1500 {
-	animation-duration: 1.5s;
-}
-
-.animation-delay-200 {
-	animation-delay: 0.2s;
-}
-
-.animation-delay-300 {
-	animation-delay: 0.3s;
-}
-
-.animation-delay-400 {
-	animation-delay: 0.4s;
-}
-
-.animation-delay-600 {
-	animation-delay: 0.6s;
-}
-
-.animation-delay-700 {
-	animation-delay: 0.7s;
-}
-
-.animation-delay-800 {
-	animation-delay: 0.8s;
-}
-
-.animation-delay-900 {
-	animation-delay: 0.9s;
-}
-
-.animation-delay-1200 {
-	animation-delay: 1.2s;
-}
-
-.animation-delay-1500 {
-	animation-delay: 1.5s;
-}
-
-/* ============================================================================
-   UTILITY CLASSES FOR NEW ANIMATIONS
-   ============================================================================ */
-
-.animate-float-vertical {
-	animation: float-vertical 3s ease-in-out infinite;
-}
-
-.animate-float-diagonal {
-	animation: float-diagonal 6s ease-in-out infinite;
-}
-
 .animate-pulse-ring {
 	animation: pulse-ring 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-.animate-gradient-shift {
-	animation: gradient-shift 8s ease infinite;
+/* ============================================================================
+   FADE ANIMATIONS WITH VARIANTS
+   ============================================================================ */
+
+/* Fade In Up Variants */
+.animate-fade-in-up-sm {
+	--fade-distance: 20px;
+	animation: fade-in-up 0.6s ease-out forwards;
 }
 
-.animate-icon-pulse {
-	animation: icon-pulse 2s ease-in-out infinite;
+.animate-fade-in-up {
+	--fade-distance: 40px;
+	animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-scroll-wheel {
-	animation: scroll-wheel 2s ease-in-out infinite;
+.animate-fade-in-up-lg {
+	--fade-distance: 60px;
+	animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-bounce-down {
-	animation: bounce-down 2s ease-in-out infinite;
+/* Fade In Left/Right */
+.animate-fade-in-left {
+	--fade-distance: 60px;
+	animation: fade-in-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+.animate-fade-in-right {
+	--fade-distance: 60px;
+	animation: fade-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Simple Fade In (no transform) */
+.animate-fade-in {
+	animation: fade-in 0.6s ease-out forwards;
+}
+
+/* ============================================================================
+   SLIDE ANIMATIONS WITH VARIANTS
+   ============================================================================ */
+
+/* Slide In From Bottom Variants */
+.animate-slide-in-from-bottom-4 {
+	--slide-distance: 16px;
+	--slide-start-opacity: 0;
+	animation: slide-in-from-bottom 0.7s ease-out forwards;
+}
+
+.animate-slide-in-from-bottom-8 {
+	--slide-distance: 32px;
+	--slide-start-opacity: 0;
+	animation: slide-in-from-bottom 0.7s ease-out forwards;
+}
+
+.animate-slide-in-from-bottom {
+	--slide-distance: 100%;
+	--slide-start-opacity: 1;
+	animation: slide-in-from-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-slide-out-to-bottom {
+	animation: slide-out-to-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Slide In Gentle */
+.animate-slide-in-gentle {
+	--slide-distance: 10px;
+	--slide-scale: 0.95;
+	animation: slide-in-gentle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ============================================================================
+   SCALE ANIMATIONS WITH VARIANTS
+   ============================================================================ */
+
+.animate-scale-in {
+	--scale-from: 0;
+	--scale-to-opacity: 1;
+	animation: scale-in 0.6s ease-out forwards;
+}
+
+.animate-scale-in-card {
+	--scale-from: 0.9;
+	--scale-to-opacity: 1;
+	animation: scale-in 0.8s ease-out forwards;
+}
+
+/* ============================================================================
+   WORKFLOW ANIMATIONS
+   ============================================================================ */
 
 .animate-workflow-fade-in-up {
-	animation: workflow-fade-in-up 1s ease-out forwards;
+	--fade-distance: 60px;
+	animation: fade-in-up 1s ease-out forwards;
 }
 
 .animate-fade-in-card {
@@ -453,13 +130,165 @@
 	animation: fade-in-rectangle 0.8s ease-out forwards;
 }
 
-.animate-scale-in {
-	animation: scale-in 0.6s ease-out forwards;
+/* ============================================================================
+   FLOAT ANIMATIONS
+   ============================================================================ */
+
+.animate-float-vertical {
+	--float-distance: -4px;
+	animation: float-vertical 3s ease-in-out infinite;
+}
+
+.animate-float-diagonal {
+	--float-x-1: 8px;
+	--float-y-1: -8px;
+	--float-x-2: -8px;
+	--float-y-2: 8px;
+	animation: float-diagonal 6s ease-in-out infinite;
+}
+
+/* ============================================================================
+   LIQUID ANIMATION
+   ============================================================================ */
+
+.animate-liquid {
+	animation: liquid var(--duration) ease-in-out infinite;
+}
+
+/* ============================================================================
+   SPECIALIZED ANIMATIONS
+   ============================================================================ */
+
+.animate-gradient-shift {
+	animation: gradient-shift 8s ease infinite;
+}
+
+.animate-icon-pulse {
+	animation: icon-pulse 2s ease-in-out infinite;
+}
+
+.animate-scroll-wheel {
+	--scroll-distance: 8px;
+	animation: scroll-wheel 2s ease-in-out infinite;
+}
+
+.animate-bounce-down {
+	--bounce-distance: 6px;
+	animation: bounce-down 2s ease-in-out infinite;
+}
+
+/* ============================================================================
+   ACCORDION ANIMATIONS (Radix UI)
+   ============================================================================ */
+
+.animate-accordion-down {
+	animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+	animation: accordion-up 0.2s ease-out;
+}
+
+/* ============================================================================
+   UTILITY CLASSES
+   ============================================================================ */
+
+.animate-in {
+	animation-fill-mode: forwards;
+}
+
+.fill-mode-forwards {
+	animation-fill-mode: forwards;
+}
+
+/* Legacy class names (for backward compatibility) */
+.slide-in-from-bottom-8 {
+	animation-name: slide-in-from-bottom;
+	--slide-distance: 32px;
+	--slide-start-opacity: 0;
+}
+
+.slide-in-from-bottom-4 {
+	animation-name: slide-in-from-bottom;
+	--slide-distance: 16px;
+	--slide-start-opacity: 0;
+}
+
+.fade-in-0 {
+	animation-name: fade-in;
+}
+
+/* ============================================================================
+   ANIMATION DURATIONS
+   ============================================================================ */
+
+.duration-600 {
+	animation-duration: 0.6s;
+}
+
+.duration-700 {
+	animation-duration: 0.7s;
+}
+
+.duration-1500 {
+	animation-duration: 1.5s;
+}
+
+/* ============================================================================
+   ANIMATION DELAYS (Consolidated)
+   ============================================================================ */
+
+.animation-delay-100 {
+	animation-delay: 0.1s;
+}
+
+.animation-delay-200 {
+	animation-delay: 0.2s;
+}
+
+.animation-delay-300 {
+	animation-delay: 0.3s;
+}
+
+.animation-delay-400 {
+	animation-delay: 0.4s;
+}
+
+.animation-delay-500 {
+	animation-delay: 0.5s;
+}
+
+.animation-delay-600 {
+	animation-delay: 0.6s;
+}
+
+.animation-delay-700 {
+	animation-delay: 0.7s;
+}
+
+.animation-delay-800 {
+	animation-delay: 0.8s;
+}
+
+.animation-delay-900 {
+	animation-delay: 0.9s;
 }
 
 .animation-delay-1000 {
 	animation-delay: 1s;
 }
+
+.animation-delay-1200 {
+	animation-delay: 1.2s;
+}
+
+.animation-delay-1500 {
+	animation-delay: 1.5s;
+}
+
+/* ============================================================================
+   MEDIA QUERIES
+   ============================================================================ */
 
 @media (max-width: 639px) {
 	.mobile-dialog[data-state='open'] {
