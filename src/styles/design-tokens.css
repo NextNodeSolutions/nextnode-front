@@ -95,6 +95,11 @@
 	--shadow-rose: rgba(244, 63, 94, 0.25);
 	--shadow-slate: rgba(100, 116, 139, 0.25);
 
+	/* Brand Shadow Colors */
+	--shadow-brand-green: rgba(73, 197, 140, 0.15);
+	--shadow-brand-blue: rgba(84, 147, 255, 0.15);
+	--shadow-brand-blue-dark: rgba(58, 102, 221, 0.15);
+
 	/* Ring Colors */
 	--ring-indigo: rgba(99, 102, 241, 0.2);
 	--ring-violet: rgba(139, 92, 246, 0.2);
@@ -263,6 +268,25 @@
 	box-shadow:
 		0 10px 15px -3px var(--shadow-slate),
 		0 4px 6px -2px var(--shadow-slate);
+}
+
+/* Brand Shadow Classes */
+.shadow-brand-green {
+	box-shadow:
+		0 20px 25px -5px var(--shadow-brand-green),
+		0 8px 10px -6px var(--shadow-brand-green);
+}
+
+.shadow-brand-blue {
+	box-shadow:
+		0 20px 25px -5px var(--shadow-brand-blue),
+		0 8px 10px -6px var(--shadow-brand-blue);
+}
+
+.shadow-brand-blue-dark {
+	box-shadow:
+		0 20px 25px -5px var(--shadow-brand-blue-dark),
+		0 8px 10px -6px var(--shadow-brand-blue-dark);
 }
 
 /* Ring Classes */
