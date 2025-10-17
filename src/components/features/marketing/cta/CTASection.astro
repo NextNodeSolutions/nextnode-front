@@ -1,6 +1,6 @@
 ---
 import { cn } from '@/lib/core/utils'
-import GradientCalButton from '@/components/ui/GradientCalButton'
+import CalActionButton from '@/components/ui/CalActionButton'
 
 const { t, locale } = Astro.locals
 ---
@@ -60,11 +60,13 @@ const { t, locale } = Astro.locals
 					'animate-fade-in-up animation-delay-600 opacity-0',
 				)}
 			>
-				<GradientCalButton
+				<CalActionButton
 					calLink="walid-mos"
 					buttonText={t('home.cta.primaryButton')}
 					locale={locale}
-					size="large"
+					variant="cta"
+					size="xl"
+					showArrow={true}
 					client:load
 				/>
 			</div>

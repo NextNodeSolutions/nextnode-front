@@ -1,8 +1,9 @@
 import { useCallback, useMemo } from 'react'
 
 import Cal, { getCalApi } from '@calcom/embed-react'
+import type { ReactNode } from 'react'
 
-import { cn } from '@/lib/core/utils'
+import { ButtonPrimitive } from '@/components/ui/forms/Button'
 import { useI18n } from '@/lib/i18n/I18nReact'
 import { componentLogger } from '@/lib/logging'
 
@@ -13,8 +14,10 @@ export interface CalEmbedProps {
 	calLink: string
 	/** Display mode - popup opens modal, inline embeds directly */
 	mode?: 'popup' | 'inline'
-	/** Button text override */
-	buttonText?: string
+	/** Button content (for popup mode) */
+	children?: ReactNode
+	/** Accessible label for button */
+	ariaLabel?: string
 	/** Custom button className */
 	buttonClassName?: string
 	/** Cal.com theme */
@@ -38,17 +41,14 @@ export interface CalEmbedProps {
 export const CalEmbed = ({
 	calLink,
 	mode = 'popup',
-	buttonText,
+	children,
+	ariaLabel,
 	buttonClassName,
 	theme = 'auto',
 	config = {},
 	locale: initialLocale,
 }: CalEmbedProps) => {
-	const { locale, t } = useI18n(initialLocale)
-
-	// Default texts with i18n support
-	const defaultButtonText =
-		buttonText || t('common.cal.scheduleButton') || '📅 Schedule a meeting'
+	const { locale } = useI18n(initialLocale)
 
 	// Language configuration based on locale
 	const calLanguage = useMemo(() => {
@@ -87,43 +87,16 @@ export const CalEmbed = ({
 		}
 	}, [calLink, theme])
 
-	// Default button styles following NextNode design system
-	const defaultButtonStyles = cn(
-		'btn-gradient-primary group w-full cursor-pointer px-4 py-6',
-		'hover-lift shadow-lg transition-shadow hover:shadow-2xl',
-		'text-base font-bold tracking-wide text-white',
-		'sm:px-6 sm:py-6 sm:text-lg',
-		'md:px-8 md:py-6 md:text-lg',
-		'flex-center gap-2',
-		'hover:animate-pulse-dark',
-		buttonClassName,
-	)
-
 	if (mode === 'popup') {
 		return (
-			<button
+			<ButtonPrimitive
 				type="button"
 				onClick={handlePopupClick}
-				className={defaultButtonStyles}
-				aria-label={`${defaultButtonText} - ${t('common.cal.opensInModal')}`}
+				className={buttonClassName}
+				aria-label={ariaLabel}
 			>
-				<span
-					className={cn(
-						'transition-transform',
-						'uppercase group-hover:-translate-x-2',
-					)}
-				>
-					{defaultButtonText}
-				</span>
-				<span
-					className={cn(
-						'opacity-0 transition-all duration-300',
-						'group-hover:translate-x-2 group-hover:opacity-100',
-					)}
-				>
-					→
-				</span>
-			</button>
+				{children}
+			</ButtonPrimitive>
 		)
 	}
 

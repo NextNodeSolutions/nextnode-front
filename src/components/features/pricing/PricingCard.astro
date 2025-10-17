@@ -1,12 +1,15 @@
 ---
+import { cva } from 'class-variance-authority'
 import { cn } from '@/lib/core/utils'
-import { Check } from 'lucide-react'
-// Use new i18n system from middleware
-const { t } = Astro.locals
 import { translatePlan } from '@/lib/i18n/translate-utils'
-import { Button } from '@/components/ui/forms/Button'
-import { PLAN_THEMES, getPlanCSSVars } from '@/lib/ui/pricing-constants'
+import PricingCardBadge from './PricingCardBadge.astro'
+import PricingCardHeader from './PricingCardHeader.astro'
+import PricingCardFeatures from './PricingCardFeatures.astro'
+import PricingCardExamples from './PricingCardExamples.astro'
+import CalActionButton from '@/components/ui/CalActionButton'
 import type { Plan } from '@/types/plans'
+
+const { t, locale } = Astro.locals
 
 export interface Props {
 	plan: Plan
@@ -22,20 +25,18 @@ const {
 	className = '',
 } = Astro.props
 
-// Get plan data using translatePlan utility for proper typing
 const planData = translatePlan(plan)
-
-// Get additional translation
 const examplesTitle = t('pricing.sections.examplesTitle')
 
-// Get theme configuration for current plan
-const planTheme = PLAN_THEMES[plan]
-const cssVars = getPlanCSSVars(plan)
----
+const gradientMap = {
+	starter: 'blue',
+	business: 'green',
+	enterprise: 'dark',
+} as const
 
-<div
-	class={cn(
-		// Base card styling
+// Card container variants
+const cardVariants = cva(
+	[
 		'relative flex flex-col h-full',
 		'rounded-2xl border border-gray-200/50',
 		'bg-white/80 backdrop-blur-sm',
@@ -43,152 +44,103 @@ const cssVars = getPlanCSSVars(plan)
 		'transition-all duration-500',
 		'hover:shadow-lg md:hover:scale-105',
 		'opacity-0 animate-fade-in-up',
-		// Featured plan special styling
-		featured && [
-			'ring-2',
-			planTheme.ring,
-			'shadow-lg sm:shadow-xl lg:shadow-2xl',
-			'sm:scale-105 lg:scale-110',
-			'dark:shadow-none',
-			planTheme.shadow,
-		],
-		// Responsive padding
 		'p-4 sm:p-6 lg:p-8',
-		// Custom className for ordering
-		className,
-	)}
+	],
+	{
+		variants: {
+			plan: {
+				starter: '',
+				business: '',
+				enterprise: '',
+			},
+			featured: {
+				true: [
+					'ring-2',
+					'shadow-lg sm:shadow-xl lg:shadow-2xl',
+					'sm:scale-105 lg:scale-110',
+					'dark:shadow-none',
+				],
+				false: '',
+			},
+		},
+		compoundVariants: [
+			{
+				plan: 'starter',
+				featured: true,
+				class: 'ring-brand-blue/20 shadow-brand-blue/25',
+			},
+			{
+				plan: 'business',
+				featured: true,
+				class: 'ring-brand-green/20 shadow-brand-green/25',
+			},
+			{
+				plan: 'enterprise',
+				featured: true,
+				class: 'ring-brand-blue-dark/20 shadow-brand-blue-dark/25',
+			},
+		],
+	},
+)
+
+// Decorative background variants
+const decorativeVariants = cva(
+	[
+		'absolute inset-0 rounded-2xl',
+		'opacity-0 transition-opacity duration-500',
+		'bg-gradient-to-br pointer-events-none',
+		'group-hover:opacity-5',
+	],
+	{
+		variants: {
+			plan: {
+				starter: 'from-brand-blue to-brand-blue-dark',
+				business: 'from-brand-green to-brand-green-dark',
+				enterprise: 'from-brand-blue-dark to-brand-green-dark',
+			},
+		},
+	},
+)
+---
+
+<div
+	class={cn(cardVariants({ plan, featured }), className)}
 	style={{
 		animationDelay: animationDelay > 0 ? `${animationDelay}ms` : undefined,
-		...cssVars,
 	}}
 >
-	<!-- Featured Badge -->
-	{
-		featured && (
-			<div class="absolute -top-3 left-1/2 -translate-x-1/2">
-				<div
-					class={cn(
-						'rounded-full px-3 py-0.5 text-xs font-bold text-white sm:px-4 sm:py-1 sm:text-sm',
-						`bg-gradient-to-r ${planTheme.gradient}`,
-						'shadow-lg',
-					)}
-				>
-					{planData.badge}
-				</div>
-			</div>
-		)
-	}
+	{featured && <PricingCardBadge plan={plan} badge={planData.badge} />}
 
-	<!-- Plan Header -->
-	<div class="mb-6 text-center sm:mb-8">
-		<h3
-			class="mb-2 text-xl font-bold text-gray-900 sm:text-2xl dark:text-white"
-		>
-			{planData.name}
-		</h3>
-		<p
-			class="mb-3 text-sm text-gray-600 sm:mb-4 sm:text-base dark:text-gray-400"
-		>
-			{planData.tagline}
-		</p>
+	<PricingCardHeader
+		plan={plan}
+		name={planData.name}
+		tagline={planData.tagline}
+		price={planData.price}
+		recurring={planData.recurring}
+		description={planData.description}
+	/>
 
-		<!-- Pricing -->
-		<div class="mb-3 sm:mb-4">
-			<div
-				class={cn(
-					'text-3xl sm:text-4xl font-bold mb-1 sm:mb-2',
-					`bg-gradient-to-r ${planTheme.gradient}`,
-					'bg-clip-text text-transparent',
-				)}
-			>
-				{planData.price}
-			</div>
-			<div class="text-xs text-gray-600 sm:text-sm dark:text-gray-400">
-				+ {planData.recurring}
-			</div>
-		</div>
+	<PricingCardFeatures plan={plan} features={planData.features} />
 
-		<p
-			class="text-sm leading-relaxed text-gray-700 sm:text-base dark:text-gray-300"
-		>
-			{planData.description}
-		</p>
-	</div>
-
-	<!-- Features List -->
-	<div class="mb-6 flex-1 sm:mb-8">
-		<ul class="space-y-2 sm:space-y-3">
-			{
-				planData.features.map(feature => (
-					<li class="flex items-start gap-3">
-						<div
-							class={cn(
-								'mt-0.5 flex h-5 w-5 items-center justify-center rounded-full',
-								`bg-gradient-to-r ${planTheme.gradient}`,
-								'flex-shrink-0',
-							)}
-						>
-							<Check className="h-3 w-3 text-white" />
-						</div>
-						<span class="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-							{feature}
-						</span>
-					</li>
-				))
-			}
-		</ul>
-	</div>
-
-	<!-- Examples Section -->
-	<div class="mb-6 sm:mb-8">
-		<h4
-			class="mb-2 text-xs font-semibold text-gray-900 sm:mb-3 sm:text-sm dark:text-white"
-		>
-			{examplesTitle}
-		</h4>
-		<ul class="space-y-2 sm:space-y-2.5">
-			{
-				planData.examples.map(example => (
-					<li class="flex items-start gap-3">
-						<div
-							class={cn(
-								'mt-1.5 h-2 w-2 flex-shrink-0 rounded-full',
-								`bg-gradient-to-r ${planTheme.gradient}`,
-							)}
-						/>
-						<span class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-							{example}
-						</span>
-					</li>
-				))
-			}
-		</ul>
-	</div>
+	<PricingCardExamples
+		plan={plan}
+		title={examplesTitle}
+		examples={planData.examples}
+	/>
 
 	<!-- CTA Button -->
-	<div class="mt-auto">
-		<Button
-			variant="default"
-			className={cn(
-				'block w-full rounded-lg px-6 py-3 text-center font-semibold text-white',
-				'shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl',
-				'focus:ring-2 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-800',
-				`bg-gradient-to-r ${planTheme.button}`,
-				`${planTheme.focus}`,
-			)}
-		>
-			{planData.cta}
-		</Button>
+	<div class="mt-auto pt-6">
+		<CalActionButton
+			calLink="walid-mos"
+			buttonText={planData.cta}
+			locale={locale}
+			variant="pricing"
+			size="sm"
+			gradient={gradientMap[plan]}
+			client:load
+		/>
 	</div>
 
-	<!-- Decorative Elements -->
-	<div
-		class={cn(
-			'absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500',
-			'bg-gradient-to-br pointer-events-none',
-			planTheme.gradient,
-			'group-hover:opacity-5',
-		)}
-	>
-	</div>
+	<!-- Decorative background -->
+	<div class={cn(decorativeVariants({ plan }))}></div>
 </div>
