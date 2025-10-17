@@ -160,6 +160,13 @@
    ============================================================================ */
 
 .animate-gradient-shift {
+	background: linear-gradient(
+		45deg,
+		var(--brand-blue) 0%,
+		var(--brand-green) 50%,
+		var(--brand-blue) 100%
+	);
+	background-size: 200% 200%;
 	animation: gradient-shift 8s ease infinite;
 }
 
@@ -197,25 +204,8 @@
 	animation-fill-mode: forwards;
 }
 
-.fill-mode-forwards {
+.animate-fill-mode-forwards {
 	animation-fill-mode: forwards;
-}
-
-/* Legacy class names (for backward compatibility) */
-.slide-in-from-bottom-8 {
-	animation-name: slide-in-from-bottom;
-	--slide-distance: 32px;
-	--slide-start-opacity: 0;
-}
-
-.slide-in-from-bottom-4 {
-	animation-name: slide-in-from-bottom;
-	--slide-distance: 16px;
-	--slide-start-opacity: 0;
-}
-
-.fade-in-0 {
-	animation-name: fade-in;
 }
 
 /* ============================================================================

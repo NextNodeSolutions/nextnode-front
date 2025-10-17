@@ -30,11 +30,20 @@ const stepPositions = calculateStepPositions(variant)
 				return null
 			}
 
+			// Map index to animation delay class
+			const delayClasses = [
+				'animation-delay-100',
+				'animation-delay-200',
+				'animation-delay-300',
+				'animation-delay-400',
+				'animation-delay-500',
+			]
+
 			return (
 				<div
-					class="absolute z-20 transition-transform duration-500 ease-out"
+					class={`animate-fade-in absolute z-20 transition-transform duration-500 ease-out ${delayClasses[index] || ''}`}
 					style={`
-					left: ${position.x}px; 
+					left: ${position.x}px;
 					top: ${position.y}px;
 					transform-origin: center center;
 				`}
@@ -57,27 +66,5 @@ const stepPositions = calculateStepPositions(variant)
 		width: 100%;
 		height: 100%;
 		z-index: 2;
-	}
-
-	/* Animation for step cards on load */
-	.workflow-cards-container > div {
-		opacity: 0;
-		animation: fade-in 0.6s ease-out forwards;
-	}
-
-	.workflow-cards-container > div:nth-child(1) {
-		animation-delay: 0.1s;
-	}
-	.workflow-cards-container > div:nth-child(2) {
-		animation-delay: 0.2s;
-	}
-	.workflow-cards-container > div:nth-child(3) {
-		animation-delay: 0.3s;
-	}
-	.workflow-cards-container > div:nth-child(4) {
-		animation-delay: 0.4s;
-	}
-	.workflow-cards-container > div:nth-child(5) {
-		animation-delay: 0.5s;
 	}
 </style>
