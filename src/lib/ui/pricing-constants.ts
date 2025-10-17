@@ -1,6 +1,7 @@
 /**
  * Pricing plan constants and styling configurations
  * Centralized configuration for consistent theming across pricing components
+ * Uses the global blue/green theme system from global.css
  */
 
 import type { Plan } from '@/types/plans'
@@ -8,38 +9,38 @@ import type { Plan } from '@/types/plans'
 export const PLAN_THEMES = {
 	starter: {
 		name: 'starter',
-		gradient: 'from-blue-500 to-cyan-500',
-		ring: 'ring-blue-500/20',
-		shadow: 'shadow-blue-500/25',
-		button: 'from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700',
-		focus: 'focus:ring-blue-500',
+		gradient: 'from-brand-blue to-brand-blue-light',
+		ring: 'ring-brand-blue/20',
+		shadow: 'shadow-brand-blue/25',
+		button: 'from-brand-blue to-brand-blue-dark hover:from-brand-blue-dark hover:to-brand-blue',
+		focus: 'focus:ring-brand-blue',
 		colors: {
-			primary: '#3b82f6', // blue-500
-			secondary: '#06b6d4', // cyan-500
+			primary: 'var(--brand-blue)',
+			secondary: 'var(--brand-blue-light)',
 		},
 	},
 	business: {
 		name: 'business',
-		gradient: 'from-indigo-500 to-violet-500',
-		ring: 'ring-indigo-500/20',
-		shadow: 'shadow-indigo-500/25',
-		button: 'from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700',
-		focus: 'focus:ring-indigo-500',
+		gradient: 'from-brand-green to-brand-green-light',
+		ring: 'ring-brand-green/20',
+		shadow: 'shadow-brand-green/25',
+		button: 'from-brand-green to-brand-green-dark hover:from-brand-green-dark hover:to-brand-green',
+		focus: 'focus:ring-brand-green',
 		colors: {
-			primary: '#6366f1', // indigo-500
-			secondary: '#8b5cf6', // violet-500
+			primary: 'var(--brand-green)',
+			secondary: 'var(--brand-green-light)',
 		},
 	},
 	enterprise: {
 		name: 'enterprise',
-		gradient: 'from-violet-500 to-fuchsia-500',
-		ring: 'ring-violet-500/20',
-		shadow: 'shadow-violet-500/25',
-		button: 'from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700',
-		focus: 'focus:ring-violet-500',
+		gradient: 'from-brand-blue-dark to-brand-green-dark',
+		ring: 'ring-brand-blue-dark/20',
+		shadow: 'shadow-brand-blue-dark/25',
+		button: 'from-brand-blue-dark to-brand-green-dark hover:from-brand-blue hover:to-brand-green',
+		focus: 'focus:ring-brand-blue-dark',
 		colors: {
-			primary: '#8b5cf6', // violet-500
-			secondary: '#d946ef', // fuchsia-500
+			primary: 'var(--brand-blue-dark)',
+			secondary: 'var(--brand-green-dark)',
 		},
 	},
 } as const

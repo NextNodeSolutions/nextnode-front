@@ -131,7 +131,7 @@ const pageDescription = t('pricing.hero.subtitle')
 											'pricing.pricing.development.details',
 										).map(detail => (
 											<li class="flex items-start gap-3">
-												<div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-indigo-500" />
+												<div class="bg-brand-blue mt-1 h-2 w-2 flex-shrink-0 rounded-full" />
 												<span class="text-sm text-gray-700 dark:text-gray-300">
 													{detail}
 												</span>
@@ -170,7 +170,7 @@ const pageDescription = t('pricing.hero.subtitle')
 											'pricing.pricing.infrastructure.details',
 										).map(detail => (
 											<li class="flex items-start gap-3">
-												<div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-green-500" />
+												<div class="bg-brand-green mt-1 h-2 w-2 flex-shrink-0 rounded-full" />
 												<span class="text-sm text-gray-700 dark:text-gray-300">
 													{detail}
 												</span>
@@ -205,7 +205,7 @@ const pageDescription = t('pricing.hero.subtitle')
 											'pricing.pricing.guarantee.points',
 										).map(point => (
 											<li class="flex items-start gap-3">
-												<div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-violet-500" />
+												<div class="bg-brand-blue-dark mt-1 h-2 w-2 flex-shrink-0 rounded-full" />
 												<span class="text-sm text-gray-700 dark:text-gray-300">
 													{point}
 												</span>
@@ -261,11 +261,11 @@ const pageDescription = t('pricing.hero.subtitle')
 										'transition-all duration-500',
 										'hover:shadow-lg md:hover:scale-105',
 										index === 0 &&
-											'shadow-lg ring-2 shadow-emerald-500/25 ring-emerald-500/20 sm:scale-105 sm:shadow-xl lg:scale-110',
+											'shadow-brand-green/25 ring-brand-green/20 shadow-lg ring-2 sm:scale-105 sm:shadow-xl lg:scale-110',
 										index === 1 &&
-											'shadow-lg ring-2 shadow-indigo-500/25 ring-indigo-500/20 sm:shadow-xl',
+											'shadow-brand-blue/25 ring-brand-blue/20 shadow-lg ring-2 sm:shadow-xl',
 										index === 2 &&
-											'shadow-lg ring-2 shadow-violet-500/25 ring-violet-500/20 sm:shadow-xl',
+											'shadow-brand-blue-dark/25 ring-brand-blue-dark/20 shadow-lg ring-2 sm:shadow-xl',
 										'animate-fade-in-up opacity-0',
 									)}
 									style={`animation-delay: ${400 + index * 200}ms`}
@@ -281,10 +281,10 @@ const pageDescription = t('pricing.hero.subtitle')
 													<span
 														class={cn(
 															'inline-flex items-center gap-2 rounded-full px-4 py-3 text-base font-semibold',
-															'border border-emerald-200 bg-emerald-50 text-emerald-700',
-															'dark:border-emerald-800/50 dark:bg-emerald-950/30 dark:text-emerald-300',
-															'transition-all duration-300 hover:scale-105 hover:bg-emerald-100',
-															'dark:hover:bg-emerald-950/50',
+															'border-brand-green/20 bg-brand-green/10 text-brand-green-dark border',
+															'dark:border-brand-green/50 dark:bg-brand-green/30 dark:text-brand-green',
+															'hover:bg-brand-green/20 transition-all duration-300 hover:scale-105',
+															'dark:hover:bg-brand-green/50',
 														)}
 													>
 														<svg
@@ -309,9 +309,9 @@ const pageDescription = t('pricing.hero.subtitle')
 														class={cn(
 															'text-3xl font-bold',
 															index === 1 &&
-																'text-indigo-600 dark:text-indigo-400',
+																'text-brand-blue dark:text-brand-blue',
 															index === 2 &&
-																'text-violet-600 dark:text-violet-400',
+																'text-brand-blue-dark dark:text-brand-blue-dark',
 														)}
 													>
 														{level.price}
@@ -341,11 +341,11 @@ const pageDescription = t('pricing.hero.subtitle')
 																'mt-0.5 flex h-5 w-5 items-center justify-center rounded-full',
 																'flex-shrink-0',
 																index === 0 &&
-																	'bg-green-500',
+																	'bg-brand-green',
 																index === 1 &&
-																	'bg-indigo-500',
+																	'bg-brand-blue',
 																index === 2 &&
-																	'bg-violet-500',
+																	'bg-brand-blue-dark',
 															)}
 														>
 															<svg
@@ -397,9 +397,9 @@ const pageDescription = t('pricing.hero.subtitle')
 					<div
 						class={cn(
 							'text-center p-6 rounded-2xl',
-							'bg-gradient-to-br from-blue-50 to-indigo-50',
+							'bg-gradient-to-br from-brand-blue-light to-brand-green-light',
 							'dark:from-gray-800 dark:to-gray-700',
-							'border border-blue-200/50 dark:border-gray-600',
+							'border border-brand-blue/20 dark:border-gray-600',
 							'opacity-0 animate-fade-in-up animation-delay-1000',
 						)}
 					>
