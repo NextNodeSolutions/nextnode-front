@@ -45,33 +45,39 @@
 @keyframes fade-in-up {
 	0% {
 		opacity: 0;
-		transform: translateY(var(--fade-distance, 20px));
+		transform: translate3d(0, var(--fade-distance, 20px), 0);
+		backface-visibility: hidden;
 	}
 	100% {
 		opacity: 1;
-		transform: translateY(0);
+		transform: translate3d(0, 0, 0);
+		backface-visibility: hidden;
 	}
 }
 
 @keyframes fade-in-left {
 	0% {
 		opacity: 0;
-		transform: translateX(calc(-1 * var(--fade-distance, 60px)));
+		transform: translate3d(calc(-1 * var(--fade-distance, 60px)), 0, 0);
+		backface-visibility: hidden;
 	}
 	100% {
 		opacity: 1;
-		transform: translateX(0);
+		transform: translate3d(0, 0, 0);
+		backface-visibility: hidden;
 	}
 }
 
 @keyframes fade-in-right {
 	0% {
 		opacity: 0;
-		transform: translateX(var(--fade-distance, 60px));
+		transform: translate3d(var(--fade-distance, 60px), 0, 0);
+		backface-visibility: hidden;
 	}
 	100% {
 		opacity: 1;
-		transform: translateX(0);
+		transform: translate3d(0, 0, 0);
+		backface-visibility: hidden;
 	}
 }
 

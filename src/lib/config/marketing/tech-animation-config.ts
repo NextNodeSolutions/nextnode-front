@@ -28,9 +28,9 @@ export const OBSERVER_CONFIG = {
  */
 export const ANIMATION_DURATIONS = {
 	/** Section animations (fade-in-up, fade-in-left, fade-in-right) */
-	section: 1000,
+	section: 800,
 	/** Card animations (fade-in only) */
-	card: 800,
+	card: 600,
 	/** Icon pulse effect */
 	iconPulse: 2000,
 	/** Background gradient shifting */
