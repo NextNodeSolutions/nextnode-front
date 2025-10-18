@@ -327,3 +327,83 @@
 		animation: slide-out-to-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 }
+
+/* ============================================================================
+   ACCESSIBILITY - REDUCED MOTION
+   Centralized prefers-reduced-motion rules for all animations
+   Respects user preference to minimize motion for accessibility
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+	/* Disable all animations with motion (transform/translation) */
+	.animate-fade-in-up,
+	.animate-fade-in-up-sm,
+	.animate-fade-in-up-lg,
+	.animate-fade-in-left,
+	.animate-fade-in-right,
+	.animate-workflow-fade-in-up,
+	.animate-slide-in-from-bottom-4,
+	.animate-slide-in-from-bottom-8,
+	.animate-slide-in-from-bottom,
+	.animate-slide-out-to-bottom,
+	.animate-slide-in-gentle,
+	.animate-scale-in,
+	.animate-scale-in-card,
+	.animate-fade-in-card,
+	.animate-fade-in-line,
+	.animate-fade-in-point,
+	.animate-fade-in-rectangle,
+	.animate-float-vertical,
+	.animate-float-diagonal,
+	.animate-bounce-down,
+	.animate-accordion-down,
+	.animate-accordion-up,
+	.animate-number-emphasis,
+	.animate-feature-reveal {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	/* Disable continuous animations */
+	.animate-gradient-shift,
+	.animate-icon-pulse,
+	.animate-scroll-wheel,
+	.animate-liquid,
+	.animate-shine,
+	.animate-shine::before {
+		animation: none !important;
+	}
+
+	/* Disable pulse animations */
+	.animate-pulse,
+	.animate-pulse-slow,
+	.animate-pulse-dark,
+	.animate-pulse-ring,
+	.animate-badge-pulse-soft {
+		animation: none !important;
+	}
+
+	/* Keep simple fade-in (opacity only, no movement) - reduced duration */
+	.animate-fade-in {
+		animation: fade-in 0.3s ease-out forwards;
+	}
+
+	/* Tech transformation animations */
+	.tech-animate {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	/* Mobile dialog animations */
+	.mobile-dialog[data-state='open'],
+	.mobile-dialog[data-state='closed'] {
+		animation: none !important;
+	}
+
+	/* Ensure ping animation is disabled (used in TimelineNode) */
+	.animate-ping {
+		animation: none !important;
+	}
+}

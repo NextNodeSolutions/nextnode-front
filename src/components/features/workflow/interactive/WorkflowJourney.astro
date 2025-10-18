@@ -265,20 +265,6 @@ function calculateRectanglePosition(
 		justify-content: space-between;
 	}
 
-	/* Accessibility - respect reduced motion preference */
-	@media (prefers-reduced-motion: reduce) {
-		.animate-fade-in-line,
-		.animate-fade-in-point,
-		.animate-fade-in-rectangle,
-		.animate-fade-in-card {
-			animation: none;
-			opacity: 1;
-		}
-		.animate-fade-in-rectangle {
-			opacity: 0.8;
-		}
-	}
-
 	/* Responsive adjustments */
 	@media (max-width: 768px) {
 		.workflow-journey svg {

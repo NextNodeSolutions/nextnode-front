@@ -5,7 +5,7 @@
  */
 
 export const OBSERVER_CONFIG = {
-	threshold: 0.1, // Trigger when 10% of element is visible
+	threshold: 0.2, // Trigger when 10% of element is visible
 	rootMargin: '0px 0px -50px 0px', // Trigger slightly before element enters viewport
 } as const
 

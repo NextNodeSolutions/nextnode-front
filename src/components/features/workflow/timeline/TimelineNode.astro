@@ -27,14 +27,3 @@ const nextColor = STEP_COLORS[(index + 1) % STEP_COLORS.length]
 	style={`background: ${color}; animation-delay: ${index * 200 + 100}ms`}
 >
 </div>
-
-<style>
-	/* Accessibility */
-	@media (prefers-reduced-motion: reduce) {
-		.animate-scale-in {
-			animation: none;
-			opacity: 1;
-			transform: none;
-		}
-	}
-</style>
