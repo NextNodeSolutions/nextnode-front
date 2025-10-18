@@ -131,3 +131,103 @@ export const setupScrollAnimation = (config: ScrollAnimationConfig): void => {
 	// Re-run on Astro page navigation
 	document.addEventListener('astro:page-load', observe)
 }
+
+// ============================================================================
+// MULTI-SECTION ANIMATION PATTERN (for data-attribute based animations)
+// ============================================================================
+
+/**
+ * Configuration for multi-section animations (Pricing pattern)
+ */
+export interface MultiSectionAnimationConfig {
+	/** CSS selector for all sections to observe (e.g., '[data-pricing-section]') */
+	readonly sectionsSelector: string
+	/** Data attribute containing the animation class name (e.g., 'data-animate') */
+	readonly animateAttribute: string
+	/** IntersectionObserver threshold (default: 0.3) */
+	readonly threshold?: number
+	/** IntersectionObserver rootMargin (default: '-10% 0px') */
+	readonly rootMargin?: string
+}
+
+/**
+ * Observe multiple sections with data-attribute based animations
+ * Used for pages with multiple sections that each have their own animation classes
+ *
+ * @example
+ * ```typescript
+ * setupMultiSectionAnimation({
+ *   sectionsSelector: '[data-pricing-section]',
+ *   animateAttribute: 'data-animate',
+ *   threshold: 0.2
+ * })
+ * ```
+ */
+export const observeMultiSectionAnimation = (
+	config: MultiSectionAnimationConfig,
+): void => {
+	const {
+		sectionsSelector,
+		animateAttribute,
+		threshold = 0.3,
+		rootMargin = '-10% 0px',
+	} = config
+
+	const sections = document.querySelectorAll(sectionsSelector)
+	if (sections.length === 0) return
+
+	const observer = new IntersectionObserver(
+		entries => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					const section = entry.target
+
+					// Find all elements with animation data attributes
+					const animatedElements = section.querySelectorAll(
+						`[${animateAttribute}]`,
+					)
+
+					animatedElements.forEach(element => {
+						const animationClass =
+							element.getAttribute(animateAttribute)
+						if (!animationClass) return
+
+						// Add the animation class to trigger the animation
+						element.classList.add(animationClass)
+					})
+
+					// Unobserve this section after animating
+					observer.unobserve(section)
+				}
+			})
+		},
+		{
+			threshold,
+			rootMargin,
+		},
+	)
+
+	// Observe all sections
+	sections.forEach(section => {
+		observer.observe(section)
+	})
+}
+
+/**
+ * Setup function for multi-section animations
+ * Handles DOMContentLoaded and Astro page navigation events
+ */
+export const setupMultiSectionAnimation = (
+	config: MultiSectionAnimationConfig,
+): void => {
+	const observe = () => observeMultiSectionAnimation(config)
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', observe)
+	} else {
+		observe()
+	}
+
+	// Re-run on Astro page navigation
+	document.addEventListener('astro:page-load', observe)
+}

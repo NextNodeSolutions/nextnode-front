@@ -285,8 +285,9 @@ const regularBenefits = benefits.filter(b => !b.hero)
 </style>
 
 <script>
-	import { setupTechTransformAnimation } from './TechTransformationObserver'
+	import { setupScrollAnimation } from '@/lib/observers/scroll-animation-observer'
+	import { TECH_TRANSFORM_OBSERVER_CONFIG } from '@/lib/observers/observer-configs'
 
 	// Initialize animation observer
-	setupTechTransformAnimation()
+	setupScrollAnimation(TECH_TRANSFORM_OBSERVER_CONFIG)
 </script>

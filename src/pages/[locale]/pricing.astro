@@ -459,8 +459,9 @@ const pageDescription = t('pricing.hero.subtitle')
 </BaseLayout>
 
 <script>
-	import { setupPricingAnimation } from '@/components/features/pricing/PricingObserver'
+	import { setupMultiSectionAnimation } from '@/lib/observers/scroll-animation-observer'
+	import { PRICING_OBSERVER_CONFIG } from '@/lib/observers/observer-configs'
 
 	// Initialize scroll-triggered animations
-	setupPricingAnimation()
+	setupMultiSectionAnimation(PRICING_OBSERVER_CONFIG)
 </script>

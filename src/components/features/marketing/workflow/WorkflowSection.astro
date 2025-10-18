@@ -102,8 +102,9 @@ const steps = generateWorkflowSteps()
 </style>
 
 <script>
-	import { setupWorkflowAnimation } from '@/components/features/workflow/WorkflowObserver'
+	import { setupScrollAnimation } from '@/lib/observers/scroll-animation-observer'
+	import { WORKFLOW_OBSERVER_CONFIG } from '@/lib/observers/observer-configs'
 
 	// Initialize animation observer
-	setupWorkflowAnimation()
+	setupScrollAnimation(WORKFLOW_OBSERVER_CONFIG)
 </script>
