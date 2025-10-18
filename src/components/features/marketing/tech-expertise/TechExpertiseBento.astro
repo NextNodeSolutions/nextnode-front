@@ -64,30 +64,16 @@ const { title, subtitle } = Astro.props
 		opacity: 0;
 	}
 
-	/* Triggered animation state */
+	/* Triggered animation state - reuses fade-in-up from keyframes.css */
 	.expertise-animate.expertise-animating.expertise-fade-in-up {
-		animation: expertise-fade-in-up 700ms ease-out forwards;
+		--fade-distance: 20px;
+		animation: fade-in-up 700ms ease-out forwards;
 	}
 
 	/* Final state after animation - visible and stable */
 	.expertise-animate.expertise-animated {
 		opacity: 1;
 		transform: none;
-	}
-
-	/* ========================================================================
-	   KEYFRAME ANIMATIONS
-	   ======================================================================== */
-
-	@keyframes expertise-fade-in-up {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
 	}
 </style>
 
