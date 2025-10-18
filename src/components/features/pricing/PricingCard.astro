@@ -37,13 +37,13 @@ const gradientMap = {
 // Card container variants
 const cardVariants = cva(
 	[
-		'relative flex flex-col h-full',
+		'group relative flex flex-col h-full',
 		'rounded-2xl border border-gray-200/50',
 		'bg-white/80 backdrop-blur-sm',
 		'dark:border-gray-700/50 dark:bg-gray-800/80',
 		'transition-all duration-500',
-		'hover:shadow-lg md:hover:scale-105',
-		'opacity-0 animate-fade-in-up',
+		'hover:shadow-lg hover:-translate-y-1',
+		'opacity-0',
 		'p-4 sm:p-6 lg:p-8',
 	],
 	{
@@ -54,13 +54,8 @@ const cardVariants = cva(
 				enterprise: '',
 			},
 			featured: {
-				true: [
-					'ring-2',
-					'shadow-lg sm:shadow-xl lg:shadow-2xl',
-					'sm:scale-105 lg:scale-110',
-					'dark:shadow-none',
-				],
-				false: '',
+				true: ['sm:scale-105', 'md:hover:scale-110', 'ring-2'],
+				false: 'md:hover:scale-105',
 			},
 		},
 		compoundVariants: [
@@ -86,10 +81,10 @@ const cardVariants = cva(
 // Decorative background variants
 const decorativeVariants = cva(
 	[
-		'absolute inset-0 rounded-2xl',
-		'opacity-0 transition-opacity duration-500',
+		'absolute top-2 bottom-2 -left-1 -right-1 rounded-2xl -z-30',
+		'opacity-0 transition-all duration-700 blur-[3px]',
 		'bg-gradient-to-br pointer-events-none',
-		'group-hover:opacity-5',
+		'group-hover:opacity-5 group-hover:scale-105 group-hover:py-0',
 	],
 	{
 		variants: {
@@ -108,6 +103,7 @@ const decorativeVariants = cva(
 	style={{
 		animationDelay: animationDelay > 0 ? `${animationDelay}ms` : undefined,
 	}}
+	data-animate="animate-fade-in-up"
 >
 	{featured && <PricingCardBadge plan={plan} badge={planData.badge} />}
 

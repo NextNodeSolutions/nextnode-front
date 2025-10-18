@@ -161,10 +161,10 @@ const regularBenefits = benefits.filter(b => !b.hero)
 									data-delay={ANIMATION_DELAYS.heroCard}
 								>
 									{/* Animated gradient background */}
-									<div class="gradient-animated absolute inset-0" />
+									<div class="animate-gradient-shift absolute inset-0" />
 
 									<div class="relative z-10 flex h-full flex-col justify-between space-y-3 md:space-y-3 xl:space-y-4">
-										<div class="from-brand-blue to-brand-green icon-pulse w-fit flex-shrink-0 rounded-xl bg-gradient-to-br p-3 shadow-lg">
+										<div class="from-brand-blue to-brand-green animate-icon-pulse w-fit flex-shrink-0 rounded-xl bg-gradient-to-br p-3 shadow-lg">
 											<heroBenefit.icon className="h-8 w-8 text-white" />
 										</div>
 
@@ -258,54 +258,53 @@ const regularBenefits = benefits.filter(b => !b.hero)
 	/* Initial state - hidden before animation trigger */
 	.tech-animate:not(.tech-animated) {
 		opacity: 0;
+		will-change: transform, opacity;
+		backface-visibility: hidden;
+	}
+
+	/* Specific initial transforms for each animation type */
+	.tech-animate-fade-in-up:not(.tech-animated) {
+		transform: translate3d(0, 60px, 0);
+	}
+
+	.tech-animate-fade-in-left:not(.tech-animated) {
+		transform: translate3d(-60px, 0, 0);
+	}
+
+	.tech-animate-fade-in-right:not(.tech-animated) {
+		transform: translate3d(60px, 0, 0);
 	}
 
 	/* Triggered animation state */
 	.tech-animate.tech-animating.tech-animate-fade-in-up {
-		animation: fade-in-up 1s ease-out forwards;
+		animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 	}
 
 	.tech-animate.tech-animating.tech-animate-fade-in {
-		animation: fade-in-0 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+		animation: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 	}
 
 	.tech-animate.tech-animating.tech-animate-fade-in-left {
-		animation: fade-in-left 1s ease-out forwards;
+		animation: fade-in-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 	}
 
 	.tech-animate.tech-animating.tech-animate-fade-in-right {
-		animation: fade-in-right 1s ease-out forwards;
+		animation: fade-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 	}
 
 	/* Final state after animation - visible and stable */
 	.tech-animate.tech-animated {
 		opacity: 1;
-		transform: none;
-	}
-
-	/* ========================================================================
-	   BACKGROUND EFFECTS
-	   ======================================================================== */
-
-	.gradient-animated {
-		background: linear-gradient(
-			45deg,
-			var(--brand-blue) 0%,
-			var(--brand-green) 50%,
-			var(--brand-blue) 100%
-		);
-		background-size: 200% 200%;
-		animation: gradient-shift 8s ease infinite;
-	}
-
-	.icon-pulse {
-		animation: icon-pulse 2s ease-in-out infinite;
+		transform: translate3d(0, 0, 0);
+		will-change: auto;
+		backface-visibility: visible;
 	}
 </style>
 
 <script>
-	import { setupTechTransformAnimation } from './TechTransformationObserver'
+	import { setupScrollAnimation } from '@/lib/observers/scroll-animation-observer'
+	import { TECH_TRANSFORM_OBSERVER_CONFIG } from '@/lib/observers/observer-configs'
 
 	// Initialize animation observer
-	setupTechTransformAnimation()
+	setupScrollAnimation(TECH_TRANSFORM_OBSERVER_CONFIG)
 </script>

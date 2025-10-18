@@ -13,7 +13,7 @@ const { t } = Astro.locals
 
 <div
 	class={cn(
-		'scroll-indicator fade-in-up',
+		'scroll-indicator animate-fade-in-up-lg animation-delay-1000',
 		'absolute bottom-10 left-1/2 -translate-x-1/2 z-10',
 		className,
 	)}
@@ -46,14 +46,14 @@ const { t } = Astro.locals
 				class="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-1000 ease-out group-hover:opacity-100"
 			>
 				<div
-					class="from-brand-blue-soft via-brand-green-soft to-brand-blue-soft gradient-shift absolute inset-0 rounded-2xl bg-gradient-to-r blur-sm"
+					class="from-brand-blue-soft via-brand-green-soft to-brand-blue-soft animate-gradient-shift absolute inset-0 rounded-2xl bg-gradient-to-r blur-sm"
 				>
 				</div>
 			</div>
 
 			<!-- Mouse SVG -->
 			<svg
-				class="chevron-bounce relative h-9 w-6"
+				class="animate-bounce-down relative h-9 w-6"
 				viewBox="0 0 24 36"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,7 @@ const { t } = Astro.locals
 					cx="12"
 					cy="10"
 					r="2"
-					class="fill-brand-green-muted dark:fill-brand-green-soft scroll-wheel"
+					class="fill-brand-green-muted dark:fill-brand-green-soft animate-scroll-wheel"
 				></circle>
 			</svg>
 
@@ -83,7 +83,7 @@ const { t } = Astro.locals
 				class={cn(
 					'absolute left-1/2 -translate-x-1/2',
 					'opacity-0',
-					'chevron-bounce',
+					'animate-bounce-down',
 					'group-hover:opacity-100',
 					'transition-opacity duration-700 ease-out',
 				)}
@@ -114,30 +114,6 @@ const { t } = Astro.locals
 		transition: opacity 0.7s ease-out;
 	}
 
-	/* Fade in up animation for initial appearance */
-	.fade-in-up {
-		opacity: 0;
-		animation: fadeInUp 0.8s ease-out 2s forwards;
-	}
-
-	/* Animations from global animations.css: fadeInUp, scroll-wheel, gradient-shift, bounce-down */
-
-	/* Scroll wheel animation */
-	.scroll-wheel {
-		animation: scroll-wheel 1.5s ease-in-out infinite;
-	}
-
-	/* Gradient shift animation */
-	.gradient-shift {
-		background-size: 200% 100%;
-		animation: gradient-shift 3s ease infinite;
-	}
-
-	/* Chevron bounce down animation */
-	.chevron-bounce {
-		animation: bounce-down 1.5s ease-in-out infinite;
-	}
-
 	/* Hide on scroll */
 	.hidden-on-scroll {
 		opacity: 0;
@@ -155,8 +131,8 @@ const { t } = Astro.locals
 
 		// Remove animation class after it completes to allow transitions
 		setTimeout(() => {
-			indicator.classList.remove('fade-in-up')
-		}, 2800) // 2s delay + 0.8s animation
+			indicator.classList.remove('animate-fade-in-up-lg')
+		}, 1800) // 1s delay + 0.8s animation
 
 		// Hide indicator when scrolling down
 		const handleScroll = () => {

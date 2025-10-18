@@ -5,7 +5,7 @@ import Footer from '@/components/layout/footer/Footer.astro'
 import PremiumHero from '@/components/features/marketing/hero/PremiumHero.astro'
 import WorkflowSection from '@/components/features/marketing/workflow/WorkflowSection.astro'
 import TechTransformation from '@/components/features/marketing/tech/TechTransformation.astro'
-import TechExpertiseBento from '@/components/features/marketing/tech-expertise/TechExpertiseBento'
+import TechExpertiseBento from '@/components/features/marketing/tech-expertise/TechExpertiseBento.astro'
 import BentoQualityBadges from '@/components/features/marketing/tech-expertise/components/BentoQualityBadges'
 import BentoDevTools from '@/components/features/marketing/tech-expertise/components/BentoDevTools'
 import BentoCodeExample from '@/components/features/marketing/tech-expertise/components/BentoCodeExample'
@@ -39,7 +39,6 @@ const techExpertise = t('home.techExpertise')
 			<TechExpertiseBento
 				title={techExpertise.title}
 				subtitle={techExpertise.subtitle}
-				client:visible
 			>
 				<BentoQualityBadges
 					data={techExpertise.qualityBadges}
@@ -48,7 +47,7 @@ const techExpertise = t('home.techExpertise')
 				<BentoDevTools data={techExpertise.tools} client:visible />
 				<BentoCodeExample
 					title={techExpertise.codeExample.title}
-					client:visible
+					client:only="react"
 				/>
 				<BentoPerformanceMetrics
 					title={techExpertise.metrics.performance.title}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useDeferredValue, useEffect, useState } from 'react'
 
 import type { RefObject } from 'react'
 
@@ -17,6 +17,7 @@ const useScrollAnimation = <T extends HTMLElement = HTMLElement>(
 ): boolean => {
 	const { threshold = 0.3, rootMargin = '0px' } = options
 	const [isVisible, setIsVisible] = useState(false)
+	const deferredIsVisible = useDeferredValue(isVisible)
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -40,7 +41,7 @@ const useScrollAnimation = <T extends HTMLElement = HTMLElement>(
 		}
 	}, [ref, threshold, rootMargin])
 
-	return isVisible
+	return deferredIsVisible
 }
 
 export default useScrollAnimation

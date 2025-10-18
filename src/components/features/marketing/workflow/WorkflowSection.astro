@@ -91,7 +91,7 @@ const steps = generateWorkflowSteps()
 
 	/* Triggered animation state */
 	.workflow-animate.workflow-animating.workflow-animate-fade-in-up {
-		animation: workflow-fade-in-up 1s ease-out forwards;
+		animation: fade-in-up 1s ease-out forwards;
 	}
 
 	/* Final state after animation - visible and stable */
@@ -99,15 +99,12 @@ const steps = generateWorkflowSteps()
 		opacity: 1;
 		transform: none;
 	}
-
-	.animation-delay-500 {
-		animation-delay: 500ms;
-	}
 </style>
 
 <script>
-	import { setupWorkflowAnimation } from '@/components/features/workflow/WorkflowObserver'
+	import { setupScrollAnimation } from '@/lib/observers/scroll-animation-observer'
+	import { WORKFLOW_OBSERVER_CONFIG } from '@/lib/observers/observer-configs'
 
 	// Initialize animation observer
-	setupWorkflowAnimation()
+	setupScrollAnimation(WORKFLOW_OBSERVER_CONFIG)
 </script>

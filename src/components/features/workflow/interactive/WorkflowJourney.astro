@@ -120,7 +120,7 @@ function calculateRectanglePosition(
 									stroke={color}
 									stroke-width="3"
 									opacity="0"
-									class="workflow-line"
+									class="animate-fade-in-line"
 									style={`animation-delay: ${index * 150}ms`}
 								/>
 
@@ -133,7 +133,7 @@ function calculateRectanglePosition(
 									stroke="white"
 									stroke-width="3"
 									opacity="0"
-									class="workflow-point"
+									class="animate-fade-in-point"
 									style={`animation-delay: ${index * 150}ms`}
 								/>
 							</g>
@@ -167,7 +167,7 @@ function calculateRectanglePosition(
 
 						return (
 							<div
-								class="workflow-card absolute"
+								class="animate-fade-in-card absolute"
 								style={`
 									left: ${leftPercent}%;
 									top: ${topPercent}%;
@@ -207,28 +207,8 @@ function calculateRectanglePosition(
 		cursor: pointer;
 	}
 
-	/* SVG Cards - scale automatiquement avec le viewBox */
-	.svg-card {
-		opacity: 0;
-		animation: fade-in-card 0.8s ease-out forwards;
-	}
-
-	/* Workflow lines and points animations - synchronized with cards */
-	.workflow-line {
-		animation: fade-in-line 0.8s ease-out forwards;
-	}
-
-	.workflow-point {
-		animation: fade-in-point 0.8s ease-out forwards;
-	}
-
-	.workflow-rectangle {
-		animation: fade-in-rectangle 0.8s ease-out forwards;
-	}
-
-	.workflow-card {
-		opacity: 0;
-		animation: fade-in-card 0.8s ease-out forwards;
+	/* Card pointer events */
+	.animate-fade-in-card {
 		pointer-events: auto;
 	}
 
@@ -283,20 +263,6 @@ function calculateRectanglePosition(
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-	}
-
-	/* Accessibility - respect reduced motion preference */
-	@media (prefers-reduced-motion: reduce) {
-		.workflow-line,
-		.workflow-point,
-		.workflow-rectangle,
-		.workflow-card {
-			animation: none;
-			opacity: 1;
-		}
-		.workflow-rectangle {
-			opacity: 0.8;
-		}
 	}
 
 	/* Responsive adjustments */

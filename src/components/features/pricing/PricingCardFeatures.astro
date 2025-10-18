@@ -32,9 +32,20 @@ const featureIconVariants = cva(
 <div class="mb-6 flex-1 sm:mb-8">
 	<ul class="space-y-2 sm:space-y-3">
 		{
-			features.map(feature => (
-				<li class="flex items-start gap-3">
-					<div class={cn(featureIconVariants({ plan }))}>
+			features.map((feature, index) => (
+				<li
+					class="group/feature flex items-start gap-3 opacity-0 transition-all duration-300 hover:translate-x-1"
+					style={`animation-delay: ${600 + index * 100}ms`}
+					data-animate="animate-feature-reveal"
+				>
+					<div
+						class={cn(
+							featureIconVariants({ plan }),
+							'opacity-0 transition-transform duration-300 group-hover/feature:scale-110',
+						)}
+						style={`animation-delay: ${700 + index * 100}ms`}
+						data-animate="animate-scale-in"
+					>
 						<Check className="h-3 w-3 text-white" />
 					</div>
 					<span class="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
