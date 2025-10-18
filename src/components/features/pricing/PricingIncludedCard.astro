@@ -1,0 +1,102 @@
+---
+import { cva } from 'class-variance-authority'
+import { cn } from '@/lib/core/utils'
+import { getAnimationDelayClass } from '@/lib/config/pricing/pricing-animation-config'
+
+export interface Props {
+	title: string
+	description: string
+	details: readonly string[]
+	colorVariant: 'blue' | 'green' | 'dark'
+	animationDelay: number
+}
+
+const { title, description, details, colorVariant, animationDelay } =
+	Astro.props
+
+// Card container variants
+const cardVariants = cva(
+	[
+		'group rounded-2xl border border-gray-200/50 p-6 sm:p-8',
+		'bg-white/80 backdrop-blur-sm',
+		'dark:border-gray-700/50 dark:bg-gray-800/80',
+		'opacity-0',
+		'transition-all duration-500 hover:shadow-lg hover:-translate-y-1',
+	],
+	{
+		variants: {
+			colorVariant: {
+				blue: '',
+				green: '',
+				dark: '',
+			},
+		},
+	},
+)
+
+// Bullet point variants
+const bulletVariants = cva(
+	'mt-1 h-2 w-2 flex-shrink-0 rounded-full opacity-0',
+	{
+		variants: {
+			colorVariant: {
+				blue: 'bg-brand-blue',
+				green: 'bg-brand-green',
+				dark: 'bg-brand-blue-dark',
+			},
+		},
+	},
+)
+
+const cardDelayClass = getAnimationDelayClass(animationDelay)
+---
+
+<div
+	class={cn(cardVariants({ colorVariant }), cardDelayClass)}
+	data-animate="animate-slide-in-gentle"
+>
+	<h4
+		class="mb-3 text-lg font-semibold text-gray-900 sm:mb-4 sm:text-xl dark:text-white"
+	>
+		{title}
+	</h4>
+	<p
+		class="mb-4 text-sm text-gray-600 sm:mb-6 sm:text-base dark:text-gray-300"
+	>
+		{description}
+	</p>
+	<ul class="space-y-3">
+		{
+			details.map((detail, index) => {
+				const featureDelayClass = getAnimationDelayClass(
+					animationDelay + 200,
+					index,
+				)
+				const bulletDelayClass = getAnimationDelayClass(
+					animationDelay + 300,
+					index,
+				)
+				return (
+					<li
+						class={cn(
+							'flex items-start gap-3 opacity-0',
+							featureDelayClass,
+						)}
+						data-animate="animate-feature-reveal"
+					>
+						<div
+							class={cn(
+								bulletVariants({ colorVariant }),
+								bulletDelayClass,
+							)}
+							data-animate="animate-scale-in"
+						/>
+						<span class="text-sm text-gray-700 dark:text-gray-300">
+							{detail}
+						</span>
+					</li>
+				)
+			})
+		}
+	</ul>
+</div>

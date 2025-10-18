@@ -151,6 +151,81 @@ export interface MultiSectionAnimationConfig {
 }
 
 /**
+ * Parse rootMargin string and extract offset values
+ * @param rootMargin - CSS-like margin string (e.g., '0px 0px -50px 0px' or '-10% 0px')
+ * @returns Object with top, right, bottom, left offsets in pixels
+ */
+const parseRootMargin = (
+	rootMargin: string,
+): { top: number; right: number; bottom: number; left: number } => {
+	const parts = rootMargin.trim().split(/\s+/)
+	const values = parts.map(part => {
+		// For now, only support pixel values (not percentages)
+		// Percentages would require viewport dimensions to calculate
+		const match = part.match(/^(-?\d+(?:\.\d+)?)px$/)
+		return match?.[1] ? Number.parseFloat(match[1]) : 0
+	})
+
+	// CSS margin shorthand: top right bottom left
+	const [top = 0, right = 0, bottom = 0, left = 0] = values
+	return { top, right, bottom, left }
+}
+
+/**
+ * Check if an element is currently visible in the viewport
+ * Takes rootMargin into account to match IntersectionObserver behavior
+ */
+const isElementVisible = (
+	element: Element,
+	threshold = 0.3,
+	rootMargin = '0px',
+): boolean => {
+	const rect = element.getBoundingClientRect()
+	const margins = parseRootMargin(rootMargin)
+
+	// Apply rootMargin offsets to viewport dimensions
+	// Negative margins shrink the viewport, positive margins expand it
+	const effectiveViewportTop = 0 - margins.top
+	const effectiveViewportBottom =
+		(window.innerHeight || document.documentElement.clientHeight) -
+		margins.bottom
+	const effectiveViewportLeft = 0 - margins.left
+	const effectiveViewportRight =
+		(window.innerWidth || document.documentElement.clientWidth) -
+		margins.right
+
+	// Calculate visible area within the effective viewport
+	const visibleHeight =
+		Math.min(rect.bottom, effectiveViewportBottom) -
+		Math.max(rect.top, effectiveViewportTop)
+	const visibleWidth =
+		Math.min(rect.right, effectiveViewportRight) -
+		Math.max(rect.left, effectiveViewportLeft)
+	const visibleArea = Math.max(0, visibleHeight) * Math.max(0, visibleWidth)
+	const totalArea = rect.height * rect.width
+
+	return totalArea > 0 && visibleArea / totalArea >= threshold
+}
+
+/**
+ * Trigger animations for a section's elements
+ */
+const triggerSectionAnimations = (
+	section: Element,
+	animateAttribute: string,
+): void => {
+	const animatedElements = section.querySelectorAll(`[${animateAttribute}]`)
+
+	animatedElements.forEach(element => {
+		const animationClass = element.getAttribute(animateAttribute)
+		if (!animationClass) return
+
+		// Add the animation class to trigger the animation
+		element.classList.add(animationClass)
+	})
+}
+
+/**
  * Observe multiple sections with data-attribute based animations
  * Used for pages with multiple sections that each have their own animation classes
  *
@@ -176,27 +251,23 @@ export const observeMultiSectionAnimation = (
 	const sections = document.querySelectorAll(sectionsSelector)
 	if (sections.length === 0) return
 
+	// Track which sections have been animated
+	const animatedSections = new Set<Element>()
+
 	const observer = new IntersectionObserver(
 		entries => {
 			entries.forEach(entry => {
-				if (entry.isIntersecting) {
+				if (
+					entry.isIntersecting &&
+					!animatedSections.has(entry.target)
+				) {
 					const section = entry.target
 
-					// Find all elements with animation data attributes
-					const animatedElements = section.querySelectorAll(
-						`[${animateAttribute}]`,
-					)
+					// Trigger animations
+					triggerSectionAnimations(section, animateAttribute)
 
-					animatedElements.forEach(element => {
-						const animationClass =
-							element.getAttribute(animateAttribute)
-						if (!animationClass) return
-
-						// Add the animation class to trigger the animation
-						element.classList.add(animationClass)
-					})
-
-					// Unobserve this section after animating
+					// Mark as animated and unobserve
+					animatedSections.add(section)
 					observer.unobserve(section)
 				}
 			})
@@ -207,9 +278,16 @@ export const observeMultiSectionAnimation = (
 		},
 	)
 
-	// Observe all sections
+	// Check for initially visible sections and animate them immediately
 	sections.forEach(section => {
-		observer.observe(section)
+		if (isElementVisible(section, threshold, rootMargin)) {
+			// Section is already visible, trigger animations immediately
+			triggerSectionAnimations(section, animateAttribute)
+			animatedSections.add(section)
+		} else {
+			// Section not visible yet, observe it
+			observer.observe(section)
+		}
 	})
 }
 
