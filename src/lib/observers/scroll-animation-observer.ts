@@ -151,19 +151,56 @@ export interface MultiSectionAnimationConfig {
 }
 
 /**
- * Parse rootMargin string and extract offset values
- * @param rootMargin - CSS-like margin string (e.g., '0px 0px -50px 0px' or '-10% 0px')
+ * Convert percentage value to pixels based on dimension
+ */
+const percentToPixels = (percent: number, dimension: number): number => {
+	return (percent * dimension) / 100
+}
+
+/**
+ * Parse a single margin value (e.g., '50px', '-5%') to pixels
+ */
+const parseMarginValue = (
+	value: string,
+	isVertical: boolean,
+	viewportHeight: number,
+	viewportWidth: number,
+): number => {
+	// Try pixels first (e.g., '50px', '-10px')
+	const pxMatch = value.match(/^(-?\d+(?:\.\d+)?)px$/)
+	if (pxMatch?.[1]) {
+		return Number.parseFloat(pxMatch[1])
+	}
+
+	// Try percentage (e.g., '5%', '-10%')
+	const percentMatch = value.match(/^(-?\d+(?:\.\d+)?)%$/)
+	if (percentMatch?.[1]) {
+		const percent = Number.parseFloat(percentMatch[1])
+		const dimension = isVertical ? viewportHeight : viewportWidth
+		return percentToPixels(percent, dimension)
+	}
+
+	return 0
+}
+
+/**
+ * Parse rootMargin string and extract offset values in pixels
+ * @param rootMargin - CSS margin string (e.g., '0px', '-5% 0px', '10px 20px 30px 40px')
  * @returns Object with top, right, bottom, left offsets in pixels
  */
 const parseRootMargin = (
 	rootMargin: string,
 ): { top: number; right: number; bottom: number; left: number } => {
 	const parts = rootMargin.trim().split(/\s+/)
-	const values = parts.map(part => {
-		// For now, only support pixel values (not percentages)
-		// Percentages would require viewport dimensions to calculate
-		const match = part.match(/^(-?\d+(?:\.\d+)?)px$/)
-		return match?.[1] ? Number.parseFloat(match[1]) : 0
+	const viewportHeight =
+		window.innerHeight || document.documentElement.clientHeight
+	const viewportWidth =
+		window.innerWidth || document.documentElement.clientWidth
+
+	// CSS margin positions: top(0), right(1), bottom(2), left(3)
+	const values = parts.map((part, index) => {
+		const isVertical = index === 0 || index === 2
+		return parseMarginValue(part, isVertical, viewportHeight, viewportWidth)
 	})
 
 	// CSS margin shorthand: top right bottom left
