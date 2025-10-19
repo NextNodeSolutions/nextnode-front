@@ -5,6 +5,7 @@ import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import { configManagerIntegration } from '@nextnode/config-manager/astro'
 import tailwindcss from '@tailwindcss/vite'
+import compress from 'astro-compress'
 
 const host = process.env.HOST ?? '0.0.0.0'
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4321
@@ -57,6 +58,17 @@ export default defineConfig({
 	}),
 	integrations: [
 		react(),
+		compress({
+			CSS: true,
+			HTML: {
+				removeAttributeQuotes: false,
+				removeComments: true,
+				collapseWhitespace: true,
+			},
+			Image: false, // Handled by Astro's Image service
+			JavaScript: true,
+			SVG: true,
+		}),
 		sitemap({
 			i18n: {
 				defaultLocale: 'en',

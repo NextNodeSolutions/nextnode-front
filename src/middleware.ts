@@ -1,5 +1,6 @@
 import { sequence } from 'astro:middleware'
 
+import { cacheMiddleware } from './lib/middleware/cache'
 import { i18nMiddleware } from './lib/middleware/i18n'
 import { loggingMiddleware } from './lib/middleware/logging'
 import { metricsMiddleware } from './lib/middleware/metrics'
@@ -13,4 +14,5 @@ export const onRequest = sequence(
 	themeMiddleware, // 3. Detect and inject theme preference
 	metricsMiddleware, // 4. Collect application metrics
 	loggingMiddleware, // 5. Log requests and responses
+	cacheMiddleware, // 6. Set optimal cache headers for performance
 )
