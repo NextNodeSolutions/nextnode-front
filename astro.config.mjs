@@ -5,7 +5,7 @@ import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import { configManagerIntegration } from '@nextnode/config-manager/astro'
 import tailwindcss from '@tailwindcss/vite'
-import compress from 'astro-compress'
+import viteCompression from 'vite-plugin-compression'
 
 const host = process.env.HOST ?? '0.0.0.0'
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4321
@@ -42,7 +42,21 @@ export default defineConfig({
 		host: process.env.NODE_ENV === 'production' ? host : '127.0.0.1',
 	},
 	vite: {
-		plugins: [tailwindcss()],
+		plugins: [
+			tailwindcss(),
+			viteCompression({
+				algorithm: 'brotliCompress',
+				ext: '.br',
+				threshold: 1024,
+				deleteOriginFile: false,
+			}),
+			viteCompression({
+				algorithm: 'gzip',
+				ext: '.gz',
+				threshold: 1024,
+				deleteOriginFile: false,
+			}),
+		],
 		build: {
 			rollupOptions: {
 				output: {
@@ -58,17 +72,6 @@ export default defineConfig({
 	}),
 	integrations: [
 		react(),
-		compress({
-			CSS: true,
-			HTML: {
-				removeAttributeQuotes: false,
-				removeComments: true,
-				collapseWhitespace: true,
-			},
-			Image: false, // Handled by Astro's Image service
-			JavaScript: true,
-			SVG: true,
-		}),
 		sitemap({
 			i18n: {
 				defaultLocale: 'en',

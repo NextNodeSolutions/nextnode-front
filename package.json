@@ -66,7 +66,6 @@
 		"@types/react": "^19.1.2",
 		"@types/react-dom": "^19.1.2",
 		"@vitest/coverage-v8": "^3.1.4",
-		"astro-compress": "^2.3.8",
 		"better-sort-package-json": "^1.1.1",
 		"husky": "^9.0.11",
 		"jsdom": "^26.1.0",
@@ -76,6 +75,7 @@
 		"prettier-plugin-astro": "^0.14.1",
 		"prettier-plugin-tailwindcss": "^0.6.14",
 		"typescript": "^5.0.0",
+		"vite-plugin-compression": "^0.5.1",
 		"vite-tsconfig-paths": "^5.1.4",
 		"vitest": "^3.1.4"
 	},
