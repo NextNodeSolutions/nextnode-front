@@ -1,13 +1,8 @@
 ---
-import {
-	STEP_COLORS,
-	DESKTOP_WORKFLOW_POSITIONS,
-	generateGradientStops,
-} from '../workflow-constants'
+import { STEP_COLORS, DESKTOP_WORKFLOW_POSITIONS } from '../workflow-constants'
 import type { Step } from '@/types/workflow'
 import type { WorkflowPosition } from '@/types/workflow'
 
-import WorkflowGradients from '../visual/WorkflowGradients.astro'
 import WorkflowPath from '../visual/WorkflowPath.astro'
 import StepCard from '../cards/StepCard.astro'
 
@@ -19,7 +14,6 @@ export interface Props {
 const { steps, variant = 'mini' } = Astro.props
 
 const positions = DESKTOP_WORKFLOW_POSITIONS
-const gradientStops = generateGradientStops(STEP_COLORS)
 
 // ViewBox dimensions - same as the working old version
 const VIEWBOX_WIDTH = 1000
@@ -101,7 +95,6 @@ function calculateRectanglePosition(
 				style="overflow: visible; pointer-events: none;"
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				<WorkflowGradients gradientStops={gradientStops} />
 				<WorkflowPath />
 
 				{/* Connection lines, points and cards - all in SVG */}
@@ -127,7 +120,7 @@ function calculateRectanglePosition(
 									stroke={color}
 									stroke-width="3"
 									opacity="0"
-									class="workflow-line"
+									class="animate-fade-in-line"
 									style={`animation-delay: ${index * 150}ms`}
 								/>
 
@@ -140,7 +133,7 @@ function calculateRectanglePosition(
 									stroke="white"
 									stroke-width="3"
 									opacity="0"
-									class="workflow-point"
+									class="animate-fade-in-point"
 									style={`animation-delay: ${index * 150}ms`}
 								/>
 							</g>
@@ -174,7 +167,7 @@ function calculateRectanglePosition(
 
 						return (
 							<div
-								class="workflow-card absolute"
+								class="animate-fade-in-card absolute"
 								style={`
 									left: ${leftPercent}%;
 									top: ${topPercent}%;
@@ -214,39 +207,8 @@ function calculateRectanglePosition(
 		cursor: pointer;
 	}
 
-	/* SVG Cards - scale automatiquement avec le viewBox */
-	.svg-card {
-		opacity: 0;
-		animation: fadeInCard 0.8s ease-out forwards;
-	}
-
-	@keyframes fadeInCard {
-		from {
-			opacity: 0;
-			transform: translateY(10px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	/* Workflow lines and points animations - synchronized with cards */
-	.workflow-line {
-		animation: fadeInLine 0.8s ease-out forwards;
-	}
-
-	.workflow-point {
-		animation: fadeInPoint 0.8s ease-out forwards;
-	}
-
-	.workflow-rectangle {
-		animation: fadeInRectangle 0.8s ease-out forwards;
-	}
-
-	.workflow-card {
-		opacity: 0;
-		animation: fadeInCard 0.8s ease-out forwards;
+	/* Card pointer events */
+	.animate-fade-in-card {
 		pointer-events: auto;
 	}
 
@@ -301,66 +263,6 @@ function calculateRectanglePosition(
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-	}
-
-	@keyframes fadeInLine {
-		from {
-			opacity: 0;
-			stroke-dasharray: 1000;
-			stroke-dashoffset: 1000;
-		}
-		to {
-			opacity: 1;
-			stroke-dasharray: none;
-			stroke-dashoffset: 0;
-		}
-	}
-
-	@keyframes fadeInPoint {
-		from {
-			opacity: 0;
-			transform: scale(0);
-		}
-		to {
-			opacity: 1;
-			transform: scale(1);
-		}
-	}
-
-	@keyframes fadeInRectangle {
-		from {
-			opacity: 0;
-			transform: scale(0.8);
-		}
-		to {
-			opacity: 0.8;
-			transform: scale(1);
-		}
-	}
-
-	@keyframes fadeInCard {
-		from {
-			opacity: 0;
-			transform: scale(0.9);
-		}
-		to {
-			opacity: 1;
-			transform: scale(1);
-		}
-	}
-
-	/* Accessibility - respect reduced motion preference */
-	@media (prefers-reduced-motion: reduce) {
-		.workflow-line,
-		.workflow-point,
-		.workflow-rectangle,
-		.workflow-card {
-			animation: none;
-			opacity: 1;
-		}
-		.workflow-rectangle {
-			opacity: 0.8;
-		}
 	}
 
 	/* Responsive adjustments */

@@ -5,11 +5,11 @@
 <div class="animate-pulse-slow absolute top-20 right-1/5 -z-50 hidden md:block">
 	<div class="relative h-[200px] w-[200px]">
 		<div
-			class="animate-liquid small-circle absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 to-fuchsia-500 opacity-50 blur-xl"
+			class="animate-liquid small-circle from-brand-blue to-brand-green absolute inset-0 rounded-full bg-gradient-to-r opacity-50 blur-xl"
 		>
 		</div>
 		<div
-			class="animate-liquid small-circle absolute inset-0 rounded-full bg-gradient-to-l from-blue-700 to-sky-200 opacity-50 blur-xl delay-700"
+			class="animate-liquid small-circle from-brand-blue-dark to-brand-blue-light absolute inset-0 rounded-full bg-gradient-to-l opacity-50 blur-xl delay-700"
 		>
 		</div>
 	</div>
@@ -21,42 +21,17 @@
 >
 	<div class="relative h-[500px] w-[500px]">
 		<div
-			class="animate-liquid large-circle absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-zinc-300 opacity-10 blur-xl"
+			class="animate-liquid large-circle from-brand-blue to-brand-blue-soft absolute inset-0 rounded-full bg-gradient-to-br opacity-10 blur-xl"
 		>
 		</div>
 		<div
-			class="animate-liquid large-circle absolute inset-0 rounded-full bg-gradient-to-tr from-emerald-400 to-green-200 opacity-10 blur-xl delay-1000"
+			class="animate-liquid large-circle from-brand-green to-brand-green-light absolute inset-0 rounded-full bg-gradient-to-tr opacity-10 blur-xl delay-1000"
 		>
 		</div>
 	</div>
 </div>
 
 <style>
-	@keyframes liquid {
-		0% {
-			transform: scale(1) translate(0px, 0px);
-			border-radius: 50%;
-		}
-		33% {
-			transform: scale(var(--scale-1))
-				translate(var(--translate-x-1), var(--translate-y-1));
-			border-radius: var(--border-radius-1);
-		}
-		66% {
-			transform: scale(var(--scale-2))
-				translate(var(--translate-x-2), var(--translate-y-2));
-			border-radius: var(--border-radius-2);
-		}
-		100% {
-			transform: scale(1) translate(0px, 0px);
-			border-radius: 50%;
-		}
-	}
-
-	.animate-liquid {
-		animation: liquid var(--duration) ease-in-out infinite;
-	}
-
 	.small-circle {
 		--scale-1: 1.05;
 		--scale-2: 0.8;

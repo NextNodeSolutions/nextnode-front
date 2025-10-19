@@ -6,7 +6,7 @@
 import { defineMiddleware } from 'astro:middleware'
 
 import { middlewareLogger } from '../logging'
-import { extractUserIP, shouldLogRequest } from './utils'
+import { extractUserIP } from './utils'
 
 /**
  * Middleware for logging requests and responses
@@ -17,41 +17,16 @@ export const loggingMiddleware = defineMiddleware(async (context, next) => {
 	const url = new URL(request.url)
 	const path = url.pathname
 
-	// Log incoming requests for debugging (only non-asset requests)
-	if (shouldLogRequest(path)) {
-		middlewareLogger.info('Page request', {
-			scope: 'http-request',
-			details: {
-				method: request.method,
-				path,
-				locale: context.locals.locale,
-			},
-		})
-	}
-
 	// Process the request
 	const response = await next()
 
 	// Calculate request duration
 	const duration = Date.now() - startTime
 
-	// Log errors
+	// Log only errors (HTTP status >= 400)
 	if (response.status >= 400) {
 		middlewareLogger.error('Request failed', {
 			scope: 'http-error',
-			status: response.status,
-			details: {
-				method: request.method,
-				path: path,
-				duration: duration,
-			},
-		})
-	}
-
-	// Log structured request data (only for pages and errors)
-	if (response.status >= 400 || shouldLogRequest(path)) {
-		middlewareLogger.info('Request completed', {
-			scope: 'http-response',
 			status: response.status,
 			details: {
 				method: request.method,

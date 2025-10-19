@@ -1,22 +1,22 @@
-import type { Locale, TFunction } from './i18n'
+import type { TFunction } from './i18n'
+import type { Locale } from '@/i18n/config'
+import type { Theme } from '../src/lib/client/theme-manager'
 
 declare global {
 	interface Window {
-		currentLanguage?: string
-		currentLocale?: Locale
-		languageManager: {
-			getCurrentLanguage(): string
-			changeLanguage(newLang: string): void
-			init(): void
-		}
-		themeManager: {
-			getCurrentTheme(): string
-			applyTheme(theme: string): void
-			toggleTheme(): void
-			init(): void
-		}
-		initialLanguage?: string
-		initialTheme?: string
+		// Locale management
+		currentLanguage: Locale
+		currentLocale: Locale
+		changeLanguage: (locale: Locale) => Promise<void>
+		initLanguage: () => void
+
+		// Theme management
+		currentTheme: Theme
+		initialTheme: Theme
+		getCurrentTheme: () => Theme
+		setTheme: (theme: Theme) => void
+		toggleTheme: () => void
+		initTheme: () => void
 	}
 
 	// Astro App namespace extension for middleware
@@ -26,6 +26,7 @@ declare global {
 		interface Locals {
 			locale: Locale
 			t: TFunction
+			theme: 'light' | 'dark'
 		}
 	}
 }

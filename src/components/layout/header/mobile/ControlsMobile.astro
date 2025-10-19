@@ -3,8 +3,8 @@ import { languages } from '@/i18n/config'
 import { Sun, Moon } from 'lucide-react'
 import { cn } from '@/lib/core/utils'
 
-// Use new i18n system from middleware
-const { locale: currentLocale, t } = Astro.locals
+// Use new i18n and theme system from middleware
+const { locale: currentLocale, t, theme } = Astro.locals
 ---
 
 <div class="border-t border-gray-200 pt-4 dark:border-gray-700">
@@ -40,37 +40,16 @@ const { locale: currentLocale, t } = Astro.locals
 			class="btn-icon"
 			aria-label={t('common.ui.toggleTheme')}
 		>
-			<Sun id="sun-icon-mobile" className="h-5 w-5" />
-			<Moon id="moon-icon-mobile" className="hidden h-5 w-5" />
+			<Sun
+				id="sun-icon-mobile"
+				className={theme === 'dark' ? 'hidden h-5 w-5' : 'h-5 w-5'}
+			/>
+			<Moon
+				id="moon-icon-mobile"
+				className={theme === 'dark' ? 'h-5 w-5' : 'hidden h-5 w-5'}
+			/>
 		</button>
 	</div>
 </div>
 
-<!-- Initialize icons with correct state -->
-<script is:inline>
-	// Consolidated theme toggle script from theme-utils.ts
-	function initThemeIcons() {
-		const savedTheme = localStorage.getItem('theme')
-		const systemPrefersDark = window.matchMedia(
-			'(prefers-color-scheme: dark)',
-		).matches
-		const isDark =
-			savedTheme === 'dark' || (!savedTheme && systemPrefersDark)
-
-		const sunIcon = document.getElementById('sun-icon-mobile')
-		const moonIcon = document.getElementById('moon-icon-mobile')
-
-		if (sunIcon && moonIcon) {
-			if (isDark) {
-				sunIcon.classList.add('hidden')
-				moonIcon.classList.remove('hidden')
-			} else {
-				sunIcon.classList.remove('hidden')
-				moonIcon.classList.add('hidden')
-			}
-		}
-	}
-	initThemeIcons()
-</script>
-
-<!-- No need for client-side initialization - server-side classes are already correct -->
+<!-- No inline script needed - icons are rendered with correct state from SSR -->

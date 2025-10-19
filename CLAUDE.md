@@ -143,12 +143,140 @@ src/components/
 - **Props interfaces**: Defined per component with TypeScript
 - **Tailwind composition**: Design tokens via CSS custom properties
 
+#### CSS & Animation Standards
+
+- **Keyframe animations**: MUST be placed in dedicated CSS files, NEVER inline in `.astro` components
+- **Animation organization**: Keep animations modular and reusable in separate stylesheets
+- **Tailwind animations**: Prefer Tailwind utilities when possible; use custom CSS only when necessary
+
 #### Testing Strategy
 
 - **Component testing**: React Testing Library + Vitest
 - **Integration tests**: For complex features like workflow journey
 - **Type testing**: Via TypeScript compilation
 - **Coverage tracking**: V8 provider with JSON output
+- **Test colocation**: Tests placed in `__tests__/` folders next to implementation
+- **Test helpers**: Shared mocks and utilities in dedicated helper files
+
+## Advanced Architectural Patterns
+
+### Cookie Management System
+
+The project uses a **Strategy Pattern** for type-safe cookie management:
+
+- **Automatic strategy selection**: Cookie Store API (HTTPS) with document.cookie fallback (HTTP/localhost)
+- **Factory pattern**: `createCookieStrategy()` detects environment and selects appropriate implementation
+- **Type-safe API**: Consistent interface regardless of underlying implementation
+- **Server-side support**: Separate `createServerCookieManager()` for Astro middleware
+- **Location**: `src/lib/cookies/` with dedicated strategy files
+
+**Key files:**
+
+- `factory.ts`: Strategy factory with protocol detection
+- `cookie-store-strategy.ts`: Modern Cookie Store API implementation
+- `document-cookie-strategy.ts`: Legacy fallback implementation
+- `server.ts`: Server-side cookie management for middleware
+- `__tests__/`: Comprehensive test suite with mock helpers
+
+### Client-Side State Management
+
+**Theme Manager** (`src/lib/client/theme-manager.ts`):
+
+- Theme detection from cookie or system preference
+- Global state via `window.currentTheme` and `window.initialTheme`
+- SSR-safe with middleware injection (`locals.theme`)
+- Custom event dispatching (`theme-changed`) for React components
+- Automatic icon updates across all theme toggle buttons
+
+**Language Manager** (`src/lib/client/language-manager.ts`):
+
+- Dynamic URL generation based on `SUPPORTED_LOCALES`
+- Cookie persistence before navigation
+- HTML `lang` attribute synchronization
+- Event delegation for language selector buttons
+- Integration with i18n middleware
+
+### Configuration Architecture
+
+**Two-tier configuration system:**
+
+#### 1. Config Files (Dynamic Values)
+
+Pattern: `src/lib/config/**/*-config.ts`
+
+- **Animation configs**: Timing, delays, keyframe values, observer settings
+- **Component configs**: Tech orbits, transformation beams, workflow animations
+- **Naming convention**: `*-config.ts` for centralized configuration objects
+- **Usage**: Import constants for consistent animations and behaviors
+
+**Examples:**
+
+- `marketing/tech-animation-config.ts`: OBSERVER_CONFIG, ANIMATION_DURATIONS, KEYFRAME_VALUES
+- `marketing/orbiting-tech-config.ts`: Icon positions, animation parameters
+- `workflow/workflow-animation-config.ts`: Journey timeline configuration
+
+#### 2. UI Constants (Reusable Patterns)
+
+Pattern: `src/lib/ui/*-constants.ts`
+
+- **CSS patterns**: Pre-composed Tailwind classes with `cn()` utility
+- **Reusable styles**: Cards, gradients, typography, spacing
+- **Design tokens**: Consistent visual patterns across components
+- **Type-safe**: Constants exported with `as const` for literal types
+
+**Example:** `marketing-constants.ts`
+
+```typescript
+export const MARKETING_CARDS = {
+	container: cn(
+		'rounded-3xl p-8 sm:p-10',
+		'bg-white/50 dark:bg-brand-charcoal/50',
+		'backdrop-blur-sm',
+	),
+} as const
+```
+
+### Animation System Architecture
+
+**Observer-based animation triggers:**
+
+1. **Keyframe definitions**: All `@keyframes` in `src/styles/animations.css`
+2. **Configuration**: Centralized in `*-animation-config.ts` files
+3. **Observer logic**: Dedicated TypeScript files (e.g., `TechTransformationObserver.ts`)
+4. **Execution flow**:
+    - Component adds `data-delay` attributes to elements
+    - Observer script watches section visibility (IntersectionObserver)
+    - Classes toggled: `.tech-animate` → `.tech-animating` → `.tech-animated`
+    - Configuration values imported from central config
+
+**Key principles:**
+
+- **NEVER** define keyframes inline in `.astro` components
+- **ALWAYS** use dedicated CSS files for animations
+- **ALWAYS** centralize timing/delay values in config files
+- **Use** IntersectionObserver for scroll-triggered animations
+- **Extract** observer logic to separate TypeScript modules
+
+### Middleware Modularity
+
+The middleware system follows **single responsibility principle**:
+
+**Core middleware modules** (`src/lib/middleware/`):
+
+- `i18n.ts`: Locale detection and translation context injection
+- `url-mapping.ts`: Route normalization and locale prefix handling
+- `logging.ts`: Structured request/response logging with correlation IDs
+- `metrics.ts`: Performance tracking and analytics
+- `theme.ts`: Theme preference detection and SSR injection
+- `utils.ts`: Shared helpers (cookie parsing, validation, request filtering)
+
+**Request flow:**
+
+1. URL processing → locale extraction
+2. Theme detection → `locals.theme` injection
+3. I18n setup → `locals.t` and `locals.locale` injection
+4. Metrics collection → performance tracking
+5. Logging → structured output
 
 ## Environment Configuration
 

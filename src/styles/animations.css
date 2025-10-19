@@ -1,125 +1,11 @@
-@keyframes pulse-slow {
-	0%,
-	100% {
-		opacity: 0.5;
-	}
-	50% {
-		opacity: 0.8;
-	}
-}
+/* ============================================================================
+   ANIMATION CLASSES
+   All animation utility classes using keyframes from keyframes.css
+   ============================================================================ */
 
-@keyframes pulse-dark {
-	0%,
-	100% {
-		opacity: 0.85;
-	}
-	50% {
-		opacity: 0.95;
-	}
-}
-
-@keyframes liquid {
-	0% {
-		transform: scale(1) translate(0px, 0px);
-		border-radius: 50%;
-	}
-	33% {
-		transform: scale(var(--scale-1))
-			translate(var(--translate-x-1), var(--translate-y-1));
-		border-radius: var(--border-radius-1);
-	}
-	66% {
-		transform: scale(var(--scale-2))
-			translate(var(--translate-x-2), var(--translate-y-2));
-		border-radius: var(--border-radius-2);
-	}
-	100% {
-		transform: scale(1) translate(0px, 0px);
-		border-radius: 50%;
-	}
-}
-
-@keyframes slide-in-from-bottom {
-	0% {
-		transform: translateY(100%);
-	}
-	100% {
-		transform: translateY(0%);
-	}
-}
-
-@keyframes slide-out-to-bottom {
-	0% {
-		transform: translateY(0%);
-	}
-	100% {
-		transform: translateY(100%);
-	}
-}
-
-@keyframes fade-in-up {
-	0% {
-		opacity: 0;
-		transform: translateY(30px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes slide-in-gentle {
-	0% {
-		opacity: 0;
-		transform: translateY(10px) scale(0.95);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0) scale(1);
-	}
-}
-
-@keyframes slide-in-from-bottom-8 {
-	0% {
-		opacity: 0;
-		transform: translateY(32px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes slide-in-from-bottom-4 {
-	0% {
-		opacity: 0;
-		transform: translateY(16px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-@keyframes fade-in-0 {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-@keyframes fade-in {
-	0% {
-		opacity: 0;
-		transform: translateY(20px);
-	}
-	100% {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
+/* ============================================================================
+   PULSE ANIMATIONS
+   ============================================================================ */
 
 .animate-pulse-slow {
 	animation: pulse-slow 4s ease-in-out infinite;
@@ -129,64 +15,295 @@
 	animation: pulse-dark 2s ease-in-out infinite;
 }
 
-.animate-liquid {
-	animation: liquid var(--duration) ease-in-out infinite;
+.animate-pulse-ring {
+	animation: pulse-ring 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* ============================================================================
+   FADE ANIMATIONS WITH VARIANTS
+   ============================================================================ */
+
+/* Fade In Up Variants */
+.animate-fade-in-up-sm {
+	--fade-distance: 20px;
+	animation: fade-in-up 0.6s ease-out forwards;
 }
 
 .animate-fade-in-up {
+	--fade-distance: 40px;
 	animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.animate-fade-in-up-lg {
+	--fade-distance: 60px;
+	animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Fade In Left/Right */
+.animate-fade-in-left {
+	--fade-distance: 60px;
+	animation: fade-in-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-right {
+	--fade-distance: 60px;
+	animation: fade-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Simple Fade In (no transform) */
 .animate-fade-in {
 	animation: fade-in 0.6s ease-out forwards;
 }
 
+/* ============================================================================
+   SLIDE ANIMATIONS WITH VARIANTS
+   ============================================================================ */
+
+/* Slide In From Bottom Variants */
+.animate-slide-in-from-bottom-4 {
+	--slide-distance: 16px;
+	--slide-start-opacity: 0;
+	animation: slide-in-from-bottom 0.7s ease-out forwards;
+}
+
+.animate-slide-in-from-bottom-8 {
+	--slide-distance: 32px;
+	--slide-start-opacity: 0;
+	animation: slide-in-from-bottom 0.7s ease-out forwards;
+}
+
+.animate-slide-in-from-bottom {
+	--slide-distance: 100%;
+	--slide-start-opacity: 1;
+	animation: slide-in-from-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-slide-out-to-bottom {
+	animation: slide-out-to-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Slide In Gentle */
 .animate-slide-in-gentle {
+	--slide-distance: 10px;
+	--slide-scale: 0.95;
 	animation: slide-in-gentle 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* ============================================================================
+   SCALE ANIMATIONS WITH VARIANTS
+   ============================================================================ */
+
+.animate-scale-in {
+	--scale-from: 0;
+	--scale-to-opacity: 1;
+	animation: scale-in 0.6s ease-out forwards;
+}
+
+.animate-scale-in-card {
+	--scale-from: 0.9;
+	--scale-to-opacity: 1;
+	animation: scale-in 0.8s ease-out forwards;
+}
+
+/* ============================================================================
+   WORKFLOW ANIMATIONS
+   ============================================================================ */
+
+.animate-workflow-fade-in-up {
+	--fade-distance: 60px;
+	animation: fade-in-up 1s ease-out forwards;
+}
+
+.animate-fade-in-card {
+	animation: fade-in-card 0.8s ease-out forwards;
+}
+
+.animate-fade-in-line {
+	animation: fade-in-line 0.8s ease-out forwards;
+}
+
+.animate-fade-in-point {
+	animation: fade-in-point 0.8s ease-out forwards;
+}
+
+.animate-fade-in-rectangle {
+	animation: fade-in-rectangle 0.8s ease-out forwards;
+}
+
+/* ============================================================================
+   FLOAT ANIMATIONS
+   ============================================================================ */
+
+.animate-float-vertical {
+	--float-distance: -4px;
+	animation: float-vertical 3s ease-in-out infinite;
+}
+
+.animate-float-diagonal {
+	--float-x-1: 8px;
+	--float-y-1: -8px;
+	--float-x-2: -8px;
+	--float-y-2: 8px;
+	animation: float-diagonal 6s ease-in-out infinite;
+}
+
+/* ============================================================================
+   LIQUID ANIMATION
+   ============================================================================ */
+
+.animate-liquid {
+	animation: liquid var(--duration) ease-in-out infinite;
+}
+
+/* ============================================================================
+   SPECIALIZED ANIMATIONS
+   ============================================================================ */
+
+.animate-gradient-shift {
+	background: linear-gradient(
+		45deg,
+		var(--brand-blue) 0%,
+		var(--brand-green) 50%,
+		var(--brand-blue) 100%
+	);
+	background-size: 200% 200%;
+	animation: gradient-shift 8s ease infinite;
+}
+
+.animate-icon-pulse {
+	animation: icon-pulse 2s ease-in-out infinite;
+}
+
+.animate-scroll-wheel {
+	--scroll-distance: 8px;
+	animation: scroll-wheel 2s ease-in-out infinite;
+}
+
+.animate-bounce-down {
+	--bounce-distance: 6px;
+	animation: bounce-down 2s ease-in-out infinite;
+}
+
+/* ============================================================================
+   ACCORDION ANIMATIONS (Radix UI)
+   ============================================================================ */
+
+.animate-accordion-down {
+	animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+	animation: accordion-up 0.2s ease-out;
+}
+
+/* ============================================================================
+   PRICING PAGE ANIMATIONS
+   ============================================================================ */
+
+.animate-shine {
+	position: relative;
+	overflow: hidden;
+}
+
+.animate-shine::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(255, 255, 255, 0.3),
+		transparent
+	);
+	animation: shine-effect 3s ease-in-out infinite;
+	animation-delay: 1s;
+}
+
+.animate-number-emphasis {
+	animation: number-emphasis 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-feature-reveal {
+	animation: feature-reveal 0.6s ease-out forwards;
+}
+
+.animate-badge-pulse-soft {
+	animation: badge-pulse-soft 3s ease-in-out infinite;
+}
+
+/* ============================================================================
+   UTILITY CLASSES
+   ============================================================================ */
 
 .animate-in {
 	animation-fill-mode: forwards;
 }
 
-.slide-in-from-bottom-8 {
-	animation-name: slide-in-from-bottom-8;
-}
-
-.slide-in-from-bottom-4 {
-	animation-name: slide-in-from-bottom-4;
-}
-
-.fade-in-0 {
-	animation-name: fade-in-0;
-}
-
-.fill-mode-forwards {
+.animate-fill-mode-forwards {
 	animation-fill-mode: forwards;
+}
+
+/* ============================================================================
+   ANIMATION DURATIONS
+   ============================================================================ */
+
+.duration-600 {
+	animation-duration: 0.6s;
 }
 
 .duration-700 {
 	animation-duration: 0.7s;
 }
 
-.duration-600 {
-	animation-duration: 0.6s;
-}
-
 .duration-1500 {
 	animation-duration: 1.5s;
+}
+
+/* ============================================================================
+   ANIMATION DELAYS (Consolidated)
+   ============================================================================ */
+
+.animation-delay-100 {
+	animation-delay: 0.1s;
+}
+
+.animation-delay-200 {
+	animation-delay: 0.2s;
 }
 
 .animation-delay-300 {
 	animation-delay: 0.3s;
 }
 
+.animation-delay-400 {
+	animation-delay: 0.4s;
+}
+
+.animation-delay-500 {
+	animation-delay: 0.5s;
+}
+
 .animation-delay-600 {
 	animation-delay: 0.6s;
 }
 
+.animation-delay-700 {
+	animation-delay: 0.7s;
+}
+
+.animation-delay-800 {
+	animation-delay: 0.8s;
+}
+
 .animation-delay-900 {
 	animation-delay: 0.9s;
+}
+
+.animation-delay-1000 {
+	animation-delay: 1s;
 }
 
 .animation-delay-1200 {
@@ -197,6 +314,10 @@
 	animation-delay: 1.5s;
 }
 
+/* ============================================================================
+   MEDIA QUERIES
+   ============================================================================ */
+
 @media (max-width: 639px) {
 	.mobile-dialog[data-state='open'] {
 		animation: slide-in-from-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -204,5 +325,85 @@
 
 	.mobile-dialog[data-state='closed'] {
 		animation: slide-out-to-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+}
+
+/* ============================================================================
+   ACCESSIBILITY - REDUCED MOTION
+   Centralized prefers-reduced-motion rules for all animations
+   Respects user preference to minimize motion for accessibility
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+	/* Disable all animations with motion (transform/translation) */
+	.animate-fade-in-up,
+	.animate-fade-in-up-sm,
+	.animate-fade-in-up-lg,
+	.animate-fade-in-left,
+	.animate-fade-in-right,
+	.animate-workflow-fade-in-up,
+	.animate-slide-in-from-bottom-4,
+	.animate-slide-in-from-bottom-8,
+	.animate-slide-in-from-bottom,
+	.animate-slide-out-to-bottom,
+	.animate-slide-in-gentle,
+	.animate-scale-in,
+	.animate-scale-in-card,
+	.animate-fade-in-card,
+	.animate-fade-in-line,
+	.animate-fade-in-point,
+	.animate-fade-in-rectangle,
+	.animate-float-vertical,
+	.animate-float-diagonal,
+	.animate-bounce-down,
+	.animate-accordion-down,
+	.animate-accordion-up,
+	.animate-number-emphasis,
+	.animate-feature-reveal {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	/* Disable continuous animations */
+	.animate-gradient-shift,
+	.animate-icon-pulse,
+	.animate-scroll-wheel,
+	.animate-liquid,
+	.animate-shine,
+	.animate-shine::before {
+		animation: none !important;
+	}
+
+	/* Disable pulse animations */
+	.animate-pulse,
+	.animate-pulse-slow,
+	.animate-pulse-dark,
+	.animate-pulse-ring,
+	.animate-badge-pulse-soft {
+		animation: none !important;
+	}
+
+	/* Keep simple fade-in (opacity only, no movement) - reduced duration */
+	.animate-fade-in {
+		animation: fade-in 0.3s ease-out forwards;
+	}
+
+	/* Tech transformation animations */
+	.tech-animate {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	/* Mobile dialog animations */
+	.mobile-dialog[data-state='open'],
+	.mobile-dialog[data-state='closed'] {
+		animation: none !important;
+	}
+
+	/* Ensure ping animation is disabled (used in TimelineNode) */
+	.animate-ping {
+		animation: none !important;
 	}
 }

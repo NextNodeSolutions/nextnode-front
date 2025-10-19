@@ -21,9 +21,6 @@ import type { ProjectRequestData } from '@/types/email'
 
 export const POST: APIRoute = async ({ request }) => {
 	try {
-		emailLogger.info('Processing email request', {
-			scope: 'email-processing',
-		})
 		// Parse request body
 		let body: unknown
 		try {
@@ -139,16 +136,6 @@ export const POST: APIRoute = async ({ request }) => {
 				},
 			)
 		}
-
-		// Log successful email send (without sensitive data)
-		emailLogger.info('Email sent successfully', {
-			scope: 'email-success',
-			details: {
-				messageId: result.messageId,
-				projectName: projectData.projectName,
-				userEmail: projectData.userEmail,
-			},
-		})
 
 		return createSuccessResponse(
 			{ messageId: result.messageId },

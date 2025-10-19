@@ -1,15 +1,8 @@
 ---
 import Navigation from '../Navigation.astro'
-import Controls from '../Controls.astro'
+import ControlsMobile from './ControlsMobile.astro'
 import Logo from '../Logo.astro'
 import MobileButton from './MobileButton.astro'
-import type { NavigationLinks } from '@/types/i18n'
-
-interface Props {
-	links: NavigationLinks
-}
-
-const { links } = Astro.props
 ---
 
 <div
@@ -23,17 +16,17 @@ const { links } = Astro.props
 		<div class="flex h-full flex-col">
 			<div class="border-b border-gray-200/50 dark:border-gray-600/50">
 				<div class="px-4 sm:px-6 lg:px-8">
-					<div class="flex h-12 items-center justify-between">
+					<div class="flex h-20 items-center justify-between">
 						<Logo variant="mobile" />
 						<MobileButton action="close" />
 					</div>
 				</div>
 			</div>
 
-			<Navigation links={links} variant="mobile" />
+			<Navigation variant="mobile" />
 
 			<div class="mt-auto px-4 py-4 sm:px-6 lg:px-8">
-				<Controls variant="mobile" />
+				<ControlsMobile />
 			</div>
 		</div>
 	</div>
