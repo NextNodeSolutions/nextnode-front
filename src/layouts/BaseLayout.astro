@@ -1,11 +1,14 @@
 ---
+import '../styles/fonts.css'
 import '../styles/global.css'
 import '../styles/base.css'
-import '../styles/keyframes.css'
-import '../styles/animations.css'
-import '../styles/liquid-effects.css'
 import { ContextProvider } from '../lib/i18n/ContextProvider'
 import SEO from '@/components/common/SEO.astro'
+
+// Import animation CSS as URLs for async loading
+import keyframesUrl from '../styles/keyframes.css?url'
+import animationsUrl from '../styles/animations.css?url'
+import liquidEffectsUrl from '../styles/liquid-effects.css?url'
 
 export interface Props {
 	title: string
@@ -42,13 +45,62 @@ const {
 			noindex={noindex}
 		/>
 
-		<!-- Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<!-- Preload critical fonts (self-hosted) -->
 		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-			rel="stylesheet"
+			rel="preload"
+			href="/fonts/inter-400-latin.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
 		/>
+		<link
+			rel="preload"
+			href="/fonts/inter-600-latin.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin
+		/>
+
+		<!-- Async load non-critical CSS (animations) -->
+		<link
+			rel="stylesheet"
+			href={keyframesUrl}
+			media="print"
+			data-async-css
+		/>
+		<link
+			rel="stylesheet"
+			href={animationsUrl}
+			media="print"
+			data-async-css
+		/>
+		<link
+			rel="stylesheet"
+			href={liquidEffectsUrl}
+			media="print"
+			data-async-css
+		/>
+		<noscript>
+			<link rel="stylesheet" href={keyframesUrl} />
+			<link rel="stylesheet" href={animationsUrl} />
+			<link rel="stylesheet" href={liquidEffectsUrl} />
+		</noscript>
+
+		<!-- Async CSS loader script -->
+		<script is:inline>
+			;(function () {
+				const links = document.querySelectorAll('link[data-async-css]')
+				links.forEach(function (link) {
+					link.addEventListener('load', function () {
+						this.media = 'all'
+					})
+					// Trigger load if already loaded
+					if (link.sheet) {
+						link.media = 'all'
+					}
+				})
+			})()
+		</script>
 
 		<!-- Initialize global variables from server-provided data -->
 		<script is:inline define:vars={{ locale, theme }}>

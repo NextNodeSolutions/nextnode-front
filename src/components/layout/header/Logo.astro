@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets'
 import { cn } from '@/lib/core/utils'
 import { getRelativeLocaleUrl } from 'astro:i18n'
+import logoImage from '@/assets/logo.png'
 
 interface Props {
 	variant?: 'desktop' | 'mobile'
@@ -8,12 +10,20 @@ interface Props {
 
 const { variant = 'desktop' } = Astro.props
 const homeUrl = getRelativeLocaleUrl(Astro.currentLocale || 'en', '/')
+
+// Determine dimensions based on variant
+const height = variant === 'mobile' ? 40 : 56
+const width = variant === 'mobile' ? 120 : 168
 ---
 
 <a href={homeUrl} class="flex items-center">
-	<img
-		src="/logo-1.png"
+	<Image
+		src={logoImage}
 		alt="NextNode"
+		width={width}
+		height={height}
+		loading="eager"
+		fetchpriority="high"
 		class={cn(
 			'w-auto transition-transform duration-300 hover:scale-105',
 			variant === 'mobile' ? 'h-10' : 'h-14',
