@@ -33,6 +33,9 @@ const CHUNK_RULES = [
 export default defineConfig({
 	site,
 	output: 'server',
+	build: {
+		inlineStylesheets: 'auto',
+	},
 	server: {
 		port,
 		host: process.env.NODE_ENV === 'production' ? host : '127.0.0.1',
