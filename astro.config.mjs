@@ -5,6 +5,7 @@ import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import { configManagerIntegration } from '@nextnode/config-manager/astro'
 import tailwindcss from '@tailwindcss/vite'
+import viteCompression from 'vite-plugin-compression'
 
 const host = process.env.HOST ?? '0.0.0.0'
 const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 4321
@@ -33,12 +34,29 @@ const CHUNK_RULES = [
 export default defineConfig({
 	site,
 	output: 'server',
+	build: {
+		inlineStylesheets: 'auto',
+	},
 	server: {
 		port,
 		host: process.env.NODE_ENV === 'production' ? host : '127.0.0.1',
 	},
 	vite: {
-		plugins: [tailwindcss()],
+		plugins: [
+			tailwindcss(),
+			viteCompression({
+				algorithm: 'brotliCompress',
+				ext: '.br',
+				threshold: 1024,
+				deleteOriginFile: false,
+			}),
+			viteCompression({
+				algorithm: 'gzip',
+				ext: '.gz',
+				threshold: 1024,
+				deleteOriginFile: false,
+			}),
+		],
 		build: {
 			rollupOptions: {
 				output: {

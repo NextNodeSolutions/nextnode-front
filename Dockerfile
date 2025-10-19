@@ -8,15 +8,15 @@ ARG URL
 ARG GA_MEASUREMENT_ID
 
 # Stage 1: Build environment with all dependencies
-FROM node:${NODE_VERSION}-alpine AS builder
+FROM node:${NODE_VERSION}-slim AS builder
 
 # Install build dependencies and security updates
-RUN apk update && apk upgrade && \
-    apk add --no-cache \
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
     python3 \
     make \
     g++ \
-    && rm -rf /var/cache/apk/* /tmp/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install pnpm globally
 RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
@@ -25,8 +25,8 @@ RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
 WORKDIR /app
 
 # Create non-root user for security
-RUN addgroup -g 1001 -S astro && \
-    adduser -S astro -u 1001 && \
+RUN groupadd -g 1001 astro && \
+    useradd -u 1001 -g astro -m astro && \
     chown astro:astro /app
 
 USER astro
@@ -63,7 +63,7 @@ ENV GA_MEASUREMENT_ID=${GA_MEASUREMENT_ID}
 RUN pnpm run build
 
 # Stage 2: Dependencies cleaner - Smart dependency optimization
-FROM node:${NODE_VERSION}-alpine AS deps-cleaner
+FROM node:${NODE_VERSION}-slim AS deps-cleaner
 
 # Install pnpm for dependency management
 RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
@@ -83,16 +83,16 @@ RUN find node_modules -name "*.d.ts" -type f -delete
 RUN find node_modules -name ".bin" -type d -exec rm -rf {} + 2>/dev/null || true
 
 # Stage 3: Minimal runtime with distroless approach
-FROM node:${NODE_VERSION}-alpine AS runtime
+FROM node:${NODE_VERSION}-slim AS runtime
 
 # Security hardening: minimal packages and updates
-RUN apk update && apk upgrade && \
-    apk add --no-cache \
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
     tini \
     ca-certificates \
-    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/* \
-    && addgroup -g 1001 -S astro \
-    && adduser -S astro -u 1001 -G astro \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && groupadd -g 1001 astro \
+    && useradd -u 1001 -g astro -m astro \
     && mkdir -p /app /tmp \
     && chown -R astro:astro /app /tmp
 
@@ -140,7 +140,7 @@ USER astro
 EXPOSE $APP_PORT
 
 # Security: Use tini for proper signal handling and PID 1
-ENTRYPOINT ["/sbin/tini", "-g", "--"]
+ENTRYPOINT ["/usr/bin/tini", "-g", "--"]
 
 # Start application with security optimizations
 CMD ["node", "--enable-source-maps", "--unhandled-rejections=strict", "./dist/server/entry.mjs"]
