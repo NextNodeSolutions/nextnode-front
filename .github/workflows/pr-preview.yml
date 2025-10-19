@@ -15,3 +15,12 @@ jobs:
             run-quality-checks: true
             memory-mb: '512'
         secrets: inherit
+
+    dns:
+        name: Update DNS
+        needs: preview
+        uses: NextNodeSolutions/github-actions/.github/workflows/dns.yml@main
+        with:
+            domain: ${{ needs.preview.outputs.custom-domain }}
+            target: ${{ needs.preview.outputs.railway-url }}
+        secrets: inherit
