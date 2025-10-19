@@ -1,0 +1,17 @@
+name: PR Preview
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened]
+
+jobs:
+    preview:
+        name: Deploy PR Preview
+        uses: NextNodeSolutions/github-actions/.github/workflows/pr-preview.yml@main
+        with:
+            app-name: 'nextnode-front'
+            base-domain: 'nextnode.fr'
+            base-environment: 'development'
+            run-quality-checks: true
+            memory-mb: '512'
+        secrets: inherit
