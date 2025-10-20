@@ -167,10 +167,16 @@ function calculateRectanglePosition(
 									(rectPos.x / VIEWBOX_WIDTH) * 100
 								const topPercent =
 									((rectPos.y + 50) / VIEWBOX_HEIGHT) * 100
+								const widthPercent =
+									(cardWidth / VIEWBOX_WIDTH) * 100
+								const heightPercent =
+									(cardHeight / VIEWBOX_HEIGHT) * 100
 
 								return {
 									x: leftPercent,
 									y: topPercent,
+									width: widthPercent,
+									height: heightPercent,
 								}
 							})}
 						/>

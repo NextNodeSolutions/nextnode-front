@@ -71,7 +71,6 @@ const StepCard = ({
 	return (
 		<motion.div
 			ref={cardRef}
-			layout
 			className={cn(
 				'group transition-smooth hover-lift-sm relative cursor-pointer',
 				getVariantClasses(variant, 'container'),

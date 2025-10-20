@@ -50,7 +50,7 @@ export const STEP_CONFIG: Record<string, StepConfig> = {
 // Desktop positions for StepCard (220x120px) with straight lines
 // Those positions are perfect, do not move them
 export const DESKTOP_WORKFLOW_POSITIONS: WorkflowPosition[] = [
-	{ x: 80, y: 60, cardX: -20, cardY: -120, lineEndX: 80, lineEndY: 0 },
+	{ x: 80, y: 60, cardX: -20, cardY: -240, lineEndX: 80, lineEndY: -10 },
 	{ x: 350, y: 75, cardX: 310, cardY: -100, lineEndX: 350, lineEndY: 10 },
 	{ x: 510, y: 140, cardX: 670, cardY: 120, lineEndX: 560, lineEndY: 140 },
 	{ x: 205, y: 220, cardX: -20, cardY: 230, lineEndX: 160, lineEndY: 220 },

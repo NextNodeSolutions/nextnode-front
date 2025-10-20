@@ -12,7 +12,12 @@ interface WorkflowCardsExpandableProps {
 	readonly variant?: StepCardVariant
 	readonly stepLabel: string
 	readonly clickToSeeMore: string
-	readonly positions?: ReadonlyArray<{ x: number; y: number }>
+	readonly positions?: ReadonlyArray<{
+		x: number
+		y: number
+		width: number
+		height: number
+	}>
 }
 
 /**
@@ -42,7 +47,7 @@ const WorkflowCardsExpandable = ({
 	}
 
 	return (
-		<div className="relative">
+		<>
 			{STEP_KEYS.map((stepKey, index) => {
 				const step = translateSteps(stepKey as StepKey)
 				const position = positions?.[index]
@@ -69,35 +74,39 @@ const WorkflowCardsExpandable = ({
 				return (
 					<div
 						key={stepKey}
-						className="absolute"
+						className="animate-fade-in-card absolute"
 						style={
 							position
 								? {
 										left: `${position.x}%`,
 										top: `${position.y}%`,
-										transform: 'translate(-50%, -50%)',
+										width: `${position.width}%`,
+										height: `${position.height}%`,
+										animationDelay: `${index * 150}ms`,
 									}
 								: undefined
 						}
 					>
-						<StepCard
-							stepKey={stepKey}
-							index={index}
-							number={step.number}
-							title={step.title}
-							description={step.description}
-							variant={variant}
-							stepLabel={stepLabel}
-							clickToSeeMore={clickToSeeMore}
-							isExpanded={expandedIndex === index}
-							onExpand={() => handleExpand(index)}
-							onCollapse={handleCollapse}
-							expandedContent={expandedContent}
-						/>
+						<div className="step-card-wrapper h-full w-full">
+							<StepCard
+								stepKey={stepKey}
+								index={index}
+								number={step.number}
+								title={step.title}
+								description={step.description}
+								variant={variant}
+								stepLabel={stepLabel}
+								clickToSeeMore={clickToSeeMore}
+								isExpanded={expandedIndex === index}
+								onExpand={() => handleExpand(index)}
+								onCollapse={handleCollapse}
+								expandedContent={expandedContent}
+							/>
+						</div>
 					</div>
 				)
 			})}
-		</div>
+		</>
 	)
 }
 
