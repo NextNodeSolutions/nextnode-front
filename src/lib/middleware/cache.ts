@@ -36,6 +36,15 @@ export const cacheMiddleware: MiddlewareHandler = async (context, next) => {
 			'Cache-Control',
 			'public, max-age=31536000, immutable',
 		)
+		// CDN-specific cache headers (Cloudflare, Fastly, etc.)
+		response.headers.set(
+			'CDN-Cache-Control',
+			'public, max-age=31536000, immutable',
+		)
+		response.headers.set(
+			'Cloudflare-CDN-Cache-Control',
+			'public, max-age=31536000',
+		)
 		return response
 	}
 
