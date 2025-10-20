@@ -1,4 +1,9 @@
+import { useRef } from 'react'
+
+import { AnimatePresence, motion } from 'motion/react'
+
 import PatternBackground from '@/components/ui/patterns/PatternBackground'
+import { useOutsideClick } from '@/hooks'
 import { cn } from '@/lib/core/utils'
 
 import { getStepDesign } from '../step-designs'
@@ -14,12 +19,17 @@ export interface StepCardProps {
 	readonly variant?: StepCardVariant
 	readonly stepLabel: string
 	readonly clickToSeeMore: string
+	readonly isExpanded?: boolean
+	readonly onExpand?: () => void
+	readonly onCollapse?: () => void
+	readonly expandedContent?: React.ReactNode
 }
 
 /**
- * StepCard - React version of StepCard.astro
+ * StepCard - React version of StepCard.astro with expandable behavior
  * Displays workflow step with gradient header, icon, and description
  * Maintains exact same design as Astro version for consistency
+ * Adds click-to-expand functionality with smooth animations
  */
 const StepCard = ({
 	stepKey,
@@ -30,7 +40,13 @@ const StepCard = ({
 	variant = 'mobile',
 	stepLabel,
 	clickToSeeMore,
+	isExpanded = false,
+	onExpand,
+	onCollapse,
+	expandedContent,
 }: StepCardProps) => {
+	const cardRef = useRef<HTMLDivElement>(null)
+
 	// Use centralized variant configuration
 	const showHeader = VARIANT_FEATURES.showHeader(variant)
 	const showDescription = VARIANT_FEATURES.showDescription(variant)
@@ -38,14 +54,37 @@ const StepCard = ({
 
 	const design = getStepDesign(index)
 
+	// Handle click outside to collapse
+	useOutsideClick(cardRef, () => {
+		if (isExpanded && onCollapse) {
+			onCollapse()
+		}
+	})
+
+	// Handle card click to expand
+	const handleCardClick = () => {
+		if (!isExpanded && onExpand) {
+			onExpand()
+		}
+	}
+
 	return (
-		<div
+		<motion.div
+			ref={cardRef}
+			layout
 			className={cn(
 				'group transition-smooth hover-lift-sm relative cursor-pointer',
 				getVariantClasses(variant, 'container'),
+				isExpanded && 'z-50',
 			)}
 			data-step-card
 			data-step-index={index}
+			onClick={handleCardClick}
+			animate={{
+				scale: isExpanded ? 1.05 : 1,
+				zIndex: isExpanded ? 50 : 1,
+			}}
+			transition={{ duration: 0.3, ease: 'easeInOut' }}
 		>
 			{/* Gradient overlay on hover */}
 			<div
@@ -209,8 +248,23 @@ const StepCard = ({
 						</div>
 					</div>
 				</div>
+
+				{/* Expanded content area with animation */}
+				<AnimatePresence>
+					{isExpanded && expandedContent && (
+						<motion.div
+							initial={{ opacity: 0, height: 0 }}
+							animate={{ opacity: 1, height: 'auto' }}
+							exit={{ opacity: 0, height: 0 }}
+							transition={{ duration: 0.3, ease: 'easeInOut' }}
+							className="overflow-hidden border-t border-gray-200 dark:border-gray-700"
+						>
+							<div className="p-6">{expandedContent}</div>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</div>
-		</div>
+		</motion.div>
 	)
 }
 
