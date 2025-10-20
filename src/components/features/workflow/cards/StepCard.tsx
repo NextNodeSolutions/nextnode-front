@@ -97,6 +97,7 @@ const StepCard = ({
 			<div
 				className={cn(
 					'card-base relative overflow-hidden border border-gray-100 dark:border-gray-800',
+					'grid h-full grid-rows-[auto_1fr]',
 					design.glow,
 				)}
 			>
@@ -177,7 +178,12 @@ const StepCard = ({
 				)}
 
 				{/* Content section */}
-				<div className={cn(getVariantClasses(variant, 'content'))}>
+				<div
+					className={cn(
+						getVariantClasses(variant, 'content'),
+						'flex flex-col justify-between',
+					)}
+				>
 					<div className="space-y-2">
 						{/* Title */}
 						<h3
