@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 
-import { render } from '@testing-library/react'
+import { cleanup, fireEvent, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import useOutsideClick from '../useOutsideClick'
@@ -13,6 +13,7 @@ describe('useOutsideClick', () => {
 	})
 
 	afterEach(() => {
+		cleanup()
 		vi.clearAllMocks()
 	})
 
@@ -34,7 +35,7 @@ describe('useOutsideClick', () => {
 		const { getByTestId } = render(<TestComponent />)
 
 		const outsideElement = getByTestId('outside')
-		outsideElement.click()
+		fireEvent.mouseDown(outsideElement)
 
 		expect(handler).toHaveBeenCalledOnce()
 	})
@@ -43,7 +44,7 @@ describe('useOutsideClick', () => {
 		const { getByTestId } = render(<TestComponent />)
 
 		const insideElement = getByTestId('inside')
-		insideElement.click()
+		fireEvent.mouseDown(insideElement)
 
 		expect(handler).not.toHaveBeenCalled()
 	})
@@ -52,12 +53,7 @@ describe('useOutsideClick', () => {
 		const { getByTestId } = render(<TestComponent />)
 
 		const outsideElement = getByTestId('outside')
-		const touchEvent = new TouchEvent('touchstart', {
-			bubbles: true,
-			cancelable: true,
-		})
-
-		outsideElement.dispatchEvent(touchEvent)
+		fireEvent.touchStart(outsideElement)
 
 		expect(handler).toHaveBeenCalledOnce()
 	})

@@ -40,3 +40,9 @@ Object.defineProperty(window, 'matchMedia', {
 		dispatchEvent: vi.fn(),
 	})),
 })
+
+// Mock window.scrollTo (required by motion/framer-motion)
+Object.defineProperty(window, 'scrollTo', {
+	writable: true,
+	value: vi.fn(),
+})

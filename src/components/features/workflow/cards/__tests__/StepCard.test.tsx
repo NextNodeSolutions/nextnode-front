@@ -1,9 +1,13 @@
-import { render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { cleanup, render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import StepCard from '../StepCard'
 
 describe('StepCard', () => {
+	afterEach(() => {
+		cleanup()
+		vi.clearAllMocks()
+	})
 	const defaultProps = {
 		stepKey: 'discovery',
 		index: 0,
