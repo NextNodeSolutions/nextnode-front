@@ -11,8 +11,6 @@ export interface StepConfig {
 export interface WorkflowPosition {
 	x: number
 	y: number
-	cardX: number
-	cardY: number
 	lineEndX: number
 	lineEndY: number
 }
