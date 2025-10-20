@@ -86,6 +86,9 @@ RUN find node_modules -name ".bin" -type d -exec rm -rf {} + 2>/dev/null || true
 # Stage 3: Minimal runtime with distroless approach
 FROM node:${NODE_VERSION}-slim AS runtime
 
+# Pass PNPM version for Sharp rebuild
+ARG PNPM_VERSION
+
 # Security hardening: minimal packages and updates
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
@@ -118,7 +121,8 @@ ENV HOST=0.0.0.0
 ENV ASTRO_TELEMETRY_DISABLED=1
 ENV NODE_NO_WARNINGS=1
 ENV NODE_OPTIONS="--max-old-space-size=512 --max-semi-space-size=64"
-ENV PATH=/app/node_modules/.bin:$PATH
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:/app/node_modules/.bin:$PATH
 
 # Railway.app deployment optimizations
 
@@ -128,6 +132,11 @@ WORKDIR /app
 COPY --from=deps-cleaner --chown=astro:astro /app/node_modules ./node_modules
 COPY --from=builder --chown=astro:astro /app/dist ./dist
 COPY --from=builder --chown=astro:astro /app/package.json ./package.json
+
+# Rebuild Sharp native bindings for runtime environment (must run as root for pnpm setup)
+RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate && \
+    cd /app && pnpm rebuild sharp && \
+    chown -R astro:astro /app/node_modules/sharp
 
 # Security: Remove SUID/SGID bits and set read-only filesystem
 RUN find /app -type f -perm /6000 -exec chmod -s {} \; 2>/dev/null || true
