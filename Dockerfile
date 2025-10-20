@@ -16,6 +16,7 @@ RUN apt-get update && apt-get upgrade -y && \
     python3 \
     make \
     g++ \
+    libvips-dev \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install pnpm globally
@@ -90,6 +91,7 @@ RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
     tini \
     ca-certificates \
+    libvips42 \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && groupadd -g 1001 astro \
     && useradd -u 1001 -g astro -m astro \
