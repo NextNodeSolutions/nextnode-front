@@ -68,10 +68,6 @@ const {
 			crossorigin
 		/>
 
-		<!-- Preload critical React chunks to reduce waterfall loading -->
-		<link rel="modulepreload" href="/_astro/I18nReact.CIIbwl_X.js" />
-		<link rel="modulepreload" href="/_astro/CalActionButton.BnmVSW0_.js" />
-
 		<!-- Async load non-critical CSS (animations) -->
 		<link
 			rel="stylesheet"
@@ -129,7 +125,7 @@ const {
 		class="bg-grid relative -z-50 bg-white font-sans text-gray-900 antialiased dark:bg-gray-900 dark:text-gray-100"
 	>
 		<!-- Provide React i18n context to all components -->
-		<ContextProvider client:load>
+		<ContextProvider client:idle>
 			<slot />
 		</ContextProvider>
 
