@@ -8,7 +8,24 @@
 
 import { defineMiddleware } from 'astro:middleware'
 
+import { DEFAULT_LOCALE } from '@/i18n/config'
+
 import { middlewareLogger } from '../logging'
+
+/**
+ * Path prefixes to skip (bundled assets + organized folders)
+ */
+const SKIP_PATH_PREFIXES = [
+	'/404', // Error pages (avoid infinite loop)
+	'/500',
+	'/_astro/', // Astro bundled assets (JS, CSS with hashes)
+	'/fonts/', // Static fonts from /public/fonts/
+] as const
+
+/**
+ * File extensions in /public/ root (logos, favicons, manifests)
+ */
+const SKIP_ROOT_FILES = /\.(png|svg|webp|ico|webmanifest|txt)$/
 
 /**
  * Middleware for handling error responses
@@ -20,8 +37,11 @@ export const errorHandlerMiddleware = defineMiddleware(
 	async (context, next) => {
 		const pathname = context.url.pathname
 
-		// Skip error handler for error pages themselves to avoid infinite loop
-		if (pathname.includes('/404') || pathname.includes('/500')) {
+		// Early exit for assets (BEFORE await next())
+		if (
+			SKIP_PATH_PREFIXES.some(prefix => pathname.includes(prefix)) ||
+			SKIP_ROOT_FILES.test(pathname)
+		) {
 			return next()
 		}
 
@@ -29,7 +49,7 @@ export const errorHandlerMiddleware = defineMiddleware(
 		const response = await next()
 
 		// Get current locale from context (injected by i18nMiddleware)
-		const locale = context.locals.locale || 'en'
+		const locale = context.locals.locale ?? DEFAULT_LOCALE
 
 		// Handle 404 Not Found errors
 		if (response.status === 404) {
