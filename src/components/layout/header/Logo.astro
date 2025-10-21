@@ -11,9 +11,9 @@ interface Props {
 const { variant = 'desktop' } = Astro.props
 const homeUrl = getRelativeLocaleUrl(Astro.currentLocale || 'en', '/')
 
-// Determine dimensions based on variant
+// Determine dimensions based on variant and logo aspect ratio (500:120 = 4.17:1)
 const height = variant === 'mobile' ? 40 : 56
-const width = variant === 'mobile' ? 120 : 168
+const width = variant === 'mobile' ? 167 : 235
 ---
 
 <a href={homeUrl} class="flex items-center">
