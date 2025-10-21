@@ -27,6 +27,11 @@ declare global {
 			locale: Locale
 			t: TFunction
 			theme: 'light' | 'dark'
+			errorRewrite?: {
+				originalPath: string
+				targetPath: string
+				status: number
+			}
 		}
 	}
 }

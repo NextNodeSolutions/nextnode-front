@@ -14,7 +14,7 @@ export const onRequest = sequence(
 	i18nMiddleware, // 2. Initialize i18n system and inject context
 	themeMiddleware, // 3. Detect and inject theme preference
 	metricsMiddleware, // 4. Collect application metrics
-	loggingMiddleware, // 5. Log requests and responses
-	cacheMiddleware, // 6. Set optimal cache headers for performance
-	errorHandlerMiddleware, // 7. Handle 404/500 errors with localized pages (MUST BE LAST)
+	cacheMiddleware, // 5. Set optimal cache headers for performance
+	errorHandlerMiddleware, // 6. Handle 404/500 errors with localized pages
+	loggingMiddleware, // 7. Log final responses with error context (MUST BE LAST)
 )
