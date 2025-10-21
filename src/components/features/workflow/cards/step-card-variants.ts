@@ -6,6 +6,16 @@
 export type StepCardVariant = 'mobile' | 'compact' | 'mini'
 
 /**
+ * Fixed card dimensions in SVG units (viewBox 1000x500)
+ * Used for position calculations in the workflow journey
+ */
+export const CARD_DIMENSIONS = {
+	mini: { width: 180, height: 130 },
+	compact: { width: 200, height: 180 },
+	mobile: { width: 250, height: 280 },
+} as const
+
+/**
  * Comprehensive styling variants for StepCard components
  * Each variant optimizes for different screen sizes and contexts
  */
@@ -26,9 +36,9 @@ export const STEP_CARD_VARIANTS = {
 		mini: 'p-2',
 	},
 	title: {
-		mobile: 'text-xl',
-		compact: 'text-base',
-		mini: 'text-sm',
+		mobile: 'text-xl line-clamp-2 min-h-[3.5rem]',
+		compact: 'text-base line-clamp-2 min-h-[2.5rem]',
+		mini: 'text-sm line-clamp-2 min-h-[2rem]',
 	},
 	description: {
 		mobile: 'line-clamp-5 text-sm',

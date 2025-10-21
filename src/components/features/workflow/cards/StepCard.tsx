@@ -25,6 +25,9 @@ export interface StepCardProps {
 	readonly expandedContent?: React.ReactNode
 }
 
+// Progress bar segments (fixed array for stable keys)
+const PROGRESS_SEGMENTS = [0, 1, 2, 3, 4, 5] as const
+
 /**
  * StepCard - React version of StepCard.astro with expandable behavior
  * Displays workflow step with gradient header, icon, and description
@@ -72,7 +75,7 @@ const StepCard = ({
 		<motion.div
 			ref={cardRef}
 			className={cn(
-				'group transition-smooth hover-lift-sm relative cursor-pointer',
+				'group transition-smooth hover-lift-sm relative h-full w-full cursor-pointer',
 				getVariantClasses(variant, 'container'),
 				isExpanded && 'z-50',
 			)}
@@ -181,9 +184,10 @@ const StepCard = ({
 				<div
 					className={cn(
 						getVariantClasses(variant, 'content'),
-						'flex flex-col justify-between',
+						'flex h-full flex-col',
 					)}
 				>
+					{/* Title and progress bar - fixed at top */}
 					<div className="space-y-2">
 						{/* Title */}
 						<h3
@@ -202,39 +206,42 @@ const StepCard = ({
 								variant === 'mini' ? 'py-1' : 'py-2',
 							)}
 						>
-							{Array.from({ length: 6 }, (_, i) => (
+							{PROGRESS_SEGMENTS.map(segment => (
 								<div
-									key={`progress-${stepKey}-${i}`}
+									key={`progress-${stepKey}-${segment}`}
 									className={cn(
 										'flex-1 rounded-full transition-all duration-700',
 										variant === 'mini' ? 'h-0.5' : 'h-1',
-										i <= index
+										segment <= index
 											? cn(
 													'bg-gradient-to-r shadow-sm',
 													design.gradient,
 												)
 											: 'bg-gray-200 dark:bg-gray-700',
 									)}
-									style={{ transitionDelay: `${i * 50}ms` }}
+									style={{
+										transitionDelay: `${segment * 50}ms`,
+									}}
 								/>
 							))}
 						</div>
 					</div>
 
-					{/* Description (hidden for mini variant) */}
+					{/* Description - flexible space */}
 					{showDescription && (
 						<p
 							className={cn(
 								'leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200',
 								getVariantClasses(variant, 'description'),
+								'flex-1',
 							)}
 						>
 							{description}
 						</p>
 					)}
 
-					{/* Footer with step label and CTA */}
-					<div className="pt-2">
+					{/* Footer with step label and CTA - fixed at bottom */}
+					<div className="mt-auto pt-2">
 						{showStepLabel && (
 							<div className="mb-1">
 								<span className="text-xs font-medium tracking-wider whitespace-nowrap text-gray-500 uppercase dark:text-gray-400">

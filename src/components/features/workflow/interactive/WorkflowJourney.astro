@@ -2,6 +2,7 @@
 import { STEP_COLORS, DESKTOP_WORKFLOW_POSITIONS } from '../workflow-constants'
 import type { Step } from '@/types/workflow'
 import type { WorkflowPosition } from '@/types/workflow'
+import { CARD_DIMENSIONS } from '../cards/step-card-variants'
 
 import WorkflowPath from '../visual/WorkflowPath.astro'
 import StepCard from '../cards/StepCard.astro'
@@ -10,7 +11,7 @@ import WorkflowCardsExpandable from './WorkflowCardsExpandable'
 // Use new i18n system from middleware
 const { t } = Astro.locals
 
-export interface Props {
+interface Props {
 	steps: Step[]
 	variant?: 'mini' | 'compact' | 'large'
 	enableExpandable?: boolean
@@ -20,27 +21,21 @@ const { steps, variant = 'mini', enableExpandable = false } = Astro.props
 
 const positions = DESKTOP_WORKFLOW_POSITIONS
 
-// ViewBox dimensions - same as the working old version
+// ViewBox dimensions
 const VIEWBOX_WIDTH = 1000
 const VIEWBOX_HEIGHT = 500
 
-// Card dimensions in viewBox units - aligned with actual Tailwind CSS dimensions
-// Based on Tailwind spacing system: h-12=48px, h-16=64px, h-32=128px + content padding
-const CARD_DIMENSIONS = {
-	compact: { width: 200, height: 215 }, // h-16 (64px) + content (48px) + padding
-	mini: { width: 190, height: 155 }, // h-12 (48px) + content (24px) + padding
-	large: { width: 190, height: 180 }, // h-20 (80px) + content (60px) + padding for xl screens
-}
-
-const cardWidth = CARD_DIMENSIONS[variant].width
-const cardHeight = CARD_DIMENSIONS[variant].height
-
 // Map workflow-journey variants to StepCard variants
-// Since StepCard only has 'mobile', 'mini', and 'compact', we map 'large' to 'compact'
 const stepCardVariant = variant === 'large' ? 'compact' : variant
 
-// Function to calculate the correct rectangle position
-// based on line direction and rectangle dimensions
+// Get fixed card dimensions (will be used for position calculations)
+const { width: cardWidth, height: cardHeight } =
+	CARD_DIMENSIONS[stepCardVariant]
+
+/**
+ * Calculate card position based on line direction
+ * Cards are positioned at the edge closest to the line endpoint
+ */
 function calculateRectanglePosition(
 	position: WorkflowPosition,
 	width: number,
@@ -56,13 +51,13 @@ function calculateRectanglePosition(
 	if (Math.abs(deltaX) > Math.abs(deltaY)) {
 		// Dominant horizontal movement
 		if (deltaX > 0) {
-			// Line goes right → rectangle on right, line touches left edge
+			// Line goes right → card on right, line touches left edge
 			return {
 				x: lineEndX,
 				y: lineEndY - height / 2,
 			}
 		} else {
-			// Line goes left → rectangle on left, line touches right edge
+			// Line goes left → card on left, line touches right edge
 			return {
 				x: lineEndX - width,
 				y: lineEndY - height / 2,
@@ -71,13 +66,13 @@ function calculateRectanglePosition(
 	} else {
 		// Dominant vertical movement
 		if (deltaY > 0) {
-			// Line goes down → rectangle below, line touches top edge
+			// Line goes down → card below, line touches top edge
 			return {
 				x: lineEndX - width / 2,
 				y: lineEndY,
 			}
 		} else {
-			// Line goes up → rectangle above, line touches bottom edge
+			// Line goes up → card above, line touches bottom edge
 			return {
 				x: lineEndX - width / 2,
 				y: lineEndY - height,
@@ -88,7 +83,7 @@ function calculateRectanglePosition(
 ---
 
 <div
-	class="workflow-journey relative w-full pt-8 pb-0 md:pt-12 md:pb-12 lg:pt-28 lg:pb-16"
+	class="workflow-journey relative w-full pt-16 pb-0 md:pt-20 md:pb-12 lg:pt-32 lg:pb-16"
 >
 	<div class="container mx-auto px-4">
 		<!-- Relative container for overlay -->
@@ -96,13 +91,13 @@ function calculateRectanglePosition(
 			<!-- SVG Background with path and lines -->
 			<svg
 				class="absolute inset-0 h-full w-full"
-				viewBox="0 -50 1000 500"
+				viewBox="0 0 1000 500"
 				style="overflow: visible; pointer-events: none;"
 				xmlns="http://www.w3.org/2000/svg"
 			>
 				<WorkflowPath />
 
-				{/* Connection lines, points and cards - all in SVG */}
+				{/* Connection lines and points */}
 				{
 					positions.map((position, index) => {
 						const color = STEP_COLORS[index]
@@ -111,8 +106,6 @@ function calculateRectanglePosition(
 						if (!step || !color) {
 							return null
 						}
-
-						// Position calculation removed - variable was unused
 
 						return (
 							<g>
@@ -162,21 +155,11 @@ function calculateRectanglePosition(
 									cardWidth,
 									cardHeight,
 								)
-								// Convert SVG coordinates to percentages
-								const leftPercent =
-									(rectPos.x / VIEWBOX_WIDTH) * 100
-								const topPercent =
-									((rectPos.y + 50) / VIEWBOX_HEIGHT) * 100
-								const widthPercent =
-									(cardWidth / VIEWBOX_WIDTH) * 100
-								const heightPercent =
-									(cardHeight / VIEWBOX_HEIGHT) * 100
-
 								return {
-									x: leftPercent,
-									y: topPercent,
-									width: widthPercent,
-									height: heightPercent,
+									x: (rectPos.x / VIEWBOX_WIDTH) * 100,
+									y: (rectPos.y / VIEWBOX_HEIGHT) * 100,
+									width: (cardWidth / VIEWBOX_WIDTH) * 100,
+									height: (cardHeight / VIEWBOX_HEIGHT) * 100,
 								}
 							})}
 						/>
@@ -185,19 +168,16 @@ function calculateRectanglePosition(
 							const step = steps[index]
 							if (!step) return null
 
-							// Calculate rectangle position
+							// Calculate position based on line direction
 							const rectPos = calculateRectanglePosition(
 								position,
 								cardWidth,
 								cardHeight,
 							)
-
-							// Convert SVG coordinates to percentages
-							// ViewBox is "0 -50 1000 500" - total height of 550 units (500 + 50 offset)
 							const leftPercent =
 								(rectPos.x / VIEWBOX_WIDTH) * 100
 							const topPercent =
-								((rectPos.y + 50) / VIEWBOX_HEIGHT) * 100
+								(rectPos.y / VIEWBOX_HEIGHT) * 100
 							const widthPercent =
 								(cardWidth / VIEWBOX_WIDTH) * 100
 							const heightPercent =
@@ -214,13 +194,11 @@ function calculateRectanglePosition(
 										animation-delay: ${index * 150}ms;
 									`}
 								>
-									<div class="step-card-wrapper h-full w-full">
-										<StepCard
-											stepKey={step.id}
-											index={index}
-											variant={stepCardVariant}
-										/>
-									</div>
+									<StepCard
+										stepKey={step.id}
+										index={index}
+										variant={stepCardVariant}
+									/>
 								</div>
 							)
 						})

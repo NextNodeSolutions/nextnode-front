@@ -48,8 +48,7 @@ export const STEP_CONFIG: Record<string, StepConfig> = {
 } as const
 
 // Desktop positions for StepCard with straight lines
-// Positions are calculated automatically by calculateRectanglePosition()
-// based on line direction and card dimensions
+// Cards positioned based on line direction
 export const DESKTOP_WORKFLOW_POSITIONS: WorkflowPosition[] = [
 	{ x: 80, y: 60, lineEndX: 80, lineEndY: -10 },
 	{ x: 350, y: 75, lineEndX: 350, lineEndY: 10 },
