@@ -9,6 +9,11 @@ import { middlewareLogger } from '../logging'
 import { extractUserIP } from './utils'
 
 /**
+ * Paths to skip error logging (intentional error pages)
+ */
+const SKIP_ERROR_LOGGING = ['/404', '/500'] as const
+
+/**
  * Middleware for logging requests and responses
  */
 export const loggingMiddleware = defineMiddleware(async (context, next) => {
@@ -22,6 +27,11 @@ export const loggingMiddleware = defineMiddleware(async (context, next) => {
 
 	// Calculate request duration
 	const duration = Date.now() - startTime
+
+	// Skip logging for intentional error pages (they are not real errors)
+	if (SKIP_ERROR_LOGGING.some(skip => path.includes(skip))) {
+		return response
+	}
 
 	// Log only errors (HTTP status >= 400)
 	if (response.status >= 400) {
