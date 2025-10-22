@@ -5,7 +5,7 @@ import type { WorkflowPosition } from '@/types/workflow'
 import { CARD_DIMENSIONS } from '../cards/step-card-variants'
 
 import WorkflowPath from '../visual/WorkflowPath.astro'
-import StepCardAstro from '../cards/StepCardAstro.astro'
+import StepCardWrapper from '../cards/StepCard.wrapper.astro'
 import WorkflowCardsExpandable from './WorkflowCardsExpandable'
 
 // Use new i18n system from middleware
@@ -194,7 +194,7 @@ function calculateRectanglePosition(
 										animation-delay: ${index * 150}ms;
 									`}
 								>
-									<StepCardAstro
+									<StepCardWrapper
 										stepKey={step.id}
 										index={index}
 										variant={stepCardVariant}

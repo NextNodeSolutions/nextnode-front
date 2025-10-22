@@ -1,10 +1,10 @@
 ---
 /**
- * StepCardAstro - Astro wrapper for React StepCard component
+ * StepCard.wrapper - Astro wrapper for React StepCard component
  * Handles translation loading and passes data to React component
  * This bridge allows Astro components to use the composable React StepCard
  */
-import StepCard from './StepCard'
+import StepCardReact from './StepCard'
 import { translateSteps } from '@/lib/i18n/translate-utils'
 import type { StepCardVariant } from './step-card-variants'
 import type { StepKey } from '@/types/i18n'
@@ -31,7 +31,7 @@ const stepLabel = t('common.stepCard.step')
 const clickToSeeMore = t('common.stepCard.clickToSeeMore')
 ---
 
-<StepCard
+<StepCardReact
 	client:load
 	stepKey={stepKey}
 	index={index}
