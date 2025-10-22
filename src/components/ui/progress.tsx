@@ -8,6 +8,7 @@ import { cn } from '@/lib/core/utils'
 interface ProgressProps
 	extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
 	indicatorClassName?: string
+	'aria-label'?: string
 }
 
 const Progress = React.forwardRef<
@@ -24,6 +25,7 @@ const Progress = React.forwardRef<
 				'bg-brand-soft-black relative h-2 w-full overflow-hidden rounded-full',
 				className,
 			)}
+			aria-label={props['aria-label'] || 'Progress'}
 			{...props}
 		>
 			<ProgressPrimitive.Indicator
