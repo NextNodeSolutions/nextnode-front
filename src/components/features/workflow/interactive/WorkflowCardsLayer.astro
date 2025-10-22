@@ -1,5 +1,5 @@
 ---
-import StepCard from '../cards/StepCard.astro'
+import StepCardAstro from '../cards/StepCardAstro.astro'
 import {
 	calculateStepPositions,
 	getWorkflowPositioning,
@@ -49,7 +49,7 @@ const stepPositions = calculateStepPositions(variant)
 				`}
 					data-step-index={index}
 				>
-					<StepCard
+					<StepCardAstro
 						stepKey={stepKey}
 						index={index}
 						variant={stepCardVariant}

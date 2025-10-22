@@ -3,16 +3,16 @@
  * Extracted from StepCard.astro for better maintainability
  */
 
-export type StepCardVariant = 'mobile' | 'compact' | 'mini'
+export type StepCardVariant = 'mini' | 'compact' | 'large'
 
 /**
  * Fixed card dimensions in SVG units (viewBox 1000x500)
  * Used for position calculations in the workflow journey
  */
 export const CARD_DIMENSIONS = {
-	mini: { width: 180, height: 130 },
-	compact: { width: 200, height: 180 },
-	mobile: { width: 250, height: 280 },
+	mini: { width: 180, height: 150 },
+	compact: { width: 200, height: 220 },
+	large: { width: 200, height: 240 },
 } as const
 
 /**
@@ -21,59 +21,59 @@ export const CARD_DIMENSIONS = {
  */
 export const STEP_CARD_VARIANTS = {
 	container: {
-		mobile: 'duration-700 hover:scale-[1.05]',
-		compact: 'duration-300 hover:scale-[1.03]',
 		mini: 'duration-200 hover:scale-[1.02]',
+		compact: 'duration-300 hover:scale-[1.03]',
+		large: 'duration-500 hover:scale-[1.04]',
 	},
 	header: {
-		mobile: 'h-32',
-		compact: 'h-16',
 		mini: 'h-12',
+		compact: 'h-16',
+		large: 'h-20',
 	},
 	content: {
-		mobile: 'space-y-4 p-6',
-		compact: 'space-y-1 p-3',
 		mini: 'p-2',
+		compact: 'space-y-1 p-3',
+		large: 'space-y-2 p-4',
 	},
 	title: {
-		mobile: 'text-xl line-clamp-2 min-h-[3.5rem]',
-		compact: 'text-base line-clamp-2 min-h-[2.5rem]',
 		mini: 'text-sm line-clamp-2 min-h-[2rem]',
+		compact: 'text-base line-clamp-2 min-h-[2.5rem]',
+		large: 'text-lg line-clamp-2 min-h-[3rem]',
 	},
 	description: {
-		mobile: 'line-clamp-5 text-sm',
-		compact: 'line-clamp-3 text-xs',
 		mini: 'hidden',
+		compact: 'line-clamp-3 text-xs',
+		large: 'line-clamp-4 text-sm',
 	},
 	icon: {
-		mobile: 'h-16 w-16',
-		compact: 'h-8 w-8',
 		mini: 'h-6 w-6',
+		compact: 'h-8 w-8',
+		large: 'h-10 w-10',
 	},
 	number: {
-		mobile: 'h-12 w-12',
-		compact: 'h-6 w-6',
 		mini: 'h-5 w-5',
+		compact: 'h-6 w-6',
+		large: 'h-8 w-8',
 	},
 	iconText: {
-		mobile: 'text-3xl',
-		compact: 'text-lg',
 		mini: 'text-base',
+		compact: 'text-lg',
+		large: 'text-xl',
 	},
 	numberText: {
-		mobile: 'text-2xl',
-		compact: 'text-sm',
 		mini: 'text-xs',
+		compact: 'text-sm',
+		large: 'text-lg',
 	},
 	position: {
-		mobile: 'top-4 right-4',
-		compact: 'top-1 right-1',
 		mini: 'top-1 right-1',
+		compact: 'top-1 right-1',
+		large: 'top-2 right-2',
 	},
 	iconPosition: {
-		mobile: 'bottom-4 left-4',
-		compact: 'bottom-1 left-1',
 		mini: 'bottom-1 left-1',
+		compact: 'bottom-1 left-1',
+		large: 'bottom-2 left-2',
 	},
 } as const
 
@@ -91,7 +91,7 @@ export function getVariantClasses(
  * Check if variant supports specific features
  */
 export const VARIANT_FEATURES = {
-	showHeader: (variant: StepCardVariant): boolean => variant === 'mobile',
+	showHeader: (_variant: StepCardVariant): boolean => false, // No header in workflow journey variants
 	showDescription: (variant: StepCardVariant): boolean => variant !== 'mini',
 	showStepLabel: (variant: StepCardVariant): boolean => variant !== 'mini',
 } as const
@@ -100,5 +100,5 @@ export const VARIANT_FEATURES = {
  * Type-safe variant checker
  */
 export function isValidVariant(variant: string): variant is StepCardVariant {
-	return ['mobile', 'compact', 'mini'].includes(variant)
+	return ['mini', 'compact', 'large'].includes(variant)
 }

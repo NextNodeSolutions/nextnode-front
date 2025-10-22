@@ -5,7 +5,7 @@ import type { WorkflowPosition } from '@/types/workflow'
 import { CARD_DIMENSIONS } from '../cards/step-card-variants'
 
 import WorkflowPath from '../visual/WorkflowPath.astro'
-import StepCard from '../cards/StepCard.astro'
+import StepCardAstro from '../cards/StepCardAstro.astro'
 import WorkflowCardsExpandable from './WorkflowCardsExpandable'
 
 // Use new i18n system from middleware
@@ -25,8 +25,8 @@ const positions = DESKTOP_WORKFLOW_POSITIONS
 const VIEWBOX_WIDTH = 1000
 const VIEWBOX_HEIGHT = 500
 
-// Map workflow-journey variants to StepCard variants
-const stepCardVariant = variant === 'large' ? 'compact' : variant
+// Map workflow-journey variants to StepCard variants (direct mapping, no transformation)
+const stepCardVariant = variant
 
 // Get fixed card dimensions (will be used for position calculations)
 const { width: cardWidth, height: cardHeight } =
@@ -83,7 +83,7 @@ function calculateRectanglePosition(
 ---
 
 <div
-	class="workflow-journey relative w-full pt-16 pb-0 md:pt-20 md:pb-12 lg:pt-32 lg:pb-16"
+	class="workflow-journey relative w-full pt-16 pb-0 md:pt-20 md:pb-12 lg:pt-40 lg:pb-16 xl:pt-48 xl:pb-20"
 >
 	<div class="container mx-auto px-4">
 		<!-- Relative container for overlay -->
@@ -194,7 +194,7 @@ function calculateRectanglePosition(
 										animation-delay: ${index * 150}ms;
 									`}
 								>
-									<StepCard
+									<StepCardAstro
 										stepKey={step.id}
 										index={index}
 										variant={stepCardVariant}

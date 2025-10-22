@@ -30,7 +30,7 @@ interface WorkflowCardsExpandableProps {
  * - Dependency Inversion: Uses StepCard abstraction
  */
 const WorkflowCardsExpandable = ({
-	variant = 'mobile',
+	variant = 'mini',
 	stepLabel,
 	clickToSeeMore,
 	positions,

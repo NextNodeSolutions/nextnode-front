@@ -1,5 +1,5 @@
 ---
-import StepCard from './StepCard.astro'
+import StepCardAstro from './StepCardAstro.astro'
 import { cn } from '@/lib/core/utils'
 
 interface Props {
@@ -12,10 +12,10 @@ interface Props {
 		| 'support'
 	index: number
 	className?: string
-	variant?: 'mobile' | 'compact' | 'mini'
+	variant?: 'mini' | 'compact' | 'large'
 }
 
-const { stepKey, index, className = '', variant = 'mobile' } = Astro.props
+const { stepKey, index, className = '', variant = 'mini' } = Astro.props
 ---
 
 <div
@@ -27,5 +27,5 @@ const { stepKey, index, className = '', variant = 'mobile' } = Astro.props
 	data-step-card
 	data-step-index={index}
 >
-	<StepCard stepKey={stepKey} index={index} variant={variant} />
+	<StepCardAstro stepKey={stepKey} index={index} variant={variant} />
 </div>

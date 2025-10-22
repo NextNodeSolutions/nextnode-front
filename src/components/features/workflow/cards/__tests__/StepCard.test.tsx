@@ -14,13 +14,14 @@ describe('StepCard', () => {
 		number: '01',
 		title: 'Discovery & Strategy',
 		description: 'We dive deep into your business goals',
-		variant: 'mobile' as const,
+		variant: 'mini' as const,
 		stepLabel: 'Step',
 		clickToSeeMore: 'Click to see more',
 	}
 
 	it('should render step card with correct content', () => {
-		render(<StepCard {...defaultProps} />)
+		// Use compact variant to show description
+		render(<StepCard {...defaultProps} variant="compact" />)
 
 		expect(screen.getByText('Discovery & Strategy')).toBeInTheDocument()
 		expect(
@@ -30,7 +31,8 @@ describe('StepCard', () => {
 	})
 
 	it('should render step label with number', () => {
-		render(<StepCard {...defaultProps} />)
+		// Use compact variant to show step label
+		render(<StepCard {...defaultProps} variant="compact" />)
 
 		const stepLabelElement = screen.getByText(/Step/)
 		expect(stepLabelElement).toBeInTheDocument()
