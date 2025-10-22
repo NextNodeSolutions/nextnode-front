@@ -59,7 +59,8 @@ export const errorHandlerMiddleware = defineMiddleware(
 				targetPath: `/${locale}/404`,
 				status: 404,
 			}
-			return context.rewrite(`/${locale}/404`)
+			// Use next() to rewrite WITHOUT retriggering middleware chain
+			return next(`/${locale}/404`)
 		}
 
 		// Handle 500 Internal Server Error - rewrite to localized page
@@ -70,7 +71,8 @@ export const errorHandlerMiddleware = defineMiddleware(
 				targetPath: `/${locale}/500`,
 				status: 500,
 			}
-			return context.rewrite(`/${locale}/500`)
+			// Use next() to rewrite WITHOUT retriggering middleware chain
+			return next(`/${locale}/500`)
 		}
 
 		// For all other responses, pass through unchanged

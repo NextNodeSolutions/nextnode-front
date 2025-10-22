@@ -47,6 +47,20 @@ const getLogType = (
 }
 
 /**
+ * Path prefixes to skip logging (static assets)
+ */
+const SKIP_PATH_PREFIXES = [
+	'/_image', // Astro image optimization endpoint
+	'/_astro/', // Astro bundled assets (JS, CSS with hashes)
+	'/fonts/', // Static fonts from /public/fonts/
+] as const
+
+/**
+ * File extensions in /public/ root to skip (logos, favicons, manifests)
+ */
+const SKIP_ROOT_FILES = /\.(png|svg|webp|ico|webmanifest|txt)$/
+
+/**
  * Middleware for logging requests and responses
  */
 export const loggingMiddleware = defineMiddleware(async (context, next) => {
@@ -54,6 +68,14 @@ export const loggingMiddleware = defineMiddleware(async (context, next) => {
 	const startTime = Date.now()
 	const url = new URL(request.url)
 	const path = url.pathname
+
+	// Skip logging for static assets
+	if (
+		SKIP_PATH_PREFIXES.some(prefix => path.startsWith(prefix)) ||
+		SKIP_ROOT_FILES.test(path)
+	) {
+		return next()
+	}
 
 	// Process the request
 	const response = await next()
@@ -70,9 +92,13 @@ export const loggingMiddleware = defineMiddleware(async (context, next) => {
 		return response
 	}
 
-	// Skip rewrite internal requests
+	// Skip logging errors that will be rewritten (first middleware pass)
+	// Only log after error handler sets errorRewrite context (second pass)
 	const errorRewrite = context.locals.errorRewrite
-	if (errorRewrite && path !== errorRewrite.targetPath) {
+
+	if (isError && !errorRewrite) {
+		// This is an error that will be rewritten, skip logging now
+		// It will be logged after rewrite with full context
 		return response
 	}
 
