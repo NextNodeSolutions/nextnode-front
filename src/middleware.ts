@@ -1,6 +1,7 @@
 import { sequence } from 'astro:middleware'
 
 import { cacheMiddleware } from './lib/middleware/cache'
+import { errorHandlerMiddleware } from './lib/middleware/error-handler'
 import { i18nMiddleware } from './lib/middleware/i18n'
 import { loggingMiddleware } from './lib/middleware/logging'
 import { metricsMiddleware } from './lib/middleware/metrics'
@@ -13,6 +14,7 @@ export const onRequest = sequence(
 	i18nMiddleware, // 2. Initialize i18n system and inject context
 	themeMiddleware, // 3. Detect and inject theme preference
 	metricsMiddleware, // 4. Collect application metrics
-	loggingMiddleware, // 5. Log requests and responses
-	cacheMiddleware, // 6. Set optimal cache headers for performance
+	cacheMiddleware, // 5. Set optimal cache headers for performance
+	errorHandlerMiddleware, // 6. Handle 404/500 errors with localized pages
+	loggingMiddleware, // 7. Log final responses with error context (MUST BE LAST)
 )
