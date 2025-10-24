@@ -20,6 +20,25 @@ export const cacheMiddleware: MiddlewareHandler = async (context, next) => {
 		return response
 	}
 
+	// Optimized images from Astro - long-term cache (content-addressed via query params)
+	if (pathname.startsWith('/_image')) {
+		// 1 year cache - safe because URL changes when image content changes
+		response.headers.set(
+			'Cache-Control',
+			'public, max-age=31536000, immutable',
+		)
+		// CDN-specific cache headers (Cloudflare, Fastly, etc.)
+		response.headers.set(
+			'CDN-Cache-Control',
+			'public, max-age=31536000, immutable',
+		)
+		response.headers.set(
+			'Cloudflare-CDN-Cache-Control',
+			'public, max-age=31536000',
+		)
+		return response
+	}
+
 	// Get content type
 	const contentType = response.headers.get('Content-Type') || ''
 
@@ -35,6 +54,15 @@ export const cacheMiddleware: MiddlewareHandler = async (context, next) => {
 		response.headers.set(
 			'Cache-Control',
 			'public, max-age=31536000, immutable',
+		)
+		// CDN-specific cache headers (Cloudflare, Fastly, etc.)
+		response.headers.set(
+			'CDN-Cache-Control',
+			'public, max-age=31536000, immutable',
+		)
+		response.headers.set(
+			'Cloudflare-CDN-Cache-Control',
+			'public, max-age=31536000',
 		)
 		return response
 	}

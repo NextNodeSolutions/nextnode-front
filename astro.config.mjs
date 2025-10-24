@@ -35,7 +35,7 @@ export default defineConfig({
 	site,
 	output: 'server',
 	build: {
-		inlineStylesheets: 'auto',
+		inlineStylesheets: 'always',
 	},
 	server: {
 		port,

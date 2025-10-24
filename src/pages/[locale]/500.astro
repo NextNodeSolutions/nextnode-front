@@ -3,7 +3,12 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 import Header from '@/components/layout/header/Header.astro'
 import Footer from '@/components/layout/footer/Footer.astro'
 import { getRelativeLocaleUrl } from 'astro:i18n'
-// Use new i18n system from middleware
+
+// CRITICAL: Set 500 status code
+// Must be set in the page itself, not in middleware, as rewrite() doesn't preserve status
+Astro.response.status = 500
+
+// Get locale and translation function from middleware (injected by i18nMiddleware)
 const { locale: currentLocale, t } = Astro.locals
 
 // Generate locale-aware URLs
@@ -11,7 +16,7 @@ const homeUrl = getRelativeLocaleUrl(currentLocale, '/')
 const pricingUrl = getRelativeLocaleUrl(currentLocale, '/pricing')
 ---
 
-<BaseLayout title={t('error.serverErrorTitle')}>
+<BaseLayout title={t('error.serverErrorTitle')} noindex={true}>
 	<div class="relative flex min-h-screen flex-col">
 		<Header />
 

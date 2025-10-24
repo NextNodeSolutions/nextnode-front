@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-typescript'
 import '@/styles/prism-nord.css'
+import '@/styles/fonts-code.css'
 
 interface CodeBlockProps {
 	readonly code: string

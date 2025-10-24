@@ -75,6 +75,7 @@ const MetricCard = ({
 			<div className="w-full">
 				<Progress
 					value={isVisible ? numericValue : 0}
+					aria-label={`${label}: ${displayValue}%`}
 					className="h-2"
 					style={
 						{

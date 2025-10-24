@@ -26,5 +26,5 @@ jobs:
         uses: NextNodeSolutions/github-actions/.github/workflows/dns.yml@main
         with:
             domain: ${{ needs.preview.outputs.custom-domain }}
-            target: ${{ needs.preview.outputs.railway-url }}
+            target: ${{ needs.preview.outputs.cname-target }}
         secrets: inherit
