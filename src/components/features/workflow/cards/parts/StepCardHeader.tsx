@@ -1,8 +1,6 @@
 import PatternBackground from '@/components/ui/patterns/PatternBackground.tsx'
 import { cn } from '@/lib/core/utils'
 
-import type { StepCardVariant } from '../step-card-variants'
-import { getVariantClasses } from '../step-card-variants'
 import { IconBadge } from './IconBadge'
 import { NumberBadge } from './NumberBadge'
 import { PulseElements } from './PulseElements'
@@ -10,7 +8,6 @@ import { PulseElements } from './PulseElements'
 type PatternType = 'dots' | 'grid' | 'waves' | 'circuit' | 'hexagon'
 
 interface StepCardHeaderProps {
-	readonly variant: StepCardVariant
 	readonly gradient: string
 	readonly pattern: PatternType
 	readonly stepKey: string
@@ -21,10 +18,9 @@ interface StepCardHeaderProps {
 
 /**
  * StepCardHeader - Gradient header with pattern background, badges, and decorative elements
- * Composes: PatternBackground, NumberBadge, IconBadge, PulseElements
+ * Responsive sizing via Tailwind breakpoints
  */
 export const StepCardHeader = ({
-	variant,
 	gradient,
 	pattern,
 	stepKey,
@@ -37,7 +33,9 @@ export const StepCardHeader = ({
 			className={cn(
 				gradient,
 				'relative overflow-hidden bg-gradient-to-br',
-				getVariantClasses(variant, 'header'),
+				'h-20', // xl: large baseline
+				'md:h-12', // md: mini
+				'lg:h-16', // lg: compact
 			)}
 		>
 			<PatternBackground
@@ -47,8 +45,8 @@ export const StepCardHeader = ({
 				className="absolute inset-0 transition-opacity duration-500 group-hover:opacity-20"
 			/>
 
-			<NumberBadge number={number} variant={variant} />
-			<IconBadge icon={icon} variant={variant} />
+			<NumberBadge number={number} />
+			<IconBadge icon={icon} />
 			<PulseElements />
 		</div>
 	)

@@ -10,8 +10,7 @@ import { StepCardContainer } from './parts/StepCardContainer'
 import { StepCardContent } from './parts/StepCardContent'
 import { StepCardGradientOverlay } from './parts/StepCardGradientOverlay'
 import { StepCardHeader } from './parts/StepCardHeader'
-import type { StepCardVariant } from './step-card-variants'
-import { getVariantClasses, VARIANT_FEATURES } from './step-card-variants'
+import { CARD_FEATURES } from './step-card-variants'
 
 export interface StepCardProps {
 	readonly stepKey: string
@@ -19,7 +18,6 @@ export interface StepCardProps {
 	readonly number: string
 	readonly title: string
 	readonly description: string
-	readonly variant?: StepCardVariant
 	readonly stepLabel: string
 	readonly clickToSeeMore: string
 	readonly isExpanded?: boolean
@@ -31,7 +29,7 @@ export interface StepCardProps {
 /**
  * StepCard - Composable React card component with expandable behavior
  * Displays workflow step using fine-grained composition of reusable parts
- * Adds click-to-expand functionality with smooth Framer Motion animations
+ * Single responsive render with Tailwind breakpoint classes
  */
 const StepCard = ({
 	stepKey,
@@ -39,7 +37,6 @@ const StepCard = ({
 	number,
 	title,
 	description,
-	variant = 'mini',
 	stepLabel,
 	clickToSeeMore,
 	isExpanded = false,
@@ -49,10 +46,8 @@ const StepCard = ({
 }: StepCardProps) => {
 	const cardRef = useRef<HTMLDivElement>(null)
 
-	// Use centralized variant configuration
-	const showHeader = VARIANT_FEATURES.showHeader(variant)
-	const showDescription = VARIANT_FEATURES.showDescription(variant)
-	const showStepLabel = VARIANT_FEATURES.showStepLabel(variant)
+	// Use centralized feature flags
+	const { showHeader, showDescription, showStepLabel } = CARD_FEATURES
 
 	const design = getStepDesign(index)
 
@@ -75,7 +70,10 @@ const StepCard = ({
 			ref={cardRef}
 			className={cn(
 				'group transition-smooth hover-lift-sm relative h-full w-full cursor-pointer',
-				getVariantClasses(variant, 'container'),
+				'duration-500 hover:scale-[1.04]',
+				// Responsive overrides: md=mini, lg=compact, xl=large(default)
+				'md:duration-200 md:hover:scale-[1.02]',
+				'lg:duration-300 lg:hover:scale-[1.03]',
 				isExpanded && 'z-50',
 			)}
 			data-step-card
@@ -95,7 +93,6 @@ const StepCard = ({
 				{/* Header section with gradient and patterns */}
 				{showHeader && (
 					<StepCardHeader
-						variant={variant}
 						gradient={design.gradient}
 						pattern={design.pattern}
 						stepKey={stepKey}
@@ -107,7 +104,6 @@ const StepCard = ({
 
 				{/* Content section (includes footer) */}
 				<StepCardContent
-					variant={variant}
 					title={title}
 					description={description}
 					showDescription={showDescription}

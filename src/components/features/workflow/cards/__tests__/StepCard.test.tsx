@@ -14,14 +14,12 @@ describe('StepCard', () => {
 		number: '01',
 		title: 'Discovery & Strategy',
 		description: 'We dive deep into your business goals',
-		variant: 'mini' as const,
 		stepLabel: 'Step',
 		clickToSeeMore: 'Click to see more',
 	}
 
 	it('should render step card with correct content', () => {
-		// Use compact variant to show description
-		render(<StepCard {...defaultProps} variant="compact" />)
+		render(<StepCard {...defaultProps} />)
 
 		expect(screen.getByText('Discovery & Strategy')).toBeInTheDocument()
 		expect(
@@ -31,8 +29,7 @@ describe('StepCard', () => {
 	})
 
 	it('should render step label with number', () => {
-		// Use compact variant to show step label
-		render(<StepCard {...defaultProps} variant="compact" />)
+		render(<StepCard {...defaultProps} />)
 
 		const stepLabelElement = screen.getByText(/Step/)
 		expect(stepLabelElement).toBeInTheDocument()
@@ -101,14 +98,14 @@ describe('StepCard', () => {
 		).not.toBeInTheDocument()
 	})
 
-	it('should hide description for mini variant', () => {
-		render(<StepCard {...defaultProps} variant="mini" />)
+	it('should render description', () => {
+		render(<StepCard {...defaultProps} />)
 
-		// Description should not be visible with mini variant
+		// Description is visible on large screens (hidden on md via Tailwind)
 		const description = screen.queryByText(
 			'We dive deep into your business goals',
 		)
-		expect(description).toBeNull()
+		expect(description).toBeInTheDocument()
 	})
 
 	it('should render progress bar with correct number of segments', () => {

@@ -50,37 +50,15 @@ const steps = generateWorkflowSteps()
 			</p>
 		</div>
 
-		<!-- Workflow Journey - Responsive Switch -->
+		<!-- Workflow Journey - Single Render with Responsive Content -->
 		<div
 			class="workflow-animate workflow-animate-fade-in-up mx-auto max-w-7xl"
 			data-delay={ANIMATION_DELAYS.workflowContainer}
 		>
 			<!-- Desktop/Tablet SVG Version (md and up) -->
-			<!-- Medium screens (md to lg) use mini variant -->
-			<div class="hidden md:block lg:hidden">
-				<WorkflowJourney
-					variant="mini"
-					steps={steps}
-					enableExpandable={true}
-				/>
-			</div>
-
-			<!-- Large screens (lg to xl) use compact variant -->
-			<div class="hidden lg:block xl:hidden">
-				<WorkflowJourney
-					variant="compact"
-					steps={steps}
-					enableExpandable={true}
-				/>
-			</div>
-
-			<!-- Extra large screens (xl and up) use large variant -->
-			<div class="hidden xl:block">
-				<WorkflowJourney
-					variant="large"
-					steps={steps}
-					enableExpandable={true}
-				/>
+			<!-- Single render with responsive content sizing via Tailwind classes -->
+			<div class="hidden md:block">
+				<WorkflowJourney steps={steps} enableExpandable={true} />
 			</div>
 
 			<!-- Mobile Timeline Version (sm and down) -->

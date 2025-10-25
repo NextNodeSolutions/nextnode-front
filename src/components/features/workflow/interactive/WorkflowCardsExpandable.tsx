@@ -3,13 +3,11 @@ import { useState } from 'react'
 import { translateSteps } from '@/lib/i18n/translate-utils'
 
 import StepCard from '../cards/StepCard'
-import type { StepCardVariant } from '../cards/step-card-variants'
 import { STEP_KEYS } from '../workflow-constants'
 
 import type { StepKey } from '@/types/i18n'
 
 interface WorkflowCardsExpandableProps {
-	readonly variant?: StepCardVariant
 	readonly stepLabel: string
 	readonly clickToSeeMore: string
 	readonly positions?: ReadonlyArray<{
@@ -30,7 +28,6 @@ interface WorkflowCardsExpandableProps {
  * - Dependency Inversion: Uses StepCard abstraction
  */
 const WorkflowCardsExpandable = ({
-	variant = 'mini',
 	stepLabel,
 	clickToSeeMore,
 	positions,
@@ -94,7 +91,6 @@ const WorkflowCardsExpandable = ({
 								number={step.number}
 								title={step.title}
 								description={step.description}
-								variant={variant}
 								stepLabel={stepLabel}
 								clickToSeeMore={clickToSeeMore}
 								isExpanded={expandedIndex === index}

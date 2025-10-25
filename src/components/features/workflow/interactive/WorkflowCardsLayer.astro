@@ -2,7 +2,6 @@
 import StepCardWrapper from '../cards/StepCard.wrapper.astro'
 import {
 	calculateStepPositions,
-	getWorkflowPositioning,
 	type WorkflowVariant,
 } from './workflow-positioning'
 import { STEP_COLORS, STEP_KEYS } from '../workflow-constants'
@@ -11,11 +10,8 @@ export interface Props {
 	variant?: WorkflowVariant
 }
 
-const { variant = 'mini' } = Astro.props
-
 // Get positioning data
-const { stepCardVariant } = getWorkflowPositioning(variant)
-const stepPositions = calculateStepPositions(variant)
+const stepPositions = calculateStepPositions()
 ---
 
 <!-- Card overlay layer -->
@@ -49,11 +45,7 @@ const stepPositions = calculateStepPositions(variant)
 				`}
 					data-step-index={index}
 				>
-					<StepCardWrapper
-						stepKey={stepKey}
-						index={index}
-						variant={stepCardVariant}
-					/>
+					<StepCardWrapper stepKey={stepKey} index={index} />
 				</div>
 			)
 		})

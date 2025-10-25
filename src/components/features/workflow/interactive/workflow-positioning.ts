@@ -1,3 +1,4 @@
+import { CARD_DIMENSIONS } from '../cards/step-card-variants'
 import { DESKTOP_WORKFLOW_POSITIONS } from '../workflow-constants'
 
 import type { WorkflowPosition } from '@/types/workflow'
@@ -7,13 +8,6 @@ export type WorkflowVariant = 'mini' | 'compact' | 'large'
 // ViewBox dimensions - same as the working old version
 export const VIEWBOX_WIDTH = 1000
 export const VIEWBOX_HEIGHT = 500
-
-// Card dimensions in viewBox units - aligned with actual Tailwind CSS dimensions
-export const CARD_DIMENSIONS = {
-	compact: { width: 200, height: 215 },
-	mini: { width: 190, height: 155 },
-	large: { width: 190, height: 180 },
-} as const
 
 /**
  * Calculate the correct rectangle position based on line direction and rectangle dimensions
@@ -37,24 +31,19 @@ export function calculateRectPosition(
 /**
  * Get positioning data for workflow components
  */
-export function getWorkflowPositioning(variant: WorkflowVariant): {
+export function getWorkflowPositioning(): {
 	positions: WorkflowPosition[]
 	cardWidth: number
 	cardHeight: number
-	stepCardVariant: 'compact' | 'mini'
 	viewBox: { width: number; height: number }
 } {
 	const positions = DESKTOP_WORKFLOW_POSITIONS
-	const { width: cardWidth, height: cardHeight } = CARD_DIMENSIONS[variant]
-
-	// Map workflow-journey variants to StepCard variants
-	const stepCardVariant = variant === 'large' ? 'compact' : variant
+	const { width: cardWidth, height: cardHeight } = CARD_DIMENSIONS
 
 	return {
 		positions,
 		cardWidth,
 		cardHeight,
-		stepCardVariant,
 		viewBox: {
 			width: VIEWBOX_WIDTH,
 			height: VIEWBOX_HEIGHT,
@@ -72,10 +61,8 @@ export interface StepPosition {
 /**
  * Calculate positions for all step cards
  */
-export function calculateStepPositions(
-	variant: WorkflowVariant,
-): StepPosition[] {
-	const { positions, cardWidth, cardHeight } = getWorkflowPositioning(variant)
+export function calculateStepPositions(): StepPosition[] {
+	const { positions, cardWidth, cardHeight } = getWorkflowPositioning()
 
 	return positions.map((position, index) => ({
 		...calculateRectPosition(position, cardWidth, cardHeight),

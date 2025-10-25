@@ -13,11 +13,10 @@ const { t } = Astro.locals
 
 interface Props {
 	steps: Step[]
-	variant?: 'mini' | 'compact' | 'large'
 	enableExpandable?: boolean
 }
 
-const { steps, variant = 'mini', enableExpandable = false } = Astro.props
+const { steps, enableExpandable = false } = Astro.props
 
 const positions = DESKTOP_WORKFLOW_POSITIONS
 
@@ -25,12 +24,8 @@ const positions = DESKTOP_WORKFLOW_POSITIONS
 const VIEWBOX_WIDTH = 1000
 const VIEWBOX_HEIGHT = 500
 
-// Map workflow-journey variants to StepCard variants (direct mapping, no transformation)
-const stepCardVariant = variant
-
 // Get fixed card dimensions (will be used for position calculations)
-const { width: cardWidth, height: cardHeight } =
-	CARD_DIMENSIONS[stepCardVariant]
+const { width: cardWidth, height: cardHeight } = CARD_DIMENSIONS
 
 /**
  * Calculate card position based on line direction
@@ -146,7 +141,6 @@ function calculateRectanglePosition(
 					enableExpandable ? (
 						<WorkflowCardsExpandable
 							client:load
-							variant={stepCardVariant}
 							stepLabel={t('common.stepCard.step')}
 							clickToSeeMore={t('common.stepCard.clickToSeeMore')}
 							positions={positions.map(position => {
@@ -197,7 +191,6 @@ function calculateRectanglePosition(
 									<StepCardWrapper
 										stepKey={step.id}
 										index={index}
-										variant={stepCardVariant}
 									/>
 								</div>
 							)
