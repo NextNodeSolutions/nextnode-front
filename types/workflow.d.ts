@@ -37,20 +37,20 @@ export interface WorkflowStepData {
 
 	// Extended info (for modal)
 	fullDescription: string
-	benefits: Array<{
-		id: string
-		title: string
-		description: string
-		icon: string
+	benefits: ReadonlyArray<{
+		readonly id?: string
+		readonly title: string
+		readonly description: string
+		readonly icon: string
 	}>
-	deliverables: Array<{
-		name: string
-		description: string
-		type: 'document' | 'code' | 'asset' | 'service'
+	deliverables: ReadonlyArray<{
+		readonly name: string
+		readonly description: string
+		readonly type: 'document' | 'code' | 'asset' | 'service'
 	}>
 	timeline: {
-		duration: string
-		milestones: string[]
+		readonly duration: string
+		readonly milestones: readonly string[]
 	}
 
 	// Visual

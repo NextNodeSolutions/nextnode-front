@@ -33,6 +33,41 @@ export const workflow = {
 					icon: '🤝',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Project Charter',
+					description:
+						'Complete project scope, objectives, and success criteria',
+					type: 'document',
+				},
+				{
+					name: 'Technical Specification',
+					description:
+						'Detailed technical requirements and architecture recommendations',
+					type: 'document',
+				},
+				{
+					name: 'User Personas',
+					description: 'Research-backed target audience profiles',
+					type: 'document',
+				},
+				{
+					name: 'Competitive Analysis',
+					description:
+						'Market positioning and differentiation strategy',
+					type: 'document',
+				},
+			],
+			timeline: {
+				duration: '1-2 weeks',
+				milestones: [
+					'Stakeholder interviews completed',
+					'Requirements gathering finalized',
+					'Technical audit report delivered',
+					'Project roadmap approved',
+				],
+			},
+			ctaText: 'Start Discovery',
 		},
 		design: {
 			title: 'Design & UX/UI',
@@ -67,6 +102,40 @@ export const workflow = {
 					icon: '📱',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Wireframes',
+					description: 'Low-fidelity layouts for rapid iteration',
+					type: 'document',
+				},
+				{
+					name: 'High-Fidelity Mockups',
+					description: 'Pixel-perfect designs ready for development',
+					type: 'asset',
+				},
+				{
+					name: 'Interactive Prototype',
+					description: 'Clickable Figma prototype for user testing',
+					type: 'asset',
+				},
+				{
+					name: 'Design System',
+					description:
+						'Component library, typography, colors, spacing',
+					type: 'document',
+				},
+			],
+			timeline: {
+				duration: '2-4 weeks',
+				milestones: [
+					'Wireframes reviewed and approved',
+					'Design system established',
+					'High-fidelity mockups completed',
+					'User testing conducted',
+					'Final designs handed off to development',
+				],
+			},
+			ctaText: 'View Our Designs',
 		},
 		development: {
 			title: 'Full-Stack Development',
@@ -101,6 +170,41 @@ export const workflow = {
 					icon: '🛠️',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Frontend Application',
+					description:
+						'Responsive web app with pixel-perfect implementation',
+					type: 'code',
+				},
+				{
+					name: 'Backend APIs',
+					description: 'RESTful or GraphQL APIs with documentation',
+					type: 'code',
+				},
+				{
+					name: 'Database Schema',
+					description: 'Optimized data models and migrations',
+					type: 'code',
+				},
+				{
+					name: 'Third-Party Integrations',
+					description:
+						'Payment, analytics, CRM, and other service integrations',
+					type: 'code',
+				},
+			],
+			timeline: {
+				duration: '4-12 weeks',
+				milestones: [
+					'Development environment setup',
+					'Core features implemented',
+					'API integrations completed',
+					'Frontend-backend integration',
+					'Code review and optimization',
+				],
+			},
+			ctaText: 'Explore Tech Stack',
 		},
 		testing: {
 			title: 'Testing & Optimization',
@@ -135,6 +239,40 @@ export const workflow = {
 					icon: '✅',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Test Suite',
+					description: 'Automated unit, integration, and E2E tests',
+					type: 'code',
+				},
+				{
+					name: 'QA Report',
+					description: 'Detailed testing results and bug tracker',
+					type: 'document',
+				},
+				{
+					name: 'Performance Audit',
+					description:
+						'Lighthouse scores, load times, optimization recommendations',
+					type: 'document',
+				},
+				{
+					name: 'Browser Compatibility Matrix',
+					description: 'Tested browsers and devices with screenshots',
+					type: 'document',
+				},
+			],
+			timeline: {
+				duration: '1-2 weeks',
+				milestones: [
+					'Automated test suite completed',
+					'Manual QA across devices/browsers',
+					'Performance optimization',
+					'Security audit passed',
+					'UAT (User Acceptance Testing) completed',
+				],
+			},
+			ctaText: 'Learn About QA',
 		},
 		deployment: {
 			title: 'Deployment & Infrastructure',
@@ -169,6 +307,44 @@ export const workflow = {
 					icon: '🛡️',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Production Environment',
+					description:
+						'Fully configured hosting with CDN and security',
+					type: 'service',
+				},
+				{
+					name: 'CI/CD Pipeline',
+					description:
+						'Automated deployment workflow with GitHub Actions',
+					type: 'code',
+				},
+				{
+					name: 'Monitoring Dashboard',
+					description:
+						'Real-time analytics, errors, and performance metrics',
+					type: 'service',
+				},
+				{
+					name: 'Documentation',
+					description:
+						'Deployment guides, admin manual, and troubleshooting tips',
+					type: 'document',
+				},
+			],
+			timeline: {
+				duration: '3-5 days',
+				milestones: [
+					'Production environment provisioned',
+					'Database migrated and verified',
+					'DNS and SSL configured',
+					'Deployment pipeline tested',
+					'Go-live executed',
+					'Post-launch monitoring',
+				],
+			},
+			ctaText: 'Deployment Checklist',
 		},
 		support: {
 			title: 'Support & Maintenance',
@@ -203,11 +379,55 @@ export const workflow = {
 					icon: '🤝',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Monthly Reports',
+					description:
+						'Performance metrics, uptime, and usage analytics',
+					type: 'document',
+				},
+				{
+					name: 'Security Patches',
+					description:
+						'Regular dependency updates and vulnerability fixes',
+					type: 'code',
+				},
+				{
+					name: 'Feature Enhancements',
+					description:
+						'Prioritized roadmap for new features and improvements',
+					type: 'code',
+				},
+				{
+					name: 'Backup & Recovery',
+					description:
+						'Automated daily backups with disaster recovery plan',
+					type: 'service',
+				},
+			],
+			timeline: {
+				duration: 'Ongoing',
+				milestones: [
+					'24/7 monitoring active',
+					'Monthly performance review',
+					'Quarterly feature planning',
+					'Annual security audit',
+				],
+			},
+			ctaText: 'Support Plans',
 		},
 	},
 	labels: {
 		mainTasks: 'Main Tasks',
 		deliverables: 'Deliverables',
 		estimatedDuration: 'Estimated Duration',
+	},
+	modal: {
+		overview: 'Overview',
+		keyBenefits: 'Key Benefits',
+		whatYouGet: 'What You Get',
+		timeline: 'Timeline',
+		duration: 'Duration',
+		closeModal: 'Close modal',
 	},
 } as const

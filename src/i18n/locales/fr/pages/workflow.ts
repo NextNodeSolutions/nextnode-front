@@ -33,6 +33,42 @@ export const workflow = {
 					icon: '🤝',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Charte de Projet',
+					description:
+						'Périmètre complet du projet, objectifs et critères de succès',
+					type: 'document',
+				},
+				{
+					name: 'Spécifications Techniques',
+					description:
+						"Exigences techniques détaillées et recommandations d'architecture",
+					type: 'document',
+				},
+				{
+					name: 'Personas Utilisateurs',
+					description:
+						"Profils d'audience cible basés sur la recherche",
+					type: 'document',
+				},
+				{
+					name: 'Analyse Concurrentielle',
+					description:
+						'Positionnement marché et stratégie de différenciation',
+					type: 'document',
+				},
+			],
+			timeline: {
+				duration: '1-2 semaines',
+				milestones: [
+					'Entretiens avec les parties prenantes terminés',
+					'Recueil des exigences finalisé',
+					"Rapport d'audit technique livré",
+					'Feuille de route du projet approuvée',
+				],
+			},
+			ctaText: 'Démarrer la Découverte',
 		},
 		design: {
 			title: 'Design & UX/UI',
@@ -67,6 +103,43 @@ export const workflow = {
 					icon: '📱',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Wireframes',
+					description:
+						'Maquettes basse-fidélité pour itération rapide',
+					type: 'document',
+				},
+				{
+					name: 'Maquettes Haute-Fidélité',
+					description:
+						'Designs au pixel près prêts pour le développement',
+					type: 'asset',
+				},
+				{
+					name: 'Prototype Interactif',
+					description:
+						'Prototype Figma cliquable pour tests utilisateurs',
+					type: 'asset',
+				},
+				{
+					name: 'Design System',
+					description:
+						'Bibliothèque de composants, typographie, couleurs, espacement',
+					type: 'document',
+				},
+			],
+			timeline: {
+				duration: '2-4 semaines',
+				milestones: [
+					'Wireframes revus et approuvés',
+					'Design system établi',
+					'Maquettes haute-fidélité terminées',
+					'Tests utilisateurs effectués',
+					'Designs finaux transmis au développement',
+				],
+			},
+			ctaText: 'Voir Nos Designs',
 		},
 		development: {
 			title: 'Développement Full-Stack',
@@ -101,6 +174,41 @@ export const workflow = {
 					icon: '🛠️',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Application Frontend',
+					description:
+						'Application web responsive avec implémentation pixel-perfect',
+					type: 'code',
+				},
+				{
+					name: 'APIs Backend',
+					description: 'APIs RESTful ou GraphQL avec documentation',
+					type: 'code',
+				},
+				{
+					name: 'Schéma Base de Données',
+					description: 'Modèles de données optimisés et migrations',
+					type: 'code',
+				},
+				{
+					name: 'Intégrations Tierces',
+					description:
+						'Paiement, analytics, CRM et autres intégrations de services',
+					type: 'code',
+				},
+			],
+			timeline: {
+				duration: '4-12 semaines',
+				milestones: [
+					'Environnement de développement configuré',
+					'Fonctionnalités principales implémentées',
+					'Intégrations API terminées',
+					'Intégration frontend-backend',
+					'Revue de code et optimisation',
+				],
+			},
+			ctaText: 'Explorer Notre Stack',
 		},
 		testing: {
 			title: 'Tests & Optimisation',
@@ -135,6 +243,43 @@ export const workflow = {
 					icon: '✅',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Suite de Tests',
+					description:
+						"Tests automatisés unitaires, d'intégration et E2E",
+					type: 'code',
+				},
+				{
+					name: 'Rapport QA',
+					description:
+						'Résultats de tests détaillés et suivi des bugs',
+					type: 'document',
+				},
+				{
+					name: 'Audit de Performance',
+					description:
+						"Scores Lighthouse, temps de chargement, recommandations d'optimisation",
+					type: 'document',
+				},
+				{
+					name: 'Matrice de Compatibilité Navigateurs',
+					description:
+						"Navigateurs et appareils testés avec captures d'écran",
+					type: 'document',
+				},
+			],
+			timeline: {
+				duration: '1-2 semaines',
+				milestones: [
+					'Suite de tests automatisés terminée',
+					'QA manuelle sur appareils/navigateurs',
+					'Optimisation des performances',
+					'Audit de sécurité validé',
+					"UAT (Tests d'Acceptation Utilisateur) terminés",
+				],
+			},
+			ctaText: 'En Savoir Plus sur QA',
 		},
 		deployment: {
 			title: 'Déploiement & Infrastructure',
@@ -169,6 +314,44 @@ export const workflow = {
 					icon: '🛡️',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Environnement de Production',
+					description:
+						'Hébergement entièrement configuré avec CDN et sécurité',
+					type: 'service',
+				},
+				{
+					name: 'Pipeline CI/CD',
+					description:
+						'Workflow de déploiement automatisé avec GitHub Actions',
+					type: 'code',
+				},
+				{
+					name: 'Tableau de Bord Monitoring',
+					description:
+						'Analytics temps réel, erreurs et métriques de performance',
+					type: 'service',
+				},
+				{
+					name: 'Documentation',
+					description:
+						'Guides de déploiement, manuel admin et conseils de dépannage',
+					type: 'document',
+				},
+			],
+			timeline: {
+				duration: '3-5 jours',
+				milestones: [
+					'Environnement de production provisionné',
+					'Base de données migrée et vérifiée',
+					'DNS et SSL configurés',
+					'Pipeline de déploiement testé',
+					'Mise en ligne exécutée',
+					'Monitoring post-lancement',
+				],
+			},
+			ctaText: 'Checklist de Déploiement',
 		},
 		support: {
 			title: 'Support & Maintenance',
@@ -203,11 +386,55 @@ export const workflow = {
 					icon: '🤝',
 				},
 			],
+			deliverables: [
+				{
+					name: 'Rapports Mensuels',
+					description:
+						"Métriques de performance, uptime et analytics d'usage",
+					type: 'document',
+				},
+				{
+					name: 'Correctifs de Sécurité',
+					description:
+						'Mises à jour régulières des dépendances et corrections de vulnérabilités',
+					type: 'code',
+				},
+				{
+					name: 'Améliorations Fonctionnelles',
+					description:
+						'Roadmap priorisée pour nouvelles fonctionnalités et améliorations',
+					type: 'code',
+				},
+				{
+					name: 'Sauvegarde & Récupération',
+					description:
+						'Sauvegardes quotidiennes automatisées avec plan de reprise après sinistre',
+					type: 'service',
+				},
+			],
+			timeline: {
+				duration: 'Continu',
+				milestones: [
+					'Monitoring 24/7 actif',
+					'Revue mensuelle des performances',
+					'Planification trimestrielle des fonctionnalités',
+					'Audit de sécurité annuel',
+				],
+			},
+			ctaText: 'Plans de Support',
 		},
 	},
 	labels: {
 		mainTasks: 'Tâches principales',
 		deliverables: 'Livrables',
 		estimatedDuration: 'Durée estimée',
+	},
+	modal: {
+		overview: "Vue d'ensemble",
+		keyBenefits: 'Bénéfices clés',
+		whatYouGet: 'Ce que vous obtenez',
+		timeline: 'Calendrier',
+		duration: 'Durée',
+		closeModal: 'Fermer le modal',
 	},
 } as const

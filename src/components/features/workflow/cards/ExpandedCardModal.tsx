@@ -3,6 +3,7 @@ import React from 'react'
 import { motion } from 'motion/react'
 
 import { cn } from '@/lib/core/utils'
+import { useI18n } from '@/lib/i18n/I18nReact'
 
 import { getStepIllustration } from '../illustrations'
 
@@ -23,6 +24,9 @@ export const ExpandedCardModal = ({
 	stepData,
 	stepKey,
 }: ExpandedCardModalProps) => {
+	// Use i18n hook for translations
+	const { t } = useI18n()
+
 	const { accentColor, deliverables, timeline, ctaText, ctaLink } = stepData
 
 	// Close on Escape key
@@ -111,7 +115,7 @@ export const ExpandedCardModal = ({
 									boxShadow: `0 2px 8px ${accentColor}30`,
 								} as React.CSSProperties
 							}
-							aria-label="Close modal"
+							aria-label={t('workflow.modal.closeModal')}
 						>
 							<svg
 								className="h-5 w-5"
@@ -135,7 +139,9 @@ export const ExpandedCardModal = ({
 				<div className="space-y-8 p-8">
 					{/* Full Description */}
 					<Section>
-						<SectionTitle>Overview</SectionTitle>
+						<SectionTitle>
+							{t('workflow.modal.overview')}
+						</SectionTitle>
 						<p className="leading-relaxed text-gray-700 dark:text-gray-300">
 							{stepData.fullDescription}
 						</p>
@@ -144,11 +150,13 @@ export const ExpandedCardModal = ({
 					{/* Benefits */}
 					{stepData.benefits.length > 0 && (
 						<Section>
-							<SectionTitle>Key Benefits</SectionTitle>
+							<SectionTitle>
+								{t('workflow.modal.keyBenefits')}
+							</SectionTitle>
 							<div className="space-y-4">
 								{stepData.benefits.map(benefit => (
 									<BenefitCard
-										key={benefit.id}
+										key={benefit.title}
 										benefit={benefit}
 									/>
 								))}
@@ -159,7 +167,9 @@ export const ExpandedCardModal = ({
 					{/* Deliverables */}
 					{deliverables.length > 0 && (
 						<Section>
-							<SectionTitle>What You Get</SectionTitle>
+							<SectionTitle>
+								{t('workflow.modal.whatYouGet')}
+							</SectionTitle>
 							<div className="grid gap-4 md:grid-cols-2">
 								{deliverables.map(deliverable => (
 									<DeliverableCard
@@ -174,13 +184,16 @@ export const ExpandedCardModal = ({
 
 					{/* Timeline */}
 					<Section>
-						<SectionTitle>Timeline</SectionTitle>
+						<SectionTitle>
+							{t('workflow.modal.timeline')}
+						</SectionTitle>
 						<div className="rounded-xl bg-gray-50 p-6 dark:bg-gray-800">
 							<p
 								className="mb-4 text-lg font-semibold"
 								style={{ color: accentColor }}
 							>
-								Duration: {timeline.duration}
+								{t('workflow.modal.duration')}:{' '}
+								{timeline.duration}
 							</p>
 							<ul className="space-y-2">
 								{timeline.milestones.map((milestone, index) => (
@@ -233,7 +246,7 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => (
 const BenefitCard = ({
 	benefit,
 }: {
-	benefit: { id: string; title: string; description: string; icon: string }
+	benefit: { id?: string; title: string; description: string; icon: string }
 }) => (
 	<div className="flex gap-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
 		<span className="text-3xl">{benefit.icon}</span>
