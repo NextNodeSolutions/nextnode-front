@@ -81,6 +81,25 @@ export const STEP_DIRECTIONS: readonly CardDirection[] = [
 	'bottom', // Step 6
 ] as const
 
+/**
+ * Base card dimensions in SVG units (viewBox 1000x500)
+ * Used for position calculations in the workflow journey
+ */
+export const CARD_DIMENSIONS = {
+	width: 180,
+	height: 210,
+}
+
+/**
+ * Feature flags for workflow cards
+ * Simplified: responsive behavior via Tailwind classes in components
+ */
+export const CARD_FEATURES = {
+	showHeader: false, // No header in workflow journey
+	showDescription: true, // Hidden on mobile via md:hidden
+	showStepLabel: true, // Hidden on mobile via md:hidden
+}
+
 // Utility function to generate gradient stops
 export const generateGradientStops = (
 	colors: readonly string[],

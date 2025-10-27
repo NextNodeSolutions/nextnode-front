@@ -167,6 +167,22 @@
 	--z-modal: 30;
 	--z-popover: 40;
 	--z-tooltip: 50;
+
+	/* Card Section Heights (responsive with clamp) */
+	/* These ensure uniform heights across all workflow cards */
+	--card-title-height: clamp(2rem, 2.5vw + 1.5rem, 3rem);
+	--card-progress-height: clamp(0.5rem, 0.5vw + 0.25rem, 0.75rem);
+	--card-description-height: clamp(3rem, 4vw + 2rem, 6rem);
+	--card-footer-height: clamp(2rem, 2vw + 1.5rem, 3rem);
+	--card-gap: clamp(0.25rem, 0.5vw + 0.125rem, 0.75rem);
+
+	/* Card Total Heights (for consistent card sizing) */
+	/* Mini: mobile/tablet compact view */
+	--card-height-mini: clamp(8rem, 10vw + 6rem, 12rem);
+	/* Compact: mid-range desktop view */
+	--card-height-compact: clamp(10rem, 12vw + 8rem, 14rem);
+	/* Large: full desktop view */
+	--card-height-large: clamp(12rem, 15vw + 10rem, 16rem);
 }
 
 /* Dark Mode Overrides */

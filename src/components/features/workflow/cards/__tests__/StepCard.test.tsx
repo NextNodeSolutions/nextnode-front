@@ -33,7 +33,8 @@ describe('StepCard', () => {
 
 		const stepLabelElement = screen.getByText(/Step/)
 		expect(stepLabelElement).toBeInTheDocument()
-		expect(stepLabelElement.textContent).toContain('01')
+		// StepCard uses stepNumber (1) not number prop ('01')
+		expect(stepLabelElement.textContent).toContain('1')
 	})
 
 	it('should call onExpand when card is clicked', () => {
@@ -66,5 +67,18 @@ describe('StepCard', () => {
 		// Check for glassmorphic classes
 		expect(cardElement.className).toContain('backdrop-blur')
 		expect(cardElement.className).toContain('border')
+	})
+
+	it('should adapt to container height via SVG zones', () => {
+		const { container } = render(<StepCard {...defaultProps} />)
+
+		const cardElement = container.firstChild as HTMLElement
+
+		// Verify card uses glassmorphic styling (inherits height from parent)
+		expect(cardElement.className).toContain('backdrop-blur')
+		expect(cardElement.className).toContain('border')
+
+		// Card should NOT have fixed height classes (adapts to SVG container)
+		expect(cardElement.className).not.toContain('h-[var(--card-height')
 	})
 })

@@ -5,16 +5,23 @@ interface StepCardTitleProps {
 }
 
 /**
- * StepCardTitle - Card title with responsive sizing and line-clamp
+ * StepCardTitle - Card title with fixed grid height
+ * Uses CSS custom property for uniform height across all cards
  */
 export const StepCardTitle = ({ title }: StepCardTitleProps) => {
 	return (
 		<h3
 			className={cn(
+				// Fixed height from grid + overflow handling
+				'h-[var(--card-title-height)] overflow-hidden',
+				// Typography and styling
 				'leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105 dark:text-white',
-				'line-clamp-2 min-h-[3rem] text-lg', // xl: large baseline
-				'md:line-clamp-2 md:min-h-[2rem] md:text-sm', // md: mini
-				'lg:line-clamp-2 lg:min-h-[2.5rem] lg:text-base', // lg: compact
+				// Line clamp for text overflow
+				'line-clamp-2',
+				// Responsive text sizes
+				'text-lg', // xl: large baseline
+				'md:text-sm', // md: mini
+				'lg:text-base', // lg: compact
 			)}
 		>
 			{title}

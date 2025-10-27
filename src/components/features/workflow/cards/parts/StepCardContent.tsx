@@ -18,7 +18,8 @@ interface StepCardContentProps {
 
 /**
  * StepCardContent - Main card content section
- * Responsive sizing via Tailwind breakpoints
+ * Uses CSS Grid with custom properties for uniform heights
+ * Grid structure: title / progress / description / footer
  */
 export const StepCardContent = ({
 	title,
@@ -33,24 +34,35 @@ export const StepCardContent = ({
 	return (
 		<div
 			className={cn(
-				'flex h-full flex-col',
-				'space-y-2 p-4', // xl: large baseline
+				// Grid layout with responsive row heights
+				'grid h-full',
+				// XL/Desktop: 4 rows with description (default)
+				'grid-rows-[var(--card-title-height)_var(--card-progress-height)_var(--card-description-height)_var(--card-footer-height)]',
+				// MD: 3 rows without description row (description is hidden)
+				'md:grid-rows-[var(--card-title-height)_var(--card-progress-height)_var(--card-footer-height)]',
+				// LG: back to 4 rows with description
+				'lg:grid-rows-[var(--card-title-height)_var(--card-progress-height)_var(--card-description-height)_var(--card-footer-height)]',
+				'gap-[var(--card-gap)]',
+				// Padding variations
+				'p-4', // xl: large baseline
 				'md:p-2', // md: mini
-				'lg:space-y-1 lg:p-3', // lg: compact
+				'lg:p-3', // lg: compact
 			)}
 		>
-			{/* Title and progress bar - fixed at top */}
-			<div className="space-y-2">
-				<StepCardTitle title={title} />
-				<ProgressBar currentStep={index + 1} totalSteps={6} />
-			</div>
+			{/* Title - fixed height grid row */}
+			<StepCardTitle title={title} />
 
-			{/* Description - flexible space */}
+			{/* Progress bar - fixed height grid row */}
+			<ProgressBar currentStep={index + 1} totalSteps={6} />
+
+			{/* Description - only rendered on LG+ breakpoint */}
 			{showDescription && (
-				<StepCardDescription description={description} />
+				<div className="hidden lg:block">
+					<StepCardDescription description={description} />
+				</div>
 			)}
 
-			{/* Footer - fixed at bottom */}
+			{/* Footer - fixed height grid row */}
 			<StepCardFooter
 				showStepLabel={showStepLabel}
 				stepLabel={stepLabel}

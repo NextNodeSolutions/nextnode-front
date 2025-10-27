@@ -5,7 +5,9 @@ interface StepCardDescriptionProps {
 }
 
 /**
- * StepCardDescription - Card description with responsive visibility and line-clamp
+ * StepCardDescription - Card description with fixed grid height
+ * Uses CSS custom property for uniform height and overflow handling
+ * Note: Visibility controlled by parent wrapper (hidden on MD, visible on LG+)
  */
 export const StepCardDescription = ({
 	description,
@@ -13,11 +15,16 @@ export const StepCardDescription = ({
 	return (
 		<p
 			className={cn(
+				// Fixed height from grid + overflow handling
+				'h-[var(--card-description-height)] overflow-hidden',
+				// Typography and styling
 				'leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800 dark:text-gray-300 dark:group-hover:text-gray-200',
-				'flex-1',
-				'line-clamp-4 text-sm', // xl: large baseline
-				'md:hidden', // md: mini (hidden)
-				'lg:line-clamp-3 lg:block lg:text-xs', // lg: compact
+				// Line clamp for text overflow
+				'line-clamp-4', // xl: large baseline
+				'lg:line-clamp-3', // lg: compact
+				// Responsive text sizes
+				'text-sm', // xl: large baseline
+				'lg:text-xs', // lg: compact
 			)}
 		>
 			{description}

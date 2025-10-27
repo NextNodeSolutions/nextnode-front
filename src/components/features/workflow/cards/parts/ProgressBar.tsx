@@ -11,7 +11,7 @@ const PROGRESS_SEGMENTS = [0, 1, 2, 3, 4, 5] as const
 /**
  * ProgressBar - Mini horizontal segments showing workflow progress
  * Uses CVA variants with CSS custom properties from design system
- * Responsive: h-1 on md, h-1.5 on lg+
+ * Fixed height from grid custom property for alignment
  */
 export const ProgressBar = ({
 	currentStep,
@@ -19,7 +19,7 @@ export const ProgressBar = ({
 }: ProgressBarProps) => {
 	return (
 		<div
-			className="flex gap-1"
+			className="flex h-[var(--card-progress-height)] items-center gap-1"
 			role="progressbar"
 			aria-valuenow={currentStep}
 			aria-valuemin={1}

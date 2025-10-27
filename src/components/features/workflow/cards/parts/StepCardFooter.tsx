@@ -7,7 +7,7 @@ interface StepCardFooterProps {
 
 /**
  * StepCardFooter - Footer with step label and CTA
- * Fixed at bottom of card content
+ * Uses fixed grid height with flex layout for content alignment
  */
 export const StepCardFooter = ({
 	showStepLabel,
@@ -16,7 +16,7 @@ export const StepCardFooter = ({
 	clickToSeeMore,
 }: StepCardFooterProps) => {
 	return (
-		<div className="mt-auto pt-2">
+		<div className="flex h-[var(--card-footer-height)] flex-col justify-end">
 			{showStepLabel && (
 				<div className="mb-1">
 					<span className="text-xs font-medium tracking-wider whitespace-nowrap text-gray-500 uppercase dark:text-gray-400">

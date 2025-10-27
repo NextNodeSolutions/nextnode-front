@@ -3,13 +3,10 @@ import { motion } from 'motion/react'
 
 import { cn } from '@/lib/core/utils'
 
+import { CARD_FEATURES } from '../workflow-constants'
 import { ProgressBar } from './parts/ProgressBar'
 import type { stepCardIndex } from './step-card-variants'
-import {
-	CARD_FEATURES,
-	stepCardVariants,
-	stepCtaVariants,
-} from './step-card-variants'
+import { stepCardVariants, stepCtaVariants } from './step-card-variants'
 
 export interface StepCardProps {
 	readonly stepKey: string
@@ -52,13 +49,7 @@ const StepCard = ({
 	return (
 		<motion.div
 			layoutId={`card-${stepKey}`}
-			className={cn(
-				stepCardVariants({ step: stepNumber }),
-				// Hover scale (responsive)
-				'hover:scale-[1.04]',
-				'md:hover:scale-[1.02]',
-				'lg:hover:scale-[1.03]',
-			)}
+			className={stepCardVariants({ step: stepNumber })}
 			data-step-card
 			data-step-index={index}
 			onClick={handleCardClick}

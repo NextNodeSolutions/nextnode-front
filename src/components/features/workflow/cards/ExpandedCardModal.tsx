@@ -161,7 +161,7 @@ export const ExpandedCardModal = ({
 						<Section>
 							<SectionTitle>What You Get</SectionTitle>
 							<div className="grid gap-4 md:grid-cols-2">
-								{deliverables.map((deliverable, index) => (
+								{deliverables.map(deliverable => (
 									<DeliverableCard
 										key={deliverable.name}
 										deliverable={deliverable}

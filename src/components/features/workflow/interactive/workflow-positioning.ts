@@ -1,5 +1,7 @@
-import { CARD_DIMENSIONS } from '../cards/step-card-variants'
-import { DESKTOP_WORKFLOW_POSITIONS } from '../workflow-constants'
+import {
+	CARD_DIMENSIONS,
+	DESKTOP_WORKFLOW_POSITIONS,
+} from '../workflow-constants'
 
 import type { WorkflowPosition } from '@/types/workflow'
 

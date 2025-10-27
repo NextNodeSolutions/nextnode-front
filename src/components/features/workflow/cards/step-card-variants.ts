@@ -3,25 +3,6 @@ import { cva } from 'class-variance-authority'
 export type stepCardIndex = 1 | 2 | 3 | 4 | 5 | 6
 
 /**
- * Base card dimensions in SVG units (viewBox 1000x500)
- * Used for position calculations in the workflow journey
- */
-export const CARD_DIMENSIONS = {
-	width: 180,
-	height: 210,
-}
-
-/**
- * Feature flags for workflow cards
- * Simplified: responsive behavior via Tailwind classes in components
- */
-export const CARD_FEATURES = {
-	showHeader: false, // No header in workflow journey
-	showDescription: true, // Hidden on mobile via md:hidden
-	showStepLabel: true, // Hidden on mobile via md:hidden
-}
-
-/**
  * StepCard variants using CVA
  * Uses CSS custom properties from design-tokens.css
  * Complies with Tailwind guidelines (CVA exception for component variants)
@@ -104,6 +85,7 @@ export type CardDirection = 'top' | 'left' | 'bottom' | 'right'
 /**
  * Card direction variants for workflow alignment
  * Controls flex alignment based on where the workflow line connects
+ * Uses h-full to fill SVG zone container
  */
 export const stepCardDirection = cva('flex h-full w-full', {
 	variants: {
