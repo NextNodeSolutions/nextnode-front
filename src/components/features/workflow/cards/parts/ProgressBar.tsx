@@ -1,44 +1,44 @@
-import { cn } from '@/lib/core/utils'
+import { progressSegmentVariants } from './progress-bar-variants'
 
-interface ProgressBarProps {
-	readonly index: number
-	readonly stepKey: string
-	readonly gradient: string
+export interface ProgressBarProps {
+	readonly currentStep: number
+	readonly totalSteps?: number
 }
 
 // Progress bar segments (fixed array for stable keys)
 const PROGRESS_SEGMENTS = [0, 1, 2, 3, 4, 5] as const
 
 /**
- * ProgressBar - 6-segment progress visualization
- * Fills segments up to current step index with gradient
- * Responsive sizing via Tailwind breakpoints
+ * ProgressBar - Mini horizontal segments showing workflow progress
+ * Uses CVA variants with CSS custom properties from design system
+ * Responsive: h-1 on md, h-1.5 on lg+
  */
-export const ProgressBar = ({ index, stepKey, gradient }: ProgressBarProps) => {
+export const ProgressBar = ({
+	currentStep,
+	totalSteps = 6,
+}: ProgressBarProps) => {
 	return (
 		<div
-			className={cn(
-				'flex items-center space-x-1',
-				'py-2', // xl: large baseline
-				'md:py-1', // md: mini
-			)}
+			className="flex gap-1"
+			role="progressbar"
+			aria-valuenow={currentStep}
+			aria-valuemin={1}
+			aria-valuemax={totalSteps}
 		>
-			{PROGRESS_SEGMENTS.map(segment => (
-				<div
-					key={`progress-${stepKey}-${segment}`}
-					className={cn(
-						'flex-1 rounded-full transition-all duration-700',
-						'h-1', // xl: large baseline
-						'md:h-0.5', // md: mini
-						segment <= index
-							? cn('bg-gradient-to-r shadow-sm', gradient)
-							: 'bg-gray-200 dark:bg-gray-700',
-					)}
-					style={{
-						transitionDelay: `${segment * 50}ms`,
-					}}
-				/>
-			))}
+			{PROGRESS_SEGMENTS.slice(0, totalSteps).map(segment => {
+				const isFilled = segment < currentStep
+				return (
+					<div
+						key={segment}
+						className={progressSegmentVariants({
+							variant: isFilled ? 'filled' : 'empty',
+							step: isFilled
+								? (currentStep as 1 | 2 | 3 | 4 | 5 | 6)
+								: undefined,
+						})}
+					/>
+				)
+			})}
 		</div>
 	)
 }

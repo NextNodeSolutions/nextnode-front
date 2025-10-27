@@ -36,66 +36,16 @@ describe('StepCard', () => {
 		expect(stepLabelElement.textContent).toContain('01')
 	})
 
-	it('should call onExpand when card is clicked and not expanded', () => {
+	it('should call onExpand when card is clicked', () => {
 		const onExpand = vi.fn()
 		const { container } = render(
-			<StepCard
-				{...defaultProps}
-				isExpanded={false}
-				onExpand={onExpand}
-			/>,
+			<StepCard {...defaultProps} onExpand={onExpand} />,
 		)
 
 		const cardElement = container.firstChild as HTMLElement
 		cardElement.click()
 
 		expect(onExpand).toHaveBeenCalledOnce()
-	})
-
-	it('should not call onExpand when card is already expanded', () => {
-		const onExpand = vi.fn()
-		const { container } = render(
-			<StepCard
-				{...defaultProps}
-				isExpanded={true}
-				onExpand={onExpand}
-			/>,
-		)
-
-		const cardElement = container.firstChild as HTMLElement
-		cardElement.click()
-
-		expect(onExpand).not.toHaveBeenCalled()
-	})
-
-	it('should render expanded content when isExpanded is true', () => {
-		const expandedContent = <div>Expanded Content Test</div>
-
-		render(
-			<StepCard
-				{...defaultProps}
-				isExpanded={true}
-				expandedContent={expandedContent}
-			/>,
-		)
-
-		expect(screen.getByText('Expanded Content Test')).toBeInTheDocument()
-	})
-
-	it('should not render expanded content when isExpanded is false', () => {
-		const expandedContent = <div>Expanded Content Test</div>
-
-		render(
-			<StepCard
-				{...defaultProps}
-				isExpanded={false}
-				expandedContent={expandedContent}
-			/>,
-		)
-
-		expect(
-			screen.queryByText('Expanded Content Test'),
-		).not.toBeInTheDocument()
 	})
 
 	it('should render description', () => {
@@ -108,14 +58,13 @@ describe('StepCard', () => {
 		expect(description).toBeInTheDocument()
 	})
 
-	it('should render progress bar with correct number of segments', () => {
+	it('should have glassmorphic styling', () => {
 		const { container } = render(<StepCard {...defaultProps} />)
 
-		// Progress bar has 6 segments (Array.from({ length: 6 }))
-		const progressSegments = container.querySelectorAll(
-			'[class*="flex-1"][class*="rounded-full"]',
-		)
+		const cardElement = container.firstChild as HTMLElement
 
-		expect(progressSegments).toHaveLength(6)
+		// Check for glassmorphic classes
+		expect(cardElement.className).toContain('backdrop-blur')
+		expect(cardElement.className).toContain('border')
 	})
 })

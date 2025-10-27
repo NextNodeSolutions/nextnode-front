@@ -1,9 +1,13 @@
 import { useState } from 'react'
 
+import { cn } from '@/lib/core/utils'
 import { translateSteps } from '@/lib/i18n/translate-utils'
 
+import { ExpandedCardModal } from '../cards/ExpandedCardModal'
 import StepCard from '../cards/StepCard'
-import { STEP_KEYS } from '../workflow-constants'
+import { stepCardDirection } from '../cards/step-card-variants'
+import { STEP_DIRECTIONS, STEP_KEYS } from '../workflow-constants'
+import { getWorkflowStepData } from '../workflow-step-data'
 
 import type { StepKey } from '@/types/i18n'
 
@@ -49,25 +53,6 @@ const WorkflowCardsExpandable = ({
 				const step = translateSteps(stepKey as StepKey)
 				const position = positions?.[index]
 
-				// Placeholder expanded content (to be customized later)
-				const expandedContent = (
-					<div className="space-y-4">
-						<h4 className="text-lg font-semibold text-gray-900 dark:text-white">
-							Detailed Information
-						</h4>
-						<p className="text-sm text-gray-600 dark:text-gray-400">
-							This is a placeholder for expanded content. You can
-							customize this with detailed information about{' '}
-							{step.title}.
-						</p>
-						<div className="rounded-lg bg-gray-100 p-4 dark:bg-gray-800">
-							<p className="text-xs text-gray-500 dark:text-gray-400">
-								More content will be added here in the future.
-							</p>
-						</div>
-					</div>
-				)
-
 				return (
 					<div
 						key={stepKey}
@@ -84,7 +69,14 @@ const WorkflowCardsExpandable = ({
 								: undefined
 						}
 					>
-						<div className="step-card-wrapper h-full w-full">
+						<div
+							className={cn(
+								stepCardDirection({
+									direction: STEP_DIRECTIONS[index],
+								}),
+								'step-card-wrapper',
+							)}
+						>
 							<StepCard
 								stepKey={stepKey}
 								index={index}
@@ -93,15 +85,24 @@ const WorkflowCardsExpandable = ({
 								description={step.description}
 								stepLabel={stepLabel}
 								clickToSeeMore={clickToSeeMore}
-								isExpanded={expandedIndex === index}
 								onExpand={() => handleExpand(index)}
-								onCollapse={handleCollapse}
-								expandedContent={expandedContent}
 							/>
 						</div>
 					</div>
 				)
 			})}
+
+			{/* Expanded Card Modal */}
+			{expandedIndex !== null && (
+				<ExpandedCardModal
+					isOpen={expandedIndex !== null}
+					onClose={handleCollapse}
+					stepData={getWorkflowStepData(
+						STEP_KEYS[expandedIndex] as StepKey,
+					)}
+					stepKey={STEP_KEYS[expandedIndex] as StepKey}
+				/>
+			)}
 		</>
 	)
 }

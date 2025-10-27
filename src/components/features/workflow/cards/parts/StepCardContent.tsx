@@ -14,8 +14,6 @@ interface StepCardContentProps {
 	readonly number: string
 	readonly clickToSeeMore: string
 	readonly index: number
-	readonly stepKey: string
-	readonly gradient: string
 }
 
 /**
@@ -31,8 +29,6 @@ export const StepCardContent = ({
 	number,
 	clickToSeeMore,
 	index,
-	stepKey,
-	gradient,
 }: StepCardContentProps) => {
 	return (
 		<div
@@ -46,11 +42,7 @@ export const StepCardContent = ({
 			{/* Title and progress bar - fixed at top */}
 			<div className="space-y-2">
 				<StepCardTitle title={title} />
-				<ProgressBar
-					index={index}
-					stepKey={stepKey}
-					gradient={gradient}
-				/>
+				<ProgressBar currentStep={index + 1} totalSteps={6} />
 			</div>
 
 			{/* Description - flexible space */}

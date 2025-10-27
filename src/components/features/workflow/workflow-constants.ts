@@ -1,5 +1,7 @@
 // Import types from centralized location
 
+import type { CardDirection } from './cards/step-card-variants'
+
 import type { StepKey } from '@/types/i18n'
 import type {
 	GradientStop,
@@ -57,6 +59,27 @@ export const DESKTOP_WORKFLOW_POSITIONS: WorkflowPosition[] = [
 	{ x: 480, y: 252, lineEndX: 480, lineEndY: 310 },
 	{ x: 880, y: 385, lineEndX: 880, lineEndY: 325 },
 ]
+
+/**
+ * Card direction configuration based on workflow line arrival direction
+ * Determines flex alignment within container based on where the workflow line connects
+ *
+ * Analysis of DESKTOP_WORKFLOW_POSITIONS:
+ * - Step 1 (discovery): Line goes up (y: 60 → -10) → 'top' (line arrives from top)
+ * - Step 2 (design): Line goes up (y: 75 → 10) → 'top' (line arrives from top)
+ * - Step 3 (development): Line goes right (x: 510 → 560) → 'right' (line arrives from right)
+ * - Step 4 (testing): Line goes left (x: 205 → 160) → 'left' (line arrives from left)
+ * - Step 5 (deployment): Line goes down (y: 252 → 310) → 'bottom' (line arrives from bottom)
+ * - Step 6 (support): Line goes up (y: 385 → 325) → 'top' (line arrives from top)
+ */
+export const STEP_DIRECTIONS: readonly CardDirection[] = [
+	'bottom', // Step 1
+	'bottom', // Step 2
+	'right', // Step 3
+	'left', // Step 4
+	'top', // Step 5
+	'bottom', // Step 6
+] as const
 
 // Utility function to generate gradient stops
 export const generateGradientStops = (

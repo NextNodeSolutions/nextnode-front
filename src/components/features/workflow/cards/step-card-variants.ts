@@ -1,15 +1,14 @@
-/**
- * StepCard configuration
- * Simplified: Single render with Tailwind responsive classes
- */
+import { cva } from 'class-variance-authority'
+
+export type stepCardIndex = 1 | 2 | 3 | 4 | 5 | 6
 
 /**
  * Base card dimensions in SVG units (viewBox 1000x500)
  * Used for position calculations in the workflow journey
  */
 export const CARD_DIMENSIONS = {
-	width: 150,
-	height: 190,
+	width: 180,
+	height: 210,
 }
 
 /**
@@ -21,3 +20,120 @@ export const CARD_FEATURES = {
 	showDescription: true, // Hidden on mobile via md:hidden
 	showStepLabel: true, // Hidden on mobile via md:hidden
 }
+
+/**
+ * StepCard variants using CVA
+ * Uses CSS custom properties from design-tokens.css
+ * Complies with Tailwind guidelines (CVA exception for component variants)
+ */
+export const stepCardVariants = cva(
+	// Base styles (always applied)
+	[
+		// Glassmorphism
+		'backdrop-blur-xl cursor-pointer',
+		'bg-white/10 dark:bg-gray-900/20',
+		'rounded-2xl',
+		'border',
+		// Transitions
+		'group transition-all duration-300 ease-out',
+	],
+	{
+		variants: {
+			step: {
+				1: [
+					// Border
+					'border-[var(--step-1-border)]',
+					// Shadow
+					'shadow-[0_4px_10px_var(--shadow-indigo)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-indigo)]',
+					// Hover
+					'hover:border-[var(--step-1-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-1-glow)]',
+					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+				],
+				2: [
+					'border-[var(--step-2-border)]',
+					'shadow-[0_4px_10px_var(--shadow-violet)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-violet)]',
+					'hover:border-[var(--step-2-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-2-glow)]',
+					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+				],
+				3: [
+					'border-[var(--step-3-border)]',
+					'shadow-[0_4px_10px_var(--shadow-emerald)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-emerald)]',
+					'hover:border-[var(--step-3-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-3-glow)]',
+					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+				],
+				4: [
+					'border-[var(--step-4-border)]',
+					'shadow-[0_4px_10px_var(--shadow-amber)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-amber)]',
+					'hover:border-[var(--step-4-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-4-glow)]',
+					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+				],
+				5: [
+					'border-[var(--step-5-border)]',
+					'shadow-[0_4px_10px_var(--shadow-rose)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-rose)]',
+					'hover:border-[var(--step-5-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-5-glow)]',
+					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+				],
+				6: [
+					'border-[var(--step-6-border)]',
+					'shadow-[0_4px_10px_var(--shadow-slate)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-slate)]',
+					'hover:border-[var(--step-6-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-6-glow)]',
+					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+				],
+			},
+		},
+		defaultVariants: {
+			step: 1,
+		},
+	},
+)
+
+export type CardDirection = 'top' | 'left' | 'bottom' | 'right'
+
+/**
+ * Card direction variants for workflow alignment
+ * Controls flex alignment based on where the workflow line connects
+ */
+export const stepCardDirection = cva('flex h-full w-full', {
+	variants: {
+		direction: {
+			top: 'items-start justify-center', // Line arrives from top
+			bottom: 'items-end justify-center', // Line arrives from bottom (ex: step 1)
+			left: 'items-center justify-start', // Line arrives from left (ex: step 3)
+			right: 'items-center justify-end', // Line arrives from right
+		},
+	},
+	defaultVariants: {
+		direction: 'bottom',
+	},
+})
+
+/**
+ * CTA text color variants (matches step color)
+ */
+export const stepCtaVariants = cva('', {
+	variants: {
+		step: {
+			1: 'text-[var(--step-1-primary)]',
+			2: 'text-[var(--step-2-primary)]',
+			3: 'text-[var(--step-3-primary)]',
+			4: 'text-[var(--step-4-primary)]',
+			5: 'text-[var(--step-5-primary)]',
+			6: 'text-[var(--step-6-primary)]',
+		},
+	},
+	defaultVariants: {
+		step: 1,
+	},
+})

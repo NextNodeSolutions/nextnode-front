@@ -27,12 +27,55 @@ export type Step = {
 	icon: string
 } & EnglishDict['workflow']['steps'][keyof EnglishDict['workflow']['steps']]
 
+// Rich step data for expanded modal view
+export interface WorkflowStepData {
+	// Basic info (for card preview)
+	id: StepKey
+	title: string
+	shortDescription: string
+	icon: string
+
+	// Extended info (for modal)
+	fullDescription: string
+	benefits: Array<{
+		id: string
+		title: string
+		description: string
+		icon: string
+	}>
+	deliverables: Array<{
+		name: string
+		description: string
+		type: 'document' | 'code' | 'asset' | 'service'
+	}>
+	timeline: {
+		duration: string
+		milestones: string[]
+	}
+
+	// Visual
+	gradient: string
+	accentColor: string
+
+	// CTA
+	ctaText?: string
+	ctaLink?: string
+}
+
 // Types pour les composants de modal
 export interface StepModalProps {
 	isOpen: boolean
 	onClose: () => void
 	step: Step
 	color: string
+}
+
+// Expanded modal component props
+export interface ExpandedCardModalProps {
+	isOpen: boolean
+	onClose: () => void
+	stepData: WorkflowStepData
+	stepKey: StepKey
 }
 
 // Types pour les composants interactifs
