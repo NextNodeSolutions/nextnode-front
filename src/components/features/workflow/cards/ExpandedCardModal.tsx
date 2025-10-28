@@ -9,6 +9,14 @@ import { getStepIllustration } from '../illustrations'
 
 import type { ExpandedCardModalProps } from '@/types/workflow'
 
+// Type icon mapping for deliverables
+const TYPE_ICONS: Record<string, string> = {
+	document: '📄',
+	code: '💻',
+	asset: '🎨',
+	service: '☁️',
+}
+
 /**
  * ExpandedCardModal - Full-screen modal with rich step content
  * Displays detailed information about a workflow step with:
@@ -27,7 +35,7 @@ export const ExpandedCardModal = ({
 	// Use i18n hook for translations
 	const { t } = useI18n()
 
-	const { accentColor, deliverables, timeline, ctaText, ctaLink } = stepData
+	const { accentColor, deliverables, timeline } = stepData
 
 	// Close on Escape key
 	React.useEffect(() => {
@@ -69,7 +77,7 @@ export const ExpandedCardModal = ({
 					'fixed top-1/2 left-1/2 z-50',
 					'max-h-[90vh] w-[90vw] max-w-4xl -translate-x-1/2 -translate-y-1/2',
 					'overflow-y-auto rounded-2xl',
-					'bg-white dark:bg-gray-900',
+					'bg-white/85 backdrop-blur-md dark:bg-gray-900/85',
 					'shadow-2xl',
 				)}
 				onClick={e => e.stopPropagation()}
@@ -158,6 +166,7 @@ export const ExpandedCardModal = ({
 									<BenefitCard
 										key={benefit.title}
 										benefit={benefit}
+										accentColor={accentColor}
 									/>
 								))}
 							</div>
@@ -187,46 +196,14 @@ export const ExpandedCardModal = ({
 						<SectionTitle>
 							{t('workflow.modal.timeline')}
 						</SectionTitle>
-						<div className="rounded-xl bg-gray-50 p-6 dark:bg-gray-800">
-							<p
-								className="mb-4 text-lg font-semibold"
-								style={{ color: accentColor }}
-							>
-								{t('workflow.modal.duration')}:{' '}
-								{timeline.duration}
-							</p>
-							<ul className="space-y-2">
-								{timeline.milestones.map((milestone, index) => (
-									<li
-										key={milestone}
-										className="flex items-start gap-3"
-									>
-										<span
-											className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-											style={{
-												backgroundColor: accentColor,
-											}}
-										>
-											{index + 1}
-										</span>
-										<span className="text-gray-700 dark:text-gray-300">
-											{milestone}
-										</span>
-									</li>
-								))}
-							</ul>
-						</div>
+						<VisualTimeline
+							duration={timeline.duration}
+							milestones={timeline.milestones}
+							accentColor={accentColor}
+							durationLabel={t('workflow.modal.duration')}
+						/>
 					</Section>
 				</div>
-
-				{/* Footer CTA */}
-				{ctaText && ctaLink && (
-					<ModalFooter
-						ctaText={ctaText}
-						ctaLink={ctaLink}
-						accentColor={accentColor}
-					/>
-				)}
 			</motion.div>
 		</>
 	)
@@ -238,23 +215,34 @@ const Section = ({ children }: { children: React.ReactNode }) => (
 )
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-	<h3 className="text-xl font-bold text-gray-900 dark:text-white">
+	<h3 className="text-2xl font-bold text-gray-900 dark:text-white">
 		{children}
 	</h3>
 )
 
 const BenefitCard = ({
 	benefit,
+	accentColor,
 }: {
 	benefit: { id?: string; title: string; description: string; icon: string }
+	accentColor: string
 }) => (
-	<div className="flex gap-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-		<span className="text-3xl">{benefit.icon}</span>
-		<div>
-			<h4 className="font-semibold text-gray-900 dark:text-white">
+	<div
+		className={cn(
+			'flex gap-4 rounded-lg p-5',
+			'bg-gray-50/70 backdrop-blur-sm dark:bg-gray-800/70',
+			'border-l-4 shadow-sm',
+			'transition-all duration-200',
+			'hover:scale-[1.01] hover:shadow-md',
+		)}
+		style={{ borderLeftColor: accentColor }}
+	>
+		<span className="flex-shrink-0 text-3xl">{benefit.icon}</span>
+		<div className="flex-1">
+			<h4 className="mb-1 font-semibold text-gray-900 dark:text-white">
 				{benefit.title}
 			</h4>
-			<p className="text-sm text-gray-600 dark:text-gray-400">
+			<p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
 				{benefit.description}
 			</p>
 		</div>
@@ -267,66 +255,90 @@ const DeliverableCard = ({
 }: {
 	deliverable: { name: string; description: string; type: string }
 	accentColor: string
-}) => (
-	<div
-		className="rounded-lg border-2 p-4"
-		style={{ borderColor: `${accentColor}30` }}
-	>
-		<div className="mb-2 flex items-center justify-between">
-			<h4 className="font-semibold text-gray-900 dark:text-white">
-				{deliverable.name}
-			</h4>
-			<span
-				className="rounded-full px-3 py-1 text-xs font-medium text-white"
-				style={{ backgroundColor: accentColor }}
-			>
-				{deliverable.type}
-			</span>
-		</div>
-		<p className="text-sm text-gray-600 dark:text-gray-400">
-			{deliverable.description}
-		</p>
-	</div>
-)
+}) => {
+	const typeIcon = TYPE_ICONS[deliverable.type] || '📦'
 
-const ModalFooter = ({
-	ctaText,
-	ctaLink,
-	accentColor,
-}: {
-	ctaText: string
-	ctaLink: string
-	accentColor: string
-}) => (
-	<motion.div
-		className="border-t border-gray-200 p-6 dark:border-gray-700"
-		initial={{ opacity: 0 }}
-		animate={{ opacity: 1 }}
-		transition={{ delay: 0.2 }}
-	>
-		<a
-			href={ctaLink}
-			className="inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold text-white transition-all hover:scale-105 hover:shadow-lg"
-			style={{
-				backgroundColor: accentColor,
-				boxShadow: `0 4px 12px ${accentColor}40`,
-			}}
+	return (
+		<div
+			className={cn(
+				'rounded-lg border-2 p-5',
+				'bg-white/50 backdrop-blur-sm dark:bg-gray-900/50',
+				'transition-all duration-200',
+				'hover:scale-[1.02] hover:shadow-lg',
+			)}
+			style={{ borderColor: `${accentColor}30` }}
 		>
-			{ctaText}
-			<svg
-				className="h-5 w-5"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke="currentColor"
-				aria-hidden="true"
-			>
-				<path
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					strokeWidth={2}
-					d="M17 8l4 4m0 0l-4 4m4-4H3"
-				/>
-			</svg>
-		</a>
-	</motion.div>
+			<div className="mb-3 flex items-start justify-between gap-3">
+				<h4 className="font-semibold text-gray-900 dark:text-white">
+					{deliverable.name}
+				</h4>
+				<span
+					className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-white"
+					style={{ backgroundColor: accentColor }}
+				>
+					<span>{typeIcon}</span>
+					<span className="capitalize">{deliverable.type}</span>
+				</span>
+			</div>
+			<p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+				{deliverable.description}
+			</p>
+		</div>
+	)
+}
+
+const VisualTimeline = ({
+	duration,
+	milestones,
+	accentColor,
+	durationLabel,
+}: {
+	duration: string
+	milestones: readonly string[]
+	accentColor: string
+	durationLabel: string
+}) => (
+	<div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 dark:from-gray-800 dark:to-gray-900">
+		<p
+			className="mb-6 text-lg font-semibold"
+			style={{ color: accentColor }}
+		>
+			{durationLabel}: {duration}
+		</p>
+		<div className="relative">
+			{milestones.map((milestone, index) => (
+				<div key={milestone} className="relative pb-8 last:pb-0">
+					{/* Vertical line connecting milestones */}
+					{index < milestones.length - 1 && (
+						<div
+							className="absolute top-8 left-3 h-full w-0.5"
+							style={{
+								backgroundColor: `${accentColor}30`,
+							}}
+						/>
+					)}
+
+					{/* Milestone card */}
+					<div className="relative flex items-start gap-4">
+						{/* Numbered badge */}
+						<div
+							className="relative z-10 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-white shadow-md"
+							style={{
+								backgroundColor: accentColor,
+							}}
+						>
+							{index + 1}
+						</div>
+
+						{/* Milestone content */}
+						<div className="flex-1 rounded-lg bg-white/50 p-3 shadow-sm backdrop-blur-sm dark:bg-gray-700/50">
+							<p className="text-sm leading-relaxed font-medium text-gray-800 dark:text-gray-200">
+								{milestone}
+							</p>
+						</div>
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
 )

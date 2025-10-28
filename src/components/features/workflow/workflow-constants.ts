@@ -86,7 +86,7 @@ export const STEP_DIRECTIONS: readonly CardDirection[] = [
  * Used for position calculations in the workflow journey
  */
 export const CARD_DIMENSIONS = {
-	width: 180,
+	width: 160,
 	height: 210,
 }
 

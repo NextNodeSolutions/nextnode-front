@@ -1,4 +1,3 @@
-import { ArrowRight } from 'lucide-react'
 import { motion } from 'motion/react'
 
 import { cn } from '@/lib/core/utils'
@@ -6,7 +5,7 @@ import { cn } from '@/lib/core/utils'
 import { CARD_FEATURES } from '../workflow-constants'
 import { ProgressBar } from './parts/ProgressBar'
 import type { stepCardIndex } from './step-card-variants'
-import { stepCardVariants, stepCtaVariants } from './step-card-variants'
+import { stepCardVariants } from './step-card-variants'
 
 export interface StepCardProps {
 	readonly stepKey: string
@@ -15,7 +14,6 @@ export interface StepCardProps {
 	readonly title: string
 	readonly description: string
 	readonly stepLabel: string
-	readonly clickToSeeMore: string
 	readonly onExpand?: () => void
 }
 
@@ -30,7 +28,6 @@ const StepCard = ({
 	index,
 	title,
 	description,
-	clickToSeeMore,
 	onExpand,
 }: StepCardProps) => {
 	// Use centralized feature flags
@@ -84,7 +81,7 @@ const StepCard = ({
 
 				{/* Description */}
 				{showDescription && (
-					<div className="mb-3 flex-1 md:hidden lg:block">
+					<div className="flex-1 md:hidden lg:block">
 						<p
 							className={cn(
 								'text-[11px] leading-relaxed',
@@ -96,30 +93,6 @@ const StepCard = ({
 						</p>
 					</div>
 				)}
-
-				{/* Click to see more button */}
-				<div className="mt-auto flex justify-end">
-					<span
-						className={cn(
-							stepCtaVariants({ step: stepNumber }),
-							'inline-flex gap-1',
-							'text-xs md:text-[0.5rem]',
-							'font-normal tracking-wider uppercase',
-							'transition-all duration-200',
-							'group-hover:gap-1.5',
-							'opacity-80 group-hover:opacity-100',
-						)}
-					>
-						{clickToSeeMore}
-						<ArrowRight
-							className={cn(
-								'transition-transform group-hover:translate-x-0.5',
-								'h-2.5 w-2.5 md:h-2 md:w-2 lg:h-2.5 lg:w-2.5',
-							)}
-							strokeWidth={2.5}
-						/>
-					</span>
-				</div>
 			</div>
 		</motion.div>
 	)

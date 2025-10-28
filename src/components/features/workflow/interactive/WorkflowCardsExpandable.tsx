@@ -13,7 +13,6 @@ import type { StepKey } from '@/types/i18n'
 
 interface WorkflowCardsExpandableProps {
 	readonly stepLabel: string
-	readonly clickToSeeMore: string
 	readonly positions?: ReadonlyArray<{
 		x: number
 		y: number
@@ -33,7 +32,6 @@ interface WorkflowCardsExpandableProps {
  */
 const WorkflowCardsExpandable = ({
 	stepLabel,
-	clickToSeeMore,
 	positions,
 }: WorkflowCardsExpandableProps) => {
 	// State: index of the currently expanded card (null if none)
@@ -84,7 +82,6 @@ const WorkflowCardsExpandable = ({
 								title={step.title}
 								description={step.description}
 								stepLabel={stepLabel}
-								clickToSeeMore={clickToSeeMore}
 								onExpand={() => handleExpand(index)}
 							/>
 						</div>

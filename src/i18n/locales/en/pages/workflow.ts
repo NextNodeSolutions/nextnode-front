@@ -4,9 +4,9 @@ export const workflow = {
 			title: 'Discovery & Strategy',
 			number: '01',
 			description:
-				'Understanding your vision and goals to create a strategy aligned with your business.',
+				'Transform your vision into a concrete and actionable strategy.',
 			fullDescription:
-				"Your project deserves a solid foundation. We start by understanding your vision, your challenges, and your audience. Through collaborative workshops and deep-dive sessions, we map out a strategy that aligns technology with your business objectives. This isn't just planning—it's about creating a roadmap that ensures every line of code serves a purpose and every design decision drives results.",
+				'Your digital success starts here. We dive deep into your vision, analyze your business challenges, and map your target audience. Through collaborative workshops and thorough technical audit, we transform your ideas into an actionable strategy that aligns technology with business objectives. The result: a clear roadmap where every technical decision serves your growth, with defined priorities and optimized budget.',
 			benefits: [
 				{
 					title: 'Clear Vision',
@@ -73,9 +73,9 @@ export const workflow = {
 			title: 'Design & UX/UI',
 			number: '02',
 			description:
-				'Beautiful interfaces that convert, optimized for user experience and your goals.',
+				'Interfaces that captivate visitors and boost your conversions.',
 			fullDescription:
-				"Great design isn't just about looking good—it's about making your users feel confident, engaged, and excited to interact with your product. We craft experiences that guide users naturally toward their goals while reflecting your brand's personality. Every color, every button, every animation is intentionally designed to create delight and drive conversions.",
+				'Design that sells goes beyond aesthetics. We craft user experiences that naturally guide your visitors toward conversion. Every interface is designed to reflect your brand identity while maximizing engagement and business results. From UX research to high-fidelity mockups, we design smooth and intuitive user journeys. Your users enjoy a memorable experience that builds trust and generates measurable conversions.',
 			benefits: [
 				{
 					title: 'Higher Conversions',
@@ -141,9 +141,9 @@ export const workflow = {
 			title: 'Full-Stack Development',
 			number: '03',
 			description:
-				'Fast and secure applications with clean, scalable code.',
+				'Clean, performant code for fast and scalable applications.',
 			fullDescription:
-				"This is where your vision comes to life. Using modern technologies and best practices, we build robust applications that are fast, secure, and built to scale with your business. Our code isn't just functional—it's clean, maintainable, and designed for the long term. We focus on performance, security, and creating a solid foundation that can evolve as your needs grow.",
+				'This is where your vision comes to life. We build your application with modern technologies and proven practices. Our code is clean, documented, and architected to scale with your business. From backend infrastructure to frontend interfaces, we create solid technical foundations that guarantee performance, security, and maintainability. You get a robust, fast, and scalable application ready to support your growth without technical debt.',
 			benefits: [
 				{
 					title: 'Lightning Speed',
@@ -210,9 +210,9 @@ export const workflow = {
 			title: 'Testing & Optimization',
 			number: '04',
 			description:
-				'Quality guaranteed with rigorous testing and complete optimization.',
+				'Maximum performance and zero bugs for a confident launch.',
 			fullDescription:
-				"Quality isn't negotiable. We put your application through rigorous testing to catch issues before your users do. From automated tests to real-world user scenarios, we ensure every feature works flawlessly across all devices and browsers. Beyond just finding bugs, we optimize performance, fine-tune user experience, and validate that everything meets the highest standards of quality and security.",
+				'Quality is non-negotiable. We subject every feature to rigorous testing: automated, manual, and real-world conditions. Beyond bug detection, we optimize performance, validate cross-browser compatibility, and ensure a smooth experience across all devices. You launch with confidence knowing your application is tested from A to Z, performant, and surprise-free for your users.',
 			benefits: [
 				{
 					title: 'Zero Surprises',
@@ -278,9 +278,9 @@ export const workflow = {
 			title: 'Deployment & Infrastructure',
 			number: '05',
 			description:
-				'Seamless deployment to production with scalable infrastructure. Your site goes live with monitoring and backup systems.',
+				'Secure, scalable infrastructure with 24/7 monitoring for your launch.',
 			fullDescription:
-				'Launch day should be exciting, not stressful. We handle every technical detail of deploying your application to production, from configuring scalable cloud infrastructure to setting up monitoring and security. Your site goes live on reliable, high-performance infrastructure with automatic backups, SSL certificates, and real-time monitoring—everything you need for a successful launch and smooth operations.',
+				'Launch day should be exciting, not stressful. We handle every technical aspect of your production deployment: scalable cloud infrastructure configuration, SSL security, real-time monitoring setup, and deployment automation. Your application is hosted on high-performance servers with automatic backups and DDoS protection. You launch confidently with professional infrastructure ensuring 24/7 availability and traffic spike handling.',
 			benefits: [
 				{
 					title: 'Global Performance',
@@ -350,9 +350,9 @@ export const workflow = {
 			title: 'Support & Maintenance',
 			number: '06',
 			description:
-				'Ongoing support to keep your site running smoothly. Updates, optimizations, and feature additions as you grow.',
+				'Continuous partnership to evolve your application without limits.',
 			fullDescription:
-				"Your launch is just the beginning. As your business evolves, your digital presence should too. We provide ongoing support to keep your application secure, fast, and aligned with your growing needs. From regular updates and performance monitoring to adding new features and optimizing existing ones, we're your long-term technology partner committed to your continued success.",
+				"Your launch is just the beginning of the journey. As you grow, we keep your application updated, secure, and performant. Quick fixes, new feature additions, continuous optimizations: we're your long-term technology partner. From monthly reports to quarterly roadmap planning, we anticipate your needs. You evolve without technical constraints with expert support that adapts to your business growth.",
 			benefits: [
 				{
 					title: 'Stay Current',

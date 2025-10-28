@@ -4,9 +4,9 @@ export const workflow = {
 			title: 'Découverte & Stratégie',
 			number: '01',
 			description:
-				'Comprendre votre vision et vos objectifs pour créer une stratégie alignée avec votre business.',
+				'Transformez votre vision en stratégie concrète et actionnable.',
 			fullDescription:
-				"Votre projet mérite des fondations solides. Nous démarrons en comprenant votre vision, vos défis et votre audience. À travers des ateliers collaboratifs et des sessions d'analyse approfondie, nous élaborons une stratégie qui aligne la technologie avec vos objectifs business. Ce n'est pas qu'une simple planification—c'est la création d'une feuille de route garantissant que chaque ligne de code a un but et chaque décision design génère des résultats.",
+				'Votre succès digital commence ici. Nous plongeons dans votre vision, analysons vos défis business et cartographions votre audience cible. À travers des ateliers collaboratifs et un audit technique approfondi, nous transformons vos idées en une stratégie actionnable qui aligne technologie et objectifs business. Le résultat : une feuille de route claire où chaque décision technique sert votre croissance, avec des priorités définies et un budget optimisé.',
 			benefits: [
 				{
 					title: 'Vision Claire',
@@ -74,9 +74,9 @@ export const workflow = {
 			title: 'Design & UX/UI',
 			number: '02',
 			description:
-				"Des interfaces magnifiques qui convertissent, optimisées pour l'expérience utilisateur et vos objectifs.",
+				'Interfaces qui captivent vos visiteurs et boostent vos conversions.',
 			fullDescription:
-				"Un excellent design ne se limite pas à l'esthétique—il inspire confiance, engagement et enthousiasme dans l'interaction avec votre produit. Nous créons des expériences qui guident naturellement vos utilisateurs vers leurs objectifs tout en reflétant la personnalité de votre marque. Chaque couleur, chaque bouton, chaque animation est conçu intentionnellement pour créer du plaisir et stimuler les conversions.",
+				"Le design qui vend ne se limite pas à l'esthétique. Nous créons des expériences utilisateur qui guident naturellement vos visiteurs vers la conversion. Chaque interface est pensée pour refléter votre identité de marque tout en maximisant l'engagement et les résultats business. De la recherche UX aux maquettes haute-fidélité, nous concevons des parcours fluides et intuitifs. Vos utilisateurs bénéficient d'une expérience mémorable qui inspire confiance et génère des conversions mesurables.",
 			benefits: [
 				{
 					title: 'Conversions Maximales',
@@ -145,9 +145,9 @@ export const workflow = {
 			title: 'Développement Full-Stack',
 			number: '03',
 			description:
-				'Applications rapides et sécurisées avec du code propre et scalable.',
+				'Code propre et performant pour une application rapide et scalable.',
 			fullDescription:
-				"C'est ici que votre vision prend vie. En utilisant les technologies modernes et les meilleures pratiques, nous construisons des applications robustes qui sont rapides, sécurisées et conçues pour évoluer avec votre business. Notre code n'est pas que fonctionnel—il est propre, maintenable et pensé pour le long terme. Nous nous concentrons sur la performance, la sécurité et la création de fondations solides qui peuvent évoluer avec vos besoins.",
+				"C'est ici que votre vision prend vie. Nous construisons votre application avec des technologies modernes et des pratiques éprouvées. Notre code est propre, documenté et architecturé pour évoluer avec votre business. De l'infrastructure backend aux interfaces frontend, nous créons des fondations techniques solides qui garantissent performance, sécurité et maintenabilité. Vous obtenez une application robuste, rapide et scalable, prête à supporter votre croissance sans dette technique.",
 			benefits: [
 				{
 					title: 'Vitesse Fulgurante',
@@ -214,9 +214,9 @@ export const workflow = {
 			title: 'Tests & Optimisation',
 			number: '04',
 			description:
-				'Qualité garantie avec des tests rigoureux et optimisation complète.',
+				'Performance maximale et zéro bug pour un lancement serein.',
 			fullDescription:
-				"La qualité n'est pas négociable. Nous soumettons votre application à des tests rigoureux pour détecter les problèmes avant vos utilisateurs. Des tests automatisés aux scénarios réels d'utilisation, nous garantissons que chaque fonctionnalité fonctionne impeccablement sur tous les appareils et navigateurs. Au-delà de la simple détection de bugs, nous optimisons les performances, peaufinons l'expérience utilisateur et validons que tout respecte les plus hauts standards de qualité et de sécurité.",
+				'La qualité ne se négocie pas. Nous soumettons chaque fonctionnalité à des tests rigoureux : automatisés, manuels et en conditions réelles. Au-delà de la simple détection de bugs, nous optimisons les performances, validons la compatibilité multi-navigateurs et garantissons une expérience fluide sur tous les appareils. Vous lancez en toute confiance avec une application testée de A à Z, performante et sans mauvaise surprise pour vos utilisateurs.',
 			benefits: [
 				{
 					title: 'Zéro Surprise',
@@ -285,9 +285,9 @@ export const workflow = {
 			title: 'Déploiement & Infrastructure',
 			number: '05',
 			description:
-				'Mise en ligne fluide avec infrastructure scalable et monitoring 24/7.',
+				'Infrastructure sécurisée, scalable et monitoring 24/7 pour votre lancement.',
 			fullDescription:
-				"Le jour du lancement devrait être excitant, pas stressant. Nous gérons chaque détail technique du déploiement de votre application en production, de la configuration d'une infrastructure cloud scalable à la mise en place du monitoring et de la sécurité. Votre site est mis en ligne sur une infrastructure fiable et performante avec sauvegardes automatiques, certificats SSL et surveillance en temps réel—tout ce dont vous avez besoin pour un lancement réussi et des opérations fluides.",
+				"Le jour du lancement devrait être excitant, pas stressant. Nous gérons chaque aspect technique de votre mise en production : configuration d'une infrastructure cloud scalable, sécurisation SSL, mise en place du monitoring temps réel et automatisation des déploiements. Votre application est hébergée sur des serveurs performants avec sauvegardes automatiques et protection DDoS. Vous lancez sereinement avec une infrastructure professionnelle qui assure disponibilité 24/7 et peut gérer vos pics de trafic.",
 			benefits: [
 				{
 					title: 'Performance Mondiale',
@@ -357,9 +357,9 @@ export const workflow = {
 			title: 'Support & Maintenance',
 			number: '06',
 			description:
-				'Support continu avec mises à jour régulières et nouvelles fonctionnalités.',
+				'Accompagnement continu pour faire évoluer votre application sans limite.',
 			fullDescription:
-				"Votre lancement n'est que le début. Au fur et à mesure que votre business évolue, votre présence digitale doit suivre. Nous fournissons un support continu pour maintenir votre application sécurisée, rapide et alignée avec vos besoins grandissants. Des mises à jour régulières au monitoring de performance, en passant par l'ajout de nouvelles fonctionnalités et l'optimisation de l'existant, nous sommes votre partenaire technologique long terme engagé dans votre succès continu.",
+				"Votre lancement n'est que le début de l'aventure. Au fil de votre croissance, nous maintenons votre application à jour, sécurisée et performante. Corrections rapides, ajout de nouvelles fonctionnalités, optimisations continues : nous sommes votre partenaire technologique long terme. Des rapports mensuels aux plans de roadmap trimestriels, nous anticipons vos besoins. Vous évoluez sans contrainte technique avec un accompagnement expert qui s'adapte à la croissance de votre business.",
 			benefits: [
 				{
 					title: 'Toujours à Jour',

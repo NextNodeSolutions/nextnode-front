@@ -15,7 +15,6 @@ describe('StepCard', () => {
 		title: 'Discovery & Strategy',
 		description: 'We dive deep into your business goals',
 		stepLabel: 'Step',
-		clickToSeeMore: 'Click to see more',
 	}
 
 	it('should render step card with correct content', () => {
@@ -25,7 +24,6 @@ describe('StepCard', () => {
 		expect(
 			screen.getByText('We dive deep into your business goals'),
 		).toBeInTheDocument()
-		expect(screen.getByText('Click to see more')).toBeInTheDocument()
 	})
 
 	it('should render step label with number', () => {
