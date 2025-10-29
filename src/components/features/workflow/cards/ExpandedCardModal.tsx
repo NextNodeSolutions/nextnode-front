@@ -1,30 +1,30 @@
 import React from 'react'
 
-import { motion } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 
 import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/I18nReact'
 
+import { ModalBenefitsGrid } from '../expanded/ModalBenefitsGrid'
+import { ModalDeliverablesList } from '../expanded/ModalDeliverablesList'
+// Import extracted components
+import { ModalHeroSection } from '../expanded/ModalHeroSection'
+import { ModalOverviewPanel } from '../expanded/ModalOverviewPanel'
+import { ModalVisualTimeline } from '../expanded/ModalVisualTimeline'
 import { getStepIllustration } from '../illustrations'
+import { MODAL_TRANSITIONS, STAGGER_CONFIG } from '../workflow-animation-config'
 
 import type { ExpandedCardModalProps } from '@/types/workflow'
 
-// Type icon mapping for deliverables
-const TYPE_ICONS: Record<string, string> = {
-	document: '📄',
-	code: '💻',
-	asset: '🎨',
-	service: '☁️',
-}
-
 /**
- * ExpandedCardModal - Full-screen modal with rich step content
- * Displays detailed information about a workflow step with:
- * - Animated entry/exit
- * - Rich descriptions and benefits
- * - Deliverables and timeline
- * - Custom illustration per step
- * - CTA button with link
+ * ExpandedCardModal - Enhanced glassmorphic modal
+ *
+ * Redesigned with:
+ * - Multi-layer glassmorphism
+ * - Extracted component architecture
+ * - Staggered content animations
+ * - Enhanced visual hierarchy
+ * - Better accessibility
  */
 export const ExpandedCardModal = ({
 	isOpen,
@@ -32,12 +32,10 @@ export const ExpandedCardModal = ({
 	stepData,
 	stepKey,
 }: ExpandedCardModalProps) => {
-	// Use i18n hook for translations
 	const { t } = useI18n()
-
 	const { accentColor, deliverables, timeline } = stepData
 
-	// Close on Escape key
+	// Close on Escape key + body scroll lock
 	React.useEffect(() => {
 		const handleEscape = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') onClose()
@@ -57,288 +55,128 @@ export const ExpandedCardModal = ({
 	const Illustration = getStepIllustration(stepKey)
 
 	return (
-		<>
-			{/* Backdrop */}
-			<motion.div
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				exit={{ opacity: 0 }}
-				className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
-				onClick={onClose}
-			/>
+		<AnimatePresence mode="wait">
+			{isOpen && (
+				<>
+					{/* Simple Backdrop - Clean and Dark */}
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={MODAL_TRANSITIONS.backdropFade}
+						className="fixed inset-0 z-50 bg-black/60"
+						onClick={onClose}
+						aria-hidden="true"
+					/>
 
-			{/* Modal Content */}
-			<motion.div
-				initial={{ opacity: 0, scale: 0.95, y: 20 }}
-				animate={{ opacity: 1, scale: 1, y: 0 }}
-				exit={{ opacity: 0, scale: 0.95, y: 20 }}
-				transition={{ type: 'spring', duration: 0.5 }}
-				className={cn(
-					'fixed top-1/2 left-1/2 z-50',
-					'max-h-[90vh] w-[90vw] max-w-4xl -translate-x-1/2 -translate-y-1/2',
-					'overflow-y-auto rounded-2xl',
-					'bg-white/85 backdrop-blur-md dark:bg-gray-900/85',
-					'shadow-2xl',
-				)}
-				onClick={e => e.stopPropagation()}
-			>
-				{/* Header with Illustration */}
-				<div
-					className="relative p-8"
-					style={{
-						background: `linear-gradient(135deg, ${accentColor}15 0%, ${accentColor}05 100%)`,
-					}}
-				>
-					<div className="flex items-start gap-6">
-						{/* Illustration */}
-						<div className="h-32 w-32 flex-shrink-0">
-							<Illustration />
-						</div>
+					{/* Modal Container - Minimal & Clean */}
+					<motion.div
+						initial={{ opacity: 0, scale: 0.98, y: 20 }}
+						animate={{ opacity: 1, scale: 1, y: 0 }}
+						exit={{ opacity: 0, scale: 0.98, y: 20 }}
+						transition={MODAL_TRANSITIONS.modalSpring}
+						className={cn(
+							// Base: positioning
+							'fixed top-1/2 left-1/2 z-50',
+							'-translate-x-1/2 -translate-y-1/2',
 
-						{/* Title & Description */}
-						<div className="flex-1">
-							<h2
-								className="mb-2 text-3xl font-bold"
-								style={{ color: accentColor }}
+							// Sizing - wider for generous spacing
+							'w-[95vw] max-w-6xl',
+							'max-h-[90vh]',
+
+							// Simple clean background
+							'rounded-2xl',
+							'bg-white dark:bg-gray-950',
+
+							// Subtle border
+							'border border-gray-200 dark:border-gray-800',
+
+							// Clean shadow
+							'shadow-2xl',
+
+							// Overflow
+							'overflow-hidden',
+						)}
+						onClick={e => e.stopPropagation()}
+						role="dialog"
+						aria-modal="true"
+						aria-labelledby="modal-title"
+					>
+						{/* Scrollable Content */}
+						<div className="max-h-[90vh] overflow-y-auto">
+							{/* Hero Section */}
+							<ModalHeroSection
+								title={stepData.title}
+								description={stepData.shortDescription}
+								accentColor={accentColor}
+								Illustration={Illustration}
+								onClose={onClose}
+								closeLabel={t('workflow.modal.closeModal')}
+							/>
+
+							{/* Body Content - Compact Spacing */}
+							<motion.div
+								initial="hidden"
+								animate="visible"
+								variants={{
+									visible: {
+										transition: STAGGER_CONFIG.container,
+									},
+								}}
+								className={cn(
+									// Base: compact spacing between sections
+									'space-y-8',
+									'sm:space-y-10',
+									'md:space-y-12',
+
+									// Responsive padding - balanced
+									'px-6 py-8',
+									'sm:px-8 sm:py-10',
+									'md:px-12 md:py-12',
+									'lg:px-16 lg:py-14',
+
+									// Max width for readability
+									'mx-auto max-w-5xl',
+								)}
 							>
-								{stepData.title}
-							</h2>
-							<p className="text-lg text-gray-600 dark:text-gray-300">
-								{stepData.shortDescription}
-							</p>
-						</div>
-
-						{/* Close Button */}
-						<button
-							type="button"
-							onClick={onClose}
-							className={cn(
-								'flex h-10 w-10 items-center justify-center rounded-full',
-								'transition-all hover:scale-110',
-								'bg-gray-100 hover:bg-gray-200',
-								'dark:bg-gray-800 dark:hover:bg-gray-700',
-							)}
-							style={
-								{
-									boxShadow: `0 2px 8px ${accentColor}30`,
-								} as React.CSSProperties
-							}
-							aria-label={t('workflow.modal.closeModal')}
-						>
-							<svg
-								className="h-5 w-5"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M6 18L18 6M6 6l12 12"
+								{/* Overview Section */}
+								<ModalOverviewPanel
+									title={t('workflow.modal.overview')}
+									description={stepData.fullDescription}
+									accentColor={accentColor}
 								/>
-							</svg>
-						</button>
-					</div>
-				</div>
 
-				{/* Body Content */}
-				<div className="space-y-8 p-8">
-					{/* Full Description */}
-					<Section>
-						<SectionTitle>
-							{t('workflow.modal.overview')}
-						</SectionTitle>
-						<p className="leading-relaxed text-gray-700 dark:text-gray-300">
-							{stepData.fullDescription}
-						</p>
-					</Section>
-
-					{/* Benefits */}
-					{stepData.benefits.length > 0 && (
-						<Section>
-							<SectionTitle>
-								{t('workflow.modal.keyBenefits')}
-							</SectionTitle>
-							<div className="space-y-4">
-								{stepData.benefits.map(benefit => (
-									<BenefitCard
-										key={benefit.title}
-										benefit={benefit}
+								{/* Benefits Grid */}
+								{stepData.benefits.length > 0 && (
+									<ModalBenefitsGrid
+										title={t('workflow.modal.keyBenefits')}
+										benefits={stepData.benefits}
 										accentColor={accentColor}
 									/>
-								))}
-							</div>
-						</Section>
-					)}
+								)}
 
-					{/* Deliverables */}
-					{deliverables.length > 0 && (
-						<Section>
-							<SectionTitle>
-								{t('workflow.modal.whatYouGet')}
-							</SectionTitle>
-							<div className="grid gap-4 md:grid-cols-2">
-								{deliverables.map(deliverable => (
-									<DeliverableCard
-										key={deliverable.name}
-										deliverable={deliverable}
+								{/* Deliverables List */}
+								{deliverables.length > 0 && (
+									<ModalDeliverablesList
+										title={t('workflow.modal.whatYouGet')}
+										deliverables={deliverables}
 										accentColor={accentColor}
 									/>
-								))}
-							</div>
-						</Section>
-					)}
+								)}
 
-					{/* Timeline */}
-					<Section>
-						<SectionTitle>
-							{t('workflow.modal.timeline')}
-						</SectionTitle>
-						<VisualTimeline
-							duration={timeline.duration}
-							milestones={timeline.milestones}
-							accentColor={accentColor}
-							durationLabel={t('workflow.modal.duration')}
-						/>
-					</Section>
-				</div>
-			</motion.div>
-		</>
-	)
-}
-
-// Helper Components
-const Section = ({ children }: { children: React.ReactNode }) => (
-	<div className="space-y-4">{children}</div>
-)
-
-const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-	<h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-		{children}
-	</h3>
-)
-
-const BenefitCard = ({
-	benefit,
-	accentColor,
-}: {
-	benefit: { id?: string; title: string; description: string; icon: string }
-	accentColor: string
-}) => (
-	<div
-		className={cn(
-			'flex gap-4 rounded-lg p-5',
-			'bg-gray-50/70 backdrop-blur-sm dark:bg-gray-800/70',
-			'border-l-4 shadow-sm',
-			'transition-all duration-200',
-			'hover:scale-[1.01] hover:shadow-md',
-		)}
-		style={{ borderLeftColor: accentColor }}
-	>
-		<span className="flex-shrink-0 text-3xl">{benefit.icon}</span>
-		<div className="flex-1">
-			<h4 className="mb-1 font-semibold text-gray-900 dark:text-white">
-				{benefit.title}
-			</h4>
-			<p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-				{benefit.description}
-			</p>
-		</div>
-	</div>
-)
-
-const DeliverableCard = ({
-	deliverable,
-	accentColor,
-}: {
-	deliverable: { name: string; description: string; type: string }
-	accentColor: string
-}) => {
-	const typeIcon = TYPE_ICONS[deliverable.type] || '📦'
-
-	return (
-		<div
-			className={cn(
-				'rounded-lg border-2 p-5',
-				'bg-white/50 backdrop-blur-sm dark:bg-gray-900/50',
-				'transition-all duration-200',
-				'hover:scale-[1.02] hover:shadow-lg',
+								{/* Visual Timeline */}
+								<ModalVisualTimeline
+									title={t('workflow.modal.timeline')}
+									durationLabel={t('workflow.modal.duration')}
+									duration={timeline.duration}
+									milestones={timeline.milestones}
+									accentColor={accentColor}
+								/>
+							</motion.div>
+						</div>
+					</motion.div>
+				</>
 			)}
-			style={{ borderColor: `${accentColor}30` }}
-		>
-			<div className="mb-3 flex items-start justify-between gap-3">
-				<h4 className="font-semibold text-gray-900 dark:text-white">
-					{deliverable.name}
-				</h4>
-				<span
-					className="inline-flex flex-shrink-0 items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-white"
-					style={{ backgroundColor: accentColor }}
-				>
-					<span>{typeIcon}</span>
-					<span className="capitalize">{deliverable.type}</span>
-				</span>
-			</div>
-			<p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-				{deliverable.description}
-			</p>
-		</div>
+		</AnimatePresence>
 	)
 }
-
-const VisualTimeline = ({
-	duration,
-	milestones,
-	accentColor,
-	durationLabel,
-}: {
-	duration: string
-	milestones: readonly string[]
-	accentColor: string
-	durationLabel: string
-}) => (
-	<div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 dark:from-gray-800 dark:to-gray-900">
-		<p
-			className="mb-6 text-lg font-semibold"
-			style={{ color: accentColor }}
-		>
-			{durationLabel}: {duration}
-		</p>
-		<div className="relative">
-			{milestones.map((milestone, index) => (
-				<div key={milestone} className="relative pb-8 last:pb-0">
-					{/* Vertical line connecting milestones */}
-					{index < milestones.length - 1 && (
-						<div
-							className="absolute top-8 left-3 h-full w-0.5"
-							style={{
-								backgroundColor: `${accentColor}30`,
-							}}
-						/>
-					)}
-
-					{/* Milestone card */}
-					<div className="relative flex items-start gap-4">
-						{/* Numbered badge */}
-						<div
-							className="relative z-10 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold text-white shadow-md"
-							style={{
-								backgroundColor: accentColor,
-							}}
-						>
-							{index + 1}
-						</div>
-
-						{/* Milestone content */}
-						<div className="flex-1 rounded-lg bg-white/50 p-3 shadow-sm backdrop-blur-sm dark:bg-gray-700/50">
-							<p className="text-sm leading-relaxed font-medium text-gray-800 dark:text-gray-200">
-								{milestone}
-							</p>
-						</div>
-					</div>
-				</div>
-			))}
-		</div>
-	</div>
-)
