@@ -1,5 +1,6 @@
 import { X } from 'lucide-react'
 import { motion } from 'motion/react'
+import type { ComponentType } from 'react'
 
 import { cn } from '@/lib/core/utils'
 
@@ -16,7 +17,7 @@ interface ModalHeroSectionProps {
 	accentColor: string
 
 	/** Illustration component */
-	Illustration: React.ComponentType
+	Illustration: ComponentType<{ color?: string }>
 
 	/** Close button click handler */
 	onClose: () => void
@@ -116,7 +117,7 @@ export const ModalHeroSection = ({
 						'md:h-24 md:w-24',
 					)}
 				>
-					<Illustration />
+					<Illustration color={accentColor} />
 				</motion.div>
 
 				{/* Title - Balanced Size */}
