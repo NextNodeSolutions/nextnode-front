@@ -56,7 +56,7 @@ pnpm preview
 Run these commands in order after development work:
 
 ```bash
-# 1. Lint code with @nextnode/eslint-plugin
+# 1. Lint and auto-fix code with Biome
 pnpm lint
 
 # 2. Type checking (Astro + TypeScript)
@@ -77,9 +77,22 @@ pnpm test:watch
 
 # Interactive test UI
 pnpm test:ui
+```
 
-# Fast type check (skips astro check)
-pnpm type-check:fast
+### Utility Commands
+
+```bash
+# Format code with Prettier
+pnpm format
+
+# Clean build artifacts and cache
+pnpm clean
+
+# Run commitlint (triggered by git hooks)
+pnpm commitlint
+
+# Run lint-staged (triggered by pre-commit)
+pnpm lint-staged
 ```
 
 ## Architecture Overview

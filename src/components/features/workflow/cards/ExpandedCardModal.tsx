@@ -2,29 +2,26 @@ import React from 'react'
 
 import { AnimatePresence, motion } from 'motion/react'
 
-import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/I18nReact'
 
 import { ModalBenefitsGrid } from '../expanded/ModalBenefitsGrid'
 import { ModalDeliverablesList } from '../expanded/ModalDeliverablesList'
-// Import extracted components
 import { ModalHeroSection } from '../expanded/ModalHeroSection'
 import { ModalOverviewPanel } from '../expanded/ModalOverviewPanel'
-import { ModalVisualTimeline } from '../expanded/ModalVisualTimeline'
 import { getStepIllustration } from '../illustrations'
 import { MODAL_TRANSITIONS, STAGGER_CONFIG } from '../workflow-animation-config'
 
 import type { ExpandedCardModalProps } from '@/types/workflow'
 
 /**
- * ExpandedCardModal - Enhanced glassmorphic modal
+ * ExpandedCardModal - Minimal clean modal
  *
- * Redesigned with:
- * - Multi-layer glassmorphism
- * - Extracted component architecture
- * - Staggered content animations
- * - Enhanced visual hierarchy
- * - Better accessibility
+ * Features:
+ * - Hero section with illustration
+ * - 2-column layout: Overview (40%) + Benefits (60%)
+ * - Simple deliverables list
+ * - Staggered animations
+ * - Keyboard navigation (Esc to close)
  */
 export const ExpandedCardModal = ({
 	isOpen,
@@ -33,7 +30,7 @@ export const ExpandedCardModal = ({
 	stepKey,
 }: ExpandedCardModalProps) => {
 	const { t } = useI18n()
-	const { accentColor, deliverables, timeline } = stepData
+	const { accentColor, deliverables } = stepData
 
 	// Close on Escape key + body scroll lock
 	React.useEffect(() => {
@@ -69,34 +66,13 @@ export const ExpandedCardModal = ({
 						aria-hidden="true"
 					/>
 
-					{/* Modal Container - Minimal & Clean */}
+					{/* Modal Container */}
 					<motion.div
 						initial={{ opacity: 0, scale: 0.98, y: 20 }}
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.98, y: 20 }}
 						transition={MODAL_TRANSITIONS.modalSpring}
-						className={cn(
-							// Base: positioning
-							'fixed top-1/2 left-1/2 z-50',
-							'-translate-x-1/2 -translate-y-1/2',
-
-							// Sizing - wider for generous spacing
-							'w-[95vw] max-w-6xl',
-							'max-h-[90vh]',
-
-							// Simple clean background
-							'rounded-2xl',
-							'bg-white dark:bg-gray-950',
-
-							// Subtle border
-							'border border-gray-200 dark:border-gray-800',
-
-							// Clean shadow
-							'shadow-2xl',
-
-							// Overflow
-							'overflow-hidden',
-						)}
+						className="fixed top-1/2 left-1/2 z-50 max-h-[90vh] w-[95vw] max-w-6xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-950"
 						onClick={e => e.stopPropagation()}
 						role="dialog"
 						aria-modal="true"
@@ -114,7 +90,7 @@ export const ExpandedCardModal = ({
 								closeLabel={t('workflow.modal.closeModal')}
 							/>
 
-							{/* Body Content - Compact Spacing */}
+							{/* Body Content */}
 							<motion.div
 								initial="hidden"
 								animate="visible"
@@ -123,39 +99,36 @@ export const ExpandedCardModal = ({
 										transition: STAGGER_CONFIG.container,
 									},
 								}}
-								className={cn(
-									// Base: compact spacing between sections
-									'space-y-8',
-									'sm:space-y-10',
-									'md:space-y-12',
-
-									// Responsive padding - balanced
-									'px-6 py-8',
-									'sm:px-8 sm:py-10',
-									'md:px-12 md:py-12',
-									'lg:px-16 lg:py-14',
-
-									// Max width for readability
-									'mx-auto max-w-5xl',
-								)}
+								className="mx-auto max-w-5xl space-y-8 px-6 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12"
 							>
-								{/* Overview Section */}
-								<ModalOverviewPanel
-									title={t('workflow.modal.overview')}
-									description={stepData.fullDescription}
-									accentColor={accentColor}
-								/>
+								{/* 2-Column Layout: Overview (40%) + Benefits (60%) */}
+								<div className="grid grid-cols-1 gap-8 md:grid-cols-5">
+									{/* Overview - 40% */}
+									<div className="md:col-span-2">
+										<ModalOverviewPanel
+											title={t('workflow.modal.overview')}
+											description={
+												stepData.fullDescription
+											}
+											accentColor={accentColor}
+										/>
+									</div>
 
-								{/* Benefits Grid */}
-								{stepData.benefits.length > 0 && (
-									<ModalBenefitsGrid
-										title={t('workflow.modal.keyBenefits')}
-										benefits={stepData.benefits}
-										accentColor={accentColor}
-									/>
-								)}
+									{/* Benefits - 60% */}
+									{stepData.benefits.length > 0 && (
+										<div className="md:col-span-3">
+											<ModalBenefitsGrid
+												title={t(
+													'workflow.modal.keyBenefits',
+												)}
+												benefits={stepData.benefits}
+												accentColor={accentColor}
+											/>
+										</div>
+									)}
+								</div>
 
-								{/* Deliverables List */}
+								{/* Deliverables - Full Width */}
 								{deliverables.length > 0 && (
 									<ModalDeliverablesList
 										title={t('workflow.modal.whatYouGet')}
@@ -163,15 +136,6 @@ export const ExpandedCardModal = ({
 										accentColor={accentColor}
 									/>
 								)}
-
-								{/* Visual Timeline */}
-								<ModalVisualTimeline
-									title={t('workflow.modal.timeline')}
-									durationLabel={t('workflow.modal.duration')}
-									duration={timeline.duration}
-									milestones={timeline.milestones}
-									accentColor={accentColor}
-								/>
 							</motion.div>
 						</div>
 					</motion.div>

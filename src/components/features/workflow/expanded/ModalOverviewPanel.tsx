@@ -1,7 +1,5 @@
-import { FileText } from 'lucide-react'
+import { Check, FileText } from 'lucide-react'
 import { motion } from 'motion/react'
-
-import { cn } from '@/lib/core/utils'
 
 import { PANEL_VARIANTS } from '../workflow-animation-config'
 
@@ -9,7 +7,7 @@ interface ModalOverviewPanelProps {
 	/** Section title (e.g., "Overview") */
 	title: string
 
-	/** Full description content */
+	/** Full description content (format: "Intro sentence. • Point 1 • Point 2") */
 	description: string
 
 	/** Accent color for visual elements */
@@ -21,64 +19,56 @@ interface ModalOverviewPanelProps {
  *
  * Features:
  * - Clean typography with icon
- * - Generous spacing
- * - Simple separator line
- * - Focus on readability
+ * - Parses description into intro + bullet points
+ * - Compact spacing with visual hierarchy
  */
 export const ModalOverviewPanel = ({
 	title,
 	description,
 	accentColor,
 }: ModalOverviewPanelProps) => {
+	// Parse description: split by • to separate intro from bullet points
+	const parts = description.split('•').map(part => part.trim())
+	const intro = parts[0]
+	const bulletPoints = parts.slice(1).filter(point => point.length > 0)
+
 	return (
-		<motion.div variants={PANEL_VARIANTS} className="space-y-4">
-			{/* Section Header with Icon */}
+		<motion.div variants={PANEL_VARIANTS} className="space-y-3">
+			{/* Section Header */}
 			<div className="flex items-center gap-2.5">
-				{/* Simple icon - smaller */}
 				<FileText
-					className="h-5 w-5 flex-shrink-0"
+					className="h-5 w-5"
 					style={{ color: accentColor }}
 					aria-hidden="true"
 				/>
-
-				{/* Title - Balanced */}
-				<h3
-					className={cn(
-						// Typography
-						'font-bold tracking-tight',
-
-						// Compact sizing
-						'text-xl',
-						'sm:text-2xl',
-						'md:text-3xl',
-
-						// Colors
-						'text-gray-900 dark:text-gray-50',
-					)}
-				>
+				<h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl dark:text-gray-50">
 					{title}
 				</h3>
 			</div>
 
-			{/* Description - Very Compact */}
-			<p
-				className={cn(
-					// Typography - very small
-					'text-xs leading-relaxed',
-					'sm:text-sm sm:leading-relaxed',
-
-					// Colors
-					'text-gray-700 dark:text-gray-300',
-				)}
-			>
-				{description}
+			{/* Intro Sentence */}
+			<p className="text-xs leading-relaxed font-medium text-gray-900 sm:text-sm dark:text-gray-50">
+				{intro}
 			</p>
 
-			{/* Simple separator */}
-			<div
-				className="h-px w-full bg-gray-200 dark:bg-gray-800"
-				aria-hidden="true"
-			/>
+			{/* Bullet Points */}
+			{bulletPoints.length > 0 && (
+				<ul className="space-y-1.5">
+					{bulletPoints.map(point => (
+						<li
+							key={point}
+							className="flex items-start gap-2 text-xs leading-relaxed text-gray-700 sm:text-sm dark:text-gray-300"
+						>
+							<Check
+								className="mt-0.5 h-3.5 w-3.5 shrink-0"
+								style={{ color: accentColor }}
+								aria-hidden="true"
+							/>
+							<span>{point}</span>
+						</li>
+					))}
+				</ul>
+			)}
 		</motion.div>
 	)
 }
