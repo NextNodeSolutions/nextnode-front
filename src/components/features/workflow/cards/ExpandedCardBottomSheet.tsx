@@ -120,19 +120,24 @@ export const ExpandedCardBottomSheet = ({
 						<DragHandle className="py-2" />
 
 						{/* Scrollable Content */}
-						<div className="max-h-[calc(85vh-24px)] overflow-y-auto">
+						<div
+							className={cn(
+								'max-h-[calc(85vh-24px)] overflow-y-auto',
+								'pb-[env(safe-area-inset-bottom)]',
+							)}
+						>
 							{/* Hero Section (Sticky) */}
 							<div
 								className={cn(
 									'sticky top-0 z-10',
-									'flex items-center justify-between gap-4',
+									'space-y-3',
 									'px-4 py-3',
 									'bg-white dark:bg-gray-950',
 									'border-b border-gray-200 dark:border-gray-800',
 								)}
 							>
-								{/* Icon + Title */}
-								<div className="flex min-w-0 flex-1 items-center gap-3">
+								{/* Row 1: Icon + Title + Close Button */}
+								<div className="flex items-center justify-between">
 									{/* Illustration Icon */}
 									<div
 										className={cn(
@@ -152,62 +157,88 @@ export const ExpandedCardBottomSheet = ({
 										/>
 									</div>
 
-									{/* Title + Descriptions */}
-									<div className="min-w-0 flex-1">
-										<h2
-											id={titleId}
-											className={cn(
-												'font-bold',
-												'text-sm',
-												'text-gray-900 dark:text-white',
-												'truncate',
-											)}
-										>
-											{stepData.title}
-										</h2>
+									{/* Title */}
+									<h2
+										id={titleId}
+										className={cn(
+											'text-center text-base font-extrabold',
+											'text-gray-900 dark:text-white',
+											'truncate',
+										)}
+									>
+										{stepData.title}
+									</h2>
+
+									{/* Close Button (48x48px touch target) */}
+									<button
+										type="button"
+										onClick={onClose}
+										className={cn(
+											'flex h-12 w-12 shrink-0 items-center justify-center',
+											'rounded-lg',
+											'transition-colors',
+											'hover:bg-gray-100 dark:hover:bg-gray-800',
+											'focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+										)}
+										style={
+											{
+												'--tw-ring-color': accentColor,
+											} as React.CSSProperties
+										}
+										aria-label={t(
+											'workflow.modal.closeModal',
+										)}
+									>
+										<X
+											className="h-5 w-5 text-gray-500 dark:text-gray-400"
+											strokeWidth={2}
+										/>
+									</button>
+								</div>
+
+								{/* Row 2: Short Description */}
+								<p
+									className={cn(
+										'text-sm',
+										'text-gray-600 dark:text-gray-400',
+									)}
+								>
+									{stepData.shortDescription}
+								</p>
+
+								{/* Row 3: Full Description (parsed bullets) */}
+								{(() => {
+									const descParts = stepData.fullDescription
+										.split('•')
+										.map(s => s.trim())
+										.filter(Boolean)
+
+									return descParts.length > 1 ? (
+										<ul className="space-y-1.5 pl-4">
+											{descParts.map((part, i) => (
+												<li
+													key={`desc-${part.slice(0, 20)}-${i}`}
+													className={cn(
+														'text-sm leading-relaxed',
+														'text-gray-700 dark:text-gray-300',
+														'list-disc',
+													)}
+												>
+													{part}
+												</li>
+											))}
+										</ul>
+									) : (
 										<p
 											className={cn(
-												'text-xs',
-												'text-gray-600 dark:text-gray-400',
-												'line-clamp-1',
-											)}
-										>
-											{stepData.shortDescription}
-										</p>
-										<p
-											className={cn(
-												'mt-2 text-sm leading-relaxed',
+												'text-sm leading-relaxed',
 												'text-gray-700 dark:text-gray-300',
 											)}
 										>
 											{stepData.fullDescription}
 										</p>
-									</div>
-								</div>
-
-								{/* Close Button (48x48px touch target) */}
-								<button
-									type="button"
-									onClick={onClose}
-									className={cn(
-										'flex h-12 w-12 shrink-0 items-center justify-center',
-										'rounded-lg',
-										'transition-colors',
-										'hover:bg-gray-100 dark:hover:bg-gray-800',
-										'focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
-									)}
-									style={
-										{
-											'--tw-ring-color': accentColor,
-										} as React.CSSProperties
-									}
-									aria-label={t('workflow.modal.closeModal')}
-								>
-									<X
-										className="h-5 w-5 text-gray-500 dark:text-gray-400"
-										strokeWidth={2}
-									/>
-								</button>
+									)
+								})()}
 							</div>
 
 							{/* Accordion Sections */}
