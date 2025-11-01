@@ -11,8 +11,6 @@ export interface StepConfig {
 export interface WorkflowPosition {
 	x: number
 	y: number
-	cardX: number
-	cardY: number
 	lineEndX: number
 	lineEndY: number
 }
@@ -29,12 +27,55 @@ export type Step = {
 	icon: string
 } & EnglishDict['workflow']['steps'][keyof EnglishDict['workflow']['steps']]
 
+// Rich step data for expanded modal view
+export interface WorkflowStepData {
+	// Basic info (for card preview)
+	id: StepKey
+	title: string
+	shortDescription: string
+	icon: string
+
+	// Extended info (for modal)
+	fullDescription: string
+	benefits: ReadonlyArray<{
+		readonly id?: string
+		readonly title: string
+		readonly description: string
+		readonly icon: string
+	}>
+	deliverables: ReadonlyArray<{
+		readonly name: string
+		readonly description: string
+		readonly type: 'document' | 'code' | 'asset' | 'service'
+	}>
+	timeline: {
+		readonly duration: string
+		readonly milestones: readonly string[]
+	}
+
+	// Visual
+	gradient: string
+	accentColor: string
+
+	// CTA
+	ctaText?: string
+	ctaLink?: string
+}
+
 // Types pour les composants de modal
 export interface StepModalProps {
 	isOpen: boolean
 	onClose: () => void
 	step: Step
 	color: string
+}
+
+// Expanded modal component props
+export interface ExpandedCardModalProps {
+	isOpen: boolean
+	onClose: () => void
+	stepData: WorkflowStepData
+	stepKey: StepKey
 }
 
 // Types pour les composants interactifs
