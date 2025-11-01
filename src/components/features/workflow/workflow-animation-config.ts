@@ -248,3 +248,43 @@ export const DURATIONS = {
 	verySlow: 800,
 	timeline: 1500,
 } as const
+
+/**
+ * Bottom Sheet Configuration (Mobile)
+ */
+export const BOTTOM_SHEET_CONFIG = {
+	/** Spring physics for natural slide-up feel */
+	spring: {
+		type: 'spring',
+		stiffness: 300,
+		damping: 30,
+		mass: 0.8,
+	} as Transition,
+
+	/** Drag constraints and elasticity */
+	drag: {
+		drag: 'y' as const,
+		dragConstraints: { top: 0, bottom: 0 },
+		dragElastic: 0.2,
+	},
+
+	/** Swipe-to-close thresholds */
+	dismissThreshold: {
+		offset: 100, // pixels
+		velocity: 500, // pixels per second
+	},
+
+	/** Backdrop transition */
+	backdropFade: {
+		duration: 0.2,
+		ease: 'easeInOut',
+	} as Transition,
+
+	/** Accordion spring (slightly less snappy than sheet) */
+	accordionSpring: {
+		type: 'spring',
+		stiffness: 200,
+		damping: 25,
+		mass: 1,
+	} as Transition,
+} as const

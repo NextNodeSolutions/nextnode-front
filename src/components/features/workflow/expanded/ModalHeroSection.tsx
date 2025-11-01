@@ -1,10 +1,12 @@
 import { X } from 'lucide-react'
 import { motion } from 'motion/react'
-import type { ComponentType } from 'react'
 
 import { cn } from '@/lib/core/utils'
 
+import { StepIllustration } from '../illustrations'
 import { HERO_VARIANTS } from '../workflow-animation-config'
+
+import type { StepKey } from '@/types/i18n'
 
 interface ModalHeroSectionProps {
 	/** Step title */
@@ -16,8 +18,8 @@ interface ModalHeroSectionProps {
 	/** Accent color for step (hex) */
 	accentColor: string
 
-	/** Illustration component */
-	Illustration: ComponentType<{ color?: string }>
+	/** Step key for illustration */
+	stepKey: StepKey
 
 	/** Close button click handler */
 	onClose: () => void
@@ -40,7 +42,7 @@ export const ModalHeroSection = ({
 	title,
 	description,
 	accentColor,
-	Illustration,
+	stepKey,
 	onClose,
 	closeLabel,
 }: ModalHeroSectionProps) => {
@@ -117,7 +119,7 @@ export const ModalHeroSection = ({
 						'md:h-24 md:w-24',
 					)}
 				>
-					<Illustration color={accentColor} />
+					<StepIllustration stepKey={stepKey} color={accentColor} />
 				</motion.div>
 
 				{/* Title - Balanced Size */}

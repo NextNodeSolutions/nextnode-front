@@ -8,7 +8,6 @@ import { ModalBenefitsGrid } from '../expanded/ModalBenefitsGrid'
 import { ModalDeliverablesList } from '../expanded/ModalDeliverablesList'
 import { ModalHeroSection } from '../expanded/ModalHeroSection'
 import { ModalOverviewPanel } from '../expanded/ModalOverviewPanel'
-import { getStepIllustration } from '../illustrations'
 import { MODAL_TRANSITIONS, STAGGER_CONFIG } from '../workflow-animation-config'
 
 import type { ExpandedCardModalProps } from '@/types/workflow'
@@ -49,8 +48,6 @@ export const ExpandedCardModal = ({
 
 	if (!isOpen) return null
 
-	const Illustration = getStepIllustration(stepKey)
-
 	return (
 		<AnimatePresence mode="wait">
 			{isOpen && (
@@ -85,7 +82,7 @@ export const ExpandedCardModal = ({
 								title={stepData.title}
 								description={stepData.shortDescription}
 								accentColor={accentColor}
-								Illustration={Illustration}
+								stepKey={stepKey}
 								onClose={onClose}
 								closeLabel={t('workflow.modal.closeModal')}
 							/>
