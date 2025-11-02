@@ -123,7 +123,8 @@ export const ExpandedCardBottomSheet = ({
 						<div
 							className={cn(
 								'max-h-[calc(85vh-24px)] overflow-y-auto',
-								'pb-[env(safe-area-inset-bottom)]',
+								'pb-6',
+								'pb-[calc(1.5rem+env(safe-area-inset-bottom))]',
 							)}
 						>
 							{/* Hero Section (Sticky) */}
