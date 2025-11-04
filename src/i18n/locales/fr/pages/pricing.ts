@@ -1,7 +1,4 @@
-import {
-	formatPrice,
-	PRICING_CONFIG,
-} from '@/components/features/pricing/pricing-config'
+import { PRICING_CONFIG } from '@/components/features/pricing/pricing-config'
 
 export const pricing = {
 	pageTitle: `Développement Web dès ${PRICING_CONFIG.monthly.base}€/mois | Nextnode`,
@@ -39,8 +36,8 @@ export const pricing = {
 		starter: {
 			name: 'Starter',
 			tagline: 'Site web en code, pas de limitations',
-			price: `${formatPrice.range(PRICING_CONFIG.plans.starter.min, PRICING_CONFIG.plans.starter.max, '€')}`,
-			recurring: formatPrice.monthly(PRICING_CONFIG.monthly.base, '€'),
+			price: `${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.plans.starter.min)} - ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.plans.starter.max)}`,
+			recurring: `${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.monthly.base)}/mois`,
 			badge: 'Idéal pour débuter',
 			description:
 				"Votre propre site web développé en code moderne. Contrairement aux plateformes no-code, vous disposez d'une liberté totale pour évoluer et ajouter toutes les fonctionnalités souhaitées.",
@@ -65,8 +62,8 @@ export const pricing = {
 		business: {
 			name: 'Business',
 			tagline: 'Applications web complètes en code',
-			price: `${formatPrice.range(PRICING_CONFIG.plans.business.min, PRICING_CONFIG.plans.business.max, '€')}`,
-			recurring: formatPrice.monthly(PRICING_CONFIG.monthly.base, '€'),
+			price: `${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.plans.business.min)} - ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.plans.business.max)}`,
+			recurring: `${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.monthly.base)}/mois`,
 			badge: 'Complet et évolutif',
 			description:
 				"Sites web complets développés en code avec toutes les fonctionnalités avancées possibles. Architecture évolutive permettant d'intégrer n'importe quelle solution ou API.",
@@ -191,10 +188,7 @@ export const pricing = {
 			},
 			{
 				name: 'Support Prioritaire',
-				price: formatPrice.supplement(
-					PRICING_CONFIG.support.priority,
-					'€',
-				),
+				price: `+${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.support.priority)}/mois`,
 				responseTime: '24h ouvrées',
 				availability: 'Lun-Ven 8h-19h',
 				description:
@@ -210,10 +204,7 @@ export const pricing = {
 			},
 			{
 				name: 'Support Urgent',
-				price: formatPrice.supplement(
-					PRICING_CONFIG.support.urgent,
-					'€',
-				),
+				price: `+${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.support.urgent)}/mois`,
 				responseTime: '4h maximum',
 				availability: 'Lun-Dim 8h-22h',
 				description:

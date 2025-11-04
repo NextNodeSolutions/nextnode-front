@@ -318,6 +318,24 @@ export const home = {
 		},
 		codeExample: {
 			title: 'Qualité de Code',
+			code: `// Suivi de l'engagement client avec scoring typé
+type ActionEngagement = 'visite' | 'clic' | 'inscription' | 'achat'
+
+interface ScoreEngagement {
+  etape: string
+  points: number
+}
+
+const obtenirScoreEngagement = (action: ActionEngagement): ScoreEngagement => {
+  const etapes: Record<ActionEngagement, ScoreEngagement> = {
+    visite: { etape: 'Découverte', points: 10 },
+    clic: { etape: 'Intérêt', points: 25 },
+    inscription: { etape: 'Prospect', points: 50 },
+    achat: { etape: 'Client', points: 100 }
+  }
+
+  return etapes[action]
+}`,
 		},
 		tools: {
 			title: 'Outils Pro',

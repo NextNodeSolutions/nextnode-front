@@ -436,5 +436,6 @@ export const workflow = {
 		timeline: 'Calendrier',
 		duration: 'Durée',
 		closeModal: 'Fermer le modal',
+		dragHandle: 'Poignée de glissement',
 	},
 } as const

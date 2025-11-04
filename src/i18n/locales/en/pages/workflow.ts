@@ -429,5 +429,6 @@ export const workflow = {
 		timeline: 'Timeline',
 		duration: 'Duration',
 		closeModal: 'Close modal',
+		dragHandle: 'Drag handle',
 	},
 } as const

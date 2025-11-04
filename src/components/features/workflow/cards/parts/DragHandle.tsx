@@ -1,4 +1,5 @@
 import { cn } from '@/lib/core/utils'
+import { useI18n } from '@/lib/i18n/I18nReact'
 
 interface DragHandleProps {
 	readonly className?: string
@@ -11,8 +12,10 @@ interface DragHandleProps {
  * - 48x24px touch target (WCAG AAA)
  * - Centered horizontal bar indicator
  * - Haptic feedback on touch (iOS/Android)
+ * - Internationalized aria-label for accessibility
  */
 export const DragHandle = ({ className }: DragHandleProps) => {
+	const { t } = useI18n()
 	const handleTouchStart = () => {
 		// Haptic feedback on drag start (10ms vibration)
 		if ('vibrate' in navigator) {
@@ -28,7 +31,7 @@ export const DragHandle = ({ className }: DragHandleProps) => {
 				className,
 			)}
 			onTouchStart={handleTouchStart}
-			aria-label="Drag handle"
+			aria-label={t('workflow.modal.dragHandle')}
 			role="presentation"
 		>
 			{/* Visual indicator bar */}

@@ -1,7 +1,4 @@
-import {
-	formatPrice,
-	PRICING_CONFIG,
-} from '@/components/features/pricing/pricing-config'
+import { PRICING_CONFIG } from '@/components/features/pricing/pricing-config'
 
 export const pricing = {
 	pageTitle: `Web Development from €${PRICING_CONFIG.monthly.base}/month | Nextnode`,
@@ -38,8 +35,8 @@ export const pricing = {
 		starter: {
 			name: 'Starter',
 			tagline: 'Real coded website, no limitations',
-			price: `€${formatPrice.range(PRICING_CONFIG.plans.starter.min, PRICING_CONFIG.plans.starter.max, '').replace('€', '').replace(' - ', ' - €')}`,
-			recurring: formatPrice.monthly(PRICING_CONFIG.monthly.base, '€'),
+			price: `${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.plans.starter.min)} - ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.plans.starter.max)}`,
+			recurring: `${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.monthly.base)}/month`,
 			badge: 'Perfect to start',
 			description:
 				'Your own website developed in modern code. Unlike no-code platforms, you have complete freedom to evolve and add any desired functionality.',
@@ -63,8 +60,8 @@ export const pricing = {
 		business: {
 			name: 'Business',
 			tagline: 'Complete coded web applications',
-			price: `€${formatPrice.range(PRICING_CONFIG.plans.business.min, PRICING_CONFIG.plans.business.max, '').replace('€', '').replace(' - ', ' - €')}`,
-			recurring: formatPrice.monthly(PRICING_CONFIG.monthly.base, '€'),
+			price: `${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.plans.business.min)} - ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.plans.business.max)}`,
+			recurring: `${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.monthly.base)}/month`,
 			badge: 'Complete & scalable',
 			description:
 				'Complete websites developed in code with all possible advanced features. Scalable architecture allowing integration of any solution or API.',
@@ -182,10 +179,7 @@ export const pricing = {
 			},
 			{
 				name: 'Priority Support',
-				price: formatPrice.supplement(
-					PRICING_CONFIG.support.priority,
-					'€',
-				),
+				price: `+${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.support.priority)}/month`,
 				responseTime: '24h business hours',
 				availability: 'Mon-Fri 8am-7pm',
 				description:
@@ -201,10 +195,7 @@ export const pricing = {
 			},
 			{
 				name: 'Urgent Support',
-				price: formatPrice.supplement(
-					PRICING_CONFIG.support.urgent,
-					'€',
-				),
+				price: `+${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(PRICING_CONFIG.support.urgent)}/month`,
 				responseTime: '4h maximum',
 				availability: 'Mon-Sun 8am-10pm',
 				description:

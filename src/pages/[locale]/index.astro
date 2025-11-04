@@ -47,6 +47,7 @@ const techExpertise = t('home.techExpertise')
 				<BentoDevTools data={techExpertise.tools} client:visible />
 				<BentoCodeExample
 					title={techExpertise.codeExample.title}
+					code={techExpertise.codeExample.code}
 					client:only="react"
 				/>
 				<BentoPerformanceMetrics
