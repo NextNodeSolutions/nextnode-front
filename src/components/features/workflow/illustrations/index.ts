@@ -1,1 +1,0 @@
-export { StepIllustration } from './StepIllustration'

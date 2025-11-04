@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/I18nReact'
 
-import { StepIllustration } from '../illustrations'
+import { StepIllustration } from '../illustrations/StepIllustration'
 import { BOTTOM_SHEET_CONFIG } from '../workflow-animation-config'
 import { AccordionBenefitItem } from './parts/AccordionBenefitItem'
 import { AccordionDeliverableItem } from './parts/AccordionDeliverableItem'

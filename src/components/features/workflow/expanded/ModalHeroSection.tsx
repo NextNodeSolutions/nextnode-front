@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 
 import { cn } from '@/lib/core/utils'
 
-import { StepIllustration } from '../illustrations'
+import { StepIllustration } from '../illustrations/StepIllustration'
 import { HERO_VARIANTS } from '../workflow-animation-config'
 
 import type { StepKey } from '@/types/i18n'
