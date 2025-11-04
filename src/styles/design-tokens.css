@@ -108,6 +108,36 @@
 	--ring-rose: rgba(244, 63, 94, 0.2);
 	--ring-slate: rgba(100, 116, 139, 0.2);
 
+	/* Step Primary Colors (for borders, progress bar, etc.) */
+	--step-1-primary: var(--color-indigo-600);
+	--step-1-accent: var(--color-cyan-500);
+	--step-2-primary: var(--color-violet-600);
+	--step-2-accent: var(--color-fuchsia-500);
+	--step-3-primary: var(--color-emerald-600);
+	--step-3-accent: var(--color-cyan-500);
+	--step-4-primary: var(--color-amber-500);
+	--step-4-accent: var(--color-red-500);
+	--step-5-primary: var(--color-rose-500);
+	--step-5-accent: var(--color-fuchsia-500);
+	--step-6-primary: var(--color-slate-600);
+	--step-6-accent: #71717a;
+
+	/* Step Border Colors (for glassmorphic cards) */
+	--step-1-border: rgba(99, 102, 241, 0.2);
+	--step-2-border: rgba(124, 58, 237, 0.2);
+	--step-3-border: rgba(5, 150, 105, 0.2);
+	--step-4-border: rgba(245, 158, 11, 0.2);
+	--step-5-border: rgba(244, 63, 94, 0.2);
+	--step-6-border: rgba(100, 116, 139, 0.2);
+
+	/* Step Glow Colors (hover state) */
+	--step-1-glow: rgba(99, 102, 241, 0.3);
+	--step-2-glow: rgba(124, 58, 237, 0.3);
+	--step-3-glow: rgba(5, 150, 105, 0.3);
+	--step-4-glow: rgba(245, 158, 11, 0.3);
+	--step-5-glow: rgba(244, 63, 94, 0.3);
+	--step-6-glow: rgba(100, 116, 139, 0.3);
+
 	/* Glassmorphism Base */
 	--glass-white-10: rgba(255, 255, 255, 0.1);
 	--glass-white-20: rgba(255, 255, 255, 0.2);
@@ -137,6 +167,22 @@
 	--z-modal: 30;
 	--z-popover: 40;
 	--z-tooltip: 50;
+
+	/* Card Section Heights (responsive with clamp) */
+	/* These ensure uniform heights across all workflow cards */
+	--card-title-height: clamp(2rem, 2.5vw + 1.5rem, 3rem);
+	--card-progress-height: clamp(0.5rem, 0.5vw + 0.25rem, 0.75rem);
+	--card-description-height: clamp(3rem, 4vw + 2rem, 6rem);
+	--card-footer-height: clamp(2rem, 2vw + 1.5rem, 3rem);
+	--card-gap: clamp(0.25rem, 0.5vw + 0.125rem, 0.75rem);
+
+	/* Card Total Heights (for consistent card sizing) */
+	/* Mini: mobile/tablet compact view */
+	--card-height-mini: clamp(8rem, 10vw + 6rem, 12rem);
+	/* Compact: mid-range desktop view */
+	--card-height-compact: clamp(10rem, 12vw + 8rem, 14rem);
+	/* Large: full desktop view */
+	--card-height-large: clamp(12rem, 15vw + 10rem, 16rem);
 }
 
 /* Dark Mode Overrides */

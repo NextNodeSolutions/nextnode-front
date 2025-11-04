@@ -382,3 +382,16 @@
 		opacity: 0.95;
 	}
 }
+
+/* ============================================================================
+   SHIMMER ANIMATION (Benefits Cards)
+   ============================================================================ */
+
+@keyframes shimmer {
+	0% {
+		transform: translateX(-100%) translateY(-100%);
+	}
+	100% {
+		transform: translateX(100%) translateY(100%);
+	}
+}

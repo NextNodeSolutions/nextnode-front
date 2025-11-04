@@ -2,7 +2,8 @@
 import { STEP_COLORS } from '../workflow-constants'
 import type { Step } from '@/types/workflow'
 import TimelineNode from './TimelineNode.astro'
-import StepCardContainer from '../cards/StepCardContainer.astro'
+import StepCardWrapper from '../cards/StepCard.wrapper.astro'
+import { cn } from '@/lib/core/utils'
 
 export interface Props {
 	steps: Step[]
@@ -11,10 +12,10 @@ export interface Props {
 const { steps } = Astro.props
 ---
 
-<div class="mobile-timeline w-full py-12">
+<div class="mobile-timeline w-full py-6">
 	<div class="relative mx-auto max-w-3xl pr-6 pl-2">
 		{/* Steps container with timeline inside */}
-		<div class="relative space-y-12">
+		<div class="relative space-y-8">
 			{/* Timeline connector line - now inside the steps container */}
 			<div
 				class="absolute top-0 left-4 h-full w-px bg-gradient-to-b from-indigo-500 via-amber-500 via-emerald-500 via-purple-500 via-red-500 to-gray-500 opacity-30"
@@ -29,11 +30,20 @@ const { steps } = Astro.props
 							{/* Timeline node with modular component */}
 							<TimelineNode color={color} index={index} />
 
-							{/* Step card with modular container */}
-							<StepCardContainer
-								stepKey={step.id}
-								index={index}
-							/>
+							{/* Step card with animation wrapper */}
+							<div
+								class={cn(
+									'animate-in animate-slide-in-from-bottom-8 animate-fill-mode-forwards transform opacity-0 transition-all duration-700 hover:translate-x-1 motion-reduce:animate-none motion-reduce:opacity-100',
+								)}
+								style={`animation-delay: ${index * 150}ms`}
+								data-step-card
+								data-step-index={index}
+							>
+								<StepCardWrapper
+									stepKey={step.id}
+									index={index}
+								/>
+							</div>
 						</div>
 					)
 				})

@@ -45,22 +45,3 @@ export const PRICING_CONFIG = {
 		},
 	},
 } as const
-
-/**
- * Utilitaires pour formater les prix
- */
-export const formatPrice = {
-	// Formatage d'une fourchette de prix
-	range: (min: number, max: number | null, currency = '€'): string =>
-		max
-			? `${min.toLocaleString('fr-FR')}${currency} - ${max.toLocaleString('fr-FR')}${currency}`
-			: `${min.toLocaleString('fr-FR')}${currency}+`,
-
-	// Formatage mensuel
-	monthly: (price: number, currency = '€'): string =>
-		`${price.toLocaleString('fr-FR')}${currency}/mois`,
-
-	// Formatage avec préfixe pour les suppléments
-	supplement: (price: number, currency = '€'): string =>
-		`+${price.toLocaleString('fr-FR')}${currency}/mois`,
-}

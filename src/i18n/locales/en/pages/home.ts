@@ -317,6 +317,24 @@ export const home = {
 		},
 		codeExample: {
 			title: 'Code Quality',
+			code: `// Track customer engagement with type-safe scoring
+type EngagementAction = 'visit' | 'click' | 'signup' | 'purchase'
+
+interface EngagementScore {
+  stage: string
+  points: number
+}
+
+const getEngagementScore = (action: EngagementAction): EngagementScore => {
+  const stages: Record<EngagementAction, EngagementScore> = {
+    visit: { stage: 'Discovery', points: 10 },
+    click: { stage: 'Interest', points: 25 },
+    signup: { stage: 'Lead', points: 50 },
+    purchase: { stage: 'Customer', points: 100 }
+  }
+
+  return stages[action]
+}`,
 		},
 		tools: {
 			title: 'Pro Tools',

@@ -1,5 +1,7 @@
 // Import types from centralized location
 
+import type { CardDirection } from './cards/step-card-variants'
+
 import type { StepKey } from '@/types/i18n'
 import type {
 	GradientStop,
@@ -47,16 +49,56 @@ export const STEP_CONFIG: Record<string, StepConfig> = {
 	support: { icon: STEP_ICONS[5], color: STEP_COLORS[5] },
 } as const
 
-// Desktop positions for StepCard (220x120px) with straight lines
-// Those positions are perfect, do not move them
+// Desktop positions for StepCard with straight lines
+// Cards positioned based on line direction
 export const DESKTOP_WORKFLOW_POSITIONS: WorkflowPosition[] = [
-	{ x: 80, y: 60, cardX: -20, cardY: -120, lineEndX: 80, lineEndY: 0 },
-	{ x: 350, y: 75, cardX: 310, cardY: -100, lineEndX: 350, lineEndY: 10 },
-	{ x: 510, y: 140, cardX: 670, cardY: 120, lineEndX: 560, lineEndY: 140 },
-	{ x: 205, y: 220, cardX: -20, cardY: 230, lineEndX: 160, lineEndY: 220 },
-	{ x: 480, y: 252, cardX: 470, cardY: 430, lineEndX: 480, lineEndY: 310 },
-	{ x: 880, y: 385, cardX: 950, cardY: 265, lineEndX: 880, lineEndY: 325 },
+	{ x: 80, y: 60, lineEndX: 80, lineEndY: -10 },
+	{ x: 350, y: 75, lineEndX: 350, lineEndY: 10 },
+	{ x: 510, y: 140, lineEndX: 560, lineEndY: 140 },
+	{ x: 205, y: 220, lineEndX: 160, lineEndY: 220 },
+	{ x: 480, y: 252, lineEndX: 480, lineEndY: 310 },
+	{ x: 880, y: 385, lineEndX: 880, lineEndY: 325 },
 ]
+
+/**
+ * Card direction configuration based on workflow line arrival direction
+ * Determines flex alignment within container based on where the workflow line connects
+ *
+ * Analysis of DESKTOP_WORKFLOW_POSITIONS:
+ * - Step 1 (discovery): Line goes up (y: 60 → -10) → 'top' (line arrives from top)
+ * - Step 2 (design): Line goes up (y: 75 → 10) → 'top' (line arrives from top)
+ * - Step 3 (development): Line goes right (x: 510 → 560) → 'right' (line arrives from right)
+ * - Step 4 (testing): Line goes left (x: 205 → 160) → 'left' (line arrives from left)
+ * - Step 5 (deployment): Line goes down (y: 252 → 310) → 'bottom' (line arrives from bottom)
+ * - Step 6 (support): Line goes up (y: 385 → 325) → 'top' (line arrives from top)
+ */
+export const STEP_DIRECTIONS: readonly CardDirection[] = [
+	'bottom', // Step 1
+	'bottom', // Step 2
+	'right', // Step 3
+	'left', // Step 4
+	'top', // Step 5
+	'bottom', // Step 6
+] as const
+
+/**
+ * Base card dimensions in SVG units (viewBox 1000x500)
+ * Used for position calculations in the workflow journey
+ */
+export const CARD_DIMENSIONS = {
+	width: 160,
+	height: 210,
+}
+
+/**
+ * Feature flags for workflow cards
+ * Simplified: responsive behavior via Tailwind classes in components
+ */
+export const CARD_FEATURES = {
+	showHeader: false, // No header in workflow journey
+	showDescription: true, // Hidden on mobile via md:hidden
+	showStepLabel: true, // Hidden on mobile via md:hidden
+}
 
 // Utility function to generate gradient stops
 export const generateGradientStops = (

@@ -62,6 +62,7 @@
 		"@nextnode/standards": "^2.0.5",
 		"@playwright/test": "^1.54.2",
 		"@testing-library/jest-dom": "^6.6.3",
+		"@testing-library/react": "^16.3.0",
 		"@types/node": "^24.1.0",
 		"@types/prismjs": "^1.26.5",
 		"@types/react": "^19.1.2",

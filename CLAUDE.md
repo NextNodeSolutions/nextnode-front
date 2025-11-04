@@ -2,6 +2,40 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 🎯 Quick Reference
+
+**Critical Patterns** (most frequently used):
+
+| Pattern                  | When to Use                | Example Location                   |
+| ------------------------ | -------------------------- | ---------------------------------- |
+| **CVA variants**         | 3+ visual variants         | `CalActionButton.tsx:19`           |
+| **client:visible**       | Below-fold components      | Most pricing/marketing components  |
+| **client:only="react"**  | Framer Motion              | `OrbitingTech`                     |
+| **cn() utility**         | Combining Tailwind classes | All components                     |
+| **Glassmorphic styling** | Cards, overlays            | `backdrop-blur-sm bg-white/50`     |
+| **Translation keys**     | i18n                       | `t('common.meta.homepage.title')`  |
+| **Test colocation**      | Test organization          | `__tests__/ComponentName.test.tsx` |
+
+**Decision Trees:**
+
+```
+Component Architecture:
+├─ Static content only? → .astro component
+├─ Interactive but needs Astro context? → .astro wrapper + .tsx
+└─ Pure React interactivity? → .tsx with client:* directive
+
+Client Directive:
+├─ Above fold + interactive? → client:load
+├─ Below fold + interactive? → client:visible
+├─ Background/non-critical? → client:idle
+└─ Framer Motion/React-only APIs? → client:only="react"
+
+Styling Approach:
+├─ 3+ visual variants? → CVA with compound variants
+├─ 2-3 simple variants? → cn() with conditionals
+└─ One-off styling? → Inline Tailwind
+```
+
 ## Essential Commands
 
 ### Development Workflow
@@ -22,7 +56,7 @@ pnpm preview
 Run these commands in order after development work:
 
 ```bash
-# 1. Lint code with @nextnode/eslint-plugin
+# 1. Lint and auto-fix code with Biome
 pnpm lint
 
 # 2. Type checking (Astro + TypeScript)
@@ -43,9 +77,22 @@ pnpm test:watch
 
 # Interactive test UI
 pnpm test:ui
+```
 
-# Fast type check (skips astro check)
-pnpm type-check:fast
+### Utility Commands
+
+```bash
+# Format code with Prettier
+pnpm format
+
+# Clean build artifacts and cache
+pnpm clean
+
+# Run commitlint (triggered by git hooks)
+pnpm commitlint
+
+# Run lint-staged (triggered by pre-commit)
+pnpm lint-staged
 ```
 
 ## Architecture Overview
@@ -90,9 +137,10 @@ src/components/
 #### 4. State Management
 
 - **React hooks**: Custom hooks in `src/hooks/` for client-side state
-- **Modal management**: Centralized modal state with `useModalState`
-- **Keyboard shortcuts**: `useKeyboardShortcuts` for accessibility
-- **No external state library**: Pure React patterns
+    - `useOutsideClick`: Detect clicks outside elements (modals, dropdowns)
+    - `useScrollAnimation`: Scroll-based animation triggers
+- **No external state library**: Pure React patterns with local component state
+- **Global state**: Managed via client-side managers (theme, language) with custom events
 
 #### 5. Email System
 
@@ -140,23 +188,312 @@ src/components/
 
 - **Astro components**: `.astro` for static/SSR content
 - **React components**: `.tsx` for interactive features
+- **Wrapper pattern**: `.astro` wrapper around `.tsx` for Astro integration (e.g., `StepCard.wrapper.astro` → `StepCard.tsx`)
 - **Props interfaces**: Defined per component with TypeScript
 - **Tailwind composition**: Design tokens via CSS custom properties
 
+#### CVA Component Variant Patterns
+
+**When to use CVA** (class-variance-authority):
+
+- ✅ Components with **3+ distinct visual variants** (button styles, card types, badge variants)
+- ✅ **Compound variants**: Styles that depend on multiple variant combinations
+- ✅ **Design system components**: Reusable UI elements with consistent variant patterns
+- ⛔ Simple conditional classes → Use `cn()` utility directly
+- ⛔ One-off components → Use inline Tailwind
+
+**Architecture** (real example from `CalActionButton.tsx`):
+
+```typescript
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/core/utils'
+
+const buttonVariants = cva(
+  // Base classes (always applied)
+  [
+    'group relative overflow-hidden',
+    'transition-all duration-300',
+    'flex items-center justify-center',
+  ],
+  {
+    variants: {
+      // Visual context
+      variant: {
+        hero: ['rounded-xl', 'font-bold', 'shadow-xl'],
+        cta: ['rounded-xl', 'font-bold', 'shadow-2xl'],
+        pricing: ['rounded-md', 'font-semibold', 'shadow-sm'],
+      },
+      // Size variants
+      size: {
+        sm: ['px-4 py-2 text-sm', 'sm:px-5 sm:py-2.5'],
+        md: ['px-6 py-3 text-base', 'sm:px-8 sm:py-4'],
+        lg: ['px-8 py-4 text-lg', 'sm:px-10 sm:py-5'],
+      },
+      // Optional color theme
+      gradient: {
+        default: '',
+        blue: '',
+        green: '',
+      },
+    },
+    // Compound variants: multiple conditions
+    compoundVariants: [
+      {
+        variant: 'pricing',
+        gradient: 'blue',
+        class: 'before:from-brand-blue before:to-brand-blue-dark',
+      },
+    ],
+    // Always define defaults
+    defaultVariants: {
+      variant: 'hero',
+      size: 'md',
+      gradient: 'default',
+    },
+  },
+)
+
+// TypeScript integration
+interface ButtonProps extends VariantProps<typeof buttonVariants> {
+  children: React.ReactNode
+  className?: string
+}
+
+export const Button = ({ variant, size, gradient, className, children }: ButtonProps) => (
+  <button className={cn(buttonVariants({ variant, size, gradient }), className)}>
+    {children}
+  </button>
+)
+```
+
+**Best practices:**
+
+- Group base classes logically (structure, colors, transitions)
+- One variant = one visual dimension (size, color, context)
+- Compound variants for multi-condition styling
+- Always provide `defaultVariants` to avoid undefined states
+- Use `VariantProps<typeof variants>` for TypeScript props
+- Combine with `cn()` for additional custom classes
+
+#### Client Directive Strategy
+
+**Decision matrix** for Astro client directives:
+
+| Directive             | When to Use                                                | Performance Impact                       | Examples in Project                                             |
+| --------------------- | ---------------------------------------------------------- | ---------------------------------------- | --------------------------------------------------------------- |
+| `client:load`         | Critical interactive components that must work immediately | High (loads/hydrates ASAP)               | `WorkflowCardsExpandable`, `StepCard`, `PremiumHero`            |
+| `client:visible`      | Below-fold interactive components                          | Low (only loads when scrolled into view) | `BentoDevTools`, `PricingCard`, `CTASection`, `CalActionButton` |
+| `client:idle`         | Non-critical background components                         | Very Low (loads after page idle)         | `ContextProvider`, `TransformationBeams`                        |
+| `client:only="react"` | React-specific libraries (Framer Motion)                   | Medium (no SSR, client-only)             | `OrbitingTech` (uses Framer Motion)                             |
+
+**Decision flow:**
+
+1. Is it above the fold AND interactive? → `client:load`
+2. Is it below the fold? → `client:visible`
+3. Is it non-critical background functionality? → `client:idle`
+4. Does it use React-specific APIs or Framer Motion? → `client:only="react"`
+
+**Performance tip**: Default to `client:visible` for below-fold content to minimize initial bundle size.
+
 #### CSS & Animation Standards
 
-- **Keyframe animations**: MUST be placed in dedicated CSS files, NEVER inline in `.astro` components
+**CSS Animations:**
+
+- **Keyframe animations**: MUST be placed in dedicated CSS files (`src/styles/animations.css`), NEVER inline in `.astro` components
 - **Animation organization**: Keep animations modular and reusable in separate stylesheets
 - **Tailwind animations**: Prefer Tailwind utilities when possible; use custom CSS only when necessary
 
+**Framer Motion Integration:**
+
+- **Library**: Using `motion` package (Framer Motion for React 19+)
+- **Client directive**: Always use `client:only="react"` for components with Framer Motion
+- **Reason**: Framer Motion requires React-specific APIs not available during SSR
+- **Example**: `<OrbitingTech client:only="react" />` in `TechTransformation.astro`
+
+**Animation strategy decision:**
+
+1. Simple transitions (opacity, transform) → Tailwind utilities
+2. Scroll-triggered animations → CSS keyframes + IntersectionObserver
+3. Complex interactive animations → Framer Motion with `client:only="react"`
+4. Physics-based animations → Framer Motion
+
+#### Radix UI Integration Patterns
+
+**Installed components:**
+
+- `@radix-ui/react-dialog` (modals)
+- `@radix-ui/react-accordion` (expandable sections)
+- `@radix-ui/react-progress` (progress bars)
+- `@radix-ui/react-select` (dropdowns)
+- `@radix-ui/react-slot` (composition utility)
+
+**Integration best practices:**
+
+1. **Accessibility first**: Radix components handle ARIA attributes automatically
+2. **Styling**: Radix ships unstyled - use Tailwind classes or CVA for styling
+3. **Data attributes**: Use `[data-state]` selectors for state-based styling
+4. **Client directives**: Radix components require `client:*` directives in Astro
+
+**Dialog/Modal pattern:**
+
+```typescript
+// Use client:load for critical modals, client:visible for below-fold
+<Dialog.Root open={open} onOpenChange={setOpen}>
+  <Dialog.Trigger asChild>
+    <button>Open</button>
+  </Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+    <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <Dialog.Title>Title</Dialog.Title>
+      <Dialog.Description>Description for screen readers</Dialog.Description>
+      {/* Content */}
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
+```
+
+**State management:**
+
+- **Controlled**: Use `open` + `onOpenChange` for external state control (programmatic control, multi-step flows)
+- **Uncontrolled**: Use `defaultOpen` for simple cases
+
+**Keyboard navigation**: Built-in for all components (Esc, Tab, Arrow keys)
+
 #### Testing Strategy
 
-- **Component testing**: React Testing Library + Vitest
-- **Integration tests**: For complex features like workflow journey
-- **Type testing**: Via TypeScript compilation
-- **Coverage tracking**: V8 provider with JSON output
-- **Test colocation**: Tests placed in `__tests__/` folders next to implementation
-- **Test helpers**: Shared mocks and utilities in dedicated helper files
+**Test organization:**
+
+- **Colocation**: `__tests__/` folders next to implementation (e.g., `src/hooks/__tests__/useOutsideClick.test.tsx`)
+- **Naming**: `ComponentName.test.tsx` or `functionName.test.ts`
+- **Structure**: Comprehensive test suite for cookie management (`src/lib/cookies/__tests__/`)
+
+**Testing stack:**
+
+- **Runner**: Vitest with jsdom environment
+- **React testing**: React Testing Library (`@testing-library/react`)
+- **Assertions**: Vitest matchers + `@testing-library/jest-dom`
+- **Mocks**: Vitest `vi.fn()`, `vi.mock()`, `vi.spyOn()`
+- **Coverage**: V8 provider with JSON output (`pnpm test:coverage`)
+
+**Test pattern example** (from `StepCard.test.tsx`):
+
+```typescript
+import { cleanup, render, screen } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import StepCard from '../StepCard'
+
+describe('StepCard', () => {
+  afterEach(() => {
+    cleanup()        // Clean up DOM
+    vi.clearAllMocks() // Clear all mock calls
+  })
+
+  const defaultProps = {
+    stepKey: 'discovery',
+    title: 'Discovery & Strategy',
+    description: 'We dive deep into your business goals',
+  }
+
+  it('should render step card with correct content', () => {
+    render(<StepCard {...defaultProps} />)
+    expect(screen.getByText('Discovery & Strategy')).toBeInTheDocument()
+  })
+
+  it('should call onExpand when card is clicked', () => {
+    const onExpand = vi.fn()
+    const { container } = render(<StepCard {...defaultProps} onExpand={onExpand} />)
+
+    const cardElement = container.firstChild as HTMLElement
+    cardElement.click()
+
+    expect(onExpand).toHaveBeenCalledOnce()
+  })
+})
+```
+
+**Best practices:**
+
+- **Always cleanup**: Use `afterEach(() => { cleanup(); vi.clearAllMocks() })`
+- **Test behavior, not implementation**: Focus on user interactions and outputs
+- **Mock external dependencies**: I/O, APIs, timers, DOM APIs
+- **Keep business logic real**: Don't over-mock internal logic
+
+#### Design System Guidelines
+
+**Glassmorphic Design Language:**
+
+The project uses a consistent glassmorphic design system with these core patterns:
+
+```typescript
+// Typical glassmorphic card (from workflow components)
+className="backdrop-blur-sm bg-white/50 dark:bg-brand-charcoal/50 border border-white/20"
+
+// Structure
+- backdrop-blur-sm/md/lg     # Glass effect
+- bg-{color}/{opacity}       # Semi-transparent background
+- border border-{color}/{opacity}  # Subtle borders
+- shadow-{size}              # Depth perception
+```
+
+**cn() Utility Organization:**
+
+Group Tailwind classes in this order within `cn()`:
+
+```typescript
+cn(
+	// 1. Base: structure, colors, typography (with dark: variants)
+	'flex items-center p-4 bg-white dark:bg-gray-800 text-base',
+
+	// 2. Responsive: one line per breakpoint
+	'md:p-6 md:text-lg',
+	'lg:p-8 lg:text-xl',
+
+	// 3. States: hover/focus/active (with dark: variants)
+	'hover:shadow-lg dark:hover:shadow-xl',
+	'focus:ring-2 focus:ring-blue-500',
+
+	// 4. Conditional classes
+	isActive && 'bg-blue-500',
+	className, // External override at the end
+)
+```
+
+**Design tokens (Tailwind config):**
+
+- Brand colors: `brand-blue`, `brand-green`, `brand-charcoal`
+- Consistent spacing: Use Tailwind's spacing scale
+- Typography: Responsive text sizes with `sm:`, `md:`, `lg:` breakpoints
+
+**Component constants pattern:**
+
+For components with shared visual patterns:
+
+```typescript
+// src/components/features/workflow/workflow-constants.ts
+export const CARD_DIMENSIONS = {
+	width: 280,
+	height: 180,
+} as const
+
+export const STEP_COLORS = {
+	discovery: '#3B82F6', // blue
+	design: '#8B5CF6', // purple
+	development: '#10B981', // green
+	testing: '#F59E0B', // amber
+	deployment: '#EF4444', // red
+} as const
+
+// Usage: import constants, don't duplicate values
+```
+
+**When to extract constants:**
+
+- ✅ Values used in **3+ places** (DRY principle)
+- ✅ **Animation configurations**: timing, delays, observer settings
+- ✅ **Magic numbers**: dimensions, coordinates, thresholds
+- ⛔ **CSS classes**: Use CVA or inline (except with `cn()`)
+- ⛔ **One-off values**: Keep inline for clarity
 
 ## Advanced Architectural Patterns
 
@@ -328,9 +665,49 @@ src/lib/
 
 ### Internationalization Updates
 
-- Edit `src/i18n/locales/{en,fr}/` dictionary files
-- Use dot notation keys (e.g., `home.hero.title`)
-- Test with both `/en/` and `/fr/` URL prefixes
+**Translation key conventions:**
+
+- **Pattern**: `{namespace}.{feature}.{section}.{element}`
+- **Namespaces**: `common`, `home`, `pricing`, `workflow`, etc.
+- **Examples**:
+    - `common.meta.homepage.title` → Page metadata
+    - `home.hero.title` → Hero section title
+    - `pricing.sections.plans.subtitle` → Pricing plans subtitle
+
+**File organization:**
+
+```
+src/i18n/locales/
+├── en/
+│   ├── common.ts    # Shared translations (navigation, UI, meta)
+│   ├── home.ts      # Homepage-specific
+│   ├── pricing.ts   # Pricing page
+│   └── workflow.ts  # Workflow feature
+└── fr/              # Same structure, French translations
+```
+
+**Usage patterns:**
+
+```typescript
+// Server-side (Astro)
+const { t } = Astro.locals
+const title = t('common.meta.homepage.title')
+
+// Client-side (React)
+import { useI18n } from '@/i18n/use-i18n'
+const { t } = useI18n()
+const buttonText = t('home.cta.primaryButton')
+
+// Arrays (for mapping)
+const levels = t('pricing.support.levels') // Returns array
+```
+
+**Best practices:**
+
+- Keep keys lowercase with dots (no camelCase in keys)
+- Use descriptive names: `hero.primaryButton` not `hero.btn1`
+- Group related translations in same file
+- Test both `/en/` and `/fr/` URL prefixes
 - Verify middleware locale detection works correctly
 
 ### Email Template Development

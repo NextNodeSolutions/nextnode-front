@@ -3,6 +3,7 @@
 // ====================================
 
 import { vi } from 'vitest'
+import '@testing-library/jest-dom/vitest'
 
 // ====================================
 // LOGGER MOCKING
@@ -38,4 +39,10 @@ Object.defineProperty(window, 'matchMedia', {
 		removeEventListener: vi.fn(),
 		dispatchEvent: vi.fn(),
 	})),
+})
+
+// Mock window.scrollTo (required by motion/framer-motion)
+Object.defineProperty(window, 'scrollTo', {
+	writable: true,
+	value: vi.fn(),
 })
