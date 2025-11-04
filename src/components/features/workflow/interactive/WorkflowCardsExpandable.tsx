@@ -37,14 +37,6 @@ const WorkflowCardsExpandable = ({
 	// State: index of the currently expanded card (null if none)
 	const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
-	const handleExpand = (index: number) => {
-		setExpandedIndex(index)
-	}
-
-	const handleCollapse = () => {
-		setExpandedIndex(null)
-	}
-
 	return (
 		<>
 			{STEP_KEYS.map((stepKey, index) => {
@@ -82,7 +74,7 @@ const WorkflowCardsExpandable = ({
 								title={step.title}
 								description={step.description}
 								stepLabel={stepLabel}
-								onExpand={() => handleExpand(index)}
+								onExpand={() => setExpandedIndex(index)}
 							/>
 						</div>
 					</div>
@@ -93,7 +85,7 @@ const WorkflowCardsExpandable = ({
 			{expandedIndex !== null && (
 				<ExpandedCardModal
 					isOpen={expandedIndex !== null}
-					onClose={handleCollapse}
+					onClose={() => setExpandedIndex(null)}
 					stepData={getWorkflowStepData(
 						STEP_KEYS[expandedIndex] as StepKey,
 					)}
