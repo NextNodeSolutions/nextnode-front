@@ -1,94 +1,121 @@
-/**
- * StepCard variants configuration
- * Extracted from StepCard.astro for better maintainability
- */
+import { cva } from 'class-variance-authority'
 
-export type StepCardVariant = 'mobile' | 'compact' | 'mini'
+export type stepCardIndex = 1 | 2 | 3 | 4 | 5 | 6
 
 /**
- * Comprehensive styling variants for StepCard components
- * Each variant optimizes for different screen sizes and contexts
+ * StepCard variants using CVA
+ * Uses CSS custom properties from design-tokens.css
+ * Complies with Tailwind guidelines (CVA exception for component variants)
  */
-export const STEP_CARD_VARIANTS = {
-	container: {
-		mobile: 'duration-700 hover:scale-[1.05]',
-		compact: 'duration-300 hover:scale-[1.03]',
-		mini: 'duration-200 hover:scale-[1.02]',
+export const stepCardVariants = cva(
+	// Base styles (always applied)
+	[
+		// Glassmorphism
+		'backdrop-blur-xl cursor-pointer',
+		'bg-white/10 ',
+		'rounded-2xl',
+		'border',
+		// Transitions
+		'group transition-all duration-300 ease-out',
+	],
+	{
+		variants: {
+			step: {
+				1: [
+					// Border
+					'border-[var(--step-1-border)]',
+					// Shadow
+					'shadow-[0_4px_10px_var(--shadow-indigo)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-indigo)]',
+					// Hover
+					'hover:border-[var(--step-1-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-1-glow)]',
+					'hover:bg-white/15',
+				],
+				2: [
+					'border-[var(--step-2-border)]',
+					'shadow-[0_4px_10px_var(--shadow-violet)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-violet)]',
+					'hover:border-[var(--step-2-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-2-glow)]',
+					'hover:bg-white/15',
+				],
+				3: [
+					'border-[var(--step-3-border)]',
+					'shadow-[0_4px_10px_var(--shadow-emerald)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-emerald)]',
+					'hover:border-[var(--step-3-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-3-glow)]',
+					'hover:bg-white/15',
+				],
+				4: [
+					'border-[var(--step-4-border)]',
+					'shadow-[0_4px_10px_var(--shadow-amber)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-amber)]',
+					'hover:border-[var(--step-4-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-4-glow)]',
+					'hover:bg-white/15',
+				],
+				5: [
+					'border-[var(--step-5-border)]',
+					'shadow-[0_4px_10px_var(--shadow-rose)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-rose)]',
+					'hover:border-[var(--step-5-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-5-glow)]',
+					'hover:bg-white/15',
+				],
+				6: [
+					'border-[var(--step-6-border)]',
+					'shadow-[0_4px_10px_var(--shadow-slate)]',
+					'lg:shadow-[0_6px_16px_var(--shadow-slate)]',
+					'hover:border-[var(--step-6-glow)]',
+					'hover:shadow-[0_6px_20px_var(--step-6-glow)]',
+					'hover:bg-white/15',
+				],
+			},
+		},
+		defaultVariants: {
+			step: 1,
+		},
 	},
-	header: {
-		mobile: 'h-32',
-		compact: 'h-16',
-		mini: 'h-12',
-	},
-	content: {
-		mobile: 'space-y-4 p-6',
-		compact: 'space-y-1 p-3',
-		mini: 'p-2',
-	},
-	title: {
-		mobile: 'text-xl',
-		compact: 'text-base',
-		mini: 'text-sm',
-	},
-	description: {
-		mobile: 'line-clamp-5 text-sm',
-		compact: 'line-clamp-3 text-xs',
-		mini: 'hidden',
-	},
-	icon: {
-		mobile: 'h-16 w-16',
-		compact: 'h-8 w-8',
-		mini: 'h-6 w-6',
-	},
-	number: {
-		mobile: 'h-12 w-12',
-		compact: 'h-6 w-6',
-		mini: 'h-5 w-5',
-	},
-	iconText: {
-		mobile: 'text-3xl',
-		compact: 'text-lg',
-		mini: 'text-base',
-	},
-	numberText: {
-		mobile: 'text-2xl',
-		compact: 'text-sm',
-		mini: 'text-xs',
-	},
-	position: {
-		mobile: 'top-4 right-4',
-		compact: 'top-1 right-1',
-		mini: 'top-1 right-1',
-	},
-	iconPosition: {
-		mobile: 'bottom-4 left-4',
-		compact: 'bottom-1 left-1',
-		mini: 'bottom-1 left-1',
-	},
-} as const
+)
+
+export type CardDirection = 'top' | 'left' | 'bottom' | 'right'
 
 /**
- * Helper function to get variant-specific classes
+ * Card direction variants for workflow alignment
+ * Controls flex alignment based on where the workflow line connects
+ * Uses h-full to fill SVG zone container
  */
-export function getVariantClasses(
-	variant: StepCardVariant,
-	section: keyof typeof STEP_CARD_VARIANTS,
-): string {
-	return STEP_CARD_VARIANTS[section][variant]
-}
+export const stepCardDirection = cva('flex h-full w-full', {
+	variants: {
+		direction: {
+			top: 'items-start justify-center', // Line arrives from top
+			bottom: 'items-end justify-center', // Line arrives from bottom (ex: step 1)
+			left: 'items-center justify-start', // Line arrives from left (ex: step 3)
+			right: 'items-center justify-end', // Line arrives from right
+		},
+	},
+	defaultVariants: {
+		direction: 'bottom',
+	},
+})
 
 /**
- * Check if variant supports specific features
+ * CTA text color variants (matches step color)
  */
-export const VARIANT_FEATURES = {
-	showHeader: (variant: StepCardVariant): boolean => variant === 'mobile',
-	showDescription: (variant: StepCardVariant): boolean => variant !== 'mini',
-	showStepLabel: (variant: StepCardVariant): boolean => variant !== 'mini',
-} as const
-
-/**
- * Type-safe variant checker
- */
-export function isValidVariant(variant: string): variant is StepCardVariant {
-	return ['mobile', 'compact', 'mini'].includes(variant)
-}
+export const stepCtaVariants = cva('', {
+	variants: {
+		step: {
+			1: 'text-[var(--step-1-primary)]',
+			2: 'text-[var(--step-2-primary)]',
+			3: 'text-[var(--step-3-primary)]',
+			4: 'text-[var(--step-4-primary)]',
+			5: 'text-[var(--step-5-primary)]',
+			6: 'text-[var(--step-6-primary)]',
+		},
+	},
+	defaultVariants: {
+		step: 1,
+	},
+})
