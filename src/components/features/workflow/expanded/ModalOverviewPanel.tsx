@@ -41,13 +41,13 @@ export const ModalOverviewPanel = ({
 					style={{ color: accentColor }}
 					aria-hidden="true"
 				/>
-				<h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl dark:text-gray-50">
+				<h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
 					{title}
 				</h3>
 			</div>
 
 			{/* Intro Sentence */}
-			<p className="text-xs leading-relaxed font-medium text-gray-900 sm:text-sm dark:text-gray-50">
+			<p className="text-xs leading-relaxed font-medium text-gray-900 sm:text-sm">
 				{intro}
 			</p>
 
@@ -57,7 +57,7 @@ export const ModalOverviewPanel = ({
 					{bulletPoints.map(point => (
 						<li
 							key={point}
-							className="flex items-start gap-2 text-xs leading-relaxed text-gray-700 sm:text-sm dark:text-gray-300"
+							className="flex items-start gap-2 text-xs leading-relaxed text-gray-700 sm:text-sm"
 						>
 							<Check
 								className="mt-0.5 h-3.5 w-3.5 shrink-0"

@@ -15,7 +15,7 @@ export const StepCardTitle = ({ title }: StepCardTitleProps) => {
 				// Fixed height from grid + overflow handling
 				'h-[var(--card-title-height)] overflow-hidden',
 				// Typography and styling
-				'leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105 dark:text-white',
+				'leading-tight font-bold text-gray-900 transition-all duration-300 group-hover:scale-105',
 				// Line clamp for text overflow
 				'line-clamp-2',
 				// Responsive text sizes

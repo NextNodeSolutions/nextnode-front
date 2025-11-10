@@ -18,9 +18,9 @@ export const GLASS_CONFIG = {
 	/** Background opacity values */
 	opacity: {
 		backdrop: 0.4,
-		modal: { light: 0.1, dark: 0.2 },
-		panel: { light: 0.2, dark: 0.3 },
-		elevated: { light: 0.3, dark: 0.4 },
+		modal: 0.1,
+		panel: 0.2,
+		elevated: 0.3,
 	},
 } as const
 

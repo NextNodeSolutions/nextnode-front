@@ -57,7 +57,7 @@ const StepCard = ({
 				<h1
 					className={cn(
 						'mb-2 leading-tight font-semibold',
-						'text-gray-900 dark:text-white',
+						'text-gray-900',
 						'text-sm md:text-xs lg:text-sm',
 					)}
 				>
@@ -67,7 +67,7 @@ const StepCard = ({
 				<h3
 					className={cn(
 						'mb-1 font-bold',
-						'text-muted-foreground dark:text-white',
+						'text-muted-foreground',
 						'text-sm md:text-xs',
 					)}
 				>
@@ -85,7 +85,7 @@ const StepCard = ({
 						<p
 							className={cn(
 								'text-[11px] leading-relaxed',
-								'text-gray-600 dark:text-gray-400',
+								'text-gray-600',
 								'line-clamp-3',
 							)}
 						>

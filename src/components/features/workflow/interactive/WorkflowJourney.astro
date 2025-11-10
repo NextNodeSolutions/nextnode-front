@@ -247,7 +247,7 @@ function calculateRectanglePosition(
 	}
 
 	/* Override StepCard's internal styles to fill container */
-	.workflow-card :global(.group) {
+	.workflow-card(.group) {
 		width: 100% !important;
 		height: 100% !important;
 		max-width: none !important;
@@ -260,7 +260,7 @@ function calculateRectanglePosition(
 	}
 
 	/* Force the main card div to fill the group */
-	.workflow-card :global(.group > div) {
+	.workflow-card(.group > div) {
 		width: 100% !important;
 		height: 100% !important;
 		flex: 1;
@@ -270,7 +270,7 @@ function calculateRectanglePosition(
 	}
 
 	/* Force content sections to distribute space properly */
-	.workflow-card :global(.group > div > div:last-child) {
+	.workflow-card(.group > div > div:last-child) {
 		flex: 1;
 		display: flex;
 		flex-direction: column;

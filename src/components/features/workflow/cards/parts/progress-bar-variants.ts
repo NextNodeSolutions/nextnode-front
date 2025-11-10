@@ -10,7 +10,7 @@ export const progressSegmentVariants = cva(
 	{
 		variants: {
 			variant: {
-				empty: 'bg-gray-400/30 dark:bg-gray-600/30',
+				empty: 'bg-gray-400/30 ',
 				filled: [
 					'transition-all duration-200 ease-out',
 					'hover:scale-y-125 hover:origin-bottom',

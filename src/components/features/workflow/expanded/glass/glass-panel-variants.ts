@@ -22,23 +22,23 @@ export const glassPanelVariants = cva(
 			intensity: {
 				subtle: [
 					'backdrop-blur-sm',
-					'bg-white/30 dark:bg-brand-charcoal/35',
-					'border border-white/20 dark:border-white/15',
+					'bg-white/30 ',
+					'border border-white/20 ',
 				],
 				light: [
 					'backdrop-blur-md',
-					'bg-white/50 dark:bg-brand-charcoal/60',
-					'border border-white/30 dark:border-white/20',
+					'bg-white/50 ',
+					'border border-white/30 ',
 				],
 				medium: [
 					'backdrop-blur-lg',
-					'bg-white/60 dark:bg-brand-charcoal/70',
-					'border border-white/40 dark:border-white/25',
+					'bg-white/60 ',
+					'border border-white/40 ',
 				],
 				strong: [
 					'backdrop-blur-xl',
-					'bg-white/70 dark:bg-brand-charcoal/80',
-					'border border-white/50 dark:border-white/30',
+					'bg-white/70 ',
+					'border border-white/50 ',
 				],
 			},
 
@@ -67,9 +67,9 @@ export const glassPanelVariants = cva(
 			 */
 			borderStyle: {
 				none: ['border-0'],
-				subtle: ['border border-white/10 dark:border-white/5'],
-				normal: ['border border-white/20 dark:border-white/15'],
-				prominent: ['border-2 border-white/30 dark:border-white/25'],
+				subtle: ['border border-white/10 '],
+				normal: ['border border-white/20 '],
+				prominent: ['border-2 border-white/30 '],
 			},
 
 			/**
@@ -79,13 +79,13 @@ export const glassPanelVariants = cva(
 				none: [],
 				lift: [
 					'hover:shadow-xl',
-					'hover:bg-white/25 dark:hover:bg-brand-charcoal/30',
+					'hover:bg-white/25',
 					'hover:-translate-y-1',
 					'cursor-pointer',
 				],
 				glow: [
 					'hover:shadow-2xl',
-					'hover:border-white/40 dark:hover:border-white/30',
+					'hover:border-white/40',
 					'cursor-pointer',
 				],
 				scale: ['hover:scale-[1.02]', 'cursor-pointer'],

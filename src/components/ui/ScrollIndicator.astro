@@ -32,9 +32,9 @@ const { t } = Astro.locals
 		<div
 			class={cn(
 				'relative px-5 py-3 rounded-2xl',
-				'bg-white/10 dark:bg-black/20',
+				'bg-white/10 ',
 				'backdrop-blur-md',
-				'border border-white/20 dark:border-white/10',
+				'border border-white/20 ',
 				'shadow-xl',
 				'transition-all duration-700 ease-out',
 				'group-hover:shadow-2xl group-hover:bg-white/15',
@@ -65,7 +65,7 @@ const { t } = Astro.locals
 					width="22"
 					height="34"
 					rx="11"
-					class="stroke-brand-blue-muted dark:stroke-brand-blue-soft"
+					class="stroke-brand-blue-muted"
 					stroke-width="2"
 					fill="none"></rect>
 
@@ -74,7 +74,7 @@ const { t } = Astro.locals
 					cx="12"
 					cy="10"
 					r="2"
-					class="fill-brand-green-muted dark:fill-brand-green-soft animate-scroll-wheel"
+					class="fill-brand-green-muted animate-scroll-wheel"
 				></circle>
 			</svg>
 
@@ -88,9 +88,7 @@ const { t } = Astro.locals
 					'transition-opacity duration-700 ease-out',
 				)}
 			>
-				<ChevronDown
-					className="text-brand-blue-muted dark:text-brand-blue-soft h-5 w-5"
-				/>
+				<ChevronDown className="text-brand-blue-muted h-5 w-5" />
 			</div>
 		</div>
 
@@ -98,8 +96,8 @@ const { t } = Astro.locals
 		<span
 			class={cn(
 				'text-xs font-medium tracking-wider',
-				'text-gray-600 dark:text-gray-400',
-				'group-hover:text-brand-blue-muted dark:group-hover:text-brand-blue-soft',
+				'text-gray-600 ',
+				'group-hover:text-brand-blue-muted',
 				'transition-colors duration-700 ease-out',
 			)}
 		>

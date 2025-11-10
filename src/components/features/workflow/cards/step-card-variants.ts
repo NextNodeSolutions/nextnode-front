@@ -12,7 +12,7 @@ export const stepCardVariants = cva(
 	[
 		// Glassmorphism
 		'backdrop-blur-xl cursor-pointer',
-		'bg-white/10 dark:bg-gray-900/20',
+		'bg-white/10 ',
 		'rounded-2xl',
 		'border',
 		// Transitions
@@ -30,7 +30,7 @@ export const stepCardVariants = cva(
 					// Hover
 					'hover:border-[var(--step-1-glow)]',
 					'hover:shadow-[0_6px_20px_var(--step-1-glow)]',
-					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+					'hover:bg-white/15',
 				],
 				2: [
 					'border-[var(--step-2-border)]',
@@ -38,7 +38,7 @@ export const stepCardVariants = cva(
 					'lg:shadow-[0_6px_16px_var(--shadow-violet)]',
 					'hover:border-[var(--step-2-glow)]',
 					'hover:shadow-[0_6px_20px_var(--step-2-glow)]',
-					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+					'hover:bg-white/15',
 				],
 				3: [
 					'border-[var(--step-3-border)]',
@@ -46,7 +46,7 @@ export const stepCardVariants = cva(
 					'lg:shadow-[0_6px_16px_var(--shadow-emerald)]',
 					'hover:border-[var(--step-3-glow)]',
 					'hover:shadow-[0_6px_20px_var(--step-3-glow)]',
-					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+					'hover:bg-white/15',
 				],
 				4: [
 					'border-[var(--step-4-border)]',
@@ -54,7 +54,7 @@ export const stepCardVariants = cva(
 					'lg:shadow-[0_6px_16px_var(--shadow-amber)]',
 					'hover:border-[var(--step-4-glow)]',
 					'hover:shadow-[0_6px_20px_var(--step-4-glow)]',
-					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+					'hover:bg-white/15',
 				],
 				5: [
 					'border-[var(--step-5-border)]',
@@ -62,7 +62,7 @@ export const stepCardVariants = cva(
 					'lg:shadow-[0_6px_16px_var(--shadow-rose)]',
 					'hover:border-[var(--step-5-glow)]',
 					'hover:shadow-[0_6px_20px_var(--step-5-glow)]',
-					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+					'hover:bg-white/15',
 				],
 				6: [
 					'border-[var(--step-6-border)]',
@@ -70,7 +70,7 @@ export const stepCardVariants = cva(
 					'lg:shadow-[0_6px_16px_var(--shadow-slate)]',
 					'hover:border-[var(--step-6-glow)]',
 					'hover:shadow-[0_6px_20px_var(--step-6-glow)]',
-					'hover:bg-white/15 dark:hover:bg-gray-900/30',
+					'hover:bg-white/15',
 				],
 			},
 		},

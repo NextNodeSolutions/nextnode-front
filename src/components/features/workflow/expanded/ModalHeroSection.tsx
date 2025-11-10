@@ -83,10 +83,10 @@ export const ModalHeroSection = ({
 
 					// Style - simple and clean
 					'bg-gray-100 hover:bg-gray-200',
-					'dark:bg-gray-800 dark:hover:bg-gray-700',
+					':bg-gray-700',
 
 					// Icon color
-					'text-gray-600 dark:text-gray-400',
+					'text-gray-600',
 
 					// Transition
 					'transition-colors duration-200',
@@ -156,7 +156,7 @@ export const ModalHeroSection = ({
 						'md:text-lg md:leading-relaxed',
 
 						// Colors - subtle text
-						'text-gray-600 dark:text-gray-400',
+						'text-gray-600',
 					)}
 				>
 					{description}

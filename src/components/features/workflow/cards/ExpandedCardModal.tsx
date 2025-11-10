@@ -69,7 +69,7 @@ export const ExpandedCardModal = ({
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						exit={{ opacity: 0, scale: 0.98, y: 20 }}
 						transition={MODAL_TRANSITIONS.modalSpring}
-						className="fixed top-1/2 left-1/2 z-50 max-h-[90vh] w-[95vw] max-w-6xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-950"
+						className="fixed top-1/2 left-1/2 z-50 max-h-[90vh] w-[95vw] max-w-6xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl"
 						onClick={e => e.stopPropagation()}
 						role="dialog"
 						aria-modal="true"

@@ -83,7 +83,7 @@ export const ModalBenefitsGrid = ({
 					style={{ color: accentColor }}
 					aria-hidden="true"
 				/>
-				<h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl dark:text-gray-50">
+				<h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
 					{title}
 				</h3>
 			</div>
@@ -129,7 +129,7 @@ const BenefitCard = ({
 		<motion.div variants={STAGGER_VARIANTS} custom={index}>
 			<button
 				type="button"
-				className="shimmer-on-hover group relative h-full w-full space-y-4 overflow-hidden rounded-2xl border-2 bg-gradient-to-br from-white to-gray-50/50 p-6 text-left shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:from-gray-900 dark:to-gray-800/50"
+				className="shimmer-on-hover group relative h-full w-full space-y-4 overflow-hidden rounded-2xl border-2 bg-gradient-to-br from-white to-gray-50/50 p-6 text-left shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
 				style={{
 					borderColor: isHovered ? accentColor : 'rgb(229 231 235)',
 				}}
@@ -154,12 +154,12 @@ const BenefitCard = ({
 				{/* Content */}
 				<div className="space-y-2 pr-14">
 					{/* Title */}
-					<h4 className="text-base font-bold tracking-tight text-gray-900 dark:text-gray-50">
+					<h4 className="text-base font-bold tracking-tight text-gray-900">
 						{benefit.title}
 					</h4>
 
 					{/* Description */}
-					<p className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+					<p className="text-xs leading-relaxed text-gray-600">
 						{benefit.description}
 					</p>
 				</div>

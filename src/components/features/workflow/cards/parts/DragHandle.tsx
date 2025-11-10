@@ -38,9 +38,9 @@ export const DragHandle = ({ className }: DragHandleProps) => {
 			<div
 				className={cn(
 					'h-1 w-12 rounded-full',
-					'bg-gray-300 dark:bg-gray-600',
+					'bg-gray-300',
 					'transition-colors duration-200',
-					'hover:bg-gray-400 dark:hover:bg-gray-500',
+					'hover:bg-gray-400',
 				)}
 			/>
 		</div>

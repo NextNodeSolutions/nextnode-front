@@ -18,7 +18,7 @@ const { t } = Astro.locals
 >
 	<!-- Main card - Browser/Dashboard mockup -->
 	<div
-		class="dark:bg-brand-charcoal relative aspect-[4/3] w-full transform cursor-pointer rounded-2xl bg-white p-6 shadow-2xl transition-transform duration-300 hover:scale-[1.02] sm:p-8"
+		class="relative aspect-[4/3] w-full transform cursor-pointer rounded-2xl bg-white p-6 shadow-2xl transition-transform duration-300 hover:scale-[1.02] sm:p-8"
 	>
 		<div class="flex h-full flex-col space-y-6">
 			<!-- Browser header -->
@@ -79,9 +79,7 @@ const { t } = Astro.locals
 						<div class="mb-1 text-xs text-gray-500">
 							{t('home.hero.dashboard.conversion')}
 						</div>
-						<div
-							class="text-brand-blue-dark dark:text-brand-blue-soft text-xl font-bold"
-						>
+						<div class="text-brand-blue-dark text-xl font-bold">
 							24.8%
 						</div>
 					</div>
@@ -89,9 +87,7 @@ const { t } = Astro.locals
 						<div class="mb-1 text-xs text-gray-500">
 							{t('home.hero.dashboard.growth')}
 						</div>
-						<div
-							class="text-brand-green-dark dark:text-brand-green-soft text-xl font-bold"
-						>
+						<div class="text-brand-green-dark text-xl font-bold">
 							+127%
 						</div>
 					</div>
@@ -110,7 +106,7 @@ const { t } = Astro.locals
 
 	<!-- Floating badge - Top right -->
 	<div
-		class="dark:bg-brand-charcoal animate-float-vertical border-brand-gray-light absolute -top-4 -right-4 transform cursor-pointer rounded-xl border bg-white p-3 shadow-xl transition-transform duration-300 hover:scale-110"
+		class="animate-float-vertical border-brand-gray-light absolute -top-4 -right-4 transform cursor-pointer rounded-xl border bg-white p-3 shadow-xl transition-transform duration-300 hover:scale-110"
 	>
 		<div class="flex items-center gap-2">
 			<div
@@ -119,10 +115,8 @@ const { t } = Astro.locals
 				<CheckCircle2 className="text-brand-green-dark h-5 w-5" />
 			</div>
 			<div>
-				<div class="text-xl font-bold text-gray-900 dark:text-white">
-					98%
-				</div>
-				<div class="text-[10px] text-gray-600 dark:text-gray-400">
+				<div class="text-xl font-bold text-gray-900">98%</div>
+				<div class="text-[10px] text-gray-600">
 					{t('home.hero.dashboard.satisfaction')}
 				</div>
 			</div>
@@ -131,7 +125,7 @@ const { t } = Astro.locals
 
 	<!-- Floating badge - Bottom left -->
 	<div
-		class="dark:bg-brand-charcoal animate-float-vertical animation-delay-1000 border-brand-gray-light absolute -bottom-4 -left-4 transform cursor-pointer rounded-xl border bg-white p-3 shadow-xl transition-transform duration-300 hover:scale-110"
+		class="animate-float-vertical animation-delay-1000 border-brand-gray-light absolute -bottom-4 -left-4 transform cursor-pointer rounded-xl border bg-white p-3 shadow-xl transition-transform duration-300 hover:scale-110"
 	>
 		<div class="flex items-center gap-2">
 			<div
@@ -140,10 +134,8 @@ const { t } = Astro.locals
 				<TrendingUp className="text-brand-blue-dark h-5 w-5" />
 			</div>
 			<div>
-				<div class="text-xl font-bold text-gray-900 dark:text-white">
-					100+
-				</div>
-				<div class="text-[10px] text-gray-600 dark:text-gray-400">
+				<div class="text-xl font-bold text-gray-900">100+</div>
+				<div class="text-[10px] text-gray-600">
 					{t('home.hero.dashboard.projects')}
 				</div>
 			</div>

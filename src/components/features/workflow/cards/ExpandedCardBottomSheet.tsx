@@ -107,8 +107,8 @@ export const ExpandedCardBottomSheet = ({
 							'max-h-[85vh]',
 							'overflow-hidden',
 							'rounded-t-2xl',
-							'border-t border-r border-l border-gray-200 dark:border-gray-800',
-							'bg-white dark:bg-gray-950',
+							'border-t border-r border-l border-gray-200',
+							'bg-white',
 							'shadow-2xl',
 						)}
 						onClick={e => e.stopPropagation()}
@@ -133,8 +133,8 @@ export const ExpandedCardBottomSheet = ({
 									'sticky top-0 z-10',
 									'space-y-3',
 									'px-4 py-3',
-									'bg-white dark:bg-gray-950',
-									'border-b border-gray-200 dark:border-gray-800',
+									'bg-white',
+									'border-b border-gray-200',
 								)}
 							>
 								{/* Row 1: Icon + Title + Close Button */}
@@ -144,7 +144,7 @@ export const ExpandedCardBottomSheet = ({
 										className={cn(
 											'flex h-10 w-10 shrink-0 items-center justify-center',
 											'rounded-lg',
-											'bg-white dark:bg-gray-800',
+											'bg-white',
 											'shadow-sm',
 										)}
 										style={{
@@ -163,7 +163,7 @@ export const ExpandedCardBottomSheet = ({
 										id={titleId}
 										className={cn(
 											'text-center text-base font-extrabold',
-											'text-gray-900 dark:text-white',
+											'text-gray-900',
 											'truncate',
 										)}
 									>
@@ -178,7 +178,7 @@ export const ExpandedCardBottomSheet = ({
 											'flex h-12 w-12 shrink-0 items-center justify-center',
 											'rounded-lg',
 											'transition-colors',
-											'hover:bg-gray-100 dark:hover:bg-gray-800',
+											'hover:bg-gray-100',
 											'focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
 										)}
 										style={
@@ -191,19 +191,14 @@ export const ExpandedCardBottomSheet = ({
 										)}
 									>
 										<X
-											className="h-5 w-5 text-gray-500 dark:text-gray-400"
+											className="h-5 w-5 text-gray-500"
 											strokeWidth={2}
 										/>
 									</button>
 								</div>
 
 								{/* Row 2: Short Description */}
-								<p
-									className={cn(
-										'text-sm',
-										'text-gray-600 dark:text-gray-400',
-									)}
-								>
+								<p className={cn('text-sm', 'text-gray-600')}>
 									{stepData.shortDescription}
 								</p>
 
@@ -221,7 +216,7 @@ export const ExpandedCardBottomSheet = ({
 													key={`desc-${part.slice(0, 20)}-${i}`}
 													className={cn(
 														'text-sm leading-relaxed',
-														'text-gray-700 dark:text-gray-300',
+														'text-gray-700',
 														'list-disc',
 													)}
 												>
@@ -233,7 +228,7 @@ export const ExpandedCardBottomSheet = ({
 										<p
 											className={cn(
 												'text-sm leading-relaxed',
-												'text-gray-700 dark:text-gray-300',
+												'text-gray-700',
 											)}
 										>
 											{stepData.fullDescription}
@@ -246,7 +241,7 @@ export const ExpandedCardBottomSheet = ({
 							<Accordion.Root
 								type="single"
 								collapsible
-								className="border-b border-gray-200 dark:border-gray-800"
+								className="border-b border-gray-200"
 							>
 								{/* Benefits Section */}
 								{benefits.length > 0 && (
