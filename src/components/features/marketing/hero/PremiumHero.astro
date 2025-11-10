@@ -12,7 +12,7 @@ const { t, locale } = Astro.locals
 	class={cn(
 		'relative min-h-screen flex items-start justify-center overflow-hidden',
 		'bg-gradient-to-br from-white via-brand-gray-soft to-brand-blue-light/30',
-		'dark:from-brand-black dark:via-brand-charcoal dark:to-brand-soft-black',
+		'',
 	)}
 >
 	<!-- Subtle decorative elements -->
@@ -49,24 +49,24 @@ const { t, locale } = Astro.locals
 					)}
 				>
 					<div
-						class="dark:bg-brand-charcoal/80 flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 shadow-sm backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2"
+						class="flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 shadow-sm backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2"
 					>
 						<Star
 							className="h-3.5 w-3.5 fill-yellow-500 text-yellow-500 sm:h-4 sm:w-4"
 						/>
 						<span
-							class="text-xs font-medium text-gray-700 sm:text-sm dark:text-gray-300"
+							class="text-xs font-medium text-gray-700 sm:text-sm"
 							>{t('home.hero.badges.rating')}</span
 						>
 					</div>
 					<div
-						class="dark:bg-brand-charcoal/80 flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 shadow-sm backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2"
+						class="flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1.5 shadow-sm backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2"
 					>
 						<Award
 							className="text-brand-blue-muted h-3.5 w-3.5 sm:h-4 sm:w-4"
 						/>
 						<span
-							class="text-xs font-medium text-gray-700 sm:text-sm dark:text-gray-300"
+							class="text-xs font-medium text-gray-700 sm:text-sm"
 							>{t('home.hero.badges.projects')}</span
 						>
 					</div>
@@ -76,7 +76,7 @@ const { t, locale } = Astro.locals
 				<p
 					class={cn(
 						'text-sm sm:text-base md:text-lg font-medium',
-						'text-brand-blue-muted dark:text-brand-blue-soft',
+						'text-brand-blue-muted ',
 						'opacity-0 animate-fade-in-up animation-delay-300',
 					)}
 				>
@@ -91,9 +91,8 @@ const { t, locale } = Astro.locals
 						'opacity-0 animate-fade-in-up animation-delay-600',
 					)}
 				>
-					<span class="text-gray-900 dark:text-white"
-						>{t('home.hero.title')}</span
-					><br />
+					<span class="text-gray-900">{t('home.hero.title')}</span><br
+					/>
 					<span
 						class="from-brand-blue-muted via-brand-green-muted to-brand-blue-muted relative inline-block bg-gradient-to-r bg-clip-text text-transparent"
 					>
@@ -105,15 +104,13 @@ const { t, locale } = Astro.locals
 								'sm:-bottom-[2px]',
 							)}></span>
 					</span><br />
-					<span class="text-gray-900 dark:text-white"
-						>{t('home.hero.titleEnd')}</span
-					>
+					<span class="text-gray-900">{t('home.hero.titleEnd')}</span>
 				</h1>
 
 				<!-- Description -->
 				<p
 					class={cn(
-						'text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed',
+						'text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed',
 						'opacity-0 animate-fade-in-up animation-delay-900',
 						'max-w-2xl',
 					)}
@@ -134,7 +131,7 @@ const { t, locale } = Astro.locals
 								<div class="bg-brand-green-soft/50 mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full sm:h-6 sm:w-6">
 									<CheckCircle2 className="text-brand-green-dark h-3.5 w-3.5 sm:h-4 sm:w-4" />
 								</div>
-								<span class="text-sm leading-6 font-medium text-gray-700 sm:text-base dark:text-gray-300">
+								<span class="text-sm leading-6 font-medium text-gray-700 sm:text-base">
 									{feature}
 								</span>
 							</div>
@@ -161,7 +158,7 @@ const { t, locale } = Astro.locals
 						/>
 					</div>
 					<span
-						class="flex items-center justify-center gap-1.5 text-xs text-gray-500 sm:gap-2 sm:text-sm dark:text-gray-400"
+						class="flex items-center justify-center gap-1.5 text-xs text-gray-500 sm:gap-2 sm:text-sm"
 					>
 						<TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
 						{t('home.hero.consultation')}

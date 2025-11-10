@@ -56,7 +56,7 @@ export const ModalDeliverablesList = ({
 					style={{ color: accentColor }}
 					aria-hidden="true"
 				/>
-				<h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl dark:text-gray-50">
+				<h3 className="text-xl font-bold tracking-tight text-gray-900 sm:text-2xl">
 					{title}
 				</h3>
 			</div>
@@ -68,7 +68,7 @@ export const ModalDeliverablesList = ({
 					return (
 						<div
 							key={deliverable.name}
-							className="group flex items-center gap-3 rounded-lg border border-gray-200/50 bg-gray-50/80 px-3 py-2.5 transition-all duration-200 hover:scale-[1.02] hover:shadow-md dark:border-gray-800/50 dark:bg-gray-900/50"
+							className="group flex items-center gap-3 rounded-lg border border-gray-200/50 bg-gray-50/80 px-3 py-2.5 transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
 							style={{
 								borderLeftWidth: '3px',
 								borderLeftColor: accentColor,
@@ -91,7 +91,7 @@ export const ModalDeliverablesList = ({
 							</span>
 
 							{/* Name */}
-							<span className="text-sm font-semibold text-gray-900 dark:text-gray-50">
+							<span className="text-sm font-semibold text-gray-900">
 								{deliverable.name}
 							</span>
 						</div>

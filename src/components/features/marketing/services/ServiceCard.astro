@@ -17,9 +17,9 @@ const IconComponent = getIconComponent(icon, Code)
 <div
 	class={cn(
 		'group relative p-8 rounded-2xl',
-		'bg-white dark:bg-brand-charcoal',
-		'border border-gray-200 dark:border-brand-soft-black',
-		'hover:border-brand-blue dark:hover:border-brand-blue',
+		'bg-white ',
+		'border border-gray-200 ',
+		'hover:border-brand-blue',
 		'transition-all duration-300',
 		'hover:shadow-xl hover:shadow-brand-blue/10',
 		'hover:-translate-y-2 cursor-pointer',
@@ -51,14 +51,14 @@ const IconComponent = getIconComponent(icon, Code)
 		<h3
 			class={cn(
 				'text-xl sm:text-2xl font-semibold',
-				'text-gray-900 dark:text-white',
-				'group-hover:text-brand-blue dark:group-hover:text-brand-blue',
+				'text-gray-900 ',
+				'group-hover:text-brand-blue',
 				'transition-colors duration-300',
 			)}
 		>
 			{title}
 		</h3>
-		<p class="leading-relaxed text-gray-600 dark:text-gray-400">
+		<p class="leading-relaxed text-gray-600">
 			{description}
 		</p>
 	</div>

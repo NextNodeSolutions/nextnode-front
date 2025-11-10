@@ -47,8 +47,8 @@ export const AccordionBenefitItem = ({
 			className={cn(
 				'flex gap-3 p-3',
 				'rounded-lg',
-				'bg-gray-50 dark:bg-gray-900/50',
-				'border border-gray-200 dark:border-gray-800',
+				'bg-gray-50',
+				'border border-gray-200',
 			)}
 		>
 			{/* Icon */}
@@ -56,7 +56,7 @@ export const AccordionBenefitItem = ({
 				className={cn(
 					'flex h-10 w-10 shrink-0 items-center justify-center',
 					'rounded-lg',
-					'bg-white dark:bg-gray-800',
+					'bg-white',
 					'shadow-sm',
 				)}
 				style={{
@@ -77,17 +77,12 @@ export const AccordionBenefitItem = ({
 					className={cn(
 						'mb-1 font-semibold',
 						'text-sm',
-						'text-gray-900 dark:text-white',
+						'text-gray-900',
 					)}
 				>
 					{title}
 				</h4>
-				<p
-					className={cn(
-						'text-xs leading-relaxed',
-						'text-gray-600 dark:text-gray-400',
-					)}
-				>
+				<p className={cn('text-xs leading-relaxed', 'text-gray-600')}>
 					{description}
 				</p>
 			</div>

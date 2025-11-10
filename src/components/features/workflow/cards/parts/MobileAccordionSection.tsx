@@ -36,17 +36,14 @@ export const MobileAccordionSection = ({
 	}
 
 	return (
-		<Accordion.Item
-			value={value}
-			className="border-b border-gray-200 dark:border-gray-800"
-		>
+		<Accordion.Item value={value} className="border-b border-gray-200">
 			<Accordion.Trigger
 				className={cn(
 					'group flex h-12 w-full items-center justify-between',
 					'px-4',
 					'text-left',
 					'transition-colors',
-					'hover:bg-gray-50 dark:hover:bg-gray-900/50',
+					'hover:bg-gray-50',
 					'focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
 				)}
 				style={
@@ -62,7 +59,7 @@ export const MobileAccordionSection = ({
 						className={cn(
 							'font-semibold',
 							'text-sm',
-							'text-gray-900 dark:text-white',
+							'text-gray-900',
 						)}
 					>
 						{title}
@@ -73,8 +70,8 @@ export const MobileAccordionSection = ({
 								'flex h-5 w-5 items-center justify-center',
 								'rounded-full',
 								'text-[10px] font-bold',
-								'bg-gray-100 dark:bg-gray-800',
-								'text-gray-600 dark:text-gray-400',
+								'bg-gray-100',
+								'text-gray-600',
 							)}
 						>
 							{count}
@@ -86,7 +83,7 @@ export const MobileAccordionSection = ({
 				<ChevronDown
 					className={cn(
 						'h-4 w-4 shrink-0',
-						'text-gray-500 dark:text-gray-400',
+						'text-gray-500',
 						'transition-transform duration-200',
 						'group-data-[state=open]:rotate-180',
 					)}

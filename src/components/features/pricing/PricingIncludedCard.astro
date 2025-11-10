@@ -19,7 +19,7 @@ const cardVariants = cva(
 	[
 		'group rounded-2xl border border-gray-200/50 p-6 sm:p-8',
 		'bg-white/80 backdrop-blur-sm',
-		'dark:border-gray-700/50 dark:bg-gray-800/80',
+		'',
 		'opacity-0',
 		'transition-all duration-500 hover:shadow-lg hover:-translate-y-1',
 	],
@@ -55,14 +55,10 @@ const cardDelayClass = getAnimationDelayClass(animationDelay)
 	class={cn(cardVariants({ colorVariant }), cardDelayClass)}
 	data-animate="animate-slide-in-gentle"
 >
-	<h4
-		class="mb-3 text-lg font-semibold text-gray-900 sm:mb-4 sm:text-xl dark:text-white"
-	>
+	<h4 class="mb-3 text-lg font-semibold text-gray-900 sm:mb-4 sm:text-xl">
 		{title}
 	</h4>
-	<p
-		class="mb-4 text-sm text-gray-600 sm:mb-6 sm:text-base dark:text-gray-300"
-	>
+	<p class="mb-4 text-sm text-gray-600 sm:mb-6 sm:text-base">
 		{description}
 	</p>
 	<ul class="space-y-3">
@@ -91,9 +87,7 @@ const cardDelayClass = getAnimationDelayClass(animationDelay)
 							)}
 							data-animate="animate-scale-in"
 						/>
-						<span class="text-sm text-gray-700 dark:text-gray-300">
-							{detail}
-						</span>
+						<span class="text-sm text-gray-700">{detail}</span>
 					</li>
 				)
 			})

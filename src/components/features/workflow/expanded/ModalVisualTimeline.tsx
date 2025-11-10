@@ -55,7 +55,7 @@ export const ModalVisualTimeline = ({
 							'text-xl',
 							'sm:text-2xl',
 							'md:text-3xl',
-							'text-gray-900 dark:text-gray-50',
+							'text-gray-900',
 						)}
 					>
 						{title}
@@ -135,7 +135,7 @@ const MilestoneCard = ({
 					{/* Connecting Line */}
 					{!isLast && (
 						<div
-							className="w-px flex-1 bg-gray-300 dark:bg-gray-700"
+							className="w-px flex-1 bg-gray-300"
 							style={{ minHeight: '1.5rem' }}
 							aria-hidden="true"
 						/>
@@ -147,7 +147,7 @@ const MilestoneCard = ({
 					<p
 						className={cn(
 							'text-xs leading-relaxed',
-							'text-gray-700 dark:text-gray-300',
+							'text-gray-700',
 						)}
 					>
 						{milestone}

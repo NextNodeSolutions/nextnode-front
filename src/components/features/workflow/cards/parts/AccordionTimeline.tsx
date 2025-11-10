@@ -32,8 +32,8 @@ export const AccordionTimeline = ({
 				className={cn(
 					'flex items-center gap-2 p-3',
 					'rounded-lg',
-					'bg-gray-50 dark:bg-gray-900/50',
-					'border border-gray-200 dark:border-gray-800',
+					'bg-gray-50',
+					'border border-gray-200',
 				)}
 			>
 				<Clock
@@ -42,11 +42,7 @@ export const AccordionTimeline = ({
 					strokeWidth={2}
 				/>
 				<span
-					className={cn(
-						'font-semibold',
-						'text-sm',
-						'text-gray-900 dark:text-white',
-					)}
+					className={cn('font-semibold', 'text-sm', 'text-gray-900')}
 				>
 					{duration}
 				</span>
@@ -73,7 +69,7 @@ export const AccordionTimeline = ({
 						<span
 							className={cn(
 								'text-xs leading-relaxed',
-								'text-gray-700 dark:text-gray-300',
+								'text-gray-700',
 							)}
 						>
 							{milestone}

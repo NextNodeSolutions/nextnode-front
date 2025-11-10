@@ -70,7 +70,7 @@ const SkillIcon = memo(({ config, angle, isGlobalHovered }: SkillIconProps) => {
 			>
 				{/* Icon card */}
 				<div
-					className={`relative flex h-full w-full items-center justify-center rounded-2xl border-2 bg-white/80 shadow-lg backdrop-blur-sm transition-all ${ORBIT_ANIMATION.transitions.hover} group-hover:-translate-y-2 group-hover:scale-[${ORBIT_ANIMATION.hover.iconScale}] group-hover:shadow-2xl dark:bg-gray-800/80 ${ORBIT_EFFECTS.border.default}`}
+					className={`relative flex h-full w-full items-center justify-center rounded-2xl border-2 bg-white/80 shadow-lg backdrop-blur-sm transition-all ${ORBIT_ANIMATION.transitions.hover} group-hover:-translate-y-2 group-hover:scale-[${ORBIT_ANIMATION.hover.iconScale}] group-hover:shadow-2xl ${ORBIT_EFFECTS.border.default}`}
 					style={{
 						boxShadow: `${ORBIT_EFFECTS.shadow.base} ${config.color}33`,
 					}}

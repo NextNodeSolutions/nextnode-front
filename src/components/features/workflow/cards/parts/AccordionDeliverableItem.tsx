@@ -47,8 +47,8 @@ export const AccordionDeliverableItem = ({
 			className={cn(
 				'flex gap-3 p-3',
 				'rounded-lg',
-				'bg-gray-50 dark:bg-gray-900/50',
-				'border border-gray-200 dark:border-gray-800',
+				'bg-gray-50',
+				'border border-gray-200',
 			)}
 		>
 			{/* Type Icon */}
@@ -56,7 +56,7 @@ export const AccordionDeliverableItem = ({
 				className={cn(
 					'flex h-10 w-10 shrink-0 items-center justify-center',
 					'rounded-lg',
-					'bg-white dark:bg-gray-800',
+					'bg-white',
 					'shadow-sm',
 				)}
 				style={{
@@ -79,8 +79,8 @@ export const AccordionDeliverableItem = ({
 						className={cn(
 							'rounded px-1.5 py-0.5',
 							'text-[10px] font-medium tracking-wide uppercase',
-							'bg-gray-200 dark:bg-gray-700',
-							'text-gray-700 dark:text-gray-300',
+							'bg-gray-200',
+							'text-gray-700',
 						)}
 					>
 						{typeLabel}
@@ -89,7 +89,7 @@ export const AccordionDeliverableItem = ({
 						className={cn(
 							'font-semibold',
 							'text-sm',
-							'text-gray-900 dark:text-white',
+							'text-gray-900',
 							'truncate',
 						)}
 					>
@@ -97,12 +97,7 @@ export const AccordionDeliverableItem = ({
 					</h4>
 				</div>
 
-				<p
-					className={cn(
-						'text-xs leading-relaxed',
-						'text-gray-600 dark:text-gray-400',
-					)}
-				>
+				<p className={cn('text-xs leading-relaxed', 'text-gray-600')}>
 					{description}
 				</p>
 			</div>

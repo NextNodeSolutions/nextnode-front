@@ -67,10 +67,10 @@ const regularBenefits = benefits.filter(b => !b.hero)
 ---
 
 <section
-	class="dark:from-brand-black/90 dark:via-brand-charcoal/80 dark:to-brand-black/90 relative overflow-hidden bg-gradient-to-br from-gray-50/80 via-white/80 to-gray-50/80 py-12 sm:py-18 lg:py-24"
+	class="relative overflow-hidden bg-gradient-to-br from-gray-50/80 via-white/80 to-gray-50/80 py-12 sm:py-18 lg:py-24"
 >
 	<!-- Grid Pattern Background -->
-	<div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
+	<div class="[0.05] absolute inset-0 opacity-[0.03]">
 		<div
 			class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
 		>
@@ -88,13 +88,13 @@ const regularBenefits = benefits.filter(b => !b.hero)
 		<!-- Section Header -->
 		<div class="mb-8 space-y-3 text-center sm:mb-12 sm:space-y-4 lg:mb-16">
 			<h2
-				class="tech-animate tech-animate-fade-in-up text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl lg:text-5xl dark:text-white"
+				class="tech-animate tech-animate-fade-in-up text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl lg:text-5xl"
 				data-delay={ANIMATION_DELAYS.title}
 			>
 				{t('home.techTransform.title')}
 			</h2>
 			<p
-				class="tech-animate tech-animate-fade-in-up mx-auto max-w-3xl text-sm text-gray-600 sm:text-base md:text-lg lg:text-xl dark:text-gray-400"
+				class="tech-animate tech-animate-fade-in-up mx-auto max-w-3xl text-sm text-gray-600 sm:text-base md:text-lg lg:text-xl"
 				data-delay={ANIMATION_DELAYS.subtitle}
 			>
 				{t('home.techTransform.subtitle')}
@@ -112,10 +112,10 @@ const regularBenefits = benefits.filter(b => !b.hero)
 				style="will-change: transform"
 			>
 				<div
-					class="dark:bg-brand-charcoal/50 dark:border-brand-soft-black/50 rounded-3xl border-2 border-gray-200/50 bg-white/50 px-6 py-8 backdrop-blur-sm md:px-6 md:py-10 xl:px-8 xl:py-12"
+					class="rounded-3xl border-2 border-gray-200/50 bg-white/50 px-6 py-8 backdrop-blur-sm md:px-6 md:py-10 xl:px-8 xl:py-12"
 				>
 					<h3
-						class="mb-6 text-center text-xl font-bold text-gray-900 dark:text-white"
+						class="mb-6 text-center text-xl font-bold text-gray-900"
 					>
 						{t('home.techTransform.techSection.title')}
 					</h3>
@@ -141,10 +141,10 @@ const regularBenefits = benefits.filter(b => !b.hero)
 				data-delay={ANIMATION_DELAYS.benefits}
 			>
 				<div
-					class="dark:bg-brand-charcoal/50 dark:border-brand-soft-black/50 rounded-3xl border-2 border-gray-200/50 bg-white/50 p-6 backdrop-blur-sm md:p-6 xl:p-8"
+					class="rounded-3xl border-2 border-gray-200/50 bg-white/50 p-6 backdrop-blur-sm md:p-6 xl:p-8"
 				>
 					<h3
-						class="mb-6 text-center text-xl font-bold text-gray-900 dark:text-white"
+						class="mb-6 text-center text-xl font-bold text-gray-900"
 					>
 						{t('home.techTransform.benefitsSection.title')}
 					</h3>
@@ -197,8 +197,8 @@ const regularBenefits = benefits.filter(b => !b.hero)
 										class={cn(
 											'group relative overflow-hidden',
 											'rounded-xl p-4 md:p-3 xl:p-4',
-											'dark:bg-brand-soft-black bg-gray-100',
-											'dark:border-brand-black border border-gray-300',
+											'bg-gray-100',
+											'border border-gray-300',
 											'transition-all duration-300',
 											'hover:-translate-y-1 hover:scale-[1.03] hover:shadow-lg',
 											'cursor-pointer',
@@ -213,15 +213,15 @@ const regularBenefits = benefits.filter(b => !b.hero)
 												<div class="from-brand-blue to-brand-green flex-shrink-0 rounded-lg bg-gradient-to-br p-2 shadow-md">
 													<benefit.icon className="h-4 w-4 text-white" />
 												</div>
-												<span class="rounded-full bg-gray-200/80 px-2.5 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-700/80 dark:text-gray-200">
+												<span class="rounded-full bg-gray-200/80 px-2.5 py-1 text-sm font-semibold text-gray-700">
 													{benefit.metric}
 												</span>
 											</div>
 
-											<h4 class="text-sm leading-tight font-semibold text-gray-900 dark:text-white">
+											<h4 class="text-sm leading-tight font-semibold text-gray-900">
 												{benefit.title}
 											</h4>
-											<p class="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+											<p class="text-xs leading-relaxed text-gray-600">
 												{benefit.description}
 											</p>
 										</div>
@@ -241,9 +241,7 @@ const regularBenefits = benefits.filter(b => !b.hero)
 			class="tech-animate tech-animate-fade-in-up mt-16 text-center"
 			data-delay={ANIMATION_DELAYS.ctaMessage}
 		>
-			<p
-				class="mx-auto max-w-3xl text-lg font-medium text-gray-700 dark:text-gray-300"
-			>
+			<p class="mx-auto max-w-3xl text-lg font-medium text-gray-700">
 				{t('home.techTransform.ctaMessage')}
 			</p>
 		</div>

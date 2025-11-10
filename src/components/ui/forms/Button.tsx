@@ -49,7 +49,7 @@ const buttonVariants = cva(
 				ghost: 'hover:bg-accent hover:text-accent-foreground',
 				link: 'text-primary underline-offset-4 hover:underline',
 				iconButton:
-					'flex items-center justify-center rounded-md p-2 text-gray-600 transition-all duration-300 hover:scale-105 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800',
+					'flex items-center justify-center rounded-md p-2 text-gray-600 transition-all duration-300 hover:scale-105 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2',
 				iconRound:
 					'text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-full p-1.5 transition-all duration-300 hover:scale-110',
 				unstyled:

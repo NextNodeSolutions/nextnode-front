@@ -18,7 +18,7 @@ export const StepCardContainer = ({
 	return (
 		<div
 			className={cn(
-				'card-base relative overflow-hidden border border-gray-100 dark:border-gray-800',
+				'card-base relative overflow-hidden border border-gray-100',
 				'grid h-full grid-rows-[auto_1fr]',
 				glow,
 			)}
