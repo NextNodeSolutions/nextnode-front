@@ -4,7 +4,6 @@ import { motion } from 'motion/react'
 import { cn } from '@/lib/core/utils'
 
 import { StepIllustration } from '../illustrations/StepIllustration'
-import { HERO_VARIANTS } from '../workflow-animation-config'
 
 import type { StepKey } from '@/types/i18n'
 
@@ -48,9 +47,6 @@ export const ModalHeroSection = ({
 }: ModalHeroSectionProps) => {
 	return (
 		<motion.div
-			variants={HERO_VARIANTS}
-			initial="hidden"
-			animate="visible"
 			className={cn(
 				// Base: structure
 				'relative',
@@ -70,8 +66,6 @@ export const ModalHeroSection = ({
 			<motion.button
 				type="button"
 				onClick={onClose}
-				whileHover={{ scale: 1.05 }}
-				whileTap={{ scale: 0.95 }}
 				className={cn(
 					// Position
 					'absolute top-4 right-4',
@@ -107,9 +101,6 @@ export const ModalHeroSection = ({
 			<div className="mx-auto max-w-4xl space-y-4 text-center">
 				{/* Illustration - Compact */}
 				<motion.div
-					initial={{ scale: 0.9, opacity: 0 }}
-					animate={{ scale: 1, opacity: 1 }}
-					transition={{ delay: 0.1, duration: 0.5 }}
 					className={cn(
 						'mx-auto',
 
@@ -124,9 +115,6 @@ export const ModalHeroSection = ({
 
 				{/* Title - Balanced Size */}
 				<motion.h2
-					initial={{ y: 20, opacity: 0 }}
-					animate={{ y: 0, opacity: 1 }}
-					transition={{ delay: 0.2, duration: 0.5 }}
 					className={cn(
 						// Typography - bold but not excessive
 						'leading-tight font-bold tracking-tight',
@@ -143,9 +131,6 @@ export const ModalHeroSection = ({
 
 				{/* Description - Readable Size */}
 				<motion.p
-					initial={{ y: 20, opacity: 0 }}
-					animate={{ y: 0, opacity: 1 }}
-					transition={{ delay: 0.3, duration: 0.5 }}
 					className={cn(
 						// Constrain width for readability
 						'mx-auto max-w-2xl',

@@ -1,5 +1,3 @@
-import { motion } from 'motion/react'
-
 import { cn } from '@/lib/core/utils'
 
 interface BentoCardProps {
@@ -13,12 +11,7 @@ interface BentoCardProps {
  */
 const BentoCard = ({ children, className }: BentoCardProps) => {
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			whileInView={{ opacity: 1, y: 0 }}
-			viewport={{ once: true, margin: '-100px' }}
-			transition={{ duration: 0.5 }}
-			whileHover={{ scale: 1.02 }}
+		<div
 			className={cn(
 				'group relative overflow-hidden rounded-2xl',
 				'from-brand-charcoal/50 to-brand-soft-black/50 bg-gradient-to-br',
@@ -37,7 +30,7 @@ const BentoCard = ({ children, className }: BentoCardProps) => {
 					'blur-xl transition-opacity duration-500 group-hover:opacity-100',
 				)}
 			/>
-		</motion.div>
+		</div>
 	)
 }
 

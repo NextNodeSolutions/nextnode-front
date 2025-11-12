@@ -1,5 +1,4 @@
 import { Rocket } from 'lucide-react'
-import { motion } from 'motion/react'
 
 import { renderIcon } from '@/lib/ui/icon-mapper'
 
@@ -30,18 +29,12 @@ const BentoSEO = ({ title, score, label, metrics }: BentoSEOProps) => {
 					<h3 className="text-xl font-bold text-white">{title}</h3>
 				</div>
 				<div className="mb-6">
-					<CounterMetric value={score} label={label} delay={300} />
+					<CounterMetric value={score} label={label} />
 				</div>
 				<div className="border-brand-soft-black space-y-2 border-t pt-4">
-					{metrics.map((metric, index) => (
-						<motion.div
+					{metrics.map(metric => (
+						<div
 							key={metric.label}
-							initial={{ opacity: 0, x: -10 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true }}
-							transition={{
-								delay: 0.4 + index * 0.1,
-							}}
 							className="flex items-center gap-2 text-sm"
 						>
 							{renderIcon(metric.icon, {
@@ -53,7 +46,7 @@ const BentoSEO = ({ title, score, label, metrics }: BentoSEOProps) => {
 							<span className="ml-auto font-semibold text-white">
 								{metric.value}
 							</span>
-						</motion.div>
+						</div>
 					))}
 				</div>
 			</div>

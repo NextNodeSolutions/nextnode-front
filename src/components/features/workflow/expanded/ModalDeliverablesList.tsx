@@ -4,8 +4,6 @@ import { motion } from 'motion/react'
 
 import { cn } from '@/lib/core/utils'
 
-import { STAGGER_VARIANTS } from '../workflow-animation-config'
-
 interface Deliverable {
 	name: string
 	description: string
@@ -48,7 +46,7 @@ export const ModalDeliverablesList = ({
 	accentColor,
 }: ModalDeliverablesListProps) => {
 	return (
-		<motion.div variants={STAGGER_VARIANTS} className="space-y-4">
+		<motion.div className="space-y-4">
 			{/* Section Header */}
 			<div className="flex items-center gap-2.5">
 				<Package

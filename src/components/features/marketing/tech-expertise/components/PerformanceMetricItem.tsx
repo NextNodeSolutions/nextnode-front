@@ -1,9 +1,5 @@
-import { motion } from 'motion/react'
-
 import { cn } from '@/lib/core/utils'
 import { renderIcon } from '@/lib/ui/icon-mapper'
-
-import { useCounterAnimation } from '../hooks'
 
 interface PerformanceMetricItemProps {
 	readonly metric: {
@@ -14,25 +10,18 @@ interface PerformanceMetricItemProps {
 		readonly unit: string
 	}
 	readonly color: string
-	readonly index: number
-	readonly isVisible: boolean
 }
 
 /**
- * Individual performance metric item with icon and animated value
+ * Individual performance metric item with icon and value
  */
 const PerformanceMetricItem = ({
 	metric,
 	color,
-	index,
-	isVisible,
 }: PerformanceMetricItemProps) => {
 	const numericValue = Number.parseFloat(metric.value)
-	const displayValue = useCounterAnimation({
-		targetValue: numericValue,
-		isVisible,
-		delay: index * 100,
-	})
+	// const displayValue = useCounterAnimation({ targetValue: numericValue, isVisible, delay: index * 100 }) // Animation removed
+	const displayValue = numericValue // Show final value directly
 
 	// Format display value to match original precision
 	const formattedValue =
@@ -41,14 +30,7 @@ const PerformanceMetricItem = ({
 			: displayValue.toFixed(1)
 
 	return (
-		<motion.div
-			initial={{ opacity: 0, scale: 0.9 }}
-			animate={
-				isVisible
-					? { opacity: 1, scale: 1 }
-					: { opacity: 0, scale: 0.9 }
-			}
-			transition={{ duration: 0.5, delay: index * 0.1 }}
+		<div
 			className={cn(
 				'flex flex-col gap-2 rounded-lg p-3',
 				'from-brand-charcoal/30 to-brand-soft-black/30 bg-gradient-to-br',
@@ -82,7 +64,7 @@ const PerformanceMetricItem = ({
 			<p className="text-[10px] leading-tight text-gray-500">
 				{metric.description}
 			</p>
-		</motion.div>
+		</div>
 	)
 }
 

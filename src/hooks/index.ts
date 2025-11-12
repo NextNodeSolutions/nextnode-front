@@ -4,4 +4,3 @@
 
 export { useMediaQuery } from './useMediaQuery'
 export { default as useOutsideClick } from './useOutsideClick'
-export { default as useScrollAnimation } from './useScrollAnimation'

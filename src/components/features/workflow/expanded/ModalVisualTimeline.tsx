@@ -3,8 +3,6 @@ import { motion } from 'motion/react'
 
 import { cn } from '@/lib/core/utils'
 
-import { STAGGER_VARIANTS } from '../workflow-animation-config'
-
 interface ModalVisualTimelineProps {
 	/** Section title (e.g., "Timeline") */
 	title: string
@@ -39,7 +37,7 @@ export const ModalVisualTimeline = ({
 	accentColor,
 }: ModalVisualTimelineProps) => {
 	return (
-		<motion.div variants={STAGGER_VARIANTS} className="space-y-6">
+		<motion.div className="space-y-6">
 			{/* Section Header */}
 			<div className="flex flex-wrap items-center justify-between gap-4">
 				<div className="flex items-center gap-2.5">
@@ -110,7 +108,7 @@ const MilestoneCard = ({
 	const isLast = index === total - 1
 
 	return (
-		<motion.div variants={STAGGER_VARIANTS} custom={index}>
+		<motion.div>
 			<div className="flex gap-4">
 				{/* Node & Line */}
 				<div className="flex flex-col items-center">

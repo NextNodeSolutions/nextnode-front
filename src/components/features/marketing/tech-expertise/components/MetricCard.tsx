@@ -1,48 +1,29 @@
-import { motion } from 'motion/react'
-
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/core/utils'
-
-import { useCounterAnimation } from '../hooks'
 
 interface MetricCardProps {
 	readonly value: string
 	readonly label: string
 	readonly description: string
 	readonly color: string
-	readonly isVisible: boolean
-	readonly delay: number
 }
 
 /**
- * Individual metric card with progress bar and animated counter
+ * Individual metric card with progress bar
  */
-const MetricCard = ({
-	value,
-	label,
-	description,
-	color,
-	isVisible,
-	delay,
-}: MetricCardProps) => {
+const MetricCard = ({ value, label, description, color }: MetricCardProps) => {
 	const numericValue = Number.parseInt(value, 10)
-	const displayValue = useCounterAnimation({
-		targetValue: numericValue,
-		isVisible,
-		delay,
-	})
+	// const displayValue = useCounterAnimation({ targetValue: numericValue, isVisible, delay }) // Animation removed
+	const displayValue = numericValue // Show final value directly
 
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 20 }}
-			animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-			transition={{ duration: 0.6, delay: delay / 1000 }}
+		<div
 			className={cn(
 				'flex h-full flex-col justify-between gap-3 rounded-xl p-4',
 				'from-brand-charcoal/50 to-brand-soft-black/50 bg-gradient-to-br',
 				'border-brand-soft-black border',
 				'hover:border-brand-green/50 transition-all duration-300',
-				'hover:shadow-brand-green/10 hover:scale-105 hover:shadow-xl',
+				'hover:shadow-brand-green/10 hover:shadow-xl',
 				'relative overflow-hidden',
 			)}
 		>
@@ -74,7 +55,7 @@ const MetricCard = ({
 			{/* Progress Bar */}
 			<div className="w-full">
 				<Progress
-					value={isVisible ? numericValue : 0}
+					value={numericValue}
 					aria-label={`${label}: ${displayValue}%`}
 					className="h-2"
 					style={
@@ -93,7 +74,7 @@ const MetricCard = ({
 					'blur-xl transition-opacity duration-500 group-hover:opacity-100',
 				)}
 			/>
-		</motion.div>
+		</div>
 	)
 }
 

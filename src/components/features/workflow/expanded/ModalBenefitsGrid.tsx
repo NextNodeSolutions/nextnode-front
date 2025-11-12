@@ -20,8 +20,6 @@ import {
 } from 'lucide-react'
 import { motion } from 'motion/react'
 
-import { STAGGER_CONFIG, STAGGER_VARIANTS } from '../workflow-animation-config'
-
 interface Benefit {
 	id?: string
 	title: string
@@ -75,7 +73,7 @@ export const ModalBenefitsGrid = ({
 	accentColor,
 }: ModalBenefitsGridProps) => {
 	return (
-		<motion.div variants={STAGGER_VARIANTS} className="space-y-4">
+		<motion.div className="space-y-4">
 			{/* Section Header */}
 			<div className="flex items-center gap-2.5">
 				<Sparkles
@@ -89,19 +87,11 @@ export const ModalBenefitsGrid = ({
 			</div>
 
 			{/* Benefits Grid - 1 col on MD, 2 cols on LG+ */}
-			<motion.div
-				variants={{
-					visible: {
-						transition: STAGGER_CONFIG.fast,
-					},
-				}}
-				className="grid grid-cols-1 gap-4 lg:grid-cols-2"
-			>
-				{benefits.map((benefit, index) => (
+			<motion.div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+				{benefits.map(benefit => (
 					<BenefitCard
 						key={benefit.id || benefit.title}
 						benefit={benefit}
-						index={index}
 						accentColor={accentColor}
 					/>
 				))}
@@ -115,18 +105,16 @@ export const ModalBenefitsGrid = ({
  */
 const BenefitCard = ({
 	benefit,
-	index,
 	accentColor,
 }: {
 	benefit: Benefit
-	index: number
 	accentColor: string
 }) => {
 	const IconComponent = ICONS[benefit.icon as keyof typeof ICONS]
 	const [isHovered, setIsHovered] = useState(false)
 
 	return (
-		<motion.div variants={STAGGER_VARIANTS} custom={index}>
+		<motion.div>
 			<button
 				type="button"
 				className="shimmer-on-hover group relative h-full w-full space-y-4 overflow-hidden rounded-2xl border-2 bg-gradient-to-br from-white to-gray-50/50 p-6 text-left shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"

@@ -2,7 +2,6 @@
 import WorkflowJourney from '@/components/features/workflow/interactive/WorkflowJourney.astro'
 import MobileTimelineWrapper from '@/components/features/workflow/timeline/MobileTimeline.wrapper.astro'
 import { generateWorkflowSteps } from '@/components/features/workflow/workflow-utils'
-import { ANIMATION_DELAYS } from '@/lib/config/workflow/workflow-animation-config'
 
 const { t } = Astro.locals
 const steps = generateWorkflowSteps()
@@ -26,7 +25,7 @@ const steps = generateWorkflowSteps()
 	>
 	</div>
 	<div
-		class="animation-delay-1000 bg-brand-green-soft/20 absolute bottom-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
+		class="bg-brand-green-soft/20 absolute bottom-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
 	>
 	</div>
 
@@ -34,27 +33,22 @@ const steps = generateWorkflowSteps()
 		<!-- Section Header -->
 		<div class="mb-6 space-y-4 text-center md:mb-10 lg:mb-18">
 			<h2
-				class="animate-fade-in-up text-3xl font-bold tracking-tight text-gray-900 opacity-0 sm:text-4xl lg:text-5xl"
+				class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl"
 			>
 				{t('home.workflow.title')}
 			</h2>
-			<p
-				class="animation-delay-300 animate-fade-in-up mx-auto max-w-3xl text-lg text-gray-600 opacity-0 sm:text-xl"
-			>
+			<p class="mx-auto max-w-3xl text-lg text-gray-600 sm:text-xl">
 				{t('home.workflow.subtitle')}
 			</p>
 			<p
-				class="animation-delay-500 animate-fade-in-up mx-auto max-w-3xl text-base leading-relaxed text-gray-700 opacity-0 sm:text-lg"
+				class="mx-auto max-w-3xl text-base leading-relaxed text-gray-700 sm:text-lg"
 			>
 				{t('home.workflow.intro')}
 			</p>
 		</div>
 
 		<!-- Workflow Journey - Single Render with Responsive Content -->
-		<div
-			class="workflow-animate workflow-animate-fade-in-up mx-auto max-w-7xl"
-			data-delay={ANIMATION_DELAYS.workflowContainer}
-		>
+		<div class="mx-auto max-w-7xl">
 			<!-- Desktop/Tablet SVG Version (md and up) -->
 			<!-- Single render with responsive content sizing via Tailwind classes -->
 			<div class="hidden md:block">
@@ -68,33 +62,3 @@ const steps = generateWorkflowSteps()
 		</div>
 	</div>
 </section>
-
-<style>
-	/* ========================================================================
-	   ANIMATION STATES
-	   ======================================================================== */
-
-	/* Initial state - hidden before animation trigger */
-	.workflow-animate:not(.workflow-animated) {
-		opacity: 0;
-	}
-
-	/* Triggered animation state */
-	.workflow-animate.workflow-animating.workflow-animate-fade-in-up {
-		animation: fade-in-up 1s ease-out forwards;
-	}
-
-	/* Final state after animation - visible and stable */
-	.workflow-animate.workflow-animated {
-		opacity: 1;
-		transform: none;
-	}
-</style>
-
-<script>
-	import { setupScrollAnimation } from '@/lib/observers/scroll-animation-observer'
-	import { WORKFLOW_OBSERVER_CONFIG } from '@/lib/observers/observer-configs'
-
-	// Initialize animation observer
-	setupScrollAnimation(WORKFLOW_OBSERVER_CONFIG)
-</script>

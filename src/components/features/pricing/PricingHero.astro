@@ -30,7 +30,6 @@ import CalActionButton from '@/components/ui/CalActionButton'
 						'ring-1 ring-inset ring-brand-blue/20',
 						'backdrop-blur-sm',
 						'animate-badge-pulse-soft',
-						'opacity-0 animate-fade-in-up',
 					)}
 				>
 					<span class="text-brand-blue">
@@ -45,7 +44,6 @@ import CalActionButton from '@/components/ui/CalActionButton'
 					class={cn(
 						'text-3xl font-bold tracking-tight',
 						'sm:text-4xl md:text-5xl lg:text-6xl',
-						'opacity-0 animate-fade-in-up',
 					)}
 				>
 					<span class="text-gray-900">
@@ -71,8 +69,6 @@ import CalActionButton from '@/components/ui/CalActionButton'
 				<p
 					class={cn(
 						'mx-auto max-w-2xl text-base sm:text-lg text-gray-600',
-						'',
-						'opacity-0 animate-fade-in-up animation-delay-200',
 					)}
 				>
 					{t('pricing.hero.subtitle')}
@@ -82,9 +78,7 @@ import CalActionButton from '@/components/ui/CalActionButton'
 				<p
 					class={cn(
 						'mx-auto max-w-3xl text-sm sm:text-base text-gray-500',
-						'',
 						'leading-relaxed',
-						'opacity-0 animate-fade-in-up animation-delay-400',
 					)}
 				>
 					{t('pricing.hero.description')}
@@ -92,12 +86,7 @@ import CalActionButton from '@/components/ui/CalActionButton'
 			</div>
 
 			<!-- CTA Section -->
-			<div
-				class={cn(
-					'mt-10 flex flex-col items-center',
-					'opacity-0 animate-fade-in-up animation-delay-600',
-				)}
-			>
+			<div class={cn('mt-10 flex flex-col items-center')}>
 				<div class="w-full max-w-md sm:w-auto">
 					<CalActionButton
 						calLink="walid-mos"
@@ -121,7 +110,6 @@ import CalActionButton from '@/components/ui/CalActionButton'
 	<div
 		class={cn(
 			'absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2',
-			'opacity-0 animate-fade-in-up animation-delay-800',
 			'hidden sm:block', // Hide on mobile to save space
 		)}
 	>

@@ -8,7 +8,7 @@ import TechTransformation from '@/components/features/marketing/tech/TechTransfo
 import TechExpertiseBento from '@/components/features/marketing/tech-expertise/TechExpertiseBento.astro'
 import BentoQualityBadges from '@/components/features/marketing/tech-expertise/components/BentoQualityBadges'
 import BentoDevTools from '@/components/features/marketing/tech-expertise/components/BentoDevTools'
-import BentoCodeExample from '@/components/features/marketing/tech-expertise/components/BentoCodeExample'
+import BentoCodeExample from '@/components/features/marketing/tech-expertise/components/BentoCodeExample.astro'
 import BentoPerformanceMetrics from '@/components/features/marketing/tech-expertise/components/BentoPerformanceMetrics'
 import BentoLighthouse from '@/components/features/marketing/tech-expertise/components/BentoLighthouse'
 import BentoSEO from '@/components/features/marketing/tech-expertise/components/BentoSEO'
@@ -42,30 +42,29 @@ const techExpertise = t('home.techExpertise')
 			>
 				<BentoQualityBadges
 					data={techExpertise.qualityBadges}
-					client:visible
+					client:load
 				/>
-				<BentoDevTools data={techExpertise.tools} client:visible />
+				<BentoDevTools data={techExpertise.tools} client:load />
 				<BentoCodeExample
 					title={techExpertise.codeExample.title}
 					code={techExpertise.codeExample.code}
-					client:only="react"
 				/>
 				<BentoPerformanceMetrics
 					title={techExpertise.metrics.performance.title}
 					data={techExpertise.metrics.performance}
-					client:visible
+					client:load
 				/>
 				<BentoLighthouse
 					title={techExpertise.metrics.lighthouse.title}
 					data={techExpertise.metrics.lighthouse}
-					client:visible
+					client:load
 				/>
 				<BentoSEO
 					title={techExpertise.metrics.seo.title}
 					score={techExpertise.metrics.seo.score}
 					label={techExpertise.metrics.labels.seoPerformance}
 					metrics={techExpertise.metrics.seo.metrics}
-					client:visible
+					client:load
 				/>
 			</TechExpertiseBento>
 

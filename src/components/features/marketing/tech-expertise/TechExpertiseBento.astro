@@ -28,21 +28,14 @@ const { title, subtitle } = Astro.props
 		<!-- Section Header -->
 		<div class="mb-16 text-center">
 			<h2
-				data-animate
-				data-delay="0"
 				class={cn(
-					'expertise-animate expertise-fade-in-up',
 					'text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl',
 					'mb-4 text-white',
 				)}
 			>
 				{title}
 			</h2>
-			<p
-				data-animate
-				data-delay="200"
-				class="expertise-animate expertise-fade-in-up mx-auto max-w-3xl text-lg text-gray-400"
-			>
+			<p class="mx-auto max-w-3xl text-lg text-gray-400">
 				{subtitle}
 			</p>
 		</div>
@@ -53,41 +46,3 @@ const { title, subtitle } = Astro.props
 		</div>
 	</div>
 </section>
-
-<style>
-	/* ========================================================================
-	   ANIMATION STATES
-	   ======================================================================== */
-
-	/* Initial state - hidden before animation trigger */
-	.expertise-animate:not(.expertise-animated) {
-		opacity: 0;
-	}
-
-	/* Triggered animation state - reuses fade-in-up from keyframes.css */
-	.expertise-animate.expertise-animating.expertise-fade-in-up {
-		--fade-distance: 20px;
-		animation: fade-in-up 700ms ease-out forwards;
-	}
-
-	/* Final state after animation - visible and stable */
-	.expertise-animate.expertise-animated {
-		opacity: 1;
-		transform: none;
-	}
-</style>
-
-<script>
-	import { setupScrollAnimation } from '@/lib/observers/scroll-animation-observer'
-
-	// Initialize animation observer
-	setupScrollAnimation({
-		sectionSelector: '#tech-expertise-section',
-		animateClass: 'expertise-animate',
-		animatingClass: 'expertise-animating',
-		animatedClass: 'expertise-animated',
-		duration: 700,
-		threshold: 0.2,
-		rootMargin: '-5% 0px',
-	})
-</script>

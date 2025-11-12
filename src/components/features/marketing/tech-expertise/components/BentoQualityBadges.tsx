@@ -1,5 +1,4 @@
 import { Shield } from 'lucide-react'
-import { motion } from 'motion/react'
 
 import { cn } from '@/lib/core/utils'
 import { renderIcon } from '@/lib/ui/icon-mapper'
@@ -32,13 +31,9 @@ const BentoQualityBadges = ({ data }: BentoQualityBadgesProps) => {
 					</h3>
 				</div>
 				<div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-					{data.items.map((badge, index) => (
-						<motion.div
+					{data.items.map(badge => (
+						<div
 							key={badge.subtitle}
-							initial={{ opacity: 0, y: 20 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
-							transition={{ delay: index * 0.1 }}
 							className={cn(
 								'flex flex-col items-center gap-2 rounded-lg p-4',
 								'from-brand-green/10 to-brand-blue/10 bg-gradient-to-br',
@@ -57,7 +52,7 @@ const BentoQualityBadges = ({ data }: BentoQualityBadgesProps) => {
 							<span className="text-xs text-gray-400">
 								{badge.subtitle}
 							</span>
-						</motion.div>
+						</div>
 					))}
 				</div>
 			</div>
