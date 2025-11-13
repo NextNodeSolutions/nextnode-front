@@ -14,16 +14,10 @@ const { t, locale } = Astro.locals
 export interface Props {
 	plan: Plan
 	featured?: boolean
-	animationDelay?: number
 	className?: string
 }
 
-const {
-	plan,
-	featured = false,
-	animationDelay = 0,
-	className = '',
-} = Astro.props
+const { plan, featured = false, className = '' } = Astro.props
 
 const planData = translatePlan(plan)
 const examplesTitle = t('pricing.sections.examplesTitle')
@@ -42,7 +36,6 @@ const cardVariants = cva(
 		'bg-white/80 backdrop-blur-sm',
 		'transition-all duration-500',
 		'hover:shadow-lg hover:-translate-y-1',
-		'opacity-0',
 		'p-4 sm:p-6 lg:p-8',
 	],
 	{
@@ -97,13 +90,7 @@ const decorativeVariants = cva(
 )
 ---
 
-<div
-	class={cn(cardVariants({ plan, featured }), className)}
-	style={{
-		animationDelay: animationDelay > 0 ? `${animationDelay}ms` : undefined,
-	}}
-	data-animate="animate-fade-in-up"
->
+<div class={cn(cardVariants({ plan, featured }), className)}>
 	{featured && <PricingCardBadge plan={plan} badge={planData.badge} />}
 
 	<PricingCardHeader
