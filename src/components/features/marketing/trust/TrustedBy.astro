@@ -32,11 +32,11 @@ const { title, subtitle } = Astro.props
 
 	<div class="relative mx-auto max-w-7xl px-6 lg:px-12">
 		{/* Header */}
-		<div class="mx-auto mb-12 max-w-3xl text-center">
+		<div class="mx-auto mb-8 max-w-3xl text-center">
 			<h2
 				class={cn(
-					'mb-4 text-4xl font-bold tracking-tight',
-					'sm:text-5xl lg:text-6xl',
+					'mb-4 text-3xl font-bold tracking-tight',
+					'sm:text-4xl lg:text-5xl',
 					'bg-gradient-to-br from-brand-charcoal via-brand-charcoal to-brand-blue',
 					'dark:from-white dark:via-white dark:to-brand-blue-light',
 					'bg-clip-text text-transparent',
@@ -47,9 +47,9 @@ const { title, subtitle } = Astro.props
 
 			<p
 				class={cn(
-					'text-lg leading-relaxed',
-					'sm:text-xl lg:text-2xl',
-					'text-brand-charcoal/70 dark:text-white/70',
+					'text-lg text-brand-charcoal/70',
+					'dark:text-white/70',
+					'sm:text-xl',
 				)}
 			>
 				{subtitle}
@@ -58,34 +58,5 @@ const { title, subtitle } = Astro.props
 
 		{/* Logo Marquee */}
 		<InfiniteLogoMarquee speed="normal" />
-
-		{/* Bottom accent */}
-		<div class="mt-12 text-center">
-			<div
-				class={cn(
-					'mx-auto inline-flex items-center gap-2 rounded-full',
-					'bg-white/50 dark:bg-brand-charcoal/50',
-					'backdrop-blur-sm',
-					'border border-white/20 dark:border-white/10',
-					'px-6 py-3',
-					'text-sm font-medium',
-					'text-brand-charcoal/60 dark:text-white/60',
-				)}
-			>
-				<svg
-					class="text-brand-green h-5 w-5"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-					stroke-width="2"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M5 13l4 4L19 7"></path>
-				</svg>
-				<span>Trusted by industry leaders since 2020</span>
-			</div>
-		</div>
 	</div>
 </section>
