@@ -1,5 +1,7 @@
+import type { LucideIcon } from 'lucide-react'
+import { Activity, Eye, Gauge, MousePointer, Package, Zap } from 'lucide-react'
+
 import { cn } from '@/lib/core/utils'
-import { renderIcon } from '@/lib/ui/icon-mapper'
 
 interface PerformanceMetricItemProps {
 	readonly metric: {
@@ -10,6 +12,16 @@ interface PerformanceMetricItemProps {
 		readonly unit: string
 	}
 	readonly color: string
+}
+
+// Local icon mapping for performance metrics
+const ICON_MAP: Record<string, LucideIcon> = {
+	eye: Eye,
+	zap: Zap,
+	'mouse-pointer': MousePointer,
+	activity: Activity,
+	gauge: Gauge,
+	package: Package,
 }
 
 /**
@@ -40,10 +52,10 @@ const PerformanceMetricItem = ({
 		>
 			{/* Icon and Label */}
 			<div className="flex items-center gap-2">
-				{renderIcon(metric.icon, {
-					className: 'h-5 w-5',
-					style: { color },
-				})}
+				{(() => {
+					const Icon = ICON_MAP[metric.icon] ?? Zap
+					return <Icon className="h-5 w-5" style={{ color }} />
+				})()}
 				<span className="text-xs font-semibold text-gray-300">
 					{metric.label}
 				</span>

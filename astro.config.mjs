@@ -39,7 +39,7 @@ export default defineConfig({
 	},
 	server: {
 		port,
-		host: process.env.NODE_ENV === 'production' ? host : '127.0.0.1',
+		host,
 	},
 	vite: {
 		plugins: [

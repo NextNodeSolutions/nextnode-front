@@ -1,7 +1,7 @@
 import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 
-import CalEmbed from '@/components/ui/CalEmbed'
+import CalEmbed from '@/components/common/CalEmbed'
 import { cn } from '@/lib/core/utils'
 
 import type { Locale } from '@/types/i18n'
