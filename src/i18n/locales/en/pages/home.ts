@@ -25,6 +25,11 @@ export const home = {
 			projects: 'Projects',
 		},
 	},
+	trustedBy: {
+		title: 'Trusted by leading companies',
+		subtitle:
+			'Industry leaders who chose NextNode for their digital transformation',
+	},
 	services: {
 		title: 'What We Do Best',
 		subtitle: 'Comprehensive digital solutions for ambitious businesses',

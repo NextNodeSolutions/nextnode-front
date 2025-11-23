@@ -109,6 +109,26 @@
 }
 
 /* ============================================================================
+   INFINITE SCROLL ANIMATIONS (Logo Marquee)
+   ============================================================================ */
+
+.animate-scroll {
+	animation: infinite-scroll 40s linear infinite;
+}
+
+.animate-scroll-slow {
+	animation: infinite-scroll 60s linear infinite;
+}
+
+.animate-scroll-fast {
+	animation: infinite-scroll 25s linear infinite;
+}
+
+.pause-animation:hover {
+	animation-play-state: paused;
+}
+
+/* ============================================================================
    UTILITY CLASSES
    ============================================================================ */
 
