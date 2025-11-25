@@ -1,6 +1,7 @@
 ---
 import LogoMarquee from './InfiniteLogoMarquee'
-import { optimizeImages } from '@/lib/core/image-optimizer'
+import { optimizeImages } from '@nextnode/functions-client/image'
+import { getImage } from 'astro:assets'
 
 import hermesLogo from '@/assets/clients/hermes.png'
 import allianzLogo from '@/assets/clients/allianz-trade.png'
@@ -13,12 +14,15 @@ interface Props {
 
 const { speed = 'normal' } = Astro.props
 
-const optimizedLogos = await optimizeImages({
-	hermes: hermesLogo,
-	allianz: allianzLogo,
-	certigo: certigoLogo,
-	igocreate: igocreateLogo,
-})
+const optimizedLogos = await optimizeImages(
+	{
+		hermes: hermesLogo as any,
+		allianz: allianzLogo as any,
+		certigo: certigoLogo as any,
+		igocreate: igocreateLogo as any,
+	},
+	getImage as any,
+)
 
 const clients = [
 	{
@@ -44,4 +48,4 @@ const clients = [
 ]
 ---
 
-<LogoMarquee clients={clients} speed={speed} client:only="react" />
+<LogoMarquee clients={clients} speed={speed} client:visible />

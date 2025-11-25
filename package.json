@@ -31,6 +31,7 @@
 		"@astrojs/sitemap": "^3.6.0",
 		"@calcom/embed-react": "^1.5.3",
 		"@nextnode/config-manager": "3.1.0",
+		"@nextnode/functions-client": "file:../functions-client",
 		"@nextnode/logger": "^0.2.3",
 		"@radix-ui/react-accordion": "^1.2.11",
 		"@radix-ui/react-dialog": "^1.0.5",
