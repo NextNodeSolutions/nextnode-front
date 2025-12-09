@@ -4,12 +4,10 @@ on:
     pull_request:
         types: [opened, synchronize, reopened]
         branches:
-            - develop
             - main
 
 jobs:
     preview:
-        if: github.head_ref != 'develop'
         name: Deploy PR Preview
         uses: NextNodeSolutions/github-actions/.github/workflows/pr-preview.yml@main
         with:

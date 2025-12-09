@@ -5,14 +5,12 @@ import { errorHandlerMiddleware } from './lib/middleware/error-handler'
 import { i18nMiddleware } from './lib/middleware/i18n'
 import { loggingMiddleware } from './lib/middleware/logging'
 import { metricsMiddleware } from './lib/middleware/metrics'
-import { themeMiddleware } from './lib/middleware/theme'
 // Import specialized middleware modules
 import { urlMappingMiddleware } from './lib/middleware/url-mapping'
 
 export const onRequest = sequence(
 	urlMappingMiddleware, // 1. Map URLs → internal [locale]/ structure
 	i18nMiddleware, // 2. Initialize i18n system and inject context
-	themeMiddleware, // 3. Detect and inject theme preference
 	metricsMiddleware, // 4. Collect application metrics
 	cacheMiddleware, // 5. Set optimal cache headers for performance
 	errorHandlerMiddleware, // 6. Handle 404/500 errors with localized pages

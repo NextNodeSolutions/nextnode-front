@@ -2,13 +2,11 @@ name: Tests
 
 on:
     pull_request:
-        branches: [main, master, develop]
+        branches: [main, master]
 
 jobs:
     quality-checks:
         name: Quality Checks
-        # Skip redundant checks on develop→main PRs
-        if: ${{ !(github.base_ref == 'main' && github.head_ref == 'develop') }}
         uses: NextNodeSolutions/github-actions/.github/workflows/quality-checks.yml@main
         with:
             run-lint: true
