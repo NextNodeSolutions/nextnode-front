@@ -1,35 +1,24 @@
-import { useRef } from 'react'
-
 import { cn } from '@/lib/core/utils'
-
-import { useCounterAnimation, useScrollAnimation } from '../hooks'
 
 interface CounterMetricProps {
 	readonly value: string
 	readonly label: string
-	readonly delay?: number
 }
 
 /**
- * Animated counter metric display
- * Counts from 0 to target value when scrolled into view
+ * Counter metric display
+ * Displays the final value directly
  */
-const CounterMetric = ({ value, label, delay = 0 }: CounterMetricProps) => {
-	const ref = useRef<HTMLDivElement>(null)
-	const isVisible = useScrollAnimation<HTMLDivElement>(ref)
-
+const CounterMetric = ({ value, label }: CounterMetricProps) => {
 	const numValue = value.match(/\d+/)
 	const targetValue = numValue ? Number.parseInt(numValue[0], 10) : 0
-	const displayCount = useCounterAnimation({
-		targetValue,
-		isVisible,
-		delay,
-	})
+	// const displayCount = useCounterAnimation({ targetValue, isVisible, delay }) // Animation removed
+	const displayCount = targetValue // Show final value directly without animation
 
 	const displayValue = value.replace(/\d+/, displayCount.toString())
 
 	return (
-		<div ref={ref} className="text-center">
+		<div className="text-center">
 			<div
 				className={cn(
 					'text-3xl font-bold sm:text-4xl',

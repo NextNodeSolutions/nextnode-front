@@ -1,15 +1,15 @@
 /**
- * Configuration centralisée des prix
- * Modifiez les valeurs dans ce fichier pour mettre à jour tous les prix du site
+ * Centralized pricing configuration
+ * Modify values in this file to update all prices across the site
  */
 
 export const PRICING_CONFIG = {
-	// Prix de base mensuel pour l'hébergement et maintenance
+	// Monthly base price for hosting and maintenance
 	monthly: {
 		base: 25,
 	},
 
-	// Prix des plans de développement
+	// Development plan prices
 	plans: {
 		starter: {
 			min: 500,
@@ -21,13 +21,13 @@ export const PRICING_CONFIG = {
 		},
 	},
 
-	// Prix des niveaux de support
+	// Support tier prices
 	support: {
 		priority: 75,
 		urgent: 200,
 	},
 
-	// Prix pour le modal professionnel (tranches de budget)
+	// Professional modal prices (budget ranges)
 	professional: {
 		ranges: [
 			{ min: 1500, max: 3500 },

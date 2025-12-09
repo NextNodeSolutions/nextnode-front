@@ -1,7 +1,7 @@
 import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 
-import CalEmbed from '@/components/ui/CalEmbed'
+import CalEmbed from '@/components/common/CalEmbed'
 import { cn } from '@/lib/core/utils'
 
 import type { Locale } from '@/types/i18n'
@@ -17,36 +17,30 @@ import type { Locale } from '@/types/i18n'
  * - compoundVariants: Apply specific gradients for pricing cards
  */
 const buttonVariants = cva(
-	// Base: Pseudo-elements, default gradient, transitions, layout
+	// Base: Gradient, transitions, layout
 	[
 		// Structure
 		'group relative overflow-hidden',
 		'w-full',
 		'text-white',
 		'transition-all duration-300',
-		'!bg-transparent',
 
-		// Pseudo-elements
-		'before:absolute before:inset-0 before:-z-10',
-		'before:bg-gradient-to-r',
-		'before:bg-[length:200%_200%]',
-		'before:animate-[gradient-shift_3s_ease_infinite]',
+		// Gradient background (direct, not on pseudo-element)
+		'bg-gradient-to-r from-brand-blue via-brand-green-muted to-brand-green',
+		'bg-[length:200%_200%]',
+		'animate-[gradient-shift_3s_ease_infinite]',
 
+		// Hover gradient
+		'hover:bg-gradient-to-r hover:from-brand-blue hover:to-brand-blue-muted',
+		'hover:animate-none',
+		'sm:hover:scale-105',
+
+		// Border pseudo-element
 		'after:absolute after:inset-0',
 		'after:pointer-events-none',
 
 		// Layout
 		'flex items-center justify-center',
-
-		// Default gradient (blue-green generic)
-		'before:from-brand-blue before:via-brand-green-muted before:to-brand-green',
-
-		// Hover
-		'hover:before:from-brand-blue',
-		'hover:before:via-brand-blue',
-		'hover:before:to-brand-blue-muted',
-		'hover:before:animate-none',
-		'sm:hover:scale-105',
 	],
 	{
 		variants: {
@@ -98,8 +92,8 @@ const buttonVariants = cva(
 				variant: 'pricing',
 				gradient: 'blue',
 				class: [
-					'before:from-brand-blue before:via-brand-blue-muted before:to-brand-blue-dark',
-					'hover:before:from-brand-blue hover:before:via-brand-blue hover:before:to-brand-blue-muted',
+					'bg-gradient-to-r from-brand-blue via-brand-blue-muted to-brand-blue-dark',
+					'hover:bg-gradient-to-r hover:from-brand-blue hover:to-brand-blue-muted',
 				],
 			},
 			// Green gradient (Business plan)
@@ -107,8 +101,8 @@ const buttonVariants = cva(
 				variant: 'pricing',
 				gradient: 'green',
 				class: [
-					'before:from-brand-green before:via-brand-green-muted before:to-brand-green-dark',
-					'hover:before:from-brand-green hover:before:via-brand-green hover:before:to-brand-green-muted',
+					'bg-gradient-to-r from-brand-green via-brand-green-muted to-brand-green-dark',
+					'hover:bg-gradient-to-r hover:from-brand-green hover:to-brand-green-muted',
 				],
 			},
 			// Dark gradient (Enterprise plan)
@@ -116,8 +110,8 @@ const buttonVariants = cva(
 				variant: 'pricing',
 				gradient: 'dark',
 				class: [
-					'before:from-brand-blue-dark before:via-brand-green-muted before:to-brand-green-dark',
-					'hover:before:from-brand-blue-dark hover:before:via-brand-blue-dark hover:before:to-brand-blue',
+					'bg-gradient-to-r from-brand-blue-dark via-brand-green-muted to-brand-green-dark',
+					'hover:bg-gradient-to-r hover:from-brand-blue-dark hover:to-brand-blue',
 				],
 			},
 		],

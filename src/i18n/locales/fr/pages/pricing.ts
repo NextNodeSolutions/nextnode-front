@@ -1,4 +1,4 @@
-import { PRICING_CONFIG } from '@/components/features/pricing/pricing-config'
+import { PRICING_CONFIG } from '@/lib/config/pricing/pricing-config'
 
 export const pricing = {
 	pageTitle: `Développement Web dès ${PRICING_CONFIG.monthly.base}€/mois | Nextnode`,

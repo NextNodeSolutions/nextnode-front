@@ -41,16 +41,10 @@ const priceVariants = cva(
 
 	<!-- Pricing -->
 	<div class="mb-3 sm:mb-4">
-		<div
-			class={cn(priceVariants({ plan }), 'opacity-0 animation-delay-200')}
-			data-animate="animate-number-emphasis"
-		>
+		<div class={cn(priceVariants({ plan }))}>
 			{price}
 		</div>
-		<div
-			class="animation-delay-400 text-xs text-gray-600 opacity-0 sm:text-sm"
-			data-animate="animate-fade-in"
-		>
+		<div class="text-xs text-gray-600 sm:text-sm">
 			+ {recurring}
 		</div>
 	</div>

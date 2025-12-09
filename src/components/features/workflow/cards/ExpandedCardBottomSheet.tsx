@@ -8,7 +8,6 @@ import { cn } from '@/lib/core/utils'
 import { useI18n } from '@/lib/i18n/I18nReact'
 
 import { StepIllustration } from '../illustrations/StepIllustration'
-import { BOTTOM_SHEET_CONFIG } from '../workflow-animation-config'
 import { AccordionBenefitItem } from './parts/AccordionBenefitItem'
 import { AccordionDeliverableItem } from './parts/AccordionDeliverableItem'
 import { DragHandle } from './parts/DragHandle'
@@ -56,27 +55,6 @@ export const ExpandedCardBottomSheet = ({
 		}
 	}, [isOpen, onClose])
 
-	// Handle drag end - close if threshold exceeded
-	const handleDragEnd = (
-		_event: MouseEvent | TouchEvent | PointerEvent,
-		info: { offset: { y: number }; velocity: { y: number } },
-	) => {
-		const { offset, velocity } = info
-		const { dismissThreshold } = BOTTOM_SHEET_CONFIG
-
-		// Close if dragged down beyond threshold or flicked down quickly
-		if (
-			offset.y > dismissThreshold.offset ||
-			velocity.y > dismissThreshold.velocity
-		) {
-			// Haptic feedback on dismiss
-			if ('vibrate' in navigator) {
-				navigator.vibrate([10, 50, 10])
-			}
-			onClose()
-		}
-	}
-
 	if (!isOpen) return null
 
 	return (
@@ -85,10 +63,6 @@ export const ExpandedCardBottomSheet = ({
 				<>
 					{/* Backdrop */}
 					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						transition={BOTTOM_SHEET_CONFIG.backdropFade}
 						className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
 						onClick={onClose}
 						aria-hidden="true"
@@ -96,12 +70,6 @@ export const ExpandedCardBottomSheet = ({
 
 					{/* Bottom Sheet Container */}
 					<motion.div
-						initial={{ y: '100%' }}
-						animate={{ y: 0 }}
-						exit={{ y: '100%' }}
-						transition={BOTTOM_SHEET_CONFIG.spring}
-						{...BOTTOM_SHEET_CONFIG.drag}
-						onDragEnd={handleDragEnd}
 						className={cn(
 							'fixed right-0 bottom-0 left-0 z-50',
 							'max-h-[85vh]',

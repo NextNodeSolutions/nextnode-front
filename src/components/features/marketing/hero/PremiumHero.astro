@@ -1,6 +1,6 @@
 ---
 import { cn } from '@/lib/core/utils'
-import CalActionButton from '@/components/ui/CalActionButton'
+import CalActionButton from '@/components/common/CalActionButton'
 import ScrollIndicator from '@/components/ui/ScrollIndicator.astro'
 import DashboardMockup from './DashboardMockup.astro'
 import { Star, Award, CheckCircle2, TrendingUp } from 'lucide-react'
@@ -20,7 +20,7 @@ const { t, locale } = Astro.locals
 	>
 	</div>
 	<div
-		class="bg-brand-green-soft/30 animation-delay-1000 absolute bottom-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
+		class="bg-brand-green-soft/30 absolute bottom-20 left-10 h-72 w-72 animate-pulse rounded-full opacity-50 blur-3xl"
 	>
 	</div>
 
@@ -44,7 +44,6 @@ const { t, locale } = Astro.locals
 				<div
 					class={cn(
 						'flex flex-wrap gap-2 items-center sm:gap-3 md:gap-4',
-						'opacity-0 animate-fade-in-up',
 					)}
 				>
 					<div
@@ -76,7 +75,6 @@ const { t, locale } = Astro.locals
 					class={cn(
 						'text-sm sm:text-base md:text-lg font-medium',
 						'text-brand-blue-muted ',
-						'opacity-0 animate-fade-in-up animation-delay-300',
 					)}
 				>
 					{t('home.hero.subtitle')}
@@ -87,7 +85,6 @@ const { t, locale } = Astro.locals
 					class={cn(
 						'text-4xl md:text-5xl xl:text-6xl',
 						'font-bold tracking-tight leading-[1.2]',
-						'opacity-0 animate-fade-in-up animation-delay-600',
 					)}
 				>
 					<span class="text-gray-900">{t('home.hero.title')}</span><br
@@ -110,7 +107,6 @@ const { t, locale } = Astro.locals
 				<p
 					class={cn(
 						'text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed',
-						'opacity-0 animate-fade-in-up animation-delay-900',
 						'max-w-2xl',
 					)}
 				>
@@ -118,12 +114,7 @@ const { t, locale } = Astro.locals
 				</p>
 
 				<!-- Key Features -->
-				<div
-					class={cn(
-						'space-y-2.5 sm:space-y-3',
-						'opacity-0 animate-fade-in-up animation-delay-1200',
-					)}
-				>
+				<div class={cn('space-y-2.5 sm:space-y-3')}>
 					{
 						t('home.hero.features').map(feature => (
 							<div class="flex items-start gap-2.5 sm:gap-3">
@@ -139,12 +130,7 @@ const { t, locale } = Astro.locals
 				</div>
 
 				<!-- CTA Button -->
-				<div
-					class={cn(
-						'opacity-0 animate-fade-in-up animation-delay-1500',
-						'flex flex-col gap-2 sm:gap-3',
-					)}
-				>
+				<div class={cn('flex flex-col gap-2 sm:gap-3')}>
 					<div class="w-full sm:w-auto">
 						<CalActionButton
 							calLink="walid-mos"
@@ -168,7 +154,7 @@ const { t, locale } = Astro.locals
 			<!-- Right Column: Visual Element -->
 			<div
 				class={cn(
-					'relative opacity-0 animate-fade-in-right animation-delay-900',
+					'relative',
 					'hidden lg:flex items-center justify-center',
 				)}
 			>
