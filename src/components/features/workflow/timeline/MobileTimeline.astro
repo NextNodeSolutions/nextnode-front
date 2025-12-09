@@ -33,9 +33,8 @@ const { steps } = Astro.props
 							{/* Step card with animation wrapper */}
 							<div
 								class={cn(
-									'animate-in animate-slide-in-from-bottom-8 animate-fill-mode-forwards transform opacity-0 transition-all duration-700 hover:translate-x-1 motion-reduce:animate-none motion-reduce:opacity-100',
+									'transform transition-all duration-700 hover:translate-x-1',
 								)}
-								style={`animation-delay: ${index * 150}ms`}
 								data-step-card
 								data-step-index={index}
 							>

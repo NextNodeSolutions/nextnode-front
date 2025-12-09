@@ -8,10 +8,6 @@ import PricingCard from '@/components/features/pricing/PricingCard.astro'
 import PricingIncludedCard from '@/components/features/pricing/PricingIncludedCard.astro'
 import PricingSupportLevelCard from '@/components/features/pricing/PricingSupportLevelCard.astro'
 import { cn } from '@/lib/core/utils'
-import {
-	SECTION_BASE_DELAYS,
-	getAnimationDelayClass,
-} from '@/lib/config/pricing/pricing-animation-config'
 // Use new i18n system from middleware
 const { t } = Astro.locals
 
@@ -32,7 +28,6 @@ const pageDescription = t('pricing.hero.subtitle')
 			<section
 				id="plans"
 				class="bg-gray-50/50 py-8 sm:py-12 md:py-16 lg:py-20 dark:bg-gray-900/50"
-				data-pricing-section
 			>
 				<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<!-- Section Header -->
@@ -41,24 +36,14 @@ const pageDescription = t('pricing.hero.subtitle')
 							class={cn(
 								'text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white',
 								'mb-3 sm:mb-4',
-								'opacity-0',
-								getAnimationDelayClass(
-									SECTION_BASE_DELAYS.plansHeader,
-								),
 							)}
-							data-animate="animate-fade-in-up"
 						>
 							{t('pricing.sections.plans.title')}
 						</h2>
 						<p
 							class={cn(
 								'mx-auto max-w-2xl text-base sm:text-lg text-gray-600 dark:text-gray-300',
-								'opacity-0',
-								getAnimationDelayClass(
-									SECTION_BASE_DELAYS.plansSubtitle,
-								),
 							)}
-							data-animate="animate-fade-in-up"
 						>
 							{t('pricing.sections.plans.subtitle')}
 						</p>
@@ -75,7 +60,6 @@ const pageDescription = t('pricing.hero.subtitle')
 						<!-- Business Plan -->
 						<PricingCard
 							plan="business"
-							animationDelay={300}
 							className="order-2 lg:order-1"
 						/>
 
@@ -83,42 +67,30 @@ const pageDescription = t('pricing.hero.subtitle')
 						<PricingCard
 							plan="starter"
 							featured={true}
-							animationDelay={400}
 							className="order-1 lg:order-2"
 						/>
 
 						<!-- Enterprise Plan -->
 						<PricingCard
 							plan="enterprise"
-							animationDelay={500}
 							className="order-3 lg:order-3"
 						/>
 					</div>
 
 					<!-- What's Included Section -->
-					<div class="mt-12 sm:mt-16 lg:mt-24" data-pricing-section>
+					<div class="mt-12 sm:mt-16 lg:mt-24">
 						<div class="mb-8 text-center sm:mb-12 lg:mb-16">
 							<h3
 								class={cn(
 									'text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4',
-									'opacity-0',
-									getAnimationDelayClass(
-										SECTION_BASE_DELAYS.includedHeader,
-									),
 								)}
-								data-animate="animate-fade-in-up"
 							>
 								{t('pricing.pricing.title')}
 							</h3>
 							<p
 								class={cn(
 									'mx-auto max-w-2xl text-base sm:text-lg text-gray-600 dark:text-gray-300',
-									'opacity-0',
-									getAnimationDelayClass(
-										SECTION_BASE_DELAYS.includedSubtitle,
-									),
 								)}
-								data-animate="animate-fade-in-up"
 							>
 								{t('pricing.pricing.subtitle')}
 							</p>
@@ -135,7 +107,6 @@ const pageDescription = t('pricing.hero.subtitle')
 									'pricing.pricing.development.details',
 								)}
 								colorVariant="blue"
-								animationDelay={SECTION_BASE_DELAYS.includedCards}
 							/>
 
 							<!-- Infrastructure & Support -->
@@ -150,8 +121,6 @@ const pageDescription = t('pricing.hero.subtitle')
 									'pricing.pricing.infrastructure.details',
 								)}
 								colorVariant="green"
-								animationDelay={SECTION_BASE_DELAYS.includedCards +
-									100}
 							/>
 
 							<!-- Guarantees -->
@@ -162,8 +131,6 @@ const pageDescription = t('pricing.hero.subtitle')
 								)}
 								details={t('pricing.pricing.guarantee.points')}
 								colorVariant="dark"
-								animationDelay={SECTION_BASE_DELAYS.includedCards +
-									200}
 							/>
 						</div>
 					</div>
@@ -171,7 +138,7 @@ const pageDescription = t('pricing.hero.subtitle')
 			</section>
 
 			<!-- Support Levels Section -->
-			<section class="py-2 lg:py-6" data-pricing-section>
+			<section class="py-2 lg:py-6">
 				<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<!-- Section Header -->
 					<div class="mb-16 text-center">
@@ -179,24 +146,14 @@ const pageDescription = t('pricing.hero.subtitle')
 							class={cn(
 								'text-3xl font-bold tracking-tight text-gray-900 dark:text-white',
 								'sm:text-4xl mb-4',
-								'opacity-0',
-								getAnimationDelayClass(
-									SECTION_BASE_DELAYS.supportHeader,
-								),
 							)}
-							data-animate="animate-fade-in-up"
 						>
 							{t('pricing.support.title')}
 						</h2>
 						<p
 							class={cn(
 								'mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300',
-								'opacity-0',
-								getAnimationDelayClass(
-									SECTION_BASE_DELAYS.supportSubtitle,
-								),
 							)}
-							data-animate="animate-fade-in-up"
 						>
 							{t('pricing.support.subtitle')}
 						</p>
@@ -228,12 +185,7 @@ const pageDescription = t('pricing.hero.subtitle')
 							'bg-gradient-to-br from-brand-blue-light to-brand-green-light',
 							'dark:from-gray-800 dark:to-gray-700',
 							'border border-brand-blue/20 dark:border-gray-600',
-							'opacity-0',
-							getAnimationDelayClass(
-								SECTION_BASE_DELAYS.supportNote,
-							),
 						)}
-						data-animate="animate-fade-in-up"
 					>
 						<p
 							class="text-sm leading-relaxed text-gray-600 dark:text-gray-300"
@@ -249,11 +201,3 @@ const pageDescription = t('pricing.hero.subtitle')
 		<Footer />
 	</div>
 </BaseLayout>
-
-<script>
-	import { setupMultiSectionAnimation } from '@/lib/observers/scroll-animation-observer'
-	import { PRICING_OBSERVER_CONFIG } from '@/lib/observers/observer-configs'
-
-	// Initialize scroll-triggered animations
-	setupMultiSectionAnimation(PRICING_OBSERVER_CONFIG)
-</script>

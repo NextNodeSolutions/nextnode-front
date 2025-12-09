@@ -8,7 +8,6 @@ import { ModalBenefitsGrid } from '../expanded/ModalBenefitsGrid'
 import { ModalDeliverablesList } from '../expanded/ModalDeliverablesList'
 import { ModalHeroSection } from '../expanded/ModalHeroSection'
 import { ModalOverviewPanel } from '../expanded/ModalOverviewPanel'
-import { MODAL_TRANSITIONS, STAGGER_CONFIG } from '../workflow-animation-config'
 
 import type { ExpandedCardModalProps } from '@/types/workflow'
 
@@ -54,10 +53,6 @@ export const ExpandedCardModal = ({
 				<>
 					{/* Simple Backdrop - Clean and Dark */}
 					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						transition={MODAL_TRANSITIONS.backdropFade}
 						className="fixed inset-0 z-50 bg-black/60"
 						onClick={onClose}
 						aria-hidden="true"
@@ -65,10 +60,6 @@ export const ExpandedCardModal = ({
 
 					{/* Modal Container */}
 					<motion.div
-						initial={{ opacity: 0, scale: 0.98, y: 20 }}
-						animate={{ opacity: 1, scale: 1, y: 0 }}
-						exit={{ opacity: 0, scale: 0.98, y: 20 }}
-						transition={MODAL_TRANSITIONS.modalSpring}
 						className="fixed top-1/2 left-1/2 z-50 max-h-[90vh] w-[95vw] max-w-6xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl"
 						onClick={e => e.stopPropagation()}
 						role="dialog"
@@ -88,16 +79,7 @@ export const ExpandedCardModal = ({
 							/>
 
 							{/* Body Content */}
-							<motion.div
-								initial="hidden"
-								animate="visible"
-								variants={{
-									visible: {
-										transition: STAGGER_CONFIG.container,
-									},
-								}}
-								className="mx-auto max-w-5xl space-y-8 px-6 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12"
-							>
+							<motion.div className="mx-auto max-w-5xl space-y-8 px-6 py-8 sm:px-8 sm:py-10 md:px-12 md:py-12">
 								{/* 2-Column Layout: Overview (40%) + Benefits (60%) */}
 								<div className="grid grid-cols-1 gap-8 md:grid-cols-5">
 									{/* Overview - 40% */}

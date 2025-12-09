@@ -1,8 +1,6 @@
 import { Check, FileText } from 'lucide-react'
 import { motion } from 'motion/react'
 
-import { PANEL_VARIANTS } from '../workflow-animation-config'
-
 interface ModalOverviewPanelProps {
 	/** Section title (e.g., "Overview") */
 	title: string
@@ -33,7 +31,7 @@ export const ModalOverviewPanel = ({
 	const bulletPoints = parts.slice(1).filter(point => point.length > 0)
 
 	return (
-		<motion.div variants={PANEL_VARIANTS} className="space-y-3">
+		<motion.div className="space-y-3">
 			{/* Section Header */}
 			<div className="flex items-center gap-2.5">
 				<FileText

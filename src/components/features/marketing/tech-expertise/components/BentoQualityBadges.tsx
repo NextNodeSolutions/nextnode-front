@@ -1,8 +1,7 @@
-import { Shield } from 'lucide-react'
-import { motion } from 'motion/react'
+import type { LucideIcon } from 'lucide-react'
+import { Activity, CheckCircle, Lock, Shield } from 'lucide-react'
 
 import { cn } from '@/lib/core/utils'
-import { renderIcon } from '@/lib/ui/icon-mapper'
 
 import BentoCard from './BentoCard'
 
@@ -15,6 +14,14 @@ interface BentoQualityBadgesProps {
 			readonly icon: 'shield' | 'check' | 'activity' | 'lock'
 		}[]
 	}
+}
+
+// Local icon mapping for quality badges
+const ICON_MAP: Record<string, LucideIcon> = {
+	shield: Shield,
+	check: CheckCircle,
+	activity: Activity,
+	lock: Lock,
 }
 
 /**
@@ -32,33 +39,30 @@ const BentoQualityBadges = ({ data }: BentoQualityBadgesProps) => {
 					</h3>
 				</div>
 				<div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-					{data.items.map((badge, index) => (
-						<motion.div
-							key={badge.subtitle}
-							initial={{ opacity: 0, y: 20 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
-							transition={{ delay: index * 0.1 }}
-							className={cn(
-								'flex flex-col items-center gap-2 rounded-lg p-4',
-								'from-brand-green/10 to-brand-blue/10 bg-gradient-to-br',
-								'border-brand-green/30 border',
-								'hover:border-brand-green/50 transition-colors',
-							)}
-						>
-							<div className="flex items-center gap-2">
-								{renderIcon(badge.icon, {
-									className: 'text-brand-green h-5 w-5',
-								})}
-								<span className="text-lg font-bold text-white">
-									{badge.title}
+					{data.items.map(badge => {
+						const Icon = ICON_MAP[badge.icon] ?? Shield
+						return (
+							<div
+								key={badge.subtitle}
+								className={cn(
+									'flex flex-col items-center gap-2 rounded-lg p-4',
+									'from-brand-green/10 to-brand-blue/10 bg-gradient-to-br',
+									'border-brand-green/30 border',
+									'hover:border-brand-green/50 transition-colors',
+								)}
+							>
+								<div className="flex items-center gap-2">
+									<Icon className="text-brand-green h-5 w-5" />
+									<span className="text-lg font-bold text-white">
+										{badge.title}
+									</span>
+								</div>
+								<span className="text-xs text-gray-400">
+									{badge.subtitle}
 								</span>
 							</div>
-							<span className="text-xs text-gray-400">
-								{badge.subtitle}
-							</span>
-						</motion.div>
-					))}
+						)
+					})}
 				</div>
 			</div>
 		</BentoCard>

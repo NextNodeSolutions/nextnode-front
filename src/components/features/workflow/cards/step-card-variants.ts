@@ -100,22 +100,3 @@ export const stepCardDirection = cva('flex h-full w-full', {
 		direction: 'bottom',
 	},
 })
-
-/**
- * CTA text color variants (matches step color)
- */
-export const stepCtaVariants = cva('', {
-	variants: {
-		step: {
-			1: 'text-[var(--step-1-primary)]',
-			2: 'text-[var(--step-2-primary)]',
-			3: 'text-[var(--step-3-primary)]',
-			4: 'text-[var(--step-4-primary)]',
-			5: 'text-[var(--step-5-primary)]',
-			6: 'text-[var(--step-6-primary)]',
-		},
-	},
-	defaultVariants: {
-		step: 1,
-	},
-})
