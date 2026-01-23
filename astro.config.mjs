@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config'
 
 import node from '@astrojs/node'
+import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import { logger } from '@nextnode/logger'
 import tailwindcss from '@tailwindcss/vite'
@@ -34,6 +35,7 @@ export default defineConfig({
 		mode: 'standalone',
 	}),
 	integrations: [
+		react(),
 		sitemap({
 			filter: page => {
 				// Exclude API endpoints, debug pages, health checks, and error pages
