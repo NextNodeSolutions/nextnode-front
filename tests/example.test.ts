@@ -16,9 +16,9 @@ describe('Example Test Suite', () => {
 		const mockEnv = {
 			NODE_ENV: 'production',
 			HOST: '0.0.0.0',
-			PORT: '4321'
+			PORT: '4321',
 		}
-		
+
 		expect(mockEnv.NODE_ENV).toBe('production')
 		expect(mockEnv.HOST).toBe('0.0.0.0')
 		expect(Number(mockEnv.PORT)).toBe(4321)

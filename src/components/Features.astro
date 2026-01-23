@@ -1,98 +1,115 @@
 ---
 export interface Feature {
-  icon: string;
-  title: string;
-  description: string;
+	icon: string
+	title: string
+	description: string
 }
 
 export interface Props {
-  title?: string;
-  subtitle?: string;
-  features?: Feature[];
+	title?: string
+	subtitle?: string
+	features?: Feature[]
 }
 
 const {
-  title = "Pourquoi choisir ce template ?",
-  subtitle = "Tout ce dont vous avez besoin pour démarrer rapidement",
-  features = [
-    {
-      icon: "⚡",
-      title: "Performance optimale",
-      description: "Construit avec Astro pour des performances exceptionnelles. Génération statique, hydratation partielle et optimisations automatiques."
-    },
-    {
-      icon: "🎨",
-      title: "Design moderne",
-      description: "Interface utilisateur élégante avec Tailwind CSS. Composants réutilisables et design system cohérent."
-    },
-    {
-      icon: "🔧",
-      title: "Outils de développement",
-      description: "ESLint, Prettier, TypeScript, Vitest et plus encore. Configuration prête à l'emploi pour une DX optimale."
-    },
-    {
-      icon: "📱",
-      title: "Responsive",
-      description: "Design adaptatif qui fonctionne parfaitement sur tous les appareils, du mobile au desktop."
-    },
-    {
-      icon: "🚀",
-      title: "Déploiement facile",
-      description: "Compatible avec Vercel, Netlify, et autres plateformes. Configuration automatique CI/CD."
-    },
-    {
-      icon: "🔒",
-      title: "Sécurisé",
-      description: "Meilleures pratiques de sécurité intégrées. Headers de sécurité et configuration CSP."
-    }
-  ]
-} = Astro.props;
+	title = 'Pourquoi choisir ce template ?',
+	subtitle = 'Tout ce dont vous avez besoin pour démarrer rapidement',
+	features = [
+		{
+			icon: '⚡',
+			title: 'Performance optimale',
+			description:
+				'Construit avec Astro pour des performances exceptionnelles. Génération statique, hydratation partielle et optimisations automatiques.',
+		},
+		{
+			icon: '🎨',
+			title: 'Design moderne',
+			description:
+				'Interface utilisateur élégante avec Tailwind CSS. Composants réutilisables et design system cohérent.',
+		},
+		{
+			icon: '🔧',
+			title: 'Outils de développement',
+			description:
+				"ESLint, Prettier, TypeScript, Vitest et plus encore. Configuration prête à l'emploi pour une DX optimale.",
+		},
+		{
+			icon: '📱',
+			title: 'Responsive',
+			description:
+				'Design adaptatif qui fonctionne parfaitement sur tous les appareils, du mobile au desktop.',
+		},
+		{
+			icon: '🚀',
+			title: 'Déploiement facile',
+			description:
+				'Compatible avec Vercel, Netlify, et autres plateformes. Configuration automatique CI/CD.',
+		},
+		{
+			icon: '🔒',
+			title: 'Sécurisé',
+			description:
+				'Meilleures pratiques de sécurité intégrées. Headers de sécurité et configuration CSP.',
+		},
+	],
+} = Astro.props
 ---
 
 <section class="section-padding bg-white">
-  <div class="max-w-7xl mx-auto container-padding">
-    <!-- Header -->
-    <div class="text-center mb-16">
-      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-        {title}
-      </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-        {subtitle}
-      </p>
-    </div>
+	<div class="container-padding mx-auto max-w-7xl">
+		<!-- Header -->
+		<div class="mb-16 text-center">
+			<h2 class="mb-6 text-4xl font-bold text-gray-900 md:text-5xl">
+				{title}
+			</h2>
+			<p class="mx-auto max-w-3xl text-xl text-gray-600">
+				{subtitle}
+			</p>
+		</div>
 
-    <!-- Features Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {features.map((feature, index) => (
-        <div
-          class="group relative bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl border border-gray-200 hover:border-nextnode-300 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-          style={`animation-delay: ${index * 100}ms`}
-        >
-          <div class="w-16 h-16 bg-gradient-to-br from-nextnode-500 to-accent-500 rounded-xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition-transform duration-300">
-            {feature.icon}
-          </div>
+		<!-- Features Grid -->
+		<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+			{
+				features.map((feature, index) => (
+					<div
+						class="group hover:border-nextnode-300 relative rounded-2xl border border-gray-200 bg-gradient-to-br from-gray-50 to-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+						style={`animation-delay: ${index * 100}ms`}
+					>
+						<div class="from-nextnode-500 to-accent-500 mb-6 flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br text-3xl transition-transform duration-300 group-hover:scale-110">
+							{feature.icon}
+						</div>
 
-          <h3 class="text-xl font-bold text-gray-900 mb-4 group-hover:text-nextnode-700 transition-colors duration-300">
-            {feature.title}
-          </h3>
+						<h3 class="group-hover:text-nextnode-700 mb-4 text-xl font-bold text-gray-900 transition-colors duration-300">
+							{feature.title}
+						</h3>
 
-          <p class="text-gray-600 leading-relaxed">
-            {feature.description}
-          </p>
+						<p class="leading-relaxed text-gray-600">
+							{feature.description}
+						</p>
 
-          <div class="absolute inset-0 bg-gradient-to-br from-nextnode-500/5 to-accent-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-        </div>
-      ))}
-    </div>
+						<div class="from-nextnode-500/5 to-accent-500/5 pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+					</div>
+				))
+			}
+		</div>
 
-    <!-- Bottom CTA -->
-    <div class="text-center mt-16">
-      <div class="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-nextnode-100 to-accent-100 text-nextnode-800 font-medium">
-        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-        </svg>
-        Et bien plus encore à découvrir !
-      </div>
-    </div>
-  </div>
-</section> 
+		<!-- Bottom CTA -->
+		<div class="mt-16 text-center">
+			<div
+				class="from-nextnode-100 to-accent-100 text-nextnode-800 inline-flex items-center rounded-full bg-gradient-to-r px-6 py-3 font-medium"
+			>
+				<svg
+					class="mr-2 h-5 w-5"
+					fill="currentColor"
+					viewBox="0 0 20 20"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+						clip-rule="evenodd"></path>
+				</svg>
+				Et bien plus encore à découvrir !
+			</div>
+		</div>
+	</div>
+</section>
