@@ -1,0 +1,8 @@
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@nextnode/config-manager'
+  - '@tailwindcss/oxide'
+  - esbuild
+  - node
+  - sharp
+  - unrs-resolver
