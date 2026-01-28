@@ -1,8 +1,8 @@
 name: Deploy to Production
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
+    group: deploy-production
+    cancel-in-progress: false
 
 on:
     push:
@@ -18,23 +18,23 @@ jobs:
             run-typecheck: true
             run-tests: true
             run-build: true
+            run-security: true
+            test-coverage: true
         secrets: inherit
+
+    approval:
+        name: Waiting for Approval
+        needs: quality-checks
+        runs-on: ubuntu-latest
+        environment: production
+        steps:
+            - run: echo "Production deployment approved"
 
     deploy:
         name: Deploy to Production
-        needs: quality-checks
-        uses: NextNodeSolutions/github-actions/.github/workflows/deploy.yml@main
+        needs: approval
+        uses: NextNodeSolutions/github-actions/.github/workflows/dokploy-deploy.yml@main
         with:
-            environment: 'production'
-            app-name: 'nextnode-front'
-            base-domain: 'https://nextnode.fr'
-        secrets: inherit
-
-    dns:
-        name: Update DNS
-        needs: deploy
-        uses: NextNodeSolutions/github-actions/.github/workflows/dns.yml@main
-        with:
-            domain: ${{ needs.deploy.outputs.custom-domain }}
-            target: ${{ needs.deploy.outputs.cname-target }}
+            environment: production
+            notify-slack: true
         secrets: inherit

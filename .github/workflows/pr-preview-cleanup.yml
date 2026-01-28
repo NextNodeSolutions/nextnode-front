@@ -6,8 +6,10 @@ on:
 
 jobs:
     cleanup:
-        name: Cleanup PR Preview
-        uses: NextNodeSolutions/github-actions/.github/workflows/pr-preview-cleanup.yml@main
+        name: Cleanup Preview
+        uses: NextNodeSolutions/github-actions/.github/workflows/dokploy-deploy.yml@main
         with:
-            app-name: 'nextnode-front'
+            environment: preview
+            pr-number: ${{ github.event.pull_request.number }}
+            action: cleanup
         secrets: inherit

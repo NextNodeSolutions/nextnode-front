@@ -1,7 +1,7 @@
 name: Deploy to Development
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
+    group: deploy-development
     cancel-in-progress: true
 
 on:
@@ -18,23 +18,15 @@ jobs:
             run-typecheck: true
             run-tests: true
             run-build: true
+            run-security: true
+            test-coverage: true
         secrets: inherit
 
     deploy:
         name: Deploy to Development
         needs: quality-checks
-        uses: NextNodeSolutions/github-actions/.github/workflows/deploy.yml@main
+        uses: NextNodeSolutions/github-actions/.github/workflows/dokploy-deploy.yml@main
         with:
-            environment: 'development'
-            app-name: 'nextnode-front'
-            base-domain: 'https://nextnode.fr'
-        secrets: inherit
-
-    dns:
-        name: Update DNS
-        needs: deploy
-        uses: NextNodeSolutions/github-actions/.github/workflows/dns.yml@main
-        with:
-            domain: ${{ needs.deploy.outputs.custom-domain }}
-            target: ${{ needs.deploy.outputs.cname-target }}
+            environment: development
+            notify-slack: true
         secrets: inherit

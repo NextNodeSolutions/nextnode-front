@@ -1,0 +1,25 @@
+[project]
+name = "nextnode-front"
+description = "NextNode Solutions website"
+domain = "nextnode.fr"
+port = 4321
+
+[build]
+type = "dockerfile"
+
+[resources]
+memory = "512M"
+cpu = "0.5"
+
+[environments.development]
+enabled = true
+server = "dev-worker"
+
+[environments.preview]
+enabled = true
+server = "dev-worker"
+
+[production]
+server = "prod-worker"
+memory = "1G"
+cpu = "1"

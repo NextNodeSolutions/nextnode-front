@@ -3,28 +3,44 @@ name: PR Preview
 on:
     pull_request:
         types: [opened, synchronize, reopened]
-        branches:
-            - develop
-            - main
+        branches: [develop, main]
 
 jobs:
-    preview:
+    quality-checks:
+        name: Quality Checks
         if: github.head_ref != 'develop'
-        name: Deploy PR Preview
-        uses: NextNodeSolutions/github-actions/.github/workflows/pr-preview.yml@main
+        uses: NextNodeSolutions/github-actions/.github/workflows/quality-checks.yml@main
         with:
-            app-name: 'nextnode-front'
-            base-domain: 'https://nextnode.fr'
-            base-environment: 'development'
-            run-quality-checks: true
-            memory-mb: '512'
+            run-lint: true
+            run-typecheck: true
+            run-tests: true
+            run-build: true
         secrets: inherit
 
-    dns:
-        name: Update DNS
-        needs: preview
-        uses: NextNodeSolutions/github-actions/.github/workflows/dns.yml@main
+    preview:
+        name: Deploy Preview
+        needs: quality-checks
+        if: github.head_ref != 'develop'
+        uses: NextNodeSolutions/github-actions/.github/workflows/dokploy-deploy.yml@main
         with:
-            domain: ${{ needs.preview.outputs.custom-domain }}
-            target: ${{ needs.preview.outputs.cname-target }}
+            environment: preview
+            pr-number: ${{ github.event.pull_request.number }}
         secrets: inherit
+
+    comment:
+        name: Comment Preview URL
+        needs: preview
+        if: needs.preview.outputs.success == 'true'
+        runs-on: ubuntu-latest
+        permissions:
+            pull-requests: write
+        steps:
+            - uses: actions/github-script@v7
+              with:
+                  script: |
+                      github.rest.issues.createComment({
+                        issue_number: context.issue.number,
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        body: `## Preview Ready\n\nURL: https://${{ needs.preview.outputs.domain }}\n\nAuto-cleanup on PR close.`
+                      })
