@@ -36,3 +36,9 @@ yarn-error.log*
 .DS_Store
 *.pem
 .claude
+
+# Ralph working files (keep templates, ignore active runs)
+scripts/ralph/prd.json
+scripts/ralph/progress.txt
+scripts/ralph/.last-branch
+scripts/ralph/archive/
