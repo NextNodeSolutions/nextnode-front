@@ -24,17 +24,20 @@
 ### Installation
 
 1. Clone this template:
+
 ```bash
 https://github.com/NextNodeSolutions/nextnode-front
 cd nextnode-front
 ```
 
 2. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 3. Start the development server:
+
 ```bash
 pnpm dev
 ```
@@ -81,6 +84,7 @@ This template uses Tailwind CSS for styling. You can customize the design system
 ### Components
 
 The template includes several pre-built components:
+
 - `Header.astro` - Navigation header
 - `Hero.astro` - Hero section component
 - `Features.astro` - Features showcase
