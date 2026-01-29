@@ -21,7 +21,7 @@ jobs:
         name: Deploy Preview
         needs: quality-checks
         if: github.head_ref != 'develop'
-        uses: NextNodeSolutions/github-actions/.github/workflows/dokploy-deploy.yml@main
+        uses: NextNodeSolutions/github-actions/.github/workflows/app-deploy.yml@main
         with:
             environment: preview
             pr-number: ${{ github.event.pull_request.number }}
