@@ -25,8 +25,7 @@ jobs:
     deploy:
         name: Deploy to Development
         needs: quality-checks
-        uses: NextNodeSolutions/github-actions/.github/workflows/dokploy-deploy.yml@main
+        uses: NextNodeSolutions/github-actions/.github/workflows/app-deploy.yml@main
         with:
             environment: development
-            notify-slack: true
         secrets: inherit

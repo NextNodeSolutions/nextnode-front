@@ -33,8 +33,7 @@ jobs:
     deploy:
         name: Deploy to Production
         needs: approval
-        uses: NextNodeSolutions/github-actions/.github/workflows/dokploy-deploy.yml@main
+        uses: NextNodeSolutions/github-actions/.github/workflows/app-deploy.yml@main
         with:
             environment: production
-            notify-slack: true
         secrets: inherit
