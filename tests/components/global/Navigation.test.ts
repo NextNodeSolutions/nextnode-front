@@ -29,8 +29,7 @@ describe('Navigation.astro', () => {
 		})
 
 		it('has desktop navigation section', () => {
-			expect(navigationContent).toContain('class="hidden')
-			expect(navigationContent).toContain('md:flex')
+			expect(navigationContent).toContain('hidden md:flex')
 			expect(navigationContent).toContain('<nav')
 		})
 
