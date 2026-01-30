@@ -1,0 +1,186 @@
+---
+/**
+ * HelpCenterLayout.astro - Layout for help center article pages
+ *
+ * Provides consistent structure for help articles with sidebar navigation
+ * for categories. Extends BaseLayout for navigation and footer.
+ * Integrates @nextnode/logger for page load tracking.
+ */
+
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+import { logger } from '@nextnode/logger'
+
+export interface HelpCategory {
+	/** Category identifier */
+	id: string
+	/** Category display name */
+	name: string
+	/** Category icon (optional) */
+	icon?: string
+	/** Number of articles in category */
+	articleCount?: number
+}
+
+export interface Props {
+	/** Article title */
+	title: string
+	/** Article description for meta */
+	description: string
+	/** Category this article belongs to */
+	category: string
+	/** List of categories for sidebar navigation */
+	categories?: HelpCategory[]
+	/** Publication date (optional) */
+	pubDate?: Date | string
+	/** Last updated date (optional) */
+	lastUpdated?: Date | string
+}
+
+const {
+	title,
+	description,
+	category,
+	categories = [],
+	pubDate,
+	lastUpdated,
+} = Astro.props
+
+const pageTitle = `${title} | Help Center`
+const pageDescription = description
+
+const formattedPubDate = pubDate
+	? new Date(pubDate).toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: 'long',
+			day: '2-digit',
+		})
+	: undefined
+
+const formattedLastUpdated = lastUpdated
+	? new Date(lastUpdated).toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: 'long',
+			day: '2-digit',
+		})
+	: undefined
+
+logger.info('Help center page loaded', {
+	details: {
+		title,
+		category,
+		pathname: Astro.url.pathname,
+	},
+})
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+	<section>
+		<Wrapper
+			variant="standard"
+			class="grid grid-cols-1 gap-8 py-42 lg:grid-cols-4"
+		>
+			<!-- Sidebar navigation -->
+			<aside class="lg:sticky lg:top-24 lg:col-span-1 lg:self-start">
+				<nav aria-label="Help center categories">
+					<Text
+						tag="h2"
+						variant="textSM"
+						class="text-base-400 mb-4 font-semibold tracking-wide uppercase"
+					>
+						Categories
+					</Text>
+					<ul class="space-y-2">
+						{
+							categories.map(cat => (
+								<li>
+									<a
+										href={`/help/${cat.id}`}
+										class:list={[
+											'flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors',
+											category === cat.id
+												? 'bg-nextnode-500/20 text-nextnode-400 border-nextnode-500/30 border'
+												: 'text-base-300 hover:bg-base-800 hover:text-white',
+										]}
+										aria-current={
+											category === cat.id
+												? 'page'
+												: undefined
+										}
+									>
+										<span class="flex items-center gap-2">
+											{cat.icon && (
+												<span>{cat.icon}</span>
+											)}
+											{cat.name}
+										</span>
+										{cat.articleCount !== undefined && (
+											<span class="text-base-500 text-xs">
+												{cat.articleCount}
+											</span>
+										)}
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</nav>
+			</aside>
+
+			<!-- Main content -->
+			<div class="lg:col-span-3">
+				<header class="mb-8">
+					<span
+						class="border-nextnode-500/30 bg-nextnode-500/20 text-nextnode-400 mb-2 inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium"
+					>
+						{category}
+					</span>
+					<Text
+						tag="h1"
+						variant="display2XL"
+						class="font-display mt-4 text-balance text-white"
+					>
+						{title}
+					</Text>
+					<Text tag="p" variant="textBase" class="text-base-400 mt-4">
+						{description}
+					</Text>
+					{
+						(formattedPubDate || formattedLastUpdated) && (
+							<div class="text-base-500 mt-4 flex items-center gap-4 text-sm">
+								{formattedPubDate && (
+									<span>
+										Published{' '}
+										<time
+											datetime={new Date(
+												pubDate!,
+											).toISOString()}
+										>
+											{formattedPubDate}
+										</time>
+									</span>
+								)}
+								{formattedLastUpdated && (
+									<span>
+										Updated{' '}
+										<time
+											datetime={new Date(
+												lastUpdated!,
+											).toISOString()}
+										>
+											{formattedLastUpdated}
+										</time>
+									</span>
+								)}
+							</div>
+						)
+					}
+				</header>
+				<Wrapper variant="prose">
+					<slot />
+				</Wrapper>
+			</div>
+		</Wrapper>
+	</section>
+</BaseLayout>
