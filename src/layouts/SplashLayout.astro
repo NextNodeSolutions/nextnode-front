@@ -1,0 +1,54 @@
+---
+/**
+ * SplashLayout.astro - Minimal layout without Navigation or Footer
+ *
+ * Used for standalone pages like coming soon, maintenance, or landing pages
+ * that don't need the full navigation structure.
+ * Provides a minimal, centered layout with proper head setup.
+ * Integrates @nextnode/logger for page load tracking.
+ */
+
+import '../styles/global.css'
+import BaseHead from '@/components/fundations/head/BaseHead.astro'
+import { logger } from '@nextnode/logger'
+
+export interface Props {
+	/** Page title for <title> tag */
+	title?: string
+	/** Page description for meta description */
+	description?: string
+	/** Language of the page */
+	lang?: string
+}
+
+const {
+	title = 'NextNode',
+	description = 'Modern, performant template built with Astro and NextNode',
+	lang = 'en',
+} = Astro.props
+
+logger.info('Splash page loaded', {
+	details: {
+		title,
+		pathname: Astro.url.pathname,
+	},
+})
+---
+
+<html
+	lang={lang}
+	class="selection:bg-nextnode-500 scroll-smooth selection:text-white"
+>
+	<head>
+		<BaseHead />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+	</head>
+	<body
+		class="bg-base-950 flex min-h-svh flex-col items-center justify-center"
+	>
+		<main class="relative z-10 w-full">
+			<slot />
+		</main>
+	</body>
+</html>
