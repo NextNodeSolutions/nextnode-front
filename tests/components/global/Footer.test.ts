@@ -86,14 +86,13 @@ describe('Footer.astro', () => {
 		})
 
 		it('has accessible label for email input', () => {
-			expect(footerContent).toContain('<label')
-			expect(footerContent).toContain('for="newsletter-email"')
+			expect(footerContent).toContain('label for="newsletter-email"')
 			expect(footerContent).toContain('sr-only')
 		})
 
 		it('has showNewsletter prop to control visibility', () => {
 			expect(footerContent).toContain('showNewsletter')
-			expect(footerContent).toContain('showNewsletter && (')
+			expect(footerContent).toContain('{showNewsletter &&')
 		})
 	})
 
