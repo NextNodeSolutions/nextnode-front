@@ -1,0 +1,259 @@
+---
+/**
+ * CustomersLayout.astro - Layout for customer case study pages
+ *
+ * Provides consistent structure for customer case studies with logo,
+ * quote, company details, challenges/solutions, and results.
+ * Extends BaseLayout for navigation and footer.
+ * Integrates @nextnode/logger for page load tracking.
+ */
+
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+import { logger } from '@nextnode/logger'
+
+export interface ChallengeOrSolution {
+	/** Title of the challenge or solution */
+	title: string
+	/** Content describing the challenge or solution */
+	content: string
+}
+
+export interface CustomerDetails {
+	/** Industry the customer operates in */
+	industry?: string
+	/** Company size */
+	size?: string
+	/** Location */
+	location?: string
+	/** Website URL */
+	website?: string
+	[key: string]: string | undefined
+}
+
+export interface Props {
+	/** Customer/company name */
+	customer: string
+	/** Customer logo URL or path */
+	logo?: string
+	/** Customer quote/testimonial */
+	quote?: string
+	/** Quote attribution (person name and title) */
+	quoteAttribution?: string
+	/** About the customer */
+	about?: string
+	/** Additional customer details */
+	details?: CustomerDetails
+	/** Challenges faced and solutions provided */
+	challengesAndSolutions?: ChallengeOrSolution[]
+	/** Results achieved */
+	results?: string[]
+	/** Page title (defaults to customer name + " Case Study") */
+	title?: string
+	/** Page description for meta */
+	description?: string
+}
+
+const {
+	customer,
+	logo,
+	quote,
+	quoteAttribution,
+	about,
+	details = {},
+	challengesAndSolutions = [],
+	results = [],
+	title,
+	description,
+} = Astro.props
+
+const pageTitle = title ?? `${customer} Case Study`
+const pageDescription =
+	description ?? `How ${customer} uses NextNode to power their projects.`
+
+logger.info('Customer case study loaded', {
+	details: {
+		customer,
+		pathname: Astro.url.pathname,
+	},
+})
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+	<section>
+		<Wrapper
+			variant="standard"
+			class="relative grid grid-cols-1 gap-y-12 py-42 lg:grid-cols-4 lg:gap-y-24"
+		>
+			<div>
+				<div class="alig-self-start lg:sticky lg:top-42 lg:pr-8">
+					{
+						logo && (
+							<img
+								src={logo}
+								alt={`${customer} logo`}
+								class="mb-8 h-12 w-auto"
+							/>
+						)
+					}
+					<Text
+						tag="h1"
+						variant="displayXL"
+						class="font-display text-white italic"
+					>
+						{customer}
+					</Text>
+					<Text
+						tag="p"
+						variant="textBase"
+						class="mt-2 text-balance text-white"
+					>
+						How {customer} uses NextNode to power their newest projects.
+					</Text>
+
+					{
+						Object.keys(details).length > 0 && (
+							<div class="mt-12 flex flex-col gap-4">
+								{Object.entries(details).map(
+									([key, value]) =>
+										value && (
+											<div class="relative flex h-full flex-col justify-between">
+												<Text
+													tag="h4"
+													variant="textBase"
+													class="text-white capitalize"
+												>
+													{key}
+												</Text>
+												<Text
+													tag="p"
+													variant="textSM"
+													class="text-base-500"
+												>
+													{value}
+												</Text>
+											</div>
+										),
+								)}
+							</div>
+						)
+					}
+				</div>
+			</div>
+			<div class="md:col-span-3">
+				{
+					(about || challengesAndSolutions.length > 0) && (
+						<dl class="grid grid-cols-1 md:grid-cols-3">
+							{about && (
+								<div class="h-full before:bg-white">
+									<div class="relative flex h-full flex-col justify-between px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+										<dt>
+											<Text
+												tag="h3"
+												variant="textBase"
+												class="text-white"
+											>
+												About
+											</Text>
+										</dt>
+										<dd class="mt-4">
+											<Text
+												tag="p"
+												variant="textSM"
+												class="text-base-500 mt-2"
+											>
+												{about}
+											</Text>
+										</dd>
+									</div>
+								</div>
+							)}
+							{challengesAndSolutions.map(item => (
+								<div class="h-full before:bg-white">
+									<div class="relative flex h-full flex-col justify-between px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+										<dt>
+											<Text
+												tag="h3"
+												variant="textBase"
+												class="text-white"
+											>
+												{item.title}
+											</Text>
+										</dt>
+										<dd class="mt-4">
+											<Text
+												tag="p"
+												variant="textSM"
+												class="text-base-500 mt-2"
+											>
+												{item.content}
+											</Text>
+										</dd>
+									</div>
+								</div>
+							))}
+						</dl>
+					)
+				}
+
+				{
+					results.length > 0 && (
+						<>
+							<div class="mt-24">
+								<Text
+									tag="h4"
+									variant="displaySM"
+									class="text-white"
+								>
+									Results
+								</Text>
+							</div>
+							<div
+								role="list"
+								class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+							>
+								{results.map(result => (
+									<div class="h-full before:bg-white">
+										<div class="relative flex h-full flex-col justify-between px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+											<Text
+												tag="p"
+												variant="textBase"
+												class="text-base-500"
+											>
+												{result}
+											</Text>
+										</div>
+									</div>
+								))}
+							</div>
+						</>
+					)
+				}
+
+				{
+					quote && (
+						<blockquote class="border-nextnode-500 mt-24 border-l-2 pl-6">
+							<Text
+								tag="p"
+								variant="textLG"
+								class="text-white italic"
+							>
+								"{quote}"
+							</Text>
+							{quoteAttribution && (
+								<cite class="text-base-400 mt-4 block text-sm not-italic">
+									— {quoteAttribution}
+								</cite>
+							)}
+						</blockquote>
+					)
+				}
+
+				<Wrapper variant="prose" class="mt-12 lg:mt-24">
+					<slot />
+				</Wrapper>
+			</div>
+		</Wrapper>
+	</section>
+</BaseLayout>
