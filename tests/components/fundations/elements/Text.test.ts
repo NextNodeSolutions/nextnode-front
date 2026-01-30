@@ -16,14 +16,22 @@ const textComponentPath = join(
 )
 const textContent = readFileSync(textComponentPath, 'utf-8')
 
+const textTypesPath = join(
+	process.cwd(),
+	'src/components/fundations/elements/text-types.ts',
+)
+const textTypesContent = readFileSync(textTypesPath, 'utf-8')
+
 describe('Text.astro', () => {
 	describe('TypeScript interface', () => {
 		it('exports TextTag type', () => {
-			expect(textContent).toContain('export type TextTag')
+			expect(textContent).toContain('export type { TextTag')
+			expect(textTypesContent).toContain('export type TextTag')
 		})
 
 		it('exports TextVariant type', () => {
-			expect(textContent).toContain('export type TextVariant')
+			expect(textContent).toContain('TextVariant }')
+			expect(textTypesContent).toContain('export type TextVariant')
 		})
 
 		it('has Props interface', () => {
@@ -53,7 +61,7 @@ describe('Text.astro', () => {
 		]
 
 		it.each(expectedTags)('supports %s tag', tag => {
-			expect(textContent).toContain(`'${tag}'`)
+			expect(textTypesContent).toContain(`'${tag}'`)
 		})
 
 		it('defaults to p tag', () => {
@@ -103,7 +111,7 @@ describe('Text.astro', () => {
 
 	describe('variant count', () => {
 		it('has at least 14 variants', () => {
-			const variantMatches = textContent.match(
+			const variantMatches = textTypesContent.match(
 				/\|\s*'(display|text)\w+'/g,
 			)
 			expect(variantMatches?.length).toBeGreaterThanOrEqual(14)

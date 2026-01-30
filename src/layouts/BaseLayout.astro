@@ -1,58 +1,80 @@
 ---
+/**
+ * BaseLayout.astro - Base layout for all pages
+ *
+ * Provides consistent page structure with Navigation, Footer, and BaseHead.
+ * Includes AOS (Animate On Scroll) scripts for animations.
+ * Integrates @nextnode/logger for page load tracking.
+ */
+
 import '../styles/global.css'
+import BaseHead from '@/components/fundations/head/BaseHead.astro'
+import AosHead from '@/components/fundations/scripts/AosHead.astro'
+import AosBody from '@/components/fundations/scripts/AosBody.astro'
+import Navigation from '@/components/global/Navigation.astro'
+import Footer from '@/components/global/Footer.astro'
+import { logger } from '@nextnode/logger'
+import type { NavLink } from '@/components/global/Navigation.astro'
+import type {
+	FooterSection,
+	SocialLink,
+} from '@/components/global/Footer.astro'
 
 export interface Props {
-	title: string
+	/** Page title for <title> tag */
+	title?: string
+	/** Page description for meta description */
 	description?: string
-	image?: string
+	/** Language of the page */
+	lang?: string
+	/** Custom navigation links */
+	navLinks?: NavLink[]
+	/** Custom footer sections */
+	footerSections?: FooterSection[]
+	/** Custom footer social links */
+	footerSocialLinks?: SocialLink[]
+	/** Whether to show footer newsletter form */
+	showNewsletter?: boolean
 }
 
 const {
-	title,
-	description = 'Template moderne et performant créé avec Astro et Nextnode',
-	image = '/og-image.png',
+	title = 'NextNode',
+	description = 'Modern, performant template built with Astro and NextNode',
+	lang = 'en',
+	navLinks,
+	footerSections,
+	footerSocialLinks,
+	showNewsletter = true,
 } = Astro.props
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+logger.info('Page loaded', {
+	details: {
+		title,
+		pathname: Astro.url.pathname,
+	},
+})
 ---
 
-<!doctype html>
-<html lang="fr" class="scroll-smooth">
+<html
+	lang={lang}
+	class="selection:bg-nextnode-500 scroll-smooth selection:text-white"
+>
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<BaseHead />
 		<title>{title}</title>
 		<meta name="description" content={description} />
-
-		<!-- Favicon -->
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-		<!-- Canonical URL -->
-		<link rel="canonical" href={canonicalURL} />
-
-		<!-- Open Graph -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={Astro.url} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content={new URL(image, Astro.url)} />
-
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={Astro.url} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={new URL(image, Astro.url)} />
-
-		<!-- Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-			rel="stylesheet"
-		/>
+		<AosHead />
 	</head>
-	<body class="bg-white font-sans text-gray-900 antialiased">
-		<slot />
+	<body class="bg-base-950 flex min-h-svh flex-col">
+		<Navigation links={navLinks} />
+		<main class="relative z-10 grow">
+			<slot />
+		</main>
+		<Footer
+			sections={footerSections}
+			socialLinks={footerSocialLinks}
+			showNewsletter={showNewsletter}
+		/>
+		<AosBody />
 	</body>
 </html>

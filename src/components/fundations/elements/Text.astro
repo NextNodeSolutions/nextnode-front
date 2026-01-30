@@ -8,38 +8,9 @@
  */
 
 import type { HTMLAttributes } from 'astro/types'
+import type { TextTag, TextVariant } from './text-types'
 
-export type TextTag =
-	| 'a'
-	| 'p'
-	| 'em'
-	| 'span'
-	| 'small'
-	| 'strong'
-	| 'blockquote'
-	| 'h1'
-	| 'h2'
-	| 'h3'
-	| 'h4'
-	| 'h5'
-	| 'h6'
-
-export type TextVariant =
-	| 'display6XL'
-	| 'display5XL'
-	| 'display4XL'
-	| 'display3XL'
-	| 'display2XL'
-	| 'displayXL'
-	| 'displayLG'
-	| 'displayMD'
-	| 'displaySM'
-	| 'displayXS'
-	| 'textXL'
-	| 'textLG'
-	| 'textBase'
-	| 'textSM'
-	| 'textXS'
+export type { TextTag, TextVariant }
 
 interface Props extends HTMLAttributes<'p'> {
 	/** HTML tag to render */
