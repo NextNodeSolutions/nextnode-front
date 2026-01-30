@@ -1,0 +1,94 @@
+---
+/**
+ * ChangelogLayout.astro - Layout for changelog/release notes pages
+ *
+ * Provides consistent structure for changelog entries with version info,
+ * date, and type badge. Extends BaseLayout for navigation and footer.
+ * Integrates @nextnode/logger for page load tracking.
+ */
+
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+import { logger } from '@nextnode/logger'
+
+export type ChangelogType = 'major' | 'minor' | 'patch' | 'feature' | 'fix'
+
+export interface Props {
+	/** Changelog version (e.g., "1.2.0") */
+	version: string
+	/** Publication date */
+	date: Date | string
+	/** Type of changelog entry */
+	type: ChangelogType
+	/** Page title (defaults to version) */
+	title?: string
+	/** Page description for meta */
+	description?: string
+}
+
+const { version, date, type, title, description } = Astro.props
+
+const pageTitle = title ?? `Changelog v${version}`
+const pageDescription =
+	description ?? `Release notes for version ${version} - ${type} release`
+
+const formattedDate = new Date(date).toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: '2-digit',
+})
+
+const typeColors: Record<ChangelogType, string> = {
+	major: 'bg-red-500/20 text-red-400 border-red-500/30',
+	minor: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+	patch: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+	feature: 'bg-green-500/20 text-green-400 border-green-500/30',
+	fix: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+}
+
+logger.info('Changelog page loaded', {
+	details: {
+		version,
+		type,
+		pathname: Astro.url.pathname,
+	},
+})
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+	<section>
+		<Wrapper
+			variant="standard"
+			class="grid grid-cols-1 py-42 lg:grid-cols-4"
+		>
+			<div class="lg:col-span-2">
+				<div class="mb-4 flex items-center gap-3">
+					<span
+						class:list={[
+							'inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium',
+							typeColors[type],
+						]}
+					>
+						{type}
+					</span>
+				</div>
+				<Text
+					tag="h1"
+					variant="display2XL"
+					class="font-display mt-12 text-balance text-white"
+				>
+					v{version}
+				</Text>
+				<Text tag="span" variant="textSM" class="text-base-400">
+					Published <time datetime={new Date(date).toISOString()}>
+						{formattedDate}
+					</time>
+				</Text>
+			</div>
+			<Wrapper variant="prose" class="mt-12 lg:col-span-2 lg:row-start-2">
+				<slot />
+			</Wrapper>
+		</Wrapper>
+	</section>
+</BaseLayout>
