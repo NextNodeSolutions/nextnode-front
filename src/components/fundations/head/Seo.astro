@@ -1,0 +1,156 @@
+---
+/**
+ * Seo.astro - SEO component using @astrolib/seo
+ *
+ * Provides comprehensive SEO meta tags including Open Graph and Twitter Cards.
+ * This component wraps @astrolib/seo for a cleaner API.
+ *
+ * Usage:
+ * ```astro
+ * <Seo
+ *   title="Page Title"
+ *   description="Page description"
+ *   canonical="https://example.com/page"
+ *   openGraph={{
+ *     url: "https://example.com/page",
+ *     title: "Page Title",
+ *     description: "Page description",
+ *     images: [{ url: "https://example.com/og.jpg", width: 1200, height: 630 }],
+ *     site_name: "Site Name",
+ *   }}
+ *   twitter={{
+ *     handle: "@creator",
+ *     site: "@site",
+ *     cardType: "summary_large_image",
+ *   }}
+ * />
+ * ```
+ */
+
+import { AstroSeo } from '@astrolib/seo'
+
+export interface OpenGraphImage {
+	/** URL of the image */
+	url: string
+	/** Image width in pixels */
+	width?: number
+	/** Image height in pixels */
+	height?: number
+	/** Alt text for the image */
+	alt?: string
+	/** MIME type of the image */
+	type?: string
+	/** Secure URL for HTTPS */
+	secureUrl?: string
+}
+
+export interface OpenGraphArticle {
+	/** When the article was first published (ISO 8601) */
+	publishedTime?: string
+	/** When the article was last changed (ISO 8601) */
+	modifiedTime?: string
+	/** When the article is out of date after (ISO 8601) */
+	expirationTime?: string
+	/** Writers of the article */
+	authors?: ReadonlyArray<string>
+	/** A high-level section name (e.g., "Technology") */
+	section?: string
+	/** Tag words associated with this article */
+	tags?: ReadonlyArray<string>
+}
+
+export interface OpenGraphProfile {
+	/** Person's first name */
+	firstName?: string
+	/** Person's last name */
+	lastName?: string
+	/** Person's username */
+	username?: string
+	/** Person's gender */
+	gender?: string
+}
+
+export interface OpenGraphProps {
+	/** Canonical URL of the object */
+	url?: string
+	/** Type of object (e.g., "website", "article") */
+	type?: string
+	/** Open Graph title (defaults to page title) */
+	title?: string
+	/** Open Graph description (defaults to meta description) */
+	description?: string
+	/** Images for social sharing */
+	images?: ReadonlyArray<OpenGraphImage>
+	/** Videos for social sharing */
+	videos?: ReadonlyArray<OpenGraphImage>
+	/** Locale (defaults to 'en_US') */
+	locale?: string
+	/** Site name */
+	site_name?: string
+	/** Profile data for og:type="profile" */
+	profile?: OpenGraphProfile
+	/** Article data for og:type="article" */
+	article?: OpenGraphArticle
+}
+
+export interface TwitterProps {
+	/** @username for the content creator */
+	handle?: string
+	/** @username for the website */
+	site?: string
+	/** Card type: 'summary', 'summary_large_image', 'app', 'player' */
+	cardType?: 'summary' | 'summary_large_image' | 'app' | 'player'
+}
+
+export interface LanguageAlternate {
+	/** Language/region code (e.g., "en-US", "fr-FR") */
+	hreflang: string
+	/** URL of the alternate page */
+	href: string
+}
+
+export interface Props {
+	/** Page title */
+	title?: string
+	/** Title template (e.g., "%s | Site Name") */
+	titleTemplate?: string
+	/** Page meta description */
+	description?: string
+	/** Canonical URL */
+	canonical?: string
+	/** Whether to index the page (default: false = index) */
+	noindex?: boolean
+	/** Whether to follow links on the page (default: false = follow) */
+	nofollow?: boolean
+	/** Open Graph properties */
+	openGraph?: OpenGraphProps
+	/** Twitter Card properties */
+	twitter?: TwitterProps
+	/** Language alternates for multilingual sites */
+	languageAlternates?: ReadonlyArray<LanguageAlternate>
+}
+
+const {
+	title,
+	titleTemplate,
+	description,
+	canonical,
+	noindex = false,
+	nofollow = false,
+	openGraph,
+	twitter,
+	languageAlternates,
+} = Astro.props
+---
+
+<AstroSeo
+	title={title}
+	titleTemplate={titleTemplate}
+	description={description}
+	canonical={canonical}
+	noindex={noindex}
+	nofollow={nofollow}
+	openGraph={openGraph}
+	twitter={twitter}
+	languageAlternates={languageAlternates}
+/>
