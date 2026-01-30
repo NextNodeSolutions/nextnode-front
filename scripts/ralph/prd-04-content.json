@@ -1,0 +1,263 @@
+{
+	"project": "buio-migration",
+	"branchName": "feature/buio-content",
+	"description": "Content components (cards) and placeholder MDX content for all collections. CAN RUN IN PARALLEL with PRD-03 and PRD-05.",
+	"sourceTemplate": "/Users/walid/Development/templates/buio",
+	"dependsOn": ["feature/buio-structure"],
+	"parallelWith": ["feature/buio-sections", "feature/buio-assets"],
+	"userStories": [
+		{
+			"id": "US-047",
+			"title": "Import ChangelogCard.astro component",
+			"description": "As a developer, I want the ChangelogCard component to display changelog entries in lists.",
+			"acceptanceCriteria": [
+				"src/components/changelog/ChangelogCard.astro exists",
+				"Uses foundation components (Text, Button)",
+				"Displays version, date, type badge",
+				"Shows description/summary",
+				"Links to full changelog entry",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/changelog/ChangelogCard.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 1,
+			"passes": false,
+			"notes": "Copy from buio/src/components/changelog/ChangelogCard.astro"
+		},
+		{
+			"id": "US-048",
+			"title": "Import CustomerCard.astro component",
+			"description": "As a developer, I want the CustomerCard component to display customer case studies.",
+			"acceptanceCriteria": [
+				"src/components/customers/CustomerCard.astro exists",
+				"Uses foundation components",
+				"Displays customer logo, name, industry",
+				"Shows quote or summary",
+				"Links to full case study",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/customers/CustomerCard.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 2,
+			"passes": false,
+			"notes": "Copy from buio/src/components/customers/CustomerCard.astro"
+		},
+		{
+			"id": "US-049",
+			"title": "Import TeamCard.astro component",
+			"description": "As a developer, I want the TeamCard component to display team members.",
+			"acceptanceCriteria": [
+				"src/components/team/TeamCard.astro exists",
+				"Uses foundation components",
+				"Displays member photo, name, role",
+				"Shows social links (LinkedIn, Twitter, etc.)",
+				"Links to full profile",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/team/TeamCard.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 3,
+			"passes": false,
+			"notes": "Copy from buio/src/components/team/TeamCard.astro"
+		},
+		{
+			"id": "US-050",
+			"title": "Import JobCard.astro component",
+			"description": "As a developer, I want the JobCard component to display job listings.",
+			"acceptanceCriteria": [
+				"src/components/jobs/JobCard.astro exists",
+				"Uses foundation components",
+				"Displays job title, department, location",
+				"Shows job type (full-time, part-time, etc.)",
+				"Links to full job posting",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/jobs/JobCard.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 4,
+			"passes": false,
+			"notes": "Copy from buio/src/components/jobs/JobCard.astro"
+		},
+		{
+			"id": "US-051",
+			"title": "Import jobs/Cta.astro component",
+			"description": "As a developer, I want the jobs CTA component for the bottom of job listings.",
+			"acceptanceCriteria": [
+				"src/components/jobs/Cta.astro exists",
+				"Uses foundation components (Button, Text)",
+				"Encourages applications",
+				"Has contact/apply link",
+				"Colors use NextNode tokens",
+				"Test file exists at tests/components/jobs/Cta.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 5,
+			"passes": false,
+			"notes": "Copy from buio/src/components/jobs/Cta.astro"
+		},
+		{
+			"id": "US-052",
+			"title": "Import HelpCenterCard.astro component",
+			"description": "As a developer, I want the HelpCenterCard component to display help articles.",
+			"acceptanceCriteria": [
+				"src/components/helpcenter/HelpCenterCard.astro exists",
+				"Uses foundation components",
+				"Displays article title, category",
+				"Shows description/excerpt",
+				"Links to full article",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/helpcenter/HelpCenterCard.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 6,
+			"passes": false,
+			"notes": "Copy from buio/src/components/helpcenter/HelpCenterCard.astro"
+		},
+		{
+			"id": "US-053",
+			"title": "Import Status.astro component",
+			"description": "As a developer, I want the Status component for the help center status page.",
+			"acceptanceCriteria": [
+				"src/components/helpcenter/Status.astro exists",
+				"Displays system status (operational, degraded, etc.)",
+				"Uses appropriate color coding",
+				"Shows status history or recent incidents",
+				"Colors use NextNode tokens",
+				"Test file exists at tests/components/helpcenter/Status.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 7,
+			"passes": false,
+			"notes": "Copy from buio/src/components/helpcenter/Status.astro"
+		},
+		{
+			"id": "US-054",
+			"title": "Create changelog placeholder content",
+			"description": "As a developer, I want placeholder changelog entries so that the changelog pages work.",
+			"acceptanceCriteria": [
+				"src/content/changelog/ directory exists",
+				"At least 3 MDX changelog entries created",
+				"Each entry has: version, date, type, description",
+				"Content is NextNode-themed fictional content",
+				"Frontmatter matches schema from config.ts",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 8,
+			"passes": false,
+			"notes": "Create fictional changelog entries like 'v1.0.0 - Initial Release', 'v1.1.0 - New Dashboard'"
+		},
+		{
+			"id": "US-055",
+			"title": "Create customers placeholder content",
+			"description": "As a developer, I want placeholder customer case studies so that the customer pages work.",
+			"acceptanceCriteria": [
+				"src/content/customers/ directory exists",
+				"At least 3 MDX customer entries created",
+				"Each entry has: name, logo, industry, quote, caseStudy",
+				"Content is NextNode-themed fictional content",
+				"Frontmatter matches schema from config.ts",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 9,
+			"passes": false,
+			"notes": "Create fictional customers like 'Acme Corp', 'TechStart Inc', 'GlobalFinance SA'"
+		},
+		{
+			"id": "US-056",
+			"title": "Create team placeholder content",
+			"description": "As a developer, I want placeholder team member profiles so that the team pages work.",
+			"acceptanceCriteria": [
+				"src/content/team/ directory exists",
+				"At least 4 MDX team member entries created",
+				"Each entry has: name, role, bio, image, social links",
+				"Content is NextNode-themed fictional content",
+				"Roles include CEO, CTO, Lead Dev, Designer",
+				"Frontmatter matches schema from config.ts",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 10,
+			"passes": false,
+			"notes": "Create fictional team like 'Marie Dupont - CEO', 'Jean Martin - CTO'"
+		},
+		{
+			"id": "US-057",
+			"title": "Create jobs placeholder content",
+			"description": "As a developer, I want placeholder job postings so that the jobs pages work.",
+			"acceptanceCriteria": [
+				"src/content/jobs/ directory exists",
+				"At least 2 MDX job entries created",
+				"Each entry has: title, department, location, type, description",
+				"Content is NextNode-themed fictional content",
+				"Includes both technical and non-technical roles",
+				"Frontmatter matches schema from config.ts",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 11,
+			"passes": false,
+			"notes": "Create fictional jobs like 'Senior Full-Stack Developer', 'Product Designer'"
+		},
+		{
+			"id": "US-058",
+			"title": "Create helpcenter placeholder content",
+			"description": "As a developer, I want placeholder help articles so that the help center pages work.",
+			"acceptanceCriteria": [
+				"src/content/helpcenter/ directory exists",
+				"At least 5 MDX help articles created",
+				"Each entry has: title, description, category, pubDate",
+				"Categories include: Getting Started, Account, Billing",
+				"Content is NextNode-themed fictional content",
+				"Frontmatter matches schema from config.ts",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 12,
+			"passes": false,
+			"notes": "Create articles like 'How to create an account', 'Billing FAQ', 'Getting started guide'"
+		},
+		{
+			"id": "US-059",
+			"title": "Create legal placeholder content",
+			"description": "As a developer, I want placeholder legal pages so that privacy and terms pages work.",
+			"acceptanceCriteria": [
+				"src/content/legal/ directory exists",
+				"privacy.mdx exists with privacy policy placeholder",
+				"terms.mdx exists with terms of service placeholder",
+				"Each entry has: title, lastUpdated",
+				"Content is generic legal placeholder (not real legal advice)",
+				"Frontmatter matches schema from config.ts",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 13,
+			"passes": false,
+			"notes": "Use standard legal placeholder text, clearly marked as placeholder"
+		},
+		{
+			"id": "US-060",
+			"title": "Create PR to main for content phase",
+			"description": "As a developer, I want a PR created so that the content components can be reviewed and merged.",
+			"acceptanceCriteria": [
+				"All previous stories in this PRD pass",
+				"pnpm type-check passes",
+				"pnpm lint passes",
+				"pnpm test passes",
+				"pnpm build passes",
+				"PR is created with gh pr create",
+				"PR title follows convention: feat(buio): content components and collections",
+				"PR description lists all components and content added"
+			],
+			"priority": 14,
+			"passes": false,
+			"notes": "Use gh pr create --title 'feat(buio): content components and collections' --body '...'"
+		}
+	]
+}

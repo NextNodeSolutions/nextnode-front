@@ -1,0 +1,358 @@
+{
+	"project": "buio-migration",
+	"branchName": "feature/buio-foundation",
+	"description": "Foundation setup for buio template migration: npm dependencies, self-hosted fonts, color tokens, and all foundation components (elements, containers, head, icons, scripts).",
+	"sourceTemplate": "/Users/walid/Development/templates/buio",
+	"userStories": [
+		{
+			"id": "US-001",
+			"title": "Add npm dependencies for buio migration",
+			"description": "As a developer, I want to install all required npm packages so that buio components can function properly.",
+			"acceptanceCriteria": [
+				"aos@^2.3.4 is added to dependencies",
+				"keen-slider@^6.8.6 is added to dependencies",
+				"@astrolib/seo@^1.0.0-beta.8 is added to dependencies",
+				"@astrojs/mdx@^4.3.13 is added to dependencies",
+				"pnpm install runs without errors",
+				"pnpm type-check passes",
+				"pnpm lint passes",
+				"pnpm build passes"
+			],
+			"priority": 1,
+			"passes": false,
+			"notes": "Run pnpm install after modifying package.json"
+		},
+		{
+			"id": "US-002",
+			"title": "Download and setup self-hosted fonts",
+			"description": "As a developer, I want fonts self-hosted instead of Google CDN so that the site has better privacy and performance.",
+			"acceptanceCriteria": [
+				"Geist variable font (woff2) is in public/fonts/geist/",
+				"Geist Mono variable font (woff2) is in public/fonts/geist-mono/",
+				"EB Garamond variable font (woff2) is in public/fonts/eb-garamond/",
+				"Font files are under 500KB total",
+				"Fonts include regular and italic variants where applicable",
+				"pnpm type-check passes",
+				"pnpm lint passes",
+				"pnpm build passes"
+			],
+			"priority": 2,
+			"passes": false,
+			"notes": "Download fonts from Google Fonts or fontsource. Use variable fonts for smaller bundle size."
+		},
+		{
+			"id": "US-003",
+			"title": "Create Fonts.astro with @font-face declarations",
+			"description": "As a developer, I want a Fonts component with proper @font-face declarations so that fonts load correctly.",
+			"acceptanceCriteria": [
+				"src/components/fundations/head/Fonts.astro exists",
+				"@font-face for Geist with font-display: swap",
+				"@font-face for Geist Mono with font-display: swap",
+				"@font-face for EB Garamond with font-display: swap",
+				"No external CDN URLs in the component",
+				"Test file exists at tests/components/fundations/head/Fonts.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 3,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/head/Fonts.astro and replace Google Fonts URLs with local paths"
+		},
+		{
+			"id": "US-004",
+			"title": "Setup color token remapping in global.css",
+			"description": "As a developer, I want buio color tokens remapped to NextNode brand colors so that components use our branding.",
+			"acceptanceCriteria": [
+				"--color-primary-* tokens map to nextnode-* (sky blue)",
+				"--color-accent-* tokens map to accent-* (pink/magenta)",
+				"OKLCH color format is preserved",
+				"All buio color variables have NextNode equivalents",
+				"Dark mode tokens are included if present in buio",
+				"Documentation comment explains the mapping",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 4,
+			"passes": false,
+			"notes": "Add to existing src/styles/global.css. Check buio's color system first."
+		},
+		{
+			"id": "US-005",
+			"title": "Import Button.astro component",
+			"description": "As a developer, I want the Button component imported so that I can use consistent button styles.",
+			"acceptanceCriteria": [
+				"src/components/fundations/elements/Button.astro exists",
+				"All variants work: default, accent, muted, link, none",
+				"All sizes work: xxs, xs, sm, md, lg, xl",
+				"Props are properly typed with TypeScript interface",
+				"Colors use NextNode tokens (remapped from buio)",
+				"Test file exists at tests/components/fundations/elements/Button.test.ts",
+				"Tests cover all variants and sizes",
+				"pnpm test passes"
+			],
+			"priority": 5,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/elements/Button.astro"
+		},
+		{
+			"id": "US-006",
+			"title": "Import Text.astro component",
+			"description": "As a developer, I want the Text component imported so that I can use consistent typography.",
+			"acceptanceCriteria": [
+				"src/components/fundations/elements/Text.astro exists",
+				"All 14+ typography variants are available",
+				"Props are properly typed with TypeScript interface",
+				"Font families reference self-hosted fonts",
+				"Test file exists at tests/components/fundations/elements/Text.test.ts",
+				"Tests cover variant rendering",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 6,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/elements/Text.astro"
+		},
+		{
+			"id": "US-007",
+			"title": "Import Wrapper.astro component",
+			"description": "As a developer, I want the Wrapper container component so that I can use consistent content widths.",
+			"acceptanceCriteria": [
+				"src/components/fundations/containers/Wrapper.astro exists",
+				"Variants work: standard, narrow, prose",
+				"Props are properly typed with TypeScript interface",
+				"Max-width values match buio design system",
+				"Test file exists at tests/components/fundations/containers/Wrapper.test.ts",
+				"Tests cover all variants",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 7,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/containers/Wrapper.astro"
+		},
+		{
+			"id": "US-008",
+			"title": "Import BaseHead.astro component",
+			"description": "As a developer, I want the BaseHead component so that pages have proper head setup.",
+			"acceptanceCriteria": [
+				"src/components/fundations/head/BaseHead.astro exists",
+				"Includes viewport meta tag",
+				"Includes charset meta tag",
+				"Props are properly typed",
+				"Imports other head components (Fonts, Meta, etc.)",
+				"Test file exists at tests/components/fundations/head/BaseHead.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 8,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/head/BaseHead.astro"
+		},
+		{
+			"id": "US-009",
+			"title": "Import Favicons.astro component",
+			"description": "As a developer, I want the Favicons component so that the site has proper favicon configuration.",
+			"acceptanceCriteria": [
+				"src/components/fundations/head/Favicons.astro exists",
+				"Includes apple-touch-icon link",
+				"Includes standard favicon links",
+				"Supports different favicon sizes",
+				"Test file exists at tests/components/fundations/head/Favicons.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 9,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/head/Favicons.astro"
+		},
+		{
+			"id": "US-010",
+			"title": "Import Meta.astro component",
+			"description": "As a developer, I want the Meta component so that pages have proper meta tags.",
+			"acceptanceCriteria": [
+				"src/components/fundations/head/Meta.astro exists",
+				"Includes Open Graph meta tags",
+				"Includes Twitter card meta tags",
+				"Props are properly typed",
+				"Test file exists at tests/components/fundations/head/Meta.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 10,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/head/Meta.astro"
+		},
+		{
+			"id": "US-011",
+			"title": "Import Seo.astro component",
+			"description": "As a developer, I want the Seo component with @astrolib/seo integration so that pages are SEO optimized.",
+			"acceptanceCriteria": [
+				"src/components/fundations/head/Seo.astro exists",
+				"Uses @astrolib/seo package",
+				"Props are properly typed",
+				"Supports title, description, canonical URL",
+				"Supports Open Graph and Twitter cards",
+				"Test file exists at tests/components/fundations/head/Seo.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 11,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/head/Seo.astro"
+		},
+		{
+			"id": "US-012",
+			"title": "Import Menu.astro icon component",
+			"description": "As a developer, I want the Menu icon so that the mobile navigation has a hamburger menu.",
+			"acceptanceCriteria": [
+				"src/components/fundations/icons/Menu.astro exists",
+				"SVG is properly formatted",
+				"Accepts size and color props",
+				"Props are properly typed",
+				"Test file exists at tests/components/fundations/icons/Menu.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 12,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/icons/Menu.astro"
+		},
+		{
+			"id": "US-013",
+			"title": "Import Close.astro icon component",
+			"description": "As a developer, I want the Close icon so that modals and menus can be dismissed.",
+			"acceptanceCriteria": [
+				"src/components/fundations/icons/Close.astro exists",
+				"SVG is properly formatted",
+				"Accepts size and color props",
+				"Props are properly typed",
+				"Test file exists at tests/components/fundations/icons/Close.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 13,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/icons/Close.astro"
+		},
+		{
+			"id": "US-014",
+			"title": "Import ChevronLeft.astro icon component",
+			"description": "As a developer, I want the ChevronLeft icon for navigation elements.",
+			"acceptanceCriteria": [
+				"src/components/fundations/icons/ChevronLeft.astro exists",
+				"SVG is properly formatted",
+				"Accepts size and color props",
+				"Props are properly typed",
+				"Test file exists at tests/components/fundations/icons/ChevronLeft.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 14,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/icons/ChevronLeft.astro"
+		},
+		{
+			"id": "US-015",
+			"title": "Import ChevronRight.astro icon component",
+			"description": "As a developer, I want the ChevronRight icon for navigation elements.",
+			"acceptanceCriteria": [
+				"src/components/fundations/icons/ChevronRight.astro exists",
+				"SVG is properly formatted",
+				"Accepts size and color props",
+				"Props are properly typed",
+				"Test file exists at tests/components/fundations/icons/ChevronRight.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 15,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/icons/ChevronRight.astro"
+		},
+		{
+			"id": "US-016",
+			"title": "Import Plus.astro icon component",
+			"description": "As a developer, I want the Plus icon for FAQ accordions.",
+			"acceptanceCriteria": [
+				"src/components/fundations/icons/Plus.astro exists",
+				"SVG is properly formatted",
+				"Accepts size and color props",
+				"Props are properly typed",
+				"Test file exists at tests/components/fundations/icons/Plus.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 16,
+			"passes": false,
+			"notes": "Copy from buio/src/components/fundations/icons/Plus.astro"
+		},
+		{
+			"id": "US-017",
+			"title": "Import AosHead.astro script component",
+			"description": "As a developer, I want the AOS head script importing from npm so that scroll animations work.",
+			"acceptanceCriteria": [
+				"src/components/fundations/scripts/AosHead.astro exists",
+				"Imports AOS CSS from node_modules (not CDN)",
+				"No unpkg.com or jsdelivr URLs",
+				"Test file exists at tests/components/fundations/scripts/AosHead.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes",
+				"pnpm build passes"
+			],
+			"priority": 17,
+			"passes": false,
+			"notes": "Modify buio version to import from 'aos/dist/aos.css' instead of CDN"
+		},
+		{
+			"id": "US-018",
+			"title": "Import AosBody.astro script component",
+			"description": "As a developer, I want the AOS body script importing from npm so that scroll animations initialize.",
+			"acceptanceCriteria": [
+				"src/components/fundations/scripts/AosBody.astro exists",
+				"Imports AOS JS from node_modules (not CDN)",
+				"Calls AOS.init() with proper configuration",
+				"No unpkg.com or jsdelivr URLs",
+				"Test file exists at tests/components/fundations/scripts/AosBody.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 18,
+			"passes": false,
+			"notes": "Modify buio version to import from 'aos' package instead of CDN"
+		},
+		{
+			"id": "US-019",
+			"title": "Import KeenSlider.astro script component",
+			"description": "As a developer, I want the Keen Slider script importing from npm so that carousels work.",
+			"acceptanceCriteria": [
+				"src/components/fundations/scripts/KeenSlider.astro exists",
+				"Imports keen-slider from node_modules (not CDN)",
+				"Includes CSS and JS initialization",
+				"No jsdelivr URLs",
+				"Test file exists at tests/components/fundations/scripts/KeenSlider.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 19,
+			"passes": false,
+			"notes": "Modify buio version to import from 'keen-slider' package instead of CDN"
+		},
+		{
+			"id": "US-020",
+			"title": "Create PR to main for foundation phase",
+			"description": "As a developer, I want a PR created so that the foundation work can be reviewed and merged.",
+			"acceptanceCriteria": [
+				"All previous stories in this PRD pass",
+				"pnpm type-check passes",
+				"pnpm lint passes",
+				"pnpm test passes",
+				"pnpm build passes",
+				"PR is created with gh pr create",
+				"PR title follows convention: feat(buio): foundation setup",
+				"PR description lists all components added"
+			],
+			"priority": 20,
+			"passes": false,
+			"notes": "Use gh pr create --title 'feat(buio): foundation setup' --body '...'"
+		}
+	]
+}

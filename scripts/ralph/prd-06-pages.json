@@ -1,0 +1,436 @@
+{
+	"project": "buio-migration",
+	"branchName": "feature/buio-pages",
+	"description": "All pages migration and final QA. Runs AFTER PRD-03, PRD-04, and PRD-05 are merged.",
+	"sourceTemplate": "/Users/walid/Development/templates/buio",
+	"dependsOn": [
+		"feature/buio-sections",
+		"feature/buio-content",
+		"feature/buio-assets"
+	],
+	"userStories": [
+		{
+			"id": "US-069",
+			"title": "Create homepage (index.astro)",
+			"description": "As a visitor, I want to see the main homepage so that I understand what NextNode offers.",
+			"acceptanceCriteria": [
+				"src/pages/index.astro exists",
+				"Uses BaseLayout",
+				"Includes Hero1 section",
+				"Includes Feature sections",
+				"Includes Stats1 section",
+				"Includes Testimonial1 and/or LogoCloud1",
+				"Includes Pricing1 section",
+				"Includes Faq1 section",
+				"Includes Cta1 section",
+				"All AOS animations work",
+				"Test file exists at tests/pages/index.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 1,
+			"passes": false,
+			"notes": "Copy structure from buio/src/pages/index.astro"
+		},
+		{
+			"id": "US-070",
+			"title": "Create alternative homepage (index-two.astro)",
+			"description": "As a developer, I want an alternative homepage variant for A/B testing or different markets.",
+			"acceptanceCriteria": [
+				"src/pages/index-two.astro exists",
+				"Uses BaseLayout",
+				"Different section arrangement than index.astro",
+				"All sections render correctly",
+				"All AOS animations work",
+				"Test file exists at tests/pages/index-two.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 2,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/index-two.astro"
+		},
+		{
+			"id": "US-071",
+			"title": "Create contact page",
+			"description": "As a visitor, I want to access a contact page so that I can reach out to NextNode.",
+			"acceptanceCriteria": [
+				"src/pages/contact.astro exists",
+				"Uses BaseLayout",
+				"Has contact form (name, email, message)",
+				"Shows contact information",
+				"Form has proper validation attributes",
+				"Uses NextNode color tokens",
+				"Test file exists at tests/pages/contact.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 3,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/contact.astro"
+		},
+		{
+			"id": "US-072",
+			"title": "Create pricing page",
+			"description": "As a visitor, I want to see detailed pricing so that I can choose a plan.",
+			"acceptanceCriteria": [
+				"src/pages/pricing.astro exists",
+				"Uses BaseLayout",
+				"Uses Pricing1 component",
+				"May include FAQ section",
+				"May include CTA section",
+				"Uses NextNode color tokens",
+				"Test file exists at tests/pages/pricing.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 4,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/pricing.astro"
+		},
+		{
+			"id": "US-073",
+			"title": "Create design system overview page",
+			"description": "As a developer, I want a design system overview page to see all available components.",
+			"acceptanceCriteria": [
+				"src/pages/system/overview.astro exists",
+				"Uses BaseLayout",
+				"Lists all available components",
+				"Links to other design system pages",
+				"Uses NextNode color tokens",
+				"Test file exists at tests/pages/system/overview.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 5,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/system/overview.astro"
+		},
+		{
+			"id": "US-074",
+			"title": "Create design system buttons page",
+			"description": "As a developer, I want a buttons showcase page to see all button variants.",
+			"acceptanceCriteria": [
+				"src/pages/system/buttons.astro exists",
+				"Uses BaseLayout",
+				"Shows all Button variants (default, accent, muted, link, none)",
+				"Shows all Button sizes",
+				"Interactive examples",
+				"Test file exists at tests/pages/system/buttons.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 6,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/system/buttons.astro"
+		},
+		{
+			"id": "US-075",
+			"title": "Create design system colors page",
+			"description": "As a developer, I want a colors page to see the NextNode color palette.",
+			"acceptanceCriteria": [
+				"src/pages/system/colors.astro exists",
+				"Uses BaseLayout",
+				"Shows all NextNode color tokens",
+				"Shows primary, accent, and neutral colors",
+				"Includes color values (hex, OKLCH)",
+				"Test file exists at tests/pages/system/colors.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 7,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/system/colors.astro, update with NextNode colors"
+		},
+		{
+			"id": "US-076",
+			"title": "Create design system link page",
+			"description": "As a developer, I want a links page to see link styles.",
+			"acceptanceCriteria": [
+				"src/pages/system/link.astro exists",
+				"Uses BaseLayout",
+				"Shows all link variants",
+				"Shows hover states",
+				"Uses NextNode color tokens",
+				"Test file exists at tests/pages/system/link.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 8,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/system/link.astro"
+		},
+		{
+			"id": "US-077",
+			"title": "Create design system typography page",
+			"description": "As a developer, I want a typography page to see all text styles.",
+			"acceptanceCriteria": [
+				"src/pages/system/typography.astro exists",
+				"Uses BaseLayout",
+				"Shows all Text component variants",
+				"Shows font families (Geist, Geist Mono, EB Garamond)",
+				"Shows font sizes and weights",
+				"Test file exists at tests/pages/system/typography.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 9,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/system/typography.astro"
+		},
+		{
+			"id": "US-078",
+			"title": "Create helpcenter listing page",
+			"description": "As a visitor, I want to see all help articles so that I can find answers.",
+			"acceptanceCriteria": [
+				"src/pages/helpcenter/index.astro exists",
+				"Uses BaseLayout",
+				"Lists all help articles from collection",
+				"Uses HelpCenterCard component",
+				"Groups by category",
+				"Has search or filter capability",
+				"Test file exists at tests/pages/helpcenter/index.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 10,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/helpcenter/index.astro"
+		},
+		{
+			"id": "US-079",
+			"title": "Create helpcenter [slug] page",
+			"description": "As a visitor, I want to read individual help articles.",
+			"acceptanceCriteria": [
+				"src/pages/helpcenter/[...slug].astro exists",
+				"Uses HelpCenterLayout",
+				"Renders MDX content",
+				"Shows article title, category, date",
+				"Has navigation to other articles",
+				"getStaticPaths generates all article routes",
+				"Test file exists at tests/pages/helpcenter/slug.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 11,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/helpcenter/[...slug].astro"
+		},
+		{
+			"id": "US-080",
+			"title": "Create helpcenter status page",
+			"description": "As a visitor, I want to see system status so that I know if services are operational.",
+			"acceptanceCriteria": [
+				"src/pages/helpcenter/status.astro exists",
+				"Uses BaseLayout or HelpCenterLayout",
+				"Uses Status component",
+				"Shows current system status",
+				"Test file exists at tests/pages/helpcenter/status.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 12,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/helpcenter/status.astro"
+		},
+		{
+			"id": "US-081",
+			"title": "Create team listing page",
+			"description": "As a visitor, I want to see the team so that I know who works at NextNode.",
+			"acceptanceCriteria": [
+				"src/pages/team/index.astro exists",
+				"Uses BaseLayout",
+				"Lists all team members from collection",
+				"Uses TeamCard component",
+				"Grid or list layout",
+				"Test file exists at tests/pages/team/index.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 13,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/team/index.astro"
+		},
+		{
+			"id": "US-082",
+			"title": "Create team [slug] page",
+			"description": "As a visitor, I want to see individual team member profiles.",
+			"acceptanceCriteria": [
+				"src/pages/team/[...slug].astro exists",
+				"Uses TeamLayout",
+				"Shows member photo, name, role, bio",
+				"Shows social links",
+				"Renders MDX bio content",
+				"getStaticPaths generates all member routes",
+				"Test file exists at tests/pages/team/slug.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 14,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/team/[...slug].astro"
+		},
+		{
+			"id": "US-083",
+			"title": "Create jobs listing page",
+			"description": "As a visitor, I want to see open positions so that I can apply for a job.",
+			"acceptanceCriteria": [
+				"src/pages/jobs/index.astro exists",
+				"Uses BaseLayout",
+				"Lists all jobs from collection",
+				"Uses JobCard component",
+				"Filter by department or location",
+				"Uses jobs/Cta component",
+				"Test file exists at tests/pages/jobs/index.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 15,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/jobs/index.astro"
+		},
+		{
+			"id": "US-084",
+			"title": "Create jobs [slug] page",
+			"description": "As a visitor, I want to see full job details so that I can decide to apply.",
+			"acceptanceCriteria": [
+				"src/pages/jobs/[...slug].astro exists",
+				"Uses JobsLayout",
+				"Shows job title, department, location, type",
+				"Renders MDX job description",
+				"Has apply CTA",
+				"getStaticPaths generates all job routes",
+				"Test file exists at tests/pages/jobs/slug.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 16,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/jobs/[...slug].astro"
+		},
+		{
+			"id": "US-085",
+			"title": "Create customers listing page",
+			"description": "As a visitor, I want to see customer case studies so that I can trust NextNode.",
+			"acceptanceCriteria": [
+				"src/pages/customers/index.astro exists",
+				"Uses BaseLayout",
+				"Lists all customers from collection",
+				"Uses CustomerCard component",
+				"Grid layout",
+				"Test file exists at tests/pages/customers/index.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 17,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/customers/index.astro"
+		},
+		{
+			"id": "US-086",
+			"title": "Create customers [slug] page",
+			"description": "As a visitor, I want to read full customer stories.",
+			"acceptanceCriteria": [
+				"src/pages/customers/[...slug].astro exists",
+				"Uses CustomersLayout",
+				"Shows customer logo, name, industry",
+				"Shows quote",
+				"Renders MDX case study content",
+				"getStaticPaths generates all customer routes",
+				"Test file exists at tests/pages/customers/slug.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 18,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/customers/[...slug].astro"
+		},
+		{
+			"id": "US-087",
+			"title": "Create changelog listing page",
+			"description": "As a visitor, I want to see product updates so that I know what's new.",
+			"acceptanceCriteria": [
+				"src/pages/changelog/index.astro exists",
+				"Uses BaseLayout",
+				"Lists all changelog entries from collection",
+				"Uses ChangelogCard component",
+				"Sorted by date (newest first)",
+				"Test file exists at tests/pages/changelog/index.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 19,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/changelog/index.astro"
+		},
+		{
+			"id": "US-088",
+			"title": "Create changelog [slug] page",
+			"description": "As a visitor, I want to read full changelog entries.",
+			"acceptanceCriteria": [
+				"src/pages/changelog/[...slug].astro exists",
+				"Uses ChangelogLayout",
+				"Shows version, date, type",
+				"Renders MDX changelog content",
+				"Has navigation to other entries",
+				"getStaticPaths generates all changelog routes",
+				"Test file exists at tests/pages/changelog/slug.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 20,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/changelog/[...slug].astro"
+		},
+		{
+			"id": "US-089",
+			"title": "Create legal [slug] page",
+			"description": "As a visitor, I want to read legal documents (privacy, terms).",
+			"acceptanceCriteria": [
+				"src/pages/legal/[...slug].astro exists",
+				"Uses LegalLayout",
+				"Shows title, lastUpdated date",
+				"Renders MDX legal content",
+				"Clean typography for legal text",
+				"getStaticPaths generates all legal routes",
+				"Test file exists at tests/pages/legal/slug.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 21,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/legal/[...slug].astro"
+		},
+		{
+			"id": "US-090",
+			"title": "Create 404 page",
+			"description": "As a visitor, I want a friendly 404 page when I access a missing page.",
+			"acceptanceCriteria": [
+				"src/pages/404.astro exists",
+				"Uses BaseLayout or SplashLayout",
+				"Shows friendly 404 message",
+				"Has link back to homepage",
+				"Uses NextNode branding",
+				"Test file exists at tests/pages/404.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 22,
+			"passes": false,
+			"notes": "Copy from buio/src/pages/404.astro"
+		},
+		{
+			"id": "US-091",
+			"title": "Final QA - run full test suite",
+			"description": "As a developer, I want to verify all tests pass so that the migration is complete.",
+			"acceptanceCriteria": [
+				"pnpm type-check passes with no errors",
+				"pnpm lint passes with no errors",
+				"pnpm test passes with all tests green",
+				"pnpm build succeeds",
+				"No TypeScript any types in new code",
+				"All components have test files",
+				"Logger is used in all layouts"
+			],
+			"priority": 23,
+			"passes": false,
+			"notes": "Run all quality checks and fix any issues"
+		},
+		{
+			"id": "US-092",
+			"title": "Create final PR to main",
+			"description": "As a developer, I want a PR created so that all pages can be reviewed and merged.",
+			"acceptanceCriteria": [
+				"All previous stories in this PRD pass",
+				"pnpm type-check passes",
+				"pnpm lint passes",
+				"pnpm test passes",
+				"pnpm build passes",
+				"PR is created with gh pr create",
+				"PR title follows convention: feat(buio): all pages and final QA",
+				"PR description summarizes complete migration"
+			],
+			"priority": 24,
+			"passes": false,
+			"notes": "Use gh pr create --title 'feat(buio): all pages and final QA' --body '...'"
+		}
+	]
+}

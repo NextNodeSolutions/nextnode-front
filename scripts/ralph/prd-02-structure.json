@@ -1,0 +1,285 @@
+{
+	"project": "buio-migration",
+	"branchName": "feature/buio-structure",
+	"description": "Global components (Navigation, Footer, Logo) and all layouts. Also sets up content collection schemas. Depends on PRD-01 completion.",
+	"sourceTemplate": "/Users/walid/Development/templates/buio",
+	"dependsOn": ["feature/buio-foundation"],
+	"userStories": [
+		{
+			"id": "US-021",
+			"title": "Migrate to NextNode brand fonts",
+			"description": "As a developer, I want to use NextNode brand fonts instead of buio fonts so that the site matches our brand guidelines.",
+			"acceptanceCriteria": [
+				"Plus Jakarta Sans variable font (woff2) is in public/fonts/plus-jakarta-sans/",
+				"DM Sans variable font (woff2) is in public/fonts/dm-sans/",
+				"JetBrains Mono variable font (woff2) is in public/fonts/jetbrains-mono/",
+				"Old font files removed (geist/, geist-mono/, eb-garamond/)",
+				"Fonts.astro updated with new @font-face declarations",
+				"global.css @theme block updated: --font-display, --font-body, --font-mono",
+				"Font files are under 500KB total",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 1,
+			"passes": false,
+			"notes": "Download from fontsource. Update Fonts.astro and global.css @theme block. Remove old buio fonts."
+		},
+		{
+			"id": "US-022",
+			"title": "Import Logo.astro with NextNode branding",
+			"description": "As a developer, I want the Logo component updated with NextNode branding so that the site displays our logo.",
+			"acceptanceCriteria": [
+				"src/components/assets/Logo.astro exists",
+				"Uses NextNode logo (not buio logo)",
+				"Accepts size props (sm, md, lg)",
+				"Supports both light and dark variants",
+				"Props are properly typed",
+				"Test file exists at tests/components/assets/Logo.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 2,
+			"passes": false,
+			"notes": "Use existing NextNode logo assets or create placeholder SVG with NextNode text"
+		},
+		{
+			"id": "US-023",
+			"title": "Import Navigation.astro without search",
+			"description": "As a developer, I want the Navigation component so that the site has a header with dropdown menus.",
+			"acceptanceCriteria": [
+				"src/components/global/Navigation.astro exists",
+				"Search button is removed from navigation",
+				"Dropdown menus work on hover/click",
+				"Uses Logo component",
+				"Uses NextNode color tokens",
+				"Links are configurable via props or config",
+				"Test file exists at tests/components/global/Navigation.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 3,
+			"passes": false,
+			"notes": "Copy from buio/src/components/global/Navigation.astro, remove search-related code"
+		},
+		{
+			"id": "US-024",
+			"title": "Import MobileNav.astro component",
+			"description": "As a developer, I want the MobileNav component so that mobile users have navigation.",
+			"acceptanceCriteria": [
+				"src/components/global/MobileNav.astro exists",
+				"CSS grid animation works for open/close",
+				"Uses Menu and Close icons from fundations",
+				"Search functionality is removed",
+				"Uses NextNode color tokens",
+				"Test file exists at tests/components/global/MobileNav.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 4,
+			"passes": false,
+			"notes": "Copy from buio/src/components/global/MobileNav.astro"
+		},
+		{
+			"id": "US-025",
+			"title": "Import Footer.astro with newsletter",
+			"description": "As a developer, I want the Footer component with newsletter signup so that the site has a proper footer.",
+			"acceptanceCriteria": [
+				"src/components/global/Footer.astro exists",
+				"Newsletter signup form is included",
+				"Social media links are configurable",
+				"Footer links are organized in columns",
+				"Uses NextNode color tokens",
+				"Uses Logo component",
+				"Test file exists at tests/components/global/Footer.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 5,
+			"passes": false,
+			"notes": "Copy from buio/src/components/global/Footer.astro"
+		},
+		{
+			"id": "US-026",
+			"title": "Import BaseLayout.astro",
+			"description": "As a developer, I want the BaseLayout so that pages have consistent structure with nav and footer.",
+			"acceptanceCriteria": [
+				"src/layouts/BaseLayout.astro exists",
+				"Includes Navigation component",
+				"Includes Footer component",
+				"Includes BaseHead component",
+				"Includes AOS scripts (head and body)",
+				"Logger is integrated for page load tracking",
+				"Props are properly typed (title, description, etc.)",
+				"Test file exists at tests/layouts/BaseLayout.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 6,
+			"passes": false,
+			"notes": "Copy from buio/src/layouts/BaseLayout.astro, add @nextnode/logger"
+		},
+		{
+			"id": "US-027",
+			"title": "Import ChangelogLayout.astro",
+			"description": "As a developer, I want the ChangelogLayout so that changelog pages have proper structure.",
+			"acceptanceCriteria": [
+				"src/layouts/ChangelogLayout.astro exists",
+				"Extends or uses BaseLayout",
+				"Has sidebar or navigation for changelog entries",
+				"Props include version, date, type",
+				"Logger is integrated",
+				"Test file exists at tests/layouts/ChangelogLayout.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 7,
+			"passes": false,
+			"notes": "Copy from buio/src/layouts/ChangelogLayout.astro"
+		},
+		{
+			"id": "US-028",
+			"title": "Import CustomersLayout.astro",
+			"description": "As a developer, I want the CustomersLayout so that customer case study pages have proper structure.",
+			"acceptanceCriteria": [
+				"src/layouts/CustomersLayout.astro exists",
+				"Extends or uses BaseLayout",
+				"Supports customer logo, quote, case study content",
+				"Props are properly typed",
+				"Logger is integrated",
+				"Test file exists at tests/layouts/CustomersLayout.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 8,
+			"passes": false,
+			"notes": "Copy from buio/src/layouts/CustomersLayout.astro"
+		},
+		{
+			"id": "US-029",
+			"title": "Import HelpCenterLayout.astro",
+			"description": "As a developer, I want the HelpCenterLayout so that help articles have proper structure.",
+			"acceptanceCriteria": [
+				"src/layouts/HelpCenterLayout.astro exists",
+				"Extends or uses BaseLayout",
+				"Has sidebar navigation for categories",
+				"Props include title, description, category",
+				"Logger is integrated",
+				"Test file exists at tests/layouts/HelpCenterLayout.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 9,
+			"passes": false,
+			"notes": "Copy from buio/src/layouts/HelpCenterLayout.astro"
+		},
+		{
+			"id": "US-030",
+			"title": "Import JobsLayout.astro",
+			"description": "As a developer, I want the JobsLayout so that job posting pages have proper structure.",
+			"acceptanceCriteria": [
+				"src/layouts/JobsLayout.astro exists",
+				"Extends or uses BaseLayout",
+				"Supports job details: title, department, location, type",
+				"Has apply CTA section",
+				"Logger is integrated",
+				"Test file exists at tests/layouts/JobsLayout.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 10,
+			"passes": false,
+			"notes": "Copy from buio/src/layouts/JobsLayout.astro"
+		},
+		{
+			"id": "US-031",
+			"title": "Import LegalLayout.astro",
+			"description": "As a developer, I want the LegalLayout so that legal pages (privacy, terms) have proper structure.",
+			"acceptanceCriteria": [
+				"src/layouts/LegalLayout.astro exists",
+				"Extends or uses BaseLayout",
+				"Has clean typography for legal content",
+				"Props include title, lastUpdated",
+				"Logger is integrated",
+				"Test file exists at tests/layouts/LegalLayout.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 11,
+			"passes": false,
+			"notes": "Copy from buio/src/layouts/LegalLayout.astro"
+		},
+		{
+			"id": "US-032",
+			"title": "Import SplashLayout.astro",
+			"description": "As a developer, I want the SplashLayout so that pages without nav/footer can exist (e.g., coming soon).",
+			"acceptanceCriteria": [
+				"src/layouts/SplashLayout.astro exists",
+				"Does NOT include Navigation",
+				"Does NOT include Footer",
+				"Includes BaseHead for proper head setup",
+				"Minimal, centered layout",
+				"Logger is integrated",
+				"Test file exists at tests/layouts/SplashLayout.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 12,
+			"passes": false,
+			"notes": "Copy from buio/src/layouts/SplashLayout.astro"
+		},
+		{
+			"id": "US-033",
+			"title": "Import TeamLayout.astro",
+			"description": "As a developer, I want the TeamLayout so that team member pages have proper structure.",
+			"acceptanceCriteria": [
+				"src/layouts/TeamLayout.astro exists",
+				"Extends or uses BaseLayout",
+				"Supports member photo, name, role, bio",
+				"Has social links section",
+				"Logger is integrated",
+				"Test file exists at tests/layouts/TeamLayout.test.ts",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 13,
+			"passes": false,
+			"notes": "Copy from buio/src/layouts/TeamLayout.astro"
+		},
+		{
+			"id": "US-034",
+			"title": "Setup content collection schemas",
+			"description": "As a developer, I want content collection schemas defined so that MDX content is properly typed.",
+			"acceptanceCriteria": [
+				"src/content/config.ts exists with all collection schemas",
+				"helpcenter collection: title, description, category, pubDate",
+				"team collection: name, role, bio, image, social links",
+				"jobs collection: title, department, location, type, description",
+				"customers collection: name, logo, industry, quote, caseStudy",
+				"changelog collection: version, date, type, description",
+				"legal collection: title, lastUpdated, content",
+				"All schemas use zod for validation",
+				"pnpm type-check passes"
+			],
+			"priority": 14,
+			"passes": false,
+			"notes": "Create or update src/content/config.ts with Astro content collections API"
+		},
+		{
+			"id": "US-035",
+			"title": "Create PR to main for structure phase",
+			"description": "As a developer, I want a PR created so that the structure work can be reviewed and merged.",
+			"acceptanceCriteria": [
+				"All previous stories in this PRD pass",
+				"pnpm type-check passes",
+				"pnpm lint passes",
+				"pnpm test passes",
+				"pnpm build passes",
+				"PR is created with gh pr create",
+				"PR title follows convention: feat(buio): global components and layouts",
+				"PR description lists all components and layouts added"
+			],
+			"priority": 15,
+			"passes": false,
+			"notes": "Use gh pr create --title 'feat(buio): global components and layouts' --body '...'"
+		}
+	]
+}

@@ -1,0 +1,147 @@
+{
+	"project": "buio-migration",
+	"branchName": "feature/buio-assets",
+	"description": "Assets migration: images, SVG decoratives, and shapes. CAN RUN IN PARALLEL with PRD-03 and PRD-04.",
+	"sourceTemplate": "/Users/walid/Development/templates/buio",
+	"dependsOn": ["feature/buio-structure"],
+	"parallelWith": ["feature/buio-sections", "feature/buio-content"],
+	"userStories": [
+		{
+			"id": "US-061",
+			"title": "Copy brand images to src/images/brands/",
+			"description": "As a developer, I want brand/partner logos so that the logo cloud and testimonials can display them.",
+			"acceptanceCriteria": [
+				"src/images/brands/ directory exists",
+				"All brand SVG/PNG files from buio are copied",
+				"Files are properly named (lowercase, kebab-case)",
+				"Images are optimized (SVG preferred)",
+				"No broken image references",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 1,
+			"passes": false,
+			"notes": "Copy from buio/src/images/brands/"
+		},
+		{
+			"id": "US-062",
+			"title": "Copy logo images to src/images/logos/",
+			"description": "As a developer, I want logo assets so that the Logo component works.",
+			"acceptanceCriteria": [
+				"src/images/logos/ directory exists",
+				"NextNode logo SVG is present (light and dark variants)",
+				"Logo is properly sized for header use",
+				"Files are properly named",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 2,
+			"passes": false,
+			"notes": "Use existing NextNode logo or create placeholder. Do NOT use buio logo."
+		},
+		{
+			"id": "US-063",
+			"title": "Copy team placeholder images to src/images/team/",
+			"description": "As a developer, I want team member placeholder images so that team pages display properly.",
+			"acceptanceCriteria": [
+				"src/images/team/ directory exists",
+				"At least 4 placeholder avatar images",
+				"Images are square aspect ratio",
+				"Files match team content entries",
+				"Images are optimized (WebP or JPEG)",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 3,
+			"passes": false,
+			"notes": "Use placeholder images from buio or generate simple avatars"
+		},
+		{
+			"id": "US-064",
+			"title": "Copy avatar images to src/images/avatar/",
+			"description": "As a developer, I want avatar images so that testimonials can display author photos.",
+			"acceptanceCriteria": [
+				"src/images/avatar/ directory exists",
+				"At least 6 placeholder avatar images",
+				"Images are circular/square aspect ratio",
+				"Varied avatars for testimonials",
+				"Images are optimized",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 4,
+			"passes": false,
+			"notes": "Copy from buio/src/images/avatar/"
+		},
+		{
+			"id": "US-065",
+			"title": "Copy changelog images to src/images/changelog/",
+			"description": "As a developer, I want changelog images so that changelog entries can have visuals.",
+			"acceptanceCriteria": [
+				"src/images/changelog/ directory exists",
+				"At least 3 placeholder images for changelog entries",
+				"Images represent features/updates",
+				"Files match changelog content entries",
+				"Images are optimized",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 5,
+			"passes": false,
+			"notes": "Copy from buio/src/images/changelog/ or create placeholders"
+		},
+		{
+			"id": "US-066",
+			"title": "Copy decorative assets to src/images/assets/",
+			"description": "As a developer, I want decorative assets so that sections have visual embellishments.",
+			"acceptanceCriteria": [
+				"src/images/assets/ directory exists",
+				"All decorative images from buio are copied",
+				"Includes background patterns, shapes, gradients",
+				"Files are properly named",
+				"Images are optimized (SVG preferred for vectors)",
+				"pnpm type-check passes",
+				"pnpm build passes"
+			],
+			"priority": 6,
+			"passes": false,
+			"notes": "Copy from buio/src/images/assets/"
+		},
+		{
+			"id": "US-067",
+			"title": "Import all SVG decorative shape components",
+			"description": "As a developer, I want SVG shape components so that sections can have decorative elements.",
+			"acceptanceCriteria": [
+				"src/components/assets/shapes/ directory exists (or similar)",
+				"All decorative SVG components from buio are imported",
+				"SVGs use NextNode color tokens where applicable",
+				"Components accept color/size props",
+				"Props are properly typed",
+				"Test file exists covering shape rendering",
+				"pnpm type-check passes",
+				"pnpm test passes"
+			],
+			"priority": 7,
+			"passes": false,
+			"notes": "Copy from buio/src/components/assets/ - look for blob, gradient, pattern components"
+		},
+		{
+			"id": "US-068",
+			"title": "Create PR to main for assets phase",
+			"description": "As a developer, I want a PR created so that the assets can be reviewed and merged.",
+			"acceptanceCriteria": [
+				"All previous stories in this PRD pass",
+				"pnpm type-check passes",
+				"pnpm lint passes",
+				"pnpm test passes",
+				"pnpm build passes",
+				"PR is created with gh pr create",
+				"PR title follows convention: feat(buio): assets and images",
+				"PR description lists all asset categories added"
+			],
+			"priority": 8,
+			"passes": false,
+			"notes": "Use gh pr create --title 'feat(buio): assets and images' --body '...'"
+		}
+	]
+}

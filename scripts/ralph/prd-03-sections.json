@@ -1,0 +1,230 @@
+{
+	"project": "buio-migration",
+	"branchName": "feature/buio-sections",
+	"description": "Section components for page building: Hero, Features, Stats, Testimonials, Pricing, FAQ, CTA. CAN RUN IN PARALLEL with PRD-04 and PRD-05.",
+	"sourceTemplate": "/Users/walid/Development/templates/buio",
+	"dependsOn": ["feature/buio-structure"],
+	"parallelWith": ["feature/buio-content", "feature/buio-assets"],
+	"userStories": [
+		{
+			"id": "US-035",
+			"title": "Import Hero1.astro section component",
+			"description": "As a developer, I want the Hero1 component so that pages have an impactful hero section.",
+			"acceptanceCriteria": [
+				"src/components/headers/Hero1.astro exists",
+				"Uses Button component from fundations",
+				"Uses Text component from fundations",
+				"Uses Wrapper component from fundations",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/headers/Hero1.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 1,
+			"passes": false,
+			"notes": "Copy from buio/src/components/headers/Hero1.astro"
+		},
+		{
+			"id": "US-036",
+			"title": "Import Feature1.astro section component",
+			"description": "As a developer, I want the Feature1 component so that pages can showcase features.",
+			"acceptanceCriteria": [
+				"src/components/features/Feature1.astro exists",
+				"Uses foundation components (Button, Text, Wrapper)",
+				"Supports feature list with icons",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/features/Feature1.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 2,
+			"passes": false,
+			"notes": "Copy from buio/src/components/features/Feature1.astro"
+		},
+		{
+			"id": "US-037",
+			"title": "Import Feature2.astro section component",
+			"description": "As a developer, I want the Feature2 component for an alternative feature layout.",
+			"acceptanceCriteria": [
+				"src/components/features/Feature2.astro exists",
+				"Uses foundation components",
+				"Different layout than Feature1",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/features/Feature2.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 3,
+			"passes": false,
+			"notes": "Copy from buio/src/components/features/Feature2.astro"
+		},
+		{
+			"id": "US-038",
+			"title": "Import Feature3.astro section component",
+			"description": "As a developer, I want the Feature3 component for another feature layout variant.",
+			"acceptanceCriteria": [
+				"src/components/features/Feature3.astro exists",
+				"Uses foundation components",
+				"Different layout than Feature1 and Feature2",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/features/Feature3.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 4,
+			"passes": false,
+			"notes": "Copy from buio/src/components/features/Feature3.astro"
+		},
+		{
+			"id": "US-039",
+			"title": "Import Work.astro section component",
+			"description": "As a developer, I want the Work component to showcase how the product/service works.",
+			"acceptanceCriteria": [
+				"src/components/features/Work.astro exists",
+				"Uses foundation components",
+				"Shows step-by-step or process flow",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/features/Work.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 5,
+			"passes": false,
+			"notes": "Copy from buio/src/components/features/Work.astro"
+		},
+		{
+			"id": "US-040",
+			"title": "Import Stats1.astro section component",
+			"description": "As a developer, I want the Stats1 component to display key metrics.",
+			"acceptanceCriteria": [
+				"src/components/stats/Stats1.astro exists",
+				"Uses foundation components",
+				"Displays numeric stats with labels",
+				"Supports configurable stat items",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Test file exists at tests/components/stats/Stats1.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 6,
+			"passes": false,
+			"notes": "Copy from buio/src/components/stats/Stats1.astro"
+		},
+		{
+			"id": "US-041",
+			"title": "Import Testimonial1.astro section component",
+			"description": "As a developer, I want the Testimonial1 component to display customer testimonials.",
+			"acceptanceCriteria": [
+				"src/components/testimonials/Testimonial1.astro exists",
+				"Uses foundation components",
+				"Displays quote, author name, company",
+				"Supports author avatar",
+				"May use KeenSlider for carousel",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Test file exists at tests/components/testimonials/Testimonial1.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 7,
+			"passes": false,
+			"notes": "Copy from buio/src/components/testimonials/Testimonial1.astro"
+		},
+		{
+			"id": "US-042",
+			"title": "Import LogoCloud1.astro section component",
+			"description": "As a developer, I want the LogoCloud1 component to display partner/client logos.",
+			"acceptanceCriteria": [
+				"src/components/testimonials/LogoCloud1.astro exists",
+				"Uses foundation components",
+				"Displays grid or row of logos",
+				"Logos are configurable via props",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Test file exists at tests/components/testimonials/LogoCloud1.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 8,
+			"passes": false,
+			"notes": "Copy from buio/src/components/testimonials/LogoCloud1.astro"
+		},
+		{
+			"id": "US-043",
+			"title": "Import Pricing1.astro section component",
+			"description": "As a developer, I want the Pricing1 component to display pricing plans.",
+			"acceptanceCriteria": [
+				"src/components/pricing/Pricing1.astro exists",
+				"Uses foundation components (Button, Text)",
+				"Displays pricing tiers with features",
+				"Supports highlighted/recommended tier",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Props are properly typed",
+				"Test file exists at tests/components/pricing/Pricing1.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 9,
+			"passes": false,
+			"notes": "Copy from buio/src/components/pricing/Pricing1.astro"
+		},
+		{
+			"id": "US-044",
+			"title": "Import Faq1.astro section component",
+			"description": "As a developer, I want the Faq1 component to display frequently asked questions.",
+			"acceptanceCriteria": [
+				"src/components/faqs/Faq1.astro exists",
+				"Uses foundation components",
+				"Uses Plus icon for accordion",
+				"Accordion expand/collapse works",
+				"FAQ items are configurable",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Test file exists at tests/components/faqs/Faq1.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 10,
+			"passes": false,
+			"notes": "Copy from buio/src/components/faqs/Faq1.astro"
+		},
+		{
+			"id": "US-045",
+			"title": "Import Cta1.astro section component",
+			"description": "As a developer, I want the Cta1 component for call-to-action sections.",
+			"acceptanceCriteria": [
+				"src/components/ctas/Cta1.astro exists",
+				"Uses Button component",
+				"Uses Text component",
+				"Supports headline, subheadline, CTA button",
+				"AOS animations are configured",
+				"Colors use NextNode tokens",
+				"Test file exists at tests/components/ctas/Cta1.test.ts",
+				"pnpm test passes"
+			],
+			"priority": 11,
+			"passes": false,
+			"notes": "Copy from buio/src/components/ctas/Cta1.astro"
+		},
+		{
+			"id": "US-046",
+			"title": "Create PR to main for sections phase",
+			"description": "As a developer, I want a PR created so that the section components can be reviewed and merged.",
+			"acceptanceCriteria": [
+				"All previous stories in this PRD pass",
+				"pnpm type-check passes",
+				"pnpm lint passes",
+				"pnpm test passes",
+				"pnpm build passes",
+				"PR is created with gh pr create",
+				"PR title follows convention: feat(buio): section components",
+				"PR description lists all section components added"
+			],
+			"priority": 12,
+			"passes": false,
+			"notes": "Use gh pr create --title 'feat(buio): section components' --body '...'"
+		}
+	]
+}
