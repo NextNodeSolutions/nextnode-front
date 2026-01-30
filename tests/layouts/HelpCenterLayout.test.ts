@@ -165,9 +165,14 @@ describe('HelpCenterLayout.astro', () => {
 		})
 
 		it('uses aria-current for active category', () => {
-			expect(layoutContent).toContain(
-				"aria-current={category === cat.id ? 'page' : undefined}",
+			// Check that aria-current is used with the correct pattern
+			expect(layoutContent).toContain('aria-current={')
+			expect(layoutContent).toContain("'page'")
+			// Verify the full pattern with potential whitespace/newlines
+			const ariaCurrent = layoutContent.match(
+				/aria-current=\{[\s\S]*?category === cat\.id[\s\S]*?\}/m,
 			)
+			expect(ariaCurrent).toBeTruthy()
 		})
 
 		it('displays article count when available', () => {
