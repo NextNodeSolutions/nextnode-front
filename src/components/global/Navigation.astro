@@ -1,0 +1,105 @@
+---
+/**
+ * Navigation.astro - Main site navigation component
+ *
+ * Fixed position header with logo, nav links, and auth buttons.
+ * Includes scroll-triggered background blur effect.
+ * Mobile navigation is handled by MobileNav component.
+ */
+
+import Logo from '@/components/assets/Logo.astro'
+import Button from '@/components/fundations/elements/Button.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+import MobileNav from '@/components/global/MobileNav.astro'
+
+/**
+ * Navigation link definition
+ */
+export interface NavLink {
+	label: string
+	href: string
+}
+
+interface Props {
+	/** Navigation links to display */
+	links?: NavLink[]
+}
+
+const defaultLinks: NavLink[] = [
+	{ label: 'Customers', href: '/customers' },
+	{ label: 'Blog', href: '/blog' },
+	{ label: 'Help', href: '/helpcenter' },
+	{ label: 'Jobs', href: '/jobs' },
+]
+
+const { links = defaultLinks } = Astro.props
+---
+
+<div
+	id="nav-wrapper"
+	class="fixed inset-x-0 top-0 z-100 mx-auto w-full py-4 transition-all duration-300 ease-in-out"
+>
+	<Wrapper variant="standard">
+		<div
+			id="navigation-wrapper"
+			class="relative flex items-center justify-between"
+		>
+			<!-- Logo -->
+			<a
+				href="/"
+				aria-label="Go to homepage"
+				title="Homepage"
+				class="flex items-center"
+			>
+				<Logo size="md" variant="light" />
+			</a>
+
+			<!-- Desktop Navigation -->
+			<nav class="hidden items-center gap-4 md:flex">
+				{
+					links.map(link => (
+						<a
+							title={link.label}
+							aria-label={link.label}
+							href={link.href}
+							class="hover:text-base-300 text-sm text-white transition-colors duration-200"
+						>
+							{link.label}
+						</a>
+					))
+				}
+				<div class="flex items-center gap-1">
+					<Button isLink size="sm" variant="muted" href="/sign-in">
+						Sign in
+					</Button>
+					<Button isLink size="sm" variant="default" href="/sign-up">
+						Sign up
+					</Button>
+				</div>
+			</nav>
+
+			<!-- Mobile Navigation -->
+			<MobileNav navLinks={links} />
+		</div>
+	</Wrapper>
+</div>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const navWrapper = document.getElementById('nav-wrapper')
+		const scrollThreshold = 20
+
+		function handleScroll() {
+			if (!navWrapper) return
+			const scrolled = window.scrollY > scrollThreshold
+
+			navWrapper.classList.toggle('backdrop-blur-md', scrolled)
+			navWrapper.classList.toggle('bg-base-950/80', scrolled)
+			navWrapper.classList.toggle('py-2', scrolled)
+			navWrapper.classList.toggle('py-4', !scrolled)
+		}
+
+		window.addEventListener('scroll', handleScroll)
+		handleScroll()
+	})
+</script>

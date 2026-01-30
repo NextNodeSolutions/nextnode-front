@@ -75,9 +75,10 @@
 	--color-cyan: oklch(0.685 0.169 237.323);
 
 	/* Typography - Self-hosted variable fonts */
-	--font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
-	--font-display: 'EB Garamond', serif;
-	--font-mono: 'Geist Mono', ui-monospace, monospace;
+	--font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+	--font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+	--font-body: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
 	/* Legacy font-family aliases for existing code */
 	--font-family-sans: var(--font-sans);
@@ -119,20 +120,10 @@
 /* Base Styles */
 @layer base {
 	:root {
-		/* Geist font features for optimal typography */
+		/* Font features for optimal typography */
 		font-feature-settings:
 			'liga' 1,
-			'calt' 1,
-			'dlig' 1,
-			'ss07' 1,
-			'ss08' 1,
-			'zero' 1,
-			'tnum' 1,
-			'cv03' 1,
-			'cv04' 1,
-			'cv01' 1,
-			'cv09' 1,
-			'cv02' 1;
+			'calt' 1;
 	}
 
 	html {
