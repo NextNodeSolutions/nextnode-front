@@ -1,0 +1,69 @@
+---
+/**
+ * LegalLayout.astro - Layout for legal pages (privacy policy, terms of service)
+ *
+ * Provides clean typography for legal content with title and last updated date.
+ * Extends BaseLayout for navigation and footer.
+ * Integrates @nextnode/logger for page load tracking.
+ */
+
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+import { logger } from '@nextnode/logger'
+
+export interface Props {
+	/** Page title (e.g., "Privacy Policy", "Terms of Service") */
+	title: string
+	/** Date when the document was last updated */
+	lastUpdated: Date | string
+	/** Page description for meta */
+	description?: string
+}
+
+const { title, lastUpdated, description } = Astro.props
+
+const pageDescription = description ?? `${title} for NextNode services`
+
+const formattedDate = new Date(lastUpdated).toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'long',
+	day: '2-digit',
+})
+
+logger.info('Legal page loaded', {
+	details: {
+		title,
+		pathname: Astro.url.pathname,
+	},
+})
+---
+
+<BaseLayout title={title} description={pageDescription}>
+	<section>
+		<Wrapper
+			variant="standard"
+			class="grid grid-cols-1 py-42 lg:grid-cols-4"
+		>
+			<div class="lg:col-span-2">
+				<Text
+					tag="h1"
+					variant="display2XL"
+					class="font-display mt-12 text-balance text-white"
+				>
+					{title}
+				</Text>
+				<Text tag="span" variant="textSM" class="text-base-400">
+					Last updated <time
+						datetime={new Date(lastUpdated).toISOString()}
+					>
+						{formattedDate}
+					</time>
+				</Text>
+			</div>
+			<Wrapper variant="prose" class="mt-12 lg:col-span-2 lg:row-start-2">
+				<slot />
+			</Wrapper>
+		</Wrapper>
+	</section>
+</BaseLayout>
