@@ -6,46 +6,55 @@
  * All fonts use variable font format with font-display: swap for best CLS.
  *
  * Font stack:
- * - Geist: Primary sans-serif (variable, 100-900)
- * - Geist Mono: Monospace (variable, 100-900)
- * - EB Garamond: Serif (variable, 400-800, with italic)
+ * - Plus Jakarta Sans: Display/headers (variable, 200-800)
+ * - DM Sans: Body text (variable, 100-1000)
+ * - JetBrains Mono: Monospace (variable, 100-800)
  */
 ---
 
 <style is:global>
-	/* Geist Variable Font - Sans-serif */
+	/* Plus Jakarta Sans Variable Font - Display/Headers */
 	@font-face {
-		font-family: 'Geist';
+		font-family: 'Plus Jakarta Sans';
 		font-style: normal;
-		font-weight: 100 900;
+		font-weight: 200 800;
 		font-display: swap;
-		src: url('/fonts/geist/GeistVF.woff2') format('woff2');
+		src: url('/fonts/plus-jakarta-sans/PlusJakartaSansVF.woff2')
+			format('woff2');
 	}
 
-	/* Geist Mono Variable Font - Monospace */
 	@font-face {
-		font-family: 'Geist Mono';
-		font-style: normal;
-		font-weight: 100 900;
-		font-display: swap;
-		src: url('/fonts/geist-mono/GeistMonoVF.woff2') format('woff2');
-	}
-
-	/* EB Garamond Variable Font - Serif Regular */
-	@font-face {
-		font-family: 'EB Garamond';
-		font-style: normal;
-		font-weight: 400 800;
-		font-display: swap;
-		src: url('/fonts/eb-garamond/EBGaramondVF.woff2') format('woff2');
-	}
-
-	/* EB Garamond Variable Font - Serif Italic */
-	@font-face {
-		font-family: 'EB Garamond';
+		font-family: 'Plus Jakarta Sans';
 		font-style: italic;
-		font-weight: 400 800;
+		font-weight: 200 800;
 		font-display: swap;
-		src: url('/fonts/eb-garamond/EBGaramondVF-Italic.woff2') format('woff2');
+		src: url('/fonts/plus-jakarta-sans/PlusJakartaSansVF-Italic.woff2')
+			format('woff2');
+	}
+
+	/* DM Sans Variable Font - Body Text */
+	@font-face {
+		font-family: 'DM Sans';
+		font-style: normal;
+		font-weight: 100 1000;
+		font-display: swap;
+		src: url('/fonts/dm-sans/DMSansVF.woff2') format('woff2');
+	}
+
+	@font-face {
+		font-family: 'DM Sans';
+		font-style: italic;
+		font-weight: 100 1000;
+		font-display: swap;
+		src: url('/fonts/dm-sans/DMSansVF-Italic.woff2') format('woff2');
+	}
+
+	/* JetBrains Mono Variable Font - Monospace */
+	@font-face {
+		font-family: 'JetBrains Mono';
+		font-style: normal;
+		font-weight: 100 800;
+		font-display: swap;
+		src: url('/fonts/jetbrains-mono/JetBrainsMonoVF.woff2') format('woff2');
 	}
 </style>
