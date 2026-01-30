@@ -28,12 +28,13 @@ describe('Logo.astro', () => {
 		})
 
 		it('has viewBox attribute', () => {
-			expect(logoContent).toContain('viewBox="0 0 180 40"')
+			expect(logoContent).toContain('viewBox="0 0 320 100"')
 		})
 
-		it('contains logo mark and wordmark elements', () => {
-			expect(logoContent).toContain('<circle')
+		it('contains NN icon path and NextNode text', () => {
 			expect(logoContent).toContain('<path')
+			expect(logoContent).toContain('<text')
+			expect(logoContent).toContain('NextNode')
 		})
 	})
 
@@ -91,27 +92,28 @@ describe('Logo.astro', () => {
 		})
 
 		it('supports light variant', () => {
-			expect(logoContent).toContain('light:')
+			expect(logoContent).toContain("variant === 'light'")
 		})
 
 		it('supports dark variant', () => {
-			expect(logoContent).toContain('dark:')
+			expect(logoContent).toContain("LogoVariant = 'light' | 'dark'")
 		})
 
-		it('light variant uses white text fill', () => {
-			expect(logoContent).toContain("text: 'fill-white'")
+		it('light variant uses white gradient', () => {
+			expect(logoContent).toContain('#FFFFFF')
+			expect(logoContent).toContain('#E2E8F0')
+			expect(logoContent).toContain('#CBD5E1')
 		})
 
-		it('dark variant uses base-950 text fill', () => {
-			expect(logoContent).toContain("text: 'fill-base-950'")
+		it('dark variant uses teal gradient', () => {
+			expect(logoContent).toContain('#5EEAD4')
+			expect(logoContent).toContain('#14B8A6')
+			expect(logoContent).toContain('#0D9488')
 		})
 
-		it('light variant uses nextnode-300 accent', () => {
-			expect(logoContent).toContain("accent: 'fill-nextnode-300'")
-		})
-
-		it('dark variant uses nextnode-500 accent', () => {
-			expect(logoContent).toContain("accent: 'fill-nextnode-500'")
+		it('uses linearGradient for fill', () => {
+			expect(logoContent).toContain('<linearGradient')
+			expect(logoContent).toContain('gradientId')
 		})
 	})
 
@@ -138,8 +140,12 @@ describe('Logo.astro', () => {
 	})
 
 	describe('NextNode branding', () => {
-		it('uses NextNode color tokens', () => {
-			expect(logoContent).toContain('nextnode-')
+		it('contains NextNode brand name', () => {
+			expect(logoContent).toContain('NextNode')
+		})
+
+		it('uses Plus Jakarta Sans font', () => {
+			expect(logoContent).toContain('Plus Jakarta Sans')
 		})
 
 		it('does not use buio branding', () => {
