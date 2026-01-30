@@ -1,0 +1,20 @@
+---
+/**
+ * AosBody.astro - AOS (Animate On Scroll) initialization component
+ *
+ * Imports AOS JS from npm package and initializes animations.
+ * Include this component at the end of <body> in your layout.
+ *
+ * Pair with AosHead.astro for CSS in the <head>.
+ *
+ * @see https://github.com/michalsnik/aos
+ */
+---
+
+<script>
+	import AOS from 'aos'
+
+	AOS.init({
+		once: true,
+	})
+</script>

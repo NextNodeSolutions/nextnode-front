@@ -1,0 +1,41 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Available icon sizes
+ */
+export type IconSize = 'xs' | 'sm' | 'base' | 'md' | 'lg' | 'xl'
+
+/**
+ * Props for the ChevronRight icon component
+ */
+export interface Props extends Omit<HTMLAttributes<'svg'>, 'class'> {
+	/** Size of the icon */
+	size?: IconSize
+	/** Additional CSS classes */
+	class?: string
+}
+
+const { size = 'base', class: className, ...rest } = Astro.props
+
+const sizeClasses: Record<IconSize, string> = {
+	xs: 'size-3',
+	sm: 'size-4',
+	base: 'size-5',
+	md: 'size-6',
+	lg: 'size-7',
+	xl: 'size-8',
+}
+---
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 256 256"
+	fill="currentColor"
+	class:list={['icon', sizeClasses[size], className]}
+	{...rest}
+>
+	<path
+		d="M180.24,132.24l-80,80a6,6,0,0,1-8.48-8.48L167.51,128,91.76,52.24a6,6,0,0,1,8.48-8.48l80,80A6,6,0,0,1,180.24,132.24Z"
+	></path>
+</svg>

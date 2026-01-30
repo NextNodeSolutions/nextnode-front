@@ -1,0 +1,85 @@
+---
+/**
+ * Text.astro - Typography component with responsive text variants
+ *
+ * Provides consistent typography across the site with 14+ variants
+ * ranging from large display headings to small body text.
+ * Font families reference self-hosted Geist fonts.
+ */
+
+import type { HTMLAttributes } from 'astro/types'
+
+export type TextTag =
+	| 'a'
+	| 'p'
+	| 'em'
+	| 'span'
+	| 'small'
+	| 'strong'
+	| 'blockquote'
+	| 'h1'
+	| 'h2'
+	| 'h3'
+	| 'h4'
+	| 'h5'
+	| 'h6'
+
+export type TextVariant =
+	| 'display6XL'
+	| 'display5XL'
+	| 'display4XL'
+	| 'display3XL'
+	| 'display2XL'
+	| 'displayXL'
+	| 'displayLG'
+	| 'displayMD'
+	| 'displaySM'
+	| 'displayXS'
+	| 'textXL'
+	| 'textLG'
+	| 'textBase'
+	| 'textSM'
+	| 'textXS'
+
+interface Props extends HTMLAttributes<'p'> {
+	/** HTML tag to render */
+	tag?: TextTag
+	/** Typography variant */
+	variant?: TextVariant
+	/** Additional CSS classes */
+	class?: string
+}
+
+// Text style configurations for each variant
+const textStyles: Record<TextVariant, string> = {
+	display6XL: 'text-4xl sm:text-7xl md:text-9xl lg:text-[12rem]',
+	display5XL: 'text-4xl sm:text-7xl md:text-8xl lg:text-[10rem]',
+	display4XL: 'text-4xl sm:text-7xl md:text-8xl lg:text-9xl',
+	display3XL: 'text-5xl sm:text-6xl md:text-7xl lg:text-8xl',
+	display2XL: 'text-5xl sm:text-5xl md:text-6xl lg:text-7xl',
+	displayXL: 'text-4xl sm:text-4xl md:text-5xl lg:text-6xl',
+	displayLG: 'text-3xl sm:text-3xl md:text-4xl lg:text-5xl',
+	displayMD: 'text-2xl md:text-3xl lg:text-4xl',
+	displaySM: 'text-xl md:text-2xl lg:text-3xl',
+	displayXS: 'text-xl md:text-xl lg:text-2xl',
+	textXL: 'text-xl sm:text-xl md:text-2xl',
+	textLG: 'text-[min(2.4vh,70px)]',
+	textBase: 'text-base',
+	textSM: 'text-sm',
+	textXS: 'text-xs',
+}
+
+const { tag: Tag = 'p', variant, class: className, ...rest } = Astro.props
+
+// Get the base classes for the specified variant
+const baseClasses = variant ? textStyles[variant] : ''
+
+// Combine base classes with any additional custom classes
+const combinedClasses = [baseClasses, className].filter(Boolean).join(' ')
+---
+
+<Tag class={combinedClasses} {...rest}>
+	<slot name="left-icon" />
+	<slot />
+	<slot name="right-icon" />
+</Tag>
