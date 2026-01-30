@@ -209,9 +209,7 @@ describe('JobsLayout.astro', () => {
 
 	describe('apply CTA section', () => {
 		it('has Apply heading', () => {
-			// Biome may reformat closing tag across lines, so test content separately
-			expect(layoutContent).toContain('>Apply<')
-			expect(layoutContent).toContain('</Text')
+			expect(layoutContent).toContain('>Apply</Text>')
 		})
 
 		it('has form element', () => {
