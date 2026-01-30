@@ -1,0 +1,46 @@
+---
+/**
+ * BaseHead.astro - Base head component for all pages
+ *
+ * Provides essential meta tags and imports all head-related components.
+ * This component should be placed in the <head> of every page.
+ *
+ * Components included:
+ * - Fonts: Self-hosted @font-face declarations
+ * - Meta: Open Graph and Twitter meta tags (TODO: US-010)
+ * - Favicons: Favicon links (TODO: US-009)
+ * - Seo: SEO meta tags via @astrolib/seo (TODO: US-011)
+ *
+ * Scripts included:
+ * - AosHead: AOS animation CSS (TODO: US-017)
+ * - KeenSlider: Keen Slider CSS (TODO: US-019)
+ */
+
+import Fonts from '@/components/fundations/head/Fonts.astro'
+// TODO: Import these once implemented in later stories
+// import Meta from '@/components/fundations/head/Meta.astro'
+// import Favicons from '@/components/fundations/head/Favicons.astro'
+// import Seo from '@/components/fundations/head/Seo.astro'
+// import AosHead from '@/components/fundations/scripts/AosHead.astro'
+// import KeenSlider from '@/components/fundations/scripts/KeenSlider.astro'
+
+export interface Props {
+	/**
+	 * Character encoding for the document
+	 * @default 'utf-8'
+	 */
+	charset?: string
+	/**
+	 * Viewport settings for responsive design
+	 * @default 'width=device-width, initial-scale=1'
+	 */
+	viewport?: string
+}
+
+const { charset = 'utf-8', viewport = 'width=device-width, initial-scale=1' } =
+	Astro.props
+---
+
+<meta charset={charset} />
+<meta name="viewport" content={viewport} />
+<Fonts />
