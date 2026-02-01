@@ -1,0 +1,218 @@
+---
+/**
+ * Stats1.astro - Statistics section with animated counters and optional chart
+ *
+ * A section component that displays key metrics with animated counting
+ * triggered when the element enters the viewport.
+ */
+
+import type { HTMLAttributes } from 'astro/types'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+export interface StatItem {
+	/** Unique identifier for the stat */
+	id: string
+	/** Label displayed below the number */
+	label: string
+	/** Target number for the counter animation */
+	target: number
+	/** Optional suffix (e.g., '%', '+', 'k') */
+	suffix?: string
+	/** Optional prefix (e.g., '$', '€') */
+	prefix?: string
+}
+
+interface Props extends HTMLAttributes<'section'> {
+	/** Section label text (small text above headline) */
+	label?: string
+	/** Main headline text */
+	headline: string
+	/** Highlighted portion of headline (rendered in muted color) */
+	highlightedText?: string
+	/** Description paragraph */
+	description?: string
+	/** Optional second description paragraph */
+	secondaryDescription?: string
+	/** Array of stat items to display */
+	stats: StatItem[]
+	/** Whether to show the chart (requires Chart.js) */
+	showChart?: boolean
+	/** AOS animation type */
+	animation?: string
+	/** AOS animation duration in milliseconds */
+	animationDuration?: string
+	/** Additional CSS classes */
+	class?: string
+}
+
+const {
+	label,
+	headline,
+	highlightedText,
+	description,
+	secondaryDescription,
+	stats,
+	showChart = false,
+	animation = 'fade-up',
+	animationDuration = '1500',
+	class: className,
+	...rest
+} = Astro.props
+
+// Generate unique element IDs for counter targets
+const statsWithIds = stats.map((stat, index) => ({
+	...stat,
+	elementId: `stat-count-${stat.id}-${index}`,
+}))
+---
+
+<section class:list={[className]} {...rest}>
+	<Wrapper variant="standard" class="py-24">
+		<div
+			class="relative isolate flex flex-col gap-y-12 overflow-hidden lg:items-center"
+		>
+			<div class="grid grid-cols-1 gap-y-12 lg:grid-cols-2 lg:items-end">
+				<div data-aos={animation} data-aos-duration={animationDuration}>
+					{
+						label && (
+							<Text
+								tag="span"
+								variant="textSM"
+								class="text-base-400"
+							>
+								{label}
+							</Text>
+						)
+					}
+					<Text
+						tag="h2"
+						variant="displayLG"
+						class="font-display mt-12 text-balance text-white"
+					>
+						{headline}{' '}
+						{
+							highlightedText && (
+								<span class="text-base-500">
+									{highlightedText}
+								</span>
+							)
+						}
+					</Text>
+					{
+						description && (
+							<Text
+								tag="p"
+								variant="textBase"
+								class="mt-2 text-balance text-white"
+							>
+								{description}
+							</Text>
+						)
+					}
+					{
+						secondaryDescription && (
+							<Text
+								tag="p"
+								variant="textBase"
+								class="mt-8 text-balance text-white"
+							>
+								{secondaryDescription}
+							</Text>
+						)
+					}
+				</div>
+				<div
+					class="grid grid-cols-2 gap-y-12 sm:grid-cols-4 lg:grid-cols-2"
+					data-aos={animation}
+					data-aos-duration={String(Number(animationDuration) * 1.5)}
+				>
+					{
+						statsWithIds.map(stat => (
+							<div
+								class="before:bg-white"
+								id={`stat-container-${stat.id}`}
+							>
+								<div class="relative px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+									<div class="flex flex-col gap-y-1">
+										<div class="text-base-400 text-base">
+											{stat.label}
+										</div>
+										<Text
+											tag="span"
+											variant="displayLG"
+											class="font-display order-first text-white"
+											id={stat.elementId}
+											data-target={stat.target}
+											data-prefix={stat.prefix ?? ''}
+											data-suffix={stat.suffix ?? '%'}
+										/>
+									</div>
+								</div>
+							</div>
+						))
+					}
+				</div>
+			</div>
+			{
+				showChart && (
+					<div class="border-base-900 bg-gradient-up w-full p-4 lg:max-h-100">
+						<canvas id="stats1-chart" width="100%" height="100%" />
+					</div>
+				)
+			}
+		</div>
+	</Wrapper>
+</section>
+
+<script>
+	// Counter animation function
+	function initStatCounters() {
+		const counters = document.querySelectorAll<HTMLElement>(
+			'[id^="stat-count-"]',
+		)
+
+		counters.forEach(element => {
+			const target = Number.parseInt(element.dataset.target ?? '0', 10)
+			const prefix = element.dataset.prefix ?? ''
+			const suffix = element.dataset.suffix ?? ''
+			let count = 0
+			let hasStarted = false
+
+			function animateCounter() {
+				if (hasStarted) return
+				hasStarted = true
+
+				const interval = setInterval(() => {
+					if (count < target) {
+						count += 1
+						element.textContent = `${prefix}${count}${suffix}`
+					} else {
+						clearInterval(interval)
+					}
+				}, 50)
+			}
+
+			const observer = new IntersectionObserver(entries => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						animateCounter()
+						observer.unobserve(entry.target)
+					}
+				}
+			})
+
+			observer.observe(element)
+		})
+	}
+
+	// Initialize on DOM ready
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initStatCounters)
+	} else {
+		initStatCounters()
+	}
+
+	// Re-initialize on Astro page transitions
+	document.addEventListener('astro:page-load', initStatCounters)
+</script>
