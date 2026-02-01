@@ -1,0 +1,144 @@
+---
+import { Code } from 'astro:components'
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for DecorativeCode component
+ * Displays code blocks as decorative elements
+ */
+export interface Props extends Omit<HTMLAttributes<'div'>, 'class'> {
+	/** Additional CSS classes */
+	class?: string
+	/** Code to display in first column */
+	code?: string
+	/** Code to display in second column (hidden on mobile) */
+	secondaryCode?: string
+	/** Programming language for syntax highlighting */
+	lang?:
+		| 'js'
+		| 'ts'
+		| 'typescript'
+		| 'javascript'
+		| 'json'
+		| 'html'
+		| 'css'
+		| 'solidity'
+}
+
+// Default TypeScript code example for NextNode
+const DEFAULT_CODE = `// NextNode API Client
+import { NextNodeClient } from '@nextnode/sdk'
+
+interface NodeConfig {
+  endpoint: string
+  apiKey: string
+  options?: RequestInit
+}
+
+/**
+ * Initialize a NextNode client instance
+ * @param config - Node configuration options
+ * @returns Configured client instance
+ */
+export function createClient(config: NodeConfig) {
+  const { endpoint, apiKey, options } = config
+
+  return new NextNodeClient({
+    baseUrl: endpoint,
+    headers: {
+      'Authorization': \`Bearer \${apiKey}\`,
+      'Content-Type': 'application/json',
+      ...options?.headers
+    }
+  })
+}
+
+// Event handlers
+export const onNodeConnected = async (node: Node) => {
+  console.log('Node connected:', node.id)
+  await node.sync()
+}
+
+export const onNodeDisconnected = (node: Node) => {
+  console.warn('Node disconnected:', node.id)
+}`
+
+const DEFAULT_SECONDARY_CODE = `// NextNode Service Layer
+import type { Node, NetworkStatus } from '@nextnode/types'
+
+interface ServiceOptions {
+  retryAttempts: number
+  timeout: number
+  cacheStrategy: 'none' | 'memory' | 'redis'
+}
+
+/**
+ * Service for managing node connections
+ */
+class NodeService {
+  private nodes: Map<string, Node> = new Map()
+  private status: NetworkStatus = 'idle'
+
+  constructor(private options: ServiceOptions) {}
+
+  async connect(nodeId: string): Promise<Node> {
+    const existing = this.nodes.get(nodeId)
+    if (existing) return existing
+
+    const node = await this.fetchNode(nodeId)
+    this.nodes.set(nodeId, node)
+    return node
+  }
+
+  async disconnect(nodeId: string): Promise<void> {
+    const node = this.nodes.get(nodeId)
+    if (!node) return
+
+    await node.close()
+    this.nodes.delete(nodeId)
+  }
+
+  getStatus(): NetworkStatus {
+    return this.status
+  }
+}`
+
+const {
+	class: className = '',
+	code = DEFAULT_CODE,
+	secondaryCode = DEFAULT_SECONDARY_CODE,
+	lang = 'ts',
+	...rest
+} = Astro.props
+---
+
+<div class:list={['decorative-code', className]} {...rest}>
+	<div class="flex items-start">
+		<Code
+			data-aos="fade-up"
+			data-aos-duration="1500"
+			class="scrollbar-hide border-base-900 border-y border-r border-l p-8 text-xs lg:border-l-0"
+			code={code}
+			lang={lang}
+			theme="css-variables"
+		/>
+		<Code
+			data-aos="fade-up"
+			data-aos-duration="2500"
+			class="scrollbar-hide border-base-900 hidden border-y border-r border-l p-8 text-xs md:block lg:border-l-0"
+			code={secondaryCode}
+			lang={lang}
+			theme="css-variables"
+		/>
+	</div>
+</div>
+
+<style>
+	.scrollbar-hide {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+</style>

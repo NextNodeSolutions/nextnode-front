@@ -1,0 +1,57 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for BottomBlurLine component
+ * Creates a fixed blur effect at the bottom of the page
+ * Used in BaseLayout to create a smooth edge transition
+ */
+export interface Props extends Omit<HTMLAttributes<'div'>, 'class'> {
+	/** Additional CSS classes */
+	class?: string
+}
+
+const { class: className = '', ...rest } = Astro.props
+---
+
+<div
+	class:list={[
+		'bottom-blur-line',
+		'fixed inset-x-0 bottom-0 isolate z-10 h-[30px]',
+		className,
+	]}
+	{...rest}
+>
+	<div
+		style="-webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px)"
+		class="gradient-mask absolute inset-0 blur-[1px]"
+	>
+	</div>
+	<div
+		style="-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)"
+		class="gradient-mask absolute inset-0 blur-[2px]"
+	>
+	</div>
+	<div
+		style="-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)"
+		class="gradient-mask absolute inset-0 blur-[3px]"
+	>
+	</div>
+	<div
+		style="-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)"
+		class="gradient-mask absolute inset-0 blur-[6px]"
+	>
+	</div>
+	<div
+		style="-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)"
+		class="gradient-mask absolute inset-0 blur-[12px]"
+	>
+	</div>
+</div>
+
+<style>
+	.gradient-mask {
+		mask-image: linear-gradient(to top, black, transparent);
+		-webkit-mask-image: linear-gradient(to top, black, transparent);
+	}
+</style>

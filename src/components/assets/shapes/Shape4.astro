@@ -1,0 +1,202 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for Shape4 component
+ * Animated triangles with ellipses and concentric circles
+ */
+export interface Props extends Omit<HTMLAttributes<'div'>, 'class'> {
+	/** Additional CSS classes */
+	class?: string
+}
+
+const { class: className = '', ...rest } = Astro.props
+---
+
+<div class:list={['shape-4', className]} {...rest}>
+	<svg
+		class="scale-150"
+		viewBox="0 0 400 400"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<!-- Rotating triangles -->
+		<g class="triangles-container">
+			<polygon
+				points="200,120 250,250 150,250"
+				stroke="currentColor"
+				fill="none"
+				stroke-width="0.5"
+				class="triangle"
+				style="--stroke-color: var(--color-base-200, #fafafa);"
+			></polygon>
+			<polygon
+				points="200,120 250,250 150,250"
+				stroke="currentColor"
+				fill="none"
+				stroke-width="0.5"
+				class="triangle"
+				style="--stroke-color: var(--color-base-600, #444444);"
+			></polygon>
+			<polygon
+				points="200,120 250,250 150,250"
+				stroke="currentColor"
+				fill="none"
+				stroke-width="0.5"
+				class="triangle"
+				style="--stroke-color: var(--color-base-500, #777777);"
+			></polygon>
+		</g>
+
+		<!-- Pulsing ellipses -->
+		<g class="ellipses">
+			<ellipse
+				cx="200"
+				cy="200"
+				rx="60"
+				ry="30"
+				stroke="currentColor"
+				fill="none"
+				class="ellipse"
+				style="--stroke-color: var(--color-base-200, #fafafa);"
+			></ellipse>
+			<ellipse
+				cx="200"
+				cy="200"
+				rx="80"
+				ry="40"
+				stroke="currentColor"
+				fill="none"
+				class="ellipse"
+				style="--stroke-color: var(--color-base-600, #444444);"
+			></ellipse>
+			<ellipse
+				cx="200"
+				cy="200"
+				rx="100"
+				ry="50"
+				stroke="currentColor"
+				fill="none"
+				class="ellipse"
+				style="--stroke-color: var(--color-base-500, #777777);"
+			></ellipse>
+		</g>
+
+		<!-- Expanding concentric circles -->
+		<g class="circles">
+			<circle
+				cx="200"
+				cy="200"
+				r="50"
+				stroke="currentColor"
+				fill="none"
+				class="circle"
+				style="--stroke-color: var(--color-base-200, #fafafa);"
+			></circle>
+			<circle
+				cx="200"
+				cy="200"
+				r="75"
+				stroke="currentColor"
+				fill="none"
+				class="circle"
+				style="--stroke-color: var(--color-base-600, #444444);"
+			></circle>
+			<circle
+				cx="200"
+				cy="200"
+				r="100"
+				stroke="currentColor"
+				fill="none"
+				class="circle"
+				style="--stroke-color: var(--color-base-500, #777777);"
+			></circle>
+		</g>
+	</svg>
+</div>
+
+<style>
+	.shape-4 svg {
+		color: var(--color-base-400, #888888);
+	}
+
+	/* Rotating triangle animation */
+	.triangle {
+		transform-origin: 200px 200px;
+		animation: shape4-rotate 30s linear infinite;
+		opacity: 0.6;
+		stroke: var(--stroke-color);
+	}
+
+	.triangle:nth-child(2) {
+		animation-delay: -3s;
+	}
+
+	.triangle:nth-child(3) {
+		animation-delay: -6s;
+	}
+
+	/* Pulsing ellipse animation */
+	.ellipse {
+		stroke-width: 0.5;
+		animation: shape4-pulse 18s ease-in-out infinite;
+		opacity: 0.6;
+		stroke: var(--stroke-color);
+	}
+
+	.ellipse:nth-child(2) {
+		animation-delay: -2s;
+	}
+
+	.ellipse:nth-child(3) {
+		animation-delay: -4s;
+	}
+
+	/* Pulsing circle animation */
+	.circle {
+		stroke-width: 0.5;
+		animation: shape4-circle-pulse 25s ease-in-out infinite;
+		opacity: 0.6;
+		stroke: var(--stroke-color);
+	}
+
+	.circle:nth-child(2) {
+		animation-delay: -3s;
+	}
+
+	.circle:nth-child(3) {
+		animation-delay: -6s;
+	}
+
+	@keyframes shape4-rotate {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes shape4-pulse {
+		0%,
+		100% {
+			transform: scale(0.8);
+			opacity: 0.3;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.8;
+		}
+	}
+
+	@keyframes shape4-circle-pulse {
+		0%,
+		100% {
+			transform: scale(0.8);
+			opacity: 0.3;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.8;
+		}
+	}
+</style>

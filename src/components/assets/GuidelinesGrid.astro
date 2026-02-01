@@ -1,0 +1,42 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for GuidelinesGrid component
+ * Creates fixed vertical guide lines for visual consistency
+ * Used in BaseLayout as a background grid overlay
+ */
+export interface Props extends Omit<HTMLAttributes<'div'>, 'class'> {
+	/** Additional CSS classes */
+	class?: string
+	/** Number of columns in the grid */
+	columns?: 2 | 3 | 4 | 6
+}
+
+const { class: className = '', columns = 4, ...rest } = Astro.props
+
+const columnClasses: Record<number, string> = {
+	2: 'grid-cols-2',
+	3: 'grid-cols-3',
+	4: 'grid-cols-4',
+	6: 'grid-cols-6',
+}
+---
+
+<div
+	class:list={[
+		'guidelines-grid',
+		'pointer-events-none fixed inset-0 z-0 mx-auto max-w-7xl px-4',
+		className,
+	]}
+	{...rest}
+>
+	<div
+		class:list={[
+			'divide-base-900 border-base-900 mx-auto grid h-full gap-0 divide-x border-x',
+			columnClasses[columns],
+		]}
+	>
+		{Array.from({ length: columns }).map(() => <div />)}
+	</div>
+</div>

@@ -1,0 +1,128 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for Shape6 component
+ * Animated square, circles, and hexagon
+ */
+export interface Props extends Omit<HTMLAttributes<'div'>, 'class'> {
+	/** Additional CSS classes */
+	class?: string
+}
+
+const { class: className = '', ...rest } = Astro.props
+---
+
+<div class:list={['shape-6', className]} {...rest}>
+	<svg
+		class="scale-150"
+		viewBox="0 0 400 400"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<!-- Rotating squares -->
+		<g class="squares">
+			<rect
+				x="200"
+				y="200"
+				width="50"
+				height="50"
+				stroke="currentColor"
+				fill="none"
+				class="square"
+				style="--stroke-color: var(--color-base-200, #fafafa);"></rect>
+		</g>
+
+		<!-- Pulsing circles -->
+		<g class="circles">
+			<circle
+				cx="200"
+				cy="200"
+				r="50"
+				stroke="currentColor"
+				fill="none"
+				class="circle"
+				style="--stroke-color: var(--color-base-200, #fafafa);"
+			></circle>
+			<circle
+				cx="200"
+				cy="200"
+				r="75"
+				stroke="currentColor"
+				fill="none"
+				class="circle"
+				style="--stroke-color: var(--color-base-600, #444444);"
+			></circle>
+		</g>
+
+		<!-- Rotating hexagon -->
+		<g class="hexagons">
+			<polygon
+				points="200,100 250,150 250,200 200,250 150,200 150,150"
+				stroke="currentColor"
+				fill="none"
+				class="hexagon"
+				style="--stroke-color: var(--color-base-500, #777777);"
+			></polygon>
+		</g>
+	</svg>
+</div>
+
+<style>
+	.shape-6 svg {
+		color: var(--color-base-400, #888888);
+	}
+
+	/* Rotating square animation */
+	.square {
+		transform-origin: 200px 200px;
+		animation: shape6-rotate 18s linear infinite;
+		opacity: 0.5;
+		stroke: var(--stroke-color);
+	}
+
+	/* Pulsing circle animation */
+	.circle {
+		stroke-width: 0.5;
+		animation: shape6-pulse 30s ease-in-out infinite;
+		opacity: 0.6;
+		stroke: var(--stroke-color);
+	}
+
+	/* Rotating hexagon animation */
+	.hexagon {
+		transform-origin: 200px 200px;
+		animation: shape6-hexagon-rotate 25s linear infinite;
+		opacity: 0.4;
+		stroke: var(--stroke-color);
+	}
+
+	@keyframes shape6-rotate {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes shape6-pulse {
+		0%,
+		100% {
+			transform: scale(0.9);
+			opacity: 0.3;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.7;
+		}
+	}
+
+	@keyframes shape6-hexagon-rotate {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+</style>
