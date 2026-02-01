@@ -1,0 +1,138 @@
+---
+/**
+ * LogoCloud1.astro - Logo cloud section displaying partner/client logos
+ *
+ * A section component that displays a grid of logos with configurable
+ * layout and optional title text.
+ */
+
+import type { HTMLAttributes } from 'astro/types'
+import { Image } from 'astro:assets'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+export interface LogoItem {
+	/** Unique identifier for the logo */
+	id: string
+	/** Logo image source (imported image or URL string) */
+	src: ImageMetadata | string
+	/** Alt text for the logo image */
+	alt: string
+	/** Optional link URL */
+	href?: string
+}
+
+interface Props extends HTMLAttributes<'section'> {
+	/** Section title text */
+	title?: string
+	/** Highlighted portion of title (rendered in muted color) */
+	highlightedText?: string
+	/** Array of logos to display */
+	logos: LogoItem[]
+	/** Number of columns on mobile */
+	mobileColumns?: 2 | 3 | 4
+	/** Number of columns on desktop */
+	desktopColumns?: 2 | 3 | 4 | 5 | 6
+	/** AOS animation type */
+	animation?: string
+	/** AOS animation duration in milliseconds */
+	animationDuration?: string
+	/** Additional CSS classes */
+	class?: string
+}
+
+const {
+	title,
+	highlightedText,
+	logos,
+	mobileColumns = 2,
+	desktopColumns = 4,
+	animation = 'fade-up',
+	animationDuration = '1500',
+	class: className,
+	...rest
+} = Astro.props
+
+const mobileGridClasses: Record<number, string> = {
+	2: 'grid-cols-2',
+	3: 'grid-cols-3',
+	4: 'grid-cols-4',
+}
+
+const desktopGridClasses: Record<number, string> = {
+	2: 'md:grid-cols-2',
+	3: 'md:grid-cols-3',
+	4: 'md:grid-cols-4',
+	5: 'md:grid-cols-5',
+	6: 'md:grid-cols-6',
+}
+
+const gridClass = `${mobileGridClasses[mobileColumns]} ${desktopGridClasses[desktopColumns]}`
+---
+
+<section class:list={[className]} {...rest}>
+	<Wrapper
+		variant="standard"
+		class="py-12"
+		data-aos={animation}
+		data-aos-duration={animationDuration}
+	>
+		{
+			title && (
+				<Text tag="h2" variant="textSM" class="mb-4 text-white">
+					{title}
+					{highlightedText && (
+						<span class="text-base-400">{highlightedText}</span>
+					)}
+				</Text>
+			)
+		}
+		<div class:list={['grid items-center gap-4', gridClass]}>
+			{
+				logos.map((logo, index) => {
+					const imageElement =
+						typeof logo.src === 'string' ? (
+							<img
+								width={200}
+								height={50}
+								class="max-w-32 opacity-50 transition-opacity hover:opacity-75"
+								src={logo.src}
+								alt={logo.alt}
+							/>
+						) : (
+							<Image
+								width={200}
+								height={50}
+								class="max-w-32 opacity-50 transition-opacity hover:opacity-75"
+								src={logo.src}
+								alt={logo.alt}
+							/>
+						)
+
+					return logo.href ? (
+						<a
+							href={logo.href}
+							target="_blank"
+							rel="noopener noreferrer"
+							data-aos={animation}
+							data-aos-duration={String(
+								Number(animationDuration) + index * 100,
+							)}
+						>
+							{imageElement}
+						</a>
+					) : (
+						<div
+							data-aos={animation}
+							data-aos-duration={String(
+								Number(animationDuration) + index * 100,
+							)}
+						>
+							{imageElement}
+						</div>
+					)
+				})
+			}
+		</div>
+	</Wrapper>
+</section>

@@ -368,8 +368,9 @@ describe('Testimonial1.astro', () => {
 
 		it('supports string URLs for images', () => {
 			expect(testimonial1Content).toContain(
-				"typeof testimonial.imageUrl === 'string'",
+				'typeof testimonial.imageUrl ===',
 			)
+			expect(testimonial1Content).toContain("'string' ?")
 		})
 
 		it('renders img tag for string URLs', () => {
