@@ -1,0 +1,100 @@
+---
+/**
+ * HelpCenterCard.astro - Displays help articles in lists
+ *
+ * Shows article title, category, description/excerpt, and links to full article.
+ * Uses foundation components and NextNode color tokens.
+ */
+
+import type { CollectionEntry } from 'astro:content'
+import Button from '@/components/fundations/elements/Button.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+
+interface Props {
+	/** Help center article from the helpcenter collection */
+	article: CollectionEntry<'helpcenter'>
+}
+
+const { article } = Astro.props
+
+const url = `/helpcenter/${article.slug}`
+const { title, description, category, pubDate } = article.data
+const formattedDate = pubDate.toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'short',
+	day: 'numeric',
+})
+
+/** Category badge colors using NextNode tokens */
+const categoryColors: Record<string, string> = {
+	'Getting Started': 'bg-nextnode-500 text-white',
+	Account: 'bg-accent-500 text-white',
+	Billing: 'bg-accent-600 text-white',
+}
+
+const badgeColor = categoryColors[category] ?? 'bg-base-600 text-white'
+---
+
+<article class="group">
+	<div class="before:bg-nextnode-500">
+		<div
+			class="before:bg-nextnode-500 after:bg-base-700 relative px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px"
+		>
+			<div
+				class="bg-base-800 flex h-12 w-12 items-center justify-center rounded-lg"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="text-nextnode-400 h-6 w-6"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="1.5"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+					></path>
+				</svg>
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-6 flex items-center gap-3">
+		<span
+			class:list={[
+				'rounded-full px-2 py-0.5 text-xs font-medium',
+				badgeColor,
+			]}
+		>
+			{category}
+		</span>
+		<time datetime={pubDate.toISOString()}>
+			<Text tag="span" variant="textXS" class="text-base-400">
+				{formattedDate}
+			</Text>
+		</time>
+	</div>
+
+	<Text tag="h3" variant="textBase" class="mt-3 font-semibold text-white">
+		{title}
+	</Text>
+
+	<Text tag="p" variant="textSM" class="text-base-400 mt-2 line-clamp-3">
+		{description}
+	</Text>
+
+	<div class="mt-6 flex">
+		<Button
+			isLink
+			size="sm"
+			variant="default"
+			href={url}
+			title={`Read article: ${title}`}
+			aria-label={`Read full article: ${title}`}
+		>
+			Read article
+		</Button>
+	</div>
+</article>
