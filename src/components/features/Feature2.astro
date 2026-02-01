@@ -1,0 +1,144 @@
+---
+/**
+ * Feature2.astro - Sticky sidebar feature grid section
+ *
+ * A section component that displays a sticky sidebar with headline text
+ * alongside a 3-column grid of feature cards with icons.
+ * Different layout than Feature1 (sidebar + grid vs. two-column code blocks).
+ */
+
+import type { HTMLAttributes } from 'astro/types'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+export interface Feature2Item {
+	/** Unique identifier for the feature */
+	id: string
+	/** Feature title */
+	title: string
+	/** Feature description text */
+	description: string
+	/** Optional icon component or HTML string to render */
+	icon?: string
+	/** AOS animation duration override in milliseconds */
+	animationDuration?: number
+}
+
+interface Props extends HTMLAttributes<'section'> {
+	/** Label text above the headline */
+	label?: string
+	/** Main headline text */
+	headline: string
+	/** Highlighted/muted text portion of headline */
+	highlightedText?: string
+	/** Description paragraph text */
+	description?: string
+	/** Array of feature items to display */
+	features: Feature2Item[]
+	/** AOS animation type */
+	animation?: string
+	/** Base AOS animation duration in milliseconds */
+	animationDuration?: number
+	/** Additional CSS classes */
+	class?: string
+}
+
+const {
+	label,
+	headline,
+	highlightedText,
+	description,
+	features,
+	animation = 'fade-up',
+	animationDuration = 1500,
+	class: className,
+	...rest
+} = Astro.props
+---
+
+<section class:list={[className]} {...rest}>
+	<Wrapper
+		variant="standard"
+		class="grid grid-cols-1 gap-y-12 pt-42 pb-12 lg:grid-cols-4 lg:gap-y-24"
+	>
+		<div>
+			<div class="z-10 lg:sticky lg:top-62">
+				{
+					label && (
+						<Text tag="span" variant="textSM" class="text-white">
+							{label}
+						</Text>
+					)
+				}
+				<Text
+					tag="h1"
+					variant="displayLG"
+					class="font-display mt-12 text-balance text-white"
+				>
+					{headline}
+					{
+						highlightedText && (
+							<span class="text-base-400 block">
+								{highlightedText}
+							</span>
+						)
+					}
+				</Text>
+				{
+					description && (
+						<Text
+							tag="p"
+							variant="textBase"
+							class="mt-2 text-balance text-white"
+						>
+							{description}
+						</Text>
+					)
+				}
+			</div>
+		</div>
+		<dl
+			class="grid grid-cols-1 gap-y-12 md:grid-cols-2 lg:col-span-3 lg:col-start-2 lg:grid-cols-3"
+		>
+			{
+				features.map(feature => (
+					<div
+						data-aos={animation}
+						data-aos-duration={
+							feature.animationDuration ?? animationDuration
+						}
+						class="relative overflow-hidden"
+					>
+						{feature.icon && (
+							<div
+								class="bg-gradient-down text-white"
+								set:html={feature.icon}
+							/>
+						)}
+
+						<div class="relative mt-8 px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+							<dt class="flex flex-col gap-4">
+								<Text
+									tag="h3"
+									variant="textLG"
+									class="font-medium text-white"
+								>
+									{feature.title}
+								</Text>
+							</dt>
+							<dd class="mt-4">
+								<Text
+									tag="p"
+									variant="textSM"
+									class="text-base-400 mt-4 text-balance"
+								>
+									{feature.description}
+								</Text>
+							</dd>
+						</div>
+					</div>
+				))
+			}
+		</dl>
+	</Wrapper>
+</section>
