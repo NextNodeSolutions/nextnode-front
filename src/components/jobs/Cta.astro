@@ -1,0 +1,70 @@
+---
+/**
+ * Cta.astro - Call-to-action section for the jobs page
+ *
+ * Encourages visitors to apply for positions with a prominent
+ * heading, description, and apply button. Uses NextNode gradient
+ * background and foundation components.
+ */
+
+import Text from '@/components/fundations/elements/Text.astro'
+import Button from '@/components/fundations/elements/Button.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+interface Props {
+	/** Main heading text */
+	heading?: string
+	/** Description/subheading text */
+	description?: string
+	/** Button text */
+	buttonText?: string
+	/** Button link href */
+	buttonHref?: string
+}
+
+const {
+	heading = 'Build the Future with NextNode',
+	description = 'Join a team of innovators building the next generation of cloud infrastructure. Work on cutting-edge technology that powers modern applications worldwide.',
+	buttonText = 'Apply today',
+	buttonHref = '/jobs',
+} = Astro.props
+---
+
+<section>
+	<Wrapper variant="standard" class="py-12">
+		<div
+			class="bg-gradient-down border-base-900 relative overflow-hidden border-x p-8 pb-12 text-center lg:pt-20"
+		>
+			<div class="relative">
+				<Text
+					tag="h2"
+					variant="displayLG"
+					class="font-display text-white lg:text-balance"
+				>
+					{heading}
+				</Text>
+				<Text
+					tag="p"
+					variant="textBase"
+					class="mx-auto mt-4 max-w-xl text-white lg:text-balance"
+				>
+					{description}
+				</Text>
+
+				<div class="mt-10 flex items-center justify-center gap-2">
+					<Button
+						isLink
+						size="sm"
+						variant="default"
+						href={buttonHref}
+						title="Apply for a position"
+						aria-label="Apply for a position at NextNode"
+						class="w-auto"
+					>
+						{buttonText}
+					</Button>
+				</div>
+			</div>
+		</div>
+	</Wrapper>
+</section>
