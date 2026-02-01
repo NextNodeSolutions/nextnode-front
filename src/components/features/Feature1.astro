@@ -1,0 +1,106 @@
+---
+/**
+ * Feature1.astro - Two-column feature section with code blocks
+ *
+ * A section component that displays feature cards in a two-column grid,
+ * each with a title, description, and optional code block.
+ */
+
+import type { HTMLAttributes } from 'astro/types'
+import { Code } from 'astro:components'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+export interface FeatureCodeBlock {
+	/** Code content to display */
+	code: string
+	/** Programming language for syntax highlighting */
+	lang?: 'js' | 'ts' | 'jsx' | 'tsx' | 'json' | 'html' | 'css' | 'shell'
+}
+
+export interface FeatureItem {
+	/** Unique identifier for the feature */
+	id: string
+	/** Feature title */
+	title: string
+	/** Feature description text */
+	description: string
+	/** Optional code block to display */
+	codeBlock?: FeatureCodeBlock
+}
+
+interface Props extends HTMLAttributes<'section'> {
+	/** Array of feature items to display */
+	features: FeatureItem[]
+	/** AOS animation type */
+	animation?: string
+	/** AOS animation duration in milliseconds */
+	animationDuration?: string
+	/** Additional CSS classes */
+	class?: string
+}
+
+const {
+	features,
+	animation = 'fade-up',
+	animationDuration = '1500',
+	class: className,
+	...rest
+} = Astro.props
+---
+
+<section class:list={[className]} {...rest}>
+	<Wrapper variant="standard">
+		<div
+			class="border-base-900 divide-accent-900 grid list-none grid-cols-1 border-x md:grid-cols-2 md:divide-x"
+		>
+			{
+				features.map((feature, index) => (
+					<div class="border-base-900 bg-gradient-down bg-base-950 relative h-160 overflow-hidden border-t p-8 pt-24 pb-0">
+						<div class="text-center">
+							<Text
+								tag="h2"
+								variant="displayLG"
+								class="font-display font-medium text-white"
+							>
+								{feature.title}
+							</Text>
+							<Text
+								tag="p"
+								variant="textBase"
+								class="text-base-400 mt-4 text-balance"
+							>
+								{feature.description}
+							</Text>
+						</div>
+						{feature.codeBlock && (
+							<div
+								data-aos={animation}
+								data-aos-duration={
+									index === 0
+										? animationDuration
+										: String(Number(animationDuration) * 2)
+								}
+								class="shadow-dimensional"
+							>
+								<div class="border-base-900 mt-12 border border-b-0 border-l-white px-4 py-2">
+									<div class="flex items-center gap-1">
+										<div class="outline-base-600 size-2 rounded-full outline" />
+										<div class="outline-base-700 size-2 rounded-full outline" />
+										<div class="outline-base-800 size-2 rounded-full outline" />
+									</div>
+								</div>
+								<Code
+									class="scrollbar-hide border-base-900 border p-8 text-xs"
+									code={feature.codeBlock.code}
+									lang={feature.codeBlock.lang ?? 'js'}
+									theme="css-variables"
+								/>
+							</div>
+						)}
+					</div>
+				))
+			}
+		</div>
+	</Wrapper>
+</section>
