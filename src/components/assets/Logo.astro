@@ -8,6 +8,8 @@ export type LogoSize = 'sm' | 'md' | 'lg'
 
 /**
  * Logo color variants
+ * - light: White gradient for dark backgrounds
+ * - dark: Teal gradient for light backgrounds
  */
 export type LogoVariant = 'light' | 'dark'
 
@@ -31,63 +33,51 @@ const sizeClasses: Record<LogoSize, string> = {
 	lg: 'h-12',
 }
 
-const variantClasses: Record<LogoVariant, { text: string; accent: string }> = {
-	light: {
-		text: 'fill-white',
-		accent: 'fill-nextnode-300',
-	},
-	dark: {
-		text: 'fill-base-950',
-		accent: 'fill-nextnode-500',
-	},
-}
+// Unique ID for gradient to avoid conflicts when multiple logos on page
+const gradientId = `logo-grad-${Math.random().toString(36).slice(2, 9)}`
+
+// Gradient colors based on variant
+const gradientStops =
+	variant === 'light'
+		? { start: '#FFFFFF', mid: '#E2E8F0', end: '#CBD5E1' }
+		: { start: '#5EEAD4', mid: '#14B8A6', end: '#0D9488' }
 ---
 
 <svg
 	xmlns="http://www.w3.org/2000/svg"
-	viewBox="0 0 180 40"
+	viewBox="0 0 320 100"
+	fill="none"
 	class:list={['logo', sizeClasses[size], 'w-auto', className]}
 	{...rest}
 >
-	<!-- Logo mark: two connected nodes representing NextNode -->
-	<g class={variantClasses[variant].accent}>
-		<!-- First node -->
-		<circle cx="12" cy="20" r="8"></circle>
-		<!-- Connection line -->
-		<rect x="18" y="18" width="12" height="4" rx="2"></rect>
-		<!-- Second node -->
-		<circle cx="38" cy="20" r="8"></circle>
+	<defs>
+		<linearGradient
+			id={gradientId}
+			x1="0"
+			y1="50"
+			x2="320"
+			y2="50"
+			gradientUnits="userSpaceOnUse"
+		>
+			<stop offset="0%" stop-color={gradientStops.start}></stop>
+			<stop offset="50%" stop-color={gradientStops.mid}></stop>
+			<stop offset="100%" stop-color={gradientStops.end}></stop>
+		</linearGradient>
+	</defs>
+	<!-- NN Icon -->
+	<g transform="translate(0, 5) scale(0.42)">
+		<path
+			d="M119.934 137.786C119.934 139.336 119.629 140.774 119.021 142.103C118.467 143.431 117.692 144.593 116.696 145.589C115.756 146.53 114.621 147.277 113.293 147.83C111.965 148.383 110.554 148.66 109.06 148.66C107.731 148.66 106.376 148.411 104.992 147.913C103.664 147.415 102.474 146.613 101.423 145.506L22.5654 63.1621V147H0.9834V37.1807C0.9834 34.9671 1.5921 32.9749 2.8096 31.2041C4.0824 29.3779 5.6872 28.0221 7.624 27.1367C9.6715 26.3066 11.7744 26.113 13.9326 26.5557C16.0908 26.943 17.9447 27.9391 19.4941 29.5439L98.352 111.805V27.9668H119.934V137.786Z M215.934 121.786C215.934 123.336 215.629 124.774 215.021 126.103C214.467 127.431 213.692 128.593 212.696 129.589C211.756 130.53 210.621 131.277 209.293 131.83C207.965 132.383 206.554 132.66 205.06 132.66C203.731 132.66 202.376 132.411 200.992 131.913C199.664 131.415 198.474 130.613 197.423 129.506L118.565 47.1621V131H96.983V21.1807C96.983 18.9671 97.592 16.9749 98.81 15.2041C100.082 13.3779 101.687 12.0221 103.624 11.1367C105.672 10.3066 107.774 10.113 109.933 10.5557C112.091 10.943 113.945 11.9391 115.494 13.5439L194.352 95.805V11.9668H215.934V121.786Z"
+			fill={`url(#${gradientId})`}></path>
 	</g>
-
-	<!-- Wordmark: NextNode -->
-	<g class={variantClasses[variant].text}>
-		<!-- N -->
-		<path d="M56 10v20h-3V16.5l-7 13.5h-3V10h3v13.5l7-13.5h3z"></path>
-		<!-- e -->
-		<path
-			d="M66 17c3.3 0 6 2.7 6 6v1H63c.3 2 2 3 4 3 1.3 0 2.5-.5 3.3-1.3l1.7 2c-1.3 1.3-3.1 2.3-5 2.3-4.4 0-7-3-7-6.5 0-3.6 2.6-6.5 6-6.5zm0 3c-1.7 0-3 1.2-3 3h6c0-1.8-1.3-3-3-3z"
-		></path>
-		<!-- x -->
-		<path
-			d="M82 30l-3.5-5.5L75 30h-3.5l5.3-7-5-6h3.5l3.2 4.5L81.5 17H85l-5 6 5.3 7H82z"
-		></path>
-		<!-- t -->
-		<path
-			d="M93 17v3h-3v6c0 1 .5 1.5 1.5 1.5H93V30h-2.5c-2.5 0-4-1.5-4-4v-6h-2v-3h2v-4h3.5v4H93z"
-		></path>
-		<!-- N -->
-		<path d="M112 10v20h-3V16.5l-7 13.5h-3V10h3v13.5l7-13.5h3z"></path>
-		<!-- o -->
-		<path
-			d="M122 17c3.6 0 6.5 2.9 6.5 6.5S125.6 30 122 30s-6.5-2.9-6.5-6.5S118.4 17 122 17zm0 3.5c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"
-		></path>
-		<!-- d -->
-		<path
-			d="M137 17c3.3 0 6 2.9 6 6.5V30h-3.5v-1.5c-1 1.2-2.3 2-4 2-3 0-5.5-2.9-5.5-6.5s2.5-7 5.5-7c1.7 0 3 .8 4 2V10h3.5v7zm-3.5 10c1.7 0 3-1.3 3-3.5s-1.3-3.5-3-3.5-3 1.3-3 3.5 1.3 3.5 3 3.5z"
-		></path>
-		<!-- e -->
-		<path
-			d="M153 17c3.3 0 6 2.7 6 6v1h-9c.3 2 2 3 4 3 1.3 0 2.5-.5 3.3-1.3l1.7 2c-1.3 1.3-3.1 2.3-5 2.3-4.4 0-7-3-7-6.5 0-3.6 2.6-6.5 6-6.5zm0 3c-1.7 0-3 1.2-3 3h6c0-1.8-1.3-3-3-3z"
-		></path>
-	</g>
+	<!-- NextNode text -->
+	<text
+		x="110"
+		y="58"
+		font-family="Plus Jakarta Sans, Arial, sans-serif"
+		font-size="36"
+		font-weight="700"
+		fill={`url(#${gradientId})`}
+		dominant-baseline="middle">NextNode</text
+	>
 </svg>
