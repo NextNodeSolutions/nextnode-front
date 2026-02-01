@@ -1,0 +1,204 @@
+---
+/**
+ * Status.astro - Displays system status for help center
+ *
+ * Shows current service status, historical events/incidents, and overall system health.
+ * Uses appropriate color coding for different status levels.
+ */
+
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+/** Status level for services */
+export type ServiceStatus = 'operational' | 'degraded' | 'down'
+
+/** Individual service status item */
+export interface StatusItem {
+	/** Name of the service */
+	service: string
+	/** Current status level */
+	status: ServiceStatus
+	/** Human-readable status label (optional, derived from status if not provided) */
+	label?: string
+}
+
+/** Event/incident in status history */
+export interface StatusEvent {
+	/** Event status (e.g., 'Completed', 'In progress', 'Scheduled') */
+	status: string
+	/** Description of the event */
+	description: string
+	/** Timestamp of the event */
+	timestamp: string
+}
+
+interface Props {
+	/** Title for the status page */
+	title?: string
+	/** Subtitle showing overall status */
+	subtitle?: string
+	/** Description text */
+	description?: string
+	/** Last sync time display */
+	lastSyncTime?: string
+	/** Array of service status items */
+	services?: StatusItem[]
+	/** Title for past incidents section */
+	incidentsTitle?: string
+	/** Subtitle for past incidents section */
+	incidentsSubtitle?: string
+	/** Date label for incidents section */
+	incidentsDateLabel?: string
+	/** Array of past events/incidents */
+	events?: StatusEvent[]
+}
+
+const {
+	title = 'Network Status:',
+	subtitle = 'All systems operational',
+	description = 'Our infrastructure is continuously monitored for performance, availability, and potential disruptions. Any incidents or maintenance will be reported here in real time.',
+	lastSyncTime = '22:18:51 UTC',
+	services = [
+		{ service: 'API Gateway', status: 'operational' },
+		{ service: 'Dashboard', status: 'operational' },
+		{ service: 'Authentication', status: 'operational' },
+		{ service: 'Database Cluster', status: 'operational' },
+		{ service: 'CDN', status: 'degraded', label: 'Degraded performance' },
+		{ service: 'Background Jobs', status: 'operational' },
+	],
+	incidentsTitle = 'Past Incidents:',
+	incidentsSubtitle = 'No incidents today.',
+	incidentsDateLabel = 'January 15, 2024 — Scheduled Maintenance',
+	events = [
+		{
+			status: 'Completed',
+			description:
+				'The scheduled maintenance has been successfully completed.',
+			timestamp: 'Jan 15, 23:00 UTC',
+		},
+		{
+			status: 'In progress',
+			description:
+				'Maintenance is currently in progress. Services will be restored shortly.',
+			timestamp: 'Jan 15, 22:00 UTC',
+		},
+		{
+			status: 'Scheduled',
+			description:
+				'A maintenance window is scheduled. Users may experience brief interruptions.',
+			timestamp: 'Jan 14, 10:04 UTC',
+		},
+	],
+} = Astro.props
+
+/** Status label mapping */
+const statusLabels: Record<ServiceStatus, string> = {
+	operational: 'Operational',
+	degraded: 'Degraded',
+	down: 'Down',
+}
+
+/** Status color mapping using NextNode tokens */
+const statusColors: Record<ServiceStatus, string> = {
+	operational: 'fill-green-500',
+	degraded: 'fill-accent-500',
+	down: 'fill-red-500',
+}
+
+/** Get display label for a status item */
+function getStatusLabel(item: StatusItem): string {
+	return item.label ?? statusLabels[item.status]
+}
+---
+
+<section>
+	<Wrapper
+		variant="standard"
+		class="relative grid grid-cols-1 py-42 sm:grid-cols-2 md:grid-cols-4"
+	>
+		<div class="md:col-span-2 md:col-start-2">
+			<Text tag="span" variant="textSM" class="text-white">
+				Last synced at <time datetime={lastSyncTime}
+					>{lastSyncTime}</time
+				>
+			</Text>
+
+			<Text
+				tag="h1"
+				variant="display2XL"
+				class="font-display mt-12 text-balance text-white"
+			>
+				{title}
+				<span class="text-base-400 block">{subtitle}</span>
+			</Text>
+			<Text
+				tag="p"
+				variant="textBase"
+				class="mt-2 text-balance text-white"
+			>
+				{description}
+			</Text>
+
+			<ul role="list" class="mt-12">
+				{
+					services.map(item => (
+						<li class="flex items-center justify-between space-x-3 py-2">
+							<span class="text-base-500 relative inline-flex items-center gap-x-1.5 text-sm leading-6">
+								<svg
+									class:list={[
+										'size-1.5 animate-pulse',
+										statusColors[item.status],
+									]}
+									viewBox="0 0 6 6"
+									aria-hidden="true"
+								>
+									<circle cx="3" cy="3" r="3" />
+								</svg>
+								{item.service}
+							</span>
+							<span class="border-base-300 mx-2 flex-1 border-b border-dotted" />
+							<p class="flex-shrink-0 text-sm text-white">
+								{getStatusLabel(item)}
+							</p>
+						</li>
+					))
+				}
+			</ul>
+
+			{
+				events.length > 0 && (
+					<div class="mt-24 w-full">
+						<Text tag="span" variant="textSM" class="text-white">
+							{incidentsDateLabel}
+						</Text>
+						<Text
+							tag="h2"
+							variant="displaySM"
+							class="font-display mt-12 text-balance text-white"
+						>
+							{incidentsTitle}
+							<span class="text-base-400 block">
+								{incidentsSubtitle}
+							</span>
+						</Text>
+						<ul role="list" class="mt-4 pt-6 text-white">
+							{events.map(event => (
+								<li class="py-4">
+									<span class="text-base-500 block">
+										<strong class="text-white">
+											{event.status}
+										</strong>{' '}
+										— {event.description}
+									</span>
+									<time class="text-base-400 mt-2 block text-xs">
+										{event.timestamp}
+									</time>
+								</li>
+							))}
+						</ul>
+					</div>
+				)
+			}
+		</div>
+	</Wrapper>
+</section>
