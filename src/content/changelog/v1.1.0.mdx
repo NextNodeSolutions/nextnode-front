@@ -1,0 +1,51 @@
+---
+version: '1.1.0'
+date: 2025-02-20
+type: minor
+description: New dashboard redesign with improved analytics and team collaboration
+---
+
+# NextNode 1.1.0 - Dashboard Redesign
+
+This release introduces a completely redesigned dashboard experience with powerful new analytics and team collaboration features.
+
+## Dashboard Improvements
+
+### New Analytics Panel
+
+- **Request metrics** with detailed breakdowns by endpoint
+- **Performance graphs** showing response times over time
+- **Error tracking** with stack traces and occurrence counts
+- Export data to CSV for custom reporting
+
+### Team Collaboration
+
+- Invite team members with role-based permissions
+- Activity log showing who deployed what and when
+- Shared environment variables with access controls
+- Team-wide deployment notifications
+
+### UI Enhancements
+
+- Dark mode support (finally!)
+- Keyboard shortcuts for power users
+- Improved mobile responsiveness
+- Customizable dashboard widgets
+
+## API Updates
+
+The REST API now supports pagination for all list endpoints:
+
+```bash
+curl https://api.nextnode.dev/v1/deployments?page=1&limit=25
+```
+
+## Bug Fixes
+
+- Fixed an issue where deployments would stall on large monorepos
+- Resolved websocket disconnections during long-running builds
+- Corrected timezone display in deployment timestamps
+
+## Migration Notes
+
+No breaking changes in this release. All existing deployments will continue to work without modifications.
