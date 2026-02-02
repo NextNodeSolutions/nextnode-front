@@ -8,7 +8,13 @@
 
 import type { HTMLAttributes } from 'astro/types'
 
-export type ButtonVariant = 'default' | 'accent' | 'muted' | 'link' | 'none'
+export type ButtonVariant =
+	| 'default'
+	| 'accent'
+	| 'orange'
+	| 'muted'
+	| 'link'
+	| 'none'
 export type ButtonSize = 'xxs' | 'xs' | 'sm' | 'base' | 'md' | 'lg' | 'xl'
 export type ButtonGap = 'xs' | 'sm' | 'base' | 'md' | 'lg'
 
@@ -62,6 +68,17 @@ const accentClass = [
 	'focus:outline-accent-500',
 ]
 
+// Orange button - CTA accent color gradient
+const orangeClass = [
+	'text-white',
+	'bg-linear-to-t',
+	'from-orange-600',
+	'to-orange-500',
+	'hover:from-orange-500',
+	'hover:to-orange-400',
+	'focus:outline-orange-500',
+]
+
 // Muted button - subtle dark gradient
 const mutedClass = [
 	'text-white',
@@ -107,6 +124,7 @@ const gapMap: Record<ButtonGap, string[]> = {
 const variantClass: Record<ButtonVariant, string[]> = {
 	default: defaultClass,
 	accent: accentClass,
+	orange: orangeClass,
 	muted: mutedClass,
 	link: [],
 	none: [],

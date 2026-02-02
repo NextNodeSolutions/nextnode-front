@@ -115,8 +115,8 @@ describe('Navigation.astro', () => {
 			expect(navigationContent).toContain('variant="muted"')
 		})
 
-		it('sign up uses default variant', () => {
-			expect(navigationContent).toContain('variant="default"')
+		it('sign up uses orange variant', () => {
+			expect(navigationContent).toContain('variant="orange"')
 		})
 	})
 

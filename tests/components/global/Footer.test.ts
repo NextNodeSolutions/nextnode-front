@@ -81,8 +81,8 @@ describe('Footer.astro', () => {
 			expect(footerContent).toContain('<Button')
 		})
 
-		it('uses accent variant for subscribe button', () => {
-			expect(footerContent).toContain('variant="accent"')
+		it('uses orange variant for subscribe button', () => {
+			expect(footerContent).toContain('variant="orange"')
 		})
 
 		it('has accessible label for email input', () => {

@@ -118,8 +118,8 @@ describe('Feature3.astro', () => {
 			expect(feature3Content).toContain('text-white')
 		})
 
-		it('uses base-400 for highlighted text', () => {
-			expect(feature3Content).toContain('text-base-400')
+		it('uses nextnode-400 for highlighted text', () => {
+			expect(feature3Content).toContain('text-nextnode-400')
 		})
 
 		it('uses base-500 for muted text', () => {

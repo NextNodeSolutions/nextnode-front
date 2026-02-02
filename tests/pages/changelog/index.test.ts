@@ -168,8 +168,8 @@ describe('Changelog Listing Page', () => {
 			expect(changelogPageContent).toContain('text-balance')
 		})
 
-		it('should have base-400 color for secondary text', () => {
-			expect(changelogPageContent).toContain('text-base-400')
+		it('should have nextnode-400 color for highlighted text', () => {
+			expect(changelogPageContent).toContain('text-nextnode-400')
 		})
 
 		it('should have gap for grid spacing', () => {

@@ -106,8 +106,8 @@ describe('Stats1.astro', () => {
 			expect(stats1Content).toContain('text-base-400')
 		})
 
-		it('uses base-500 for highlighted text', () => {
-			expect(stats1Content).toContain('text-base-500')
+		it('uses nextnode-400 for highlighted text', () => {
+			expect(stats1Content).toContain('text-nextnode-400')
 		})
 
 		it('uses gradient background class when chart enabled', () => {
