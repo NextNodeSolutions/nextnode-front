@@ -1,38 +1,404 @@
 ---
-// Welcome to Astro! Everything between these triple-dash code fences
-// is your "component frontmatter". It never runs in the browser.
-console.log('This runs in your terminal, not the browser!')
+// Foundations
+import BaseLayout from '@/layouts/BaseLayout.astro'
+// Sections
+import Hero1 from '@/components/headers/Hero1.astro'
+import Feature1 from '@/components/features/Feature1.astro'
+import Feature2 from '@/components/features/Feature2.astro'
+import Feature3 from '@/components/features/Feature3.astro'
+import Stats1 from '@/components/stats/Stats1.astro'
+import Testimonial1 from '@/components/testimonials/Testimonial1.astro'
+import Pricing1 from '@/components/pricing/Pricing1.astro'
+import Faq1 from '@/components/faqs/Faq1.astro'
+import Cta1 from '@/components/ctas/Cta1.astro'
 
-import BaseLayout from '../layouts/BaseLayout.astro'
-import Header from '../components/Header.astro'
-import Hero from '../components/Hero.astro'
-import Features from '../components/Features.astro'
-import Footer from '../components/Footer.astro'
+// Hero content
+const heroContent = {
+	label: 'NextNode Solutions',
+	headline: 'Build faster with modern infrastructure',
+	highlightedText: 'Scale with confidence',
+	subheadline:
+		'NextNode provides cutting-edge solutions for modern development teams. From deployment to monitoring, we have you covered.',
+	buttons: [
+		{ label: 'Get Started', href: '/pricing', variant: 'default' as const },
+		{ label: 'Learn More', href: '#features', variant: 'muted' as const },
+	],
+}
+
+// Feature1 content - Two-column code blocks
+const feature1Content = {
+	features: [
+		{
+			id: 'feature1-deploy',
+			title: 'Deploy in seconds',
+			description:
+				'Push your code and watch it go live instantly with zero configuration required.',
+			codeBlock: {
+				code: `// Deploy with one command
+npx nextnode deploy
+
+// Output:
+// ✓ Building application...
+// ✓ Deploying to edge...
+// ✓ Live at nextnode.app`,
+				lang: 'ts' as const,
+			},
+		},
+		{
+			id: 'feature1-scale',
+			title: 'Auto-scaling built in',
+			description:
+				'Handle traffic spikes automatically with our intelligent scaling system.',
+			codeBlock: {
+				code: `// nextnode.config.ts
+export default {
+  scaling: {
+    min: 1,
+    max: 100,
+    metric: 'cpu',
+    target: 70
+  }
+}`,
+				lang: 'ts' as const,
+			},
+		},
+	],
+}
+
+// Feature2 content - Sticky sidebar with 6 features
+const feature2Content = {
+	label: 'Features',
+	headline: 'Everything you need',
+	highlightedText: "Nothing you don't",
+	description:
+		'A complete platform built for developers who value simplicity and power.',
+	features: [
+		{
+			id: 'f2-edge',
+			title: 'Edge Computing',
+			description:
+				'Deploy your code to 300+ locations worldwide for minimal latency.',
+		},
+		{
+			id: 'f2-serverless',
+			title: 'Serverless Functions',
+			description:
+				'Write functions that scale automatically from zero to millions.',
+		},
+		{
+			id: 'f2-database',
+			title: 'Managed Databases',
+			description:
+				'PostgreSQL, Redis, and more with automatic backups and scaling.',
+		},
+		{
+			id: 'f2-storage',
+			title: 'Object Storage',
+			description:
+				'Store and serve files globally with our S3-compatible storage.',
+		},
+		{
+			id: 'f2-monitoring',
+			title: 'Real-time Monitoring',
+			description:
+				'Track performance, errors, and usage with built-in observability.',
+		},
+		{
+			id: 'f2-security',
+			title: 'Enterprise Security',
+			description:
+				'SOC 2 compliant with encryption at rest and in transit.',
+		},
+	],
+}
+
+// Feature3 content - Two-column with feature grid and code block
+const feature3Content = {
+	label: 'Developer Experience',
+	headline: 'Built for developers',
+	highlightedText: 'By developers',
+	description: 'Every feature designed with developer productivity in mind.',
+	features: [
+		{
+			id: 'f3-cli',
+			tagline: 'CLI Tools',
+			title: 'Powerful CLI',
+			description:
+				'Manage everything from your terminal with our intuitive CLI.',
+		},
+		{
+			id: 'f3-api',
+			tagline: 'REST & GraphQL',
+			title: 'Complete APIs',
+			description:
+				'Full programmatic access to all platform capabilities.',
+		},
+		{
+			id: 'f3-sdk',
+			tagline: 'Multiple Languages',
+			title: 'Official SDKs',
+			description:
+				'TypeScript, Python, Go, and Ruby SDKs maintained by our team.',
+		},
+		{
+			id: 'f3-docs',
+			tagline: 'Documentation',
+			title: 'Extensive Docs',
+			description: 'Comprehensive guides, tutorials, and API references.',
+		},
+	],
+	codeBlock: {
+		code: `import { NextNode } from '@nextnode/sdk'
+
+const client = new NextNode({
+  apiKey: process.env.NEXTNODE_API_KEY
+})
+
+// Deploy a new function
+const fn = await client.functions.create({
+  name: 'hello-world',
+  runtime: 'nodejs20',
+  handler: 'index.handler'
+})
+
+console.log(\`Deployed to \${fn.url}\`)`,
+		lang: 'ts' as const,
+	},
+}
+
+// Stats content
+const statsContent = {
+	label: 'By the numbers',
+	headline: 'Trusted by developers',
+	highlightedText: 'worldwide',
+	description: 'Join thousands of teams building the future with NextNode.',
+	stats: [
+		{
+			id: 'stat-developers',
+			label: 'Developers',
+			target: 50,
+			suffix: 'k+',
+		},
+		{ id: 'stat-uptime', label: 'Uptime SLA', target: 99, suffix: '.99%' },
+		{ id: 'stat-regions', label: 'Edge Regions', target: 300, suffix: '+' },
+		{
+			id: 'stat-requests',
+			label: 'Requests/day',
+			target: 10,
+			suffix: 'B+',
+		},
+	],
+}
+
+// Testimonial content
+const testimonialContent = {
+	label: 'Testimonials',
+	headline: 'Loved by teams',
+	highlightedText: 'everywhere',
+	testimonials: [
+		{
+			id: 'testimonial-1',
+			name: 'Sarah Chen',
+			role: 'CTO at TechStart',
+			content:
+				'NextNode transformed how we deploy. What used to take hours now takes seconds.',
+			imageUrl:
+				'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop',
+		},
+		{
+			id: 'testimonial-2',
+			name: 'Marcus Johnson',
+			role: 'Lead Developer at ScaleUp',
+			content:
+				'The developer experience is unmatched. Everything just works out of the box.',
+			imageUrl:
+				'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
+		},
+		{
+			id: 'testimonial-3',
+			name: 'Emily Rodriguez',
+			role: 'Engineering Manager at CloudNine',
+			content:
+				'We reduced our infrastructure costs by 60% while improving performance.',
+			imageUrl:
+				'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop',
+		},
+	],
+}
+
+// Pricing content
+const pricingContent = {
+	label: 'Pricing',
+	headline: 'Simple, transparent pricing',
+	highlightedText: 'No surprises',
+	description: 'Start free, scale as you grow. No credit card required.',
+	plans: [
+		{
+			id: 'plan-free',
+			title: 'Starter',
+			price: '$0',
+			priceSuffix: '/month',
+			description: 'Perfect for side projects and learning.',
+			benefits: [
+				'100k requests/month',
+				'1GB storage',
+				'Community support',
+				'Basic analytics',
+			],
+			buttonText: 'Start Free',
+			buttonHref: '/sign-up',
+			buttonVariant: 'muted' as const,
+		},
+		{
+			id: 'plan-pro',
+			title: 'Pro',
+			price: '$29',
+			priceSuffix: '/month',
+			description: 'For growing teams and production apps.',
+			benefits: [
+				'10M requests/month',
+				'100GB storage',
+				'Priority support',
+				'Advanced analytics',
+				'Custom domains',
+			],
+			isPopular: true,
+			popularBadge: 'Most Popular',
+			buttonText: 'Get Started',
+			buttonHref: '/sign-up?plan=pro',
+			buttonVariant: 'default' as const,
+		},
+		{
+			id: 'plan-enterprise',
+			title: 'Enterprise',
+			price: 'Custom',
+			description: 'For large organizations with custom needs.',
+			benefits: [
+				'Unlimited requests',
+				'Unlimited storage',
+				'Dedicated support',
+				'SLA guarantee',
+				'Custom integrations',
+				'On-premise option',
+			],
+			buttonText: 'Contact Sales',
+			buttonHref: '/contact',
+			buttonVariant: 'muted' as const,
+		},
+	],
+}
+
+// FAQ content
+const faqContent = {
+	label: 'FAQ',
+	headline: 'Common questions',
+	highlightedText: '',
+	description: 'Everything you need to know about NextNode.',
+	faqs: [
+		{
+			id: 'faq-1',
+			question: 'How does billing work?',
+			answer: 'We offer monthly billing with no long-term contracts. You only pay for what you use, and you can upgrade or downgrade at any time.',
+		},
+		{
+			id: 'faq-2',
+			question: 'What happens if I exceed my plan limits?',
+			answer: "We'll notify you when you're approaching your limits. You can upgrade your plan or pay for overages at a fair rate.",
+		},
+		{
+			id: 'faq-3',
+			question: 'Do you offer a free trial?',
+			answer: 'Yes! Our Starter plan is completely free with no credit card required. You can use it as long as you want.',
+		},
+		{
+			id: 'faq-4',
+			question: 'What kind of support do you offer?',
+			answer: 'All plans include community support. Pro plans get priority email support, and Enterprise plans get dedicated support with SLA guarantees.',
+		},
+		{
+			id: 'faq-5',
+			question: 'Can I migrate from another provider?',
+			answer: 'Absolutely! We provide migration tools and documentation for most major platforms. Our team can also assist with complex migrations.',
+		},
+	],
+	ctaText: 'Contact Support',
+	ctaHref: '/contact',
+}
+
+// CTA content
+const ctaContent = {
+	headline: 'Ready to get started?',
+	highlightedText: '',
+	subheadline:
+		'Join thousands of developers building with NextNode. Start free, no credit card required.',
+	buttons: [
+		{
+			label: 'Start Building',
+			href: '/sign-up',
+			variant: 'default' as const,
+		},
+		{ label: 'Talk to Sales', href: '/contact', variant: 'muted' as const },
+	],
+}
 ---
 
-<BaseLayout
-	title="Template Astro Nextnode - Rapide, Moderne, Prêt à l'emploi"
-	description="Template Astro haute performance créé par Nextnode. Intègre Tailwind CSS, TypeScript, et les meilleures pratiques de développement pour vos projets modernes."
->
-	<Header />
-
-	<main>
-		<Hero
-			title="Template Astro Nextnode"
-			subtitle="Le point de départ parfait pour vos projets"
-			description="Un template moderne et performant qui intègre les meilleures pratiques du développement web. Avec Astro, Tailwind CSS, TypeScript et tous les outils dont vous avez besoin pour créer des applications exceptionnelles."
-			primaryCta={{ text: 'Commencer maintenant', href: '#features' }}
-			secondaryCta={{
-				text: 'Voir sur GitHub',
-				href: 'https://github.com/nextnode/astro-template',
-			}}
-		/>
-
-		<Features
-			title="Tout ce dont vous avez besoin"
-			subtitle="Un template complet et optimisé pour la performance"
-		/>
-	</main>
-
-	<Footer />
+<BaseLayout>
+	<Hero1
+		label={heroContent.label}
+		headline={heroContent.headline}
+		highlightedText={heroContent.highlightedText}
+		subheadline={heroContent.subheadline}
+		buttons={heroContent.buttons}
+	/>
+	<Feature1 features={feature1Content.features} />
+	<Feature2
+		label={feature2Content.label}
+		headline={feature2Content.headline}
+		highlightedText={feature2Content.highlightedText}
+		description={feature2Content.description}
+		features={feature2Content.features}
+	/>
+	<Feature3
+		label={feature3Content.label}
+		headline={feature3Content.headline}
+		highlightedText={feature3Content.highlightedText}
+		description={feature3Content.description}
+		features={feature3Content.features}
+		codeBlock={feature3Content.codeBlock}
+	/>
+	<Stats1
+		label={statsContent.label}
+		headline={statsContent.headline}
+		highlightedText={statsContent.highlightedText}
+		description={statsContent.description}
+		stats={statsContent.stats}
+	/>
+	<Testimonial1
+		label={testimonialContent.label}
+		headline={testimonialContent.headline}
+		highlightedText={testimonialContent.highlightedText}
+		testimonials={testimonialContent.testimonials}
+	/>
+	<Pricing1
+		label={pricingContent.label}
+		headline={pricingContent.headline}
+		highlightedText={pricingContent.highlightedText}
+		description={pricingContent.description}
+		plans={pricingContent.plans}
+	/>
+	<Faq1
+		label={faqContent.label}
+		headline={faqContent.headline}
+		highlightedText={faqContent.highlightedText}
+		description={faqContent.description}
+		faqs={faqContent.faqs}
+		ctaText={faqContent.ctaText}
+		ctaHref={faqContent.ctaHref}
+	/>
+	<Cta1
+		headline={ctaContent.headline}
+		highlightedText={ctaContent.highlightedText}
+		subheadline={ctaContent.subheadline}
+		buttons={ctaContent.buttons}
+	/>
 </BaseLayout>
