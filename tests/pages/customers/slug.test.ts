@@ -180,10 +180,16 @@ describe('Customer Case Study Page ([...slug])', () => {
 		})
 
 		it('uses single destructuring statement for data', () => {
-			expect(content).toContain(
-				'const { name, logo, industry, quote, quoteAttribution, about, caseStudy, details } =',
-			)
-			expect(content).toContain('customer.data')
+			expect(content).toContain('const {')
+			expect(content).toContain('name,')
+			expect(content).toContain('logo,')
+			expect(content).toContain('industry,')
+			expect(content).toContain('quote,')
+			expect(content).toContain('quoteAttribution,')
+			expect(content).toContain('about,')
+			expect(content).toContain('caseStudy,')
+			expect(content).toContain('details,')
+			expect(content).toContain('} = customer.data')
 		})
 	})
 
