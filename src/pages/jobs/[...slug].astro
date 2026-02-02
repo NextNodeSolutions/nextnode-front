@@ -1,0 +1,38 @@
+---
+/**
+ * Job Detail Page
+ *
+ * Dynamic route for individual job posting pages.
+ * Renders MDX job description content with JobsLayout for consistent structure.
+ * Generates static paths for all jobs at build time.
+ */
+
+import { getCollection } from 'astro:content'
+
+import JobsLayout from '@/layouts/JobsLayout.astro'
+
+export async function getStaticPaths() {
+	const allJobs = await getCollection('jobs')
+
+	return allJobs.map(job => ({
+		params: { slug: job.slug },
+		props: { job },
+	}))
+}
+
+interface Props {
+	job: Awaited<ReturnType<typeof getCollection<'jobs'>>>[number]
+}
+
+const { job } = Astro.props
+const { Content } = await job.render()
+
+const { title, department, location, type, description } = job.data
+
+// JobsLayout expects details as an object
+const details = { department, location, type }
+---
+
+<JobsLayout title={title} details={details} description={description}>
+	<Content />
+</JobsLayout>
