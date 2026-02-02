@@ -1,0 +1,61 @@
+---
+/**
+ * Customers Listing Page
+ *
+ * Displays all customer case studies in a grid layout.
+ * Each customer links to their full case study page.
+ */
+
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+import CustomerCard from '@/components/customers/CustomerCard.astro'
+import { getCollection } from 'astro:content'
+
+const allCustomers = await getCollection('customers')
+
+// Sort customers alphabetically by name
+const sortedCustomers = allCustomers.sort((a, b) =>
+	a.data.name.localeCompare(b.data.name),
+)
+---
+
+<BaseLayout
+	title="Customer Stories"
+	description="Discover how companies use NextNode to transform their workflows and achieve remarkable results."
+>
+	<section>
+		<Wrapper
+			variant="standard"
+			class="grid grid-cols-1 gap-y-12 py-42 lg:grid-cols-4 lg:gap-y-24"
+		>
+			<div class="lg:col-span-2">
+				<Text tag="span" variant="textSM" class="text-white">
+					Case Studies
+				</Text>
+				<Text
+					tag="h1"
+					variant="displayLG"
+					class="font-display mt-12 text-balance text-white"
+				>
+					Our Customers'
+					<span class="text-base-400 block">Success Stories</span>
+				</Text>
+				<Text
+					tag="p"
+					variant="textBase"
+					class="mt-2 text-balance text-white"
+				>
+					Discover how leading companies are using NextNode to
+					streamline their workflows, reduce costs, and accelerate
+					their growth.
+				</Text>
+			</div>
+			<ul
+				class="divide-base-900 grid grid-cols-1 divide-y sm:grid-cols-2 lg:col-span-full lg:row-start-2 lg:grid-cols-4"
+			>
+				{sortedCustomers.map(post => <CustomerCard post={post} />)}
+			</ul>
+		</Wrapper>
+	</section>
+</BaseLayout>
