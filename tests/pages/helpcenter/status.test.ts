@@ -37,8 +37,11 @@ describe('Helpcenter Status Page', () => {
 		})
 
 		it('imports StatusItem type', () => {
+			expect(content).toContain('import type {')
+			expect(content).toContain('StatusItem,')
+			expect(content).toContain('StatusEvent,')
 			expect(content).toContain(
-				"import type { StatusItem, StatusEvent } from '@/components/helpcenter/Status.astro'",
+				"} from '@/components/helpcenter/Status.astro'",
 			)
 		})
 	})

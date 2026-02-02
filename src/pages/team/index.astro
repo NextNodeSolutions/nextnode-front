@@ -1,0 +1,72 @@
+---
+/**
+ * Team Listing Page
+ *
+ * Displays all team members in a responsive grid layout.
+ * Uses TeamCard components and jobs/Cta for call-to-action.
+ */
+
+// Layouts
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+// Foundations
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+// Components
+import Cta from '@/components/jobs/Cta.astro'
+import TeamCard from '@/components/team/TeamCard.astro'
+
+// Content
+import { getCollection } from 'astro:content'
+
+const allTeam = await getCollection('team')
+
+// Sort team members by name for consistent ordering
+const sortedTeam = allTeam.sort((a, b) =>
+	a.data.name.localeCompare(b.data.name),
+)
+
+const title = 'Our Team | NextNode'
+const description =
+	'Meet the talented team behind NextNode. Get to know the people building the future of edge computing.'
+---
+
+<BaseLayout title={title} description={description}>
+	<section class="bg-gradient-up">
+		<Wrapper
+			variant="standard"
+			class="relative grid grid-cols-1 gap-y-12 py-42 md:grid-cols-4 lg:gap-y-24"
+		>
+			<div class="md:col-span-2">
+				<Text tag="span" variant="textSM" class="text-base-400"
+					>Our team</Text
+				>
+				<Text
+					tag="h1"
+					variant="displayXL"
+					class="font-display mt-12 text-balance text-white"
+				>
+					Meet the people
+					<span class="text-base-400 md:block">
+						building NextNode
+					</span>
+				</Text>
+				<Text
+					tag="p"
+					variant="textBase"
+					class="text-base-400 mt-8 max-w-md"
+				>
+					We're a talented team of engineers, designers, and dreamers
+					dedicated to making edge computing accessible to everyone.
+				</Text>
+			</div>
+			<div
+				class="grid grid-cols-1 gap-12 md:col-span-full md:row-start-2 md:grid-cols-2 lg:grid-cols-4 lg:gap-y-24"
+			>
+				{sortedTeam.map(post => <TeamCard post={post} />)}
+			</div>
+		</Wrapper>
+	</section>
+	<Cta />
+</BaseLayout>
