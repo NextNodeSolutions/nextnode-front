@@ -1,0 +1,41 @@
+---
+/**
+ * Legal Page ([...slug].astro)
+ *
+ * Dynamic route for legal documents (privacy policy, terms of service, etc.).
+ * Fetches legal content from the content collection and renders with LegalLayout.
+ * Generates static paths for all legal documents.
+ *
+ * Props:
+ * - page: The legal document from the content collection
+ *
+ * Layout displays:
+ * - Document title (e.g., "Privacy Policy", "Terms of Service")
+ * - Last updated date with proper formatting
+ * - MDX legal content with clean typography
+ */
+
+import { getCollection } from 'astro:content'
+import LegalLayout from '@/layouts/LegalLayout.astro'
+
+export async function getStaticPaths() {
+	const allLegalPages = await getCollection('legal')
+	return allLegalPages.map(page => ({
+		params: { slug: page.slug },
+		props: { page },
+	}))
+}
+
+interface Props {
+	page: Awaited<ReturnType<typeof getCollection<'legal'>>>[number]
+}
+
+const { page } = Astro.props
+const { title, lastUpdated, content } = page.data
+
+const { Content } = await page.render()
+---
+
+<LegalLayout title={title} lastUpdated={lastUpdated} description={content}>
+	<Content />
+</LegalLayout>
