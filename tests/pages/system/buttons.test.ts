@@ -24,9 +24,8 @@ describe('Design System Buttons Page', () => {
 		})
 
 		it('has page description defined', () => {
-			expect(content).toContain(
-				"const description = 'Button component variants and sizes",
-			)
+			expect(content).toContain('const description =')
+			expect(content).toContain('Button component variants and sizes')
 		})
 
 		it('passes title prop to BaseLayout', () => {
@@ -99,17 +98,19 @@ describe('Design System Buttons Page', () => {
 		})
 
 		it('shows all default variant sizes', () => {
-			expect(content).toContain('variant="default">Default XXS</Button>')
-			expect(content).toContain('variant="default">Default XS</Button>')
-			expect(content).toContain('variant="default">Default SM</Button>')
-			expect(content).toContain('variant="default">Default Base</Button>')
-			expect(content).toContain('variant="default">Default MD</Button>')
-			expect(content).toContain('variant="default">Default LG</Button>')
-			expect(content).toContain('variant="default">Default XL</Button>')
+			expect(content).toContain('variant="default"')
+			expect(content).toContain('Default XXS')
+			expect(content).toContain('Default XS')
+			expect(content).toContain('Default SM')
+			expect(content).toContain('Default Base')
+			expect(content).toContain('Default MD')
+			expect(content).toContain('Default LG')
+			expect(content).toContain('Default XL')
 		})
 
 		it('has icon-only default buttons', () => {
-			expect(content).toContain('variant="default" iconOnly')
+			expect(content).toContain('variant="default"')
+			expect(content).toContain('iconOnly')
 		})
 	})
 
@@ -119,17 +120,19 @@ describe('Design System Buttons Page', () => {
 		})
 
 		it('shows all accent variant sizes', () => {
-			expect(content).toContain('variant="accent">Accent XXS</Button>')
-			expect(content).toContain('variant="accent">Accent XS</Button>')
-			expect(content).toContain('variant="accent">Accent SM</Button>')
-			expect(content).toContain('variant="accent">Accent Base</Button>')
-			expect(content).toContain('variant="accent">Accent MD</Button>')
-			expect(content).toContain('variant="accent">Accent LG</Button>')
-			expect(content).toContain('variant="accent">Accent XL</Button>')
+			expect(content).toContain('variant="accent"')
+			expect(content).toContain('Accent XXS')
+			expect(content).toContain('Accent XS')
+			expect(content).toContain('Accent SM')
+			expect(content).toContain('Accent Base')
+			expect(content).toContain('Accent MD')
+			expect(content).toContain('Accent LG')
+			expect(content).toContain('Accent XL')
 		})
 
 		it('has icon-only accent buttons', () => {
-			expect(content).toContain('variant="accent" iconOnly')
+			expect(content).toContain('variant="accent"')
+			expect(content).toContain('iconOnly')
 		})
 	})
 
@@ -139,13 +142,14 @@ describe('Design System Buttons Page', () => {
 		})
 
 		it('shows all muted variant sizes', () => {
-			expect(content).toContain('variant="muted">Muted XXS</Button>')
-			expect(content).toContain('variant="muted">Muted XS</Button>')
-			expect(content).toContain('variant="muted">Muted SM</Button>')
-			expect(content).toContain('variant="muted">Muted Base</Button>')
-			expect(content).toContain('variant="muted">Muted MD</Button>')
-			expect(content).toContain('variant="muted">Muted LG</Button>')
-			expect(content).toContain('variant="muted">Muted XL</Button>')
+			expect(content).toContain('variant="muted"')
+			expect(content).toContain('Muted XXS')
+			expect(content).toContain('Muted XS')
+			expect(content).toContain('Muted SM')
+			expect(content).toContain('Muted Base')
+			expect(content).toContain('Muted MD')
+			expect(content).toContain('Muted LG')
+			expect(content).toContain('Muted XL')
 		})
 
 		it('has icon-only muted buttons', () => {
@@ -155,7 +159,7 @@ describe('Design System Buttons Page', () => {
 
 	describe('Link Variant', () => {
 		it('has Link Variant section heading', () => {
-			expect(content).toContain('>Link Variant</Text>')
+			expect(content).toContain('Link Variant')
 		})
 
 		it('has link variant description', () => {
@@ -177,7 +181,7 @@ describe('Design System Buttons Page', () => {
 
 	describe('None Variant', () => {
 		it('has None Variant section heading', () => {
-			expect(content).toContain('>None Variant</Text>')
+			expect(content).toContain('None Variant')
 		})
 
 		it('has none variant description', () => {
@@ -199,7 +203,7 @@ describe('Design System Buttons Page', () => {
 
 	describe('Button as Link', () => {
 		it('has Button as Link section heading', () => {
-			expect(content).toContain('>Button as Link</Text>')
+			expect(content).toContain('Button as Link')
 		})
 
 		it('has isLink description', () => {

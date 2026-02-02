@@ -1,0 +1,461 @@
+---
+/**
+ * Design System - Colors Page
+ *
+ * Showcases all NextNode color tokens including brand colors, accent colors,
+ * and neutral scale. Reference for developers to understand the color palette.
+ */
+
+// Layouts
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+// Fundations
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+// Type definitions
+interface Color {
+	name: string
+	class: string
+	value: string
+}
+
+interface ColorGroup {
+	title: string
+	description: string
+	colors: Color[]
+}
+
+// Page metadata
+const title = 'Colors | Design System'
+const description =
+	'NextNode color palette with brand colors, accent colors, and neutral scale.'
+
+// Color definitions with OKLCH values from global.css
+const colorGroups: ColorGroup[] = [
+	{
+		title: 'NextNode Brand',
+		description: 'Primary sky blue brand colors used for key UI elements.',
+		colors: [
+			{
+				name: 'NextNode 50',
+				class: 'bg-nextnode-50',
+				value: 'oklch(0.977 0.013 236.62)',
+			},
+			{
+				name: 'NextNode 100',
+				class: 'bg-nextnode-100',
+				value: 'oklch(0.951 0.026 236.824)',
+			},
+			{
+				name: 'NextNode 200',
+				class: 'bg-nextnode-200',
+				value: 'oklch(0.901 0.058 230.902)',
+			},
+			{
+				name: 'NextNode 300',
+				class: 'bg-nextnode-300',
+				value: 'oklch(0.828 0.111 230.318)',
+			},
+			{
+				name: 'NextNode 400',
+				class: 'bg-nextnode-400',
+				value: 'oklch(0.746 0.16 232.661)',
+			},
+			{
+				name: 'NextNode 500',
+				class: 'bg-nextnode-500',
+				value: 'oklch(0.685 0.169 237.323)',
+			},
+			{
+				name: 'NextNode 600',
+				class: 'bg-nextnode-600',
+				value: 'oklch(0.588 0.158 241.966)',
+			},
+			{
+				name: 'NextNode 700',
+				class: 'bg-nextnode-700',
+				value: 'oklch(0.5 0.134 242.749)',
+			},
+			{
+				name: 'NextNode 800',
+				class: 'bg-nextnode-800',
+				value: 'oklch(0.443 0.11 240.79)',
+			},
+			{
+				name: 'NextNode 900',
+				class: 'bg-nextnode-900',
+				value: 'oklch(0.391 0.09 240.876)',
+			},
+			{
+				name: 'NextNode 950',
+				class: 'bg-nextnode-950 outline outline-base-900',
+				value: 'oklch(0.293 0.066 243.157)',
+			},
+		],
+	},
+	{
+		title: 'Accent',
+		description:
+			'Accent colors aliased to NextNode brand for Buio component compatibility.',
+		colors: [
+			{
+				name: 'Accent 50',
+				class: 'bg-accent-50',
+				value: 'oklch(0.977 0.013 236.62)',
+			},
+			{
+				name: 'Accent 100',
+				class: 'bg-accent-100',
+				value: 'oklch(0.951 0.026 236.824)',
+			},
+			{
+				name: 'Accent 200',
+				class: 'bg-accent-200',
+				value: 'oklch(0.901 0.058 230.902)',
+			},
+			{
+				name: 'Accent 300',
+				class: 'bg-accent-300',
+				value: 'oklch(0.828 0.111 230.318)',
+			},
+			{
+				name: 'Accent 400',
+				class: 'bg-accent-400',
+				value: 'oklch(0.746 0.16 232.661)',
+			},
+			{
+				name: 'Accent 500',
+				class: 'bg-accent-500',
+				value: 'oklch(0.685 0.169 237.323)',
+			},
+			{
+				name: 'Accent 600',
+				class: 'bg-accent-600',
+				value: 'oklch(0.588 0.158 241.966)',
+			},
+			{
+				name: 'Accent 700',
+				class: 'bg-accent-700',
+				value: 'oklch(0.5 0.134 242.749)',
+			},
+			{
+				name: 'Accent 800',
+				class: 'bg-accent-800',
+				value: 'oklch(0.443 0.11 240.79)',
+			},
+			{
+				name: 'Accent 900',
+				class: 'bg-accent-900',
+				value: 'oklch(0.391 0.09 240.876)',
+			},
+			{
+				name: 'Accent 950',
+				class: 'bg-accent-950 outline outline-base-900',
+				value: 'oklch(0.293 0.066 243.157)',
+			},
+		],
+	},
+	{
+		title: 'Pink',
+		description:
+			'Secondary pink/magenta accent for highlights and contrast.',
+		colors: [
+			{
+				name: 'Pink 50',
+				class: 'bg-pink-50',
+				value: 'oklch(0.971 0.014 343.198)',
+			},
+			{
+				name: 'Pink 100',
+				class: 'bg-pink-100',
+				value: 'oklch(0.948 0.028 342.258)',
+			},
+			{
+				name: 'Pink 200',
+				class: 'bg-pink-200',
+				value: 'oklch(0.899 0.061 343.231)',
+			},
+			{
+				name: 'Pink 300',
+				class: 'bg-pink-300',
+				value: 'oklch(0.823 0.12 346.018)',
+			},
+			{
+				name: 'Pink 400',
+				class: 'bg-pink-400',
+				value: 'oklch(0.718 0.202 349.761)',
+			},
+			{
+				name: 'Pink 500',
+				class: 'bg-pink-500',
+				value: 'oklch(0.656 0.241 354.308)',
+			},
+			{
+				name: 'Pink 600',
+				class: 'bg-pink-600',
+				value: 'oklch(0.592 0.249 0.584)',
+			},
+			{
+				name: 'Pink 700',
+				class: 'bg-pink-700',
+				value: 'oklch(0.525 0.223 3.958)',
+			},
+			{
+				name: 'Pink 800',
+				class: 'bg-pink-800',
+				value: 'oklch(0.459 0.187 3.815)',
+			},
+			{
+				name: 'Pink 900',
+				class: 'bg-pink-900',
+				value: 'oklch(0.408 0.153 2.432)',
+			},
+			{
+				name: 'Pink 950',
+				class: 'bg-pink-950 outline outline-base-900',
+				value: 'oklch(0.284 0.109 3.907)',
+			},
+		],
+	},
+	{
+		title: 'Base',
+		description: 'Neutral gray scale for backgrounds, text, and borders.',
+		colors: [
+			{
+				name: 'Base 50',
+				class: 'bg-base-50',
+				value: 'oklch(96.74% 0.001 286.38)',
+			},
+			{
+				name: 'Base 100',
+				class: 'bg-base-100',
+				value: 'oklch(93.73% 0.001 286.37)',
+			},
+			{
+				name: 'Base 200',
+				class: 'bg-base-200',
+				value: 'oklch(87.31% 0.004 271.36)',
+			},
+			{
+				name: 'Base 300',
+				class: 'bg-base-300',
+				value: 'oklch(80.82% 0.006 274.95)',
+			},
+			{
+				name: 'Base 400',
+				class: 'bg-base-400',
+				value: 'oklch(74.22% 0.009 278.59)',
+			},
+			{
+				name: 'Base 500',
+				class: 'bg-base-500',
+				value: 'oklch(67.48% 0.012 280.37)',
+			},
+			{
+				name: 'Base 600',
+				class: 'bg-base-600',
+				value: 'oklch(56.83% 0.015 281.34)',
+			},
+			{
+				name: 'Base 700',
+				class: 'bg-base-700',
+				value: 'oklch(46.56% 0.011 279.46)',
+			},
+			{
+				name: 'Base 800',
+				class: 'bg-base-800',
+				value: 'oklch(35.42% 0.009 285.95)',
+			},
+			{
+				name: 'Base 900',
+				class: 'bg-base-900',
+				value: 'oklch(23.48% 0.004 264.49)',
+			},
+			{
+				name: 'Base 950',
+				class: 'bg-base-950 outline outline-base-900',
+				value: 'oklch(16.89% 0.002 286.18)',
+			},
+		],
+	},
+	{
+		title: 'Special',
+		description: 'Special colors for gradients and effects.',
+		colors: [
+			{
+				name: 'White',
+				class: 'bg-white border border-base-300',
+				value: '#ffffff',
+			},
+			{
+				name: 'Gradient Up',
+				class: 'bg-gradient-up outline outline-base-900',
+				value: 'radial-gradient(...)',
+			},
+			{
+				name: 'Gradient Down',
+				class: 'bg-gradient-down outline outline-base-900',
+				value: 'radial-gradient(...)',
+			},
+		],
+	},
+]
+---
+
+<BaseLayout title={title} description={description}>
+	<section>
+		<Wrapper variant="standard" class="py-24">
+			<Text
+				tag="h1"
+				variant="displayXL"
+				class="font-display mt-12 text-balance text-white"
+			>
+				Colors
+			</Text>
+			<Text tag="p" variant="textLG" class="text-base-300 mt-4 max-w-2xl">
+				NextNode color palette using OKLCH color space for perceptually
+				uniform colors. Includes brand colors, accent aliases, and a
+				neutral gray scale.
+			</Text>
+
+			<div class="mt-12 space-y-16">
+				{
+					colorGroups.map(group => (
+						<div>
+							<Text
+								tag="h2"
+								variant="displaySM"
+								class="font-display text-white"
+							>
+								{group.title}
+							</Text>
+							<Text
+								tag="p"
+								variant="textBase"
+								class="text-base-400 mt-2"
+							>
+								{group.description}
+							</Text>
+
+							<div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+								{group.colors.map(color => (
+									<div class="flex flex-col gap-2">
+										<div
+											class:list={[
+												'h-16 w-full rounded-lg',
+												color.class,
+											]}
+										/>
+										<div class="flex flex-col">
+											<span class="text-sm font-medium text-white">
+												{color.name}
+											</span>
+											<span class="text-base-500 font-mono text-xs">
+												{color.value}
+											</span>
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
+
+			<!-- Usage Guidelines -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Usage Guidelines
+				</Text>
+
+				<div class="mt-6 grid gap-6 md:grid-cols-2">
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="h3"
+							variant="textLG"
+							class="font-medium text-white"
+						>
+							Brand Colors
+						</Text>
+						<Text
+							tag="p"
+							variant="textSM"
+							class="text-base-400 mt-2"
+						>
+							Use <code class="bg-base-800 rounded px-1"
+								>nextnode-*</code
+							> for primary brand elements like buttons, links, and
+							highlights. The 500-600 range works well for interactive
+							elements.
+						</Text>
+					</div>
+
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="h3"
+							variant="textLG"
+							class="font-medium text-white"
+						>
+							Accent Colors
+						</Text>
+						<Text
+							tag="p"
+							variant="textSM"
+							class="text-base-400 mt-2"
+						>
+							<code class="bg-base-800 rounded px-1"
+								>accent-*</code
+							> is aliased to nextnode-* for Buio component compatibility.
+							Use either token interchangeably.
+						</Text>
+					</div>
+
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="h3"
+							variant="textLG"
+							class="font-medium text-white"
+						>
+							Pink Accent
+						</Text>
+						<Text
+							tag="p"
+							variant="textSM"
+							class="text-base-400 mt-2"
+						>
+							Use <code class="bg-base-800 rounded px-1"
+								>pink-*</code
+							> for secondary accents, highlights, and gradient combinations
+							with the primary blue.
+						</Text>
+					</div>
+
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="h3"
+							variant="textLG"
+							class="font-medium text-white"
+						>
+							Base Colors
+						</Text>
+						<Text
+							tag="p"
+							variant="textSM"
+							class="text-base-400 mt-2"
+						>
+							Use <code class="bg-base-800 rounded px-1"
+								>base-*</code
+							> for backgrounds, text, borders, and neutral UI elements.
+							Lower numbers are lighter, higher numbers are darker.
+						</Text>
+					</div>
+				</div>
+			</div>
+		</Wrapper>
+	</section>
+</BaseLayout>
