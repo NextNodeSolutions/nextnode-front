@@ -1,0 +1,422 @@
+---
+/**
+ * Design System - Buttons Page
+ *
+ * Showcases all Button component variants, sizes, and icon-only modes.
+ * Reference for developers to understand available button options.
+ */
+
+// Layouts
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+// Fundations
+import Text from '@/components/fundations/elements/Text.astro'
+import Button from '@/components/fundations/elements/Button.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+// Icons
+import Plus from '@/components/fundations/icons/Plus.astro'
+
+// Page metadata
+const title = 'Buttons | Design System'
+const description =
+	'Button component variants and sizes for the NextNode design system.'
+---
+
+<BaseLayout title={title} description={description}>
+	<section>
+		<Wrapper variant="standard" class="py-24">
+			<Text
+				tag="h1"
+				variant="displayXL"
+				class="font-display mt-12 text-balance text-white"
+			>
+				Buttons
+			</Text>
+			<Text tag="p" variant="textLG" class="text-base-300 mt-4 max-w-2xl">
+				Button component with multiple visual variants, sizes, and
+				icon-only mode. Supports both button and anchor elements.
+			</Text>
+
+			<div
+				class="mt-12 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3"
+			>
+				<!-- Default Variant -->
+				<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Default text
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button size="xxs" variant="default"
+								>Default XXS</Button
+							>
+							<Button size="xs" variant="default"
+								>Default XS</Button
+							>
+							<Button size="sm" variant="default"
+								>Default SM</Button
+							>
+							<Button size="base" variant="default"
+								>Default Base</Button
+							>
+							<Button size="md" variant="default"
+								>Default MD</Button
+							>
+							<Button size="lg" variant="default"
+								>Default LG</Button
+							>
+							<Button size="xl" variant="default"
+								>Default XL</Button
+							>
+						</div>
+					</div>
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Icon
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button
+								isLink={true}
+								href="#_"
+								size="xxs"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xs"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="sm"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="base"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="md"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="lg" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="lg"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xl"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Accent Variant -->
+				<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Accent text
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button size="xxs" variant="accent"
+								>Accent XXS</Button
+							>
+							<Button size="xs" variant="accent">Accent XS</Button
+							>
+							<Button size="sm" variant="accent">Accent SM</Button
+							>
+							<Button size="base" variant="accent"
+								>Accent Base</Button
+							>
+							<Button size="md" variant="accent">Accent MD</Button
+							>
+							<Button size="lg" variant="accent">Accent LG</Button
+							>
+							<Button size="xl" variant="accent">Accent XL</Button
+							>
+						</div>
+					</div>
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Icon
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button
+								isLink={true}
+								href="#_"
+								size="xxs"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xs"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="sm"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="base"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="md"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="lg" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="lg"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xl"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Muted Variant -->
+				<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Muted text
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button size="xxs" variant="muted">Muted XXS</Button
+							>
+							<Button size="xs" variant="muted">Muted XS</Button>
+							<Button size="sm" variant="muted">Muted SM</Button>
+							<Button size="base" variant="muted"
+								>Muted Base</Button
+							>
+							<Button size="md" variant="muted">Muted MD</Button>
+							<Button size="lg" variant="muted">Muted LG</Button>
+							<Button size="xl" variant="muted">Muted XL</Button>
+						</div>
+					</div>
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Icon
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button
+								isLink={true}
+								href="#_"
+								size="xxs"
+								variant="muted"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button size="xs" variant="muted" iconOnly>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button size="sm" variant="muted" iconOnly>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="base"
+								variant="muted"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button size="md" variant="muted" iconOnly>
+								<Plus slot="icon" size="lg" />
+							</Button>
+							<Button size="lg" variant="muted" iconOnly>
+								<Plus slot="icon" size="xl" />
+							</Button>
+							<Button size="xl" variant="muted" iconOnly>
+								<Plus slot="icon" size="xl" />
+							</Button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Link Variant Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white">Link Variant</Text
+				>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					Buttons rendered as text links without background styling.
+				</Text>
+				<div class="mt-6 flex flex-wrap gap-4">
+					<Button
+						variant="link"
+						class="text-accent-400 hover:text-accent-300 underline"
+					>
+						Link Button
+					</Button>
+					<Button
+						variant="link"
+						class="text-base-300 underline hover:text-white"
+					>
+						Muted Link
+					</Button>
+				</div>
+			</div>
+
+			<!-- None Variant Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white">None Variant</Text
+				>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					Buttons with no default styling for fully custom
+					implementations.
+				</Text>
+				<div class="mt-6 flex flex-wrap gap-4">
+					<Button
+						variant="none"
+						class="border-accent-500 text-accent-400 hover:bg-accent-500/10 rounded-lg border px-4 py-2"
+					>
+						Custom Styled
+					</Button>
+					<Button
+						variant="none"
+						class="bg-base-800 hover:bg-base-700 rounded-none px-4 py-2 text-white"
+					>
+						Square Button
+					</Button>
+				</div>
+			</div>
+
+			<!-- Button as Link Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white">Button as Link</Text
+				>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					Buttons rendered as anchor tags for navigation while
+					maintaining button styling.
+				</Text>
+				<div class="mt-6 flex flex-wrap gap-4">
+					<Button
+						isLink={true}
+						href="/system/overview"
+						variant="accent"
+						size="base"
+					>
+						Go to Overview
+					</Button>
+					<Button
+						isLink={true}
+						href="/system/colors"
+						variant="default"
+						size="base"
+					>
+						View Colors
+					</Button>
+					<Button
+						isLink={true}
+						href="/system/typography"
+						variant="muted"
+						size="base"
+					>
+						Typography
+					</Button>
+				</div>
+			</div>
+		</Wrapper>
+	</section>
+</BaseLayout>
