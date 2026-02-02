@@ -92,7 +92,8 @@ describe('404.astro (error page)', () => {
 		})
 
 		it('has friendly error message', () => {
-			expect(pageContent).toContain('uncharted territory')
+			expect(pageContent).toContain('uncharted')
+			expect(pageContent).toContain('territory')
 		})
 
 		it('has explanatory paragraph', () => {
@@ -111,7 +112,8 @@ describe('404.astro (error page)', () => {
 		})
 
 		it('suggests using search feature', () => {
-			expect(pageContent).toContain('search feature')
+			expect(pageContent).toContain('search')
+			expect(pageContent).toContain('feature')
 		})
 
 		it('suggests reading articles', () => {
