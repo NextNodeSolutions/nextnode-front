@@ -120,6 +120,22 @@ describe('Legal Page ([...slug])', () => {
 		})
 	})
 
+	describe('Error Handling', () => {
+		it('checks if page exists before accessing data', () => {
+			expect(content).toContain('if (!page)')
+		})
+
+		it('redirects to 404 when page is undefined', () => {
+			expect(content).toContain("Astro.redirect('/404')")
+		})
+
+		it('has comment explaining the check', () => {
+			expect(content).toContain(
+				'Handle case where no legal content exists',
+			)
+		})
+	})
+
 	describe('MDX Content Rendering', () => {
 		it('renders page content', () => {
 			expect(content).toContain('await page.render()')

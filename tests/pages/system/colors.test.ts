@@ -190,28 +190,29 @@ describe('Design System Colors Page', () => {
 		})
 	})
 
-	describe('Pink Colors', () => {
-		it('has Pink group title', () => {
-			expect(content).toContain("title: 'Pink'")
+	describe('Orange Colors', () => {
+		it('has Orange group title', () => {
+			expect(content).toContain("title: 'Orange'")
 		})
 
-		it('shows pink-50', () => {
-			expect(content).toContain("name: 'Pink 50'")
-			expect(content).toContain("class: 'bg-pink-50'")
+		it('shows orange-50', () => {
+			expect(content).toContain("name: 'Orange 50'")
+			expect(content).toContain("class: 'bg-orange-50'")
 		})
 
-		it('shows pink-500', () => {
-			expect(content).toContain("name: 'Pink 500'")
-			expect(content).toContain("class: 'bg-pink-500'")
+		it('shows orange-500', () => {
+			expect(content).toContain("name: 'Orange 500'")
+			expect(content).toContain("class: 'bg-orange-500'")
 		})
 
-		it('shows pink-950', () => {
-			expect(content).toContain("name: 'Pink 950'")
-			expect(content).toContain("class: 'bg-pink-950")
+		it('shows orange-950', () => {
+			expect(content).toContain("name: 'Orange 950'")
+			expect(content).toContain("class: 'bg-orange-950")
 		})
 
-		it('describes pink as secondary accent', () => {
-			expect(content).toContain('Secondary pink/magenta accent')
+		it('describes orange as CTA accent', () => {
+			expect(content).toContain('Orange accent')
+			expect(content).toContain('CTAs')
 		})
 	})
 
@@ -262,14 +263,14 @@ describe('Design System Colors Page', () => {
 	})
 
 	describe('Color Values', () => {
-		it('includes OKLCH values for nextnode colors', () => {
-			expect(content).toContain('oklch(0.977 0.013 236.62)')
-			expect(content).toContain('oklch(0.685 0.169 237.323)')
+		it('includes OKLCH values for nextnode colors (teal hue 175)', () => {
+			expect(content).toContain('oklch(0.97 0.02 175)')
+			expect(content).toContain('oklch(0.60 0.13 175)')
 		})
 
-		it('includes OKLCH values for pink colors', () => {
-			expect(content).toContain('oklch(0.971 0.014 343.198)')
-			expect(content).toContain('oklch(0.656 0.241 354.308)')
+		it('includes OKLCH values for orange colors (hue 35-55)', () => {
+			expect(content).toContain('oklch(0.98 0.02 55)')
+			expect(content).toContain('oklch(0.70 0.19 40)')
 		})
 
 		it('includes OKLCH values for base colors', () => {
@@ -297,9 +298,9 @@ describe('Design System Colors Page', () => {
 			expect(content).toContain('accent-*')
 		})
 
-		it('has Pink Accent guideline', () => {
-			expect(content).toContain('Pink Accent')
-			expect(content).toContain('pink-*')
+		it('has Orange Accent guideline', () => {
+			expect(content).toContain('Orange Accent')
+			expect(content).toContain('orange-*')
 		})
 
 		it('has Base Colors guideline', () => {

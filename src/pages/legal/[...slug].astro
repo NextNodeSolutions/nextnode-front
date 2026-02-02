@@ -31,6 +31,12 @@ interface Props {
 }
 
 const { page } = Astro.props
+
+// Handle case where no legal content exists
+if (!page) {
+	return Astro.redirect('/404')
+}
+
 const { title, lastUpdated, content } = page.data
 
 const { Content } = await page.render()
