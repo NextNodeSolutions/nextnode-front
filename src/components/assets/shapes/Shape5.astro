@@ -1,0 +1,146 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+/**
+ * Props for Shape5 component
+ * Slow animated squares with pulsing circles
+ */
+export interface Props extends Omit<HTMLAttributes<'div'>, 'class'> {
+	/** Additional CSS classes */
+	class?: string
+}
+
+const { class: className = '', ...rest } = Astro.props
+---
+
+<div class:list={['shape-5', className]} {...rest}>
+	<svg
+		class="scale-150"
+		viewBox="0 0 400 400"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<!-- Rotating squares -->
+		<g class="squares-container">
+			<rect
+				class="square"
+				x="150"
+				y="150"
+				width="100"
+				height="100"
+				stroke="currentColor"
+				fill="none"
+				stroke-width="0.5"
+				style="--stroke-color: var(--color-base-200, #fafafa);"></rect>
+			<rect
+				class="square"
+				x="150"
+				y="150"
+				width="100"
+				height="100"
+				stroke="currentColor"
+				fill="none"
+				stroke-width="0.5"
+				style="--stroke-color: var(--color-base-600, #444444);"></rect>
+			<rect
+				class="square"
+				x="150"
+				y="150"
+				width="100"
+				height="100"
+				stroke="currentColor"
+				fill="none"
+				stroke-width="0.5"
+				style="--stroke-color: var(--color-base-500, #777777);"></rect>
+		</g>
+
+		<!-- Pulsing circles -->
+		<g class="circles">
+			<circle
+				cx="200"
+				cy="200"
+				r="50"
+				stroke="currentColor"
+				fill="none"
+				class="circle"
+				style="--stroke-color: var(--color-base-200, #fafafa);"
+			></circle>
+			<circle
+				cx="200"
+				cy="200"
+				r="75"
+				stroke="currentColor"
+				fill="none"
+				class="circle"
+				style="--stroke-color: var(--color-base-600, #444444);"
+			></circle>
+			<circle
+				cx="200"
+				cy="200"
+				r="100"
+				stroke="currentColor"
+				fill="none"
+				class="circle"
+				style="--stroke-color: var(--color-base-500, #777777);"
+			></circle>
+		</g>
+	</svg>
+</div>
+
+<style>
+	.shape-5 svg {
+		color: var(--color-base-400, #888888);
+	}
+
+	/* Rotating square animation - slower than Shape3 */
+	.square {
+		transform-origin: 200px 200px;
+		animation: shape5-rotate 50s linear infinite;
+		opacity: 0.6;
+		stroke: var(--stroke-color);
+	}
+
+	.square:nth-child(2) {
+		animation-delay: -2.6s;
+	}
+
+	.square:nth-child(3) {
+		animation-delay: -5.3s;
+	}
+
+	/* Pulsing circle animation - slower than Shape3 */
+	.circle {
+		stroke-width: 0.5;
+		animation: shape5-pulse 30s ease-in-out infinite;
+		opacity: 0.6;
+		stroke: var(--stroke-color);
+	}
+
+	.circle:nth-child(2) {
+		animation-delay: -1.3s;
+	}
+
+	.circle:nth-child(3) {
+		animation-delay: -2.6s;
+	}
+
+	@keyframes shape5-rotate {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes shape5-pulse {
+		0%,
+		100% {
+			transform: scale(0.8);
+			opacity: 0.3;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.8;
+		}
+	}
+</style>
