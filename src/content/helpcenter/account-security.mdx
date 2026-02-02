@@ -1,0 +1,111 @@
+---
+title: 'Account Security'
+description: 'Learn how to secure your NextNode account with two-factor authentication, session management, and security best practices.'
+category: 'Account'
+pubDate: 2026-01-14
+---
+
+# Account Security
+
+Protecting your NextNode account is crucial for securing your deployments and team data.
+
+## Two-Factor Authentication (2FA)
+
+We strongly recommend enabling 2FA for all accounts.
+
+### Setting Up 2FA
+
+1. Go to **Settings** → **Security**
+2. Click **Enable Two-Factor Authentication**
+3. Scan the QR code with your authenticator app
+4. Enter the 6-digit code to verify
+5. Save your backup codes securely
+
+### Supported Authenticator Apps
+
+- Google Authenticator
+- Authy
+- 1Password
+- Bitwarden
+
+### Backup Codes
+
+After enabling 2FA, you receive 10 backup codes. Store these securely:
+
+- Each code can only be used once
+- Use them if you lose access to your authenticator
+- Generate new codes anytime from Security settings
+
+## Session Management
+
+### Viewing Active Sessions
+
+Go to **Settings** → **Security** → **Active Sessions** to see:
+
+- All devices logged into your account
+- Location and IP address
+- Last active time
+
+### Revoking Sessions
+
+If you see suspicious activity:
+
+1. Click **Revoke** next to the session
+2. Or use **Revoke All** to log out everywhere
+
+## API Tokens
+
+### Creating Secure Tokens
+
+When creating API tokens:
+
+```bash
+# Use descriptive names
+nextnode-ci-github-actions
+nextnode-deploy-staging
+
+# Set expiration dates
+# Never share tokens in code
+```
+
+### Token Permissions
+
+Limit token permissions to only what is needed:
+
+- **Read**: View projects and deployments
+- **Write**: Create deployments
+- **Admin**: Manage team and billing
+
+## Security Best Practices
+
+### Do
+
+- Use unique, strong passwords (12+ characters)
+- Enable 2FA on all accounts
+- Regularly review active sessions
+- Use environment variables for secrets
+- Rotate API tokens periodically
+
+### Do Not
+
+- Share login credentials
+- Commit API tokens to repositories
+- Use the same password across services
+- Leave sessions active on shared devices
+
+## Security Alerts
+
+NextNode sends alerts for:
+
+- New device logins
+- Failed login attempts
+- Password changes
+- 2FA changes
+
+Configure alerts in **Settings** → **Notifications**.
+
+## Reporting Security Issues
+
+Found a vulnerability? Report it to [security@nextnode.dev](mailto:security@nextnode.dev).
+
+We have a responsible disclosure policy and may offer rewards for valid reports.
