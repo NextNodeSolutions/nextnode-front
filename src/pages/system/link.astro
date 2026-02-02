@@ -1,0 +1,592 @@
+---
+/**
+ * Design System - Links Page
+ *
+ * Showcases all link styles using Button component with isLink prop.
+ * Shows default, accent, and muted variants at all sizes with hover states.
+ */
+
+// Layouts
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+// Fundations
+import Text from '@/components/fundations/elements/Text.astro'
+import Button from '@/components/fundations/elements/Button.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+// Icons
+import Plus from '@/components/fundations/icons/Plus.astro'
+
+// Page metadata
+const title = 'Links | Design System'
+const description =
+	'Link styles and variants for the NextNode design system. Shows Button component as anchor elements.'
+---
+
+<BaseLayout title={title} description={description}>
+	<section>
+		<Wrapper variant="standard" class="py-24">
+			<Text
+				tag="h1"
+				variant="displayXL"
+				class="font-display mt-12 text-balance text-white"
+			>
+				Links
+			</Text>
+			<Text tag="p" variant="textLG" class="text-base-300 mt-4 max-w-2xl">
+				Button component rendered as anchor elements using isLink prop.
+				All variants and sizes are available with hover states.
+			</Text>
+
+			<div
+				class="mt-12 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3"
+			>
+				<!-- Default Variant Links -->
+				<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Default text
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button
+								isLink={true}
+								href="#_"
+								size="xxs"
+								variant="default"
+							>
+								Default XXS
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xs"
+								variant="default"
+							>
+								Default XS
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="sm"
+								variant="default"
+							>
+								Default SM
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="base"
+								variant="default"
+							>
+								Default Base
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="md"
+								variant="default"
+							>
+								Default MD
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="lg"
+								variant="default"
+							>
+								Default LG
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xl"
+								variant="default"
+							>
+								Default XL
+							</Button>
+						</div>
+					</div>
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Icon
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button
+								isLink={true}
+								href="#_"
+								size="xxs"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xs"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="sm"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="base"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="md"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="lg" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="lg"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xl"
+								variant="default"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Accent Variant Links -->
+				<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Accent text
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button
+								isLink={true}
+								href="#_"
+								size="xxs"
+								variant="accent"
+							>
+								Accent XXS
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xs"
+								variant="accent"
+							>
+								Accent XS
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="sm"
+								variant="accent"
+							>
+								Accent SM
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="base"
+								variant="accent"
+							>
+								Accent Base
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="md"
+								variant="accent"
+							>
+								Accent MD
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="lg"
+								variant="accent"
+							>
+								Accent LG
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xl"
+								variant="accent"
+							>
+								Accent XL
+							</Button>
+						</div>
+					</div>
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Icon
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button
+								isLink={true}
+								href="#_"
+								size="xxs"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xs"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="sm"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="base"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="md"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="lg" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="lg"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xl"
+								variant="accent"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Muted Variant Links -->
+				<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Muted text
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button
+								isLink={true}
+								href="#_"
+								size="xxs"
+								variant="muted"
+							>
+								Muted XXS
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xs"
+								variant="muted"
+							>
+								Muted XS
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="sm"
+								variant="muted"
+							>
+								Muted SM
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="base"
+								variant="muted"
+							>
+								Muted Base
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="md"
+								variant="muted"
+							>
+								Muted MD
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="lg"
+								variant="muted"
+							>
+								Muted LG
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xl"
+								variant="muted"
+							>
+								Muted XL
+							</Button>
+						</div>
+					</div>
+					<div>
+						<Text
+							tag="p"
+							variant="textXS"
+							class="font-medium text-white uppercase"
+						>
+							Icon
+						</Text>
+						<div class="mt-2 flex flex-col gap-4">
+							<Button
+								isLink={true}
+								href="#_"
+								size="xxs"
+								variant="muted"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xs"
+								variant="muted"
+								iconOnly
+							>
+								<Plus slot="icon" size="sm" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="sm"
+								variant="muted"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="base"
+								variant="muted"
+								iconOnly
+							>
+								<Plus slot="icon" size="base" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="md"
+								variant="muted"
+								iconOnly
+							>
+								<Plus slot="icon" size="lg" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="lg"
+								variant="muted"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+							<Button
+								isLink={true}
+								href="#_"
+								size="xl"
+								variant="muted"
+								iconOnly
+							>
+								<Plus slot="icon" size="xl" />
+							</Button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Link Variant Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Text Links
+				</Text>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					Simple text links with underline styling for inline content.
+				</Text>
+				<div class="mt-6 flex flex-wrap gap-6">
+					<Button
+						isLink={true}
+						href="#_"
+						variant="link"
+						class="text-accent-400 hover:text-accent-300 underline"
+					>
+						Accent Link
+					</Button>
+					<Button
+						isLink={true}
+						href="#_"
+						variant="link"
+						class="text-base-300 underline hover:text-white"
+					>
+						Muted Link
+					</Button>
+					<Button
+						isLink={true}
+						href="#_"
+						variant="link"
+						class="hover:text-base-300 text-white underline"
+					>
+						White Link
+					</Button>
+				</div>
+			</div>
+
+			<!-- Hover States Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Hover States
+				</Text>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					All link buttons include hover state transitions. Hover over
+					the buttons above to see the effect.
+				</Text>
+				<div class="bg-base-900 mt-6 rounded-lg p-6">
+					<Text tag="p" variant="textSM" class="text-base-400">
+						<strong class="text-white">Tip:</strong> The Button component
+						automatically handles hover states based on the variant. Default
+						variant lightens on hover, accent brightens, and muted becomes
+						more visible.
+					</Text>
+				</div>
+			</div>
+
+			<!-- Navigation Links Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Navigation Links
+				</Text>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					Links to other design system pages for reference.
+				</Text>
+				<div class="mt-6 flex flex-wrap gap-4">
+					<Button
+						isLink={true}
+						href="/system/overview"
+						variant="accent"
+						size="base"
+					>
+						Overview
+					</Button>
+					<Button
+						isLink={true}
+						href="/system/buttons"
+						variant="default"
+						size="base"
+					>
+						Buttons
+					</Button>
+					<Button
+						isLink={true}
+						href="/system/colors"
+						variant="muted"
+						size="base"
+					>
+						Colors
+					</Button>
+					<Button
+						isLink={true}
+						href="/system/typography"
+						variant="muted"
+						size="base"
+					>
+						Typography
+					</Button>
+				</div>
+			</div>
+		</Wrapper>
+	</section>
+</BaseLayout>
