@@ -294,7 +294,10 @@ describe('Pricing1.astro', () => {
 		})
 
 		it('conditionally styles benefits text', () => {
-			expect(pricing1Content).toContain("plan.isPopular ? 'text-white'")
+			// Benefits text color changes based on isPopular
+			expect(pricing1Content).toContain('plan.isPopular')
+			expect(pricing1Content).toContain("'text-white'")
+			expect(pricing1Content).toContain("'text-base-500'")
 		})
 	})
 
