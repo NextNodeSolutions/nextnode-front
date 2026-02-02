@@ -1,0 +1,47 @@
+---
+/**
+ * Changelog Detail Page ([...slug].astro)
+ *
+ * Dynamic route for individual changelog entries.
+ * Fetches changelog content from the content collection and renders
+ * with ChangelogLayout. Generates static paths for all changelog entries.
+ *
+ * Props:
+ * - changelog: The changelog entry from the content collection
+ *
+ * Layout displays:
+ * - Version number (e.g., "1.2.0")
+ * - Release date
+ * - Type badge (major, minor, patch, feature, fix)
+ * - MDX content describing the release
+ */
+
+import { getCollection } from 'astro:content'
+import ChangelogLayout from '@/layouts/ChangelogLayout.astro'
+
+export async function getStaticPaths() {
+	const allChangelogs = await getCollection('changelog')
+	return allChangelogs.map(changelog => ({
+		params: { slug: changelog.slug },
+		props: { changelog },
+	}))
+}
+
+interface Props {
+	changelog: Awaited<ReturnType<typeof getCollection<'changelog'>>>[number]
+}
+
+const { changelog } = Astro.props
+const { version, date, type, description } = changelog.data
+
+const { Content } = await changelog.render()
+---
+
+<ChangelogLayout
+	version={version}
+	date={date}
+	type={type}
+	description={description}
+>
+	<Content />
+</ChangelogLayout>
