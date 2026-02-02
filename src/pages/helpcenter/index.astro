@@ -1,0 +1,349 @@
+---
+/**
+ * Help Center Listing Page
+ *
+ * Lists all help articles from the helpcenter collection, grouped by category.
+ * Provides search functionality and category-based navigation.
+ */
+
+// Layouts
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+// Fundations
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+// Components
+import HelpCenterCard from '@/components/helpcenter/HelpCenterCard.astro'
+
+// Astro Content API
+import { getCollection } from 'astro:content'
+
+// Page metadata
+const title = 'Help Center | NextNode'
+const description =
+	'Get help with NextNode. Find guides, tutorials, and answers to common questions.'
+
+// Get all help center articles
+const allArticles = await getCollection('helpcenter')
+
+// Group articles by category
+interface CategoryGroup {
+	name: string
+	articles: typeof allArticles
+}
+
+const categories = allArticles.reduce<Record<string, typeof allArticles>>(
+	(acc, article) => {
+		const category = article.data.category
+		if (!acc[category]) {
+			acc[category] = []
+		}
+		acc[category].push(article)
+		return acc
+	},
+	{},
+)
+
+// Sort articles within each category by pubDate (newest first)
+const categoryGroups: CategoryGroup[] = Object.entries(categories)
+	.map(([name, articles]) => ({
+		name,
+		articles: articles.sort(
+			(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+		),
+	}))
+	.sort((a, b) => a.name.localeCompare(b.name))
+
+// Get unique category names for filter buttons
+const categoryNames = categoryGroups.map(group => group.name)
+---
+
+<BaseLayout title={title} description={description}>
+	<section class="bg-gradient-up">
+		<Wrapper variant="standard" class="py-24">
+			<!-- Header Section -->
+			<div class="max-w-2xl">
+				<Text tag="span" variant="textSM" class="text-nextnode-400">
+					Help Center
+				</Text>
+				<Text
+					tag="h1"
+					variant="displayLG"
+					class="font-display mt-4 text-balance text-white"
+				>
+					How can we help you?
+				</Text>
+				<Text tag="p" variant="textLG" class="text-base-300 mt-4">
+					Find guides, tutorials, and answers to common questions.
+					Browse by category or search for specific topics.
+				</Text>
+			</div>
+
+			<!-- Search Box -->
+			<div class="mt-8 max-w-xl">
+				<div class="relative">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="text-base-400 absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						stroke-width="1.5"
+						aria-hidden="true"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+						></path>
+					</svg>
+					<input
+						type="search"
+						id="help-search"
+						name="search"
+						placeholder="Search help articles..."
+						class="bg-base-900 border-base-700 placeholder:text-base-500 focus:border-nextnode-500 focus:ring-nextnode-500 w-full rounded-lg border py-3 pr-4 pl-12 text-white focus:ring-1 focus:outline-none"
+						autocomplete="off"
+					/>
+				</div>
+			</div>
+
+			<!-- Category Filter Buttons -->
+			<div class="mt-8 flex flex-wrap gap-3">
+				<button
+					type="button"
+					class="bg-nextnode-500 hover:bg-nextnode-600 cursor-pointer rounded-full px-4 py-2 text-sm font-medium text-white transition-colors"
+					data-category="all"
+					aria-pressed="true"
+				>
+					All
+				</button>
+				{
+					categoryNames.map(category => (
+						<button
+							type="button"
+							class="bg-base-800 hover:bg-base-700 cursor-pointer rounded-full px-4 py-2 text-sm font-medium text-white transition-colors"
+							data-category={category}
+							aria-pressed="false"
+						>
+							{category}
+						</button>
+					))
+				}
+			</div>
+		</Wrapper>
+	</section>
+
+	<!-- Articles Section -->
+	<section class="bg-base-950">
+		<Wrapper variant="standard" class="py-16">
+			{
+				categoryGroups.map(group => (
+					<div
+						class="mb-12 last:mb-0"
+						data-category-section={group.name}
+					>
+						<Text
+							tag="h2"
+							variant="displaySM"
+							class="font-display mb-6 text-white"
+						>
+							{group.name}
+						</Text>
+						<div class="divide-base-800 grid gap-6 divide-y md:grid-cols-2 md:gap-8 md:divide-y-0 lg:grid-cols-3">
+							{group.articles.map(article => (
+								<HelpCenterCard article={article} />
+							))}
+						</div>
+					</div>
+				))
+			}
+
+			<!-- Empty State (hidden by default, shown via JS when no results) -->
+			<div
+				id="no-results"
+				class="hidden py-16 text-center"
+				role="status"
+				aria-live="polite"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="text-base-600 mx-auto h-16 w-16"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="1"
+					aria-hidden="true"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+					></path>
+				</svg>
+				<Text tag="p" variant="textLG" class="text-base-400 mt-4">
+					No articles found
+				</Text>
+				<Text tag="p" variant="textBase" class="text-base-500 mt-2">
+					Try adjusting your search or filter to find what you're
+					looking for.
+				</Text>
+			</div>
+		</Wrapper>
+	</section>
+
+	<!-- Contact CTA Section -->
+	<section class="bg-base-900">
+		<Wrapper variant="standard" class="py-16">
+			<div class="text-center">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Still need help?
+				</Text>
+				<Text
+					tag="p"
+					variant="textBase"
+					class="text-base-400 mx-auto mt-4 max-w-xl"
+				>
+					Can't find what you're looking for? Our support team is here
+					to help. Get in touch and we'll get back to you as soon as
+					possible.
+				</Text>
+				<div class="mt-8">
+					<a
+						href="/contact"
+						class="bg-nextnode-500 hover:bg-nextnode-600 inline-flex items-center gap-2 rounded-lg px-6 py-3 font-medium text-white transition-colors"
+					>
+						Contact Support
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							class="h-5 w-5"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							stroke-width="2"
+							aria-hidden="true"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+						</svg>
+					</a>
+				</div>
+			</div>
+		</Wrapper>
+	</section>
+</BaseLayout>
+
+<script>
+	// Client-side search and filter functionality
+	document.addEventListener('DOMContentLoaded', () => {
+		const searchInput = document.getElementById(
+			'help-search',
+		) as HTMLInputElement | null
+		const categoryButtons = document.querySelectorAll('[data-category]')
+		const categorySections = document.querySelectorAll(
+			'[data-category-section]',
+		)
+		const noResults = document.getElementById('no-results')
+
+		if (!searchInput || !noResults) return
+
+		let activeCategory = 'all'
+
+		// Category filter
+		categoryButtons.forEach(button => {
+			button.addEventListener('click', () => {
+				const category = button.getAttribute('data-category')
+				if (!category) return
+
+				activeCategory = category
+
+				// Update button states
+				categoryButtons.forEach(btn => {
+					const isActive =
+						btn.getAttribute('data-category') === category
+					btn.setAttribute('aria-pressed', String(isActive))
+					if (isActive) {
+						btn.classList.remove('bg-base-800', 'hover:bg-base-700')
+						btn.classList.add(
+							'bg-nextnode-500',
+							'hover:bg-nextnode-600',
+						)
+					} else {
+						btn.classList.remove(
+							'bg-nextnode-500',
+							'hover:bg-nextnode-600',
+						)
+						btn.classList.add('bg-base-800', 'hover:bg-base-700')
+					}
+				})
+
+				// Filter sections
+				filterContent()
+			})
+		})
+
+		// Search functionality
+		searchInput.addEventListener('input', () => {
+			filterContent()
+		})
+
+		function filterContent() {
+			const searchTerm = searchInput?.value.toLowerCase() ?? ''
+			let hasVisibleContent = false
+
+			categorySections.forEach(section => {
+				const sectionCategory = section.getAttribute(
+					'data-category-section',
+				)
+				const cards = section.querySelectorAll('article')
+				let sectionHasVisibleCards = false
+
+				// Check category match
+				const categoryMatches =
+					activeCategory === 'all' ||
+					sectionCategory === activeCategory
+
+				cards.forEach(card => {
+					const title =
+						card.querySelector('h3')?.textContent?.toLowerCase() ??
+						''
+					const description =
+						card.querySelector('p')?.textContent?.toLowerCase() ??
+						''
+					const searchMatches =
+						searchTerm === '' ||
+						title.includes(searchTerm) ||
+						description.includes(searchTerm)
+
+					const isVisible = categoryMatches && searchMatches
+					const cardParent = card.parentElement
+					if (cardParent) {
+						cardParent.style.display = isVisible ? '' : 'none'
+					}
+					if (isVisible) {
+						sectionHasVisibleCards = true
+						hasVisibleContent = true
+					}
+				})
+
+				// Hide entire section if no visible cards
+				const sectionElement = section as HTMLElement
+				sectionElement.style.display = sectionHasVisibleCards
+					? ''
+					: 'none'
+			})
+
+			// Show/hide no results message
+			if (noResults) {
+				noResults.classList.toggle('hidden', hasVisibleContent)
+			}
+		}
+	})
+</script>
