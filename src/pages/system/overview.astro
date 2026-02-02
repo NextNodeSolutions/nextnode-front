@@ -1,0 +1,201 @@
+---
+/**
+ * Design System Overview - Lists all available components and pages
+ *
+ * Provides a comprehensive view of the NextNode design system
+ * including all pages, components, and content collections.
+ */
+
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+interface PageLink {
+	name: string
+	url: string
+}
+
+interface PageCategory {
+	title: string
+	links: PageLink[]
+}
+
+interface PageSection {
+	sectionTitle: string
+	categories: PageCategory[]
+}
+
+const pageData: PageSection[] = [
+	{
+		sectionTitle: 'All Pages',
+		categories: [
+			{
+				title: 'Main',
+				links: [
+					{ name: 'Homepage', url: '/' },
+					{ name: 'Alternative Homepage', url: '/index-two' },
+					{ name: 'Contact', url: '/contact' },
+					{ name: 'Pricing', url: '/pricing' },
+				],
+			},
+			{
+				title: 'Design System',
+				links: [
+					{ name: 'Overview', url: '/system/overview' },
+					{ name: 'Buttons', url: '/system/buttons' },
+					{ name: 'Colors', url: '/system/colors' },
+					{ name: 'Links', url: '/system/link' },
+					{ name: 'Typography', url: '/system/typography' },
+				],
+			},
+			{
+				title: 'Help Center',
+				links: [
+					{ name: 'Help Center Home', url: '/helpcenter' },
+					{ name: 'System Status', url: '/helpcenter/status' },
+				],
+			},
+			{
+				title: 'Company',
+				links: [
+					{ name: 'Team', url: '/team' },
+					{ name: 'Jobs', url: '/jobs' },
+					{ name: 'Customers', url: '/customers' },
+				],
+			},
+		],
+	},
+	{
+		sectionTitle: 'Content Collections',
+		categories: [
+			{
+				title: 'Changelog',
+				links: [
+					{ name: 'Changelog Home', url: '/changelog' },
+					{ name: 'Entry Details', url: '/changelog/[slug]' },
+				],
+			},
+			{
+				title: 'Legal',
+				links: [
+					{ name: 'Privacy Policy', url: '/legal/privacy-policy' },
+					{
+						name: 'Terms of Service',
+						url: '/legal/terms-of-service',
+					},
+				],
+			},
+			{
+				title: 'Team',
+				links: [
+					{ name: 'Team Listing', url: '/team' },
+					{ name: 'Member Profile', url: '/team/[slug]' },
+				],
+			},
+			{
+				title: 'Jobs',
+				links: [
+					{ name: 'Jobs Listing', url: '/jobs' },
+					{ name: 'Job Details', url: '/jobs/[slug]' },
+				],
+			},
+		],
+	},
+	{
+		sectionTitle: 'Components',
+		categories: [
+			{
+				title: 'Headers',
+				links: [{ name: 'Hero1', url: '#hero-components' }],
+			},
+			{
+				title: 'Features',
+				links: [
+					{ name: 'Feature1', url: '#feature-components' },
+					{ name: 'Feature2', url: '#feature-components' },
+					{ name: 'Feature3', url: '#feature-components' },
+				],
+			},
+			{
+				title: 'Sections',
+				links: [
+					{ name: 'Pricing1', url: '#section-components' },
+					{ name: 'Stats1', url: '#section-components' },
+					{ name: 'Testimonial1', url: '#section-components' },
+					{ name: 'LogoCloud1', url: '#section-components' },
+					{ name: 'Faq1', url: '#section-components' },
+					{ name: 'Cta1', url: '#section-components' },
+				],
+			},
+			{
+				title: 'Cards',
+				links: [
+					{ name: 'TeamCard', url: '#card-components' },
+					{ name: 'JobCard', url: '#card-components' },
+					{ name: 'CustomerCard', url: '#card-components' },
+					{ name: 'ChangelogCard', url: '#card-components' },
+					{ name: 'HelpCenterCard', url: '#card-components' },
+				],
+			},
+		],
+	},
+]
+---
+
+<BaseLayout title="Design System Overview | NextNode">
+	<section>
+		<Wrapper variant="standard" class="py-24">
+			<Text
+				tag="h1"
+				variant="displayXL"
+				class="font-display mt-12 text-balance text-white"
+			>
+				Design System Overview
+			</Text>
+			<Text tag="p" variant="textBase" class="text-base-400 mt-4">
+				A comprehensive overview of all pages, components, and
+				collections available in the NextNode design system.
+			</Text>
+			<div
+				class="mt-12 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3"
+			>
+				{
+					pageData.map(section => (
+						<div>
+							<Text
+								tag="h2"
+								variant="textXL"
+								class="font-semibold text-white"
+							>
+								{section.sectionTitle}
+							</Text>
+							<div class="border-base-900 mt-4 space-y-8 border-t pt-4">
+								{section.categories.map(category => (
+									<div class="flex flex-col space-y-2">
+										<Text
+											tag="h3"
+											variant="textBase"
+											class="font-medium text-white"
+										>
+											{category.title}
+										</Text>
+										{category.links.map(link => (
+											<a
+												href={link.url}
+												title={link.name}
+												aria-label={link.name}
+												class="text-base-500 text-sm transition-colors hover:text-white"
+											>
+												{link.name}
+											</a>
+										))}
+									</div>
+								))}
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</Wrapper>
+	</section>
+</BaseLayout>

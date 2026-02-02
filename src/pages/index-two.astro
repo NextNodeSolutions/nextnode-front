@@ -1,0 +1,421 @@
+---
+// Foundations
+import BaseLayout from '@/layouts/BaseLayout.astro'
+// Sections
+import Hero1 from '@/components/headers/Hero1.astro'
+import Testimonial1 from '@/components/testimonials/Testimonial1.astro'
+import Feature2 from '@/components/features/Feature2.astro'
+import Stats1 from '@/components/stats/Stats1.astro'
+import Feature1 from '@/components/features/Feature1.astro'
+import Feature3 from '@/components/features/Feature3.astro'
+import Faq1 from '@/components/faqs/Faq1.astro'
+import Pricing1 from '@/components/pricing/Pricing1.astro'
+import Cta1 from '@/components/ctas/Cta1.astro'
+
+// Hero content - alternative messaging
+const heroContent = {
+	label: 'NextNode Platform',
+	headline: 'Infrastructure that scales',
+	highlightedText: 'with you',
+	subheadline:
+		'Stop worrying about servers. NextNode handles the complexity so you can focus on building great products.',
+	buttons: [
+		{
+			label: 'Try for Free',
+			href: '/sign-up',
+			variant: 'default' as const,
+		},
+		{ label: 'See Pricing', href: '/pricing', variant: 'muted' as const },
+	],
+}
+
+// Testimonial content - social proof early
+const testimonialContent = {
+	label: 'What developers say',
+	headline: 'Trusted by teams',
+	highlightedText: 'who ship fast',
+	testimonials: [
+		{
+			id: 'testimonial-a',
+			name: 'Alex Rivera',
+			role: 'VP Engineering at DataFlow',
+			content:
+				'We migrated our entire stack to NextNode in a weekend. Zero downtime, 3x faster deployments.',
+			imageUrl:
+				'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop',
+		},
+		{
+			id: 'testimonial-b',
+			name: 'Priya Sharma',
+			role: 'Founder at LaunchPad',
+			content:
+				'NextNode lets me focus on product, not infrastructure. That alone is worth 10x the price.',
+			imageUrl:
+				'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop',
+		},
+		{
+			id: 'testimonial-c',
+			name: 'James Park',
+			role: 'Staff Engineer at Quantum',
+			content:
+				'The CLI is beautiful. Deploy, scale, rollback - everything is one command away.',
+			imageUrl:
+				'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop',
+		},
+	],
+}
+
+// Feature2 content - platform overview
+const feature2Content = {
+	label: 'Platform',
+	headline: 'One platform',
+	highlightedText: 'infinite possibilities',
+	description:
+		'Everything you need to build, deploy, and scale modern applications.',
+	features: [
+		{
+			id: 'f2-compute',
+			title: 'Global Compute',
+			description:
+				'Run code in 300+ locations. Milliseconds from your users, always.',
+		},
+		{
+			id: 'f2-storage',
+			title: 'Distributed Storage',
+			description:
+				'Object storage, key-value, and SQL databases that scale automatically.',
+		},
+		{
+			id: 'f2-network',
+			title: 'Smart Networking',
+			description:
+				'Built-in load balancing, DDoS protection, and global CDN.',
+		},
+		{
+			id: 'f2-observability',
+			title: 'Deep Observability',
+			description: 'Logs, metrics, and traces in one unified platform.',
+		},
+		{
+			id: 'f2-security',
+			title: 'Security First',
+			description:
+				'SOC 2 Type II certified. Encryption everywhere by default.',
+		},
+		{
+			id: 'f2-team',
+			title: 'Team Collaboration',
+			description:
+				'Role-based access, audit logs, and SSO for enterprise teams.',
+		},
+	],
+}
+
+// Stats content - build credibility
+const statsContent = {
+	label: 'Scale',
+	headline: 'Numbers that',
+	highlightedText: 'speak',
+	description: 'Powering the next generation of cloud-native applications.',
+	stats: [
+		{
+			id: 'stat-requests',
+			label: 'Daily Requests',
+			target: 15,
+			suffix: 'B+',
+		},
+		{
+			id: 'stat-latency',
+			label: 'Avg Latency',
+			target: 12,
+			suffix: 'ms',
+		},
+		{
+			id: 'stat-uptime',
+			label: 'Uptime',
+			target: 99,
+			suffix: '.99%',
+		},
+		{
+			id: 'stat-countries',
+			label: 'Countries',
+			target: 195,
+			suffix: '+',
+		},
+	],
+}
+
+// Feature1 content - code-focused
+const feature1Content = {
+	features: [
+		{
+			id: 'feature1-instant',
+			title: 'Instant rollbacks',
+			description:
+				'Something wrong? Roll back to any previous deployment in seconds, not hours.',
+			codeBlock: {
+				code: `# List recent deployments
+nextnode deployments list
+
+# Instant rollback
+nextnode rollback --to deployment_abc123
+
+# Output:
+# ✓ Rolling back to deployment_abc123
+# ✓ Traffic shifted (0ms downtime)
+# ✓ Rollback complete`,
+				lang: 'shell' as const,
+			},
+		},
+		{
+			id: 'feature1-preview',
+			title: 'Preview environments',
+			description:
+				'Every pull request gets its own URL. Review changes before they go live.',
+			codeBlock: {
+				code: `# nextnode.config.ts
+export default {
+  preview: {
+    enabled: true,
+    baseDomain: 'preview.nextnode.app',
+    expiry: '7d',
+    // Auto-comment PR with preview URL
+    github: { commentOnPR: true }
+  }
+}`,
+				lang: 'ts' as const,
+			},
+		},
+	],
+}
+
+// Feature3 content - developer experience
+const feature3Content = {
+	label: 'DX',
+	headline: 'Developer experience',
+	highlightedText: 'obsessed',
+	description: 'We sweat the details so you can stay in flow.',
+	features: [
+		{
+			id: 'f3-types',
+			tagline: 'TypeScript',
+			title: 'Full Type Safety',
+			description:
+				'End-to-end types from your code to our SDK. Catch errors at compile time.',
+		},
+		{
+			id: 'f3-local',
+			tagline: 'Local Dev',
+			title: 'Local Emulator',
+			description: 'Develop locally with the same runtime as production.',
+		},
+		{
+			id: 'f3-logs',
+			tagline: 'Debugging',
+			title: 'Real-time Logs',
+			description:
+				'Stream logs from any deployment. Filter, search, export.',
+		},
+		{
+			id: 'f3-ci',
+			tagline: 'CI/CD',
+			title: 'GitHub Actions',
+			description:
+				'First-class GitHub integration. Deploy on push, test on PR.',
+		},
+	],
+	codeBlock: {
+		code: `// Type-safe environment variables
+import { env } from '@nextnode/env'
+
+// env.DATABASE_URL is typed!
+const db = await connect(env.DATABASE_URL)
+
+// Type-safe API routes
+export const handler = defineHandler<{
+  body: { email: string; name: string }
+}>(async (req) => {
+  // req.body is fully typed
+  const { email, name } = req.body
+  return { success: true }
+})`,
+		lang: 'ts' as const,
+	},
+}
+
+// FAQ content
+const faqContent = {
+	label: 'Questions',
+	headline: 'Frequently asked',
+	highlightedText: '',
+	description: 'Answers to common questions about NextNode.',
+	faqs: [
+		{
+			id: 'faq-a',
+			question: 'How is NextNode different from AWS/GCP/Azure?',
+			answer: 'We abstract away infrastructure complexity. No VPCs, IAM roles, or config files. Just deploy your code and we handle the rest.',
+		},
+		{
+			id: 'faq-b',
+			question: 'Can I use my own domain?',
+			answer: 'Absolutely. Add any domain, and we automatically provision SSL certificates and configure DNS. Custom domains are included in all plans.',
+		},
+		{
+			id: 'faq-c',
+			question: 'What about vendor lock-in?',
+			answer: 'We use standard formats and APIs wherever possible. Your code is portable, and we provide export tools for all your data.',
+		},
+		{
+			id: 'faq-d',
+			question: 'Do you support monorepos?',
+			answer: 'Yes! We detect monorepo structures automatically and let you deploy individual apps or the entire workspace with smart caching.',
+		},
+		{
+			id: 'faq-e',
+			question: 'What frameworks do you support?',
+			answer: 'Next.js, Astro, Remix, SvelteKit, Nuxt, and more. Static sites, serverless functions, and long-running services all work great.',
+		},
+	],
+	ctaText: 'Have more questions?',
+	ctaHref: '/contact',
+}
+
+// Pricing content
+const pricingContent = {
+	label: 'Plans',
+	headline: 'Pay for what you use',
+	highlightedText: '',
+	description: 'Start free. Scale without limits. No surprises.',
+	plans: [
+		{
+			id: 'plan-hobby',
+			title: 'Hobby',
+			price: '$0',
+			priceSuffix: '/month',
+			description: 'For personal projects and experiments.',
+			benefits: [
+				'100k requests/month',
+				'1GB bandwidth',
+				'Community support',
+				'Automatic HTTPS',
+			],
+			buttonText: 'Start Free',
+			buttonHref: '/sign-up',
+			buttonVariant: 'muted' as const,
+		},
+		{
+			id: 'plan-team',
+			title: 'Team',
+			price: '$49',
+			priceSuffix: '/month',
+			description: 'For teams shipping to production.',
+			benefits: [
+				'Unlimited requests',
+				'100GB bandwidth',
+				'Priority support',
+				'Preview deployments',
+				'Team collaboration',
+			],
+			isPopular: true,
+			popularBadge: 'Best Value',
+			buttonText: 'Start Trial',
+			buttonHref: '/sign-up?plan=team',
+			buttonVariant: 'default' as const,
+		},
+		{
+			id: 'plan-scale',
+			title: 'Scale',
+			price: 'Custom',
+			description: 'For high-growth companies.',
+			benefits: [
+				'Unlimited everything',
+				'Dedicated support',
+				'SLA guarantee',
+				'SSO/SAML',
+				'Audit logs',
+				'Custom contracts',
+			],
+			buttonText: 'Talk to Sales',
+			buttonHref: '/contact',
+			buttonVariant: 'muted' as const,
+		},
+	],
+}
+
+// CTA content
+const ctaContent = {
+	headline: 'Ship your next idea',
+	highlightedText: 'today',
+	subheadline:
+		'Join 50,000+ developers who chose to focus on building, not configuring.',
+	buttons: [
+		{
+			label: 'Get Started Free',
+			href: '/sign-up',
+			variant: 'default' as const,
+		},
+		{ label: 'Book a Demo', href: '/contact', variant: 'muted' as const },
+	],
+}
+---
+
+<BaseLayout>
+	<Hero1
+		label={heroContent.label}
+		headline={heroContent.headline}
+		highlightedText={heroContent.highlightedText}
+		subheadline={heroContent.subheadline}
+		buttons={heroContent.buttons}
+	/>
+	<Testimonial1
+		label={testimonialContent.label}
+		headline={testimonialContent.headline}
+		highlightedText={testimonialContent.highlightedText}
+		testimonials={testimonialContent.testimonials}
+	/>
+	<Feature2
+		label={feature2Content.label}
+		headline={feature2Content.headline}
+		highlightedText={feature2Content.highlightedText}
+		description={feature2Content.description}
+		features={feature2Content.features}
+	/>
+	<Stats1
+		label={statsContent.label}
+		headline={statsContent.headline}
+		highlightedText={statsContent.highlightedText}
+		description={statsContent.description}
+		stats={statsContent.stats}
+	/>
+	<Feature1 features={feature1Content.features} />
+	<Feature3
+		label={feature3Content.label}
+		headline={feature3Content.headline}
+		highlightedText={feature3Content.highlightedText}
+		description={feature3Content.description}
+		features={feature3Content.features}
+		codeBlock={feature3Content.codeBlock}
+	/>
+	<Faq1
+		label={faqContent.label}
+		headline={faqContent.headline}
+		highlightedText={faqContent.highlightedText}
+		description={faqContent.description}
+		faqs={faqContent.faqs}
+		ctaText={faqContent.ctaText}
+		ctaHref={faqContent.ctaHref}
+	/>
+	<Pricing1
+		label={pricingContent.label}
+		headline={pricingContent.headline}
+		highlightedText={pricingContent.highlightedText}
+		description={pricingContent.description}
+		plans={pricingContent.plans}
+	/>
+	<Cta1
+		headline={ctaContent.headline}
+		highlightedText={ctaContent.highlightedText}
+		subheadline={ctaContent.subheadline}
+		buttons={ctaContent.buttons}
+	/>
+</BaseLayout>

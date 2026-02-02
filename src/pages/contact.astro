@@ -1,0 +1,183 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+// Fundations
+import Text from '@/components/fundations/elements/Text.astro'
+import Button from '@/components/fundations/elements/Button.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+// Contact information
+const contactInfo = {
+	email: 'hello@nextnode.io',
+	phone: '+1 (555) 123-4567',
+	address: '123 Innovation Drive, San Francisco, CA 94102',
+}
+---
+
+<BaseLayout>
+	<section class="bggradient-up relative overflow-hidden">
+		<Wrapper
+			variant="standard"
+			class="relative grid grid-cols-1 gap-12 py-24 md:grid-cols-4"
+		>
+			<div class="md:col-span-2">
+				<Text
+					tag="h1"
+					variant="displayXL"
+					class="font-display mt-12 text-balance text-white"
+				>
+					Contact us
+				</Text>
+				<Text
+					tag="p"
+					variant="textBase"
+					class="mt-2 text-balance text-white"
+				>
+					Get in touch with our team and let us know how we can help
+				</Text>
+				<form class="mt-12">
+					<div class="flex flex-col gap-y-4">
+						<div class="grid grid-cols-1 gap-y-4 md:grid-cols-2">
+							<div class="relative flex flex-col-reverse">
+								<input
+									type="text"
+									id="first_name"
+									name="first_name"
+									placeholder="First name..."
+									autocomplete="given-name"
+									required
+									class="peer bg-base-900 focus:bg-base-950 relative z-10 block h-14 w-full appearance-none border-l border-transparent border-l-white px-3 py-3 text-white duration-300 placeholder:absolute placeholder:duration-500 focus:border-white focus:ring-white focus:outline-none focus:placeholder:pt-10 focus:placeholder:text-transparent sm:text-sm"
+								/>
+								<label
+									for="first_name"
+									class="text-base-500 z-0 mb-1 -translate-y-12 text-xs opacity-0 duration-500 peer-focus:translate-y-0 peer-focus:opacity-100 after:ml-0.5 after:text-red-500 after:content-['*']"
+								>
+									First name
+								</label>
+							</div>
+							<div class="relative flex flex-col-reverse">
+								<input
+									type="text"
+									id="last_name"
+									name="last_name"
+									placeholder="Last name..."
+									autocomplete="family-name"
+									required
+									class="peer bg-base-900 focus:bg-base-950 relative z-10 block h-14 w-full appearance-none border-l border-transparent border-l-white px-3 py-3 text-white duration-300 placeholder:absolute placeholder:duration-500 focus:border-white focus:ring-white focus:outline-none focus:placeholder:pt-10 focus:placeholder:text-transparent sm:text-sm"
+								/>
+								<label
+									for="last_name"
+									class="text-base-500 z-0 mb-1 -translate-y-12 text-xs opacity-0 duration-500 peer-focus:translate-y-0 peer-focus:opacity-100 after:ml-0.5 after:text-red-500 after:content-['*']"
+								>
+									Last name
+								</label>
+							</div>
+						</div>
+						<div class="relative flex flex-col-reverse">
+							<input
+								type="email"
+								id="email"
+								name="email"
+								placeholder="Your Email..."
+								autocomplete="email"
+								required
+								class="peer bg-base-900 focus:bg-base-950 relative z-10 block h-14 w-full appearance-none border-l border-transparent border-l-white px-3 py-3 text-white duration-300 placeholder:absolute placeholder:duration-500 focus:border-white focus:ring-white focus:outline-none focus:placeholder:pt-10 focus:placeholder:text-transparent sm:text-sm"
+							/>
+							<label
+								for="email"
+								class="text-base-500 z-0 mb-1 -translate-y-12 text-xs opacity-0 duration-500 peer-focus:translate-y-0 peer-focus:opacity-100 after:ml-0.5 after:text-red-500 after:content-['*']"
+							>
+								Email
+							</label>
+						</div>
+						<div class="relative flex flex-col-reverse">
+							<input
+								type="text"
+								id="subject"
+								name="subject"
+								placeholder="Subject..."
+								class="peer bg-base-900 focus:bg-base-950 relative z-10 block h-14 w-full appearance-none border-l border-transparent border-l-white px-3 py-3 text-white duration-300 placeholder:absolute placeholder:duration-500 focus:border-white focus:ring-white focus:outline-none focus:placeholder:pt-10 focus:placeholder:text-transparent sm:text-sm"
+							/>
+							<label
+								for="subject"
+								class="text-base-500 z-0 mb-1 -translate-y-12 text-xs opacity-0 duration-500 peer-focus:translate-y-0 peer-focus:opacity-100"
+							>
+								Subject
+							</label>
+						</div>
+						<div class="relative flex flex-col-reverse">
+							<textarea
+								id="message"
+								name="message"
+								placeholder="Your message..."
+								rows="4"
+								required
+								class="peer bg-base-900 focus:bg-base-950 resize-vertical relative block w-full appearance-none border-l border-transparent border-l-white px-3 py-3 text-white duration-300 placeholder:absolute placeholder:duration-500 focus:border-white focus:ring-white focus:outline-none focus:placeholder:pt-10 focus:placeholder:text-transparent sm:text-sm"
+								aria-describedby="message-desc"></textarea>
+							<label
+								for="message"
+								class="text-base-500 z-0 mb-1 -translate-y-12 text-xs opacity-0 duration-500 peer-focus:translate-y-0 peer-focus:opacity-100 after:ml-0.5 after:text-red-500 after:content-['*']"
+							>
+								Message
+							</label>
+						</div>
+						<Button
+							size="base"
+							variant="default"
+							type="button"
+							class="w-auto justify-center"
+						>
+							Send message
+						</Button>
+					</div>
+				</form>
+			</div>
+			<div class="md:col-span-2 md:col-start-4 lg:col-span-1">
+				<Text
+					tag="h2"
+					variant="textXL"
+					class="font-display mt-12 text-white"
+				>
+					Contact information
+				</Text>
+				<div class="mt-8 flex flex-col gap-y-6">
+					<div>
+						<Text tag="p" variant="textSM" class="text-base-500">
+							Email
+						</Text>
+						<Text
+							tag="p"
+							variant="textBase"
+							class="mt-1 text-white"
+						>
+							{contactInfo.email}
+						</Text>
+					</div>
+					<div>
+						<Text tag="p" variant="textSM" class="text-base-500">
+							Phone
+						</Text>
+						<Text
+							tag="p"
+							variant="textBase"
+							class="mt-1 text-white"
+						>
+							{contactInfo.phone}
+						</Text>
+					</div>
+					<div>
+						<Text tag="p" variant="textSM" class="text-base-500">
+							Address
+						</Text>
+						<Text
+							tag="p"
+							variant="textBase"
+							class="mt-1 text-white"
+						>
+							{contactInfo.address}
+						</Text>
+					</div>
+				</div>
+			</div>
+		</Wrapper>
+	</section>
+</BaseLayout>

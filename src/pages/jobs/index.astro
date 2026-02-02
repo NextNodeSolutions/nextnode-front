@@ -1,0 +1,305 @@
+---
+/**
+ * Jobs Listing Page
+ *
+ * Displays all open positions in a list format with filtering by department.
+ * Uses JobCard components and jobs/Cta for call-to-action.
+ */
+
+// Layouts
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+// Foundations
+import Button from '@/components/fundations/elements/Button.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+// Components
+import Cta from '@/components/jobs/Cta.astro'
+import JobCard from '@/components/jobs/JobCard.astro'
+
+// Content
+import { getCollection } from 'astro:content'
+
+const allJobs = await getCollection('jobs')
+
+// Sort jobs by publication date (newest first), jobs without pubDate come last
+const sortedJobs = allJobs.sort((a, b) => {
+	const dateA = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0
+	const dateB = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0
+	return dateB - dateA
+})
+
+// Extract unique departments for filtering
+const departments = [...new Set(allJobs.map(job => job.data.department))].sort()
+
+const title = 'Careers | NextNode'
+const description =
+	'Join the NextNode team. Explore open positions and help us build the future of edge computing and developer tools.'
+
+// Benefits data
+const benefits = [
+	[
+		{
+			title: 'Remote-First Culture',
+			description:
+				'Work from anywhere in the world. We believe great talent is everywhere, and we support flexible work arrangements that suit your lifestyle.',
+		},
+		{
+			title: 'Competitive Compensation',
+			description:
+				'Earn a competitive salary with equity options. Share in the success of building cutting-edge infrastructure technology.',
+		},
+		{
+			title: 'Health & Wellness',
+			description:
+				'Comprehensive health, dental, and vision benefits. We prioritize your well-being so you can focus on doing your best work.',
+		},
+	],
+	[
+		{
+			title: 'Generous Time Off',
+			description:
+				'Unlimited PTO policy with company-wide holidays. Take the time you need to recharge and maintain work-life balance.',
+		},
+		{
+			title: 'Learning & Growth',
+			description:
+				'Annual learning budget for conferences, courses, and books. We invest in your professional development.',
+		},
+		{
+			title: 'Modern Equipment',
+			description:
+				'Get the hardware you need to do your best work. Choose your preferred setup with our equipment stipend.',
+		},
+	],
+]
+---
+
+<BaseLayout title={title} description={description}>
+	<section class="bg-gradient-up">
+		<Wrapper
+			variant="standard"
+			class="relative grid grid-cols-1 gap-y-12 py-42 md:grid-cols-4"
+		>
+			<div class="md:col-span-2 md:col-start-2 md:text-center">
+				<Text tag="span" variant="textSM" class="text-base-400">
+					Careers
+				</Text>
+				<Text
+					tag="h1"
+					variant="displayXL"
+					class="font-display mt-12 text-balance text-white"
+				>
+					Help build the future
+					<span class="text-base-400 block">of edge computing</span>
+				</Text>
+				<Text
+					tag="p"
+					variant="textBase"
+					class="text-base-400 mt-2 text-balance"
+				>
+					At NextNode, we're building infrastructure that powers the
+					next generation of applications. Join us in making edge
+					computing accessible to developers everywhere.
+				</Text>
+				<div class="mt-8 flex justify-center">
+					<Button
+						isLink
+						href="#open-positions"
+						size="base"
+						variant="muted"
+					>
+						See open positions
+					</Button>
+				</div>
+			</div>
+			<div class="md:col-span-2 md:col-start-2 md:row-start-2">
+				<Text
+					tag="h4"
+					variant="displayMD"
+					class="font-display mt-12 text-balance text-white"
+				>
+					We're redefining how developers deploy.
+					<span class="text-base-400 block"
+						>Your expertise can help shape the future.</span
+					>
+				</Text>
+				<Wrapper variant="prose" class="mt-12">
+					<p>
+						Remember when deploying was simple? When you could focus
+						on building great software instead of wrestling with
+						infrastructure? That's the experience we're bringing
+						back.
+					</p>
+					<p>
+						Edge functions, serverless databases, global CDN,
+						instant deployments. These aren't just buzzwords to
+						us—they're the building blocks of a better developer
+						experience.
+					</p>
+					<p>
+						At NextNode, we're on a mission to democratize edge
+						computing. We believe every developer should have access
+						to infrastructure that scales effortlessly, deploys
+						instantly, and costs fairly.
+					</p>
+					<p>
+						If you're passionate about developer tools, if you
+						believe in making complex things simple, if you want to
+						build technology that empowers millions of
+						developers—then you might be the perfect fit.
+					</p>
+					<p>Join us, and let's build the future together.</p>
+				</Wrapper>
+			</div>
+			<dl
+				class="grid grid-cols-1 md:col-span-2 md:col-start-2 md:row-start-3 md:grid-cols-2"
+			>
+				{
+					benefits.map(column => (
+						<div class="flex flex-col space-y-12 bg-white/5 py-8">
+							{column.map(benefit => (
+								<div class="relative flex flex-col justify-between px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+									<div>
+										<dt>
+											<Text
+												tag="h3"
+												variant="textBase"
+												class="text-white"
+											>
+												{benefit.title}
+											</Text>
+										</dt>
+										<dd class="text-base-400 mt-4 text-sm">
+											{benefit.description}
+										</dd>
+									</div>
+								</div>
+							))}
+						</div>
+					))
+				}
+			</dl>
+		</Wrapper>
+	</section>
+	<section id="open-positions">
+		<Wrapper
+			variant="standard"
+			class="grid grid-cols-1 gap-y-12 py-12 md:grid-cols-4"
+		>
+			<div class="md:col-span-2 md:col-start-2">
+				<Text tag="span" variant="textSM" class="text-base-400">
+					Open positions
+				</Text>
+				<Text
+					tag="h2"
+					variant="displayXL"
+					class="font-display mt-12 text-balance text-white"
+				>
+					Join our team
+				</Text>
+				<Text
+					tag="p"
+					variant="textBase"
+					class="text-base-400 mt-4 max-w-lg"
+				>
+					Explore our current openings and find the role that's right
+					for you.
+				</Text>
+			</div>
+			<div
+				class="flex flex-wrap gap-2 md:col-span-2 md:col-start-2 md:row-start-2"
+				id="department-filters"
+			>
+				<button
+					data-department="all"
+					class="filter-btn bg-nextnode-500 rounded-full px-4 py-1.5 text-sm font-medium text-white transition-colors"
+				>
+					All
+				</button>
+				{
+					departments.map(dept => (
+						<button
+							data-department={dept}
+							class="filter-btn bg-base-800 hover:bg-base-700 rounded-full px-4 py-1.5 text-sm font-medium text-white transition-colors"
+						>
+							{dept}
+						</button>
+					))
+				}
+			</div>
+			<div
+				class="divide-y divide-white/10 border-y border-white/10 md:col-span-2 md:col-start-2 md:row-start-3"
+				id="jobs-list"
+			>
+				{
+					sortedJobs.map(post => (
+						<div
+							class="job-card py-8"
+							data-department={post.data.department}
+						>
+							<JobCard post={post} />
+						</div>
+					))
+				}
+			</div>
+			<div
+				id="no-jobs-message"
+				class="text-base-400 hidden py-8 text-center md:col-span-2 md:col-start-2 md:row-start-3"
+			>
+				<Text tag="p" variant="textBase">
+					No positions found in this department. Check back soon!
+				</Text>
+			</div>
+		</Wrapper>
+	</section>
+	<Cta
+		heading="Don't see the right role?"
+		description="We're always looking for talented people. Send us your resume and tell us how you can contribute to NextNode."
+		buttonText="Get in touch"
+		buttonHref="/contact"
+	/>
+</BaseLayout>
+
+<script>
+	const filterButtons = document.querySelectorAll('.filter-btn')
+	const jobCards = document.querySelectorAll('.job-card')
+	const jobsList = document.getElementById('jobs-list')
+	const noJobsMessage = document.getElementById('no-jobs-message')
+
+	filterButtons.forEach(btn => {
+		btn.addEventListener('click', () => {
+			const department = btn.getAttribute('data-department')
+
+			// Update active button styles
+			filterButtons.forEach(b => {
+				b.classList.remove('bg-nextnode-500')
+				b.classList.add('bg-base-800', 'hover:bg-base-700')
+			})
+			btn.classList.add('bg-nextnode-500')
+			btn.classList.remove('bg-base-800', 'hover:bg-base-700')
+
+			// Filter job cards
+			let visibleCount = 0
+			jobCards.forEach(card => {
+				const cardDept = card.getAttribute('data-department')
+				if (department === 'all' || cardDept === department) {
+					card.classList.remove('hidden')
+					visibleCount++
+				} else {
+					card.classList.add('hidden')
+				}
+			})
+
+			// Show/hide no jobs message
+			if (visibleCount === 0) {
+				jobsList?.classList.add('hidden')
+				noJobsMessage?.classList.remove('hidden')
+			} else {
+				jobsList?.classList.remove('hidden')
+				noJobsMessage?.classList.add('hidden')
+			}
+		})
+	})
+</script>

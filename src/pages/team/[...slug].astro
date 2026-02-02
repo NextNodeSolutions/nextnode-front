@@ -1,0 +1,47 @@
+---
+/**
+ * Team Member Profile Page
+ *
+ * Dynamic route for individual team member profiles.
+ * Renders MDX bio content with TeamLayout for consistent structure.
+ * Generates static paths for all team members at build time.
+ */
+
+import { getCollection } from 'astro:content'
+
+import TeamLayout from '@/layouts/TeamLayout.astro'
+
+export async function getStaticPaths() {
+	const allTeam = await getCollection('team')
+
+	return allTeam.map(member => ({
+		params: { slug: member.slug },
+		props: { member },
+	}))
+}
+
+interface Props {
+	member: Awaited<ReturnType<typeof getCollection<'team'>>>[number]
+}
+
+const { member } = Astro.props
+const { Content } = await member.render()
+
+const { name, role, bio, image, socialLinks, education, experience } =
+	member.data
+
+// TeamLayout expects avatar as a string URL
+const avatar = image?.url?.src
+---
+
+<TeamLayout
+	name={name}
+	role={role}
+	intro={bio}
+	avatar={avatar}
+	socialLinks={socialLinks}
+	education={education}
+	experience={experience}
+>
+	<Content />
+</TeamLayout>

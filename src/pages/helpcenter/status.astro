@@ -1,0 +1,69 @@
+---
+/**
+ * Status Page - System status and incident history
+ *
+ * Displays current service status and past incidents for NextNode platform.
+ * Uses the Status component with customized service data.
+ */
+
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import StatusDisplay from '@/components/helpcenter/Status.astro'
+import type {
+	StatusItem,
+	StatusEvent,
+} from '@/components/helpcenter/Status.astro'
+
+/** Current service status for NextNode platform */
+const services: StatusItem[] = [
+	{ service: 'API Gateway', status: 'operational' },
+	{ service: 'Web Application', status: 'operational' },
+	{ service: 'Authentication Service', status: 'operational' },
+	{ service: 'Database Cluster', status: 'operational' },
+	{ service: 'CDN & Edge Network', status: 'operational' },
+	{ service: 'Background Processing', status: 'operational' },
+	{ service: 'Email Service', status: 'operational' },
+]
+
+/** Recent events and incidents */
+const events: StatusEvent[] = [
+	{
+		status: 'Completed',
+		description:
+			'Scheduled maintenance completed successfully. All services restored.',
+		timestamp: 'Jan 28, 2026 23:00 UTC',
+	},
+	{
+		status: 'In progress',
+		description:
+			'Database optimization in progress. No service interruption expected.',
+		timestamp: 'Jan 28, 2026 22:00 UTC',
+	},
+	{
+		status: 'Scheduled',
+		description:
+			'Routine maintenance scheduled for infrastructure upgrades.',
+		timestamp: 'Jan 27, 2026 10:00 UTC',
+	},
+]
+
+/** Generate current sync time */
+const now = new Date()
+const lastSyncTime = now.toISOString().slice(11, 19) + ' UTC'
+---
+
+<BaseLayout
+	title="System Status | NextNode"
+	description="Check the current operational status of NextNode services and view past incidents."
+>
+	<StatusDisplay
+		title="System Status:"
+		subtitle="All systems operational"
+		description="Our infrastructure is continuously monitored for performance, availability, and security. Any incidents or scheduled maintenance will be reported here in real time."
+		lastSyncTime={lastSyncTime}
+		services={services}
+		incidentsTitle="Recent Events:"
+		incidentsSubtitle="No active incidents."
+		incidentsDateLabel="January 28, 2026 — System Updates"
+		events={events}
+	/>
+</BaseLayout>

@@ -1,0 +1,622 @@
+---
+/**
+ * Design System - Typography Page
+ *
+ * Showcases all Text component variants, font families, and text styles.
+ * Reference for developers to understand available typography options.
+ */
+
+// Layouts
+import BaseLayout from '@/layouts/BaseLayout.astro'
+
+// Fundations
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+// TypeScript interfaces for typography data
+interface TextVariantExample {
+	variant: string
+	label: string
+	description: string
+}
+
+interface FontFamily {
+	name: string
+	className: string
+	variable: string
+	usage: string
+}
+
+// Page metadata
+const title = 'Typography | Design System'
+const description =
+	'Typography system with Text component variants and font families for the NextNode design system.'
+
+// Display variants (large headings)
+const displayVariants: TextVariantExample[] = [
+	{
+		variant: 'display6XL',
+		label: 'Display 6XL',
+		description: 'Largest display, hero sections',
+	},
+	{
+		variant: 'display5XL',
+		label: 'Display 5XL',
+		description: 'Very large display headings',
+	},
+	{
+		variant: 'display4XL',
+		label: 'Display 4XL',
+		description: 'Large display headings',
+	},
+	{
+		variant: 'display3XL',
+		label: 'Display 3XL',
+		description: 'Section hero headings',
+	},
+	{
+		variant: 'display2XL',
+		label: 'Display 2XL',
+		description: 'Major section headings',
+	},
+	{
+		variant: 'displayXL',
+		label: 'Display XL',
+		description: 'Page titles and section headers',
+	},
+	{
+		variant: 'displayLG',
+		label: 'Display LG',
+		description: 'Subsection headings',
+	},
+	{
+		variant: 'displayMD',
+		label: 'Display MD',
+		description: 'Card titles and medium headings',
+	},
+	{
+		variant: 'displaySM',
+		label: 'Display SM',
+		description: 'Small headings and labels',
+	},
+	{
+		variant: 'displayXS',
+		label: 'Display XS',
+		description: 'Smallest display heading',
+	},
+]
+
+// Text variants (body text)
+const textVariants: TextVariantExample[] = [
+	{
+		variant: 'textXL',
+		label: 'Text XL',
+		description: 'Large body text and lead paragraphs',
+	},
+	{
+		variant: 'textLG',
+		label: 'Text LG',
+		description: 'Larger body text and introductions',
+	},
+	{
+		variant: 'textBase',
+		label: 'Text Base',
+		description: 'Default body text size',
+	},
+	{
+		variant: 'textSM',
+		label: 'Text SM',
+		description: 'Small text for captions and metadata',
+	},
+	{
+		variant: 'textXS',
+		label: 'Text XS',
+		description: 'Extra small text for labels',
+	},
+]
+
+// Font families
+const fontFamilies: FontFamily[] = [
+	{
+		name: 'DM Sans',
+		className: 'font-sans',
+		variable: '--font-sans',
+		usage: 'Primary body text, paragraphs, and general content',
+	},
+	{
+		name: 'Plus Jakarta Sans',
+		className: 'font-display',
+		variable: '--font-display',
+		usage: 'Display headings, titles, and emphasis',
+	},
+	{
+		name: 'JetBrains Mono',
+		className: 'font-mono',
+		variable: '--font-mono',
+		usage: 'Code blocks, technical content, and monospace text',
+	},
+]
+---
+
+<BaseLayout title={title} description={description}>
+	<section>
+		<Wrapper variant="standard" class="py-24">
+			<Text
+				tag="h1"
+				variant="displayXL"
+				class="font-display mt-12 text-balance text-white"
+			>
+				Typography
+			</Text>
+			<Text tag="p" variant="textLG" class="text-base-300 mt-4 max-w-2xl">
+				Typography system using DM Sans, Plus Jakarta Sans, and
+				JetBrains Mono. The Text component provides consistent sizing
+				across all breakpoints.
+			</Text>
+
+			<!-- Font Families Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Font Families
+				</Text>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					Three font families for different purposes.
+				</Text>
+
+				<div class="mt-8 grid gap-6 md:grid-cols-3">
+					{
+						fontFamilies.map(font => (
+							<div class="bg-base-900 rounded-lg p-6">
+								<Text
+									tag="p"
+									variant="displayMD"
+									class:list={[font.className, 'text-white']}
+								>
+									{font.name}
+								</Text>
+								<div class="mt-4 space-y-2">
+									<Text
+										tag="p"
+										variant="textSM"
+										class="text-base-400"
+									>
+										Class:{' '}
+										<code class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white">
+											{font.className}
+										</code>
+									</Text>
+									<Text
+										tag="p"
+										variant="textSM"
+										class="text-base-400"
+									>
+										Variable:{' '}
+										<code class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white">
+											{font.variable}
+										</code>
+									</Text>
+									<Text
+										tag="p"
+										variant="textSM"
+										class="text-base-300 mt-3"
+									>
+										{font.usage}
+									</Text>
+								</div>
+							</div>
+						))
+					}
+				</div>
+			</div>
+
+			<!-- Display Variants Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Display Variants
+				</Text>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					Large headings for page titles and section headers. Use with
+					<code
+						class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white"
+						>font-display</code
+					> class.
+				</Text>
+
+				<div class="mt-8 space-y-8">
+					{
+						displayVariants.map(item => (
+							<div class="border-base-800 border-b pb-8">
+								<div class="mb-4 flex items-baseline gap-4">
+									<Text
+										tag="span"
+										variant="textXS"
+										class="font-medium text-white uppercase"
+									>
+										{item.label}
+									</Text>
+									<Text
+										tag="span"
+										variant="textXS"
+										class="text-base-500"
+									>
+										variant="{item.variant}"
+									</Text>
+								</div>
+								<Text
+									tag="p"
+									variant={
+										item.variant as
+											| 'display6XL'
+											| 'display5XL'
+											| 'display4XL'
+											| 'display3XL'
+											| 'display2XL'
+											| 'displayXL'
+											| 'displayLG'
+											| 'displayMD'
+											| 'displaySM'
+											| 'displayXS'
+									}
+									class="font-display text-white"
+								>
+									{item.label}
+								</Text>
+								<Text
+									tag="p"
+									variant="textSM"
+									class="text-base-400 mt-2"
+								>
+									{item.description}
+								</Text>
+							</div>
+						))
+					}
+				</div>
+			</div>
+
+			<!-- Text Variants Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Text Variants
+				</Text>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					Body text sizes for paragraphs and general content. Uses
+					<code
+						class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white"
+						>font-sans</code
+					> by default.
+				</Text>
+
+				<div class="mt-8 space-y-8">
+					{
+						textVariants.map(item => (
+							<div class="border-base-800 border-b pb-8">
+								<div class="mb-4 flex items-baseline gap-4">
+									<Text
+										tag="span"
+										variant="textXS"
+										class="font-medium text-white uppercase"
+									>
+										{item.label}
+									</Text>
+									<Text
+										tag="span"
+										variant="textXS"
+										class="text-base-500"
+									>
+										variant="{item.variant}"
+									</Text>
+								</div>
+								<Text
+									tag="p"
+									variant={
+										item.variant as
+											| 'textXL'
+											| 'textLG'
+											| 'textBase'
+											| 'textSM'
+											| 'textXS'
+									}
+									class="text-white"
+								>
+									The quick brown fox jumps over the lazy dog.
+								</Text>
+								<Text
+									tag="p"
+									variant="textSM"
+									class="text-base-400 mt-2"
+								>
+									{item.description}
+								</Text>
+							</div>
+						))
+					}
+				</div>
+			</div>
+
+			<!-- Font Weights Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Font Weights
+				</Text>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					Available font weights with Tailwind utility classes.
+				</Text>
+
+				<div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+					<div class="bg-base-900 rounded-lg p-4">
+						<Text
+							tag="p"
+							variant="textLG"
+							class="font-light text-white"
+						>
+							Light (300)
+						</Text>
+						<code class="text-base-500 font-mono text-sm"
+							>font-light</code
+						>
+					</div>
+					<div class="bg-base-900 rounded-lg p-4">
+						<Text
+							tag="p"
+							variant="textLG"
+							class="font-normal text-white"
+						>
+							Normal (400)
+						</Text>
+						<code class="text-base-500 font-mono text-sm"
+							>font-normal</code
+						>
+					</div>
+					<div class="bg-base-900 rounded-lg p-4">
+						<Text
+							tag="p"
+							variant="textLG"
+							class="font-medium text-white"
+						>
+							Medium (500)
+						</Text>
+						<code class="text-base-500 font-mono text-sm"
+							>font-medium</code
+						>
+					</div>
+					<div class="bg-base-900 rounded-lg p-4">
+						<Text
+							tag="p"
+							variant="textLG"
+							class="font-semibold text-white"
+						>
+							Semibold (600)
+						</Text>
+						<code class="text-base-500 font-mono text-sm"
+							>font-semibold</code
+						>
+					</div>
+					<div class="bg-base-900 rounded-lg p-4">
+						<Text
+							tag="p"
+							variant="textLG"
+							class="font-bold text-white"
+						>
+							Bold (700)
+						</Text>
+						<code class="text-base-500 font-mono text-sm"
+							>font-bold</code
+						>
+					</div>
+					<div class="bg-base-900 rounded-lg p-4">
+						<Text
+							tag="p"
+							variant="textLG"
+							class="font-extrabold text-white"
+						>
+							Extrabold (800)
+						</Text>
+						<code class="text-base-500 font-mono text-sm"
+							>font-extrabold</code
+						>
+					</div>
+				</div>
+			</div>
+
+			<!-- Code & Monospace Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Code & Monospace
+				</Text>
+				<Text tag="p" variant="textBase" class="text-base-300 mt-2">
+					JetBrains Mono for code blocks and technical content.
+				</Text>
+
+				<div class="mt-8 space-y-4">
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="p"
+							variant="textSM"
+							class="font-mono text-white"
+						>
+							const greeting = "Hello, NextNode!";
+						</Text>
+					</div>
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="p"
+							variant="textBase"
+							class="font-mono text-white"
+						>
+							function calculateTotal(items: Item[]): number
+						</Text>
+					</div>
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="p"
+							variant="textLG"
+							class="font-mono text-white"
+						>
+							npx create-astro@latest
+						</Text>
+					</div>
+				</div>
+			</div>
+
+			<!-- Usage Guidelines Section -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Usage Guidelines
+				</Text>
+
+				<div class="mt-8 grid gap-6 md:grid-cols-2">
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="h3"
+							variant="textBase"
+							class="font-medium text-white"
+						>
+							Display Headings
+						</Text>
+						<Text
+							tag="p"
+							variant="textSM"
+							class="text-base-300 mt-2"
+						>
+							Use <code
+								class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white"
+								>display*</code
+							> variants with <code
+								class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white"
+								>font-display</code
+							> for headings and titles. These scale responsively across
+							breakpoints.
+						</Text>
+					</div>
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="h3"
+							variant="textBase"
+							class="font-medium text-white"
+						>
+							Body Text
+						</Text>
+						<Text
+							tag="p"
+							variant="textSM"
+							class="text-base-300 mt-2"
+						>
+							Use <code
+								class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white"
+								>text*</code
+							> variants for paragraphs and general content. The default
+							font-sans (DM Sans) provides excellent readability.
+						</Text>
+					</div>
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="h3"
+							variant="textBase"
+							class="font-medium text-white"
+						>
+							Code Content
+						</Text>
+						<Text
+							tag="p"
+							variant="textSM"
+							class="text-base-300 mt-2"
+						>
+							Use <code
+								class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white"
+								>font-mono</code
+							> for inline code, code blocks, and technical values.
+							JetBrains Mono provides clear character distinction.
+						</Text>
+					</div>
+					<div class="bg-base-900 rounded-lg p-6">
+						<Text
+							tag="h3"
+							variant="textBase"
+							class="font-medium text-white"
+						>
+							Color Combinations
+						</Text>
+						<Text
+							tag="p"
+							variant="textSM"
+							class="text-base-300 mt-2"
+						>
+							Use <code
+								class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white"
+								>text-white</code
+							> for primary text, <code
+								class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white"
+								>text-base-300</code
+							> for secondary text, and <code
+								class="bg-base-800 rounded px-1.5 py-0.5 font-mono text-white"
+								>text-base-500</code
+							> for muted text.
+						</Text>
+					</div>
+				</div>
+			</div>
+
+			<!-- Navigation Links -->
+			<div class="mt-16">
+				<Text
+					tag="h2"
+					variant="displaySM"
+					class="font-display text-white"
+				>
+					Related Pages
+				</Text>
+				<div class="mt-4 flex flex-wrap gap-4">
+					<a
+						href="/system/overview"
+						class="text-accent-400 hover:text-accent-300 underline"
+					>
+						Overview
+					</a>
+					<a
+						href="/system/colors"
+						class="text-accent-400 hover:text-accent-300 underline"
+					>
+						Colors
+					</a>
+					<a
+						href="/system/buttons"
+						class="text-accent-400 hover:text-accent-300 underline"
+					>
+						Buttons
+					</a>
+					<a
+						href="/system/link"
+						class="text-accent-400 hover:text-accent-300 underline"
+					>
+						Links
+					</a>
+				</div>
+			</div>
+		</Wrapper>
+	</section>
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+/**
+ * Customer Case Study Page ([...slug].astro)
+ *
+ * Dynamic route for individual customer case study pages.
+ * Uses CustomersLayout with MDX content rendering.
+ * Generates static paths for all customers from the content collection.
+ */
+
+import { getCollection } from 'astro:content'
+import CustomersLayout from '@/layouts/CustomersLayout.astro'
+
+export async function getStaticPaths() {
+	const allCustomers = await getCollection('customers')
+	return allCustomers.map(customer => ({
+		params: { slug: customer.slug },
+		props: { customer },
+	}))
+}
+
+interface Props {
+	customer: Awaited<ReturnType<typeof getCollection<'customers'>>>[number]
+}
+
+const { customer } = Astro.props
+const { Content } = await customer.render()
+
+const {
+	name,
+	logo,
+	industry,
+	quote,
+	quoteAttribution,
+	about,
+	caseStudy,
+	details,
+} = customer.data
+
+// Derive logo URL from image object
+const logoUrl = logo?.url?.src
+
+// Build details object including industry
+const customerDetails = {
+	industry,
+	...details,
+}
+---
+
+<CustomersLayout
+	customer={name}
+	logo={logoUrl}
+	quote={quote}
+	quoteAttribution={quoteAttribution}
+	about={about}
+	details={customerDetails}
+	challengesAndSolutions={caseStudy?.challengesAndSolutions}
+	results={caseStudy?.results}
+>
+	<Content />
+</CustomersLayout>

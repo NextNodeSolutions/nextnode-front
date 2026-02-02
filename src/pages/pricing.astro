@@ -1,0 +1,164 @@
+---
+// Foundations
+import BaseLayout from '@/layouts/BaseLayout.astro'
+// Sections
+import Pricing1 from '@/components/pricing/Pricing1.astro'
+import Faq1 from '@/components/faqs/Faq1.astro'
+import Cta1 from '@/components/ctas/Cta1.astro'
+
+// Pricing content - detailed plans for dedicated page
+const pricingContent = {
+	label: 'Pricing Plans',
+	headline: 'Choose the plan',
+	highlightedText: 'that fits your needs',
+	description:
+		'Transparent pricing with no hidden fees. Start free and scale as you grow.',
+	plans: [
+		{
+			id: 'plan-starter',
+			title: 'Starter',
+			price: '$0',
+			priceSuffix: '/month',
+			description: 'Perfect for side projects and personal use.',
+			benefits: [
+				'100k requests/month',
+				'1GB storage',
+				'Community support',
+				'Basic analytics',
+				'1 team member',
+			],
+			buttonText: 'Start Free',
+			buttonHref: '/sign-up',
+			buttonVariant: 'muted' as const,
+		},
+		{
+			id: 'plan-pro',
+			title: 'Pro',
+			price: '$29',
+			priceSuffix: '/month',
+			description: 'For growing teams shipping production apps.',
+			benefits: [
+				'10M requests/month',
+				'100GB storage',
+				'Priority email support',
+				'Advanced analytics',
+				'Custom domains',
+				'5 team members',
+				'CI/CD integrations',
+			],
+			isPopular: true,
+			popularBadge: 'Most Popular',
+			buttonText: 'Get Started',
+			buttonHref: '/sign-up?plan=pro',
+			buttonVariant: 'default' as const,
+		},
+		{
+			id: 'plan-enterprise',
+			title: 'Enterprise',
+			price: 'Custom',
+			description: 'For organizations with advanced requirements.',
+			benefits: [
+				'Unlimited requests',
+				'Unlimited storage',
+				'Dedicated support engineer',
+				'99.99% SLA guarantee',
+				'Custom integrations',
+				'Unlimited team members',
+				'On-premise deployment',
+				'Security audit reports',
+			],
+			buttonText: 'Contact Sales',
+			buttonHref: '/contact',
+			buttonVariant: 'muted' as const,
+		},
+	],
+}
+
+// Pricing FAQ content
+const faqContent = {
+	label: 'FAQ',
+	headline: 'Pricing questions',
+	highlightedText: 'answered',
+	description: 'Common questions about our pricing and billing.',
+	faqs: [
+		{
+			id: 'pricing-faq-1',
+			question: 'Can I change plans at any time?',
+			answer: 'Yes, you can upgrade or downgrade your plan at any time. When upgrading, the new pricing takes effect immediately with prorated charges. When downgrading, the change takes effect at the start of your next billing cycle.',
+		},
+		{
+			id: 'pricing-faq-2',
+			question: 'What happens if I exceed my plan limits?',
+			answer: "We'll send you notifications as you approach your limits. If you exceed them, your service continues uninterrupted and you can pay for overages at a fair rate or upgrade your plan.",
+		},
+		{
+			id: 'pricing-faq-3',
+			question: 'Do you offer annual billing discounts?',
+			answer: 'Yes! Annual billing gives you 2 months free compared to monthly billing. Contact our sales team for annual pricing on any plan.',
+		},
+		{
+			id: 'pricing-faq-4',
+			question: 'Is there a free trial for paid plans?',
+			answer: 'Our Starter plan is free forever with no credit card required. For Pro and Enterprise, we offer a 14-day free trial so you can test all features before committing.',
+		},
+		{
+			id: 'pricing-faq-5',
+			question: 'What payment methods do you accept?',
+			answer: 'We accept all major credit cards (Visa, Mastercard, American Express), PayPal, and wire transfers for annual Enterprise contracts.',
+		},
+		{
+			id: 'pricing-faq-6',
+			question: 'Can I get a refund if I cancel?',
+			answer: 'We offer a 30-day money-back guarantee for first-time subscribers. After that, you can cancel anytime and your service will continue until the end of your billing period.',
+		},
+	],
+	ctaText: 'Contact Support',
+	ctaHref: '/contact',
+}
+
+// CTA content
+const ctaContent = {
+	headline: 'Start building today',
+	highlightedText: '',
+	subheadline:
+		'Join thousands of developers shipping faster with NextNode. No credit card required to get started.',
+	buttons: [
+		{
+			label: 'Start Free',
+			href: '/sign-up',
+			variant: 'default' as const,
+		},
+		{
+			label: 'Compare Plans',
+			href: '#pricing',
+			variant: 'muted' as const,
+		},
+	],
+}
+---
+
+<BaseLayout>
+	<Pricing1
+		id="pricing"
+		label={pricingContent.label}
+		headline={pricingContent.headline}
+		highlightedText={pricingContent.highlightedText}
+		description={pricingContent.description}
+		plans={pricingContent.plans}
+	/>
+	<Faq1
+		label={faqContent.label}
+		headline={faqContent.headline}
+		highlightedText={faqContent.highlightedText}
+		description={faqContent.description}
+		faqs={faqContent.faqs}
+		ctaText={faqContent.ctaText}
+		ctaHref={faqContent.ctaHref}
+	/>
+	<Cta1
+		headline={ctaContent.headline}
+		highlightedText={ctaContent.highlightedText}
+		subheadline={ctaContent.subheadline}
+		buttons={ctaContent.buttons}
+	/>
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+/**
+ * Help Center Article Page - Dynamic route for individual help articles
+ *
+ * Renders MDX content from the helpcenter collection using HelpCenterLayout.
+ * Generates static paths for all articles with sidebar navigation.
+ */
+
+import { getCollection } from 'astro:content'
+import HelpCenterLayout from '@/layouts/HelpCenterLayout.astro'
+import type { HelpCategory } from '@/layouts/HelpCenterLayout.astro'
+
+export async function getStaticPaths() {
+	const allArticles = await getCollection('helpcenter')
+
+	// Build category list for sidebar navigation
+	const categoryMap = allArticles.reduce<Record<string, number>>(
+		(acc, article) => {
+			const category = article.data.category
+			acc[category] = (acc[category] || 0) + 1
+			return acc
+		},
+		{},
+	)
+
+	const categories: HelpCategory[] = Object.entries(categoryMap)
+		.sort(([a], [b]) => a.localeCompare(b))
+		.map(([name, count]) => ({
+			id: name.toLowerCase().replace(/\s+/g, '-'),
+			name,
+			articleCount: count,
+		}))
+
+	return allArticles.map(article => ({
+		params: { slug: article.slug },
+		props: { article, categories },
+	}))
+}
+
+interface Props {
+	article: Awaited<ReturnType<typeof getCollection<'helpcenter'>>>[number]
+	categories: HelpCategory[]
+}
+
+const { article, categories } = Astro.props
+const { Content } = await article.render()
+
+const { title, description, category, pubDate, lastUpdated } = article.data
+---
+
+<HelpCenterLayout
+	title={title}
+	description={description}
+	category={category}
+	categories={categories}
+	pubDate={pubDate}
+	lastUpdated={lastUpdated}
+>
+	<Content />
+</HelpCenterLayout>
