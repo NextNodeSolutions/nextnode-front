@@ -1,0 +1,114 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+// Foundation components
+import Text from '@/components/fundations/elements/Text.astro'
+import Button, {
+	type ButtonVariant,
+} from '@/components/fundations/elements/Button.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+/**
+ * Single CTA button
+ */
+export interface CtaButton {
+	/** Button label */
+	label: string
+	/** Button href */
+	href: string
+	/** Button variant */
+	variant?: ButtonVariant
+}
+
+/**
+ * Props for the Cta1 component
+ */
+interface Props extends Omit<HTMLAttributes<'section'>, 'class'> {
+	/** Main headline */
+	headline: string
+	/** Highlighted text in headline */
+	highlightedText?: string
+	/** Subheadline text */
+	subheadline?: string
+	/** CTA buttons */
+	buttons?: CtaButton[]
+	/** AOS animation type */
+	animation?: string
+	/** AOS animation duration */
+	animationDuration?: string
+	/** Additional CSS classes */
+	class?: string
+}
+
+const {
+	headline,
+	highlightedText,
+	subheadline,
+	buttons = [],
+	animation = 'fade-up',
+	animationDuration = '600',
+	class: className,
+	...rest
+} = Astro.props
+---
+
+<section class:list={[className]} {...rest}>
+	<Wrapper variant="standard" class="overflow-hidden py-24">
+		<div
+			class="border-base-900 bg-gradient-down relative overflow-hidden border-x p-8 pb-12 text-center lg:pt-20"
+		>
+			<div
+				class="relative"
+				data-aos={animation}
+				data-aos-duration={animationDuration}
+			>
+				<Text
+					tag="h2"
+					variant="displayLG"
+					class="font-display text-white lg:text-balance"
+				>
+					{headline}
+					{
+						highlightedText && (
+							<span class="text-nextnode-500">
+								{highlightedText}
+							</span>
+						)
+					}
+				</Text>
+				{
+					subheadline && (
+						<Text
+							tag="p"
+							variant="textBase"
+							class="mx-auto mt-4 max-w-xl text-white lg:text-balance"
+						>
+							{subheadline}
+						</Text>
+					)
+				}
+				{
+					buttons.length > 0 && (
+						<div class="mt-10 flex items-center justify-center gap-2">
+							{buttons.map((button, index) => (
+								<Button
+									isLink
+									size="sm"
+									variant={
+										button.variant ??
+										(index === 0 ? 'default' : 'muted')
+									}
+									href={button.href}
+									title={button.label}
+									aria-label={button.label}
+									class="w-auto"
+								>
+									{button.label}
+								</Button>
+							))}
+						</div>
+					)
+				}
+			</div>
+		</div>
+	</Wrapper>
+</section>

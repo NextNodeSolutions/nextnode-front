@@ -1,0 +1,220 @@
+---
+/**
+ * Pricing1.astro - Pricing section with configurable plan tiers
+ *
+ * Displays pricing plans in a responsive grid with header section.
+ * Supports highlighting recommended tiers with visual differentiation.
+ */
+
+import type { HTMLAttributes } from 'astro/types'
+
+import type { ButtonVariant } from '@/components/fundations/elements/Button.astro'
+import Button from '@/components/fundations/elements/Button.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+export interface PricingPlan {
+	/** Unique identifier */
+	id: string
+	/** Plan name (e.g., "Explorer", "Builder") */
+	title: string
+	/** Price display (e.g., "$0", "$1,999/month", "Custom") */
+	price: string
+	/** Price suffix (e.g., "/month") */
+	priceSuffix?: string
+	/** Short description or promotion text */
+	description: string
+	/** List of included features/benefits */
+	benefits: string[]
+	/** Whether this plan is highlighted as popular/recommended */
+	isPopular?: boolean
+	/** Badge text for popular plans */
+	popularBadge?: string
+	/** Button variant for this plan */
+	buttonVariant?: ButtonVariant
+	/** Button text */
+	buttonText?: string
+	/** Button link */
+	buttonHref?: string
+}
+
+interface Props extends HTMLAttributes<'section'> {
+	/** Section label text */
+	label?: string
+	/** Main headline */
+	headline: string
+	/** Highlighted portion of headline */
+	highlightedText?: string
+	/** Supporting description */
+	description?: string
+	/** Array of pricing plans to display */
+	plans: PricingPlan[]
+	/** AOS animation type */
+	animation?: string
+	/** AOS animation duration in ms */
+	animationDuration?: string
+}
+
+const {
+	label = 'Pricing',
+	headline,
+	highlightedText,
+	description,
+	plans,
+	animation = 'fade-up',
+	animationDuration = '600',
+	class: className,
+	...rest
+} = Astro.props
+---
+
+<section class:list={['bg-gradient-down', className]} {...rest}>
+	<Wrapper
+		variant="standard"
+		class="grid grid-cols-1 gap-y-12 py-24 lg:grid-cols-4 lg:gap-y-24"
+	>
+		<div
+			class="lg:pr-8"
+			data-aos={animation}
+			data-aos-duration={animationDuration}
+		>
+			<Text tag="span" variant="textSM" class="text-white">
+				{label}
+			</Text>
+			<Text
+				tag="h2"
+				variant="displayMD"
+				class="font-display mt-6 tracking-tight text-white lg:text-balance"
+			>
+				{headline}
+				{
+					highlightedText && (
+						<span class="text-base-400"> {highlightedText}</span>
+					)
+				}
+			</Text>
+			{
+				description && (
+					<Text
+						tag="p"
+						variant="textBase"
+						class="mt-4 text-white lg:text-balance"
+					>
+						{description}
+					</Text>
+				)
+			}
+		</div>
+
+		<div
+			class="grid grid-cols-1 gap-y-24 md:grid-cols-2 lg:col-span-3 lg:grid-cols-3"
+		>
+			{
+				plans.map((plan, index) => (
+					<section
+						class="relative flex flex-col before:bg-white lg:order-none lg:pr-8"
+						data-aos={animation}
+						data-aos-duration={
+							Number(animationDuration) + index * 200
+						}
+					>
+						<div class="relative px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+							<div class="w-full gap-12">
+								<div>
+									<Text
+										tag="h3"
+										variant="textLG"
+										class="text-white"
+									>
+										{plan.title}
+										{plan.isPopular && (
+											<span class="bg-base-900 ml-4 inline-flex items-center rounded-full px-3 py-1 text-xs font-medium text-white">
+												{plan.popularBadge ?? 'Popular'}
+											</span>
+										)}
+									</Text>
+									<Text
+										tag="p"
+										variant="displayMD"
+										class="font-display mt-16 text-white"
+									>
+										{plan.price}
+										{plan.priceSuffix && (
+											<span class="text-base-400 font-sans text-sm">
+												{plan.priceSuffix}
+											</span>
+										)}
+									</Text>
+									<Text
+										tag="p"
+										variant="textSM"
+										class="mt-3 text-white"
+									>
+										{plan.description}
+									</Text>
+								</div>
+							</div>
+							<div class="mt-8 inline-flex w-full flex-wrap items-center">
+								{plan.buttonHref ? (
+									<Button
+										isLink
+										href={plan.buttonHref}
+										size="base"
+										variant={plan.buttonVariant ?? 'muted'}
+										class="w-full justify-center"
+									>
+										{plan.buttonText ?? 'Get started'}
+									</Button>
+								) : (
+									<Button
+										type="button"
+										size="base"
+										variant={plan.buttonVariant ?? 'muted'}
+										class="w-full justify-center"
+									>
+										{plan.buttonText ?? 'Get started'}
+									</Button>
+								)}
+							</div>
+							<ul
+								role="list"
+								class:list={[
+									'order-last mt-10 flex flex-col gap-4 text-sm',
+									plan.isPopular
+										? 'text-white'
+										: 'text-base-500',
+								]}
+							>
+								{plan.benefits.map(benefit => (
+									<li class="inline-flex items-center">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="icon icon-tabler icon-tabler-check shrink-0"
+											width="16"
+											height="16"
+											viewBox="0 0 24 24"
+											stroke-width="2"
+											stroke="currentColor"
+											fill="none"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											aria-hidden="true"
+										>
+											<path
+												stroke="none"
+												d="M0 0h24v24H0z"
+												fill="none"
+											/>
+											<path d="M5 12l5 5l10 -10" />
+										</svg>
+										<span class="ml-4">{benefit}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					</section>
+				))
+			}
+		</div>
+	</Wrapper>
+</section>

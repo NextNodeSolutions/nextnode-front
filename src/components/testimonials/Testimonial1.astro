@@ -1,0 +1,230 @@
+---
+/**
+ * Testimonial1.astro - Testimonial carousel section with KeenSlider
+ *
+ * A section component that displays customer testimonials in a carousel
+ * with navigation controls and author information.
+ */
+
+import type { HTMLAttributes } from 'astro/types'
+import { Image } from 'astro:assets'
+import Text from '@/components/fundations/elements/Text.astro'
+import Button from '@/components/fundations/elements/Button.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+import ChevronLeft from '@/components/fundations/icons/ChevronLeft.astro'
+import ChevronRight from '@/components/fundations/icons/ChevronRight.astro'
+
+export interface TestimonialItem {
+	/** Unique identifier for the testimonial */
+	id: string
+	/** Author name */
+	name: string
+	/** Author role or job title */
+	role: string
+	/** Testimonial quote content */
+	content: string
+	/** Author avatar image (imported image or URL string) */
+	imageUrl: ImageMetadata | string
+}
+
+interface Props extends HTMLAttributes<'section'> {
+	/** Section label text (small text above headline) */
+	label?: string
+	/** Main headline text */
+	headline: string
+	/** Highlighted portion of headline (rendered in muted color) */
+	highlightedText?: string
+	/** Array of testimonials to display */
+	testimonials: TestimonialItem[]
+	/** AOS animation type */
+	animation?: string
+	/** AOS animation duration in milliseconds */
+	animationDuration?: string
+	/** Additional CSS classes */
+	class?: string
+}
+
+const {
+	label,
+	headline,
+	highlightedText,
+	testimonials,
+	animation = 'fade-up',
+	animationDuration = '1500',
+	class: className,
+	...rest
+} = Astro.props
+---
+
+<section class:list={[className]} {...rest}>
+	<Wrapper
+		variant="standard"
+		class="grid grid-cols-1 overflow-hidden py-24 lg:grid-cols-4"
+	>
+		<div
+			class="flex flex-col lg:pr-8"
+			data-aos={animation}
+			data-aos-duration={animationDuration}
+		>
+			{
+				label && (
+					<Text tag="span" variant="textSM" class="text-white">
+						{label}
+					</Text>
+				)
+			}
+			<Text
+				tag="h3"
+				variant="displayLG"
+				class="font-display mt-12 text-balance text-white"
+			>
+				{headline}{' '}
+				{
+					highlightedText && (
+						<span class="text-base-400 block">
+							{highlightedText}
+						</span>
+					)
+				}
+			</Text>
+			<div class="mt-8 flex gap-4">
+				<Button
+					iconOnly
+					size="base"
+					variant="default"
+					aria-label="Previous slide"
+					id="keen-slider-previous"
+				>
+					<ChevronLeft slot="icon" size="sm" />
+				</Button>
+				<Button
+					iconOnly
+					size="base"
+					variant="default"
+					aria-label="Next slide"
+					id="keen-slider-next"
+				>
+					<ChevronRight slot="icon" size="sm" />
+				</Button>
+			</div>
+		</div>
+		<div class="col-span-3 -mx-6 lg:mx-0">
+			<div id="keen-slider" class="keen-slider">
+				{
+					testimonials.map((testimonial, index) => (
+						<div
+							class="keen-slider__slide"
+							data-aos={animation}
+							data-aos-duration={String(
+								Number(animationDuration) + index * 200,
+							)}
+						>
+							<div class="border-t-base-900 border-b-base-900 border-t border-b py-8 before:bg-white">
+								<div class="relative px-8 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+									<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-center">
+										{typeof testimonial.imageUrl ===
+										'string' ? (
+											<img
+												width={600}
+												height={600}
+												alt={testimonial.name}
+												src={testimonial.imageUrl}
+												class="aspect-square size-full object-cover grayscale"
+											/>
+										) : (
+											<Image
+												width={600}
+												height={600}
+												alt={testimonial.name}
+												src={testimonial.imageUrl}
+												class="aspect-square size-full object-cover grayscale"
+											/>
+										)}
+										<div class="lg:col-span-2">
+											<div>
+												<Text
+													tag="p"
+													variant="textSM"
+													class="font-medium text-white xl:text-xl"
+												>
+													{testimonial.name}
+												</Text>
+												<Text
+													tag="p"
+													variant="textSM"
+													class="text-base-500"
+												>
+													{testimonial.role}
+												</Text>
+											</div>
+											<div class="group mt-2 h-full pt-2">
+												<blockquote class="relative">
+													<Text
+														tag="p"
+														variant="textBase"
+														class="text-base-400 font-light text-pretty italic lg:text-4xl"
+													>
+														"{testimonial.content}"
+													</Text>
+												</blockquote>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</Wrapper>
+</section>
+
+<script>
+	import KeenSlider from 'keen-slider'
+
+	function initTestimonialSlider() {
+		const sliderElement = document.getElementById('keen-slider')
+		if (!sliderElement) return
+
+		const keenSlider = new KeenSlider(
+			'#keen-slider',
+			{
+				loop: true,
+				slides: {
+					origin: 'center',
+					perView: 1.11,
+					spacing: 16,
+				},
+				breakpoints: {
+					'(min-width: 1024px)': {
+						slides: {
+							origin: 'auto',
+							perView: 1,
+							spacing: 0,
+						},
+					},
+				},
+			},
+			[],
+		)
+
+		const keenSliderPrevious = document.getElementById(
+			'keen-slider-previous',
+		)
+		const keenSliderNext = document.getElementById('keen-slider-next')
+
+		keenSliderPrevious?.addEventListener('click', () => keenSlider.prev())
+		keenSliderNext?.addEventListener('click', () => keenSlider.next())
+	}
+
+	// Initialize on DOM ready
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initTestimonialSlider)
+	} else {
+		initTestimonialSlider()
+	}
+
+	// Re-initialize on Astro page transitions
+	document.addEventListener('astro:page-load', initTestimonialSlider)
+</script>

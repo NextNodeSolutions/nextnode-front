@@ -1,0 +1,115 @@
+---
+/**
+ * Hero1.astro - Impactful hero section with gradient background
+ *
+ * A full-width hero section with a gradient background, headline,
+ * subheadline, and optional call-to-action buttons.
+ */
+
+import type { HTMLAttributes } from 'astro/types'
+import Text from '@/components/fundations/elements/Text.astro'
+import Button from '@/components/fundations/elements/Button.astro'
+import Wrapper from '@/components/fundations/containers/Wrapper.astro'
+
+export interface HeroButton {
+	/** Button label text */
+	label: string
+	/** URL for the button link */
+	href: string
+	/** Button visual variant */
+	variant?: 'default' | 'accent' | 'muted'
+}
+
+interface Props extends HTMLAttributes<'section'> {
+	/** Small label text above the headline */
+	label?: string
+	/** Main headline text */
+	headline: string
+	/** Optional highlighted text (displayed in muted color) */
+	highlightedText?: string
+	/** Subheadline/description text */
+	subheadline?: string
+	/** Array of CTA buttons */
+	buttons?: HeroButton[]
+	/** AOS animation type */
+	animation?: string
+	/** AOS animation duration */
+	animationDuration?: string
+	/** Additional CSS classes */
+	class?: string
+}
+
+const {
+	label,
+	headline,
+	highlightedText,
+	subheadline,
+	buttons = [],
+	animation = 'fade-up',
+	animationDuration = '1000',
+	class: className,
+	...rest
+} = Astro.props
+---
+
+<section
+	class:list={['bg-gradient-up relative overflow-hidden', className]}
+	{...rest}
+>
+	<Wrapper variant="standard" class="relative pt-42 pb-8">
+		<div
+			class="max-w-xl"
+			data-aos={animation}
+			data-aos-duration={animationDuration}
+		>
+			{
+				label && (
+					<Text tag="span" variant="textSM" class="text-white">
+						{label}
+					</Text>
+				)
+			}
+			<Text
+				tag="h1"
+				variant="display2XL"
+				class="font-display mt-12 text-balance text-white"
+			>
+				{headline}
+				{
+					highlightedText && (
+						<span class="text-base-400 block">
+							{highlightedText}
+						</span>
+					)
+				}
+			</Text>
+			{
+				subheadline && (
+					<Text
+						tag="p"
+						variant="textBase"
+						class="mt-2 text-balance text-white"
+					>
+						{subheadline}
+					</Text>
+				)
+			}
+			{
+				buttons.length > 0 && (
+					<div class="mt-8 flex flex-wrap gap-4">
+						{buttons.map(button => (
+							<Button
+								isLink
+								href={button.href}
+								variant={button.variant ?? 'default'}
+							>
+								{button.label}
+							</Button>
+						))}
+					</div>
+				)
+			}
+		</div>
+		<slot />
+	</Wrapper>
+</section>
