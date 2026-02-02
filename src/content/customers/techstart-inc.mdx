@@ -1,0 +1,73 @@
+---
+name: 'TechStart Inc'
+industry: 'SaaS Startup'
+quote: 'As a startup, we needed to move fast without sacrificing reliability. NextNode gave us enterprise-grade infrastructure from day one, letting us punch above our weight class.'
+quoteAttribution: 'Marcus Webb, CTO at TechStart Inc'
+about: 'TechStart Inc is a fast-growing SaaS company building AI-powered analytics tools for e-commerce businesses. Founded in 2023, they have already onboarded over 2,000 customers and processed billions of data points.'
+caseStudy:
+    challengesAndSolutions:
+        - title: 'Startup Growing Pains'
+          content: 'TechStart was experiencing rapid user growth but lacked the DevOps expertise to build robust infrastructure. They needed a solution that would scale without requiring a dedicated infrastructure team.'
+        - title: 'Zero-Ops Deployment'
+          content: 'NextNode provided TechStart with a fully managed platform that handles scaling, security patches, and monitoring automatically. The three-person engineering team can now focus entirely on product development.'
+    results:
+        - 'Zero dedicated DevOps engineers required'
+        - '10x traffic growth handled without manual intervention'
+        - 'Time to market reduced by 50%'
+        - 'Security compliance achieved in weeks, not months'
+details:
+    company_size: '15 employees'
+    headquarters: 'Austin, TX'
+    products_using: 'NextNode Deploy, NextNode Analytics'
+---
+
+## From Garage to Growth: A Startup Success Story
+
+TechStart Inc represents the next generation of SaaS companies—lean, fast-moving, and laser-focused on delivering value to customers. Their choice of NextNode as their infrastructure platform has been central to their rapid growth.
+
+### The Challenge
+
+With just three engineers and explosive user growth, TechStart faced a critical decision:
+
+- Hire expensive DevOps specialists and slow down product development
+- Continue with manual deployments and risk stability
+- Find a platform that would grow with them
+
+### The Solution
+
+NextNode offered TechStart the best of both worlds: enterprise reliability without the enterprise overhead.
+
+```javascript
+// TechStart's serverless analytics pipeline
+import { NextNode } from '@nextnode/sdk'
+
+export const analyzeVisitor = NextNode.function({
+	name: 'analyze-visitor',
+	runtime: 'nodejs20',
+	memory: 256,
+	timeout: 30,
+	handler: async event => {
+		// Process analytics in real-time
+		return processVisitorData(event.body)
+	},
+})
+```
+
+The platform handles over 50 million events per day with automatic scaling and zero manual intervention.
+
+### Growth Without Limits
+
+Since deploying on NextNode, TechStart has:
+
+- Scaled from 200 to 2,000+ customers
+- Maintained 99.95% uptime through Black Friday traffic spikes
+- Expanded to serve customers in 40+ countries
+- Passed SOC 2 compliance audit on the first attempt
+
+> We looked at building our own infrastructure, but it would have taken us a year to get where NextNode got us in a week. That's a year of product development we would have lost.
+
+— _Marcus Webb, CTO_
+
+### What's Next
+
+TechStart is now preparing for their Series A, with NextNode infrastructure supporting their ambitious growth plans. Their technical due diligence was a breeze—investors were impressed by the robustness of their setup.

@@ -1,0 +1,82 @@
+---
+/**
+ * CustomerCard.astro - Displays customer case studies in grids/lists
+ *
+ * Shows customer logo, name, industry, and optional quote/summary.
+ * Links to full case study page.
+ * Uses foundation components and NextNode color tokens.
+ */
+
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+import Text from '@/components/fundations/elements/Text.astro'
+
+interface Props {
+	/** Customer entry from the customers collection */
+	post: CollectionEntry<'customers'>
+}
+
+const { post } = Astro.props
+
+const url = `/customers/${post.slug}`
+const { name, logo, industry, quote, quoteAttribution } = post.data
+---
+
+<a
+	href={url}
+	title={`View ${name} case study`}
+	class="group hover:from-nextnode-500/10 flex flex-col bg-white/5 p-6 transition-all duration-500 ease-in-out hover:bg-gradient-to-b hover:to-transparent lg:p-8"
+>
+	{
+		logo && (
+			<div class="mb-6 flex h-16 items-center justify-center">
+				<Image
+					width={200}
+					height={64}
+					src={logo.url}
+					alt={logo.alt}
+					class="max-h-16 w-auto object-contain"
+				/>
+			</div>
+		)
+	}
+
+	<Text tag="h3" variant="textLG" class="font-semibold text-white">
+		{name}
+	</Text>
+
+	<Text tag="span" variant="textSM" class="text-nextnode-400 mt-1">
+		{industry}
+	</Text>
+
+	{
+		quote && (
+			<blockquote class="border-nextnode-500 mt-4 border-l-2 pl-4">
+				<Text
+					tag="p"
+					variant="textSM"
+					class="text-base-400 line-clamp-3 italic"
+				>
+					"{quote}"
+				</Text>
+				{quoteAttribution && (
+					<cite class="mt-2 block not-italic">
+						<Text tag="span" variant="textXS" class="text-base-500">
+							— {quoteAttribution}
+						</Text>
+					</cite>
+				)}
+			</blockquote>
+		)
+	}
+
+	<div class="mt-auto pt-4">
+		<Text
+			tag="span"
+			variant="textSM"
+			class="text-nextnode-400 group-hover:text-nextnode-300 transition-colors"
+		>
+			View case study →
+		</Text>
+	</div>
+</a>

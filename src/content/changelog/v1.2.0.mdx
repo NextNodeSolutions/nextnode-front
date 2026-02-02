@@ -1,0 +1,66 @@
+---
+version: '1.2.0'
+date: 2025-03-28
+type: feature
+description: Introducing serverless functions and edge computing capabilities
+---
+
+# NextNode 1.2.0 - Serverless Functions
+
+We are thrilled to introduce NextNode Functions, our serverless computing platform that runs your code at the edge.
+
+## NextNode Functions
+
+### What Are Functions?
+
+Functions are lightweight, event-driven compute units that execute in response to HTTP requests, scheduled events, or other triggers. They scale automatically from zero to thousands of instances.
+
+### Key Features
+
+- **Edge execution** in 50+ locations worldwide
+- **Sub-10ms cold starts** for instant responses
+- **TypeScript and JavaScript** support out of the box
+- **Integrated logging** and error tracking
+- **Environment variables** inherited from your project
+
+### Example Function
+
+```typescript
+export default async function handler(request: Request) {
+	const { searchParams } = new URL(request.url)
+	const name = searchParams.get('name') || 'World'
+
+	return new Response(`Hello, ${name}!`, {
+		headers: { 'content-type': 'text/plain' },
+	})
+}
+```
+
+## Cron Jobs
+
+Schedule your functions to run on a recurring basis:
+
+- Minutely, hourly, daily, or custom cron expressions
+- Automatic retries on failure
+- Execution history and logs
+- Timezone-aware scheduling
+
+## Edge Config
+
+Store and access configuration at the edge with zero latency:
+
+- Key-value storage replicated globally
+- Instant propagation of updates
+- SDK support for all runtimes
+
+## Pricing
+
+Functions are billed per invocation with a generous free tier:
+
+- **Free**: 100,000 invocations/month
+- **Pro**: 1,000,000 invocations/month included
+- **Enterprise**: Unlimited invocations
+
+## Documentation
+
+Check out our [Functions documentation](/docs/functions) for detailed guides and examples.

@@ -1,0 +1,96 @@
+---
+/**
+ * ChangelogCard.astro - Displays changelog entries in lists
+ *
+ * Shows version, date, type badge, description/summary, and links to full entry.
+ * Uses foundation components and NextNode color tokens.
+ */
+
+import { Image } from 'astro:assets'
+import type { CollectionEntry } from 'astro:content'
+import Button from '@/components/fundations/elements/Button.astro'
+import Text from '@/components/fundations/elements/Text.astro'
+
+interface Props {
+	/** Changelog entry from the changelog collection */
+	post: CollectionEntry<'changelog'>
+}
+
+const { post } = Astro.props
+
+const url = `/changelog/${post.slug}`
+const { version, date, type, description, image } = post.data
+const formattedDate = date.toLocaleDateString('en-US', {
+	year: 'numeric',
+	month: 'short',
+	day: 'numeric',
+})
+
+/** Badge colors based on release type using NextNode tokens */
+const typeBadgeColors: Record<typeof type, string> = {
+	major: 'bg-accent-600 text-white',
+	minor: 'bg-nextnode-500 text-white',
+	patch: 'bg-base-600 text-white',
+	feature: 'bg-accent-500 text-white',
+	fix: 'bg-base-500 text-white',
+}
+
+const badgeColor = typeBadgeColors[type]
+---
+
+<article class="group">
+	<div class="before:bg-nextnode-500">
+		<div
+			class="before:bg-nextnode-500 after:bg-base-700 relative px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px"
+		>
+			{
+				image && (
+					<Image
+						width={500}
+						height={500}
+						src={image.url}
+						alt={image.alt}
+						class="aspect-16/9 w-full rounded-lg object-cover object-top"
+					/>
+				)
+			}
+		</div>
+	</div>
+
+	<div class="mt-6 flex items-center gap-3">
+		<time datetime={date.toISOString()}>
+			<Text tag="span" variant="textXS" class="text-base-400">
+				{formattedDate}
+			</Text>
+		</time>
+		<span
+			class:list={[
+				'rounded-full px-2 py-0.5 text-xs font-medium',
+				badgeColor,
+			]}
+		>
+			{type}
+		</span>
+	</div>
+
+	<Text tag="h3" variant="textBase" class="mt-3 font-semibold text-white">
+		v{version}
+	</Text>
+
+	<Text tag="p" variant="textSM" class="text-base-400 mt-2 line-clamp-3">
+		{description}
+	</Text>
+
+	<div class="mt-6 flex">
+		<Button
+			isLink
+			size="sm"
+			variant="default"
+			href={url}
+			title={`Read changelog v${version}`}
+			aria-label={`Read full changelog for version ${version}`}
+		>
+			Read more
+		</Button>
+	</div>
+</article>
