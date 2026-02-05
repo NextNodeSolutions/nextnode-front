@@ -58,13 +58,17 @@ const {
 >
 	<Wrapper variant="standard" class="relative pt-42 pb-8">
 		<div
-			class="max-w-xl"
+			class="max-w-xl pl-2"
 			data-aos={animation}
 			data-aos-duration={animationDuration}
 		>
 			{
 				label && (
-					<Text tag="span" variant="textSM" class="text-white">
+					<Text
+						tag="span"
+						variant="textSM"
+						class="text-nextnode-600 font-medium"
+					>
 						{label}
 					</Text>
 				)
@@ -72,12 +76,12 @@ const {
 			<Text
 				tag="h1"
 				variant="display2XL"
-				class="font-display mt-12 text-balance text-white"
+				class="font-display mt-12 text-balance text-slate-900"
 			>
 				{headline}
 				{
 					highlightedText && (
-						<span class="text-nextnode-400 block">
+						<span class="text-nextnode-600 block">
 							{highlightedText}
 						</span>
 					)
@@ -88,7 +92,7 @@ const {
 					<Text
 						tag="p"
 						variant="textBase"
-						class="mt-2 text-balance text-white"
+						class="mt-2 text-balance text-slate-600"
 					>
 						{subheadline}
 					</Text>

@@ -44,8 +44,8 @@ describe('Footer.astro', () => {
 			expect(footerContent).toContain('<Logo')
 		})
 
-		it('uses light variant for dark background', () => {
-			expect(footerContent).toContain('variant="light"')
+		it('uses dark variant for light background', () => {
+			expect(footerContent).toContain('variant="dark"')
 		})
 
 		it('uses large size for footer logo', () => {
@@ -210,21 +210,21 @@ describe('Footer.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base color tokens', () => {
-			expect(footerContent).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(footerContent).toContain('slate-')
 		})
 
 		it('uses nextnode color tokens', () => {
 			expect(footerContent).toContain('nextnode-')
 		})
 
-		it('uses dark background color', () => {
-			expect(footerContent).toContain('bg-base-950')
+		it('uses light background color', () => {
+			expect(footerContent).toContain('bg-slate-50')
 		})
 
 		it('uses muted text colors for secondary content', () => {
-			expect(footerContent).toContain('text-base-400')
-			expect(footerContent).toContain('text-base-500')
+			expect(footerContent).toContain('text-slate-600')
+			expect(footerContent).toContain('text-slate-500')
 		})
 	})
 
@@ -263,7 +263,7 @@ describe('Footer.astro', () => {
 
 		it('has border separator', () => {
 			expect(footerContent).toContain('border-t')
-			expect(footerContent).toContain('border-base-800')
+			expect(footerContent).toContain('border-slate-200')
 		})
 	})
 
@@ -299,7 +299,7 @@ describe('Footer.astro', () => {
 		})
 
 		it('has hover states for links', () => {
-			expect(footerContent).toContain('hover:text-white')
+			expect(footerContent).toContain('hover:text-nextnode-600')
 		})
 
 		it('has focus states for inputs', () => {

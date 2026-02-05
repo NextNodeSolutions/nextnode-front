@@ -98,20 +98,20 @@ describe('Work.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(workContent).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(workContent).toContain('slate-')
 		})
 
 		it('uses nextnode-* color tokens', () => {
 			expect(workContent).toContain('nextnode-')
 		})
 
-		it('uses text-white for light text', () => {
-			expect(workContent).toContain('text-white')
+		it('uses text-slate-900 for main text', () => {
+			expect(workContent).toContain('text-slate-900')
 		})
 
-		it('uses base-400 for muted text', () => {
-			expect(workContent).toContain('text-base-400')
+		it('uses text-slate-600 for muted text', () => {
+			expect(workContent).toContain('text-slate-600')
 		})
 
 		it('uses accent-400 for label text', () => {

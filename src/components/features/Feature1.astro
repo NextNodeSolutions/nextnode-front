@@ -52,23 +52,23 @@ const {
 <section class:list={[className]} {...rest}>
 	<Wrapper variant="standard">
 		<div
-			class="border-base-900 divide-accent-900 grid list-none grid-cols-1 border-x md:grid-cols-2 md:divide-x"
+			class="grid list-none grid-cols-1 divide-slate-200 border-x border-slate-200 md:grid-cols-2 md:divide-x"
 		>
 			{
 				features.map((feature, index) => (
-					<div class="border-base-900 bg-gradient-down bg-base-950 relative h-160 overflow-hidden border-t p-8 pt-24 pb-0">
+					<div class="relative h-160 overflow-hidden border-t border-slate-200 bg-slate-50 p-8 pt-24 pb-0">
 						<div class="text-center">
 							<Text
 								tag="h2"
 								variant="displayLG"
-								class="font-display font-medium text-white"
+								class="font-display font-medium text-slate-900"
 							>
 								{feature.title}
 							</Text>
 							<Text
 								tag="p"
 								variant="textBase"
-								class="text-base-400 mt-4 text-balance"
+								class="mt-4 text-balance text-slate-600"
 							>
 								{feature.description}
 							</Text>
@@ -83,15 +83,15 @@ const {
 								}
 								class="shadow-dimensional"
 							>
-								<div class="border-base-900 mt-12 border border-b-0 border-l-white px-4 py-2">
+								<div class="mt-12 rounded-t-lg border border-b-0 border-slate-300 bg-slate-100 px-4 py-2">
 									<div class="flex items-center gap-1">
-										<div class="outline-base-600 size-2 rounded-full outline" />
-										<div class="outline-base-700 size-2 rounded-full outline" />
-										<div class="outline-base-800 size-2 rounded-full outline" />
+										<div class="size-2.5 rounded-full bg-red-400" />
+										<div class="size-2.5 rounded-full bg-yellow-400" />
+										<div class="size-2.5 rounded-full bg-green-400" />
 									</div>
 								</div>
 								<Code
-									class="scrollbar-hide border-base-900 border p-8 text-xs"
+									class="scrollbar-hide rounded-b-lg border border-t-0 border-slate-300 p-8 text-xs"
 									code={feature.codeBlock.code}
 									lang={feature.codeBlock.lang ?? 'js'}
 									theme="css-variables"

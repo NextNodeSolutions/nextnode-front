@@ -66,13 +66,13 @@ const {
 		class="grid grid-cols-1 gap-y-12 py-24 lg:grid-cols-4 lg:gap-y-24"
 	>
 		<div
-			class="relative before:absolute before:-top-6 before:left-0 before:h-6 before:w-px before:bg-white lg:pr-8"
+			class="before:bg-nextnode-500 relative pl-2 before:absolute before:-top-6 before:-left-2 before:h-6 before:w-px lg:pr-8"
 			data-aos={animation}
 			data-aos-duration={animationDuration}
 		>
 			{
 				label && (
-					<Text tag="span" variant="textSM" class="text-base-400">
+					<Text tag="span" variant="textSM" class="text-slate-600">
 						{label}
 					</Text>
 				)
@@ -80,7 +80,7 @@ const {
 			<Text
 				tag="h2"
 				variant="displayMD"
-				class="font-display mt-6 tracking-tight text-white lg:text-balance"
+				class="font-display mt-6 tracking-tight text-slate-900 lg:text-balance"
 			>
 				{headline}
 				{
@@ -94,7 +94,7 @@ const {
 					<Text
 						tag="p"
 						variant="textBase"
-						class="mt-2 text-balance text-white"
+						class="mt-2 text-balance text-slate-900"
 					>
 						{description}
 					</Text>
@@ -128,15 +128,15 @@ const {
 							Number(animationDuration) + index * 100,
 						)}
 					>
-						<summary class="relative flex w-full items-start justify-between text-left text-lg text-white select-none">
+						<summary class="relative flex w-full items-start justify-between text-left text-lg text-slate-900 select-none">
 							<span class="pr-8">{faq.question}</span>
 							<Plus
 								size="sm"
-								class="group-open:text-base-400 shrink-0 transform duration-300 group-open:-rotate-45"
+								class="shrink-0 transform duration-300 group-open:-rotate-45 group-open:text-slate-600"
 								aria-hidden="true"
 							/>
 						</summary>
-						<div class="text-base-400 px-4 py-4 text-base">
+						<div class="px-4 py-4 text-base text-slate-600">
 							{faq.answer}
 						</div>
 					</details>

@@ -141,9 +141,9 @@ describe('Button.astro', () => {
 			expect(buttonContent).toContain('to-accent-500')
 		})
 
-		it('uses base color tokens for default variant', () => {
-			expect(buttonContent).toContain('from-base-800')
-			expect(buttonContent).toContain('to-base-600')
+		it('uses nextnode color tokens for default variant', () => {
+			expect(buttonContent).toContain('from-nextnode-700')
+			expect(buttonContent).toContain('to-nextnode-500')
 		})
 
 		it('includes shadow-dimensional class', () => {

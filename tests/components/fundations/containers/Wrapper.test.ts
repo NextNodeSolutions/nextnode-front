@@ -91,28 +91,28 @@ describe('Wrapper.astro', () => {
 		})
 
 		it('sets text color for paragraphs', () => {
-			expect(wrapperContent).toContain('prose-p:text-white/80')
+			expect(wrapperContent).toContain('prose-p:text-slate-700')
 		})
 
 		it('sets heading styles', () => {
-			expect(wrapperContent).toContain('prose-headings:text-white')
+			expect(wrapperContent).toContain('prose-headings:text-slate-900')
 			expect(wrapperContent).toContain('prose-headings:font-light')
 		})
 
 		it('sets link styles', () => {
-			expect(wrapperContent).toContain('prose-a:!text-nextnode-400')
+			expect(wrapperContent).toContain('prose-a:!text-nextnode-600')
 		})
 
 		it('sets code block styles', () => {
-			expect(wrapperContent).toContain('prose-code:text-white')
+			expect(wrapperContent).toContain('prose-code:text-slate-800')
 			expect(wrapperContent).toContain('prose-pre:rounded-none')
 			expect(wrapperContent).toContain('prose-pre:border')
 		})
 
 		it('sets list styles', () => {
-			expect(wrapperContent).toContain('prose-ol:text-white/80')
-			expect(wrapperContent).toContain('prose-li:text-white/80')
-			expect(wrapperContent).toContain('prose-ul:text-white/80')
+			expect(wrapperContent).toContain('prose-ol:text-slate-700')
+			expect(wrapperContent).toContain('prose-li:text-slate-700')
+			expect(wrapperContent).toContain('prose-ul:text-slate-700')
 		})
 	})
 

@@ -61,7 +61,7 @@ const {
 
 <section class:list={[className]} {...rest}>
 	<Wrapper variant="standard">
-		<div class="border-base-900 border-x px-8 py-16 lg:py-24">
+		<div class="border-x border-slate-200 px-8 py-16 lg:py-24">
 			<div class="max-w-3xl lg:mx-auto lg:text-center">
 				{
 					label && (
@@ -79,7 +79,7 @@ const {
 				<Text
 					tag="h2"
 					variant="displayLG"
-					class="font-display leading-none font-semibold text-white"
+					class="font-display leading-none font-semibold text-slate-900"
 					data-aos={animation}
 					data-aos-duration={animationDuration}
 				>
@@ -98,7 +98,7 @@ const {
 						<Text
 							tag="p"
 							variant="textLG"
-							class="text-base-400 mt-6 text-balance"
+							class="mt-6 text-balance text-slate-600"
 							data-aos={animation}
 							data-aos-duration={animationDuration}
 						>
@@ -113,27 +113,27 @@ const {
 					{
 						steps.map((step, index) => (
 							<div
-								class="border-base-800 relative flex gap-6 border-l pl-8"
+								class="relative flex gap-6 border-l border-slate-200 pl-8"
 								data-aos={animation}
 								data-aos-duration={String(
 									Number(animationDuration) + index * 200,
 								)}
 							>
-								<div class="bg-nextnode-500 absolute -left-4 flex size-8 items-center justify-center rounded-full font-semibold text-white">
+								<div class="bg-nextnode-500 absolute -left-4 flex size-8 items-center justify-center rounded-full font-semibold text-slate-900">
 									{step.step}
 								</div>
 								<div>
 									<Text
 										tag="h3"
 										variant="textLG"
-										class="font-display font-semibold text-white"
+										class="font-display font-semibold text-slate-900"
 									>
 										{step.title}
 									</Text>
 									<Text
 										tag="p"
 										variant="textBase"
-										class="text-base-400 mt-2"
+										class="mt-2 text-slate-600"
 									>
 										{step.description}
 									</Text>
@@ -146,7 +146,7 @@ const {
 				{
 					imageUrl && (
 						<div
-							class="bg-base-900 relative h-80 overflow-hidden rounded-xl lg:h-auto"
+							class="relative h-80 overflow-hidden rounded-xl bg-slate-100 lg:h-auto"
 							data-aos={animation}
 							data-aos-duration={animationDuration}
 						>

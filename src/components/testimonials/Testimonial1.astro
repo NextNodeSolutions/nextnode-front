@@ -62,13 +62,13 @@ const {
 		class="grid grid-cols-1 overflow-hidden py-24 lg:grid-cols-4"
 	>
 		<div
-			class="flex flex-col lg:pr-8"
+			class="flex flex-col pl-2 lg:pr-8"
 			data-aos={animation}
 			data-aos-duration={animationDuration}
 		>
 			{
 				label && (
-					<Text tag="span" variant="textSM" class="text-white">
+					<Text tag="span" variant="textSM" class="text-slate-900">
 						{label}
 					</Text>
 				)
@@ -76,7 +76,7 @@ const {
 			<Text
 				tag="h3"
 				variant="displayLG"
-				class="font-display mt-12 text-balance text-white"
+				class="font-display mt-12 text-balance text-slate-900"
 			>
 				{headline}{' '}
 				{
@@ -119,8 +119,8 @@ const {
 								Number(animationDuration) + index * 200,
 							)}
 						>
-							<div class="border-t-base-900 border-b-base-900 border-t border-b py-8 before:bg-white">
-								<div class="relative px-8 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+							<div class="before:bg-nextnode-500 border-t border-b border-t-slate-200 border-b-slate-200 py-8">
+								<div class="before:bg-nextnode-500 relative px-8 before:absolute before:top-0 before:left-0 before:h-6 before:w-px after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px after:bg-slate-200">
 									<div class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:items-center">
 										{typeof testimonial.imageUrl ===
 										'string' ? (
@@ -145,14 +145,14 @@ const {
 												<Text
 													tag="p"
 													variant="textSM"
-													class="font-medium text-white xl:text-xl"
+													class="font-medium text-slate-900 xl:text-xl"
 												>
 													{testimonial.name}
 												</Text>
 												<Text
 													tag="p"
 													variant="textSM"
-													class="text-base-500"
+													class="text-slate-600"
 												>
 													{testimonial.role}
 												</Text>
@@ -162,7 +162,7 @@ const {
 													<Text
 														tag="p"
 														variant="textBase"
-														class="text-base-400 font-light text-pretty italic lg:text-4xl"
+														class="font-light text-pretty text-slate-700 italic lg:text-4xl"
 													>
 														"{testimonial.content}"
 													</Text>

@@ -110,20 +110,20 @@ describe('Feature3.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(feature3Content).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(feature3Content).toContain('slate-')
 		})
 
-		it('uses text-white for light text', () => {
-			expect(feature3Content).toContain('text-white')
+		it('uses text-slate-900 for main text', () => {
+			expect(feature3Content).toContain('text-slate-900')
 		})
 
 		it('uses nextnode-400 for highlighted text', () => {
 			expect(feature3Content).toContain('text-nextnode-400')
 		})
 
-		it('uses base-500 for muted text', () => {
-			expect(feature3Content).toContain('text-base-500')
+		it('uses text-slate-600 for muted text', () => {
+			expect(feature3Content).toContain('text-slate-600')
 		})
 	})
 
@@ -268,11 +268,11 @@ describe('Feature3.astro', () => {
 		})
 
 		it('has border styling', () => {
-			expect(feature3Content).toContain('border-base-900')
+			expect(feature3Content).toContain('border-slate-200')
 		})
 
 		it('has background styling', () => {
-			expect(feature3Content).toContain('bg-base-950')
+			expect(feature3Content).toContain('bg-slate-100')
 		})
 	})
 
@@ -280,7 +280,7 @@ describe('Feature3.astro', () => {
 		it('has vertical line decoration', () => {
 			expect(feature3Content).toContain('before:h-6')
 			expect(feature3Content).toContain('before:w-px')
-			expect(feature3Content).toContain('before:bg-white')
+			expect(feature3Content).toContain('before:bg-nextnode-500')
 		})
 
 		it('has gap for feature items', () => {

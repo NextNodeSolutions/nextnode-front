@@ -38,9 +38,9 @@ const platformIcons: Record<string, string> = {
 	title={`View ${name} profile`}
 	class="group flex flex-col transition-all duration-500 ease-in-out"
 >
-	<div class="before:bg-base-700">
+	<div class="before:bg-nextnode-500">
 		<div
-			class="before:bg-base-700 after:bg-base-700 relative flex h-full flex-col justify-between px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px"
+			class="before:bg-nextnode-500 relative flex h-full flex-col justify-between px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px after:bg-slate-200"
 		>
 			{
 				image && (
@@ -56,9 +56,9 @@ const platformIcons: Record<string, string> = {
 
 			{
 				!image && (
-					<div class="bg-base-800 flex aspect-square w-full items-center justify-center">
+					<div class="flex aspect-square w-full items-center justify-center bg-slate-100">
 						<svg
-							class="text-base-600 h-20 w-20"
+							class="h-20 w-20 text-slate-400"
 							fill="currentColor"
 							viewBox="0 0 24 24"
 						>
@@ -71,12 +71,12 @@ const platformIcons: Record<string, string> = {
 			<Text
 				tag="h3"
 				variant="textBase"
-				class="group-hover:text-nextnode-400 mt-4 text-white transition-colors"
+				class="group-hover:text-nextnode-600 mt-4 text-slate-900 transition-colors"
 			>
 				{name}
 			</Text>
 
-			<Text tag="p" variant="textSM" class="text-base-400 mt-2">
+			<Text tag="p" variant="textSM" class="mt-2 text-slate-600">
 				{role}
 			</Text>
 
@@ -85,7 +85,7 @@ const platformIcons: Record<string, string> = {
 					<div class="mt-4 flex gap-3">
 						{socialLinks.map(link => (
 							<span
-								class="text-base-500 hover:text-nextnode-400 transition-colors"
+								class="hover:text-nextnode-500 text-slate-500 transition-colors"
 								title={link.label || link.platform}
 							>
 								<svg

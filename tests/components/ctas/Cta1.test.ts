@@ -94,24 +94,24 @@ describe('Cta1.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(cta1Content).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(cta1Content).toContain('slate-')
 		})
 
 		it('uses nextnode background class', () => {
-			expect(cta1Content).toContain('bg-nextnode-900/30')
+			expect(cta1Content).toContain('bg-nextnode-50')
 		})
 
-		it('uses text-white for light text', () => {
-			expect(cta1Content).toContain('text-white')
+		it('uses text-slate-900 for main text', () => {
+			expect(cta1Content).toContain('text-slate-900')
 		})
 
 		it('uses nextnode-500 for highlighted text', () => {
 			expect(cta1Content).toContain('text-nextnode-500')
 		})
 
-		it('uses border-base-900 for borders', () => {
-			expect(cta1Content).toContain('border-base-900')
+		it('uses border-slate-200 for borders', () => {
+			expect(cta1Content).toContain('border-slate-200')
 		})
 	})
 

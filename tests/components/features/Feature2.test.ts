@@ -106,20 +106,20 @@ describe('Feature2.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(feature2Content).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(feature2Content).toContain('slate-')
 		})
 
-		it('uses gradient background class', () => {
-			expect(feature2Content).toContain('bg-gradient-down')
+		it('uses text-slate-900 for main text', () => {
+			expect(feature2Content).toContain('text-slate-900')
 		})
 
-		it('uses text-white for light text', () => {
-			expect(feature2Content).toContain('text-white')
+		it('uses text-slate-600 for description text', () => {
+			expect(feature2Content).toContain('text-slate-600')
 		})
 
-		it('uses base-400 for muted text', () => {
-			expect(feature2Content).toContain('text-base-400')
+		it('uses nextnode color for labels', () => {
+			expect(feature2Content).toContain('text-nextnode-600')
 		})
 	})
 
@@ -230,7 +230,7 @@ describe('Feature2.astro', () => {
 		})
 
 		it('has vertical line decoration', () => {
-			expect(feature2Content).toContain('before:bg-white')
+			expect(feature2Content).toContain('before:bg-nextnode-500')
 			expect(feature2Content).toContain('before:h-6')
 			expect(feature2Content).toContain('before:w-px')
 		})

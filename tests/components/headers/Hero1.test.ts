@@ -89,15 +89,15 @@ describe('Hero1.astro', () => {
 
 	describe('NextNode color tokens', () => {
 		it('uses nextnode-* color tokens for highlighted text', () => {
-			expect(hero1Content).toContain('text-nextnode-400')
+			expect(hero1Content).toContain('text-nextnode-600')
 		})
 
 		it('uses gradient background class', () => {
 			expect(hero1Content).toContain('bg-gradient-up')
 		})
 
-		it('uses text-white for light text on dark background', () => {
-			expect(hero1Content).toContain('text-white')
+		it('uses text-slate-900 for main text', () => {
+			expect(hero1Content).toContain('text-slate-900')
 		})
 	})
 

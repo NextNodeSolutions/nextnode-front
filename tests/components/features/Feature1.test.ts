@@ -102,24 +102,20 @@ describe('Feature1.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(feature1Content).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(feature1Content).toContain('slate-')
 		})
 
-		it('uses accent-* color tokens', () => {
-			expect(feature1Content).toContain('accent-')
+		it('uses text-slate-900 for main text', () => {
+			expect(feature1Content).toContain('text-slate-900')
 		})
 
-		it('uses gradient background class', () => {
-			expect(feature1Content).toContain('bg-gradient-down')
+		it('uses bg-slate-50 for card background', () => {
+			expect(feature1Content).toContain('bg-slate-50')
 		})
 
-		it('uses text-white for light text', () => {
-			expect(feature1Content).toContain('text-white')
-		})
-
-		it('uses base-400 for muted text', () => {
-			expect(feature1Content).toContain('text-base-400')
+		it('uses text-slate-600 for description text', () => {
+			expect(feature1Content).toContain('text-slate-600')
 		})
 	})
 
@@ -211,7 +207,7 @@ describe('Feature1.astro', () => {
 		})
 
 		it('has border styling', () => {
-			expect(feature1Content).toContain('border-base-900')
+			expect(feature1Content).toContain('border-slate-200')
 		})
 
 		it('uses shadow-dimensional for code block', () => {
@@ -221,9 +217,9 @@ describe('Feature1.astro', () => {
 
 	describe('code block styling', () => {
 		it('has code window dots', () => {
-			expect(feature1Content).toContain('outline-base-600')
-			expect(feature1Content).toContain('outline-base-700')
-			expect(feature1Content).toContain('outline-base-800')
+			expect(feature1Content).toContain('bg-red-400')
+			expect(feature1Content).toContain('bg-yellow-400')
+			expect(feature1Content).toContain('bg-green-400')
 		})
 
 		it('uses scrollbar-hide on code', () => {

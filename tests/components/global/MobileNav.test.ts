@@ -147,16 +147,16 @@ describe('MobileNav.astro', () => {
 	})
 
 	describe('styling', () => {
-		it('uses NextNode color tokens for background', () => {
-			expect(mobileNavContent).toContain('bg-base-900')
+		it('uses light mode background', () => {
+			expect(mobileNavContent).toContain('bg-white')
 		})
 
-		it('uses white text color', () => {
-			expect(mobileNavContent).toContain('text-white')
+		it('uses slate text color', () => {
+			expect(mobileNavContent).toContain('text-slate-900')
 		})
 
 		it('has hover state on links', () => {
-			expect(mobileNavContent).toContain('hover:text-base-400')
+			expect(mobileNavContent).toContain('hover:text-nextnode-600')
 		})
 
 		it('has rounded corners', () => {

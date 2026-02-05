@@ -43,18 +43,18 @@ const {
 	...rest
 } = Astro.props
 
-// Default button - dark gradient
+// Default button - teal brand gradient (light mode)
 const defaultClass = [
 	'text-white',
 	'bg-linear-to-t',
-	'from-base-800',
-	'to-base-600',
-	'hover:from-base-600',
-	'hover:to-base-800',
-	'focus:outline-base-600',
+	'from-nextnode-700',
+	'to-nextnode-500',
+	'hover:from-nextnode-600',
+	'hover:to-nextnode-400',
+	'focus:outline-nextnode-500',
 ]
 
-// Accent button - brand color gradient (NextNode sky blue)
+// Accent button - brand color gradient (NextNode teal)
 const accentClass = [
 	'text-white',
 	'bg-linear-to-t',
@@ -76,15 +76,15 @@ const orangeClass = [
 	'focus:outline-orange-500',
 ]
 
-// Muted button - subtle dark gradient
+// Muted button - subtle light mode style
 const mutedClass = [
-	'text-white',
+	'text-slate-700',
 	'bg-linear-to-t',
-	'from-base-950',
-	'to-base-900',
-	'hover:from-base-900',
-	'hover:to-base-950',
-	'focus:outline-white',
+	'from-slate-200',
+	'to-slate-100',
+	'hover:from-slate-300',
+	'hover:to-slate-200',
+	'focus:outline-slate-400',
 ]
 
 // Size configurations

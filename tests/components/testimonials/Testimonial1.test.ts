@@ -183,25 +183,25 @@ describe('Testimonial1.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(testimonial1Content).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(testimonial1Content).toContain('slate-')
 		})
 
-		it('uses text-white for light text', () => {
-			expect(testimonial1Content).toContain('text-white')
+		it('uses text-slate-900 for main text', () => {
+			expect(testimonial1Content).toContain('text-slate-900')
 		})
 
-		it('uses base-400 for highlighted text', () => {
-			expect(testimonial1Content).toContain('text-base-400')
+		it('uses nextnode-400 for highlighted text', () => {
+			expect(testimonial1Content).toContain('text-nextnode-400')
 		})
 
-		it('uses base-500 for role text', () => {
-			expect(testimonial1Content).toContain('text-base-500')
+		it('uses text-slate-600 for role text', () => {
+			expect(testimonial1Content).toContain('text-slate-600')
 		})
 
-		it('uses base-900 for borders', () => {
-			expect(testimonial1Content).toContain('border-t-base-900')
-			expect(testimonial1Content).toContain('border-b-base-900')
+		it('uses slate-200 for borders', () => {
+			expect(testimonial1Content).toContain('border-t-slate-200')
+			expect(testimonial1Content).toContain('border-b-slate-200')
 		})
 	})
 
@@ -309,7 +309,7 @@ describe('Testimonial1.astro', () => {
 
 	describe('testimonial card styling', () => {
 		it('has vertical line decoration with before pseudo-element', () => {
-			expect(testimonial1Content).toContain('before:bg-white')
+			expect(testimonial1Content).toContain('before:bg-nextnode-500')
 		})
 
 		it('has before:h-6 for line height', () => {

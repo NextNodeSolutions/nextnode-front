@@ -108,24 +108,24 @@ describe('Pricing1.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(pricing1Content).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(pricing1Content).toContain('slate-')
 		})
 
-		it('uses text-white for light text', () => {
-			expect(pricing1Content).toContain('text-white')
+		it('uses text-slate-900 for main text', () => {
+			expect(pricing1Content).toContain('text-slate-900')
 		})
 
-		it('uses base-400 for muted text', () => {
-			expect(pricing1Content).toContain('text-base-400')
+		it('uses nextnode color tokens', () => {
+			expect(pricing1Content).toContain('nextnode-')
 		})
 
-		it('uses base-500 for non-popular plan text', () => {
-			expect(pricing1Content).toContain('text-base-500')
+		it('uses text-slate-600 for non-popular plan text', () => {
+			expect(pricing1Content).toContain('text-slate-600')
 		})
 
-		it('uses base-900 for popular badge background', () => {
-			expect(pricing1Content).toContain('bg-base-900')
+		it('uses nextnode-600 for popular badge background', () => {
+			expect(pricing1Content).toContain('bg-nextnode-600')
 		})
 	})
 
@@ -255,7 +255,7 @@ describe('Pricing1.astro', () => {
 
 	describe('pricing tier styling', () => {
 		it('has vertical line decoration', () => {
-			expect(pricing1Content).toContain('before:bg-white')
+			expect(pricing1Content).toContain('before:bg-nextnode-500')
 			expect(pricing1Content).toContain('before:h-6')
 			expect(pricing1Content).toContain('before:w-px')
 		})
@@ -292,8 +292,8 @@ describe('Pricing1.astro', () => {
 		it('conditionally styles benefits text', () => {
 			// Benefits text color changes based on isPopular
 			expect(pricing1Content).toContain('plan.isPopular')
-			expect(pricing1Content).toContain("'text-white'")
-			expect(pricing1Content).toContain("'text-base-500'")
+			expect(pricing1Content).toContain("'text-slate-900'")
+			expect(pricing1Content).toContain("'text-slate-600'")
 		})
 	})
 

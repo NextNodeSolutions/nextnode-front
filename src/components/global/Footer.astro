@@ -104,13 +104,13 @@ const socialIcons: Record<SocialLink['icon'], string> = {
 }
 ---
 
-<footer class="bg-base-950 relative overflow-hidden">
+<footer class="relative overflow-hidden border-t border-slate-200 bg-slate-50">
 	<Wrapper class="pt-16 pb-12">
 		<div class="grid grid-cols-1 gap-12 lg:grid-cols-12">
 			<!-- Logo and Newsletter Section -->
-			<div class="lg:col-span-5">
+			<div class="pl-2 lg:col-span-5">
 				<a href="/" aria-label="Go to homepage" title="Homepage">
-					<Logo size="lg" variant="light" />
+					<Logo size="lg" variant="dark" />
 				</a>
 
 				{
@@ -119,14 +119,14 @@ const socialIcons: Record<SocialLink['icon'], string> = {
 							<Text
 								tag="h3"
 								variant="textBase"
-								class="font-medium text-white"
+								class="font-medium text-slate-900"
 							>
 								Subscribe to our newsletter
 							</Text>
 							<Text
 								tag="p"
 								variant="textSM"
-								class="text-base-400 mt-2"
+								class="mt-2 text-slate-600"
 							>
 								Get the latest updates and news delivered to
 								your inbox.
@@ -147,7 +147,7 @@ const socialIcons: Record<SocialLink['icon'], string> = {
 											required
 											autocomplete="email"
 											placeholder="Enter your email"
-											class="border-base-800 bg-base-900 placeholder-base-500 focus:border-nextnode-500 focus:ring-nextnode-500 h-10 w-full rounded-full border px-4 text-sm text-white transition-colors duration-200 focus:ring-1 focus:outline-none"
+											class="focus:border-nextnode-500 focus:ring-nextnode-500 h-10 w-full rounded-full border border-slate-300 bg-white px-4 text-sm text-slate-900 placeholder-slate-400 transition-colors duration-200 focus:ring-1 focus:outline-none"
 										/>
 									</div>
 									<Button
@@ -172,7 +172,7 @@ const socialIcons: Record<SocialLink['icon'], string> = {
 							<Text
 								tag="h3"
 								variant="textSM"
-								class="font-medium text-white"
+								class="font-medium text-slate-900"
 							>
 								{section.title}
 							</Text>
@@ -188,7 +188,7 @@ const socialIcons: Record<SocialLink['icon'], string> = {
 												href={link.href}
 												title={link.label}
 												aria-label={link.label}
-												class="text-base-400 text-sm transition-colors duration-200 hover:text-white"
+												class="hover:text-nextnode-600 text-sm text-slate-600 transition-colors duration-200"
 											>
 												{link.label}
 											</a>
@@ -204,7 +204,7 @@ const socialIcons: Record<SocialLink['icon'], string> = {
 
 		<!-- Bottom Section -->
 		<div
-			class="border-base-800 mt-12 flex flex-col items-center justify-between gap-6 border-t pt-8 sm:flex-row"
+			class="mt-12 flex flex-col items-center justify-between gap-6 border-t border-slate-200 pt-8 sm:flex-row"
 		>
 			<!-- Social Links -->
 			<div class="flex items-center gap-4">
@@ -216,7 +216,7 @@ const socialIcons: Record<SocialLink['icon'], string> = {
 							aria-label={social.label}
 							target="_blank"
 							rel="noopener noreferrer"
-							class="text-base-400 transition-colors duration-200 hover:text-white"
+							class="hover:text-nextnode-600 text-slate-500 transition-colors duration-200"
 						>
 							<svg
 								viewBox="0 0 24 24"
@@ -232,7 +232,7 @@ const socialIcons: Record<SocialLink['icon'], string> = {
 			</div>
 
 			<!-- Copyright -->
-			<Text tag="p" variant="textXS" class="text-base-500">
+			<Text tag="p" variant="textXS" class="text-slate-500">
 				&copy; {currentYear} NextNode. All rights reserved.
 			</Text>
 		</div>

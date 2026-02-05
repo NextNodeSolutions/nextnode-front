@@ -25,7 +25,7 @@ const { name, logo, industry, quote, quoteAttribution } = post.data
 <a
 	href={url}
 	title={`View ${name} case study`}
-	class="group hover:from-nextnode-500/10 flex flex-col bg-white/5 p-6 transition-all duration-500 ease-in-out hover:bg-gradient-to-b hover:to-transparent lg:p-8"
+	class="group hover:border-nextnode-200 hover:bg-nextnode-50/50 flex flex-col rounded-lg border border-slate-200 bg-white p-6 transition-all duration-500 ease-in-out lg:p-8"
 >
 	{
 		logo && (
@@ -41,11 +41,11 @@ const { name, logo, industry, quote, quoteAttribution } = post.data
 		)
 	}
 
-	<Text tag="h3" variant="textLG" class="font-semibold text-white">
+	<Text tag="h3" variant="textLG" class="font-semibold text-slate-900">
 		{name}
 	</Text>
 
-	<Text tag="span" variant="textSM" class="text-nextnode-400 mt-1">
+	<Text tag="span" variant="textSM" class="text-nextnode-600 mt-1">
 		{industry}
 	</Text>
 
@@ -55,13 +55,17 @@ const { name, logo, industry, quote, quoteAttribution } = post.data
 				<Text
 					tag="p"
 					variant="textSM"
-					class="text-base-400 line-clamp-3 italic"
+					class="line-clamp-3 text-slate-600 italic"
 				>
 					"{quote}"
 				</Text>
 				{quoteAttribution && (
 					<cite class="mt-2 block not-italic">
-						<Text tag="span" variant="textXS" class="text-base-500">
+						<Text
+							tag="span"
+							variant="textXS"
+							class="text-slate-500"
+						>
 							— {quoteAttribution}
 						</Text>
 					</cite>
@@ -74,7 +78,7 @@ const { name, logo, industry, quote, quoteAttribution } = post.data
 		<Text
 			tag="span"
 			variant="textSM"
-			class="text-nextnode-400 group-hover:text-nextnode-300 transition-colors"
+			class="text-nextnode-600 group-hover:text-nextnode-700 transition-colors"
 		>
 			View case study →
 		</Text>

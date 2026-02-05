@@ -70,11 +70,15 @@ const {
 		variant="standard"
 		class="grid grid-cols-1 gap-y-12 py-12 lg:grid-cols-4 lg:gap-y-24 lg:pt-42"
 	>
-		<div class="lg:col-span-2">
+		<div class="pl-2 lg:col-span-2">
 			<div>
 				{
 					label && (
-						<Text tag="span" variant="textSM" class="text-white">
+						<Text
+							tag="span"
+							variant="textSM"
+							class="text-slate-900"
+						>
 							{label}
 						</Text>
 					)
@@ -82,7 +86,7 @@ const {
 				<Text
 					tag="h3"
 					variant="displayMD"
-					class="font-display mt-12 text-balance text-white"
+					class="font-display mt-12 text-balance text-slate-900"
 				>
 					{headline}
 					{
@@ -98,7 +102,7 @@ const {
 						<Text
 							tag="p"
 							variant="textBase"
-							class="mt-2 text-balance text-white"
+							class="mt-2 text-balance text-slate-900"
 						>
 							{description}
 						</Text>
@@ -110,20 +114,20 @@ const {
 			>
 				{
 					features.map(item => (
-						<div class="before:bg-white">
-							<div class="relative px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+						<div class="before:bg-nextnode-500">
+							<div class="before:bg-nextnode-500 relative px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px after:bg-slate-200">
 								<div class="relative">
 									<Text
 										tag="span"
 										variant="textSM"
-										class="text-base-500"
+										class="text-slate-600"
 									>
 										{item.tagline}
 									</Text>
 									<Text
 										tag="h3"
 										variant="textBase"
-										class="mt-2 font-medium text-white"
+										class="mt-2 font-medium text-slate-900"
 									>
 										{item.title}
 									</Text>
@@ -131,7 +135,7 @@ const {
 								<Text
 									tag="p"
 									variant="textSM"
-									class="text-base-500 mt-2 text-pretty"
+									class="mt-2 text-pretty text-slate-600"
 								>
 									{item.description}
 								</Text>
@@ -148,7 +152,7 @@ const {
 						data-aos={animation}
 						data-aos-duration={animationDuration}
 					>
-						<div class="border-base-900 bg-base-950 border border-b-0 border-l-white px-4 py-2">
+						<div class="border border-b-0 border-slate-200 border-l-white bg-slate-100 px-4 py-2">
 							<div class="flex items-center gap-1">
 								<div class="outline-base-600 size-2 rounded-full outline" />
 								<div class="outline-base-700 size-2 rounded-full outline" />
@@ -156,7 +160,7 @@ const {
 							</div>
 						</div>
 						<Code
-							class="scrollbar-hide border-base-900 border border-y border-r border-l p-8 text-xs lg:border-l-0"
+							class="scrollbar-hide border border-y border-r border-l border-slate-200 p-8 text-xs lg:border-l-0"
 							code={codeBlock.code}
 							lang={codeBlock.lang ?? 'js'}
 							theme="css-variables"

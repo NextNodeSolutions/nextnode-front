@@ -51,8 +51,8 @@ describe('Navigation.astro', () => {
 			expect(navigationContent).toContain('<Logo')
 		})
 
-		it('sets logo variant to light for dark background', () => {
-			expect(navigationContent).toContain('variant="light"')
+		it('sets logo variant to dark for light background', () => {
+			expect(navigationContent).toContain('variant="dark"')
 		})
 
 		it('does not use buio text logo', () => {
@@ -123,7 +123,7 @@ describe('Navigation.astro', () => {
 
 	describe('styling', () => {
 		it('uses NextNode color tokens', () => {
-			expect(navigationContent).toContain('base-')
+			expect(navigationContent).toContain('slate-')
 		})
 
 		it('has scroll-triggered background blur', () => {

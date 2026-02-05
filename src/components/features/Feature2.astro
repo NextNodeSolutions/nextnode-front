@@ -61,11 +61,15 @@ const {
 		variant="standard"
 		class="grid grid-cols-1 gap-y-12 pt-42 pb-12 lg:grid-cols-4 lg:gap-y-24"
 	>
-		<div>
+		<div class="pl-2">
 			<div class="z-10 lg:sticky lg:top-62">
 				{
 					label && (
-						<Text tag="span" variant="textSM" class="text-white">
+						<Text
+							tag="span"
+							variant="textSM"
+							class="text-nextnode-600 font-medium"
+						>
 							{label}
 						</Text>
 					)
@@ -73,12 +77,12 @@ const {
 				<Text
 					tag="h1"
 					variant="displayLG"
-					class="font-display mt-12 text-balance text-white"
+					class="font-display mt-12 text-balance text-slate-900"
 				>
 					{headline}
 					{
 						highlightedText && (
-							<span class="text-base-400 block">
+							<span class="text-nextnode-600 block">
 								{highlightedText}
 							</span>
 						)
@@ -89,7 +93,7 @@ const {
 						<Text
 							tag="p"
 							variant="textBase"
-							class="mt-2 text-balance text-white"
+							class="mt-2 text-balance text-slate-600"
 						>
 							{description}
 						</Text>
@@ -111,17 +115,17 @@ const {
 					>
 						{feature.icon && (
 							<div
-								class="bg-gradient-down text-white"
+								class="text-nextnode-600"
 								set:html={feature.icon}
 							/>
 						)}
 
-						<div class="relative mt-8 px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px before:bg-white after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px">
+						<div class="before:bg-nextnode-500 relative mt-8 px-4 before:absolute before:top-0 before:left-0 before:h-6 before:w-px after:absolute after:top-8 after:bottom-0 after:left-0 after:w-px after:bg-slate-200">
 							<dt class="flex flex-col gap-4">
 								<Text
 									tag="h3"
 									variant="textLG"
-									class="font-medium text-white"
+									class="font-medium text-slate-900"
 								>
 									{feature.title}
 								</Text>
@@ -130,7 +134,7 @@ const {
 								<Text
 									tag="p"
 									variant="textSM"
-									class="text-base-400 mt-4 text-balance"
+									class="mt-4 text-balance text-slate-600"
 								>
 									{feature.description}
 								</Text>

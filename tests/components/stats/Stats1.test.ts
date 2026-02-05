@@ -94,24 +94,24 @@ describe('Stats1.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(stats1Content).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(stats1Content).toContain('slate-')
 		})
 
-		it('uses text-white for light text', () => {
-			expect(stats1Content).toContain('text-white')
+		it('uses text-slate-900 for main text', () => {
+			expect(stats1Content).toContain('text-slate-900')
 		})
 
-		it('uses base-400 for muted text', () => {
-			expect(stats1Content).toContain('text-base-400')
+		it('uses text-slate-600 for muted text', () => {
+			expect(stats1Content).toContain('text-slate-600')
 		})
 
 		it('uses nextnode-400 for highlighted text', () => {
 			expect(stats1Content).toContain('text-nextnode-400')
 		})
 
-		it('uses gradient background class when chart enabled', () => {
-			expect(stats1Content).toContain('bg-gradient-up')
+		it('uses nextnode-500 for step number background', () => {
+			expect(stats1Content).toContain('bg-nextnode-500')
 		})
 	})
 
@@ -223,7 +223,7 @@ describe('Stats1.astro', () => {
 
 	describe('stat item styling', () => {
 		it('has vertical line decoration with before pseudo-element', () => {
-			expect(stats1Content).toContain('before:bg-white')
+			expect(stats1Content).toContain('before:bg-nextnode-500')
 		})
 
 		it('has before:h-6 for line height', () => {
@@ -342,8 +342,8 @@ describe('Stats1.astro', () => {
 			expect(stats1Content).toContain('id="stats1-chart"')
 		})
 
-		it('uses border-base-900 for chart container', () => {
-			expect(stats1Content).toContain('border-base-900')
+		it('uses border-slate-200 for chart container', () => {
+			expect(stats1Content).toContain('border-slate-200')
 		})
 
 		it('has max height constraint', () => {

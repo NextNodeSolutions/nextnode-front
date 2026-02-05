@@ -105,16 +105,16 @@ describe('Faq1.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(faq1Content).toContain('base-')
+		it('uses slate color tokens for light mode', () => {
+			expect(faq1Content).toContain('slate-')
 		})
 
-		it('uses text-white for light text', () => {
-			expect(faq1Content).toContain('text-white')
+		it('uses text-slate-900 for main text', () => {
+			expect(faq1Content).toContain('text-slate-900')
 		})
 
-		it('uses base-400 for muted text', () => {
-			expect(faq1Content).toContain('text-base-400')
+		it('uses text-slate-600 for muted text', () => {
+			expect(faq1Content).toContain('text-slate-600')
 		})
 
 		it('uses nextnode-500 for highlighted text', () => {
@@ -214,7 +214,7 @@ describe('Faq1.astro', () => {
 
 	describe('header styling', () => {
 		it('has vertical line decoration', () => {
-			expect(faq1Content).toContain('before:bg-white')
+			expect(faq1Content).toContain('before:bg-nextnode-500')
 			expect(faq1Content).toContain('before:h-6')
 			expect(faq1Content).toContain('before:w-px')
 		})
@@ -246,7 +246,7 @@ describe('Faq1.astro', () => {
 		})
 
 		it('changes icon color when open', () => {
-			expect(faq1Content).toContain('group-open:text-base-400')
+			expect(faq1Content).toContain('group-open:text-slate-600')
 		})
 
 		it('has transition duration on icon', () => {

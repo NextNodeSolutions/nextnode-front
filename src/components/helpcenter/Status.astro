@@ -117,7 +117,7 @@ function getStatusLabel(item: StatusItem): string {
 		class="relative grid grid-cols-1 py-42 sm:grid-cols-2 md:grid-cols-4"
 	>
 		<div class="md:col-span-2 md:col-start-2">
-			<Text tag="span" variant="textSM" class="text-white">
+			<Text tag="span" variant="textSM" class="text-slate-600">
 				Last synced at <time datetime={lastSyncTime}
 					>{lastSyncTime}</time
 				>
@@ -126,15 +126,15 @@ function getStatusLabel(item: StatusItem): string {
 			<Text
 				tag="h1"
 				variant="display2XL"
-				class="font-display mt-12 text-balance text-white"
+				class="font-display mt-12 text-balance text-slate-900"
 			>
 				{title}
-				<span class="text-base-400 block">{subtitle}</span>
+				<span class="block text-slate-500">{subtitle}</span>
 			</Text>
 			<Text
 				tag="p"
 				variant="textBase"
-				class="mt-2 text-balance text-white"
+				class="mt-2 text-balance text-slate-600"
 			>
 				{description}
 			</Text>
@@ -143,7 +143,7 @@ function getStatusLabel(item: StatusItem): string {
 				{
 					services.map(item => (
 						<li class="flex items-center justify-between space-x-3 py-2">
-							<span class="text-base-500 relative inline-flex items-center gap-x-1.5 text-sm leading-6">
+							<span class="relative inline-flex items-center gap-x-1.5 text-sm leading-6 text-slate-600">
 								<svg
 									class:list={[
 										'size-1.5 animate-pulse',
@@ -156,8 +156,8 @@ function getStatusLabel(item: StatusItem): string {
 								</svg>
 								{item.service}
 							</span>
-							<span class="border-base-300 mx-2 flex-1 border-b border-dotted" />
-							<p class="flex-shrink-0 text-sm text-white">
+							<span class="mx-2 flex-1 border-b border-dotted border-slate-300" />
+							<p class="flex-shrink-0 text-sm text-slate-900">
 								{getStatusLabel(item)}
 							</p>
 						</li>
@@ -168,29 +168,33 @@ function getStatusLabel(item: StatusItem): string {
 			{
 				events.length > 0 && (
 					<div class="mt-24 w-full">
-						<Text tag="span" variant="textSM" class="text-white">
+						<Text
+							tag="span"
+							variant="textSM"
+							class="text-slate-600"
+						>
 							{incidentsDateLabel}
 						</Text>
 						<Text
 							tag="h2"
 							variant="displaySM"
-							class="font-display mt-12 text-balance text-white"
+							class="font-display mt-12 text-balance text-slate-900"
 						>
 							{incidentsTitle}
-							<span class="text-base-400 block">
+							<span class="block text-slate-500">
 								{incidentsSubtitle}
 							</span>
 						</Text>
-						<ul role="list" class="mt-4 pt-6 text-white">
+						<ul role="list" class="mt-4 pt-6 text-slate-900">
 							{events.map(event => (
 								<li class="py-4">
-									<span class="text-base-500 block">
-										<strong class="text-white">
+									<span class="block text-slate-600">
+										<strong class="text-slate-900">
 											{event.status}
 										</strong>{' '}
 										— {event.description}
 									</span>
-									<time class="text-base-400 mt-2 block text-xs">
+									<time class="mt-2 block text-xs text-slate-500">
 										{event.timestamp}
 									</time>
 								</li>

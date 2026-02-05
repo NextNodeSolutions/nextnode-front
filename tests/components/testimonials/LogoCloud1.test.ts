@@ -114,16 +114,16 @@ describe('LogoCloud1.astro', () => {
 	})
 
 	describe('NextNode color tokens', () => {
-		it('uses base-* color tokens', () => {
-			expect(logoCloud1Content).toContain('base-')
+		it('uses slate-* color tokens', () => {
+			expect(logoCloud1Content).toContain('slate-')
 		})
 
-		it('uses text-white for title', () => {
-			expect(logoCloud1Content).toContain('text-white')
+		it('uses text-slate-900 for title', () => {
+			expect(logoCloud1Content).toContain('text-slate-900')
 		})
 
-		it('uses base-400 for highlighted text', () => {
-			expect(logoCloud1Content).toContain('text-base-400')
+		it('uses slate-500 for highlighted text', () => {
+			expect(logoCloud1Content).toContain('text-slate-500')
 		})
 	})
 
