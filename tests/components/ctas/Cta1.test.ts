@@ -98,8 +98,8 @@ describe('Cta1.astro', () => {
 			expect(cta1Content).toContain('base-')
 		})
 
-		it('uses gradient background class', () => {
-			expect(cta1Content).toContain('bg-gradient-down')
+		it('uses nextnode background class', () => {
+			expect(cta1Content).toContain('bg-nextnode-900/30')
 		})
 
 		it('uses text-white for light text', () => {

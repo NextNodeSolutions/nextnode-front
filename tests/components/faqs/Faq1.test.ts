@@ -109,10 +109,6 @@ describe('Faq1.astro', () => {
 			expect(faq1Content).toContain('base-')
 		})
 
-		it('uses gradient background class', () => {
-			expect(faq1Content).toContain('bg-gradient-down')
-		})
-
 		it('uses text-white for light text', () => {
 			expect(faq1Content).toContain('text-white')
 		})

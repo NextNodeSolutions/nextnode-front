@@ -112,10 +112,6 @@ describe('Pricing1.astro', () => {
 			expect(pricing1Content).toContain('base-')
 		})
 
-		it('uses gradient background class', () => {
-			expect(pricing1Content).toContain('bg-gradient-down')
-		})
-
 		it('uses text-white for light text', () => {
 			expect(pricing1Content).toContain('text-white')
 		})

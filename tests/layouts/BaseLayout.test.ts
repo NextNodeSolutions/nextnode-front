@@ -231,8 +231,8 @@ describe('BaseLayout.astro', () => {
 			expect(layoutContent).toContain('scroll-smooth')
 		})
 
-		it('uses base-950 background', () => {
-			expect(layoutContent).toContain('bg-base-950')
+		it('uses nextnode-950 background', () => {
+			expect(layoutContent).toContain('bg-nextnode-950')
 		})
 	})
 

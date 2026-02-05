@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config'
 
+import mdx from '@astrojs/mdx'
 import node from '@astrojs/node'
 import sitemap from '@astrojs/sitemap'
 import { logger } from '@nextnode/logger'
@@ -34,6 +35,7 @@ export default defineConfig({
 		mode: 'standalone',
 	}),
 	integrations: [
+		mdx(),
 		sitemap({
 			filter: page => {
 				// Exclude API endpoints, debug pages, health checks, and error pages
