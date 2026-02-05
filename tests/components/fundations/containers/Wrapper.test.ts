@@ -91,7 +91,7 @@ describe('Wrapper.astro', () => {
 		})
 
 		it('sets text color for paragraphs', () => {
-			expect(wrapperContent).toContain('prose-p:text-base-400')
+			expect(wrapperContent).toContain('prose-p:text-white/80')
 		})
 
 		it('sets heading styles', () => {
@@ -100,7 +100,7 @@ describe('Wrapper.astro', () => {
 		})
 
 		it('sets link styles', () => {
-			expect(wrapperContent).toContain('prose-a:!text-white')
+			expect(wrapperContent).toContain('prose-a:!text-nextnode-400')
 		})
 
 		it('sets code block styles', () => {
@@ -110,8 +110,9 @@ describe('Wrapper.astro', () => {
 		})
 
 		it('sets list styles', () => {
-			expect(wrapperContent).toContain('prose-ol:text-base-400')
-			expect(wrapperContent).toContain('prose-li:text-base-400')
+			expect(wrapperContent).toContain('prose-ol:text-white/80')
+			expect(wrapperContent).toContain('prose-li:text-white/80')
+			expect(wrapperContent).toContain('prose-ul:text-white/80')
 		})
 	})
 

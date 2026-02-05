@@ -8,14 +8,11 @@
 
 import type { HTMLAttributes } from 'astro/types'
 
-export type ButtonVariant =
-	| 'default'
-	| 'accent'
-	| 'orange'
-	| 'muted'
-	| 'link'
-	| 'none'
+// prettier-ignore
+export type ButtonVariant = 'default' | 'accent' | 'orange' | 'muted' | 'link' | 'none'
+// prettier-ignore
 export type ButtonSize = 'xxs' | 'xs' | 'sm' | 'base' | 'md' | 'lg' | 'xl'
+// prettier-ignore
 export type ButtonGap = 'xs' | 'sm' | 'base' | 'md' | 'lg'
 
 interface Props extends HTMLAttributes<'button'> {
