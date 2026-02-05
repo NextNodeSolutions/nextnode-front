@@ -97,26 +97,27 @@ describe('Navigation.astro', () => {
 		})
 	})
 
-	describe('auth buttons', () => {
-		it('has sign in button', () => {
-			expect(navigationContent).toContain('Sign in')
+	describe('no auth buttons', () => {
+		it('does not have sign in button', () => {
+			expect(navigationContent).not.toContain('Sign in')
 		})
 
-		it('has sign up button', () => {
-			expect(navigationContent).toContain('Sign up')
+		it('does not have sign up button', () => {
+			expect(navigationContent).not.toContain('Sign up')
 		})
 
-		it('uses Button component', () => {
-			expect(navigationContent).toContain('import Button')
-			expect(navigationContent).toContain('<Button')
+		it('does not link to sign-in page', () => {
+			expect(navigationContent).not.toContain('href="/sign-in"')
 		})
 
-		it('sign in uses muted variant', () => {
-			expect(navigationContent).toContain('variant="muted"')
+		it('does not link to sign-up page', () => {
+			expect(navigationContent).not.toContain('href="/sign-up"')
 		})
 
-		it('sign up uses orange variant', () => {
-			expect(navigationContent).toContain('variant="orange"')
+		it('does not import Button component (no auth buttons)', () => {
+			expect(navigationContent).not.toContain(
+				"import Button from '@/components/fundations/elements/Button.astro'",
+			)
 		})
 	})
 

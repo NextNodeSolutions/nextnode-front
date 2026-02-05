@@ -8,7 +8,6 @@
  */
 
 import Logo from '@/components/assets/Logo.astro'
-import Button from '@/components/fundations/elements/Button.astro'
 import Wrapper from '@/components/fundations/containers/Wrapper.astro'
 import MobileNav from '@/components/global/MobileNav.astro'
 
@@ -27,7 +26,6 @@ interface Props {
 
 const defaultLinks: NavLink[] = [
 	{ label: 'Customers', href: '/customers' },
-	{ label: 'Blog', href: '/blog' },
 	{ label: 'Help', href: '/helpcenter' },
 	{ label: 'Jobs', href: '/jobs' },
 ]
@@ -68,14 +66,6 @@ const { links = defaultLinks } = Astro.props
 						</a>
 					))
 				}
-				<div class="flex items-center gap-1">
-					<Button isLink size="sm" variant="muted" href="/sign-in">
-						Sign in
-					</Button>
-					<Button isLink size="sm" variant="orange" href="/sign-up">
-						Sign up
-					</Button>
-				</div>
 			</nav>
 
 			<!-- Mobile Navigation -->

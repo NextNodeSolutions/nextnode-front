@@ -123,34 +123,26 @@ describe('MobileNav.astro', () => {
 		})
 	})
 
-	describe('auth buttons', () => {
-		it('has sign in button', () => {
-			expect(mobileNavContent).toContain('Sign in')
+	describe('no auth buttons', () => {
+		it('does not have sign in button', () => {
+			expect(mobileNavContent).not.toContain('Sign in')
 		})
 
-		it('has sign up button', () => {
-			expect(mobileNavContent).toContain('Sign up')
+		it('does not have sign up button', () => {
+			expect(mobileNavContent).not.toContain('Sign up')
 		})
 
-		it('uses Button component', () => {
+		it('does not link to sign-in page', () => {
+			expect(mobileNavContent).not.toContain('href="/sign-in"')
+		})
+
+		it('does not link to sign-up page', () => {
+			expect(mobileNavContent).not.toContain('href="/sign-up"')
+		})
+
+		it('still uses Button component for toggle', () => {
 			expect(mobileNavContent).toContain('import Button')
 			expect(mobileNavContent).toContain('<Button')
-		})
-
-		it('sign in uses muted variant', () => {
-			expect(mobileNavContent).toContain('variant="muted"')
-		})
-
-		it('sign up uses default variant', () => {
-			expect(mobileNavContent).toContain('variant="default"')
-		})
-
-		it('links to sign-in page', () => {
-			expect(mobileNavContent).toContain('href="/sign-in"')
-		})
-
-		it('links to sign-up page', () => {
-			expect(mobileNavContent).toContain('href="/sign-up"')
 		})
 	})
 
