@@ -89,20 +89,17 @@
 		0 0.9px 1.5px hsla(0, 0%, 0%, 0.08), 0 3.5px 6px hsla(0, 0%, 0%, 0.18);
 
 	/* Gradients - from buio (using NextNode teal brand color) */
-	/* Modified: reduced transparent area, added teal base for brand visibility */
 	--background-image-gradient-down: radial-gradient(
 		140% 107.13% at 50% 10%,
-		oklch(0.18 0.02 175) 0%,
-		oklch(0.25 0.06 175 / 0.9) 40%,
-		oklch(0.45 0.11 175) 75%,
-		oklch(0.55 0.13 175) 100%
+		transparent 37.41%,
+		oklch(0.52 0.12 175 / 0.44) 69.27%,
+		oklch(0.7 0.14 175) 100%
 	);
 	--background-image-gradient-up: radial-gradient(
 		131.66% 109.77% at 50% 97.75%,
-		oklch(0.18 0.02 175) 0%,
-		oklch(0.25 0.06 175 / 0.9) 40%,
-		oklch(0.45 0.11 175) 75%,
-		oklch(0.55 0.13 175) 100%
+		transparent 37.41%,
+		oklch(0.52 0.12 175 / 0.44) 69.27%,
+		oklch(0.7 0.14 175) 100%
 	);
 	--background-image-gradient-right-to-left: radial-gradient(
 		circle at right center,
@@ -136,6 +133,27 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
+}
+
+/* Astro Code Block Theme (css-variables) */
+:root {
+	--astro-code-color-text: #e5e7eb;
+	--astro-code-color-background: #0d1117;
+	--astro-code-token-constant: #14b8a6;
+	--astro-code-token-string: #a5d6ff;
+	--astro-code-token-comment: #6b7280;
+	--astro-code-token-keyword: #ff7b72;
+	--astro-code-token-parameter: #ffa657;
+	--astro-code-token-function: #d2a8ff;
+	--astro-code-token-string-expression: #a5d6ff;
+	--astro-code-token-punctuation: #8b949e;
+	--astro-code-token-link: #14b8a6;
+}
+
+/* Ensure code blocks have solid dark background */
+pre.astro-code,
+.astro-code {
+	background-color: #0d1117 !important;
 }
 
 /* Custom Components */

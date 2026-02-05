@@ -13,6 +13,7 @@ import AosHead from '@/components/fundations/scripts/AosHead.astro'
 import AosBody from '@/components/fundations/scripts/AosBody.astro'
 import Navigation from '@/components/global/Navigation.astro'
 import Footer from '@/components/global/Footer.astro'
+import GuidelinesGrid from '@/components/assets/GuidelinesGrid.astro'
 import { logger } from '@nextnode/logger'
 import type { NavLink } from '@/components/global/Navigation.astro'
 import type {
@@ -65,7 +66,8 @@ logger.info('Page loaded', {
 		<meta name="description" content={description} />
 		<AosHead />
 	</head>
-	<body class="bg-nextnode-950 flex min-h-svh flex-col">
+	<body class="bg-base-950 flex min-h-svh flex-col">
+		<GuidelinesGrid />
 		<Navigation links={navLinks} />
 		<main class="relative z-10 grow">
 			<slot />
