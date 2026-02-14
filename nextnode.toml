@@ -1,0 +1,4 @@
+[project]
+name = "nextnode-front"
+type = "app"
+domain = "nextnode.fr"

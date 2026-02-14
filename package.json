@@ -20,6 +20,7 @@
 		"commitlint": "commitlint --edit",
 		"dev": "astro dev",
 		"format": "prettier --write .",
+		"format:check": "prettier --check .",
 		"lint": "biome check --write --no-errors-on-unmatched",
 		"lint-staged": "lint-staged",
 		"prepare": "husky",

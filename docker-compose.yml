@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${HOST_PORT}:${APP_PORT}"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=${NODE_ENV}
